@@ -17,9 +17,9 @@ namespace FireProtectionV1.Enterprise
     /// </summary>
     public class FireUnitAppService : AppServiceBase
     {
-        IFireUnitInfoManager _fireUnitInfoManager;
+        IFireUnitManager _fireUnitInfoManager;
 
-        public FireUnitAppService(IFireUnitInfoManager fireUnitInfoManager)
+        public FireUnitAppService(IFireUnitManager fireUnitInfoManager)
         {
             _fireUnitInfoManager = fireUnitInfoManager;
         }
@@ -29,7 +29,7 @@ namespace FireProtectionV1.Enterprise
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<int> Add(AddFireUnitInfoInput input)
+        public async Task<int> Add(AddFireUnitInput input)
         {
             return await _fireUnitInfoManager.Add(input);
         }

@@ -4,6 +4,20 @@
         <name>FireProtectionV1.Application</name>
     </assembly>
     <members>
+        <member name="M:FireProtectionV1.Account.FireDeptUserAppService.UserLogin(FireProtectionV1.Account.Dto.UserLoginInput)">
+            <summary>
+            用户登录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Account.FireDeptUserAppService.UserRegist(FireProtectionV1.Account.Dto.UserRegistInput)">
+            <summary>
+            用户注册
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.Account.FireUnitAccountAppService.Add(FireProtectionV1.Account.Dto.FireUnitAccountInput)">
             <summary>
             添加账号
@@ -16,12 +30,25 @@
             Derive your application services from this class.
             </summary>
         </member>
+        <member name="M:FireProtectionV1.Download.TempFileAppService.GetVerifyCode">
+            <summary>
+            获取混合验证码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.FireDepAppService.GetList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+            <summary>
+            防火单位分页列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="T:FireProtectionV1.Enterprise.FireUnitAppService">
             <summary>
             
             </summary>
         </member>
-        <member name="M:FireProtectionV1.Enterprise.FireUnitAppService.Add(FireProtectionV1.Enterprise.Dto.AddFireUnitInfoInput)">
+        <member name="M:FireProtectionV1.Enterprise.FireUnitAppService.Add(FireProtectionV1.Enterprise.Dto.AddFireUnitInput)">
             <summary>
             添加防火单位
             </summary>

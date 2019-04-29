@@ -107,6 +107,82 @@
             已停用
             </summary>
         </member>
+        <member name="T:FireProtectionV1.Common.Helper.MD5Encrypt">
+            <summary>
+            不可逆加密
+            1 防止被篡改
+            2 防止明文存储
+            3 防止抵赖，数字签名
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.MD5Encrypt.Encrypt(System.String,System.Int32)">
+            <summary>
+            MD5字符串加密，默认32位加密结果
+            </summary>
+            <param name="source">待加密字串</param>
+            <param name="length">16或32值之一,其它则采用.net默认MD5加密算法</param>
+            <returns>加密后的字串</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.MD5Encrypt.AbstractFile(System.String)">
+            <summary>
+            获取文件的MD5摘要
+            </summary>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.MD5Encrypt.AbstractFile(System.IO.Stream)">
+            <summary>
+            根据stream获取文件摘要
+            </summary>
+            <param name="stream"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.VerifyCodeHelper.CreateNumberVerifyCode(System.Int32)">
+            <summary>
+            1.数字验证码
+            </summary>
+            <param name="length"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.VerifyCodeHelper.CreateAbcVerifyCode(System.Int32)">
+            <summary>
+            2.字母验证码
+            </summary>
+            <param name="length">字符长度</param>
+            <returns>验证码字符</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.VerifyCodeHelper.CreateMixVerifyCode(System.Int32)">
+            <summary>
+            3.混合验证码
+            </summary>
+            <param name="length">字符长度</param>
+            <returns>验证码字符</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.VerifyCodeHelper.CreateVerifyCode(FireProtectionV1.Common.Helper.VerifyCodeHelper.VerifyCodeType)">
+            <summary>
+            产生验证码（随机产生4-6位）
+            </summary>
+            <param name="type">验证码类型：数字，字符，符合</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.VerifyCodeHelper.CreateBitmapByImgVerifyCode(System.String,System.Int32,System.Int32)">
+            <summary>
+            验证码图片 => Bitmap
+            </summary>
+            <param name="verifyCode">验证码</param>
+            <param name="width">宽</param>
+            <param name="height">高</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.VerifyCodeHelper.CreateByteByImgVerifyCode(System.String,System.Int32,System.Int32)">
+            <summary>
+            验证码图片 => byte[]
+            </summary>
+            <param name="verifyCode">验证码</param>
+            <param name="width">宽</param>
+            <param name="height">高</param>
+            <returns>byte[]</returns>
+        </member>
         <member name="T:FireProtectionV1.Common.Redis.RedisCacheModule">
             <summary>
             AbpRedis缓存注入模块

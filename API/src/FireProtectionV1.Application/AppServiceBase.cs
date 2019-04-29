@@ -9,7 +9,6 @@ namespace FireProtectionV1
     {
         protected AppServiceBase()
         {
-            //asdadsgahgdhd
             LocalizationSourceName = FireProtectionV1Consts.LocalizationSourceName;
         }
     }

@@ -64,8 +64,9 @@ namespace FireProtectionV1.Web.Startup
                 //var commentsFile = Path.Combine(baseDirectory, commentsFileName);
                 //options.IncludeXmlComments(commentsFile);
             });
-
+            //services.AddHttpContextAccessor();
             //Configure Abp and Dependency Injection
+            services.AddSession();
             return services.AddAbp<FireProtectionV1WebModule>(options =>
             {
                 //Configure Log4Net logging
@@ -90,6 +91,7 @@ namespace FireProtectionV1.Web.Startup
             }
 
             app.UseStaticFiles();
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
