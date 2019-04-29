@@ -6,13 +6,22 @@ using System.Text;
 
 namespace FireProtectionV1.Enterprise.Model
 {
-    public class FireUnitInfo : EntityBase
-    {
+    /// <summary>
+    /// 监管部门
+    /// </summary>
+    public class FireDept: EntityBase
+    {    
         /// <summary>
-        /// 防火单位名称
+        /// 姓名
         /// </summary>
         [Required]
         [MaxLength(StringType.Normal)]
         public string Name { get; set; }
+        /// <summary>
+        /// 管辖区域ID
+        /// </summary>
+        [Required]
+        public int AreaId { get; set; }
+
     }
 }

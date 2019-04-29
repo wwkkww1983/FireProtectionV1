@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace FireProtectionV1.Enterprise.Manager
 {
-    public interface IFireUnitInfoManager : IDomainService
+    public interface IFireUnitManager : IDomainService
     {
         /// <summary>
         /// 添加防火单位（同时会添加防火单位管理员账号）
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<int> Add(AddFireUnitInfoInput input);
+        Task<int> Add(AddFireUnitInput input);
 
         /// <summary>
         /// 防火单位分页列表

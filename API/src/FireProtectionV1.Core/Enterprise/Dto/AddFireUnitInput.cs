@@ -6,7 +6,7 @@ using System.Text;
 
 namespace FireProtectionV1.Enterprise.Dto
 {
-    public class AddFireUnitInfoInput
+    public class AddFireUnitInput
     {
         /// <summary>
         /// 防火单位管理员账号

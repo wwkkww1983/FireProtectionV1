@@ -17,14 +17,14 @@ using FireProtectionV1.Enterprise.Model;
 
 namespace FireProtectionV1.Enterprise.Manager
 {
-    public class FireUnitInfoManager : DomainService, IFireUnitInfoManager
+    public class FireUnitManager : DomainService, IFireUnitManager
     {
-        IRepository<FireUnitInfo> _fireUnitInfoRepository;
+        IRepository<FireUnit> _fireUnitInfoRepository;
         IRepository<FireUnitAccount> _fireUnitAccountRepository;
         IFireUnitAccountManager _fireUnitAccountManager;
         ICacheManager _cacheManager;
-        public FireUnitInfoManager(
-            IRepository<FireUnitInfo> fireUnitInfoRepository, IRepository<FireUnitAccount> fireUnitAccountRepository,
+        public FireUnitManager(
+            IRepository<FireUnit> fireUnitInfoRepository, IRepository<FireUnitAccount> fireUnitAccountRepository,
             IFireUnitAccountManager fireUnitAccountManager,
             ICacheManager cacheManager
             )
@@ -40,11 +40,11 @@ namespace FireProtectionV1.Enterprise.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<int> Add(AddFireUnitInfoInput input)
+        public async Task<int> Add(AddFireUnitInput input)
         {
             await _fireUnitAccountManager.Add(input.accountInput);
 
-            var fireUnitInfo = new FireUnitInfo()
+            var fireUnitInfo = new FireUnit()
             {
                 Name = input.Name
             };
@@ -57,7 +57,7 @@ namespace FireProtectionV1.Enterprise.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task Update(UpdateFireUnitInfoInput input)
+        public async Task Update(UpdateFireUnitInput input)
         {
             
         }
@@ -72,7 +72,7 @@ namespace FireProtectionV1.Enterprise.Manager
             var fireUnitInfos = _fireUnitInfoRepository.GetAll();
             var fireUnitAccounts = _fireUnitAccountRepository.GetAll();
 
-            var expr = ExprExtension.True<FireUnitInfo>()
+            var expr = ExprExtension.True<FireUnit>()
              .IfAnd(!string.IsNullOrEmpty(input.Name), item => input.Name.Contains(item.Name));
             fireUnitInfos = fireUnitInfos.Where(expr);
 
@@ -102,11 +102,11 @@ namespace FireProtectionV1.Enterprise.Manager
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<FireUnitInfo> Get(int id)
+        public async Task<FireUnit> Get(int id)
         {
             return await _cacheManager
-                        .GetCache("FireUnitInfo")
-                        .GetAsync(id.ToString(), () => _fireUnitInfoRepository.GetAsync(id)) as FireUnitInfo;
+                        .GetCache("FireUnit")
+                        .GetAsync(id.ToString(), () => _fireUnitInfoRepository.GetAsync(id)) as FireUnit;
         }
 
         /// <summary>
