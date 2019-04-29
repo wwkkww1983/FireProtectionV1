@@ -1,1 +1,11 @@
 .vs
+/API/src/FireProtectionV1.Application/obj
+/API/src/FireProtectionV1.Application/bin
+/API/src/FireProtectionV1.Common/bin
+/API/src/FireProtectionV1.Common/obj
+/API/src/FireProtectionV1.Core/bin
+/API/src/FireProtectionV1.Core/obj
+/API/src/FireProtectionV1.EntityFrameworkCore/bin
+/API/src/FireProtectionV1.EntityFrameworkCore/obj
+/API/src/FireProtectionV1.Web/bin
+/API/src/FireProtectionV1.Web/obj
