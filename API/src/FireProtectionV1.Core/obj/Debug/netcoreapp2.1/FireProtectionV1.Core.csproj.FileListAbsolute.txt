@@ -1,9 +1,0 @@
-C:\Study\FireProtectionV1\src\FireProtectionV1.Core\bin\Debug\netcoreapp2.1\FireProtectionV1.Core.deps.json
-C:\Study\FireProtectionV1\src\FireProtectionV1.Core\bin\Debug\netcoreapp2.1\FireProtectionV1.Core.dll
-C:\Study\FireProtectionV1\src\FireProtectionV1.Core\bin\Debug\netcoreapp2.1\FireProtectionV1.Core.pdb
-C:\Study\FireProtectionV1\src\FireProtectionV1.Core\obj\Debug\netcoreapp2.1\FireProtectionV1.Core.csprojAssemblyReference.cache
-C:\Study\FireProtectionV1\src\FireProtectionV1.Core\obj\Debug\netcoreapp2.1\FireProtectionV1.Core.csproj.CoreCompileInputs.cache
-C:\Study\FireProtectionV1\src\FireProtectionV1.Core\obj\Debug\netcoreapp2.1\FireProtectionV1.Core.AssemblyInfoInputs.cache
-C:\Study\FireProtectionV1\src\FireProtectionV1.Core\obj\Debug\netcoreapp2.1\FireProtectionV1.Core.AssemblyInfo.cs
-C:\Study\FireProtectionV1\src\FireProtectionV1.Core\obj\Debug\netcoreapp2.1\FireProtectionV1.Core.dll
-C:\Study\FireProtectionV1\src\FireProtectionV1.Core\obj\Debug\netcoreapp2.1\FireProtectionV1.Core.pdb
