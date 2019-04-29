@@ -43,3 +43,14 @@ C:\Work\天树聚科技\Code\FireProtectionV1\API\src\FireProtectionV1.Applicati
 C:\Work\天树聚科技\Code\FireProtectionV1\API\src\FireProtectionV1.Application\obj\Debug\netcoreapp2.2\FireProtectionV1.Application.csproj.CopyComplete
 C:\Work\天树聚科技\Code\FireProtectionV1\API\src\FireProtectionV1.Application\obj\Debug\netcoreapp2.2\FireProtectionV1.Application.dll
 C:\Work\天树聚科技\Code\FireProtectionV1\API\src\FireProtectionV1.Application\obj\Debug\netcoreapp2.2\FireProtectionV1.Application.pdb
+C:\工作\代码\FireProtectionV1\API\src\FireProtectionV1.Web\bin\Debug\netcoreapp2.2\netcoreapp2.2\FireProtectionV1.Application.deps.json
+C:\工作\代码\FireProtectionV1\API\src\FireProtectionV1.Web\bin\Debug\netcoreapp2.2\netcoreapp2.2\FireProtectionV1.Application.dll
+C:\工作\代码\FireProtectionV1\API\src\FireProtectionV1.Web\bin\Debug\netcoreapp2.2\netcoreapp2.2\FireProtectionV1.Application.pdb
+C:\工作\代码\FireProtectionV1\API\src\FireProtectionV1.Web\bin\Debug\netcoreapp2.2\netcoreapp2.2\FireProtectionV1.Application.xml
+C:\工作\代码\FireProtectionV1\API\src\FireProtectionV1.Application\obj\Debug\netcoreapp2.2\FireProtectionV1.Application.csprojAssemblyReference.cache
+C:\工作\代码\FireProtectionV1\API\src\FireProtectionV1.Application\obj\Debug\netcoreapp2.2\FireProtectionV1.Application.csproj.CoreCompileInputs.cache
+C:\工作\代码\FireProtectionV1\API\src\FireProtectionV1.Application\obj\Debug\netcoreapp2.2\FireProtectionV1.Application.AssemblyInfoInputs.cache
+C:\工作\代码\FireProtectionV1\API\src\FireProtectionV1.Application\obj\Debug\netcoreapp2.2\FireProtectionV1.Application.AssemblyInfo.cs
+C:\工作\代码\FireProtectionV1\API\src\FireProtectionV1.Application\obj\Debug\netcoreapp2.2\FireProtectionV1.Application.csproj.CopyComplete
+C:\工作\代码\FireProtectionV1\API\src\FireProtectionV1.Application\obj\Debug\netcoreapp2.2\FireProtectionV1.Application.dll
+C:\工作\代码\FireProtectionV1\API\src\FireProtectionV1.Application\obj\Debug\netcoreapp2.2\FireProtectionV1.Application.pdb

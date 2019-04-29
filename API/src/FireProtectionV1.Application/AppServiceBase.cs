@@ -9,6 +9,7 @@ namespace FireProtectionV1
     {
         protected AppServiceBase()
         {
+            //asda
             LocalizationSourceName = FireProtectionV1Consts.LocalizationSourceName;
         }
     }
