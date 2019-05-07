@@ -4,16 +4,16 @@
         <name>FireProtectionV1.Application</name>
     </assembly>
     <members>
-        <member name="M:FireProtectionV1.Account.FireDeptUserAppService.UserLogin(FireProtectionV1.Account.Dto.UserLoginInput)">
+        <member name="M:FireProtectionV1.Account.FireDeptUserAppService.UserLogin(FireProtectionV1.Account.Dto.PcDeptUserLoginInput)">
             <summary>
             用户登录
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.Account.FireDeptUserAppService.UserRegist(FireProtectionV1.Account.Dto.UserRegistInput)">
+        <member name="M:FireProtectionV1.Account.FireDeptUserAppService.UserLoginForMobile(FireProtectionV1.Account.Dto.DeptUserLoginInput)">
             <summary>
-            用户注册
+            用户登录(移动端)
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -30,22 +30,23 @@
             Derive your application services from this class.
             </summary>
         </member>
-        <member name="M:FireProtectionV1.Download.TempFileAppService.GetVerifyCode">
-            <summary>
-            获取混合验证码
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.Enterprise.FireDepAppService.GetList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+        <member name="M:FireProtectionV1.Enterprise.FireDeptAppService.GetFireUnitList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
             <summary>
             防火单位分页列表
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.Enterprise.FireDeptAppService.GetFireUnitListForMobile(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+            <summary>
+            防火单位分页列表(手机端)
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="T:FireProtectionV1.Enterprise.FireUnitAppService">
             <summary>
-            
+            防火单位服务
             </summary>
         </member>
         <member name="M:FireProtectionV1.Enterprise.FireUnitAppService.Add(FireProtectionV1.Enterprise.Dto.AddFireUnitInput)">
@@ -55,11 +56,59 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.Enterprise.FireUnitAppService.GetList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+        <member name="M:FireProtectionV1.Enterprise.FireUnitAppService.GetFireUnitInfo(FireProtectionV1.Enterprise.Dto.GetFireUnitInfoInput)">
             <summary>
-            防火单位分页列表
+            防火单位信息
             </summary>
             <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.FireUnitAppService.GetFireUnitAlarm(FireProtectionV1.Alarm.Dto.GetFireUnitAlarmInput)">
+            <summary>
+            防火单位消防数据
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.FireUnitAppService.GetFireUnit30DayAlarmEle(FireProtectionV1.Alarm.Dto.GetFireUnit30DayAlarmEleInput)">
+            <summary>
+            安全用电最近30天报警记录查询
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.FireUnitAppService.GetFireUnit30DayAlarmFire(FireProtectionV1.Alarm.Dto.GetFireUnit30DayAlarmFireInput)">
+            <summary>
+            火警预警最近30天报警记录查询
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.FireUnitAppService.GetFireUnitHighFreqAlarmEle(FireProtectionV1.Alarm.Dto.GetFireUnitHighFreqAlarmEleInput)">
+            <summary>
+            安全用电高频报警部件查询
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.FireUnitAppService.GetFireUnitHighFreqAlarmFire(FireProtectionV1.Alarm.Dto.GetFireUnitHighFreqAlarmFireInput)">
+            <summary>
+            火警预警高频报警部件查询
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.FireUnitAppService.GetFireUnitPendingFault(FireProtectionV1.Alarm.Dto.GetFireUnitPendingFaultInput)">
+            <summary>
+            设备设施故障待处理故障查询
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.HttpContextAppService.GetVerifyCode">
+            <summary>
+            获取混合验证码
+            </summary>
             <returns></returns>
         </member>
     </members>

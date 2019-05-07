@@ -18,6 +18,12 @@ namespace FireProtectionV1.Enterprise.Model
         [MaxLength(StringType.Normal)]
         public string Name { get; set; }
         /// <summary>
+        /// 防火单位地址
+        /// </summary>
+        [Required]
+        [MaxLength(StringType.Long)]
+        public string Address { get; set; }
+        /// <summary>
         /// 防火单位类型
         /// </summary>
         [Required]
@@ -44,14 +50,17 @@ namespace FireProtectionV1.Enterprise.Model
         [MaxLength(StringType.Short)]
         public string InvitationCode { get; set; }
         /// <summary>
+        /// 维保单位Id
+        /// </summary>
+        public int SafeUnitId { get; set; }
+
+        /// <summary>
         /// 经度
         /// </summary>
-        [Required]
         public decimal Lng { get; set; }
         /// <summary>
         /// 纬度
         /// </summary>
-        [Required]
         public decimal Lat { get; set; }
     }
 }

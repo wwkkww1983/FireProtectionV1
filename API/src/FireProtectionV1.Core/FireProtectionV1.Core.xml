@@ -4,6 +4,36 @@
         <name>FireProtectionV1.Core</name>
     </assembly>
     <members>
+        <member name="P:FireProtectionV1.Account.Dto.DeptUserLoginInput.Account">
+            <summary>
+            账号(测试:test)
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Account.Dto.DeptUserLoginInput.Password">
+            <summary>
+            密码(测试:123)
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Account.Dto.DeptUserLoginOutput.Success">
+            <summary>
+            登录是否成功
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Account.Dto.DeptUserLoginOutput.FailCause">
+            <summary>
+            登录失败原因
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Account.Dto.DeptUserLoginOutput.DeptName">
+            <summary>
+            部门名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Account.Dto.DeptUserLoginOutput.Token">
+            <summary>
+            身份令牌 
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Account.Dto.FireUnitAccountInput.Account">
             <summary>
             账号
@@ -24,39 +54,9 @@
             角色
             </summary>
         </member>
-        <member name="P:FireProtectionV1.Account.Dto.UserLoginInput.Account">
-            <summary>
-            账号
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Account.Dto.UserLoginInput.Password">
-            <summary>
-            密码（默认6个0）
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Account.Dto.UserLoginInput.VerifyCode">
+        <member name="P:FireProtectionV1.Account.Dto.PcDeptUserLoginInput.VerifyCode">
             <summary>
             验证码
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Account.Dto.UserRegistInput.Account">
-            <summary>
-            账号
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Account.Dto.UserRegistInput.Password">
-            <summary>
-            密码（默认6个0）
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Account.Dto.UserRegistInput.Name">
-            <summary>
-            姓名
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Account.Dto.UserRegistInput.FireDeptId">
-            <summary>
-            监管部门ID
             </summary>
         </member>
         <member name="M:FireProtectionV1.Account.Manager.FireUnitAccountManager.Add(FireProtectionV1.Account.Dto.FireUnitAccountInput)">
@@ -148,6 +148,101 @@
             防火单位巡查员
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Alarm.Dto.GetFireUnit30DayAlarmEleInput.Id">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Dto.GetFireUnitAlarmInput.Id">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Dto.GetFireUnitHighFreqAlarmEleInput.Id">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Dto.GetFireUnitHighFreqAlarmFireInput.Id">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Dto.GetFireUnitPendingFaultInput.Id">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Model.AlarmToElectric.CurrentData">
+            <summary>
+            实时数据
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Model.AlarmToElectric.SafeRange">
+            <summary>
+            安全范围
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Model.AlarmToElectric.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Model.AlarmToElectric.CollectDeviceId">
+            <summary>
+            数据采集设备Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Model.AlarmToFire.AlarmTitle">
+            <summary>
+            报警标题
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Model.AlarmToFire.AlarmRemark">
+            <summary>
+            报警描述
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Model.AlarmToFire.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Model.AlarmToFire.CollectDeviceId">
+            <summary>
+            数据采集设备Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Model.AlarmToFire.TerminalDeviceSn">
+            <summary>
+            终端设备sn号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Model.AlarmToGas.CurrentData">
+            <summary>
+            实时数据
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Model.AlarmToGas.SafeRange">
+            <summary>
+            安全范围
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Model.AlarmToGas.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Model.AlarmToGas.CollectDeviceId">
+            <summary>
+            数据采集设备Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Model.AlarmToGas.TerminalDeviceSn">
+            <summary>
+            终端设备sn号
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitInput.accountInput">
             <summary>
             防火单位管理员账号
@@ -158,9 +253,69 @@
             防火单位名称
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoInput.Id">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.Name">
+            <summary>
+            防火单位名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.Area">
+            <summary>
+            防火单位区域
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.Address">
+            <summary>
+            防火单位地址
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.Type">
+            <summary>
+            防火单位类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.ContractName">
+            <summary>
+            联系人
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.ContractPhone">
+            <summary>
+            联系电话
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.SafeUnit">
+            <summary>
+            维保单位
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListForMobileOutput.Id">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListForMobileOutput.Name">
+            <summary>
+            防火单位名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListForMobileOutput.Address">
+            <summary>
+            防火单位地址
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListInput.Name">
             <summary>
             防火单位名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListOutput.Id">
+            <summary>
+            防火单位Id
             </summary>
         </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListOutput.Name">
@@ -168,19 +323,24 @@
             防火单位名称
             </summary>
         </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListOutput.AdminUserAccount">
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListOutput.Type">
             <summary>
-            管理员账号（手机号）
+            防火单位类型
             </summary>
         </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListOutput.AdminUseraName">
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListOutput.ContractName">
             <summary>
-            管理员姓名
+            联系人
             </summary>
         </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListOutput.CreationTime">
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListOutput.ContractPhone">
             <summary>
-            创建时间
+            联系电话
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListOutput.InvitationCode">
+            <summary>
+            邀请码（自动生成）
             </summary>
         </member>
         <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.Add(FireProtectionV1.Enterprise.Dto.AddFireUnitInput)">
@@ -197,9 +357,9 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.GetList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+        <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.GetFireUnitInfo(FireProtectionV1.Enterprise.Dto.GetFireUnitInfoInput)">
             <summary>
-            防火单位分页列表
+            防火单位信息
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -225,9 +385,9 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.GetList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+        <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.GetFireUnitInfo(FireProtectionV1.Enterprise.Dto.GetFireUnitInfoInput)">
             <summary>
-            防火单位分页列表
+            防火单位信息
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -257,6 +417,11 @@
             防火单位名称
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnit.Address">
+            <summary>
+            防火单位地址
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Model.FireUnit.TypeId">
             <summary>
             防火单位类型
@@ -282,6 +447,11 @@
             邀请码（自动生成）
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnit.SafeUnitId">
+            <summary>
+            维保单位Id
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Model.FireUnit.Lng">
             <summary>
             经度
@@ -297,9 +467,24 @@
             监管单位名称
             </summary>
         </member>
-        <member name="P:FireProtectionV1.Enterprise.Model.MaintenanceUnitInfo.Name">
+        <member name="P:FireProtectionV1.Enterprise.Model.SafeUnit.Name">
             <summary>
             维保单位名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.SafeUnit.AreaId">
+            <summary>
+            区域ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.SafeUnit.ContractName">
+            <summary>
+            联系人
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.SafeUnit.ContractPhone">
+            <summary>
+            联系电话
             </summary>
         </member>
         <member name="T:FireProtectionV1.Infrastructure.Model.Area">

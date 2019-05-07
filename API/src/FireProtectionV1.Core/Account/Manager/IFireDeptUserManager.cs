@@ -9,7 +9,7 @@ namespace FireProtectionV1.Account.Manager
 {
     public interface IFireDeptUserManager : IDomainService
     {
-        Task<UserLoginOutput> UserLogin(UserLoginInput input);
-        Task<UserRegistOutput> UserRegist(UserRegistInput input);
+        Task<DeptUserLoginOutput> UserLogin(DeptUserLoginInput input);
+        //Task<UserRegistOutput> UserRegist(UserRegistInput input);
     }
 }

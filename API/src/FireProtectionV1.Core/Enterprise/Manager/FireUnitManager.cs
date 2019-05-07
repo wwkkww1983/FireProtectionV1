@@ -11,25 +11,43 @@ using Abp.Runtime.Caching;
 using FireProtectionV1.Account.Dto;
 using FireProtectionV1.Account.Manager;
 using FireProtectionV1.Account.Model;
+using FireProtectionV1.Alarm.Dto;
+using FireProtectionV1.Alarm.Model;
 using FireProtectionV1.Common.DBContext;
 using FireProtectionV1.Enterprise.Dto;
 using FireProtectionV1.Enterprise.Model;
+using FireProtectionV1.Infrastructure.Model;
 
 namespace FireProtectionV1.Enterprise.Manager
 {
     public class FireUnitManager : DomainService, IFireUnitManager
     {
-        IRepository<FireUnit> _fireUnitInfoRepository;
+        IRepository<AlarmToFire> _alarmToFireR;
+        IRepository<AlarmToElectric> _alarmToElectricR;
+        IRepository<SafeUnit> _safeUnitR;
+        IRepository<Area> _areaR;
+        IRepository<FireUnitType> _fireUnitTypeR;
+        IRepository<FireUnit> _fireUnitR;
         IRepository<FireUnitAccount> _fireUnitAccountRepository;
         IFireUnitAccountManager _fireUnitAccountManager;
         ICacheManager _cacheManager;
         public FireUnitManager(
+            IRepository<AlarmToFire> alarmToFireR,
+            IRepository<AlarmToElectric> alarmToElectricR,
+            IRepository<SafeUnit> safeUnitR,
+            IRepository<Area> areaR,
+            IRepository<FireUnitType> fireUnitTypeR,
             IRepository<FireUnit> fireUnitInfoRepository, IRepository<FireUnitAccount> fireUnitAccountRepository,
             IFireUnitAccountManager fireUnitAccountManager,
             ICacheManager cacheManager
             )
         {
-            _fireUnitInfoRepository = fireUnitInfoRepository;
+            _alarmToElectricR = alarmToElectricR;
+            _alarmToFireR = alarmToFireR;
+            _safeUnitR = safeUnitR;
+            _areaR = areaR;
+            _fireUnitTypeR = fireUnitTypeR;
+            _fireUnitR = fireUnitInfoRepository;
             _fireUnitAccountRepository = fireUnitAccountRepository;
             _fireUnitAccountManager = fireUnitAccountManager;
             _cacheManager = cacheManager;
@@ -49,7 +67,7 @@ namespace FireProtectionV1.Enterprise.Manager
                 Name = input.Name
             };
 
-            return await _fireUnitInfoRepository.InsertAndGetIdAsync(fireUnitInfo);
+            return await _fireUnitR.InsertAndGetIdAsync(fireUnitInfo);
         }
 
         /// <summary>
@@ -63,38 +81,41 @@ namespace FireProtectionV1.Enterprise.Manager
         }
 
         /// <summary>
-        /// 防火单位分页列表
+        /// 防火单位信息
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<PagedResultDto<GetFireUnitListOutput>> GetList(GetFireUnitListInput input)
+        public async Task<GetFireUnitInfoOutput> GetFireUnitInfo(GetFireUnitInfoInput input)
         {
-            var fireUnitInfos = _fireUnitInfoRepository.GetAll();
-            var fireUnitAccounts = _fireUnitAccountRepository.GetAll();
+            GetFireUnitInfoOutput o = new GetFireUnitInfoOutput();
+            var f = await _fireUnitR.SingleAsync(p => p.Id.Equals(input.Id));
+            if (f != null)
+            {
+                o.Name = f.Name;
+                o.Address = f.Address;
+                var a =await _areaR.SingleAsync(p => p.Id.Equals(f.AreaId));
+                if(a!=null)
+                {
+                    var codes = a.AreaPath.Split('-');
+                    o.Area = "";
+                    foreach(var code in codes)
+                    {
+                        var area = await _areaR.SingleAsync(p => p.AreaCode.Equals(code));
+                        o.Area += area.Name;
+                    }
 
-            var expr = ExprExtension.True<FireUnit>()
-             .IfAnd(!string.IsNullOrEmpty(input.Name), item => input.Name.Contains(item.Name));
-            fireUnitInfos = fireUnitInfos.Where(expr);
-
-            var query = from i in fireUnitInfos
-                        join a in fireUnitAccounts on i.Id equals a.FireUnitInfoID into a_join
-                        from aj in a_join.DefaultIfEmpty()
-                        select new GetFireUnitListOutput
-                        {
-                            ID = i.Id,
-                            Name = i.Name,
-                            AdminUserAccount = aj.Account,
-                            AdminUseraName = aj.Name,
-                            CreationTime = i.CreationTime
-                        };
-
-            List<GetFireUnitListOutput> list = query
-                .OrderByDescending(item => item.CreationTime)
-                .Skip(input.SkipCount).Take(input.MaxResultCount)
-                .ToList();
-            var tCount = query.Count();
-
-            return Task.FromResult(new PagedResultDto<GetFireUnitListOutput>(tCount, list));
+                }
+                var type =await _fireUnitTypeR.SingleAsync(p => p.Id == f.TypeId);
+                if (type != null)
+                    o.Type = type.Name;
+                if (f.SafeUnitId != 0)
+                {
+                    var safe = await _safeUnitR.SingleAsync(p => p.Id == f.SafeUnitId);
+                    if (safe != null)
+                        o.SafeUnit = safe.Name;
+                }
+            }
+            return o;
         }
 
         /// <summary>
@@ -106,7 +127,7 @@ namespace FireProtectionV1.Enterprise.Manager
         {
             return await _cacheManager
                         .GetCache("FireUnit")
-                        .GetAsync(id.ToString(), () => _fireUnitInfoRepository.GetAsync(id)) as FireUnit;
+                        .GetAsync(id.ToString(), () => _fireUnitR.GetAsync(id)) as FireUnit;
         }
 
         /// <summary>
@@ -116,7 +137,17 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <returns></returns>
         public async Task Delete(int id)
         {
-            await _fireUnitInfoRepository.DeleteAsync(id);
+            await _fireUnitR.DeleteAsync(id);
+        }
+
+        public Task<PagedResultDto<GetFireUnitListOutput>> GetList(GetFireUnitListInput input)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<GetFireUnitAlarmOutput> GetFireUnitAlarm(GetFireUnitAlarmInput input)
+        {
+            throw new NotImplementedException();
         }
     }
 }
