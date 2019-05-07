@@ -7,16 +7,13 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FireProtectionV1.Download
+namespace FireProtectionV1
 {
-    public class TempFileAppService:AppServiceBase
+    public class HttpContextAppService:AppServiceBase
     {
-        private readonly IHttpContextAccessor _httpContext;
-        //ITempFileManager _manager;
-        public TempFileAppService(/*ITempFileManager manager,*/ IHttpContextAccessor httpContext/*,ISession session*/)
+        protected readonly IHttpContextAccessor _httpContext;
+        public HttpContextAppService( IHttpContextAccessor httpContext)
         {
-            //_session = session;
-            //_manager = manager;
             _httpContext = httpContext;
         }
         /// <summary>

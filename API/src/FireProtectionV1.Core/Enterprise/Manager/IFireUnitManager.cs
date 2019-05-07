@@ -1,6 +1,7 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.Domain.Services;
 using FireProtectionV1.Account.Dto;
+using FireProtectionV1.Alarm.Dto;
 using FireProtectionV1.Enterprise.Dto;
 using System;
 using System.Collections.Generic;
@@ -19,10 +20,11 @@ namespace FireProtectionV1.Enterprise.Manager
         Task<int> Add(AddFireUnitInput input);
 
         /// <summary>
-        /// 防火单位分页列表
+        /// 防火单位信息
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<PagedResultDto<GetFireUnitListOutput>> GetList(GetFireUnitListInput input);
+        Task<GetFireUnitInfoOutput> GetFireUnitInfo(GetFireUnitInfoInput input);
+        Task<GetFireUnitAlarmOutput> GetFireUnitAlarm(GetFireUnitAlarmInput input);
     }
 }

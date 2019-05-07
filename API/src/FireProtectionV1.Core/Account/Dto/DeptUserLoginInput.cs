@@ -5,23 +5,17 @@ using System.Text;
 
 namespace FireProtectionV1.Account.Dto
 {
-    public class UserLoginInput
+    public class DeptUserLoginInput
     {
         /// <summary>
-        /// 账号
+        /// 账号(测试:test)
         /// </summary>
         [Required]
         public string Account { get; set; }
         /// <summary>
-        /// 密码（默认6个0）
+        /// 密码(测试:123)
         /// </summary>
         [Required]
         public string Password { get; set; }
-        /// <summary>
-        /// 验证码
-        /// </summary>
-        [Required]
-        public string VerifyCode { get; set; }
-
     }
 }
