@@ -1,11 +1,11 @@
 ﻿using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using Abp.Domain.Services;
-using FireProtectionV1.Account.Dto;
-using FireProtectionV1.Account.Model;
+using FireProtectionV1.User.Dto;
+using FireProtectionV1.User.Model;
 using System.Threading.Tasks;
 
-namespace FireProtectionV1.Account.Manager
+namespace FireProtectionV1.User.Manager
 {
     public class FireUnitUserManager : DomainService, IFireUnitUserManager
     {
@@ -26,7 +26,7 @@ namespace FireProtectionV1.Account.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<int> Add(FireUnitAccountInput input)
+        public async Task<int> Add(FireUnitUserInput input)
         {
             //AccountInfo account = new AccountInfo()
             //{

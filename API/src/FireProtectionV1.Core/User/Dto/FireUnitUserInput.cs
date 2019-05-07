@@ -1,12 +1,12 @@
-﻿using FireProtectionV1.Account.Model;
+﻿using FireProtectionV1.User.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace FireProtectionV1.Account.Dto
+namespace FireProtectionV1.User.Dto
 {
-    public class FireUnitAccountInput
+    public class FireUnitUserInput
     {
         /// <summary>
         /// 账号

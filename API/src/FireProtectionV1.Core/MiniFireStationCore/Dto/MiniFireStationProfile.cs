@@ -11,6 +11,7 @@ namespace FireProtectionV1.MiniFireStationCore.Dto
         public MiniFireStationProfile()
         {
             CreateMap<AddMiniFireStationInput, MiniFireStation>();
+            CreateMap<UpdateMiniFireStationInput, MiniFireStation>();
         }
     }
 }

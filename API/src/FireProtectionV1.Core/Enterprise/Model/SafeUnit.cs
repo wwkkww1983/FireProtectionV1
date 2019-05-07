@@ -15,11 +15,6 @@ namespace FireProtectionV1.Enterprise.Model
         [MaxLength(StringType.Normal)]
         public string Name { get; set; }
         /// <summary>
-        /// 区域ID
-        /// </summary>
-        [Required]
-        public int AreaId { get; set; }
-        /// <summary>
         /// 联系人
         /// </summary>
         [MaxLength(StringType.Normal)]
@@ -30,5 +25,14 @@ namespace FireProtectionV1.Enterprise.Model
         [Phone]
         [MaxLength(20)]
         public string ContractPhone { get; set; }
+        /// <summary>
+        /// 工程资质（一、二、三级）
+        /// </summary>
+        public int Level { get; set; }
+        /// <summary>
+        /// 邀请码（自动生成）
+        /// </summary>
+        [MaxLength(StringType.Short)]
+        public string InvitationCode { get; set; }
     }
 }

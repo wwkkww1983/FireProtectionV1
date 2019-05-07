@@ -1,14 +1,14 @@
 ﻿using System;
-using FireProtectionV1.Account.Manager;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using FireProtectionV1.Account.Dto;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Linq;
+using FireProtectionV1.User.Manager;
+using FireProtectionV1.User.Dto;
 
 namespace FireProtectionV1.AppService
 {

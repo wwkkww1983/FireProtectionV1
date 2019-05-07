@@ -1,5 +1,5 @@
-﻿using FireProtectionV1.Account.Dto;
-using FireProtectionV1.Account.Manager;
+﻿using FireProtectionV1.User.Dto;
+using FireProtectionV1.User.Manager;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,7 +21,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<int> Add(FireUnitAccountInput input)
+        public async Task<int> Add(FireUnitUserInput input)
         {
             return await _fireUnitAccountManager.Add(input);
         }

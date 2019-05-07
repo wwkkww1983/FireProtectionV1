@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
-using FireProtectionV1.Account.Dto;
-using FireProtectionV1.Account.Model;
 using FireProtectionV1.Common.Helper;
 using FireProtectionV1.Enterprise.Model;
+using FireProtectionV1.User.Dto;
+using FireProtectionV1.User.Model;
 
-namespace FireProtectionV1.Account.Manager
+namespace FireProtectionV1.User.Manager
 {
     public class FireDeptUserManager:IFireDeptUserManager
     {

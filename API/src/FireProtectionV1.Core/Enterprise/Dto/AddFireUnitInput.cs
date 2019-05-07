@@ -1,4 +1,4 @@
-﻿using FireProtectionV1.Account.Dto;
+﻿using FireProtectionV1.User.Dto;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,7 +11,7 @@ namespace FireProtectionV1.Enterprise.Dto
         /// <summary>
         /// 防火单位管理员账号
         /// </summary>
-        public FireUnitAccountInput accountInput { get; set; }
+        public FireUnitUserInput accountInput { get; set; }
 
         /// <summary>
         /// 防火单位名称
