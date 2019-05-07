@@ -342,6 +342,79 @@
             区域编码
             </summary>
         </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.GetMiniFireStationListInput.Name">
+            <summary>
+            微型消防站名称
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.MiniFireStationCore.Manager.IMiniFireStationManager.Add(FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireStationInput)">
+            <summary>
+            添加微型消防站
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.MiniFireStationCore.Manager.IMiniFireStationManager.GetList(FireProtectionV1.MiniFireStationCore.Dto.GetMiniFireStationListInput)">
+            <summary>
+            微型消防站分页列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.MiniFireStationCore.Manager.MiniFireStationManager.Add(FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireStationInput)">
+            <summary>
+            新增
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.MiniFireStationCore.Manager.MiniFireStationManager.GetList(FireProtectionV1.MiniFireStationCore.Dto.GetMiniFireStationListInput)">
+            <summary>
+            分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireStation.Name">
+            <summary>
+            站点名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireStation.Level">
+            <summary>
+            站点等级
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireStation.Contact">
+            <summary>
+            联系人
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireStation.ContactPhone">
+            <summary>
+            联系电话
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireStation.PersonNum">
+            <summary>
+            人员配备数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireStation.Address">
+            <summary>
+            地址
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireStation.Lng">
+            <summary>
+            经度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireStation.Lat">
+            <summary>
+            纬度
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.Web.WebContentDirectoryFinder">
             <summary>
             This class is used to find root path of the web project in;
