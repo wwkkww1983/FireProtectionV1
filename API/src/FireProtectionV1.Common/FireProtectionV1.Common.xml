@@ -137,6 +137,18 @@
             <param name="stream"></param>
             <returns></returns>
         </member>
+        <member name="T:FireProtectionV1.Common.Helper.Valid">
+            <summary>
+            异常过滤辅助类
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.Valid.Exception(System.Boolean,System.String)">
+            <summary>
+            验证数据，当v值为true时，抛出异常
+            </summary>
+            <param name="v">判断条件 true 抛出异常</param>
+            <param name="message">异常提示信息</param>
+        </member>
         <member name="M:FireProtectionV1.Common.Helper.VerifyCodeHelper.CreateNumberVerifyCode(System.Int32)">
             <summary>
             1.数字验证码
