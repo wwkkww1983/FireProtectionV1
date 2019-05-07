@@ -1,12 +1,12 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.Domain.Services;
-using FireProtectionV1.Account.Dto;
+using FireProtectionV1.User.Dto;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FireProtectionV1.Account.Manager
+namespace FireProtectionV1.User.Manager
 {
     public interface IFireUnitUserManager : IDomainService
     {
@@ -15,6 +15,6 @@ namespace FireProtectionV1.Account.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<int> Add(FireUnitAccountInput input);
+        Task<int> Add(FireUnitUserInput input);
     }
 }

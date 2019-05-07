@@ -8,15 +8,14 @@ using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using Abp.Domain.Services;
 using Abp.Runtime.Caching;
-using FireProtectionV1.Account.Dto;
-using FireProtectionV1.Account.Manager;
-using FireProtectionV1.Account.Model;
 using FireProtectionV1.Alarm.Dto;
 using FireProtectionV1.Alarm.Model;
 using FireProtectionV1.Common.DBContext;
 using FireProtectionV1.Enterprise.Dto;
 using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.Infrastructure.Model;
+using FireProtectionV1.User.Manager;
+using FireProtectionV1.User.Model;
 
 namespace FireProtectionV1.Enterprise.Manager
 {

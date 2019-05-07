@@ -1,9 +1,9 @@
 ﻿using Abp.EntityFrameworkCore;
-using FireProtectionV1.Account.Model;
 using FireProtectionV1.Alarm.Model;
 using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.Infrastructure.Model;
 using FireProtectionV1.MiniFireStationCore.Model;
+using FireProtectionV1.User.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace FireProtectionV1.EntityFrameworkCore

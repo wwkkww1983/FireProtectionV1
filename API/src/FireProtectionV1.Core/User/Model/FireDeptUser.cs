@@ -1,20 +1,22 @@
 ﻿using FireProtectionV1.Common.DBContext;
-using FireProtectionV1.Common.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace FireProtectionV1.Account.Model
+namespace FireProtectionV1.User.Model
 {
-    public class FireUnitUser : EntityBase
+    /// <summary>
+    /// 监管部门用户
+    /// </summary>
+    public class FireDeptUser: EntityBase
     {
         /// <summary>
         /// 账号（手机号）
         /// </summary>
         [Required]
         [Phone]
-        [MaxLength(StringType.Normal)]
+        [MaxLength(20)]
         public string Account { get; set; }
         /// <summary>
         /// 密码
@@ -29,12 +31,10 @@ namespace FireProtectionV1.Account.Model
         [MaxLength(StringType.Normal)]
         public string Name { get; set; }
         /// <summary>
-        /// 防火单位ID
+        /// 监管部门ID
         /// </summary>
-        public int FireUnitInfoID { get; set; }
-        /// <summary>
-        /// 状态，默认为已启用
-        /// </summary>
-        public NormalStatus Status { get; set; } = NormalStatus.Enabled;
+        [Required]
+        public int FireDeptId { get; set; }
+
     }
 }

@@ -20,7 +20,7 @@ namespace FireProtectionV1.MiniFireStationCore.Model
         /// <summary>
         /// 联系人
         /// </summary>
-        public string Contact { get; set; }
+        public string ContactName { get; set; }
         /// <summary>
         /// 联系电话
         /// </summary>

@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Composition;
 using System.Text;
 
-namespace FireProtectionV1.Account.Model
+namespace FireProtectionV1.User.Model
 {
     public class FireUnitUserRole:EntityBase
     {
