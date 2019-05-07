@@ -527,6 +527,46 @@
             区域编码
             </summary>
         </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireStationInput.Name">
+            <summary>
+            站点名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireStationInput.Level">
+            <summary>
+            站点等级
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireStationInput.Contact">
+            <summary>
+            联系人
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireStationInput.ContactPhone">
+            <summary>
+            联系电话
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireStationInput.PersonNum">
+            <summary>
+            人员配备数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireStationInput.Address">
+            <summary>
+            地址
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireStationInput.Lng">
+            <summary>
+            经度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireStationInput.Lat">
+            <summary>
+            纬度
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.MiniFireStationCore.Dto.GetMiniFireStationListInput.Name">
             <summary>
             微型消防站名称
@@ -538,6 +578,27 @@
             </summary>
             <param name="input"></param>
             <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.MiniFireStationCore.Manager.IMiniFireStationManager.Update(FireProtectionV1.MiniFireStationCore.Dto.UpdateMiniFireStationInput)">
+            <summary>
+            修改微型消防站
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.MiniFireStationCore.Manager.IMiniFireStationManager.Delete(System.Int32)">
+            <summary>
+            删除微型消防站
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.MiniFireStationCore.Manager.IMiniFireStationManager.GetById(System.Int32)">
+            <summary>
+            获取单个微型消防站信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
         </member>
         <member name="M:FireProtectionV1.MiniFireStationCore.Manager.IMiniFireStationManager.GetList(FireProtectionV1.MiniFireStationCore.Dto.GetMiniFireStationListInput)">
             <summary>
@@ -553,9 +614,30 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.MiniFireStationCore.Manager.MiniFireStationManager.Delete(System.Int32)">
+            <summary>
+            删除
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.MiniFireStationCore.Manager.MiniFireStationManager.GetById(System.Int32)">
+            <summary>
+            获取单个微型消防站信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.MiniFireStationCore.Manager.MiniFireStationManager.GetList(FireProtectionV1.MiniFireStationCore.Dto.GetMiniFireStationListInput)">
             <summary>
             分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.MiniFireStationCore.Manager.MiniFireStationManager.Update(FireProtectionV1.MiniFireStationCore.Dto.UpdateMiniFireStationInput)">
+            <summary>
+            修改
             </summary>
             <param name="input"></param>
             <returns></returns>
