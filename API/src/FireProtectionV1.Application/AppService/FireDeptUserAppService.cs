@@ -10,7 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Linq;
 
-namespace FireProtectionV1.Account
+namespace FireProtectionV1.AppService
 {
     /// <summary>
     /// 消防部门用户接口
@@ -46,6 +46,7 @@ namespace FireProtectionV1.Account
             return await _fireDeptUserManager.UserLogin(input); 
         }
         #endregion PC端接口
+
         #region 移动端接口
         /// <summary>
         /// 用户登录(移动端)

@@ -25,6 +25,7 @@ namespace FireProtectionV1.EntityFrameworkCore
         public DbSet<AlarmToGas> AlarmToGas { get; set; }
         public DbSet<AlarmToFire> AlarmToFire { get; set; }
         public DbSet<AlarmToElectric> AlarmToElectric { get; set; }
+        public DbSet<MiniFireStation> MiniFireStation { get; set; }
 
         public FireProtectionV1DbContext(DbContextOptions<FireProtectionV1DbContext> options) 
             : base(options)
