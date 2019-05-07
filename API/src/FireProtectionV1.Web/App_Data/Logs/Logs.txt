@@ -6758,3 +6758,72 @@ INFO  2019-05-06 18:46:56,337 [16   ] ore.Mvc.Internal.ControllerActionInvoker -
 INFO  2019-05-06 18:46:56,337 [11   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action FireProtectionV1.Account.FireDeptUserAppService.UserLoginForMobile (FireProtectionV1.Application) in 104194.3162ms
 INFO  2019-05-06 18:46:56,339 [16   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 8112.7332ms 200 application/json; charset=utf-8
 INFO  2019-05-06 18:46:56,339 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 104347.4828ms 200 application/json; charset=utf-8
+DEBUG 2019-05-07 14:47:07,880 [1    ] Abp.Modules.AbpModuleManager             - Loading Abp modules...
+DEBUG 2019-05-07 14:47:08,033 [1    ] Abp.Modules.AbpModuleManager             - Found 12 ABP modules in total.
+DEBUG 2019-05-07 14:47:08,204 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: FireProtectionV1.Web.Startup.FireProtectionV1WebModule, FireProtectionV1.Web, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-05-07 14:47:08,207 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: FireProtectionV1.FireProtectionV1ApplicationModule, FireProtectionV1.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-05-07 14:47:08,207 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: FireProtectionV1.FireProtectionV1CoreModule, FireProtectionV1.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-05-07 14:47:08,208 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AutoMapper.AbpAutoMapperModule, Abp.AutoMapper, Version=4.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-05-07 14:47:08,208 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AbpKernelModule, Abp, Version=4.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-05-07 14:47:08,209 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: FireProtectionV1.EntityFrameworkCore.FireProtectionV1EntityFrameworkCoreModule, FireProtectionV1.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-05-07 14:47:08,209 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule, Abp.EntityFrameworkCore, Version=4.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-05-07 14:47:08,209 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFramework.AbpEntityFrameworkCommonModule, Abp.EntityFramework.Common, Version=4.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-05-07 14:47:08,210 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.AbpAspNetCoreModule, Abp.AspNetCore, Version=4.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-05-07 14:47:08,210 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Web.AbpWebCommonModule, Abp.Web.Common, Version=4.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-05-07 14:47:08,210 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: FireProtectionV1.Common.Redis.RedisCacheModule, FireProtectionV1.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-05-07 14:47:08,211 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Runtime.Caching.Redis.AbpRedisCacheModule, Abp.RedisCache, Version=4.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-05-07 14:47:08,214 [1    ] Abp.Modules.AbpModuleManager             - 12 modules loaded.
+DEBUG 2019-05-07 14:47:08,638 [1    ] ameworkCore.AbpEntityFrameworkCoreModule - Registering DbContext: FireProtectionV1.EntityFrameworkCore.FireProtectionV1DbContext, FireProtectionV1.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2019-05-07 14:47:08,763 [1    ] Abp.Localization.LocalizationManager     - Initializing 3 localization sources.
+DEBUG 2019-05-07 14:47:08,838 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: Abp
+DEBUG 2019-05-07 14:47:08,982 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: FireProtectionV1
+DEBUG 2019-05-07 14:47:09,016 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpWeb
+DEBUG 2019-05-07 14:47:09,244 [1    ] Abp.BackgroundJobs.BackgroundJobManager  - Start background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2019-05-07 14:47:09,294 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - Found 0 classes define auto mapping attributes
+INFO  2019-05-07 14:47:11,322 [7    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:5000/  
+WARN  2019-05-07 14:47:11,470 [7    ] calization.RequestLocalizationMiddleware - AcceptLanguageHeaderRequestCultureProvider returned the following unsupported cultures 'zh-CN'.
+WARN  2019-05-07 14:47:11,470 [7    ] calization.RequestLocalizationMiddleware - AcceptLanguageHeaderRequestCultureProvider returned the following unsupported UI Cultures 'zh-CN'.
+INFO  2019-05-07 14:47:11,942 [7    ] ore.Mvc.Internal.ControllerActionInvoker - Route matched with {action = "Index", controller = "Home", area = ""}. Executing action FireProtectionV1.Web.Controllers.HomeController.Index (FireProtectionV1.Web)
+INFO  2019-05-07 14:47:12,100 [7    ] ore.Mvc.Internal.ControllerActionInvoker - Executing action method FireProtectionV1.Web.Controllers.HomeController.Index (FireProtectionV1.Web) - Validation state: Valid
+INFO  2019-05-07 14:47:12,104 [7    ] ore.Mvc.Internal.ControllerActionInvoker - Executed action method FireProtectionV1.Web.Controllers.HomeController.Index (FireProtectionV1.Web), returned result Microsoft.AspNetCore.Mvc.RedirectResult in 2.0043ms.
+INFO  2019-05-07 14:47:12,125 [7    ] Abp.Auditing.SimpleLogAuditingStore      - AUDIT LOG: FireProtectionV1.Web.Controllers.HomeController.Index is executed by an anonymous user in 50 ms from ::1 IP address with succeed.
+INFO  2019-05-07 14:47:12,146 [7    ] vc.Infrastructure.RedirectResultExecutor - Executing RedirectResult, redirecting to /swagger.
+INFO  2019-05-07 14:47:12,159 [7    ] ore.Mvc.Internal.ControllerActionInvoker - Executed action FireProtectionV1.Web.Controllers.HomeController.Index (FireProtectionV1.Web) in 213.2744ms
+INFO  2019-05-07 14:47:12,226 [7    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 909.7935ms 302 
+INFO  2019-05-07 14:47:12,230 [6    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:5000/swagger  
+WARN  2019-05-07 14:47:12,231 [6    ] calization.RequestLocalizationMiddleware - AcceptLanguageHeaderRequestCultureProvider returned the following unsupported cultures 'zh-CN'.
+WARN  2019-05-07 14:47:12,231 [6    ] calization.RequestLocalizationMiddleware - AcceptLanguageHeaderRequestCultureProvider returned the following unsupported UI Cultures 'zh-CN'.
+INFO  2019-05-07 14:47:12,277 [6    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 46.2598ms 301 
+INFO  2019-05-07 14:47:12,280 [8    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:5000/swagger/index.html  
+WARN  2019-05-07 14:47:12,281 [8    ] calization.RequestLocalizationMiddleware - AcceptLanguageHeaderRequestCultureProvider returned the following unsupported cultures 'zh-CN'.
+WARN  2019-05-07 14:47:12,281 [8    ] calization.RequestLocalizationMiddleware - AcceptLanguageHeaderRequestCultureProvider returned the following unsupported UI Cultures 'zh-CN'.
+INFO  2019-05-07 14:47:12,376 [8    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 95.7582ms 200 text/html
+INFO  2019-05-07 14:47:12,384 [6    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:5000/swagger/swagger-ui-bundle.js  
+INFO  2019-05-07 14:47:12,384 [7    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:5000/swagger/swagger-ui.css  
+WARN  2019-05-07 14:47:12,384 [7    ] calization.RequestLocalizationMiddleware - AcceptLanguageHeaderRequestCultureProvider returned the following unsupported cultures 'zh-CN'.
+WARN  2019-05-07 14:47:12,385 [7    ] calization.RequestLocalizationMiddleware - AcceptLanguageHeaderRequestCultureProvider returned the following unsupported UI Cultures 'zh-CN'.
+INFO  2019-05-07 14:47:12,385 [8    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:5000/swagger/ui/abp.swagger.js?v=20190121  
+WARN  2019-05-07 14:47:12,386 [6    ] calization.RequestLocalizationMiddleware - AcceptLanguageHeaderRequestCultureProvider returned the following unsupported cultures 'zh-CN'.
+WARN  2019-05-07 14:47:12,386 [6    ] calization.RequestLocalizationMiddleware - AcceptLanguageHeaderRequestCultureProvider returned the following unsupported UI Cultures 'zh-CN'.
+INFO  2019-05-07 14:47:12,392 [13   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:5000/swagger/swagger-ui-standalone-preset.js  
+WARN  2019-05-07 14:47:12,394 [13   ] calization.RequestLocalizationMiddleware - AcceptLanguageHeaderRequestCultureProvider returned the following unsupported cultures 'zh-CN'.
+WARN  2019-05-07 14:47:12,398 [13   ] calization.RequestLocalizationMiddleware - AcceptLanguageHeaderRequestCultureProvider returned the following unsupported UI Cultures 'zh-CN'.
+INFO  2019-05-07 14:47:12,398 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:5000/swagger/ui/abp.js?v=20190121  
+WARN  2019-05-07 14:47:12,413 [9    ] calization.RequestLocalizationMiddleware - AcceptLanguageHeaderRequestCultureProvider returned the following unsupported cultures 'zh-CN'.
+WARN  2019-05-07 14:47:12,413 [8    ] calization.RequestLocalizationMiddleware - AcceptLanguageHeaderRequestCultureProvider returned the following unsupported cultures 'zh-CN'.
+WARN  2019-05-07 14:47:12,413 [9    ] calization.RequestLocalizationMiddleware - AcceptLanguageHeaderRequestCultureProvider returned the following unsupported UI Cultures 'zh-CN'.
+WARN  2019-05-07 14:47:12,413 [8    ] calization.RequestLocalizationMiddleware - AcceptLanguageHeaderRequestCultureProvider returned the following unsupported UI Cultures 'zh-CN'.
+INFO  2019-05-07 14:47:12,451 [12   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger/ui/abp.js'. Physical path: 'C:\Work\天树聚科技\Code\FireProtectionV1\API\src\FireProtectionV1.Web\wwwroot\swagger\ui\abp.js'
+INFO  2019-05-07 14:47:12,451 [10   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger/ui/abp.swagger.js'. Physical path: 'C:\Work\天树聚科技\Code\FireProtectionV1\API\src\FireProtectionV1.Web\wwwroot\swagger\ui\abp.swagger.js'
+INFO  2019-05-07 14:47:12,461 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 62.7625ms 200 application/javascript
+INFO  2019-05-07 14:47:12,461 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 76.167ms 200 application/javascript
+INFO  2019-05-07 14:47:12,464 [9    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+INFO  2019-05-07 14:47:12,469 [11   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+INFO  2019-05-07 14:47:12,475 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 91.4237ms 200 text/css
+INFO  2019-05-07 14:47:12,475 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 82.9444ms 200 application/javascript
+INFO  2019-05-07 14:47:12,488 [9    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+INFO  2019-05-07 14:47:12,489 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 104.7768ms 200 application/javascript
+INFO  2019-05-07 14:47:13,080 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json  
+WARN  2019-05-07 14:47:13,080 [11   ] calization.RequestLocalizationMiddleware - AcceptLanguageHeaderRequestCultureProvider returned the following unsupported cultures 'zh-CN'.
+WARN  2019-05-07 14:47:13,080 [11   ] calization.RequestLocalizationMiddleware - AcceptLanguageHeaderRequestCultureProvider returned the following unsupported UI Cultures 'zh-CN'.
+INFO  2019-05-07 14:47:13,354 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 274.262ms 200 application/json;charset=utf-8

@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FireProtectionV1.Enterprise
+namespace FireProtectionV1.AppService
 {
     /// <summary>
     /// 防火单位服务

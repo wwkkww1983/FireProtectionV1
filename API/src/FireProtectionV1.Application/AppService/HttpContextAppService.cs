@@ -7,7 +7,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FireProtectionV1
+namespace FireProtectionV1.AppService
 {
     public class HttpContextAppService:AppServiceBase
     {

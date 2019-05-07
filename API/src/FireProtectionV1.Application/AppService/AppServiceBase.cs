@@ -1,6 +1,6 @@
 ﻿using Abp.Application.Services;
 
-namespace FireProtectionV1
+namespace FireProtectionV1.AppService
 {
     /// <summary>
     /// Derive your application services from this class.

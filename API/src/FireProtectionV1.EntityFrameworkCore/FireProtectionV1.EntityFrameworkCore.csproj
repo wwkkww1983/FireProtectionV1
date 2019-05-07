@@ -15,6 +15,7 @@
     <RootNamespace>FireProtectionV1</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FireProtectionV1.Common\FireProtectionV1.Common.csproj" />
     <ProjectReference Include="..\FireProtectionV1.Core\FireProtectionV1.Core.csproj" />
   </ItemGroup>
   <ItemGroup>

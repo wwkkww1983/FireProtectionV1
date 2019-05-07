@@ -17,10 +17,12 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
     public class MiniFireStationManager : DomainService, IMiniFireStationManager
     {
         IRepository<MiniFireStation> _miniFireStationRepository;
+        ISqlExecuter _sqlExecuter;
 
-        public MiniFireStationManager(IRepository<MiniFireStation> miniFireStationRepository)
+        public MiniFireStationManager(IRepository<MiniFireStation> miniFireStationRepository, ISqlExecuter sqlExecuter)
         {
             _miniFireStationRepository = miniFireStationRepository;
+            _sqlExecuter = sqlExecuter;
         }
 
         /// <summary>
@@ -77,6 +79,22 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
             var tCount = miniFireStations.Count();
 
             return Task.FromResult(new PagedResultDto<MiniFireStation>(tCount, list));
+        }
+
+        /// <summary>
+        /// 根据坐标点获取附近1KM直线距离内的微型消防站
+        /// </summary>
+        /// <param name="lng">经度，例如104.159203</param>
+        /// <param name="lat">纬度，例如30.633145</param>
+        /// <returns></returns>
+        public Task<List<GetNearbyStationOutput>> GetNearbyStation(decimal lng, decimal lat)
+        {
+            // 6378.138是地球赤道的半径，单位千米
+            string sql = $@"SELECT *, ROUND(6378.138 * 2 * ASIN(SQRT(POW(SIN(({lat} * PI() / 180 - Lat * PI() / 180) / 2), 2) + COS({lat} * PI() / 180) * COS(Lat * PI() / 180) * 
+POW(SIN(({lng} * PI() / 180 - Lng * PI() / 180) / 2), 2))) *1000) AS Distance FROM MiniFireStation WHERE Lat !=0 and Lng != 0 ORDER BY Distance ASC";
+
+            List<GetNearbyStationOutput> list = _sqlExecuter.SqlQuery<GetNearbyStationOutput>(sql);
+            return Task.FromResult(list);
         }
 
         /// <summary>

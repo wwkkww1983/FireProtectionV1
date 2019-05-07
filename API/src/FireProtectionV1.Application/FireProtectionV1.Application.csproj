@@ -16,6 +16,11 @@
     <OutputPath>..\FireProtectionV1.Web\bin\Debug\netcoreapp2.2</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Download\**" />
+    <EmbeddedResource Remove="Download\**" />
+    <None Remove="Download\**" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\FireProtectionV1.Core\FireProtectionV1.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -34,8 +39,5 @@
     <None Update="FireProtectionV1.Application.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Download\" />
   </ItemGroup>
 </Project>
