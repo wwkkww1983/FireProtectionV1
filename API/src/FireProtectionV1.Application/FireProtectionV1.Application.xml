@@ -16,12 +16,17 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.Account.FireUnitAccountAppService.Add(FireProtectionV1.Account.Dto.FireUnitAccountInput)">
+        <member name="M:FireProtectionV1.AppService.FireDeptAppService.GetFireUnitListForMobile(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
             <summary>
             防火单位分页列表(手机端)
             </summary>
             <param name="input"></param>
             <returns></returns>
+        </member>
+        <member name="T:FireProtectionV1.AppService.FireDeptUserAppService">
+            <summary>
+            消防部门用户接口
+            </summary>
         </member>
         <member name="M:FireProtectionV1.AppService.FireDeptUserAppService.UserLogin(FireProtectionV1.Account.Dto.PcDeptUserLoginInput)">
             <summary>
@@ -33,13 +38,6 @@
         <member name="M:FireProtectionV1.AppService.FireDeptUserAppService.UserLoginForMobile(FireProtectionV1.Account.Dto.DeptUserLoginInput)">
             <summary>
             用户登录(移动端)
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.AppService.FireUnitAccountAppService.Add(FireProtectionV1.Account.Dto.FireUnitAccountInput)">
-            <summary>
-            添加账号
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -101,6 +99,13 @@
         <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitPendingFault(FireProtectionV1.Alarm.Dto.GetFireUnitPendingFaultInput)">
             <summary>
             设备设施故障待处理故障查询
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.Add(FireProtectionV1.Account.Dto.FireUnitAccountInput)">
+            <summary>
+            添加账号
             </summary>
             <param name="input"></param>
             <returns></returns>

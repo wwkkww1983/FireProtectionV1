@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FireProtectionV1.Account
+namespace FireProtectionV1.AppService
 {
     public class FireUnitUserAppService : AppServiceBase
     {
