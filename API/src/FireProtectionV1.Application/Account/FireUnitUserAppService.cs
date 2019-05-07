@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace FireProtectionV1.Account
 {
-    public class FireUnitAccountAppService : AppServiceBase
+    public class FireUnitUserAppService : AppServiceBase
     {
         IFireUnitAccountManager _fireUnitAccountManager;
 
-        public FireUnitAccountAppService(IFireUnitAccountManager fireUnitAccountManager)
+        public FireUnitUserAppService(IFireUnitAccountManager fireUnitAccountManager)
         {
             _fireUnitAccountManager = fireUnitAccountManager;
         }

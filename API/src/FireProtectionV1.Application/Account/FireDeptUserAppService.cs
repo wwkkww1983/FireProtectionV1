@@ -12,6 +12,9 @@ using System.Linq;
 
 namespace FireProtectionV1.Account
 {
+    /// <summary>
+    /// 消防部门用户接口
+    /// </summary>
     public class FireDeptUserAppService: HttpContextAppService
     {
         IFireDeptUserManager _fireDeptUserManager;

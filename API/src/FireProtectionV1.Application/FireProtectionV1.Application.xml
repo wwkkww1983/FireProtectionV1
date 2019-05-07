@@ -4,6 +4,11 @@
         <name>FireProtectionV1.Application</name>
     </assembly>
     <members>
+        <member name="T:FireProtectionV1.Account.FireDeptUserAppService">
+            <summary>
+            消防部门用户接口
+            </summary>
+        </member>
         <member name="M:FireProtectionV1.Account.FireDeptUserAppService.UserLogin(FireProtectionV1.Account.Dto.PcDeptUserLoginInput)">
             <summary>
             用户登录
@@ -18,7 +23,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.Account.FireUnitAccountAppService.Add(FireProtectionV1.Account.Dto.FireUnitAccountInput)">
+        <member name="M:FireProtectionV1.Account.FireUnitUserAppService.Add(FireProtectionV1.Account.Dto.FireUnitAccountInput)">
             <summary>
             添加账号
             </summary>
