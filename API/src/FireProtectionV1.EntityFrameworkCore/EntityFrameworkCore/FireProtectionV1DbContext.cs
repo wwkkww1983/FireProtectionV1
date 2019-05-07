@@ -13,7 +13,6 @@ namespace FireProtectionV1.EntityFrameworkCore
         public DbSet<DetectorFire> DetectorFire { get; set; }
         public DbSet<ControllerFire> ControllerFire { get; set; }
         public DbSet<ControllerElectric> ControllerElectric { get; set; }
-        public DbSet<MiniFireStation> MiniFireStation { get; set; }
         public DbSet<FireUnit> FireUnit { get; set; }
         public DbSet<SafeUnit> SafeUnit { get; set; }
         public DbSet<FireUnitUser> FireUnitAccount { get; set; }

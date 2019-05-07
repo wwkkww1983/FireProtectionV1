@@ -154,8 +154,14 @@ namespace FireProtectionV1.Enterprise.Manager
             //var a = _alarmToElectricR.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime > DateTime.Now.Date.AddDays(-30));
             //int count = a.Count();
             //int hCount = a.GroupBy(p => p.DetectorId).Where(p => p.Count() > 5).Count();
-            //int pointCount=_controllerFireR.GetAll().Where(p=>p.FireUnitId==input)
-            //    _detectorFireR.GetAll().Where(p=>p.ControllerId)
+            //int pointCount = from det in _detectorFireR.GetAll()
+            //                join con in _controllerFireR.GetAll().Where(p => p.FireUnitId == input.Id)
+            //                on det.ControllerId equals con.Id 
+            //                select new
+            //                {
+
+            //                }
+                
         }
     }
 }

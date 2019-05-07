@@ -188,9 +188,9 @@
             防火单位Id
             </summary>
         </member>
-        <member name="P:FireProtectionV1.Alarm.Model.AlarmToElectric.CollectDeviceId">
+        <member name="P:FireProtectionV1.Alarm.Model.AlarmToElectric.DetectorId">
             <summary>
-            数据采集设备Id
+            探测器Id
             </summary>
         </member>
         <member name="P:FireProtectionV1.Alarm.Model.AlarmToFire.AlarmTitle">
@@ -241,6 +241,66 @@
         <member name="P:FireProtectionV1.Alarm.Model.AlarmToGas.TerminalDeviceSn">
             <summary>
             终端设备sn号
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.Alarm.Model.ControllerElectric">
+            <summary>
+            安全用电控制器
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Model.ControllerElectric.Sn">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Model.ControllerElectric.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.Alarm.Model.ControllerFire">
+            <summary>
+            火警预警控制器
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Model.ControllerFire.Sn">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Model.ControllerFire.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.Alarm.Model.DetectorElectric">
+            <summary>
+            火警预警探测器
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Model.DetectorElectric.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Model.DetectorElectric.ControllerId">
+            <summary>
+            火警预警控制器Id
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.Alarm.Model.DetectorFire">
+            <summary>
+            火警预警探测器
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Model.DetectorFire.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Model.DetectorFire.ControllerId">
+            <summary>
+            火警预警控制器Id
             </summary>
         </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitInput.accountInput">
@@ -376,6 +436,13 @@
             根据ID删除防火单位
             </summary>
             <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.GetFireUnitAlarm(FireProtectionV1.Alarm.Dto.GetFireUnitAlarmInput)">
+            <summary>
+            防火单位消防数据
+            </summary>
+            <param name="input"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.Add(FireProtectionV1.Enterprise.Dto.AddFireUnitInput)">
