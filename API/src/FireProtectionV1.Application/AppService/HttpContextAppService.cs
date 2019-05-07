@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FireProtectionV1.AppService
 {
-    public class HttpContextAppService:AppServiceBase
+    public abstract class HttpContextAppService:AppServiceBase
     {
         protected readonly IHttpContextAccessor _httpContext;
         public HttpContextAppService( IHttpContextAccessor httpContext)

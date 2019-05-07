@@ -41,7 +41,10 @@ namespace FireProtectionV1.Web.Startup
             // Swagger - Enable this line and the related lines in Configure method to enable swagger UI            
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new Info { Title = "FireProtectionV1 WebApi", Version = "v1" });
+                Info info= new Info { Title = "FireProtectionV1 WebApi", Version = "v1"
+                    ,Description= "FireDept（消防部门）\r\nFireDeptUser（消防部门用户）\r\nFireUnit（防火单位）\r\nFireUnitUser（防火单位用户）"
+                };
+                options.SwaggerDoc("v1", info);
                 options.DocInclusionPredicate((docName, description) => true);
                 var basePath = Path.GetDirectoryName(typeof(Startup).Assembly.Location);
                 var xmlPath = Path.Combine(basePath, "FireProtectionV1.Application.xml");

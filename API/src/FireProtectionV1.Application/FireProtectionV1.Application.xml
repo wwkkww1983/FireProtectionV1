@@ -16,7 +16,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireDeptAppService.GetFireUnitListForMobile(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+        <member name="M:FireProtectionV1.Account.FireUnitAccountAppService.Add(FireProtectionV1.Account.Dto.FireUnitAccountInput)">
             <summary>
             防火单位分页列表(手机端)
             </summary>
