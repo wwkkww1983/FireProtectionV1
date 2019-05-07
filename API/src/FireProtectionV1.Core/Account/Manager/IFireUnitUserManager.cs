@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FireProtectionV1.Account.Manager
 {
-    public interface IFireUnitAccountManager : IDomainService
+    public interface IFireUnitUserManager : IDomainService
     {
         /// <summary>
         /// 添加防火单位账号

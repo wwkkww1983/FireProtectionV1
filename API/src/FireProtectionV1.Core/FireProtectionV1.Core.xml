@@ -59,14 +59,14 @@
             验证码
             </summary>
         </member>
-        <member name="M:FireProtectionV1.Account.Manager.FireUnitAccountManager.Add(FireProtectionV1.Account.Dto.FireUnitAccountInput)">
+        <member name="M:FireProtectionV1.Account.Manager.FireUnitUserManager.Add(FireProtectionV1.Account.Dto.FireUnitAccountInput)">
             <summary>
             添加防火单位账号
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.Account.Manager.IFireUnitAccountManager.Add(FireProtectionV1.Account.Dto.FireUnitAccountInput)">
+        <member name="M:FireProtectionV1.Account.Manager.IFireUnitUserManager.Add(FireProtectionV1.Account.Dto.FireUnitAccountInput)">
             <summary>
             添加防火单位账号
             </summary>
@@ -98,37 +98,37 @@
             监管部门ID
             </summary>
         </member>
-        <member name="P:FireProtectionV1.Account.Model.FireUnitAccount.Account">
+        <member name="P:FireProtectionV1.Account.Model.FireUnitUser.Account">
             <summary>
             账号（手机号）
             </summary>
         </member>
-        <member name="P:FireProtectionV1.Account.Model.FireUnitAccount.Password">
+        <member name="P:FireProtectionV1.Account.Model.FireUnitUser.Password">
             <summary>
             密码
             </summary>
         </member>
-        <member name="P:FireProtectionV1.Account.Model.FireUnitAccount.Name">
+        <member name="P:FireProtectionV1.Account.Model.FireUnitUser.Name">
             <summary>
             姓名
             </summary>
         </member>
-        <member name="P:FireProtectionV1.Account.Model.FireUnitAccount.FireUnitInfoID">
+        <member name="P:FireProtectionV1.Account.Model.FireUnitUser.FireUnitInfoID">
             <summary>
             防火单位ID
             </summary>
         </member>
-        <member name="P:FireProtectionV1.Account.Model.FireUnitAccount.Status">
+        <member name="P:FireProtectionV1.Account.Model.FireUnitUser.Status">
             <summary>
             状态，默认为已启用
             </summary>
         </member>
-        <member name="P:FireProtectionV1.Account.Model.FireUnitAccountRole.AccountID">
+        <member name="P:FireProtectionV1.Account.Model.FireUnitUserRole.AccountID">
             <summary>
             账号ID
             </summary>
         </member>
-        <member name="P:FireProtectionV1.Account.Model.FireUnitAccountRole.Role">
+        <member name="P:FireProtectionV1.Account.Model.FireUnitUserRole.Role">
             <summary>
             角色
             </summary>
@@ -460,11 +460,6 @@
         <member name="P:FireProtectionV1.Enterprise.Model.FireUnit.Lat">
             <summary>
             纬度
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Model.GovernmentInfo.Name">
-            <summary>
-            监管单位名称
             </summary>
         </member>
         <member name="P:FireProtectionV1.Enterprise.Model.SafeUnit.Name">

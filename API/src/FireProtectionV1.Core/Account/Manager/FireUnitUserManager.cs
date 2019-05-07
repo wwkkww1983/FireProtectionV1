@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace FireProtectionV1.Account.Manager
 {
-    public class FireUnitAccountManager : DomainService, IFireUnitAccountManager
+    public class FireUnitUserManager : DomainService, IFireUnitUserManager
     {
-        IRepository<FireUnitAccount> _fireUnitAccountRepository;
-        IRepository<FireUnitAccountRole> _fireUnitAccountRoleRepository;
+        IRepository<FireUnitUser> _fireUnitAccountRepository;
+        IRepository<FireUnitUserRole> _fireUnitAccountRoleRepository;
 
-        public FireUnitAccountManager(
-            IRepository<FireUnitAccount> fireUnitAccountRepository,
-            IRepository<FireUnitAccountRole> fireUnitAccountRoleRepository
+        public FireUnitUserManager(
+            IRepository<FireUnitUser> fireUnitAccountRepository,
+            IRepository<FireUnitUserRole> fireUnitAccountRoleRepository
             )
         {
             _fireUnitAccountRepository = fireUnitAccountRepository;
@@ -34,10 +34,10 @@ namespace FireProtectionV1.Account.Manager
             //    Password = input.Password,
             //    Name = input.Name
             //};
-            var account = input.MapTo<FireUnitAccount>();
+            var account = input.MapTo<FireUnitUser>();
             int accountID = await _fireUnitAccountRepository.InsertAndGetIdAsync(account);
 
-            var accountRole = new FireUnitAccountRole()
+            var accountRole = new FireUnitUserRole()
             {
                 AccountID = accountID,
                 Role = input.Role

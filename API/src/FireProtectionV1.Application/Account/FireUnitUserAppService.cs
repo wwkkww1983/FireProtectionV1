@@ -9,9 +9,9 @@ namespace FireProtectionV1.Account
 {
     public class FireUnitUserAppService : AppServiceBase
     {
-        IFireUnitAccountManager _fireUnitAccountManager;
+        IFireUnitUserManager _fireUnitAccountManager;
 
-        public FireUnitUserAppService(IFireUnitAccountManager fireUnitAccountManager)
+        public FireUnitUserAppService(IFireUnitUserManager fireUnitAccountManager)
         {
             _fireUnitAccountManager = fireUnitAccountManager;
         }

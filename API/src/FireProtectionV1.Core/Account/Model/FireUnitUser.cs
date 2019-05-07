@@ -7,7 +7,7 @@ using System.Text;
 
 namespace FireProtectionV1.Account.Model
 {
-    public class FireUnitAccount : EntityBase
+    public class FireUnitUser : EntityBase
     {
         /// <summary>
         /// 账号（手机号）

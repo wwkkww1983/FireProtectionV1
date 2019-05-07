@@ -8,7 +8,7 @@ using System.Text;
 
 namespace FireProtectionV1.Account.Model
 {
-    public class FireUnitAccountRole:EntityBase
+    public class FireUnitUserRole:EntityBase
     {
         /// <summary>
         /// 账号ID

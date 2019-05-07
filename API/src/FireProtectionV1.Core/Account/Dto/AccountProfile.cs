@@ -11,7 +11,7 @@ namespace FireProtectionV1.Account.Dto
     {
         public AccountProfile()
         {
-            CreateMap<FireUnitAccountInput, FireUnitAccount>();
+            CreateMap<FireUnitAccountInput, FireUnitUser>();
         }
 
     }

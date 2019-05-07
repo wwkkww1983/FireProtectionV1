@@ -24,9 +24,9 @@ namespace FireProtectionV1.Alarm.Model
         [Required]
         public int FireUnitId { get; set; }
         /// <summary>
-        /// 数据采集设备Id
+        /// 探测器Id
         /// </summary>
         [Required]
-        public int CollectDeviceId { get; set; }
+        public int DetectorId { get; set; }
     }
 }

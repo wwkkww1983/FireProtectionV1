@@ -22,26 +22,30 @@ namespace FireProtectionV1.Enterprise.Manager
 {
     public class FireUnitManager : DomainService, IFireUnitManager
     {
+        IRepository<ControllerFire> _controllerFireR;
+        IRepository<DetectorFire> _detectorFireR;
         IRepository<AlarmToFire> _alarmToFireR;
         IRepository<AlarmToElectric> _alarmToElectricR;
         IRepository<SafeUnit> _safeUnitR;
         IRepository<Area> _areaR;
         IRepository<FireUnitType> _fireUnitTypeR;
         IRepository<FireUnit> _fireUnitR;
-        IRepository<FireUnitAccount> _fireUnitAccountRepository;
-        IFireUnitAccountManager _fireUnitAccountManager;
+        IRepository<FireUnitUser> _fireUnitAccountRepository;
+        IFireUnitUserManager _fireUnitAccountManager;
         ICacheManager _cacheManager;
         public FireUnitManager(
+            IRepository<DetectorFire> detectorFireR,
             IRepository<AlarmToFire> alarmToFireR,
             IRepository<AlarmToElectric> alarmToElectricR,
             IRepository<SafeUnit> safeUnitR,
             IRepository<Area> areaR,
             IRepository<FireUnitType> fireUnitTypeR,
-            IRepository<FireUnit> fireUnitInfoRepository, IRepository<FireUnitAccount> fireUnitAccountRepository,
-            IFireUnitAccountManager fireUnitAccountManager,
+            IRepository<FireUnit> fireUnitInfoRepository, IRepository<FireUnitUser> fireUnitAccountRepository,
+            IFireUnitUserManager fireUnitAccountManager,
             ICacheManager cacheManager
             )
         {
+            _detectorFireR = detectorFireR;
             _alarmToElectricR = alarmToElectricR;
             _alarmToFireR = alarmToFireR;
             _safeUnitR = safeUnitR;
@@ -139,15 +143,19 @@ namespace FireProtectionV1.Enterprise.Manager
         {
             await _fireUnitR.DeleteAsync(id);
         }
-
-        public Task<PagedResultDto<GetFireUnitListOutput>> GetList(GetFireUnitListInput input)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// 防火单位消防数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public Task<GetFireUnitAlarmOutput> GetFireUnitAlarm(GetFireUnitAlarmInput input)
         {
             throw new NotImplementedException();
+            //var a = _alarmToElectricR.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime > DateTime.Now.Date.AddDays(-30));
+            //int count = a.Count();
+            //int hCount = a.GroupBy(p => p.DetectorId).Where(p => p.Count() > 5).Count();
+            //int pointCount=_controllerFireR.GetAll().Where(p=>p.FireUnitId==input)
+            //    _detectorFireR.GetAll().Where(p=>p.ControllerId)
         }
     }
 }
