@@ -10,9 +10,13 @@ namespace FireProtectionV1.EntityFrameworkCore
 {
     public class FireProtectionV1DbContext : AbpDbContext
     {
+        public DbSet<DetectorElectric> DetectorElectric { get; set; }
         public DbSet<DetectorFire> DetectorFire { get; set; }
         public DbSet<ControllerFire> ControllerFire { get; set; }
         public DbSet<ControllerElectric> ControllerElectric { get; set; }
+        public DbSet<AlarmToGas> AlarmToGas { get; set; }
+        public DbSet<AlarmToFire> AlarmToFire { get; set; }
+        public DbSet<AlarmToElectric> AlarmToElectric { get; set; }
         public DbSet<FireUnit> FireUnit { get; set; }
         public DbSet<SafeUnit> SafeUnit { get; set; }
         public DbSet<FireUnitUser> FireUnitAccount { get; set; }
@@ -21,9 +25,6 @@ namespace FireProtectionV1.EntityFrameworkCore
         public DbSet<FireDept> FireDept { get; set; }
         public DbSet<Area> Area { get; set; }
         public DbSet<FireUnitType> FireUnitType { get; set; }
-        public DbSet<AlarmToGas> AlarmToGas { get; set; }
-        public DbSet<AlarmToFire> AlarmToFire { get; set; }
-        public DbSet<AlarmToElectric> AlarmToElectric { get; set; }
         public DbSet<MiniFireStation> MiniFireStation { get; set; }
 
         public FireProtectionV1DbContext(DbContextOptions<FireProtectionV1DbContext> options) 
