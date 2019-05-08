@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace FireProtectionV1.Alarm.Dto
+namespace FireProtectionV1.FireWorking.Dto
 {
-    public class GetFireUnit30DayAlarmEleInput
+    public class GetFireUnitHighFreqAlarmEleInput
     {
         /// <summary>
         /// 防火单位Id

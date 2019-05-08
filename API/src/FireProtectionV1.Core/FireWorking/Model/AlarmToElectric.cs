@@ -4,30 +4,34 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace FireProtectionV1.Alarm.Model
+namespace FireProtectionV1.FireWorking.Model
 {
-    public class AlarmToFire : EntityBase
+    public class AlarmToElectric: EntityBase
     {
         /// <summary>
-        /// 报警标题
+        /// 实时数据
         /// </summary>
         [Required]
-        [MaxLength(StringType.Normal)]
-        public string AlarmTitle { get; set; }
+        public decimal CurrentData { get; set; }
         /// <summary>
-        /// 报警描述
+        /// 安全范围
         /// </summary>
-        [MaxLength(StringType.Long)]
-        public string AlarmRemark { get; set; }
+        [MaxLength(StringType.Normal)]
+        public string SafeRange { get; set; }
         /// <summary>
         /// 防火单位Id
         /// </summary>
         [Required]
         public int FireUnitId { get; set; }
         /// <summary>
-        /// 探测器Id
+        /// 设备Id
         /// </summary>
         [Required]
-        public int DetectorId { get; set; }
+        public int DeviceId { get; set; }
+        /// <summary>
+        /// 设备类型
+        /// </summary>
+        [Required]
+        public byte DeviceType { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.Domain.Services;
-using FireProtectionV1.Alarm.Dto;
+using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.Enterprise.Dto;
 using System;
 using System.Collections.Generic;
@@ -24,6 +24,5 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<GetFireUnitInfoOutput> GetFireUnitInfo(GetFireUnitInfoInput input);
-        Task<GetFireUnitAlarmOutput> GetFireUnitAlarm(GetFireUnitAlarmInput input);
     }
 }

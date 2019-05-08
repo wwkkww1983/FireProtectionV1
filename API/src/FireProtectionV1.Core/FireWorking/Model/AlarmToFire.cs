@@ -4,35 +4,35 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace FireProtectionV1.Alarm.Model
+namespace FireProtectionV1.FireWorking.Model
 {
-    public class AlarmToGas : EntityBase
+    public class AlarmToFire : EntityBase
     {
         /// <summary>
-        /// 实时数据
+        /// 报警标题
         /// </summary>
         [Required]
-        public decimal CurrentData { get; set; }
-        /// <summary>
-        /// 安全范围
-        /// </summary>
         [MaxLength(StringType.Normal)]
-        public string SafeRange { get; set; }
+        public string AlarmTitle { get; set; }
+        /// <summary>
+        /// 报警描述
+        /// </summary>
+        [MaxLength(StringType.Long)]
+        public string AlarmRemark { get; set; }
         /// <summary>
         /// 防火单位Id
         /// </summary>
         [Required]
         public int FireUnitId { get; set; }
         /// <summary>
-        /// 数据采集设备Id
+        /// 设备Id
         /// </summary>
         [Required]
-        public int CollectDeviceId { get; set; }
+        public int DeviceId { get; set; }
         /// <summary>
-        /// 终端设备sn号
+        /// 设备类型
         /// </summary>
         [Required]
-        [MaxLength(StringType.Short)]
-        public string TerminalDeviceSn { get; set; }
+        public byte DeviceType { get; set; }
     }
 }

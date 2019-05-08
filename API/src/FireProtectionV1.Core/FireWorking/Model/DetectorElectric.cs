@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace FireProtectionV1.Alarm.Model
+namespace FireProtectionV1.FireWorking.Model
 {
     /// <summary>
     /// 火警预警探测器
     /// </summary>
-    public class DetectorFire : EntityBase
+    public class DetectorElectric : EntityBase
     {
         /// <summary>
         /// 名称
