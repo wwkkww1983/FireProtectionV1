@@ -1,5 +1,5 @@
 ﻿using Abp.EntityFrameworkCore;
-using FireProtectionV1.Alarm.Model;
+using FireProtectionV1.Device.Model;
 using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.Infrastructure.Model;
 using FireProtectionV1.MiniFireStationCore.Model;

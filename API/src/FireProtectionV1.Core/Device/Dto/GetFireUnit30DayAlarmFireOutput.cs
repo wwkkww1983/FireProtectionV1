@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FireProtectionV1.Alarm.Dto
+namespace FireProtectionV1.Device.Dto
 {
-    public class GetFireUnit30DayAlarmFireInput
+    public class GetFireUnit30DayAlarmFireOutput
     {
     }
 }

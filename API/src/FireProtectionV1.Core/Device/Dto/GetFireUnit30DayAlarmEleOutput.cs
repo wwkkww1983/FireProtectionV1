@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FireProtectionV1.Alarm.Manager
+namespace FireProtectionV1.Device.Dto
 {
-    class AlarmManager
+    public class GetFireUnit30DayAlarmEleOutput
     {
     }
 }

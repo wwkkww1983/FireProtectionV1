@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace FireProtectionV1.Alarm.Model
+namespace FireProtectionV1.Device.Model
 {
     public class AlarmToElectric: EntityBase
     {
@@ -24,9 +24,14 @@ namespace FireProtectionV1.Alarm.Model
         [Required]
         public int FireUnitId { get; set; }
         /// <summary>
-        /// 探测器Id
+        /// 设备Id
         /// </summary>
         [Required]
-        public int DetectorId { get; set; }
+        public int DeviceId { get; set; }
+        /// <summary>
+        /// 设备类型
+        /// </summary>
+        [Required]
+        public byte DeviceType { get; set; }
     }
 }

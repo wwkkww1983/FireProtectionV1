@@ -8,8 +8,8 @@ using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using Abp.Domain.Services;
 using Abp.Runtime.Caching;
-using FireProtectionV1.Alarm.Dto;
-using FireProtectionV1.Alarm.Model;
+using FireProtectionV1.Device.Dto;
+using FireProtectionV1.Device.Model;
 using FireProtectionV1.Common.DBContext;
 using FireProtectionV1.Configuration;
 using FireProtectionV1.Enterprise.Dto;
@@ -22,20 +22,24 @@ namespace FireProtectionV1.Enterprise.Manager
 {
     public class FireUnitManager : DomainService, IFireUnitManager
     {
-        IRepository<ControllerElectric> _controllerElectricR;
-        IRepository<DetectorElectric> _detectorElectricR;
-        IRepository<ControllerFire> _controllerFireR;
-        IRepository<DetectorFire> _detectorFireR;
-        IRepository<AlarmToFire> _alarmToFireR;
-        IRepository<AlarmToElectric> _alarmToElectricR;
-        IRepository<SafeUnit> _safeUnitR;
-        IRepository<Area> _areaR;
-        IRepository<FireUnitType> _fireUnitTypeR;
-        IRepository<FireUnit> _fireUnitR;
-        IRepository<FireUnitUser> _fireUnitAccountRepository;
+        IRepository<Patrol> _patrolRep;
+        IRepository<Fault> _faultRep;
+        IRepository<ControllerElectric> _controllerElectricRep;
+        IRepository<DetectorElectric> _detectorElectricRep;
+        IRepository<ControllerFire> _controllerFireRep;
+        IRepository<DetectorFire> _detectorFireRep;
+        IRepository<AlarmToFire> _alarmToFireRep;
+        IRepository<AlarmToElectric> _alarmToElectricRep;
+        IRepository<SafeUnit> _safeUnitRep;
+        IRepository<Area> _areaRep;
+        IRepository<FireUnitType> _fireUnitTypeRep;
+        IRepository<FireUnit> _fireUnitRep;
+        IRepository<FireUnitUser> _fireUnitUserRep;
         IFireUnitUserManager _fireUnitAccountManager;
         ICacheManager _cacheManager;
         public FireUnitManager(
+            IRepository<Fault> faultRep,
+            IRepository<ControllerFire> controllerFireRep,
             IRepository<ControllerElectric> controllerElectricR,
             IRepository<DetectorElectric> detectorElectricR,
             IRepository<DetectorFire> detectorFireR,
@@ -49,16 +53,18 @@ namespace FireProtectionV1.Enterprise.Manager
             ICacheManager cacheManager
             )
         {
-            _controllerElectricR = controllerElectricR;
-            _detectorElectricR = detectorElectricR;
-            _detectorFireR = detectorFireR;
-            _alarmToElectricR = alarmToElectricR;
-            _alarmToFireR = alarmToFireR;
-            _safeUnitR = safeUnitR;
-            _areaR = areaR;
-            _fireUnitTypeR = fireUnitTypeR;
-            _fireUnitR = fireUnitInfoRepository;
-            _fireUnitAccountRepository = fireUnitAccountRepository;
+            _faultRep = faultRep;
+            _controllerFireRep = controllerFireRep;
+            _controllerElectricRep = controllerElectricR;
+            _detectorElectricRep = detectorElectricR;
+            _detectorFireRep = detectorFireR;
+            _alarmToElectricRep = alarmToElectricR;
+            _alarmToFireRep = alarmToFireR;
+            _safeUnitRep = safeUnitR;
+            _areaRep = areaR;
+            _fireUnitTypeRep = fireUnitTypeR;
+            _fireUnitRep = fireUnitInfoRepository;
+            _fireUnitUserRep = fireUnitAccountRepository;
             _fireUnitAccountManager = fireUnitAccountManager;
             _cacheManager = cacheManager;
         }
@@ -77,7 +83,7 @@ namespace FireProtectionV1.Enterprise.Manager
                 Name = input.Name
             };
 
-            return await _fireUnitR.InsertAndGetIdAsync(fireUnitInfo);
+            return await _fireUnitRep.InsertAndGetIdAsync(fireUnitInfo);
         }
 
         /// <summary>
@@ -97,35 +103,35 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <returns></returns>
         public async Task<GetFireUnitInfoOutput> GetFireUnitInfo(GetFireUnitInfoInput input)
         {
-            GetFireUnitInfoOutput o = new GetFireUnitInfoOutput();
-            var f = await _fireUnitR.SingleAsync(p => p.Id.Equals(input.Id));
+            GetFireUnitInfoOutput output = new GetFireUnitInfoOutput();
+            var f = await _fireUnitRep.SingleAsync(p => p.Id.Equals(input.Id));
             if (f != null)
             {
-                o.Name = f.Name;
-                o.Address = f.Address;
-                var a =await _areaR.SingleAsync(p => p.Id.Equals(f.AreaId));
+                output.Name = f.Name;
+                output.Address = f.Address;
+                var a =await _areaRep.SingleAsync(p => p.Id.Equals(f.AreaId));
                 if(a!=null)
                 {
                     var codes = a.AreaPath.Split('-');
-                    o.Area = "";
+                    output.Area = "";
                     foreach(var code in codes)
                     {
-                        var area = await _areaR.SingleAsync(p => p.AreaCode.Equals(code));
-                        o.Area += area.Name;
+                        var area = await _areaRep.SingleAsync(p => p.AreaCode.Equals(code));
+                        output.Area += area.Name;
                     }
 
                 }
-                var type =await _fireUnitTypeR.SingleAsync(p => p.Id == f.TypeId);
+                var type =await _fireUnitTypeRep.SingleAsync(p => p.Id == f.TypeId);
                 if (type != null)
-                    o.Type = type.Name;
+                    output.Type = type.Name;
                 if (f.SafeUnitId != 0)
                 {
-                    var safe = await _safeUnitR.SingleAsync(p => p.Id == f.SafeUnitId);
+                    var safe = await _safeUnitRep.SingleAsync(p => p.Id == f.SafeUnitId);
                     if (safe != null)
-                        o.SafeUnit = safe.Name;
+                        output.SafeUnit = safe.Name;
                 }
             }
-            return o;
+            return output;
         }
 
         /// <summary>
@@ -137,7 +143,7 @@ namespace FireProtectionV1.Enterprise.Manager
         {
             return await _cacheManager
                         .GetCache("FireUnit")
-                        .GetAsync(id.ToString(), () => _fireUnitR.GetAsync(id)) as FireUnit;
+                        .GetAsync(id.ToString(), () => _fireUnitRep.GetAsync(id)) as FireUnit;
         }
 
         /// <summary>
@@ -147,7 +153,7 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <returns></returns>
         public async Task Delete(int id)
         {
-            await _fireUnitR.DeleteAsync(id);
+            await _fireUnitRep.DeleteAsync(id);
         }
         /// <summary>
         /// 防火单位消防数据
@@ -156,44 +162,54 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <returns></returns>
         public async Task<GetFireUnitAlarmOutput> GetFireUnitAlarm(GetFireUnitAlarmInput input)
         {
-            //throw new NotImplementedException();
-            GetFireUnitAlarmOutput o = new GetFireUnitAlarmOutput();
-            int highreq = int.Parse(ConfigHelper.Configuration["FireDomain:HighFreqAlarm"]);
+            GetFireUnitAlarmOutput output = new GetFireUnitAlarmOutput();
+            int highFreq = int.Parse(ConfigHelper.Configuration["FireDomain:HighFreqAlarm"]);
             await Task.Run(() =>
             {
-                var alarmElec = _alarmToElectricR.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime > DateTime.Now.Date.AddDays(-30));
-                o.Elec30DayNum = alarmElec.Count();
-                o.ElecHighCount = alarmElec.GroupBy(p => p.DetectorId).Where(p => p.Count() > highreq).Count();
-                o.ElecPointsCount = (from det in _detectorElectricR.GetAll()
-                                     join con in _controllerElectricR.GetAll().Where(p => p.FireUnitId == input.Id)
+                //安全用电数据：管控点位数量、网关状态、最近30天报警次数（可查）、高频报警部件数量（可查）
+                var alarmElec = _alarmToElectricRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime > DateTime.Now.Date.AddDays(-30));
+                output.Elec30DayCount = alarmElec.Count();
+                output.ElecHighCount = alarmElec.GroupBy(p => p.DeviceId).Where(p => p.Count() > highFreq).Count();
+                output.ElecPointsCount = (from det in _detectorElectricRep.GetAll()
+                                     join con in _controllerElectricRep.GetAll().Where(p => p.FireUnitId == input.Id)
                                      on det.ControllerId equals con.Id
                                      select det.Id).Count();
-                var netStates = _controllerElectricR.GetAll().Where(p => p.FireUnitId == input.Id).Select(p => p.NetworkState);
+                var netStates = _controllerElectricRep.GetAll().Where(p => p.FireUnitId == input.Id).Select(p => p.NetworkState);
                 int netStatesCount = netStates.Count();
                 if (netStatesCount > 0)
                 {
-                    o.ElecState = netStates.First();
+                    output.ElecState = netStates.First();
                     if (netStatesCount > 1)
-                        o.ElecState = $"{o.ElecState}({netStates.Select(p => p.Equals(o.ElecState)).Count()}/{netStatesCount})";
+                        output.ElecState = $"{output.ElecState}({netStates.Select(p => p.Equals(output.ElecState)).Count()}/{netStatesCount})";
                 }
-
-                var alarmFire = _alarmToFireR.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime > DateTime.Now.Date.AddDays(-30));
-                o.Fire30DayNum = alarmFire.Count();
-                o.FireHighCount = alarmFire.GroupBy(p => p.DetectorId).Where(p => p.Count() > highreq).Count();
-                o.FirePointsCount = (from det in _detectorFireR.GetAll()
-                                     join con in _controllerFireR.GetAll().Where(p => p.FireUnitId == input.Id)
+                //火警预警数据：管控点位数量、网关状态、最近30天报警次数（可查）、高频报警部件数量（可查）；
+                var alarmFire = _alarmToFireRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime > DateTime.Now.Date.AddDays(-30));
+                output.Fire30DayCount = alarmFire.Count();
+                output.FireHighCount = alarmFire.GroupBy(p => p.DeviceId).Where(p => p.Count() > highFreq).Count();
+                output.FirePointsCount = (from det in _detectorFireRep.GetAll()
+                                     join con in _controllerFireRep.GetAll().Where(p => p.FireUnitId == input.Id)
                                      on det.ControllerId equals con.Id
                                      select det.Id).Count();
-                 netStates = _controllerFireR.GetAll().Where(p => p.FireUnitId == input.Id).Select(p => p.NetworkState);
+                //火警控制器可能不知道下面有多少点位，就以控制器数量充当
+                output.FirePointsCount += _controllerFireRep.GetAll().Where(p => p.FireUnitId == input.Id).Count();
+                 netStates = _controllerFireRep.GetAll().Where(p => p.FireUnitId == input.Id).Select(p => p.NetworkState);
                  netStatesCount = netStates.Count();
                 if (netStatesCount > 0)
                 {
-                    o.FireState = netStates.First();
+                    output.FireState = netStates.First();
                     if (netStatesCount > 1)
-                        o.FireState = $"{o.FireState}({netStates.Select(p => p.Equals(o.FireState)).Count()}/{netStatesCount})";
+                        output.FireState = $"{output.FireState}({netStates.Select(p => p.Equals(output.FireState)).Count()}/{netStatesCount})";
                 }
+                //故障数据
+                var faults = _faultRep.GetAll().Where(p => p.FireUnitId == input.Id);
+                output.FaultCount = faults.Count();
+                output.FaultPendingCount= faults.Where(p => p.ProcessState == 0).Count();
+                output.FaultProcessedCount = output.FaultCount - output.FaultPendingCount;
+                //巡查记录：最近提交时间、最近30天提交记录数量
+                output.Patrol30DayCount = _patrolRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime > DateTime.Now.Date.AddDays(-30)).Count();
+                //值班记录：最近提交时间、最近30天提交记录数量
             });
-            return o;
+            return output;
         }
     }
 }
