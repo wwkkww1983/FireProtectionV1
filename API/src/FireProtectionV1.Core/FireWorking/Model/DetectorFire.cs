@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace FireProtectionV1.Device.Model
+namespace FireProtectionV1.FireWorking.Model
 {
     /// <summary>
     /// 火警预警探测器

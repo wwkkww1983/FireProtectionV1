@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FireProtectionV1.Device.Dto
+namespace FireProtectionV1.FireWorking.Dto
 {
     public class GetFireUnitHighFreqAlarmEleOutput
     {

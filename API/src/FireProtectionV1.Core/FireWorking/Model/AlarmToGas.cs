@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace FireProtectionV1.Device.Model
+namespace FireProtectionV1.FireWorking.Model
 {
-    public class AlarmToElectric: EntityBase
+    public class AlarmToGas : EntityBase
     {
         /// <summary>
         /// 实时数据
@@ -24,14 +24,15 @@ namespace FireProtectionV1.Device.Model
         [Required]
         public int FireUnitId { get; set; }
         /// <summary>
-        /// 设备Id
+        /// 数据采集设备Id
         /// </summary>
         [Required]
-        public int DeviceId { get; set; }
+        public int CollectDeviceId { get; set; }
         /// <summary>
-        /// 设备类型
+        /// 终端设备sn号
         /// </summary>
         [Required]
-        public byte DeviceType { get; set; }
+        [MaxLength(StringType.Short)]
+        public string TerminalDeviceSn { get; set; }
     }
 }

@@ -95,7 +95,7 @@ namespace FireProtectionV1.Migrations
                     b.ToTable("FireUnitAccountRole");
                 });
 
-            modelBuilder.Entity("FireProtectionV1.Device.Model.AlarmToElectric", b =>
+            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.AlarmToElectric", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -118,7 +118,7 @@ namespace FireProtectionV1.Migrations
                     b.ToTable("AlarmToElectric");
                 });
 
-            modelBuilder.Entity("FireProtectionV1.Device.Model.AlarmToFire", b =>
+            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.AlarmToFire", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -147,7 +147,7 @@ namespace FireProtectionV1.Migrations
                     b.ToTable("AlarmToFire");
                 });
 
-            modelBuilder.Entity("FireProtectionV1.Device.Model.AlarmToGas", b =>
+            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.AlarmToGas", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();

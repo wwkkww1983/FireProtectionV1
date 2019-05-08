@@ -4,21 +4,20 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace FireProtectionV1.Device.Model
+namespace FireProtectionV1.FireWorking.Model
 {
-    public class AlarmToFire : EntityBase
+    public class AlarmToElectric: EntityBase
     {
         /// <summary>
-        /// 报警标题
+        /// 实时数据
         /// </summary>
         [Required]
-        [MaxLength(StringType.Normal)]
-        public string AlarmTitle { get; set; }
+        public decimal CurrentData { get; set; }
         /// <summary>
-        /// 报警描述
+        /// 安全范围
         /// </summary>
-        [MaxLength(StringType.Long)]
-        public string AlarmRemark { get; set; }
+        [MaxLength(StringType.Normal)]
+        public string SafeRange { get; set; }
         /// <summary>
         /// 防火单位Id
         /// </summary>

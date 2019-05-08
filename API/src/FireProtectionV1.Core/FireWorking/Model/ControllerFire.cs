@@ -1,15 +1,16 @@
 ﻿using FireProtectionV1.Common.DBContext;
+using FireProtectionV1.Common.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace FireProtectionV1.Device.Model
+namespace FireProtectionV1.FireWorking.Model
 {
     /// <summary>
-    /// 安全用电控制器
+    /// 火警预警控制器
     /// </summary>
-    public class ControllerElectric : EntityBase
+    public class ControllerFire : EntityBase
     {
         /// <summary>
         /// 编号
@@ -24,7 +25,6 @@ namespace FireProtectionV1.Device.Model
         /// <summary>
         /// 网关状态
         /// </summary>
-        [MaxLength(10)]
-        public string NetworkState { get; set; }
+        public GatewayStatus Status { get; set; }
     }
 }

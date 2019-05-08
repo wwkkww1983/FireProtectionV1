@@ -4,29 +4,21 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace FireProtectionV1.Device.Model
+namespace FireProtectionV1.FireWorking.Model
 {
-    /// <summary>
-    /// 巡查记录
-    /// </summary>
-    public class Patrol : EntityBase
+    public class AlarmToFire : EntityBase
     {
         /// <summary>
-        /// 故障标题
+        /// 报警标题
         /// </summary>
         [Required]
         [MaxLength(StringType.Normal)]
-        public string FaultTitle { get; set; }
+        public string AlarmTitle { get; set; }
         /// <summary>
-        /// 巡查描述
+        /// 报警描述
         /// </summary>
         [MaxLength(StringType.Long)]
-        public string MatterRemark { get; set; }
-        /// <summary>
-        /// 处理状态
-        /// </summary>
-        [Required]
-        public byte ProcessState { get; set; }
+        public string AlarmRemark { get; set; }
         /// <summary>
         /// 防火单位Id
         /// </summary>

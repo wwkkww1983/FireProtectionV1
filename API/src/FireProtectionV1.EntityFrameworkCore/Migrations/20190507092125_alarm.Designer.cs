@@ -95,7 +95,7 @@ namespace FireProtectionV1.Migrations
                     b.ToTable("FireUnitAccountRole");
                 });
 
-            modelBuilder.Entity("FireProtectionV1.Device.Model.AlarmToElectric", b =>
+            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.AlarmToElectric", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -118,7 +118,7 @@ namespace FireProtectionV1.Migrations
                     b.ToTable("AlarmToElectric");
                 });
 
-            modelBuilder.Entity("FireProtectionV1.Device.Model.AlarmToFire", b =>
+            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.AlarmToFire", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -143,7 +143,7 @@ namespace FireProtectionV1.Migrations
                     b.ToTable("AlarmToFire");
                 });
 
-            modelBuilder.Entity("FireProtectionV1.Device.Model.AlarmToGas", b =>
+            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.AlarmToGas", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -170,7 +170,7 @@ namespace FireProtectionV1.Migrations
                     b.ToTable("AlarmToGas");
                 });
 
-            modelBuilder.Entity("FireProtectionV1.Device.Model.ControllerElectric", b =>
+            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.ControllerElectric", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -192,7 +192,7 @@ namespace FireProtectionV1.Migrations
                     b.ToTable("ControllerElectric");
                 });
 
-            modelBuilder.Entity("FireProtectionV1.Device.Model.ControllerFire", b =>
+            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.ControllerFire", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -214,7 +214,7 @@ namespace FireProtectionV1.Migrations
                     b.ToTable("ControllerFire");
                 });
 
-            modelBuilder.Entity("FireProtectionV1.Device.Model.DetectorElectric", b =>
+            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.DetectorElectric", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -233,7 +233,7 @@ namespace FireProtectionV1.Migrations
                     b.ToTable("DetectorElectric");
                 });
 
-            modelBuilder.Entity("FireProtectionV1.Device.Model.DetectorFire", b =>
+            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.DetectorFire", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();

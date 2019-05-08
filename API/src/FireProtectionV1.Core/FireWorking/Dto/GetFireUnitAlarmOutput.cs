@@ -1,8 +1,9 @@
-﻿using System;
+﻿using FireProtectionV1.Common.Enum;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FireProtectionV1.Device.Dto
+namespace FireProtectionV1.FireWorking.Dto
 {
     public class GetFireUnitAlarmOutput
     {
@@ -13,7 +14,7 @@ namespace FireProtectionV1.Device.Dto
         /// <summary>
         /// （安全用电）网关状态
         /// </summary>
-        public string ElecState { get; set; }
+        public GatewayStatus ElecState { get; set; }
         /// <summary>
         /// （安全用电）最近30天报警次数
         /// </summary>
@@ -29,7 +30,7 @@ namespace FireProtectionV1.Device.Dto
         /// <summary>
         /// （火警预警）网关状态
         /// </summary>
-        public string FireState { get; set; }
+        public GatewayStatus FireState { get; set; }
         /// <summary>
         /// （火警预警）最近30天报警次数
         /// </summary>
@@ -51,8 +52,12 @@ namespace FireProtectionV1.Device.Dto
         /// </summary>
         public int FaultPendingCount { get; set; }
         /// <summary>
-        /// 巡查数量
+        /// 巡查记录最近30天数量
         /// </summary>
         public int Patrol30DayCount { get; set; }
+        /// <summary>
+        /// 值班记录最近30天数量
+        /// </summary>
+        public int Duty30DayCount { get; set; }
     }
 }

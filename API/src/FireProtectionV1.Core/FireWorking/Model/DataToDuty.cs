@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace FireProtectionV1.Device.Model
+namespace FireProtectionV1.FireWorking.Model
 {
     /// <summary>
     /// 值班记录
@@ -12,35 +12,25 @@ namespace FireProtectionV1.Device.Model
     public class Duty : EntityBase
     {
         /// <summary>
-        /// 故障标题
+        /// 值班记录图片
         /// </summary>
         [Required]
-        [MaxLength(StringType.Normal)]
-        public string FaultTitle { get; set; }
+        [MaxLength(100)]
+        public string DutyPicture { get; set; }
         /// <summary>
-        /// 巡查描述
-        /// </summary>
-        [MaxLength(StringType.Long)]
-        public string MatterRemark { get; set; }
-        /// <summary>
-        /// 处理状态
+        /// 记录状态（1、正常；2：绿色故障；3：橙色故障）
         /// </summary>
         [Required]
-        public byte ProcessState { get; set; }
+        public byte DutyStatus { get; set; }
         /// <summary>
         /// 防火单位Id
         /// </summary>
         [Required]
         public int FireUnitId { get; set; }
         /// <summary>
-        /// 设备Id
+        /// 防火单位用户Id
         /// </summary>
         [Required]
-        public int DeviceId { get; set; }
-        /// <summary>
-        /// 设备类型
-        /// </summary>
-        [Required]
-        public byte DeviceType { get; set; }
+        public int FireUnitUserId { get; set; }
     }
 }
