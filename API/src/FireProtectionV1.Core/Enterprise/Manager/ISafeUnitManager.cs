@@ -1,29 +1,29 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.Domain.Services;
-using FireProtectionV1.MiniFireStationCore.Dto;
-using FireProtectionV1.MiniFireStationCore.Model;
+using FireProtectionV1.Enterprise.Dto;
+using FireProtectionV1.Enterprise.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FireProtectionV1.MiniFireStationCore.Manager
+namespace FireProtectionV1.Enterprise.Manager
 {
-    public interface IMiniFireStationManager : IDomainService
+    public interface ISafeUnitManager : IDomainService
     {
         /// <summary>
         /// 添加
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns> 
-        Task<int> Add(AddMiniFireStationInput input);
+        Task<int> Add(AddSafeUnitInput input);
 
         /// <summary>
         /// 修改
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task Update(UpdateMiniFireStationInput input);
+        Task Update(UpdateSafeUnitInput input);
 
         /// <summary>
         /// 删除
@@ -37,21 +37,13 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<MiniFireStation> GetById(int id);
+        Task<SafeUnit> GetById(int id);
 
         /// <summary>
         /// 分页列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<PagedResultDto<MiniFireStation>> GetList(GetMiniFireStationListInput input);
-
-        /// <summary>
-        /// 根据坐标点获取附近1KM直线距离内的微型消防站
-        /// </summary>
-        /// <param name="lng">经度，例如104.159203</param>
-        /// <param name="lat">纬度，例如30.633145</param>
-        /// <returns></returns>
-        Task<List<GetNearbyStationOutput>> GetNearbyStation(decimal lng, decimal lat);
+        Task<PagedResultDto<SafeUnit>> GetList(GetSafeUnitListInput input);
     }
 }

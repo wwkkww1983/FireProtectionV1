@@ -349,6 +349,26 @@
             防火单位名称
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddSafeUnitInput.Name">
+            <summary>
+            维保单位名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddSafeUnitInput.ContractName">
+            <summary>
+            联系人
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddSafeUnitInput.ContractPhone">
+            <summary>
+            联系电话
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddSafeUnitInput.Level">
+            <summary>
+            工程资质（一、二、三级）
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoInput.Id">
             <summary>
             防火单位Id
@@ -439,6 +459,13 @@
             邀请码（自动生成）
             </summary>
         </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.AreaManager.GetFullAreaName(System.Int32)">
+            <summary>
+            根据Id获取完整区域名称
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.Add(FireProtectionV1.Enterprise.Dto.AddFireUnitInput)">
             <summary>
             添加防火单位（同时会添加防火单位管理员账号）
@@ -481,6 +508,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.IAreaManager.GetFullAreaName(System.Int32)">
+            <summary>
+            根据Id获取完整区域名称
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.Add(FireProtectionV1.Enterprise.Dto.AddFireUnitInput)">
             <summary>
             添加防火单位（同时会添加防火单位管理员账号）
@@ -491,6 +525,76 @@
         <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.GetFireUnitInfo(FireProtectionV1.Enterprise.Dto.GetFireUnitInfoInput)">
             <summary>
             防火单位信息
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.ISafeUnitManager.Add(FireProtectionV1.Enterprise.Dto.AddSafeUnitInput)">
+            <summary>
+            添加
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.ISafeUnitManager.Update(FireProtectionV1.Enterprise.Dto.UpdateSafeUnitInput)">
+            <summary>
+            修改
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.ISafeUnitManager.Delete(System.Int32)">
+            <summary>
+            删除
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.ISafeUnitManager.GetById(System.Int32)">
+            <summary>
+            获取单个实体信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.ISafeUnitManager.GetList(FireProtectionV1.Enterprise.Dto.GetSafeUnitListInput)">
+            <summary>
+            分页列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.SafeUnitManager.Add(FireProtectionV1.Enterprise.Dto.AddSafeUnitInput)">
+            <summary>
+            新增
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.SafeUnitManager.Delete(System.Int32)">
+            <summary>
+            删除
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.SafeUnitManager.GetById(System.Int32)">
+            <summary>
+            获取单个信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.SafeUnitManager.GetList(FireProtectionV1.Enterprise.Dto.GetSafeUnitListInput)">
+            <summary>
+            分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.SafeUnitManager.Update(FireProtectionV1.Enterprise.Dto.UpdateSafeUnitInput)">
+            <summary>
+            修改
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -532,7 +636,7 @@
         </member>
         <member name="P:FireProtectionV1.Enterprise.Model.FireUnit.AreaId">
             <summary>
-            防火单位区域
+            所属区域
             </summary>
         </member>
         <member name="P:FireProtectionV1.Enterprise.Model.FireUnit.ContractName">
@@ -588,6 +692,61 @@
         <member name="P:FireProtectionV1.Enterprise.Model.SafeUnit.InvitationCode">
             <summary>
             邀请码（自动生成）
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.HydrantCore.Model.Hydrant">
+            <summary>
+            市政消火栓网关
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.Hydrant.Sn">
+            <summary>
+            设施编号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.Hydrant.AreaId">
+            <summary>
+            所属区域（街道）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.Hydrant.Address">
+            <summary>
+            地址
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.Hydrant.Lng">
+            <summary>
+            经度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.Hydrant.Lat">
+            <summary>
+            纬度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.Hydrant.Status">
+            <summary>
+            网关状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.HydrantAlarm.Title">
+            <summary>
+            报警事件标题
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.HydrantCore.Model.HydrantPressure">
+            <summary>
+            市政消火栓水压
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.HydrantPressure.HydrantId">
+            <summary>
+            消火栓Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.HydrantPressure.Pressure">
+            <summary>
+            水压数值
             </summary>
         </member>
         <member name="T:FireProtectionV1.Infrastructure.Model.Area">
@@ -682,35 +841,35 @@
         </member>
         <member name="M:FireProtectionV1.MiniFireStationCore.Manager.IMiniFireStationManager.Add(FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireStationInput)">
             <summary>
-            添加微型消防站
+            添加
             </summary>
             <param name="input"></param>
             <returns></returns> 
         </member>
         <member name="M:FireProtectionV1.MiniFireStationCore.Manager.IMiniFireStationManager.Update(FireProtectionV1.MiniFireStationCore.Dto.UpdateMiniFireStationInput)">
             <summary>
-            修改微型消防站
+            修改
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.MiniFireStationCore.Manager.IMiniFireStationManager.Delete(System.Int32)">
             <summary>
-            删除微型消防站
+            删除
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.MiniFireStationCore.Manager.IMiniFireStationManager.GetById(System.Int32)">
             <summary>
-            获取单个微型消防站信息
+            获取单个实体信息
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.MiniFireStationCore.Manager.IMiniFireStationManager.GetList(FireProtectionV1.MiniFireStationCore.Dto.GetMiniFireStationListInput)">
             <summary>
-            微型消防站分页列表
+            分页列表
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -804,6 +963,143 @@
         <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireStation.Lat">
             <summary>
             纬度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetEventByIdOutput.StreetGridName">
+            <summary>
+            网格名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetEventByIdOutput.Street">
+            <summary>
+            所属街道
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetEventByIdOutput.ContractName">
+            <summary>
+            联系人
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetEventByIdOutput.ContractPhone">
+            <summary>
+            联系电话
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetEventByIdOutput.Remark">
+            <summary>
+            事件描述
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetStreeGridEventListOutput.StreeGridName">
+            <summary>
+            网格名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetStreeGridEventListOutput.Street">
+            <summary>
+            所属街道
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetStreetGridEventListInput.Status">
+            <summary>
+            事件状态
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.StreetGridCore.Manager.IStreetGridEventManager.GetList(FireProtectionV1.StreetGridCore.Dto.GetStreetGridEventListInput)">
+            <summary>
+            分页列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.StreetGridCore.Manager.IStreetGridEventManager.GetEventById(System.Int32)">
+            <summary>
+            获取单个实体信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.StreetGridCore.Manager.IStreetGridManager.GetList(FireProtectionV1.StreetGridCore.Dto.GetStreetGridListInput)">
+            <summary>
+            分页列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.StreetGridCore.Manager.StreetGridEventManager.GetEventById(System.Int32)">
+            <summary>
+            获取单个实体信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.StreetGridCore.Manager.StreetGridEventManager.GetList(FireProtectionV1.StreetGridCore.Dto.GetStreetGridEventListInput)">
+            <summary>
+            分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.StreetGridCore.Manager.StreetGridManager.GetList(FireProtectionV1.StreetGridCore.Dto.GetStreetGridListInput)">
+            <summary>
+            分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGrid.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGrid.Street">
+            <summary>
+            所属街道
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGrid.ContractName">
+            <summary>
+            联系人
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGrid.ContractPhone">
+            <summary>
+            联系电话
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGridEvent.Title">
+            <summary>
+            事件标题
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGridEvent.EventType">
+            <summary>
+            事件类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGridEvent.StreetGridId">
+            <summary>
+            街道网格Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGridEvent.Community">
+            <summary>
+            所属社区
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGridEvent.Status">
+            <summary>
+            事件状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGridEventRemark.StreetGridEventId">
+            <summary>
+            事件Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGridEventRemark.Remark">
+            <summary>
+            事件描述
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Dto.DeptUserLoginInput.Account">

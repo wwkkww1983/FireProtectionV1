@@ -18,4 +18,19 @@ namespace FireProtectionV1.Common.Enum
         /// </summary>
         Disabled = 2
     }
+
+    /// <summary>
+    /// 网关状态
+    /// </summary>
+    public enum GatewayStatus
+    {
+        /// <summary>
+        /// 离线
+        /// </summary>
+        Offline = 0,
+        /// <summary>
+        /// 在线
+        /// </summary>
+        Online = 1
+    }
 }

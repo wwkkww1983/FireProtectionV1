@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace FireProtectionV1.AppService
 {
+    /// <summary>
+    /// 微型消防站
+    /// </summary>
     public class MiniFireStationAppService : AppServiceBase
     {
         IMiniFireStationManager _manager;

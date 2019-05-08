@@ -29,7 +29,7 @@ namespace FireProtectionV1.Enterprise.Model
         [Required]
         public int TypeId { get; set; }
         /// <summary>
-        /// 防火单位区域
+        /// 所属区域
         /// </summary>
         [Required]
         public int AreaId { get; set; }
