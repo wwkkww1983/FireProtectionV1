@@ -37,8 +37,4 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="HydrantCore\Dto\" />
-    <Folder Include="HydrantCore\Manager\" />
-  </ItemGroup>
 </Project>

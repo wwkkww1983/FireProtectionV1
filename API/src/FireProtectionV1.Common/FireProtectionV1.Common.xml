@@ -129,6 +129,11 @@
             网关状态
             </summary>
         </member>
+        <member name="F:FireProtectionV1.Common.Enum.GatewayStatus.Unusual">
+            <summary>
+            异常（表示当前在线但有故障，例如消火栓的水压偏低）
+            </summary>
+        </member>
         <member name="F:FireProtectionV1.Common.Enum.GatewayStatus.Offline">
             <summary>
             离线

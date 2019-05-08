@@ -25,6 +25,10 @@ namespace FireProtectionV1.Common.Enum
     public enum GatewayStatus
     {
         /// <summary>
+        /// 异常（表示当前在线但有故障，例如消火栓的水压偏低）
+        /// </summary>
+        Unusual = -1,
+        /// <summary>
         /// 离线
         /// </summary>
         Offline = 0,
