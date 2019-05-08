@@ -124,6 +124,21 @@
             已停用
             </summary>
         </member>
+        <member name="T:FireProtectionV1.Common.Enum.GatewayStatus">
+            <summary>
+            网关状态
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.GatewayStatus.Offline">
+            <summary>
+            离线
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.GatewayStatus.Online">
+            <summary>
+            在线
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.Common.Helper.MD5Encrypt">
             <summary>
             不可逆加密

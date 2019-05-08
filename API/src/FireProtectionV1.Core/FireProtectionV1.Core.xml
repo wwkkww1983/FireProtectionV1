@@ -559,6 +559,61 @@
             邀请码（自动生成）
             </summary>
         </member>
+        <member name="T:FireProtectionV1.HydrantCore.Model.Hydrant">
+            <summary>
+            市政消火栓网关
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.Hydrant.Sn">
+            <summary>
+            设施编号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.Hydrant.AreaId">
+            <summary>
+            所属区域（街道）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.Hydrant.Address">
+            <summary>
+            地址
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.Hydrant.Lng">
+            <summary>
+            经度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.Hydrant.Lat">
+            <summary>
+            纬度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.Hydrant.Status">
+            <summary>
+            网关状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.HydrantAlarm.Title">
+            <summary>
+            报警事件标题
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.HydrantCore.Model.HydrantPressure">
+            <summary>
+            市政消火栓水压
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.HydrantPressure.HydrantId">
+            <summary>
+            消火栓Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.HydrantPressure.Pressure">
+            <summary>
+            水压数值
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.Infrastructure.Model.Area">
             <summary>
             区域表
