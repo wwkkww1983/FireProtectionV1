@@ -21,5 +21,10 @@ namespace FireProtectionV1.Alarm.Model
         /// </summary>
         [Required]
         public int FireUnitId { get; set; }
+        /// <summary>
+        /// 网关状态
+        /// </summary>
+        [MaxLength(10)]
+        public string NetworkState { get; set; }
     }
 }

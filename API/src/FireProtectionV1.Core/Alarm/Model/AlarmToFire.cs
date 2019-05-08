@@ -25,15 +25,9 @@ namespace FireProtectionV1.Alarm.Model
         [Required]
         public int FireUnitId { get; set; }
         /// <summary>
-        /// 数据采集设备Id
+        /// 探测器Id
         /// </summary>
         [Required]
-        public int CollectDeviceId { get; set; }
-        /// <summary>
-        /// 终端设备sn号
-        /// </summary>
-        [Required]
-        [MaxLength(StringType.Short)]
-        public string TerminalDeviceSn { get; set; }
+        public int DetectorId { get; set; }
     }
 }

@@ -14,6 +14,46 @@
             防火单位Id
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Alarm.Dto.GetFireUnitAlarmOutput.ElecPointsCount">
+            <summary>
+            （安全用电）管控点位
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Dto.GetFireUnitAlarmOutput.ElecState">
+            <summary>
+            （安全用电）网关状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Dto.GetFireUnitAlarmOutput.Elec30DayNum">
+            <summary>
+            （安全用电）最近30天报警次数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Dto.GetFireUnitAlarmOutput.ElecHighCount">
+            <summary>
+            （安全用电）高频报警部件数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Dto.GetFireUnitAlarmOutput.FirePointsCount">
+            <summary>
+            （火警预警）管控点位
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Dto.GetFireUnitAlarmOutput.FireState">
+            <summary>
+            （火警预警）网关状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Dto.GetFireUnitAlarmOutput.Fire30DayNum">
+            <summary>
+            （火警预警）最近30天报警次数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Dto.GetFireUnitAlarmOutput.FireHighCount">
+            <summary>
+            （火警预警）高频报警部件数量
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Alarm.Dto.GetFireUnitHighFreqAlarmEleInput.Id">
             <summary>
             防火单位Id
@@ -64,14 +104,9 @@
             防火单位Id
             </summary>
         </member>
-        <member name="P:FireProtectionV1.Alarm.Model.AlarmToFire.CollectDeviceId">
+        <member name="P:FireProtectionV1.Alarm.Model.AlarmToFire.DetectorId">
             <summary>
-            数据采集设备Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Alarm.Model.AlarmToFire.TerminalDeviceSn">
-            <summary>
-            终端设备sn号
+            探测器Id
             </summary>
         </member>
         <member name="P:FireProtectionV1.Alarm.Model.AlarmToGas.CurrentData">
@@ -114,6 +149,11 @@
             防火单位Id
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Alarm.Model.ControllerElectric.NetworkState">
+            <summary>
+            网关状态
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.Alarm.Model.ControllerFire">
             <summary>
             火警预警控制器
@@ -127,6 +167,11 @@
         <member name="P:FireProtectionV1.Alarm.Model.ControllerFire.FireUnitId">
             <summary>
             防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Alarm.Model.ControllerFire.NetworkState">
+            <summary>
+            网关状态
             </summary>
         </member>
         <member name="T:FireProtectionV1.Alarm.Model.DetectorElectric">

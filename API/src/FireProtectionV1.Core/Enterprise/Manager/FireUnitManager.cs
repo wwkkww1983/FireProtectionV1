@@ -11,6 +11,7 @@ using Abp.Runtime.Caching;
 using FireProtectionV1.Alarm.Dto;
 using FireProtectionV1.Alarm.Model;
 using FireProtectionV1.Common.DBContext;
+using FireProtectionV1.Configuration;
 using FireProtectionV1.Enterprise.Dto;
 using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.Infrastructure.Model;
@@ -21,6 +22,8 @@ namespace FireProtectionV1.Enterprise.Manager
 {
     public class FireUnitManager : DomainService, IFireUnitManager
     {
+        IRepository<ControllerElectric> _controllerElectricR;
+        IRepository<DetectorElectric> _detectorElectricR;
         IRepository<ControllerFire> _controllerFireR;
         IRepository<DetectorFire> _detectorFireR;
         IRepository<AlarmToFire> _alarmToFireR;
@@ -33,6 +36,8 @@ namespace FireProtectionV1.Enterprise.Manager
         IAreaManager _areaManager;
         ICacheManager _cacheManager;
         public FireUnitManager(
+            IRepository<ControllerElectric> controllerElectricR,
+            IRepository<DetectorElectric> detectorElectricR,
             IRepository<DetectorFire> detectorFireR,
             IRepository<AlarmToFire> alarmToFireR,
             IRepository<AlarmToElectric> alarmToElectricR,
@@ -44,6 +49,8 @@ namespace FireProtectionV1.Enterprise.Manager
             ICacheManager cacheManager
             )
         {
+            _controllerElectricR = controllerElectricR;
+            _detectorElectricR = detectorElectricR;
             _detectorFireR = detectorFireR;
             _alarmToElectricR = alarmToElectricR;
             _alarmToFireR = alarmToFireR;
@@ -136,20 +143,46 @@ namespace FireProtectionV1.Enterprise.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<GetFireUnitAlarmOutput> GetFireUnitAlarm(GetFireUnitAlarmInput input)
+        public async Task<GetFireUnitAlarmOutput> GetFireUnitAlarm(GetFireUnitAlarmInput input)
         {
-            throw new NotImplementedException();
-            //var a = _alarmToElectricR.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime > DateTime.Now.Date.AddDays(-30));
-            //int count = a.Count();
-            //int hCount = a.GroupBy(p => p.DetectorId).Where(p => p.Count() > 5).Count();
-            //int pointCount = from det in _detectorFireR.GetAll()
-            //                join con in _controllerFireR.GetAll().Where(p => p.FireUnitId == input.Id)
-            //                on det.ControllerId equals con.Id 
-            //                select new
-            //                {
+            //throw new NotImplementedException();
+            GetFireUnitAlarmOutput o = new GetFireUnitAlarmOutput();
+            int highreq = int.Parse(ConfigHelper.Configuration["FireDomain:HighFreqAlarm"]);
+            await Task.Run(() =>
+            {
+                var alarmElec = _alarmToElectricR.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime > DateTime.Now.Date.AddDays(-30));
+                o.Elec30DayNum = alarmElec.Count();
+                o.ElecHighCount = alarmElec.GroupBy(p => p.DetectorId).Where(p => p.Count() > highreq).Count();
+                o.ElecPointsCount = (from det in _detectorElectricR.GetAll()
+                                     join con in _controllerElectricR.GetAll().Where(p => p.FireUnitId == input.Id)
+                                     on det.ControllerId equals con.Id
+                                     select det.Id).Count();
+                var netStates = _controllerElectricR.GetAll().Where(p => p.FireUnitId == input.Id).Select(p => p.NetworkState);
+                int netStatesCount = netStates.Count();
+                if (netStatesCount > 0)
+                {
+                    o.ElecState = netStates.First();
+                    if (netStatesCount > 1)
+                        o.ElecState = $"{o.ElecState}({netStates.Select(p => p.Equals(o.ElecState)).Count()}/{netStatesCount})";
+                }
 
-            //                }
-
+                var alarmFire = _alarmToFireR.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime > DateTime.Now.Date.AddDays(-30));
+                o.Fire30DayNum = alarmFire.Count();
+                o.FireHighCount = alarmFire.GroupBy(p => p.DetectorId).Where(p => p.Count() > highreq).Count();
+                o.FirePointsCount = (from det in _detectorFireR.GetAll()
+                                     join con in _controllerFireR.GetAll().Where(p => p.FireUnitId == input.Id)
+                                     on det.ControllerId equals con.Id
+                                     select det.Id).Count();
+                 netStates = _controllerFireR.GetAll().Where(p => p.FireUnitId == input.Id).Select(p => p.NetworkState);
+                 netStatesCount = netStates.Count();
+                if (netStatesCount > 0)
+                {
+                    o.FireState = netStates.First();
+                    if (netStatesCount > 1)
+                        o.FireState = $"{o.FireState}({netStates.Select(p => p.Equals(o.FireState)).Count()}/{netStatesCount})";
+                }
+            });
+            return o;
         }
     }
 }
