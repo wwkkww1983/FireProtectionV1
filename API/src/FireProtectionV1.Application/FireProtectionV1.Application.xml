@@ -116,6 +116,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:FireProtectionV1.AppService.MiniFireStationAppService">
+            <summary>
+            微型消防站
+            </summary>
+        </member>
         <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.Add(FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireStationInput)">
             <summary>
             新增
@@ -155,6 +160,72 @@
         <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.Update(FireProtectionV1.MiniFireStationCore.Dto.UpdateMiniFireStationInput)">
             <summary>
             修改
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FireProtectionV1.AppService.SafeUnitAppService">
+            <summary>
+            维保单位
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.Add(FireProtectionV1.Enterprise.Dto.AddSafeUnitInput)">
+            <summary>
+            新增
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.Update(FireProtectionV1.Enterprise.Dto.UpdateSafeUnitInput)">
+            <summary>
+            修改
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.Delete(System.Int32)">
+            <summary>
+            删除
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.GetById(System.Int32)">
+            <summary>
+            获取单个实体信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.GetList(FireProtectionV1.Enterprise.Dto.GetSafeUnitListInput)">
+            <summary>
+            分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FireProtectionV1.AppService.StreetGridAppService">
+            <summary>
+            网格
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.AppService.StreetGridAppService.GetList(FireProtectionV1.StreetGridCore.Dto.GetStreetGridListInput)">
+            <summary>
+            分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.StreetGridEventAppService.GetEventById(System.Int32)">
+            <summary>
+            获取单个实体信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.StreetGridEventAppService.GetList(FireProtectionV1.StreetGridCore.Dto.GetStreetGridEventListInput)">
+            <summary>
+            分页
             </summary>
             <param name="input"></param>
             <returns></returns>

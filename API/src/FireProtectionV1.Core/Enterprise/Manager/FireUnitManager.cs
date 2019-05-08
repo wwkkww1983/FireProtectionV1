@@ -26,21 +26,21 @@ namespace FireProtectionV1.Enterprise.Manager
         IRepository<AlarmToFire> _alarmToFireR;
         IRepository<AlarmToElectric> _alarmToElectricR;
         IRepository<SafeUnit> _safeUnitR;
-        IRepository<Area> _areaR;
         IRepository<FireUnitType> _fireUnitTypeR;
         IRepository<FireUnit> _fireUnitR;
         IRepository<FireUnitUser> _fireUnitAccountRepository;
         IFireUnitUserManager _fireUnitAccountManager;
+        IAreaManager _areaManager;
         ICacheManager _cacheManager;
         public FireUnitManager(
             IRepository<DetectorFire> detectorFireR,
             IRepository<AlarmToFire> alarmToFireR,
             IRepository<AlarmToElectric> alarmToElectricR,
             IRepository<SafeUnit> safeUnitR,
-            IRepository<Area> areaR,
             IRepository<FireUnitType> fireUnitTypeR,
             IRepository<FireUnit> fireUnitInfoRepository, IRepository<FireUnitUser> fireUnitAccountRepository,
             IFireUnitUserManager fireUnitAccountManager,
+            IAreaManager areaManager,
             ICacheManager cacheManager
             )
         {
@@ -48,11 +48,11 @@ namespace FireProtectionV1.Enterprise.Manager
             _alarmToElectricR = alarmToElectricR;
             _alarmToFireR = alarmToFireR;
             _safeUnitR = safeUnitR;
-            _areaR = areaR;
             _fireUnitTypeR = fireUnitTypeR;
             _fireUnitR = fireUnitInfoRepository;
             _fireUnitAccountRepository = fireUnitAccountRepository;
             _fireUnitAccountManager = fireUnitAccountManager;
+            _areaManager = areaManager;
             _cacheManager = cacheManager;
         }
 
@@ -80,7 +80,7 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <returns></returns>
         public async Task Update(UpdateFireUnitInput input)
         {
-            
+
         }
 
         /// <summary>
@@ -96,19 +96,8 @@ namespace FireProtectionV1.Enterprise.Manager
             {
                 o.Name = f.Name;
                 o.Address = f.Address;
-                var a =await _areaR.SingleAsync(p => p.Id.Equals(f.AreaId));
-                if(a!=null)
-                {
-                    var codes = a.AreaPath.Split('-');
-                    o.Area = "";
-                    foreach(var code in codes)
-                    {
-                        var area = await _areaR.SingleAsync(p => p.AreaCode.Equals(code));
-                        o.Area += area.Name;
-                    }
-
-                }
-                var type =await _fireUnitTypeR.SingleAsync(p => p.Id == f.TypeId);
+                o.Area = await _areaManager.GetFullAreaName(f.AreaId);
+                var type = await _fireUnitTypeR.SingleAsync(p => p.Id == f.TypeId);
                 if (type != null)
                     o.Type = type.Name;
                 if (f.SafeUnitId != 0)
@@ -160,7 +149,7 @@ namespace FireProtectionV1.Enterprise.Manager
             //                {
 
             //                }
-                
+
         }
     }
 }
