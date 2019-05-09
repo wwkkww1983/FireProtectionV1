@@ -1,7 +1,9 @@
 ﻿using Abp.Domain.Repositories;
 using FireProtectionV1.Configuration;
+using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
+using FireProtectionV1.Infrastructure.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,8 @@ namespace FireProtectionV1.FireWorking.Manager
 {
     public class FireWorkingManager
     {
+        IRepository<FireUnitType> _fireUnitTypeRep;
+        IRepository<FireUnit> _fireUnitRep;
         IRepository<Duty> _dutyRep;
         IRepository<DataToPatrol> _patrolRep;
         IRepository<Fault> _faultRep;
@@ -21,7 +25,10 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<DetectorFire> _detectorFireRep;
         IRepository<AlarmToFire> _alarmToFireRep;
         IRepository<AlarmToElectric> _alarmToElectricRep;
-        public FireWorkingManager(IRepository<Duty> dutyRep,
+        public FireWorkingManager(
+            IRepository<FireUnitType> fireUnitTypeRep,
+            IRepository<FireUnit> fireUnitRep,
+            IRepository<Duty> dutyRep,
             IRepository<DataToPatrol> patrolRep,
             IRepository<Fault> faultRep,
             IRepository<ControllerFire> controllerFireRep,
@@ -31,6 +38,8 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<AlarmToFire> alarmToFireR,
             IRepository<AlarmToElectric> alarmToElectricR)
         {
+            _fireUnitTypeRep = fireUnitTypeRep;
+            _fireUnitRep = fireUnitRep;
             _dutyRep = dutyRep;
             _patrolRep = patrolRep;
             _faultRep = faultRep;
@@ -156,6 +165,24 @@ namespace FireProtectionV1.FireWorking.Manager
                 //安全用电数据：管控点位数量、网关状态、最近30天报警次数（可查）、高频报警部件数量（可查）
                 var alarmElec = _alarmToElectricRep.GetAll().Where(p => p.CreationTime >= DateTime.Now.Date.AddDays(-30));
                 output.JoinFireUnitCount = alarmElec.Count();
+                var joinTypeCounts = from a in _controllerElectricRep.GetAll()
+                        join b in _fireUnitRep.GetAll()
+                        on a.FireUnitId equals b.Id
+                        group b.TypeId by new { b.Id, b.TypeId } into g
+                        join c in _fireUnitTypeRep.GetAll()
+                        on g.Key.TypeId equals c.Id
+                        group g.Count() by c.Name into g2
+                        select new JoinTypeCount()
+                        {
+                            Type = g2.Key,
+                            Count = g2.FirstOrDefault()
+                        };
+                output.JoinTypeCounts = joinTypeCounts.ToArray();
+                var offlineFireUnits = from a in _controllerElectricRep.GetAll().Where(p => p.Status == Common.Enum.GatewayStatus.Offline)
+                         join b in _fireUnitRep.GetAll()
+                         on a.FireUnitId equals b.Id
+                         select new OfflineFireUnit (){ Name= b.Name,Time=a.StatusChangeTime.ToString("yyyy-MM-dd") };
+                output.OfflineFireUnits = offlineFireUnits.ToArray();
             });
             return output;
         }

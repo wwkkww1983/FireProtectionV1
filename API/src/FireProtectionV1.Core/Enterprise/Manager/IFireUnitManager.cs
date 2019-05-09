@@ -24,5 +24,7 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<GetFireUnitInfoOutput> GetFireUnitInfo(GetFireUnitInfoInput input);
+        Task<PagedResultDto<GetFireUnitListOutput>> GetFireUnitList(GetFireUnitListInput input);
+        Task<PagedResultDto<GetFireUnitListForMobileOutput>> GetFireUnitListForMobile(GetFireUnitListInput input);
     }
 }

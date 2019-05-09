@@ -10,7 +10,5 @@ namespace FireProtectionV1.Enterprise.Manager
 {
     public interface IFireDeptManager : IDomainService
     {
-        Task<PagedResultDto<GetFireUnitListOutput>> GetFireUnitList(GetFireUnitListInput input);
-        Task<PagedResultDto<GetFireUnitListForMobileOutput>> GetFireUnitListForMobile(GetFireUnitListInput input);
     }
 }

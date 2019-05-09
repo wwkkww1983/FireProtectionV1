@@ -362,6 +362,11 @@
             联网防火单位类型数量分布
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetAreasAlarmElectricOutput.OfflineFireUnits">
+            <summary>
+            网关离线单位
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.JoinTypeCount.Type">
             <summary>
             防火单位类型
@@ -370,6 +375,16 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.JoinTypeCount.Count">
             <summary>
             防火单位类型数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.OfflineFireUnit.Name">
+            <summary>
+            防火单位名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.OfflineFireUnit.Time">
+            <summary>
+            离线时间
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnit30DayAlarmEleInput.Id">
@@ -648,6 +663,11 @@
             网关状态
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.ControllerElectric.StatusChangeTime">
+            <summary>
+            网关状态改变时间
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.FireWorking.Model.ControllerFire">
             <summary>
             火警预警控制器
@@ -666,6 +686,11 @@
         <member name="P:FireProtectionV1.FireWorking.Model.ControllerFire.Status">
             <summary>
             网关状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.ControllerFire.StatusChangeTime">
+            <summary>
+            网关状态改变时间
             </summary>
         </member>
         <member name="T:FireProtectionV1.FireWorking.Model.Duty">

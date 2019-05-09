@@ -15,7 +15,12 @@ namespace FireProtectionV1.FireWorking.Dto
         /// 联网防火单位类型数量分布
         /// </summary>
         public JoinTypeCount[] JoinTypeCounts { get; set; }
+        /// <summary>
+        /// 网关离线单位
+        /// </summary>
+        public OfflineFireUnit[] OfflineFireUnits { get; set; }
     }
+
     public class JoinTypeCount
     {
         /// <summary>
@@ -26,5 +31,16 @@ namespace FireProtectionV1.FireWorking.Dto
         /// 防火单位类型数量
         /// </summary>
         public int Count { get; set; }
+    }
+    public class OfflineFireUnit
+    {
+        /// <summary>
+        /// 防火单位名称
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// 离线时间
+        /// </summary>
+        public string Time { get; set; }
     }
 }

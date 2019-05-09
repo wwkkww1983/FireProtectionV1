@@ -15,23 +15,6 @@ namespace FireProtectionV1.AppService
         {
             _manager = manager;
         }
-        /// <summary>
-        /// 防火单位分页列表
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public async Task<PagedResultDto<GetFireUnitListOutput>> GetFireUnitList(GetFireUnitListInput input)
-        {
-            return await _manager.GetFireUnitList(input);
-        }
-        /// <summary>
-        /// 防火单位分页列表(手机端)
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public async Task<PagedResultDto<GetFireUnitListForMobileOutput>> GetFireUnitListForMobile(GetFireUnitListInput input)
-        {
-            return await _manager.GetFireUnitListForMobile(input);
-        }
+
     }
 }
