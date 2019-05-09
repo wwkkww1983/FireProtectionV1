@@ -9,20 +9,6 @@
             Derive your application services from this class.
             </summary>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireDeptAppService.GetFireUnitList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
-            <summary>
-            防火单位分页列表
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.AppService.FireDeptAppService.GetFireUnitListForMobile(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
-            <summary>
-            防火单位分页列表(手机端)
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
         <member name="T:FireProtectionV1.AppService.FireDeptUserAppService">
             <summary>
             消防部门用户接口
@@ -46,6 +32,20 @@
             <summary>
             防火单位服务
             </summary>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+            <summary>
+            防火单位分页列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitListForMobile(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+            <summary>
+            防火单位分页列表(手机端)
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.FireUnitAppService.Add(FireProtectionV1.Enterprise.Dto.AddFireUnitInput)">
             <summary>

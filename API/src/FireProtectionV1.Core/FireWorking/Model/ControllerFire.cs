@@ -26,5 +26,9 @@ namespace FireProtectionV1.FireWorking.Model
         /// 网关状态
         /// </summary>
         public GatewayStatus Status { get; set; }
+        /// <summary>
+        /// 网关状态改变时间
+        /// </summary>
+        public DateTime StatusChangeTime { get; set; }
     }
 }
