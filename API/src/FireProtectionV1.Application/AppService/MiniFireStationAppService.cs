@@ -2,6 +2,7 @@
 using FireProtectionV1.MiniFireStationCore.Dto;
 using FireProtectionV1.MiniFireStationCore.Manager;
 using FireProtectionV1.MiniFireStationCore.Model;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -36,6 +37,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [HttpPost]
         public async Task Delete(int id)
         {
             await _manager.Delete(id);
@@ -77,6 +79,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [HttpPost]
         public async Task Update(UpdateMiniFireStationInput input)
         {
             await _manager.Update(input);

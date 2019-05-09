@@ -2,6 +2,7 @@
 using FireProtectionV1.Enterprise.Dto;
 using FireProtectionV1.Enterprise.Manager;
 using FireProtectionV1.Enterprise.Model;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -36,6 +37,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [HttpPost]
         public async Task Update(UpdateSafeUnitInput input)
         {
             await _manager.Update(input);
@@ -46,6 +48,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [HttpPost]
         public async Task Delete(int id)
         {
             await _manager.Delete(id);
