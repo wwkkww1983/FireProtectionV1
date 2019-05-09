@@ -37,4 +37,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SettingCore\Dto\" />
+  </ItemGroup>
 </Project>

@@ -1272,6 +1272,77 @@
             纬度
             </summary>
         </member>
+        <member name="M:FireProtectionV1.SettingCore.Manager.FireSettingManager.GetAllSetting">
+            <summary>
+            获取所有设置
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.SettingCore.Manager.FireSettingManager.GetByName(System.String)">
+            <summary>
+            根据设置名获取某一具体设置
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.SettingCore.Manager.FireSettingManager.SaveSetting(System.Collections.Generic.List{FireProtectionV1.SettingCore.Model.FireSetting})">
+            <summary>
+            保存设置
+            </summary>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.SettingCore.Manager.FireSettingManager.InitSetting">
+            <summary>
+            设置初始化
+            MinValue、MaxValue都是数值型，有的设置只有下限值或只有上限值
+            因此约定：MaxValue=10000表示无上限值，MinValue=-10000表示无下限值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.SettingCore.Manager.IFireSettingManager.SaveSetting(System.Collections.Generic.List{FireProtectionV1.SettingCore.Model.FireSetting})">
+            <summary>
+            保存设置
+            </summary>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.SettingCore.Manager.IFireSettingManager.GetAllSetting">
+            <summary>
+            获取所有设置
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.SettingCore.Manager.IFireSettingManager.GetByName(System.String)">
+            <summary>
+            根据设置名获取某一具体设置
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.SettingCore.Manager.IFireSettingManager.InitSetting">
+            <summary>
+            设置初始化
+            MinValue、MaxValue都是数值型，有的设置只有下限值或只有上限值
+            因此约定：MaxValue=10000表示无上限值，MinValue=-10000表示无下限值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:FireProtectionV1.SettingCore.Model.FireSetting.Name">
+            <summary>
+            设置项
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SettingCore.Model.FireSetting.MinValue">
+            <summary>
+            下限值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SettingCore.Model.FireSetting.MaxValue">
+            <summary>
+            上限值
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.StreetGridCore.Dto.GetEventByIdOutput.StreetGridName">
             <summary>
             网格名称
