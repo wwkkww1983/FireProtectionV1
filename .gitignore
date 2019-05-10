@@ -9,3 +9,6 @@
 /API/src/FireProtectionV1.EntityFrameworkCore/obj
 /API/src/FireProtectionV1.Web/bin
 /API/src/FireProtectionV1.Web/obj
+
+/API/src/FireProtectionV1.Migrator/bin
+/API/src/FireProtectionV1.Migrator/obj
