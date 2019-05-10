@@ -28,6 +28,35 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.FireSettingAppService.GetAllSetting">
+            <summary>
+            获取所有设置
+            CableTemperature:电缆温度℃ | ResidualCurrent:剩余电流mA | PoolWaterPressure:消防水池水压KPa | PoolWaterHeight:消防水池液位高度M | HydrantPressure:市政消火栓水压kPa
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireSettingAppService.GetByName(System.String)">
+            <summary>
+            根据设置名获取某一具体设置
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireSettingAppService.SaveSetting(System.Collections.Generic.List{FireProtectionV1.SettingCore.Model.FireSetting})">
+            <summary>
+            保存设置
+            </summary>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireSettingAppService.InitSetting">
+            <summary>
+            设置初始化
+            MinValue、MaxValue都是数值型，有的设置只有下限值或只有上限值
+            因此约定：MaxValue=10000表示无上限值，MinValue=-10000表示无下限值
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:FireProtectionV1.AppService.FireUnitAppService">
             <summary>
             防火单位服务
