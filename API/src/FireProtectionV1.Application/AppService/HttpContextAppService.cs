@@ -17,7 +17,7 @@ namespace FireProtectionV1.AppService
             _httpContext = httpContext;
         }
         /// <summary>
-        /// 获取混合验证码
+        /// 获取验证码
         /// </summary>
         /// <returns></returns>
         public async Task GetVerifyCode()

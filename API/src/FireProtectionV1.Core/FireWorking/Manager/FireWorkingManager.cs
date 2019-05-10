@@ -17,7 +17,7 @@ namespace FireProtectionV1.FireWorking.Manager
     {
         IRepository<FireUnitType> _fireUnitTypeRep;
         IRepository<FireUnit> _fireUnitRep;
-        IRepository<Duty> _dutyRep;
+        IRepository<DataToDuty> _dutyRep;
         IRepository<DataToPatrol> _patrolRep;
         IRepository<Fault> _faultRep;
         IRepository<Gateway> _gatewayRep;
@@ -28,7 +28,7 @@ namespace FireProtectionV1.FireWorking.Manager
         public FireWorkingManager(
             IRepository<FireUnitType> fireUnitTypeRep,
             IRepository<FireUnit> fireUnitRep,
-            IRepository<Duty> dutyRep,
+            IRepository<DataToDuty> dutyRep,
             IRepository<DataToPatrol> patrolRep,
             IRepository<Fault> faultRep,
             IRepository<Gateway> gatewayRep,

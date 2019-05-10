@@ -24,9 +24,18 @@ namespace FireProtectionV1.AppService
         {
             _fireDeptUserManager = fireDeptUserManager;
         }
+        /// <summary>
+        /// 注销用户
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<DeptUserLogoutOutput> UserLogout(DeptUserLogoutInput input)
+        {
+            throw new NotImplementedException();
+        }
         #region PC端接口
         /// <summary>
-        /// 用户登录
+        /// 用户登录(PC端)
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -43,7 +52,17 @@ namespace FireProtectionV1.AppService
             string verifyCode = Encoding.Default.GetString(verifyValue);
             if (!verifyCode.Equals(input.VerifyCode))
                 return new DeptUserLoginOutput() { Success = false, FailCause = "验证码错误" };
-            return await _fireDeptUserManager.UserLogin(input); 
+            var output = await _fireDeptUserManager.UserLogin(input);
+            if (!output.Success)
+                return output;
+            var ci = new ClaimsIdentity();
+            ci.AddClaim(new Claim(ClaimTypes.NameIdentifier, input.Account));
+            //ci.AddClaim(new Claim("Account", input.Account));
+            //ci.AddClaim(new Claim("Password", input.Password));
+            var accessToken = CreateAccessToken(CreateJwtClaims(ci));
+            //output.Token = "test";
+            output.Token = accessToken;
+            return output;
         }
         #endregion PC端接口
 

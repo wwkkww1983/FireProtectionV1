@@ -774,27 +774,27 @@
             终端设备sn号
             </summary>
         </member>
-        <member name="T:FireProtectionV1.FireWorking.Model.Duty">
+        <member name="T:FireProtectionV1.FireWorking.Model.DataToDuty">
             <summary>
             值班记录
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.Duty.DutyPicture">
+        <member name="P:FireProtectionV1.FireWorking.Model.DataToDuty.DutyPicture">
             <summary>
             值班记录图片
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.Duty.DutyStatus">
+        <member name="P:FireProtectionV1.FireWorking.Model.DataToDuty.DutyStatus">
             <summary>
             记录状态（1、正常；2：绿色故障；3：橙色故障）
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.Duty.FireUnitId">
+        <member name="P:FireProtectionV1.FireWorking.Model.DataToDuty.FireUnitId">
             <summary>
             防火单位Id
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.Duty.FireUnitUserId">
+        <member name="P:FireProtectionV1.FireWorking.Model.DataToDuty.FireUnitUserId">
             <summary>
             防火单位用户Id
             </summary>
@@ -1820,6 +1820,11 @@
         <member name="P:FireProtectionV1.User.Dto.DeptUserLoginOutput.Token">
             <summary>
             身份令牌 
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.DeptUserLogoutOutput.Success">
+            <summary>
+            注销成功
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Dto.FireUnitUserInput.Account">

@@ -95,7 +95,7 @@ namespace FireProtectionV1.Web.Startup
 
             app.UseStaticFiles();
             app.UseSession();
-
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

@@ -352,6 +352,16 @@
             邀请码（自动生成）
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmRecord.Content">
+            <summary>
+            报警内容
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmRecord.Time">
+            <summary>
+            报警时间
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetAreasAlarmElectricOutput.JoinFireUnitCount">
             <summary>
             联网防火单位数量
@@ -359,12 +369,42 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetAreasAlarmElectricOutput.JoinTypeCounts">
             <summary>
-            联网防火单位类型数量分布
+            联网防火单位（单位类型饼状图）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetAreasAlarmElectricOutput.JoinPointCount">
+            <summary>
+            联网监控点位数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetAreasAlarmElectricOutput.JoinTypePointCounts">
+            <summary>
+            联网监控点位（单位类型柱状图）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetAreasAlarmElectricOutput.OfflineFireUnitsCount">
+            <summary>
+            网关离线单位数量
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetAreasAlarmElectricOutput.OfflineFireUnits">
             <summary>
             网关离线单位
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetAreasAlarmElectricOutput.MonthAlarmCounts">
+            <summary>
+            安全用电累计预警（最近月份流量图）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetAreasAlarmElectricOutput.Top10FireUnits">
+            <summary>
+            最近30天报警次数Top10
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.FireWorking.Dto.JoinTypeCount">
+            <summary>
+            联网防火单位（单位类型饼状图）
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.JoinTypeCount.Type">
@@ -377,6 +417,16 @@
             防火单位类型数量
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.JoinTypePointCount.Type">
+            <summary>
+            防火单位类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.JoinTypePointCount.Count">
+            <summary>
+            监控点位数量
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.OfflineFireUnit.Name">
             <summary>
             防火单位名称
@@ -387,14 +437,69 @@
             离线时间
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnit30DayAlarmEleInput.Id">
+        <member name="P:FireProtectionV1.FireWorking.Dto.MonthAlarmCount.Month">
+            <summary>
+            月份
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.MonthAlarmCount.Count">
+            <summary>
+            预警数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Top10FireUnit.Name">
+            <summary>
+            防火单位名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Top10FireUnit.PointCount">
+            <summary>
+            管控点位数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Top10FireUnit.AlarmCount">
+            <summary>
+            预警次数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetAreasAlarmFireOutput.JoinFireUnitCount">
+            <summary>
+            联网防火单位数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetAreasAlarmFireOutput.JoinTypeCounts">
+            <summary>
+            联网防火单位（单位类型饼状图）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetAreasAlarmFireOutput.OfflineFireUnitsCount">
+            <summary>
+            网关离线单位数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetAreasAlarmFireOutput.OfflineFireUnits">
+            <summary>
+            网关离线单位
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetAreasAlarmFireOutput.MonthAlarmCounts">
+            <summary>
+            火警累计预警（最近月份流量图）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetAreasAlarmFireOutput.Top10FireUnits">
+            <summary>
+            最近30天报警次数Top10
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetByFireUnitIdInput.Id">
             <summary>
             防火单位Id
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmInput.Id">
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.FireUnitName">
             <summary>
-            防火单位Id
+            防火单位名称
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.ElecPointsCount">
@@ -462,57 +567,72 @@
             值班记录最近30天数量
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitHighFreqAlarmEleInput.Id">
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput.Id">
             <summary>
             防火单位Id
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitHighFreqAlarmFireInput.Id">
+        <member name="P:FireProtectionV1.FireWorking.Dto.HighFreqAlarmDetector.Name">
             <summary>
-            防火单位Id
+            报警部件名称
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitPendingFaultInput.Id">
+        <member name="P:FireProtectionV1.FireWorking.Dto.HighFreqAlarmDetector.Time">
             <summary>
-            防火单位Id
+            最近报警时间
             </summary>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnitAlarm(FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmInput)">
+        <member name="P:FireProtectionV1.FireWorking.Dto.HighFreqAlarmDetector.Count">
+            <summary>
+            最近30天报警次数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.PendingFault.Content">
+            <summary>
+            故障事件描述
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.PendingFault.Time">
+            <summary>
+            故障时间
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnitAlarm(FireProtectionV1.FireWorking.Dto.GetByFireUnitIdInput)">
             <summary>
             防火单位消防数据
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnit30DayAlarmEle(FireProtectionV1.FireWorking.Dto.GetFireUnit30DayAlarmEleInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnit30DayAlarmEle(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             安全用电最近30天报警记录查询
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnit30DayAlarmFire(FireProtectionV1.FireWorking.Dto.GetFireUnit30DayAlarmFireInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnit30DayAlarmFire(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             火警预警最近30天报警记录查询
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnitHighFreqAlarmEle(FireProtectionV1.FireWorking.Dto.GetFireUnitHighFreqAlarmEleInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnitHighFreqAlarmEle(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             安全用电高频报警部件查询
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnitHighFreqAlarmFire(FireProtectionV1.FireWorking.Dto.GetFireUnitHighFreqAlarmFireInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnitHighFreqAlarmFire(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             火警预警高频报警部件查询
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnitPendingFault(FireProtectionV1.FireWorking.Dto.GetFireUnitPendingFaultInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnitPendingFault(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             设备设施故障待处理故障查询
             </summary>
@@ -521,52 +641,78 @@
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetAreasAlarmElectric(FireProtectionV1.FireWorking.Dto.GetAreasAlarmElectricInput)">
             <summary>
-            安全用电综合数据
+            安全用电数据分析
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnitAlarm(FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetAreasAlarmFire(FireProtectionV1.FireWorking.Dto.GetAreasAlarmFireInput)">
+            <summary>
+            火警预警数据分析
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnitAlarm(FireProtectionV1.FireWorking.Dto.GetByFireUnitIdInput)">
             <summary>
             防火单位消防数据
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnit30DayAlarmEle(FireProtectionV1.FireWorking.Dto.GetFireUnit30DayAlarmEleInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnit30DayAlarmEle(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             安全用电最近30天报警记录查询
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnit30DayAlarmFire(FireProtectionV1.FireWorking.Dto.GetFireUnit30DayAlarmFireInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnit30DayAlarmFire(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             火警预警最近30天报警记录查询
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnitHighFreqAlarmEle(FireProtectionV1.FireWorking.Dto.GetFireUnitHighFreqAlarmEleInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnitHighFreqAlarmEle(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             安全用电高频报警部件查询
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnitHighFreqAlarmFire(FireProtectionV1.FireWorking.Dto.GetFireUnitHighFreqAlarmFireInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnitHighFreqAlarmFire(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             火警预警高频报警部件查询
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnitPendingFault(FireProtectionV1.FireWorking.Dto.GetFireUnitPendingFaultInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnitPendingFault(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             设备设施故障待处理故障查询
             </summary>
             <param name="input"></param>
             <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetAreasAlarmElectric(FireProtectionV1.FireWorking.Dto.GetAreasAlarmElectricInput)">
+            <summary>
+            安全用电数据分析
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetAreasAlarmFire(FireProtectionV1.FireWorking.Dto.GetAreasAlarmFireInput)">
+            <summary>
+            火警预警数据分析
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.DetectorId">
+            <summary>
+            探测器Id
+            </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.CurrentData">
             <summary>
@@ -583,14 +729,9 @@
             防火单位Id
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.DeviceId">
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToFire.DetectorId">
             <summary>
-            设备Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.DeviceType">
-            <summary>
-            设备类型
+            探测器Id
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmToFire.AlarmTitle">
@@ -606,16 +747,6 @@
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmToFire.FireUnitId">
             <summary>
             防火单位Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToFire.DeviceId">
-            <summary>
-            设备Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToFire.DeviceType">
-            <summary>
-            设备类型
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmToGas.CurrentData">
@@ -643,77 +774,27 @@
             终端设备sn号
             </summary>
         </member>
-        <member name="T:FireProtectionV1.FireWorking.Model.ControllerElectric">
-            <summary>
-            安全用电控制器
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.ControllerElectric.Sn">
-            <summary>
-            编号
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.ControllerElectric.FireUnitId">
-            <summary>
-            防火单位Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.ControllerElectric.Status">
-            <summary>
-            网关状态
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.ControllerElectric.StatusChangeTime">
-            <summary>
-            网关状态改变时间
-            </summary>
-        </member>
-        <member name="T:FireProtectionV1.FireWorking.Model.ControllerFire">
-            <summary>
-            火警预警控制器
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.ControllerFire.Sn">
-            <summary>
-            编号
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.ControllerFire.FireUnitId">
-            <summary>
-            防火单位Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.ControllerFire.Status">
-            <summary>
-            网关状态
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.ControllerFire.StatusChangeTime">
-            <summary>
-            网关状态改变时间
-            </summary>
-        </member>
-        <member name="T:FireProtectionV1.FireWorking.Model.Duty">
+        <member name="T:FireProtectionV1.FireWorking.Model.DataToDuty">
             <summary>
             值班记录
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.Duty.DutyPicture">
+        <member name="P:FireProtectionV1.FireWorking.Model.DataToDuty.DutyPicture">
             <summary>
             值班记录图片
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.Duty.DutyStatus">
+        <member name="P:FireProtectionV1.FireWorking.Model.DataToDuty.DutyStatus">
             <summary>
             记录状态（1、正常；2：绿色故障；3：橙色故障）
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.Duty.FireUnitId">
+        <member name="P:FireProtectionV1.FireWorking.Model.DataToDuty.FireUnitId">
             <summary>
             防火单位Id
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.Duty.FireUnitUserId">
+        <member name="P:FireProtectionV1.FireWorking.Model.DataToDuty.FireUnitUserId">
             <summary>
             防火单位用户Id
             </summary>
@@ -803,34 +884,59 @@
             问题描述
             </summary>
         </member>
-        <member name="T:FireProtectionV1.FireWorking.Model.DetectorElectric">
+        <member name="T:FireProtectionV1.FireWorking.Model.Detector">
             <summary>
-            火警预警探测器
+            预警探测器
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.DetectorElectric.Name">
+        <member name="P:FireProtectionV1.FireWorking.Model.Detector.Name">
             <summary>
             名称
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.DetectorElectric.ControllerId">
+        <member name="P:FireProtectionV1.FireWorking.Model.Detector.DetectorTypeId">
             <summary>
-            火警预警控制器Id
+            探测器类型
             </summary>
         </member>
-        <member name="T:FireProtectionV1.FireWorking.Model.DetectorFire">
+        <member name="P:FireProtectionV1.FireWorking.Model.Detector.FireSysType">
             <summary>
-            火警预警探测器
+            消防系统类型
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.DetectorFire.Name">
+        <member name="P:FireProtectionV1.FireWorking.Model.Detector.GatewayId">
             <summary>
-            名称
+            网关Id
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.DetectorFire.ControllerId">
+        <member name="P:FireProtectionV1.FireWorking.Model.Detector.FireUnitId">
             <summary>
-            火警预警控制器Id
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.Detector.AlarmTime">
+            <summary>
+            最近报警时间
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.FireWorking.Model.DetectorType">
+            <summary>
+            探测器类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.DetectorType.Name">
+            <summary>
+            类型名称
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.FireWorking.Model.FireSysType.Electric">
+            <summary>
+            安全用电
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.FireWorking.Model.FireSysType.Fire">
+            <summary>
+            火警预警
             </summary>
         </member>
         <member name="T:FireProtectionV1.FireWorking.Model.Fault">
@@ -850,7 +956,7 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.Fault.ProcessState">
             <summary>
-            处理状态
+            处理状态 0:待处理,1:已处理
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.Fault.FireUnitId">
@@ -866,6 +972,31 @@
         <member name="P:FireProtectionV1.FireWorking.Model.Fault.DeviceType">
             <summary>
             设备类型
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.FireWorking.Model.Gateway">
+            <summary>
+            预警探测器
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.Gateway.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.Gateway.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.Gateway.Status">
+            <summary>
+            网关状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.Gateway.StatusChangeTime">
+            <summary>
+            网关状态改变时间
             </summary>
         </member>
         <member name="P:FireProtectionV1.HydrantCore.Dto.AddHydrantInput.Sn">
@@ -1689,6 +1820,11 @@
         <member name="P:FireProtectionV1.User.Dto.DeptUserLoginOutput.Token">
             <summary>
             身份令牌 
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.DeptUserLogoutOutput.Success">
+            <summary>
+            注销成功
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Dto.FireUnitUserInput.Account">
