@@ -10,11 +10,11 @@ namespace FireProtectionV1.Configuration
 {
     public class ConfigHelper
     {
-        public static IConfigurationRoot Configuration;
+        public static IConfiguration Configuration { get; }
+        //public static IConfigurationRoot Configuration;
         static ConfigHelper()
         {
-            IHostingEnvironment env = IocManager.Instance.Resolve<IHostingEnvironment>();
-            Configuration = AppConfigurations.Get(env.ContentRootPath, env.EnvironmentName);
+            Configuration = IocManager.Instance.Resolve<IConfiguration>();
         }
     }
 }

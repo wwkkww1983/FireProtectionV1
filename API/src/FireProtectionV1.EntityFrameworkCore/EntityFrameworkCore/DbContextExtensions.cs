@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FireProtectionV1.Configuration;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -12,6 +14,19 @@ namespace FireProtectionV1.EntityFrameworkCore
 {
     public static class DbContextExtensions
     {
+        public static void AddDbContextExtensions<TDbContext>(this IServiceCollection services, Action<DbContextOptionsBuilder> action = null) where TDbContext : DbContext
+        {
+            services.AddDbContextPool<TDbContext>((builder) =>
+            {
+                string constr = ConfigHelper.Configuration["ConnectionStrings:Default"];
+
+                builder.EnableSensitiveDataLogging();
+                builder.UseMySql(constr);
+
+                action?.Invoke(builder);
+            });
+        }
+
         private static void CombineParams(ref DbCommand command, params object[] parameters)
         {
             if (parameters != null)

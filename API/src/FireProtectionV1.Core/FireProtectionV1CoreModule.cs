@@ -5,6 +5,7 @@ using FireProtectionV1.Localization;
 
 namespace FireProtectionV1
 {
+    [DependsOn(typeof(AbpAutoMapperModule))]
     public class FireProtectionV1CoreModule : AbpModule
     {
         public override void PreInitialize()
