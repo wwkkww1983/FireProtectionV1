@@ -1505,6 +1505,162 @@
             事件描述
             </summary>
         </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSupervisionListInput.CheckResult">
+            <summary>
+            执法检查结论
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSupervisionListOutput.FireUnitName">
+            <summary>
+            防火单位名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSupervisionListOutput.CheckUser">
+            <summary>
+            检查人员
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSupervisionListOutput.CreationTime">
+            <summary>
+            检查日期
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSupervisionListOutput.CheckResult">
+            <summary>
+            检查结论
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.SupervisionCore.Manager.ISupervisionManager.GetList(FireProtectionV1.SupervisionCore.Dto.GetSupervisionListInput)">
+            <summary>
+            分页列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.SupervisionCore.Manager.ISupervisionManager.GetSupervisionItem">
+            <summary>
+            获得所有监管执法项目
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.SupervisionCore.Manager.SupervisionManager.GetList(FireProtectionV1.SupervisionCore.Dto.GetSupervisionListInput)">
+            <summary>
+            分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.SupervisionCore.Manager.SupervisionManager.GetSupervisionItem">
+            <summary>
+            获取所有监管执法项目
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:FireProtectionV1.SupervisionCore.Model.Supervision">
+            <summary>
+            监督执法记录主表
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Model.Supervision.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Model.Supervision.CheckUser">
+            <summary>
+            检查人员
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Model.Supervision.CheckResult">
+            <summary>
+            检查结论
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Model.Supervision.FireDeptUserId">
+            <summary>
+            记录提交人员Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Model.Supervision.Remark">
+            <summary>
+            其它情况说明
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Model.Supervision.DocumentSite">
+            <summary>
+            法律文书-当场
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Model.Supervision.DocumentDeadline">
+            <summary>
+            法律文书-限期
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Model.Supervision.DocumentMajor">
+            <summary>
+            法律文书-重大
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Model.Supervision.DocumentReview">
+            <summary>
+            法律文书-复查
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Model.Supervision.DocumentInspection">
+            <summary>
+            法律文书-检查意见书
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Model.Supervision.DocumentPunish">
+            <summary>
+            法律文书-处罚决定书
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.SupervisionCore.Model.SupervisionDetail">
+            <summary>
+            监督执法记录明细表
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Model.SupervisionDetail.SupervisionId">
+            <summary>
+            监督执法记录Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Model.SupervisionDetail.SupervisionItemId">
+            <summary>
+            监督执法项目Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Model.SupervisionDetail.IsOK">
+            <summary>
+            是否合格
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Model.SupervisionDetailRemark.SupervisionDetailId">
+            <summary>
+            监督执法明细Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Model.SupervisionDetailRemark.Remark">
+            <summary>
+            合格或不合格的备注信息
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.SupervisionCore.Model.SupervisionItem">
+            <summary>
+            监督执法项目
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Model.SupervisionItem.Name">
+            <summary>
+            项目名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Model.SupervisionItem.ParentId">
+            <summary>
+            父级项目Id
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.User.Dto.DeptUserLoginInput.Account">
             <summary>
             账号(测试:test)
