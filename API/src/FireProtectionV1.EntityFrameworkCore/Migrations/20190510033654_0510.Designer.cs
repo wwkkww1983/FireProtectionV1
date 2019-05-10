@@ -3,14 +3,16 @@ using System;
 using FireProtectionV1.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FireProtectionV1.Migrations
 {
     [DbContext(typeof(FireProtectionV1DbContext))]
-    partial class FireProtectionV1DbContextModelSnapshot : ModelSnapshot
+    [Migration("20190510033654_0510")]
+    partial class _0510
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,9 +118,7 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<decimal>("CurrentData");
 
-                    b.Property<int>("DeviceId");
-
-                    b.Property<byte>("DeviceType");
+                    b.Property<int>("DetectorId");
 
                     b.Property<int>("FireUnitId");
 
@@ -146,9 +146,7 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<DateTime>("CreationTime");
 
-                    b.Property<int>("DeviceId");
-
-                    b.Property<byte>("DeviceType");
+                    b.Property<int>("DetectorId");
 
                     b.Property<int>("FireUnitId");
 
@@ -203,15 +201,8 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<string>("NetworkState")
-                        .HasMaxLength(10);
-
-                    b.Property<string>("Sn")
+                    b.Property<string>("Name")
                         .HasMaxLength(20);
-
-                    b.Property<int>("Status");
-
-                    b.Property<DateTime>("StatusChangeTime");
 
                     b.HasKey("Id");
 
@@ -227,15 +218,8 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<string>("NetworkState")
-                        .HasMaxLength(10);
-
-                    b.Property<string>("Sn")
+                    b.Property<string>("Name")
                         .HasMaxLength(20);
-
-                    b.Property<int>("Status");
-
-                    b.Property<DateTime>("StatusChangeTime");
 
                     b.HasKey("Id");
 
@@ -294,12 +278,18 @@ namespace FireProtectionV1.Migrations
                     b.ToTable("Gateway");
                 });
 
-            modelBuilder.Entity("FireProtectionV1.Enterprise.Model.FireDept", b =>
+            modelBuilder.Entity("FireProtectionV1.Infrastructure.Model.Area", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("AreaId");
+                    b.Property<string>("AreaCode")
+                        .IsRequired()
+                        .HasMaxLength(10);
+
+                    b.Property<string>("AreaPath")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.Property<DateTime>("CreationTime");
 
@@ -307,58 +297,23 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<decimal>("Lat");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FireDept");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.Enterprise.Model.FireUnit", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<string>("InvitationCode")
-                        .HasMaxLength(10);
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<decimal>("Lat");
-
-                    b.Property<decimal>("Lng");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<int>("SafeUnitId");
-
-                    b.Property<int>("TypeId");
+                    b.Property<int>("ParentId");
 
                     b.HasKey("Id");
 
-                    b.ToTable("FireUnit");
+                    b.ToTable("Area");
                 });
 
-            modelBuilder.Entity("FireProtectionV1.Enterprise.Model.SafeUnit", b =>
+            modelBuilder.Entity("FireProtectionV1.Infrastructure.Model.FireUnitType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("AreaId");
-
-                    b.Property<string>("ContractName")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("ContractPhone")
-                        .HasMaxLength(20);
-
                     b.Property<DateTime>("CreationTime");
-
-                    b.Property<int>("HydrantId");
 
                     b.Property<bool>("IsDeleted");
 
@@ -368,75 +323,17 @@ namespace FireProtectionV1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SafeUnit");
+                    b.ToTable("FireUnitType");
                 });
 
-            modelBuilder.Entity("FireProtectionV1.User.Model.FireDeptUser", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Account")
-                        .IsRequired()
-                        .HasMaxLength(20);
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<int>("FireDeptId");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FireDeptUser");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.User.Model.FireUnitUser", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Account")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<int>("FireUnitInfoID");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.Property<int>("Status");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FireUnitAccount");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.User.Model.FireUnitUserRole", b =>
+            modelBuilder.Entity("FireProtectionV1.MiniFireStationCore.Model.MiniFireStation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Address");
 
-                    b.Property<string>("Contact");
+                    b.Property<string>("ContactName");
 
                     b.Property<string>("ContactPhone");
 
@@ -444,193 +341,20 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<int>("Role");
+                    b.Property<decimal>("Lat");
 
-                    b.HasKey("Id");
+                    b.Property<int>("Level");
 
-                    b.ToTable("FireUnitAccountRole");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.SettingCore.Model.FireSetting", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<double>("MaxValue");
-
-                    b.Property<double>("MinValue");
+                    b.Property<decimal>("Lng");
 
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.HasKey("Id");
-
-                    b.ToTable("FireSetting");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.StreetGridCore.Model.StreetGrid", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ContractName")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("ContractPhone")
-                        .HasMaxLength(20);
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Street")
-                        .IsRequired();
+                    b.Property<int>("PersonNum");
 
                     b.HasKey("Id");
 
-                    b.ToTable("StreetGrid");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.StreetGridCore.Model.StreetGridEvent", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Community");
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<string>("EventType");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<int>("Status");
-
-                    b.Property<int>("StreetGridId");
-
-                    b.Property<string>("Title");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StreetGridEvent");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.StreetGridCore.Model.StreetGridEventRemark", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("Remark");
-
-                    b.Property<int>("StreetGridEventId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StreetGridEventRemark");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.SupervisionCore.Model.Supervision", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("CheckResult");
-
-                    b.Property<string>("CheckUser");
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<int>("DocumentDeadline");
-
-                    b.Property<int>("DocumentInspection");
-
-                    b.Property<int>("DocumentMajor");
-
-                    b.Property<int>("DocumentPunish");
-
-                    b.Property<int>("DocumentReview");
-
-                    b.Property<int>("DocumentSite");
-
-                    b.Property<int>("FireDeptUserId");
-
-                    b.Property<int>("FireUnitId");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("Remark");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Supervision");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.SupervisionCore.Model.SupervisionDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<bool>("IsOK");
-
-                    b.Property<int>("SupervisionId");
-
-                    b.Property<int>("SupervisionItemId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SupervisionDetail");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.SupervisionCore.Model.SupervisionDetailRemark", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("Remark");
-
-                    b.Property<int>("SupervisionDetailId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SupervisionDetailRemark");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.SupervisionCore.Model.SupervisionItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("Name");
-
-                    b.Property<int>("ParentId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SupervisionItem");
+                    b.ToTable("MiniFireStation");
                 });
 
             modelBuilder.Entity("FireProtectionV1.User.Model.FireDeptUser", b =>

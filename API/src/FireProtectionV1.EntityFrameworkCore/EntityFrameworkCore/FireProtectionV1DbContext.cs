@@ -14,10 +14,10 @@ namespace FireProtectionV1.EntityFrameworkCore
 {
     public class FireProtectionV1DbContext : AbpDbContext
     {
-        public DbSet<DetectorElectric> DetectorElectric { get; set; }
-        public DbSet<DetectorFire> DetectorFire { get; set; }
-        public DbSet<ControllerFire> ControllerFire { get; set; }
-        public DbSet<ControllerElectric> ControllerElectric { get; set; }
+        public DbSet<Fault> Fault { get; set; }
+        public DbSet<DetectorType> DetectorType { get; set; }
+        public DbSet<Detector> Detector { get; set; }
+        public DbSet<Gateway> Gateway { get; set; }
         public DbSet<AlarmToGas> AlarmToGas { get; set; }
         public DbSet<AlarmToFire> AlarmToFire { get; set; }
         public DbSet<AlarmToElectric> AlarmToElectric { get; set; }

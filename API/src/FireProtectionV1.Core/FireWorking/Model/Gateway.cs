@@ -8,15 +8,15 @@ using System.Text;
 namespace FireProtectionV1.FireWorking.Model
 {
     /// <summary>
-    /// 安全用电控制器
+    /// 预警探测器
     /// </summary>
-    public class ControllerElectric : EntityBase
+    public class Gateway : EntityBase
     {
         /// <summary>
-        /// 编号
+        /// 名称
         /// </summary>
-        [MaxLength(20)]
-        public string Sn { get; set; }
+        [MaxLength(50)]
+        public string Name { get; set; }
         /// <summary>
         /// 防火单位Id
         /// </summary>
@@ -29,6 +29,6 @@ namespace FireProtectionV1.FireWorking.Model
         /// <summary>
         /// 网关状态改变时间
         /// </summary>
-        public DateTime StatusChangeTime{get;set;}
+        public DateTime StatusChangeTime { get; set; }
     }
 }

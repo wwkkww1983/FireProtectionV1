@@ -7,19 +7,25 @@ using System.Text;
 namespace FireProtectionV1.FireWorking.Model
 {
     /// <summary>
-    /// 火警预警探测器
+    /// 探测器类型
     /// </summary>
-    public class DetectorElectric : EntityBase
+    public class DetectorType : EntityBase
     {
         /// <summary>
-        /// 名称
+        /// 类型名称
         /// </summary>
         [MaxLength(20)]
         public string Name { get; set; }
+    }
+    public enum FireSysType
+    {
         /// <summary>
-        /// 火警预警控制器Id
+        /// 安全用电
         /// </summary>
-        [Required]
-        public int ControllerId { get; set; }
+        Electric = 1,
+        /// <summary>
+        /// 火警预警
+        /// </summary>
+        Fire
     }
 }
