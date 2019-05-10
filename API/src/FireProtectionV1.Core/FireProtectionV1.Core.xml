@@ -1812,6 +1812,11 @@
             登录失败原因
             </summary>
         </member>
+        <member name="P:FireProtectionV1.User.Dto.DeptUserLoginOutput.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.User.Dto.DeptUserLoginOutput.DeptName">
             <summary>
             部门名称
@@ -1825,6 +1830,11 @@
         <member name="P:FireProtectionV1.User.Dto.DeptUserLogoutOutput.Success">
             <summary>
             注销成功
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.DeptUserLogoutOutput.FailCause">
+            <summary>
+            失败原因
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Dto.FireUnitUserInput.Account">

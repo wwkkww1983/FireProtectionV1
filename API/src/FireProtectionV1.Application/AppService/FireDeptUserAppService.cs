@@ -9,6 +9,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Linq;
 using FireProtectionV1.User.Manager;
 using FireProtectionV1.User.Dto;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace FireProtectionV1.AppService
 {
@@ -31,7 +33,15 @@ namespace FireProtectionV1.AppService
         /// <returns></returns>
         public async Task<DeptUserLogoutOutput> UserLogout(DeptUserLogoutInput input)
         {
-            throw new NotImplementedException();
+            DeptUserLogoutOutput output = new DeptUserLogoutOutput();
+            if (!_httpContext.HttpContext.User.Identity.IsAuthenticated)
+            {
+                output.Success = false;
+                output.FailCause = "未认证";
+            }
+            await _httpContext.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            output.Success = true;
+            return output;
         }
         #region PC端接口
         /// <summary>
@@ -41,6 +51,7 @@ namespace FireProtectionV1.AppService
         /// <returns></returns>
         public async Task<DeptUserLoginOutput> UserLogin(PcDeptUserLoginInput input)
         {
+            //判断验证码
             if (string.IsNullOrEmpty(input.VerifyCode))
             {
                 return new DeptUserLoginOutput() { Success = false, FailCause = "请输入验证码" };
@@ -52,17 +63,8 @@ namespace FireProtectionV1.AppService
             string verifyCode = Encoding.Default.GetString(verifyValue);
             if (!verifyCode.Equals(input.VerifyCode))
                 return new DeptUserLoginOutput() { Success = false, FailCause = "验证码错误" };
-            var output = await _fireDeptUserManager.UserLogin(input);
-            if (!output.Success)
-                return output;
-            var ci = new ClaimsIdentity();
-            ci.AddClaim(new Claim(ClaimTypes.NameIdentifier, input.Account));
-            //ci.AddClaim(new Claim("Account", input.Account));
-            //ci.AddClaim(new Claim("Password", input.Password));
-            var accessToken = CreateAccessToken(CreateJwtClaims(ci));
-            //output.Token = "test";
-            output.Token = accessToken;
-            return output;
+            //登录判断
+            return await Login(input);
         }
         #endregion PC端接口
 
@@ -74,16 +76,36 @@ namespace FireProtectionV1.AppService
         /// <returns></returns>
         public async Task<DeptUserLoginOutput> UserLoginForMobile(DeptUserLoginInput input)
         {
-            var output=await _fireDeptUserManager.UserLogin(input);
+            return await Login(input);
+        }
+
+        private async Task<DeptUserLoginOutput> Login(DeptUserLoginInput input)
+        {
+            //用户名密码验证
+            var output = await _fireDeptUserManager.UserLogin(input);
             if (!output.Success)
                 return output;
-            var ci = new ClaimsIdentity(); 
-            ci.AddClaim(new Claim(ClaimTypes.NameIdentifier, input.Account));
-            //ci.AddClaim(new Claim("Account", input.Account));
-            //ci.AddClaim(new Claim("Password", input.Password));
-            var accessToken = CreateAccessToken(CreateJwtClaims(ci));
-            //output.Token = "test";
-            output.Token = accessToken;
+            //用户认证
+            var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+            identity.AddClaim(new Claim(ClaimTypes.Sid, input.Account));
+            identity.AddClaim(new Claim(ClaimTypes.Name, output.Name));
+            //identity.AddClaim(new Claim(ClaimTypes.Role, user.Role));
+            var principal = new ClaimsPrincipal(identity);
+            await _httpContext.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            //验证是否认证成功
+            if (!principal.Identity.IsAuthenticated)
+            {
+                output.Success = false;
+                output.FailCause = "认证失败";
+            }
+
+            //var ci = new ClaimsIdentity(); 
+            //ci.AddClaim(new Claim(ClaimTypes.NameIdentifier, input.Account));
+            ////ci.AddClaim(new Claim("Account", input.Account));
+            ////ci.AddClaim(new Claim("Password", input.Password));
+            //var accessToken = CreateAccessToken(CreateJwtClaims(ci));
+            ////output.Token = "test";
+            //output.Token = accessToken;
             return output;
         }
         #endregion
