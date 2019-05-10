@@ -118,21 +118,21 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireWorkingAppService.GetFireUnitHighFreqAlarmEle(FireProtectionV1.FireWorking.Dto.GetByFireUnitIdInput)">
+        <member name="M:FireProtectionV1.AppService.FireWorkingAppService.GetFireUnitHighFreqAlarmEle(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             安全用电高频报警部件查询
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireWorkingAppService.GetFireUnitHighFreqAlarmFire(FireProtectionV1.FireWorking.Dto.GetByFireUnitIdInput)">
+        <member name="M:FireProtectionV1.AppService.FireWorkingAppService.GetFireUnitHighFreqAlarmFire(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             火警预警高频报警部件查询
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireWorkingAppService.GetFireUnitPendingFault(FireProtectionV1.FireWorking.Dto.GetByFireUnitIdInput)">
+        <member name="M:FireProtectionV1.AppService.FireWorkingAppService.GetFireUnitPendingFault(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             设备设施故障待处理故障查询
             </summary>

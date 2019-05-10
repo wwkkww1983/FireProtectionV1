@@ -15,7 +15,6 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<GetFireUnitAlarmOutput> GetFireUnitAlarm(GetByFireUnitIdInput input);
-        Task<GetAreasAlarmElectricOutput> GetAreasAlarmElectric(GetAreasAlarmElectricInput input);
         /// <summary>
         /// 安全用电最近30天报警记录查询
         /// </summary>
@@ -35,21 +34,27 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<GetFireUnitHighFreqAlarmEleOutput> GetFireUnitHighFreqAlarmEle(GetByFireUnitIdInput input);
+        Task<PagedResultDto<HighFreqAlarmDetector>> GetFireUnitHighFreqAlarmEle(GetPageByFireUnitIdInput input);
 
         /// <summary>
         /// 火警预警高频报警部件查询
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<GetFireUnitHighFreqAlarmFireOutput> GetFireUnitHighFreqAlarmFire(GetByFireUnitIdInput input);
+        Task<PagedResultDto<HighFreqAlarmDetector>> GetFireUnitHighFreqAlarmFire(GetPageByFireUnitIdInput input);
 
         /// <summary>
         /// 设备设施故障待处理故障查询
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<GetFireUnitPendingFaultOutput> GetFireUnitPendingFault(GetByFireUnitIdInput input);
+        Task<PagedResultDto<PendingFault>> GetFireUnitPendingFault(GetPageByFireUnitIdInput input);
+        /// <summary>
+        /// 安全用电数据分析
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<GetAreasAlarmElectricOutput> GetAreasAlarmElectric(GetAreasAlarmElectricInput input);
         /// <summary>
         /// 火警预警数据分析
         /// </summary>

@@ -572,6 +572,31 @@
             防火单位Id
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.HighFreqAlarmDetector.Name">
+            <summary>
+            报警部件名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.HighFreqAlarmDetector.Time">
+            <summary>
+            最近报警时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.HighFreqAlarmDetector.Count">
+            <summary>
+            最近30天报警次数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.PendingFault.Content">
+            <summary>
+            故障事件描述
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.PendingFault.Time">
+            <summary>
+            故障时间
+            </summary>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnitAlarm(FireProtectionV1.FireWorking.Dto.GetByFireUnitIdInput)">
             <summary>
             防火单位消防数据
@@ -593,21 +618,21 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnitHighFreqAlarmEle(FireProtectionV1.FireWorking.Dto.GetByFireUnitIdInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnitHighFreqAlarmEle(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             安全用电高频报警部件查询
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnitHighFreqAlarmFire(FireProtectionV1.FireWorking.Dto.GetByFireUnitIdInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnitHighFreqAlarmFire(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             火警预警高频报警部件查询
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnitPendingFault(FireProtectionV1.FireWorking.Dto.GetByFireUnitIdInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnitPendingFault(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             设备设施故障待处理故障查询
             </summary>
@@ -649,23 +674,30 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnitHighFreqAlarmEle(FireProtectionV1.FireWorking.Dto.GetByFireUnitIdInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnitHighFreqAlarmEle(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             安全用电高频报警部件查询
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnitHighFreqAlarmFire(FireProtectionV1.FireWorking.Dto.GetByFireUnitIdInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnitHighFreqAlarmFire(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             火警预警高频报警部件查询
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnitPendingFault(FireProtectionV1.FireWorking.Dto.GetByFireUnitIdInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnitPendingFault(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             设备设施故障待处理故障查询
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetAreasAlarmElectric(FireProtectionV1.FireWorking.Dto.GetAreasAlarmElectricInput)">
+            <summary>
+            安全用电数据分析
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -882,6 +914,11 @@
             防火单位Id
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.Detector.AlarmTime">
+            <summary>
+            最近报警时间
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.FireWorking.Model.DetectorType">
             <summary>
             探测器类型
@@ -919,7 +956,7 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.Fault.ProcessState">
             <summary>
-            处理状态
+            处理状态 0:待处理,1:已处理
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.Fault.FireUnitId">

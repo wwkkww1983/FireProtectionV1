@@ -50,7 +50,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<GetFireUnitHighFreqAlarmEleOutput> GetFireUnitHighFreqAlarmEle(GetByFireUnitIdInput input)
+        public async Task<PagedResultDto<HighFreqAlarmDetector>> GetFireUnitHighFreqAlarmEle(GetPageByFireUnitIdInput input)
         {
             return await _fireWorkingManager.GetFireUnitHighFreqAlarmEle(input);
         }
@@ -59,7 +59,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<GetFireUnitHighFreqAlarmFireOutput> GetFireUnitHighFreqAlarmFire(GetByFireUnitIdInput input)
+        public async Task<PagedResultDto<HighFreqAlarmDetector>> GetFireUnitHighFreqAlarmFire(GetPageByFireUnitIdInput input)
         {
             return await _fireWorkingManager.GetFireUnitHighFreqAlarmFire(input);
         }
@@ -68,7 +68,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<GetFireUnitPendingFaultOutput> GetFireUnitPendingFault(GetByFireUnitIdInput input)
+        public async Task<PagedResultDto<PendingFault>> GetFireUnitPendingFault(GetPageByFireUnitIdInput input)
         {
             return await _fireWorkingManager.GetFireUnitPendingFault(input);
         }

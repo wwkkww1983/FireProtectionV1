@@ -166,33 +166,83 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<GetFireUnitHighFreqAlarmEleOutput> GetFireUnitHighFreqAlarmEle(GetByFireUnitIdInput input)
+        public async Task<PagedResultDto<HighFreqAlarmDetector>> GetFireUnitHighFreqAlarmEle(GetPageByFireUnitIdInput input)
         {
-            throw new NotImplementedException();
-            //var alarmFire = _alarmToElectricRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30));
-            //int highFreq = int.Parse(ConfigHelper.Configuration["FireDomain:HighFreqAlarm"]);
-            //var alarmDevices = alarmFire.GroupBy(p => new { p.DeviceId, p.DeviceType }).Where(p => p.Count() > highFreq)
-            //    .Select(p=>new { p.Key.DeviceId,p.Key.DeviceType,Count=p.Count()});
-            //var v=from a in alarmDevices
-            //      join b in 
+            var output = new PagedResultDto<HighFreqAlarmDetector>();
+            await Task.Run(() =>
+            {
+                var alarmFire = _alarmToElectricRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30));
+                int highFreq = int.Parse(ConfigHelper.Configuration["FireDomain:HighFreqAlarm"]);
+                var alarmDevices = alarmFire.GroupBy(p =>  p.DetectorId ).Where(p => p.Count() > highFreq)
+                    .Select(p => new { DetectorId = p.Key, Count = p.Count() });
+                var lstResult = from a in alarmDevices
+                                join b in _detectorRep.GetAll()
+                                on a.DetectorId equals b.Id
+                                orderby a.Count descending
+                                select new HighFreqAlarmDetector()
+                                {
+                                    Name = b.Name,
+                                    Time = b.AlarmTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                                    Count = a.Count
+                                };
+                var lst = lstResult.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+                output.TotalCount = lstResult.Count();
+                output.Items = lst;
+            });
+            return output;
         }
         /// <summary>
         /// 火警预警高频报警部件查询
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<GetFireUnitHighFreqAlarmFireOutput> GetFireUnitHighFreqAlarmFire(GetByFireUnitIdInput input)
+        public async Task<PagedResultDto<HighFreqAlarmDetector>> GetFireUnitHighFreqAlarmFire(GetPageByFireUnitIdInput input)
         {
-            throw new NotImplementedException();
+            var output = new PagedResultDto<HighFreqAlarmDetector>();
+            await Task.Run(() =>
+            {
+                var alarmFire = _alarmToFireRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30));
+                int highFreq = int.Parse(ConfigHelper.Configuration["FireDomain:HighFreqAlarm"]);
+                var alarmDevices = alarmFire.GroupBy(p => p.DetectorId).Where(p => p.Count() > highFreq)
+                    .Select(p => new { DetectorId = p.Key, Count = p.Count() });
+                var lstResult = from a in alarmDevices
+                                join b in _detectorRep.GetAll()
+                                on a.DetectorId equals b.Id
+                                orderby a.Count descending
+                                select new HighFreqAlarmDetector()
+                                {
+                                    Name = b.Name,
+                                    Time = b.AlarmTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                                    Count = a.Count
+                                };
+                var lst = lstResult.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+                output.TotalCount = lstResult.Count();
+                output.Items = lst;
+            });
+            return output;
         }
         /// <summary>
         /// 设备设施故障待处理故障查询
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<GetFireUnitPendingFaultOutput> GetFireUnitPendingFault(GetByFireUnitIdInput input)
+        public async Task<PagedResultDto<PendingFault>> GetFireUnitPendingFault(GetPageByFireUnitIdInput input)
         {
-            throw new NotImplementedException();
+            var output = new PagedResultDto<PendingFault>();
+            await Task.Run(() =>
+            {
+                var lstResult = _faultRep.GetAll().Where(p => p.FireUnitId == input.Id && p.ProcessState == 0)
+                .OrderByDescending(p => p.CreationTime)
+                .Select(p => new PendingFault()
+                {
+                    Time = p.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                    Content = p.FaultRemark
+                });
+                var lst = lstResult.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+                output.TotalCount = lstResult.Count();
+                output.Items = lst;
+            });
+            return output;
         }
         /// <summary>
         /// 安全用电数据分析

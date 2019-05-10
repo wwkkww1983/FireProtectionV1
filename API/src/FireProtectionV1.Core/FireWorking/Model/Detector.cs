@@ -34,5 +34,9 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         [Required]
         public int FireUnitId { get; set; }
+        /// <summary>
+        /// 最近报警时间
+        /// </summary>
+        public DateTime AlarmTime { get; set; }
     }
 }
