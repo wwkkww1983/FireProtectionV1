@@ -8,6 +8,10 @@ namespace FireProtectionV1.FireWorking.Dto
     public class GetFireUnitAlarmOutput
     {
         /// <summary>
+        /// 防火单位名称
+        /// </summary>
+        public string FireUnitName { get; set; }
+        /// <summary>
         /// （安全用电）管控点位
         /// </summary>
         public int ElecPointsCount { get; set; }

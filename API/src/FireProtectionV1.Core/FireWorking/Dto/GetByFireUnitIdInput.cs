@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto
 {
-    public class GetFireUnitPendingFaultInput
+    public class GetByFireUnitIdInput
     {
         /// <summary>
         /// 防火单位Id

@@ -9,6 +9,11 @@ namespace FireProtectionV1.FireWorking.Model
     public class AlarmToElectric: EntityBase
     {
         /// <summary>
+        /// 探测器Id
+        /// </summary>
+        [Required]
+        public int DetectorId { get; set; }
+        /// <summary>
         /// 实时数据
         /// </summary>
         [Required]
@@ -23,15 +28,5 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         [Required]
         public int FireUnitId { get; set; }
-        /// <summary>
-        /// 设备Id
-        /// </summary>
-        [Required]
-        public int DeviceId { get; set; }
-        /// <summary>
-        /// 设备类型
-        /// </summary>
-        [Required]
-        public byte DeviceType { get; set; }
     }
 }

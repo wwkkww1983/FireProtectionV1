@@ -23,7 +23,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<GetFireUnitAlarmOutput> GetFireUnitAlarm(GetFireUnitAlarmInput input)
+        public async Task<GetFireUnitAlarmOutput> GetFireUnitAlarm(GetByFireUnitIdInput input)
         {
             return await _fireWorkingManager.GetFireUnitAlarm(input);
         }
@@ -32,7 +32,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<GetFireUnit30DayAlarmEleOutput> GetFireUnit30DayAlarmEle(GetFireUnit30DayAlarmEleInput input)
+        public async Task<PagedResultDto<AlarmRecord>> GetFireUnit30DayAlarmEle(GetPageByFireUnitIdInput input)
         {
             return await _fireWorkingManager.GetFireUnit30DayAlarmEle(input);
         }
@@ -41,45 +41,54 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<GetFireUnit30DayAlarmFireOutput> GetFireUnit30DayAlarmFire(GetFireUnit30DayAlarmFireInput input)
+        public async Task<PagedResultDto<AlarmRecord>> GetFireUnit30DayAlarmFire(GetPageByFireUnitIdInput input)
         {
-            throw new NotImplementedException();
+            return await _fireWorkingManager.GetFireUnit30DayAlarmFire(input);
         }
         /// <summary>
         /// 安全用电高频报警部件查询
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<GetFireUnitHighFreqAlarmEleOutput> GetFireUnitHighFreqAlarmEle(GetFireUnitHighFreqAlarmEleInput input)
+        public async Task<GetFireUnitHighFreqAlarmEleOutput> GetFireUnitHighFreqAlarmEle(GetByFireUnitIdInput input)
         {
-            throw new NotImplementedException();
+            return await _fireWorkingManager.GetFireUnitHighFreqAlarmEle(input);
         }
         /// <summary>
         /// 火警预警高频报警部件查询
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<GetFireUnitHighFreqAlarmFireOutput> GetFireUnitHighFreqAlarmFire(GetFireUnitHighFreqAlarmFireInput input)
+        public async Task<GetFireUnitHighFreqAlarmFireOutput> GetFireUnitHighFreqAlarmFire(GetByFireUnitIdInput input)
         {
-            throw new NotImplementedException();
+            return await _fireWorkingManager.GetFireUnitHighFreqAlarmFire(input);
         }
         /// <summary>
         /// 设备设施故障待处理故障查询
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<GetFireUnitPendingFaultOutput> GetFireUnitPendingFault(GetFireUnitPendingFaultInput input)
+        public async Task<GetFireUnitPendingFaultOutput> GetFireUnitPendingFault(GetByFireUnitIdInput input)
         {
-            throw new NotImplementedException();
+            return await _fireWorkingManager.GetFireUnitPendingFault(input);
         }
         /// <summary>
-        /// 安全用电综合数据
+        /// 安全用电数据分析
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         public async Task<GetAreasAlarmElectricOutput> GetAreasAlarmElectric(GetAreasAlarmElectricInput input)
         {
             return await _fireWorkingManager.GetAreasAlarmElectric(input);
+        }
+        /// <summary>
+        /// 火警预警数据分析
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<GetAreasAlarmFireOutput> GetAreasAlarmFire(GetAreasAlarmFireInput input)
+        {
+            return await _fireWorkingManager.GetAreasAlarmFire(input);
         }
     }
 }

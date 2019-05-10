@@ -6,24 +6,25 @@ using System.Text;
 
 namespace FireProtectionV1.FireWorking.Model
 {
-    public class AlarmToFire : EntityBase
+    /// <summary>
+    /// 预警探测器
+    /// </summary>
+    public class Detector : EntityBase
     {
         /// <summary>
-        /// 探测器Id
+        /// 名称
+        /// </summary>
+        [MaxLength(20)]
+        public string Name { get; set; }
+        /// <summary>
+        /// 探测器类型
+        /// </summary>
+        public byte DetectorType { get; set; }
+        /// <summary>
+        /// 网关Id
         /// </summary>
         [Required]
-        public int DetectorId { get; set; }
-        /// <summary>
-        /// 报警标题
-        /// </summary>
-        [Required]
-        [MaxLength(StringType.Normal)]
-        public string AlarmTitle { get; set; }
-        /// <summary>
-        /// 报警描述
-        /// </summary>
-        [MaxLength(StringType.Long)]
-        public string AlarmRemark { get; set; }
+        public int GatewayId { get; set; }
         /// <summary>
         /// 防火单位Id
         /// </summary>

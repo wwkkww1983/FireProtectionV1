@@ -37,4 +37,11 @@ namespace FireProtectionV1.Common.Enum
         /// </summary>
         Online = 1
     }
+    public enum DeviceType
+    {
+        ControllerElectric=1,
+        ControllerFire,
+        DetectorElectric,
+        DetectorFire
+    }
 }

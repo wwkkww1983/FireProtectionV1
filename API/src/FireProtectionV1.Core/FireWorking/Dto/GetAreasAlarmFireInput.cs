@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto
 {
-    public class GetFireUnit30DayAlarmFireOutput
+    public class GetAreasAlarmFireInput
     {
     }
 }

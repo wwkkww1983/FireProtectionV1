@@ -7,4 +7,8 @@ namespace FireProtectionV1.FireWorking.Dto
     public class GetFireUnitHighFreqAlarmEleOutput
     {
     }
+    public class FreqAlramDevice
+    {
+
+    }
 }
