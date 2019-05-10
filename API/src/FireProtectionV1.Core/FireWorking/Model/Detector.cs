@@ -19,7 +19,11 @@ namespace FireProtectionV1.FireWorking.Model
         /// <summary>
         /// 探测器类型
         /// </summary>
-        public byte DetectorType { get; set; }
+        public int DetectorTypeId { get; set; }
+        /// <summary>
+        /// 消防系统类型
+        /// </summary>
+        public FireSysType FireSysType { get; set; }
         /// <summary>
         /// 网关Id
         /// </summary>

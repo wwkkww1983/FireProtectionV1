@@ -14,7 +14,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 联网防火单位（单位类型饼状图）
         /// </summary>
-        public JoinTypeCount[] JoinTypeCounts { get; set; }
+        public List<JoinTypeCount> JoinTypeCounts { get; set; }
         /// <summary>
         /// 联网监控点位数量
         /// </summary>
@@ -22,7 +22,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 联网监控点位（单位类型柱状图）
         /// </summary>
-        public JoinTypePointCount[] JoinTypePointCounts { get; set; }
+        public List<JoinTypePointCount> JoinTypePointCounts { get; set; }
         /// <summary>
         /// 网关离线单位数量
         /// </summary>
@@ -30,17 +30,19 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 网关离线单位
         /// </summary>
-        public OfflineFireUnit[] OfflineFireUnits { get; set; }
+        public List<OfflineFireUnit> OfflineFireUnits { get; set; }
         /// <summary>
         /// 安全用电累计预警（最近月份流量图）
         /// </summary>
-        public MonthAlarmCount[] MonthAlarmCounts { get; set; }
+        public List<MonthAlarmCount> MonthAlarmCounts { get; set; }
         /// <summary>
         /// 最近30天报警次数Top10
         /// </summary>
-        public Top10FireUnit[] Top10FireUnits { get; set; }
+        public List<Top10FireUnit> Top10FireUnits { get; set; }
     }
-
+    /// <summary>
+    /// 联网防火单位（单位类型饼状图）
+    /// </summary>
     public class JoinTypeCount
     {
         /// <summary>

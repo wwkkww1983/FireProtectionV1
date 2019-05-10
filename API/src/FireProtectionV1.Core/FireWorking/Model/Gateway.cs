@@ -18,11 +18,6 @@ namespace FireProtectionV1.FireWorking.Model
         [MaxLength(50)]
         public string Name { get; set; }
         /// <summary>
-        /// 网关类型
-        /// </summary>
-        [Required]
-        public byte GatewayType { get; set; }
-        /// <summary>
         /// 防火单位Id
         /// </summary>
         [Required]
