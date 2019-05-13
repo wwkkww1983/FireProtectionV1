@@ -14,6 +14,11 @@ namespace FireProtectionV1.EntityFrameworkCore
 {
     public class FireProtectionV1DbContext : AbpDbContext
     {
+        public DbSet<DataToPatrol> DataToPatrol { get; set; }
+        public DbSet<DataToPatrolDetail> DataToPatrolDetail { get; set; }
+        public DbSet<DataToPatrolDetailProblem> DataToPatrolDetailProblem { get; set; }
+        public DbSet<DataToDuty> DataToDuty { get; set; }
+        public DbSet<DataToDutyProblem> DataToDutyProblem { get; set; }
         public DbSet<Fault> Fault { get; set; }
         public DbSet<DetectorType> DetectorType { get; set; }
         public DbSet<Detector> Detector { get; set; }
@@ -23,8 +28,8 @@ namespace FireProtectionV1.EntityFrameworkCore
         public DbSet<AlarmToElectric> AlarmToElectric { get; set; }
         public DbSet<FireUnit> FireUnit { get; set; }
         public DbSet<SafeUnit> SafeUnit { get; set; }
-        public DbSet<FireUnitUser> FireUnitAccount { get; set; }
-        public DbSet<FireUnitUserRole> FireUnitAccountRole { get; set; }
+        public DbSet<FireUnitUser> FireUnitUser { get; set; }
+        public DbSet<FireUnitUserRole> FireUnitUserRole { get; set; }
         public DbSet<FireDeptUser> FireDeptUser { get; set; }
         public DbSet<FireDept> FireDept { get; set; }
         public DbSet<Area> Area { get; set; }

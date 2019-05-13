@@ -1,4 +1,5 @@
 ﻿using Abp.Application.Services.Dto;
+using Abp.Domain.Services;
 using FireProtectionV1.FireWorking.Dto;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FireProtectionV1.FireWorking.Manager
 {
-    public interface IFireWorkingManager
+    public interface IFireWorkingManager : IDomainService
     {
         /// <summary>
         /// 防火单位消防数据

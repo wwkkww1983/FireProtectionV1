@@ -3,14 +3,16 @@ using System;
 using FireProtectionV1.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FireProtectionV1.Migrations
 {
     [DbContext(typeof(FireProtectionV1DbContext))]
-    partial class FireProtectionV1DbContextModelSnapshot : ModelSnapshot
+    [Migration("20190513033908_0513")]
+    partial class _0513
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,70 +231,6 @@ namespace FireProtectionV1.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DataToDutyProblem");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.DataToPatrol", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<int>("FireUnitId");
-
-                    b.Property<int>("FireUnitUserId");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DataToPatrol");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.DataToPatrolDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<string>("DeviceSn")
-                        .HasMaxLength(20);
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<int>("PatrolId");
-
-                    b.Property<byte>("PatrolStatus");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DataToPatrolDetail");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.DataToPatrolDetailProblem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<int>("PatrolDetailId");
-
-                    b.Property<string>("ProblemPicture")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("ProblemRemark")
-                        .HasMaxLength(500);
-
-                    b.Property<string>("ProblemVoice")
-                        .HasMaxLength(100);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DataToPatrolDetailProblem");
                 });
 
             modelBuilder.Entity("FireProtectionV1.FireWorking.Model.Detector", b =>
@@ -770,7 +708,7 @@ namespace FireProtectionV1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FireUnitUser");
+                    b.ToTable("FireUnitAccount");
                 });
 
             modelBuilder.Entity("FireProtectionV1.User.Model.FireUnitUserRole", b =>
@@ -788,7 +726,7 @@ namespace FireProtectionV1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FireUnitUserRole");
+                    b.ToTable("FireUnitAccountRole");
                 });
 #pragma warning restore 612, 618
         }

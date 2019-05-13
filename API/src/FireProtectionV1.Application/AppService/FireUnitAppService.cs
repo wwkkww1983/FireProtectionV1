@@ -17,10 +17,12 @@ namespace FireProtectionV1.AppService
     public class FireUnitAppService : AppServiceBase
     {
         IFireUnitManager _fireUnitInfoManager;
+        IFireWorkingManager _fireWorkingManager;
 
-        public FireUnitAppService(IFireUnitManager fireUnitInfoManager)
+        public FireUnitAppService(IFireUnitManager fireUnitInfoManager, IFireWorkingManager fireWorkingManager)
         {
             _fireUnitInfoManager = fireUnitInfoManager;
+            _fireWorkingManager = fireWorkingManager;
         }
         /// <summary>
         /// 防火单位分页列表
@@ -59,6 +61,60 @@ namespace FireProtectionV1.AppService
         public async Task<GetFireUnitInfoOutput> GetFireUnitInfo(GetFireUnitInfoInput input)
         {
             return await _fireUnitInfoManager.GetFireUnitInfo(input);
+        }
+        /// <summary>
+        /// 防火单位消防数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<GetFireUnitAlarmOutput> GetFireUnitAlarm(GetByFireUnitIdInput input)
+        {
+            return await _fireWorkingManager.GetFireUnitAlarm(input);
+        }
+        /// <summary>
+        /// 安全用电最近30天报警记录查询
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<AlarmRecord>> GetFireUnit30DayAlarmEle(GetPageByFireUnitIdInput input)
+        {
+            return await _fireWorkingManager.GetFireUnit30DayAlarmEle(input);
+        }
+        /// <summary>
+        /// 火警预警最近30天报警记录查询
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<AlarmRecord>> GetFireUnit30DayAlarmFire(GetPageByFireUnitIdInput input)
+        {
+            return await _fireWorkingManager.GetFireUnit30DayAlarmFire(input);
+        }
+        /// <summary>
+        /// 安全用电高频报警部件查询
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<HighFreqAlarmDetector>> GetFireUnitHighFreqAlarmEle(GetPageByFireUnitIdInput input)
+        {
+            return await _fireWorkingManager.GetFireUnitHighFreqAlarmEle(input);
+        }
+        /// <summary>
+        /// 火警预警高频报警部件查询
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<HighFreqAlarmDetector>> GetFireUnitHighFreqAlarmFire(GetPageByFireUnitIdInput input)
+        {
+            return await _fireWorkingManager.GetFireUnitHighFreqAlarmFire(input);
+        }
+        /// <summary>
+        /// 设备设施故障待处理故障查询
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<PendingFault>> GetFireUnitPendingFault(GetPageByFireUnitIdInput input)
+        {
+            return await _fireWorkingManager.GetFireUnitPendingFault(input);
         }
     }
 }
