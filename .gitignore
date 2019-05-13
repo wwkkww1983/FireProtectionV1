@@ -12,3 +12,5 @@
 
 /API/src/FireProtectionV1.Migrator/bin
 /API/src/FireProtectionV1.Migrator/obj
+bin
+obj

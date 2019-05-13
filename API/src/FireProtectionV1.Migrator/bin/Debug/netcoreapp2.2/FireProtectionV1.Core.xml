@@ -4,6 +4,28 @@
         <name>FireProtectionV1.Core</name>
     </assembly>
     <members>
+        <member name="P:FireProtectionV1.DataReportCore.Dto.DataMinotorOutput.DataTypeName">
+            <summary>
+            数据类型（防火单位、微型消防站、市政消火栓、综合数据报表）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.DataReportCore.Dto.DataMinotorOutput.JoinNumber">
+            <summary>
+            接入数量
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.DataReportCore.Manager.DataReportManager.GetDataMinotor">
+            <summary>
+            数据监控页
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DataReportCore.Manager.IDataReportManager.GetDataMinotor">
+            <summary>
+            数据监控页
+            </summary>
+            <returns></returns>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitInput.accountInput">
             <summary>
             防火单位管理员账号

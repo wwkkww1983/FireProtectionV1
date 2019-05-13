@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FireProtectionV1.AppService
 {
-    public class FireDeptAppService: AppServiceBase
+    public class FireDeptAppService : AppServiceBase
     {
         IFireDeptManager _manager;
         public FireDeptAppService(IFireDeptManager manager)
