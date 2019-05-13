@@ -226,6 +226,17 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="T:FireProtectionV1.AppService.InfrastructureAppService">
+            <summary>
+            数据字典初始化
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.AppService.InfrastructureAppService.InitData">
+            <summary>
+            初始化数据
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:FireProtectionV1.AppService.MiniFireStationAppService">
             <summary>
             微型消防站
