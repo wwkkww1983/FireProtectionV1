@@ -15,6 +15,20 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.DataReportAppService.GetAreasAlarmElectric(FireProtectionV1.FireWorking.Dto.GetAreasAlarmElectricInput)">
+            <summary>
+            安全用电数据分析
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DataReportAppService.GetAreasAlarmFire(FireProtectionV1.FireWorking.Dto.GetAreasAlarmFireInput)">
+            <summary>
+            火警预警数据分析
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="T:FireProtectionV1.AppService.FireDeptUserAppService">
             <summary>
             消防部门用户接口
@@ -103,65 +117,51 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.Add(FireProtectionV1.User.Dto.FireUnitUserInput)">
-            <summary>
-            添加账号
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.AppService.FireWorkingAppService.GetFireUnitAlarm(FireProtectionV1.FireWorking.Dto.GetByFireUnitIdInput)">
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitAlarm(FireProtectionV1.FireWorking.Dto.GetByFireUnitIdInput)">
             <summary>
             防火单位消防数据
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireWorkingAppService.GetFireUnit30DayAlarmEle(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnit30DayAlarmEle(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             安全用电最近30天报警记录查询
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireWorkingAppService.GetFireUnit30DayAlarmFire(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnit30DayAlarmFire(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             火警预警最近30天报警记录查询
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireWorkingAppService.GetFireUnitHighFreqAlarmEle(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitHighFreqAlarmEle(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             安全用电高频报警部件查询
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireWorkingAppService.GetFireUnitHighFreqAlarmFire(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitHighFreqAlarmFire(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             火警预警高频报警部件查询
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireWorkingAppService.GetFireUnitPendingFault(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitPendingFault(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
             设备设施故障待处理故障查询
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireWorkingAppService.GetAreasAlarmElectric(FireProtectionV1.FireWorking.Dto.GetAreasAlarmElectricInput)">
+        <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.Add(FireProtectionV1.User.Dto.FireUnitUserInput)">
             <summary>
-            安全用电数据分析
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.AppService.FireWorkingAppService.GetAreasAlarmFire(FireProtectionV1.FireWorking.Dto.GetAreasAlarmFireInput)">
-            <summary>
-            火警预警数据分析
+            添加账号
             </summary>
             <param name="input"></param>
             <returns></returns>
