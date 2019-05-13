@@ -9,7 +9,7 @@ namespace FireProtectionV1.FireWorking.Model
     /// <summary>
     /// 值班记录
     /// </summary>
-    public class Duty : EntityBase
+    public class DataToDuty : EntityBase
     {
         /// <summary>
         /// 值班记录图片

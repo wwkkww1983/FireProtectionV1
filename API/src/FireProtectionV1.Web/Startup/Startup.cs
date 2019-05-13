@@ -14,6 +14,8 @@ using Swashbuckle.AspNetCore.Swagger;
 using System.Reflection;
 using System.IO;
 using FireProtectionV1.Configuration;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 
 namespace FireProtectionV1.Web.Startup
 {
@@ -36,6 +38,12 @@ namespace FireProtectionV1.Web.Startup
             services.AddMvc(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            });
+            //添加认证Cookie信息
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            {
+                options.LoginPath = new PathString("/login");
+                options.AccessDeniedPath = new PathString("/denied");
             });
 
             // Swagger - Enable this line and the related lines in Configure method to enable swagger UI            
@@ -95,7 +103,8 @@ namespace FireProtectionV1.Web.Startup
 
             app.UseStaticFiles();
             app.UseSession();
-
+            //验证中间件
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

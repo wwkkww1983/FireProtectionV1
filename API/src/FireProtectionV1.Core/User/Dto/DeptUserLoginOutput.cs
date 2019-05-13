@@ -15,6 +15,10 @@ namespace FireProtectionV1.User.Dto
         /// </summary>
         public string FailCause { get; set; }
         /// <summary>
+        /// 姓名
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
         /// 部门名称
         /// </summary>
         public string DeptName { get; set; }
