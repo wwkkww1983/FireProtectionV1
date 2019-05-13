@@ -9,6 +9,12 @@
             Derive your application services from this class.
             </summary>
         </member>
+        <member name="M:FireProtectionV1.AppService.DataReportAppService.GetDataMinotor">
+            <summary>
+            数据监控页
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:FireProtectionV1.AppService.FireDeptUserAppService">
             <summary>
             消防部门用户接口
