@@ -1234,6 +1234,18 @@
             水压数值
             </summary>
         </member>
+        <member name="M:FireProtectionV1.Infrastructure.Manager.IInfrastructureManager.InitData">
+            <summary>
+            数据初始化
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Infrastructure.Manager.InfrastructureManager.InitData">
+            <summary>
+            初始化数据
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:FireProtectionV1.Infrastructure.Model.Area">
             <summary>
             区域表
