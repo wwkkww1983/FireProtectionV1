@@ -23,5 +23,19 @@ namespace FireProtectionV1.SupervisionCore.Manager
         /// </summary>
         /// <returns></returns>
         Task<List<SupervisionItem>> GetSupervisionItem();
+
+        /// <summary>
+        /// 获取单条记录主信息
+        /// </summary>
+        /// <param name="supervisionId"></param>
+        /// <returns></returns>
+        Task<GetSingleSupervisionMainOutput> GetSingleSupervisionMain(int supervisionId);
+
+        /// <summary>
+        /// 获取单条记录明细项目信息
+        /// </summary>
+        /// <param name="supervisionId"></param>
+        /// <returns></returns>
+        Task<List<GetSingleSupervisionDetailOutput>> GetSingleSupervisionDetail(int supervisionId);
     }
 }

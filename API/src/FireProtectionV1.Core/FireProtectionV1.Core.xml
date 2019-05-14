@@ -26,44 +26,14 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitInput.accountInput">
+            <summary>
+            防火单位管理员账号
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitInput.Name">
             <summary>
             防火单位名称
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitInput.TypeId">
-            <summary>
-            防火单位类型Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitInput.AreaId">
-            <summary>
-            区域Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitInput.ContractName">
-            <summary>
-            联系人
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitInput.ContractPhone">
-            <summary>
-            联系电话
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitInput.SafeUnitId">
-            <summary>
-            维保单位Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitInput.Lng">
-            <summary>
-            经度
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitInput.Lat">
-            <summary>
-            纬度
             </summary>
         </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.AddSafeUnitInput.Name">
@@ -84,46 +54,6 @@
         <member name="P:FireProtectionV1.Enterprise.Dto.AddSafeUnitInput.Level">
             <summary>
             工程资质（一、二、三级）
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitExcelOutput.Id">
-            <summary>
-            防火单位Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitExcelOutput.Name">
-            <summary>
-            防火单位名称
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitExcelOutput.Type">
-            <summary>
-            防火单位类型
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitExcelOutput.Area">
-            <summary>
-            区域
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitExcelOutput.ContractName">
-            <summary>
-            联系人
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitExcelOutput.ContractPhone">
-            <summary>
-            联系电话
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitExcelOutput.SafeUnit">
-            <summary>
-            维保单位
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitExcelOutput.InvitationCode">
-            <summary>
-            邀请码（自动生成）
             </summary>
         </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoInput.Id">
@@ -216,36 +146,11 @@
             邀请码（自动生成）
             </summary>
         </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitTypeOutput.TypeId">
+        <member name="M:FireProtectionV1.Enterprise.Manager.AreaManager.GetFullAreaName(System.Int32)">
             <summary>
-            防火单位类型Id
+            根据Id获取完整区域名称
             </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitTypeOutput.TypeName">
-            <summary>
-            防火单位类型
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetSafeUnitInput.Name">
-            <summary>
-            维保单位名称(模糊查询)
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetSafeUnitOutput.SafeUnitId">
-            <summary>
-            维保单位Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetSafeUnitOutput.SafeUnitName">
-            <summary>
-            维保单位名称
-            </summary>
-        </member>
-        <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.GetFireUnitListExcel(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
-            <summary>
-            得到防火单位列表excel数据
-            </summary>
-            <param name="input"></param>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.Add(FireProtectionV1.Enterprise.Dto.AddFireUnitInput)">
@@ -283,6 +188,13 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.IAreaManager.GetFullAreaName(System.Int32)">
+            <summary>
+            根据Id获取完整区域名称
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.Add(FireProtectionV1.Enterprise.Dto.AddFireUnitInput)">
             <summary>
             添加防火单位（同时会添加防火单位管理员账号）
@@ -293,13 +205,6 @@
         <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.GetFireUnitInfo(FireProtectionV1.Enterprise.Dto.GetFireUnitInfoInput)">
             <summary>
             防火单位信息
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.Enterprise.Manager.ISafeUnitManager.GetSafeUnits(FireProtectionV1.Enterprise.Dto.GetSafeUnitInput)">
-            <summary>
-            查询维保单位(模糊查询)
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -335,13 +240,6 @@
         <member name="M:FireProtectionV1.Enterprise.Manager.ISafeUnitManager.GetList(FireProtectionV1.Enterprise.Dto.GetSafeUnitListInput)">
             <summary>
             分页列表
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.Enterprise.Manager.SafeUnitManager.GetSafeUnits(FireProtectionV1.Enterprise.Dto.GetSafeUnitInput)">
-            <summary>
-            查询维保单位(模糊查询)
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -1326,49 +1224,6 @@
             水压数值
             </summary>
         </member>
-        <member name="P:FireProtectionV1.Infrastructure.Dto.GetAreaInput.ParentAreaId">
-            <summary>
-            父级区域Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Infrastructure.Dto.GetAreaOutput.AreaId">
-            <summary>
-            防火单位类型Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Infrastructure.Dto.GetAreaOutput.AreaName">
-            <summary>
-            防火单位类型
-            </summary>
-        </member>
-        <member name="M:FireProtectionV1.Infrastructure.Manager.AreaManager.GetAreas(FireProtectionV1.Infrastructure.Dto.GetAreaInput)">
-            <summary>
-            根据父级区域Id查询子级区域数组
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.Infrastructure.Manager.AreaManager.GetFullAreaName(System.Int32)">
-            <summary>
-            根据Id获取完整区域名称
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.Infrastructure.Manager.IAreaManager.GetFullAreaName(System.Int32)">
-            <summary>
-            根据Id获取完整区域名称
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.Infrastructure.Manager.IAreaManager.GetAreas(FireProtectionV1.Infrastructure.Dto.GetAreaInput)">
-            <summary>
-            根据父级区域Id查询子级区域数组
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
         <member name="M:FireProtectionV1.Infrastructure.Manager.IInfrastructureManager.InitData">
             <summary>
             数据初始化
@@ -1418,7 +1273,7 @@
         </member>
         <member name="P:FireProtectionV1.Infrastructure.Model.FireUnitType.Name">
             <summary>
-            防火单位类型名称
+            区域编码
             </summary>
         </member>
         <member name="P:FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireStationInput.Name">
@@ -1466,7 +1321,7 @@
             微型消防站名称
             </summary>
         </member>
-        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.GetNearbyStationOutput.Distince">
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.GetNearbyStationOutput.Distance">
             <summary>
             距离（米）
             </summary>
@@ -1805,19 +1660,44 @@
             事件描述
             </summary>
         </member>
-        <member name="P:FireProtectionV1.SuccessOutput.Success">
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSingleSupervisionDetailOutput.SupervisionItemName">
             <summary>
-            提交是否成功
+            监管执法项目名称
             </summary>
         </member>
-        <member name="P:FireProtectionV1.SuccessOutput.FailCause">
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSingleSupervisionDetailOutput.ParentId">
             <summary>
-            失败原因
+            父级项目Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSingleSupervisionDetailOutput.ParentName">
+            <summary>
+            父级项目名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSingleSupervisionDetailOutput.Remark">
+            <summary>
+            项目的注释
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSingleSupervisionMainOutput.FireUnitName">
+            <summary>
+            防火单位名称
             </summary>
         </member>
         <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSupervisionListInput.CheckResult">
             <summary>
             执法检查结论
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSupervisionListInput.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSupervisionListInput.FireDeptUserId">
+            <summary>
+            消防监管人员Id（记录提交人Id）
             </summary>
         </member>
         <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSupervisionListOutput.FireUnitName">
@@ -1853,11 +1733,39 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.SupervisionCore.Manager.ISupervisionManager.GetSingleSupervisionMain(System.Int32)">
+            <summary>
+            获取单条记录主信息
+            </summary>
+            <param name="supervisionId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.SupervisionCore.Manager.ISupervisionManager.GetSingleSupervisionDetail(System.Int32)">
+            <summary>
+            获取单条记录明细项目信息
+            </summary>
+            <param name="supervisionId"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.SupervisionCore.Manager.SupervisionManager.GetList(FireProtectionV1.SupervisionCore.Dto.GetSupervisionListInput)">
             <summary>
             分页
             </summary>
             <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.SupervisionCore.Manager.SupervisionManager.GetSingleSupervisionDetail(System.Int32)">
+            <summary>
+            获取单条执法记录明细项目信息
+            </summary>
+            <param name="supervisionId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.SupervisionCore.Manager.SupervisionManager.GetSingleSupervisionMain(System.Int32)">
+            <summary>
+            获取单条记录主信息
+            </summary>
+            <param name="supervisionId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.SupervisionCore.Manager.SupervisionManager.GetSupervisionItem">
@@ -1981,6 +1889,16 @@
             密码(测试:123)
             </summary>
         </member>
+        <member name="P:FireProtectionV1.User.Dto.DeptUserLoginOutput.Success">
+            <summary>
+            登录是否成功
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.DeptUserLoginOutput.FailCause">
+            <summary>
+            登录失败原因
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.User.Dto.DeptUserLoginOutput.Name">
             <summary>
             姓名
@@ -1994,6 +1912,16 @@
         <member name="P:FireProtectionV1.User.Dto.DeptUserLoginOutput.Token">
             <summary>
             身份令牌 
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.DeptUserLogoutOutput.Success">
+            <summary>
+            注销成功
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.DeptUserLogoutOutput.FailCause">
+            <summary>
+            失败原因
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Dto.FireUnitUserInput.Account">

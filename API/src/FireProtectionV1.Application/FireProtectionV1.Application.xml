@@ -383,5 +383,32 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.SupervisionAppService.GetList(FireProtectionV1.SupervisionCore.Dto.GetSupervisionListInput)">
+            <summary>
+            分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SupervisionAppService.GetSingleSupervisionDetail(System.Int32)">
+            <summary>
+            获取单条执法记录明细项目信息
+            </summary>
+            <param name="supervisionId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SupervisionAppService.GetSingleSupervisionMain(System.Int32)">
+            <summary>
+            获取单条记录主信息
+            </summary>
+            <param name="supervisionId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SupervisionAppService.GetSupervisionItem">
+            <summary>
+            获取所有监管执法项目
+            </summary>
+            <returns></returns>
+        </member>
     </members>
 </doc>

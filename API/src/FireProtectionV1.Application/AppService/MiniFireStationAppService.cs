@@ -1,4 +1,5 @@
 ﻿using Abp.Application.Services.Dto;
+using Abp.Domain.Uow;
 using FireProtectionV1.MiniFireStationCore.Dto;
 using FireProtectionV1.MiniFireStationCore.Manager;
 using FireProtectionV1.MiniFireStationCore.Model;
@@ -69,7 +70,12 @@ namespace FireProtectionV1.AppService
         /// <param name="lng">经度，例如104.159203</param>
         /// <param name="lat">纬度，例如30.633145</param>
         /// <returns></returns>
-        public async Task<List<GetNearbyStationOutput>> GetNearbyStation(decimal lng, decimal lat)
+        //public async Task<List<GetNearbyStationOutput>> GetNearbyStation(decimal lng, decimal lat)
+        //{
+        //    return await _manager.GetNearbyStation(lng, lat);
+        //}
+
+        public async Task<PagedResultDto<GetNearbyStationOutput>> GetNearbyStation(decimal lng, decimal lat)
         {
             return await _manager.GetNearbyStation(lng, lat);
         }

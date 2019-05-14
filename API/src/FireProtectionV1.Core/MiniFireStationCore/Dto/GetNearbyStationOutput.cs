@@ -10,6 +10,6 @@ namespace FireProtectionV1.MiniFireStationCore.Dto
         /// <summary>
         /// 距离（米）
         /// </summary>
-        public double Distince { get; set; }
+        public double Distance { get; set; }
     }
 }
