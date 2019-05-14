@@ -338,6 +338,8 @@ namespace FireProtectionV1.Infrastructure.Manager
                 _supervisionItemRepository.Insert(supervisionItem);
             }
             #endregion
+            #region 初始化相关表数据
+            #endregion
         }
     }
 }
