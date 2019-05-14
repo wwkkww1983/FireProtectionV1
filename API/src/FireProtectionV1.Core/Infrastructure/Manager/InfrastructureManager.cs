@@ -1,8 +1,12 @@
 ﻿using Abp.Domain.Repositories;
 using Abp.Domain.Services;
+using FireProtectionV1.Enterprise.Model;
+using FireProtectionV1.Infrastructure.Dto;
+using FireProtectionV1.Infrastructure.Model;
 using FireProtectionV1.SupervisionCore.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,6 +20,7 @@ namespace FireProtectionV1.Infrastructure.Manager
         {
             _supervisionItemRepository = supervisionItemRepository;
         }
+
         /// <summary>
         /// 初始化数据
         /// </summary>

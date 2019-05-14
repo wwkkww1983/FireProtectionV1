@@ -22,7 +22,21 @@ namespace FireProtectionV1.Enterprise.Manager
         {
             _safeUnitRepository = safeUnitRepository;
         }
-
+        /// <summary>
+        /// 查询维保单位(模糊查询)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task<List<GetSafeUnitOutput>> GetSafeUnits(GetSafeUnitInput input)
+        {
+            var query = _safeUnitRepository.GetAll().Where(p => string.IsNullOrEmpty(input.Name) ? true : p.Name.Contains(input.Name))
+                .Select(p => new GetSafeUnitOutput()
+                {
+                    SafeUnitId = p.Id,
+                    SafeUnitName = p.Name
+                });
+            return Task.FromResult<List<GetSafeUnitOutput>>(query.ToList());
+        }
         /// <summary>
         /// 新增
         /// </summary>
@@ -66,7 +80,7 @@ namespace FireProtectionV1.Enterprise.Manager
             var safeUnits = _safeUnitRepository.GetAll();
 
             var expr = ExprExtension.True<SafeUnit>()
-             .IfAnd(!string.IsNullOrEmpty(input.Name), item => input.Name.Contains(item.Name));
+             .IfAnd(!string.IsNullOrEmpty(input.Name), item => item.Name.Contains(input.Name));
 
             safeUnits = safeUnits.Where(expr);
 

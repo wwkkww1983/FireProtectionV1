@@ -12,10 +12,10 @@ namespace FireProtectionV1.Infrastructure.Model
     public class FireUnitType : EntityBase
     {
         /// <summary>
-        /// 区域编码
+        /// 防火单位类型名称
         /// </summary>
         [Required]
-        [MaxLength(StringType.Normal)]
+        [MaxLength(StringType.Short)]
         public string Name { get; set; }
     }
 }

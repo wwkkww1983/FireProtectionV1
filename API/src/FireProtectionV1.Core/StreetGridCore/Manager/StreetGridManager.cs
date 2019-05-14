@@ -31,7 +31,7 @@ namespace FireProtectionV1.StreetGridCore.Manager
             var streetGrids = _streetGridRepository.GetAll();
 
             var expr = ExprExtension.True<StreetGrid>()
-             .IfAnd(!string.IsNullOrEmpty(input.Name), item => input.Name.Contains(item.Name));
+             .IfAnd(!string.IsNullOrEmpty(input.Name), item => item.Name.Contains(input.Name));
 
             streetGrids = streetGrids.Where(expr);
 

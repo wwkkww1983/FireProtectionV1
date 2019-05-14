@@ -68,7 +68,7 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
             var miniFireStations = _miniFireStationRepository.GetAll();
 
             var expr = ExprExtension.True<MiniFireStation>()
-             .IfAnd(!string.IsNullOrEmpty(input.Name), item => input.Name.Contains(item.Name));
+             .IfAnd(!string.IsNullOrEmpty(input.Name), item => item.Name.Contains(input.Name));
 
             miniFireStations = miniFireStations.Where(expr);
 

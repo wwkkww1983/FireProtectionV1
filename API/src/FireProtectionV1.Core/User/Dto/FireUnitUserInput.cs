@@ -16,7 +16,7 @@ namespace FireProtectionV1.User.Dto
         /// <summary>
         /// 密码（默认6个0）
         /// </summary>
-        public string Password { get; set; } = "000000";
+        public string Password { get; set; }
         /// <summary>
         /// 姓名
         /// </summary>

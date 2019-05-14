@@ -1,4 +1,5 @@
-﻿using FireProtectionV1.Infrastructure.Manager;
+﻿using FireProtectionV1.Infrastructure.Dto;
+using FireProtectionV1.Infrastructure.Manager;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,11 +18,10 @@ namespace FireProtectionV1.AppService
         {
             _manager = manager;
         }
-
         /// <summary>
-        /// 初始化数据
-        /// </summary>
-        /// <returns></returns>
+                 /// 初始化数据(部署初始化)
+                 /// </summary>
+                 /// <returns></returns>
         public async Task InitData()
         {
             await _manager.InitData();
