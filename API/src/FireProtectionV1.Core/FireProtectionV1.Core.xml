@@ -1321,7 +1321,7 @@
             微型消防站名称
             </summary>
         </member>
-        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.GetNearbyStationOutput.Distince">
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.GetNearbyStationOutput.Distance">
             <summary>
             距离（米）
             </summary>

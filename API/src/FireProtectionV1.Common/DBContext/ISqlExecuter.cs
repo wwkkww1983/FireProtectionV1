@@ -22,5 +22,6 @@ namespace FireProtectionV1.Common.DBContext
         /// <param name="parameters">要应用于 SQL 查询字符串的参数</param>
         /// <returns></returns>
         List<T> SqlQuery<T>(string sql, params object[] parameters) where T : class, new();
+        List<T> SqlQuery1<T>(string sql, params object[] parameters) where T : new();
     }
 }

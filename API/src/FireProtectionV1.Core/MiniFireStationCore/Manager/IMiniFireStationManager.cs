@@ -52,6 +52,6 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
         /// <param name="lng">经度，例如104.159203</param>
         /// <param name="lat">纬度，例如30.633145</param>
         /// <returns></returns>
-        Task<List<GetNearbyStationOutput>> GetNearbyStation(decimal lng, decimal lat);
+        Task<PagedResultDto<GetNearbyStationOutput>> GetNearbyStation(decimal lng, decimal lat);
     }
 }
