@@ -33,109 +33,66 @@ namespace FireProtectionV1.EntityFrameworkCore
             return _dbContextProvider.GetDbContext().Database.ExecuteSqlCommand(sql, parameters);
         }
 
-        public List<T> Query<T>(string sql, params object[] parameters) where T : class, new()
+        public DataTable Query(string sql, params object[] parameters)
         {
+            DataTable dt = new DataTable();
             var db = _dbContextProvider.GetDbContext().Database;
             var conn = db.GetDbConnection();
-            if (conn.State != ConnectionState.Open)
-                conn.Open();
-
-
-            DataTable dt = new DataTable();
-
-
-            RawSqlCommand rawSqlCommand = db.GetService<IRawSqlCommandBuilder>().Build(sql, parameters);
-
-            RelationalDataReader query = rawSqlCommand.RelationalCommand.ExecuteReader(db.GetService<IRelationalConnection>(), parameterValues: rawSqlCommand.ParameterValues);
-
-
-            DbDataReader dr = query.DbDataReader;
-
-
-            int fieldCount = dr.FieldCount;
-
-            //获取schema并填充第一行数据
-            if (dr.Read())
+            try
             {
-                for (int i = 0; i < fieldCount; i++)
+                if (conn.State != ConnectionState.Open)
+                    conn.Open();
+
+                RawSqlCommand rawSqlCommand = db.GetService<IRawSqlCommandBuilder>().Build(sql, parameters);
+
+                RelationalDataReader query = rawSqlCommand.RelationalCommand.ExecuteReader(db.GetService<IRelationalConnection>(), parameterValues: rawSqlCommand.ParameterValues);
+
+                using (DbDataReader dr = query.DbDataReader)
                 {
-                    string colName = dr.GetName(i);
-                    dt.Columns.Add(colName, dr.GetFieldType(i));
+
+                    int fieldCount = dr.FieldCount;
+
+                    //获取schema并填充第一行数据
+                    if (dr.Read())
+                    {
+                        for (int i = 0; i < fieldCount; i++)
+                        {
+                            string colName = dr.GetName(i);
+                            dt.Columns.Add(colName, dr.GetFieldType(i));
+                        }
+                        DataRow newrow = dt.NewRow();
+                        for (int i = 0; i < fieldCount; i++)
+                        {
+                            newrow[i] = dr[i];
+                        }
+                        dt.Rows.Add(newrow);
+                    }
+                    //填充后续数据
+                    while (dr.Read())
+                    {
+                        DataRow newrow = dt.NewRow();
+                        for (int i = 0; i < fieldCount; i++)
+                        {
+                            newrow[i] = dr[i];
+                        }
+                        dt.Rows.Add(newrow);
+                    }
                 }
-                DataRow newrow = dt.NewRow();
-                for (int i = 0; i < fieldCount; i++)
-                {
-                    newrow[i] = dr[i];
-                }
-                dt.Rows.Add(newrow);
+                dt.AcceptChanges();
             }
-            //填充后续数据
-            while (dr.Read())
+            catch (Exception ex)
             {
-                DataRow newrow = dt.NewRow();
-                for (int i = 0; i < fieldCount; i++)
-                {
-                    newrow[i] = dr[i];
-                }
-                dt.Rows.Add(newrow);
+
             }
-            dt.AcceptChanges();
-
-            return ConvertToModel<T>(dt);
-            //return await Task.Run(() =>
-            //{
-
-            //    var db = _dbContextProvider.GetDbContext().Database;
-            //    var conn = db.GetDbConnection();
-            //    if (conn.State != ConnectionState.Open)
-            //        conn.Open();
-
-
-            //    DataTable dt = new DataTable();
-
-
-            //    RawSqlCommand rawSqlCommand = db.GetService<IRawSqlCommandBuilder>().Build(sql, parameters);
-
-            //    RelationalDataReader query = rawSqlCommand.RelationalCommand.ExecuteReader(db.GetService<IRelationalConnection>(), parameterValues: rawSqlCommand.ParameterValues);
-
-
-            //    DbDataReader dr = query.DbDataReader;
-
-
-            //    int fieldCount = dr.FieldCount;
-
-            //    //获取schema并填充第一行数据
-            //    if (dr.Read())
-            //    {
-            //        for (int i = 0; i < fieldCount; i++)
-            //        {
-            //            string colName = dr.GetName(i);
-            //            dt.Columns.Add(colName, dr.GetFieldType(i));
-            //        }
-            //        DataRow newrow = dt.NewRow();
-            //        for (int i = 0; i < fieldCount; i++)
-            //        {
-            //            newrow[i] = dr[i];
-            //        }
-            //        dt.Rows.Add(newrow);
-            //    }
-            //    //填充后续数据
-            //    while (dr.Read())
-            //    {
-            //        DataRow newrow = dt.NewRow();
-            //        for (int i = 0; i < fieldCount; i++)
-            //        {
-            //            newrow[i] = dr[i];
-            //        }
-            //        dt.Rows.Add(newrow);
-            //    }
-            //    dt.AcceptChanges();
-
-            //    return dt.ToEnumerable<T>();
-            //});
+            finally
+            {
+                //if (conn.State != ConnectionState.Closed)
+                //    conn.Close();
+            }
+            return dt;
         }
 
-        public static List<T> ConvertToModel<T>(DataTable dt) where T:new()
+        public List<T> DataTableToList<T>(DataTable dt) where T : new()
         {
             // 定义集合    
             List<T> ts = new List<T>();

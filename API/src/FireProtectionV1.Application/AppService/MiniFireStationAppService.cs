@@ -75,7 +75,7 @@ namespace FireProtectionV1.AppService
         //    return await _manager.GetNearbyStation(lng, lat);
         //}
 
-        public async Task<PagedResultDto<GetNearbyStationOutput>> GetNearbyStation(decimal lng, decimal lat)
+        public async Task<List<GetNearbyStationOutput>> GetNearbyStation(decimal lng, decimal lat)
         {
             return await _manager.GetNearbyStation(lng, lat);
         }

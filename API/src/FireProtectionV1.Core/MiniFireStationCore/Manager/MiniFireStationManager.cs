@@ -90,16 +90,14 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
         /// <param name="lng">经度，例如104.159203</param>
         /// <param name="lat">纬度，例如30.633145</param>
         /// <returns></returns>
-        public Task<PagedResultDto<GetNearbyStationOutput>> GetNearbyStation(decimal lng, decimal lat)
+        public Task<List<GetNearbyStationOutput>> GetNearbyStation(decimal lng, decimal lat)
         {
             // 6378.138是地球赤道的半径，单位千米
             string sql = $@"SELECT * FROM (SELECT *, ROUND(6378.138 * 2 * ASIN(SQRT(POW(SIN(({lat} * PI() / 180 - Lat * PI() / 180) / 2), 2) + COS({lat} * PI() / 180) * COS(Lat * PI() / 180) * 
 POW(SIN(({lng} * PI() / 180 - Lng * PI() / 180) / 2), 2))) *1000) AS Distance FROM MiniFireStation WHERE Lat !=0 and Lng != 0) a WHERE Distance <= 1000 ORDER BY Distance ASC";
 
-            List<GetNearbyStationOutput> list = _SqlRepository.Query<GetNearbyStationOutput>(sql);// _sqlExecuter.SqlQuery1<GetNearbyStationOutput>(sql);
-            var tCount = list.Count();
-            var task = Task.FromResult(new PagedResultDto<GetNearbyStationOutput>(tCount, list));
-            return task;
+            var dataTable = _SqlRepository.Query(sql);
+            return Task.FromResult(_SqlRepository.DataTableToList<GetNearbyStationOutput>(dataTable));
         }
 
         /// <summary>

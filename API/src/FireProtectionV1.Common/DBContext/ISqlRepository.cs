@@ -17,13 +17,20 @@ namespace FireProtectionV1.Common.DBContext
         /// <returns>执行命令后由数据库返回的结果</returns>
         int Execute(string sql, params object[] parameters);
 
-
         /// <summary>
         /// 执行语句返回datatable
         /// </summary>
         /// <param name="sql">sql语句</param>
         /// <param name="parameters">sql参数</param>
         /// <returns>dataset</returns>
-        List<T> Query<T>(string sql, params object[] parameters) where T : class, new();
+        DataTable Query(string sql, params object[] parameters);
+
+        /// <summary>
+        /// DataTableToList
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        List<T> DataTableToList<T>(DataTable dt) where T : new();
     }
 }

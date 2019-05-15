@@ -111,13 +111,21 @@
             <param name="parameters">要应用于命令字符串的参数</param>
             <returns>执行命令后由数据库返回的结果</returns>
         </member>
-        <member name="M:FireProtectionV1.Common.DBContext.ISqlRepository.Query``1(System.String,System.Object[])">
+        <member name="M:FireProtectionV1.Common.DBContext.ISqlRepository.Query(System.String,System.Object[])">
             <summary>
             执行语句返回datatable
             </summary>
             <param name="sql">sql语句</param>
             <param name="parameters">sql参数</param>
             <returns>dataset</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.DBContext.ISqlRepository.DataTableToList``1(System.Data.DataTable)">
+            <summary>
+            DataTableToList
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dt"></param>
+            <returns></returns>
         </member>
         <member name="T:FireProtectionV1.Common.DBContext.StringType">
             <summary>

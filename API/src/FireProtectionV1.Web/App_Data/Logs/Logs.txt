@@ -702,3 +702,39 @@ System.InvalidOperationException: This MySqlConnection is already in use. See ht
    at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
    at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
    at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextExceptionFilterAsync()
+ERROR 2019-05-14 18:22:03,037 [7    ] Mvc.ExceptionHandling.AbpExceptionFilter - Cannot access a disposed object.
+Object name: 'MySqlTransaction'.
+System.ObjectDisposedException: Cannot access a disposed object.
+Object name: 'MySqlTransaction'.
+   at MySql.Data.MySqlClient.MySqlTransaction.VerifyNotDisposed() in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlTransaction.cs:line 104
+   at MySql.Data.MySqlClient.MySqlTransaction.CommitAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlTransaction.cs:line 18
+   at MySql.Data.MySqlClient.MySqlTransaction.Commit() in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlTransaction.cs:line 12
+   at Microsoft.EntityFrameworkCore.Storage.RelationalTransaction.Commit()
+   at Abp.EntityFrameworkCore.Uow.DbContextEfCoreTransactionStrategy.Commit() in D:\Github\aspnetboilerplate\src\Abp.EntityFrameworkCore\EntityFrameworkCore\Uow\DbContextEfCoreTransactionStrategy.cs:line 66
+   at Abp.EntityFrameworkCore.Uow.EfCoreUnitOfWork.CommitTransaction() in D:\Github\aspnetboilerplate\src\Abp.EntityFrameworkCore\EntityFrameworkCore\Uow\EfCoreUnitOfWork.cs:line 92
+   at Abp.EntityFrameworkCore.Uow.EfCoreUnitOfWork.CompleteUowAsync() in D:\Github\aspnetboilerplate\src\Abp.EntityFrameworkCore\EntityFrameworkCore\Uow\EfCoreUnitOfWork.cs:line 83
+   at Abp.Domain.Uow.UnitOfWorkBase.CompleteAsync() in D:\Github\aspnetboilerplate\src\Abp\Domain\Uow\UnitOfWorkBase.cs:line 273
+   at Abp.AspNetCore.Mvc.Uow.AbpUowActionFilter.OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next) in D:\Github\aspnetboilerplate\src\Abp.AspNetCore\AspNetCore\Mvc\Uow\AbpUowActionFilter.cs:line 49
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextExceptionFilterAsync()
+ERROR 2019-05-14 18:24:43,335 [7    ] Mvc.ExceptionHandling.AbpExceptionFilter - This MySqlConnection is already in use. See https://fl.vu/mysql-conn-reuse
+System.InvalidOperationException: This MySqlConnection is already in use. See https://fl.vu/mysql-conn-reuse
+   at MySqlConnector.Core.ServerSession.StartQuerying(MySqlCommand command) in C:\projects\mysqlconnector\src\MySqlConnector\Core\ServerSession.cs:line 151
+   at MySqlConnector.Core.TextCommandExecutor.ExecuteReaderAsync(String commandText, MySqlParameterCollection parameterCollection, CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in C:\projects\mysqlconnector\src\MySqlConnector\Core\TextCommandExecutor.cs:line 33
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQueryAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlCommand.cs:line 276
+   at MySql.Data.MySqlClient.MySqlTransaction.CommitAsync(IOBehavior ioBehavior, CancellationToken cancellationToken) in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlTransaction.cs:line 25
+   at MySql.Data.MySqlClient.MySqlTransaction.Commit() in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlTransaction.cs:line 12
+   at Microsoft.EntityFrameworkCore.Storage.RelationalTransaction.Commit()
+   at Abp.EntityFrameworkCore.Uow.DbContextEfCoreTransactionStrategy.Commit() in D:\Github\aspnetboilerplate\src\Abp.EntityFrameworkCore\EntityFrameworkCore\Uow\DbContextEfCoreTransactionStrategy.cs:line 66
+   at Abp.EntityFrameworkCore.Uow.EfCoreUnitOfWork.CommitTransaction() in D:\Github\aspnetboilerplate\src\Abp.EntityFrameworkCore\EntityFrameworkCore\Uow\EfCoreUnitOfWork.cs:line 92
+   at Abp.EntityFrameworkCore.Uow.EfCoreUnitOfWork.CompleteUowAsync() in D:\Github\aspnetboilerplate\src\Abp.EntityFrameworkCore\EntityFrameworkCore\Uow\EfCoreUnitOfWork.cs:line 83
+   at Abp.Domain.Uow.UnitOfWorkBase.CompleteAsync() in D:\Github\aspnetboilerplate\src\Abp\Domain\Uow\UnitOfWorkBase.cs:line 273
+   at Abp.AspNetCore.Mvc.Uow.AbpUowActionFilter.OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next) in D:\Github\aspnetboilerplate\src\Abp.AspNetCore\AspNetCore\Mvc\Uow\AbpUowActionFilter.cs:line 49
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextExceptionFilterAsync()
