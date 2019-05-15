@@ -14,16 +14,16 @@ namespace FireProtectionV1.StreetGridCore.Manager
 {
     public class StreetGridEventManager : DomainService, IStreetGridEventManager
     {
-        IRepository<StreetGrid> _streetGridRepository;
+        IRepository<StreetGridUser> _streetGridUserRepository;
         IRepository<StreetGridEvent> _streetGridEventRepository;
         IRepository<StreetGridEventRemark> _streetGridEventRemarkRepository;
 
         public StreetGridEventManager(
-            IRepository<StreetGrid> streetGridRepository, 
+            IRepository<StreetGridUser> streetGridUserRepository, 
             IRepository<StreetGridEvent> streetGridEventRepository, 
             IRepository<StreetGridEventRemark> streetGridEventRemarkRepository)
         {
-            _streetGridRepository = streetGridRepository;
+            _streetGridUserRepository = streetGridUserRepository;
             _streetGridEventRepository = streetGridEventRepository;
             _streetGridEventRemarkRepository = streetGridEventRemarkRepository;
         }
@@ -36,11 +36,11 @@ namespace FireProtectionV1.StreetGridCore.Manager
         public Task<GetEventByIdOutput> GetEventById(int id)
         {
             var streetGridEvents = _streetGridEventRepository.GetAll();
-            var streetGrids = _streetGridRepository.GetAll();
+            var streetGridUsers = _streetGridUserRepository.GetAll();
             var streetGridEventRemarks = _streetGridEventRemarkRepository.GetAll();
 
             var query = from a in streetGridEvents
-                        join b in streetGrids on a.StreetGridId equals b.Id
+                        join b in streetGridUsers on a.StreetGridUserId equals b.Id
                         join c in streetGridEventRemarks on a.Id equals c.StreetGridEventId into r1
                         from dr1 in r1.DefaultIfEmpty()
                         where id.Equals(a.Id)
@@ -49,11 +49,11 @@ namespace FireProtectionV1.StreetGridCore.Manager
                             Id = a.Id,
                             Title = a.Title,
                             EventType = a.EventType,
-                            StreetGridName = b.Name,
+                            GridName = b.GridName,
                             Street = b.Street,
-                            Community = a.Community,
-                            ContractName = b.ContractName,
-                            ContractPhone = b.ContractPhone,
+                            Community = b.Community,
+                            GridUserName = b.Name,
+                            Phone = b.Phone,
                             Status = a.Status,
                             CreationTime = a.CreationTime,
                             Remark = dr1.Remark
@@ -75,11 +75,11 @@ namespace FireProtectionV1.StreetGridCore.Manager
                 .IfAnd(input.Status!= EventStatus.未指定, item => input.Status.Equals(item.Status));
             streetGridEvents = streetGridEvents.Where(expr);
 
-            var streetGrids = _streetGridRepository.GetAll();
+            var streetGridUsers = _streetGridUserRepository.GetAll();
 
             var query = from a in streetGridEvents
-                        join b in streetGrids
-                        on a.StreetGridId equals b.Id into g
+                        join b in streetGridUsers
+                        on a.StreetGridUserId equals b.Id into g
                         from b2 in g.DefaultIfEmpty()
                         orderby a.CreationTime descending
                         select new GetStreeGridEventListOutput
@@ -87,9 +87,9 @@ namespace FireProtectionV1.StreetGridCore.Manager
                             Id = a.Id,
                             Title = a.Title,
                             EventType = a.EventType,
-                            StreeGridName = b2.Name,
+                            GridName = b2.GridName,
                             Street = b2.Street,
-                            Community = a.Community,
+                            Community = b2.Community,
                             CreationTime = a.CreationTime,
                             Status = a.Status
                         };

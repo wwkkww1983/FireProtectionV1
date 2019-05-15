@@ -39,7 +39,7 @@ namespace FireProtectionV1.EntityFrameworkCore
         public DbSet<SupervisionItem> SupervisionItem { get; set; }
         public DbSet<SupervisionDetail> SupervisionDetail { get; set; }
         public DbSet<SupervisionDetailRemark> SupervisionDetailRemark { get; set; }
-        public DbSet<StreetGrid> StreetGrid { get; set; }
+        public DbSet<StreetGridUser> StreetGridUser { get; set; }
         public DbSet<StreetGridEvent> StreetGridEvent { get; set; }
         public DbSet<StreetGridEventRemark> StreetGridEventRemark { get; set; }
         public DbSet<FireSetting> FireSetting { get; set; }

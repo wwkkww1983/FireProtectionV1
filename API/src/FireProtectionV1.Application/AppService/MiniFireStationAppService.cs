@@ -67,14 +67,9 @@ namespace FireProtectionV1.AppService
         /// <summary>
         /// 根据坐标点获取附近1KM直线距离内的微型消防站
         /// </summary>
-        /// <param name="lng">经度，例如104.159203</param>
-        /// <param name="lat">纬度，例如30.633145</param>
+        /// <param name="lng"></param>
+        /// <param name="lat"></param>
         /// <returns></returns>
-        //public async Task<List<GetNearbyStationOutput>> GetNearbyStation(decimal lng, decimal lat)
-        //{
-        //    return await _manager.GetNearbyStation(lng, lat);
-        //}
-
         public async Task<List<GetNearbyStationOutput>> GetNearbyStation(decimal lng, decimal lat)
         {
             return await _manager.GetNearbyStation(lng, lat);
