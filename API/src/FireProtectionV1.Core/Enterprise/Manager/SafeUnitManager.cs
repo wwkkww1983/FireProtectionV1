@@ -34,7 +34,7 @@ namespace FireProtectionV1.Enterprise.Manager
                 {
                     SafeUnitId = p.Id,
                     SafeUnitName = p.Name
-                });
+                }).Take(10);
             return Task.FromResult<List<GetSafeUnitOutput>>(query.ToList());
         }
         /// <summary>
