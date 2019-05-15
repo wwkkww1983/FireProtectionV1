@@ -98,8 +98,7 @@ POW(SIN(({lng} * PI() / 180 - Lng * PI() / 180) / 2), 2))) *1000) AS Distance FR
 
             List<GetNearbyStationOutput> list = _SqlRepository.Query<GetNearbyStationOutput>(sql);// _sqlExecuter.SqlQuery1<GetNearbyStationOutput>(sql);
             var tCount = list.Count();
-            var task = Task.FromResult(new PagedResultDto<GetNearbyStationOutput>(tCount, list));
-            return task;
+            return Task.FromResult(new PagedResultDto<GetNearbyStationOutput>(tCount, list));
         }
 
         /// <summary>
