@@ -1,28 +1,28 @@
-﻿using FireProtectionV1.User.Dto;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace FireProtectionV1.Enterprise.Dto
 {
-    public class AddFireUnitInput
+    public class GetFireUnitExcelOutput
     {
+        /// <summary>
+        /// 防火单位Id
+        /// </summary>
+        public int Id { get; set; }
+
         /// <summary>
         /// 防火单位名称
         /// </summary>
-        [Required]
         public string Name { get; set; }
         /// <summary>
-        /// 防火单位类型Id
+        /// 防火单位类型
         /// </summary>
-        [Required]
-        public int TypeId { get; set; }
+        public string Type { get; set; }
         /// <summary>
-        /// 区域Id
+        /// 区域
         /// </summary>
-        [Required]
-        public int AreaId { get; set; }
+        public string Area { get; set; }
         /// <summary>
         /// 联系人
         /// </summary>
@@ -32,16 +32,12 @@ namespace FireProtectionV1.Enterprise.Dto
         /// </summary>
         public string ContractPhone { get; set; }
         /// <summary>
-        /// 维保单位Id
+        /// 维保单位
         /// </summary>
-        public int SafeUnitId { get; set; }
+        public string SafeUnit { get; set; }
         /// <summary>
-        /// 经度
+        /// 邀请码（自动生成）
         /// </summary>
-        public decimal Lng { get; set; }
-        /// <summary>
-        /// 纬度
-        /// </summary>
-        public decimal Lat { get; set; }
+        public string InvitationCode { get; set; }
     }
 }

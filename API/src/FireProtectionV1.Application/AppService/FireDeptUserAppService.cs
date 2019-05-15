@@ -31,9 +31,9 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<DeptUserLogoutOutput> UserLogout(DeptUserLogoutInput input)
+        public async Task<SuccessOutput> UserLogout(DeptUserLogoutInput input)
         {
-            DeptUserLogoutOutput output = new DeptUserLogoutOutput();
+            var output = new SuccessOutput();
             if (!_httpContext.HttpContext.User.Identity.IsAuthenticated)
             {
                 output.Success = false;

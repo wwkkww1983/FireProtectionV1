@@ -9,6 +9,18 @@
             Derive your application services from this class.
             </summary>
         </member>
+        <member name="M:FireProtectionV1.AppService.AreaAppService.GetAreas(FireProtectionV1.Infrastructure.Dto.GetAreaInput)">
+            <summary>
+            根据父级区域Id查询子级区域数组
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AreaAppService.GetAreasChenghua">
+            <summary>
+            查询成华区子级区域数组
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.DataReportAppService.GetDataMinotor">
             <summary>
             数据监控页
@@ -88,6 +100,19 @@
             <summary>
             防火单位服务
             </summary>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitTypes">
+            <summary>
+            获取防火单位类型数组
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitListExcel(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+            <summary>
+            导出防火单位列表excel
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
             <summary>
@@ -233,7 +258,7 @@
         </member>
         <member name="M:FireProtectionV1.AppService.InfrastructureAppService.InitData">
             <summary>
-            初始化数据
+            初始化数据(部署初始化)
             </summary>
             <returns></returns>
         </member>
@@ -289,6 +314,13 @@
             <summary>
             维保单位
             </summary>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.GetSafeUnits(FireProtectionV1.Enterprise.Dto.GetSafeUnitInput)">
+            <summary>
+            查询维保单位(模糊查询)
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.SafeUnitAppService.Add(FireProtectionV1.Enterprise.Dto.AddSafeUnitInput)">
             <summary>

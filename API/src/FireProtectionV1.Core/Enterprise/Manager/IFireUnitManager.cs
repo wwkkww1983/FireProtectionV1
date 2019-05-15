@@ -11,12 +11,13 @@ namespace FireProtectionV1.Enterprise.Manager
 {
     public interface IFireUnitManager : IDomainService
     {
+        Task<List<GetFireUnitTypeOutput>> GetFireUnitTypes();
         /// <summary>
         /// 添加防火单位（同时会添加防火单位管理员账号）
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<int> Add(AddFireUnitInput input);
+        Task<SuccessOutput> Add(AddFireUnitInput input);
 
         /// <summary>
         /// 防火单位信息
@@ -24,6 +25,7 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<GetFireUnitInfoOutput> GetFireUnitInfo(GetFireUnitInfoInput input);
+        Task<List<GetFireUnitExcelOutput>> GetFireUnitListExcel(GetFireUnitListInput input);
         Task<PagedResultDto<GetFireUnitListOutput>> GetFireUnitList(GetFireUnitListInput input);
         Task<PagedResultDto<GetFireUnitListForMobileOutput>> GetFireUnitListForMobile(GetFireUnitListInput input);
     }

@@ -95,7 +95,7 @@ namespace FireProtectionV1.HydrantCore.Manager
             var hydrants = _hydrantRepository.GetAll();
 
             var expr = ExprExtension.True<Hydrant>()
-             .IfAnd(!string.IsNullOrEmpty(input.Sn), item => input.Sn.Contains(item.Sn));
+             .IfAnd(!string.IsNullOrEmpty(input.Sn), item => item.Sn.Contains(input.Sn));
 
             hydrants = hydrants.Where(expr);
 

@@ -17,6 +17,7 @@ using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.Infrastructure.Model;
 using FireProtectionV1.User.Manager;
 using FireProtectionV1.User.Model;
+using FireProtectionV1.Common.Helper;
 
 namespace FireProtectionV1.Enterprise.Manager
 {
@@ -27,7 +28,6 @@ namespace FireProtectionV1.Enterprise.Manager
         IRepository<FireUnitType> _fireUnitTypeRep;
         IRepository<FireUnit> _fireUnitRep;
         IRepository<FireUnitUser> _fireUnitUserRep;
-        IFireUnitUserManager _fireUnitAccountManager;
         ICacheManager _cacheManager;
         public FireUnitManager(
             IRepository<SafeUnit> safeUnitR,
@@ -43,14 +43,56 @@ namespace FireProtectionV1.Enterprise.Manager
             _fireUnitTypeRep = fireUnitTypeR;
             _fireUnitRep = fireUnitInfoRepository;
             _fireUnitUserRep = fireUnitAccountRepository;
-            _fireUnitAccountManager = fireUnitAccountManager;
             _cacheManager = cacheManager;
+        }
+        public Task<List<GetFireUnitTypeOutput>> GetFireUnitTypes()
+        {
+            return Task.FromResult<List<GetFireUnitTypeOutput>>(
+                _fireUnitTypeRep.GetAll().Select(p => new GetFireUnitTypeOutput()
+                {
+                    TypeId = p.Id,
+                    TypeName = p.Name
+                }).ToList());
+        }
+        /// <summary>
+        /// 得到防火单位列表excel数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task<List<GetFireUnitExcelOutput>> GetFireUnitListExcel(GetFireUnitListInput input)
+        {
+            var fireUnits = _fireUnitRep.GetAll();
+            var expr = ExprExtension.True<FireUnit>()
+                .IfAnd(!string.IsNullOrEmpty(input.Name), item => item.Name.Contains(input.Name));
+            fireUnits = fireUnits.Where(expr);
+
+            var query = from a in fireUnits
+                        join b in _fireUnitTypeRep.GetAll()
+                        on a.TypeId equals b.Id into g
+                        from b2 in g.DefaultIfEmpty()
+                        orderby a.CreationTime descending
+                        join c in _areaRep.GetAll()
+                        on a.AreaId equals c.Id
+                        join d in _safeUnitRep.GetAll()
+                        on a.SafeUnitId equals d.Id
+                        select new GetFireUnitExcelOutput
+                        {
+                            Id = a.Id,
+                            Name = a.Name,
+                            Type = b2.Name,
+                            Area = c.Name,
+                            ContractName = a.ContractName,
+                            ContractPhone = a.ContractPhone,
+                            SafeUnit = d.Name,
+                            InvitationCode = a.InvitationCode
+                        };
+            return Task.FromResult<List<GetFireUnitExcelOutput>>(query.ToList());
         }
         public Task<PagedResultDto<GetFireUnitListOutput>> GetFireUnitList(GetFireUnitListInput input)
         {
             var fireUnits = _fireUnitRep.GetAll();
             var expr = ExprExtension.True<FireUnit>()
-                .IfAnd(!string.IsNullOrEmpty(input.Name), item => input.Name.Contains(item.Name));
+                .IfAnd(!string.IsNullOrEmpty(input.Name), item => item.Name.Contains(input.Name));
             fireUnits = fireUnits.Where(expr);
 
             var query = from a in fireUnits
@@ -79,7 +121,7 @@ namespace FireProtectionV1.Enterprise.Manager
         {
             var fireUnits = _fireUnitRep.GetAll();
             var expr = ExprExtension.True<FireUnit>()
-                .IfAnd(!string.IsNullOrEmpty(input.Name), item => input.Name.Contains(item.Name));
+                .IfAnd(!string.IsNullOrEmpty(input.Name), item => item.Name.Contains(input.Name));
             fireUnits = fireUnits.Where(expr);
 
             var query = from a in fireUnits
@@ -106,16 +148,22 @@ namespace FireProtectionV1.Enterprise.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<int> Add(AddFireUnitInput input)
+        public async Task<SuccessOutput> Add(AddFireUnitInput input)
         {
-            await _fireUnitAccountManager.Add(input.accountInput);
-
-            var fireUnitInfo = new FireUnit()
+            await _fireUnitRep.InsertAsync(new FireUnit()
             {
-                Name = input.Name
-            };
-
-            return await _fireUnitRep.InsertAndGetIdAsync(fireUnitInfo);
+                CreationTime = DateTime.Now,
+                Name = input.Name,
+                Lng = input.Lng,
+                Lat = input.Lat,
+                AreaId = input.AreaId,
+                SafeUnitId = input.SafeUnitId,
+                TypeId = input.TypeId,
+                ContractName = input.ContractName,
+                ContractPhone = input.ContractPhone,
+                InvitationCode = MethodHelper.CreateInvitationCode()
+            });
+            return new SuccessOutput() { Success = true };
         }
 
         /// <summary>
@@ -141,6 +189,8 @@ namespace FireProtectionV1.Enterprise.Manager
             {
                 output.Name = f.Name;
                 output.Address = f.Address;
+                output.ContractName = f.ContractName;
+                output.ContractPhone = f.ContractPhone;
                 var a =await _areaRep.SingleAsync(p => p.Id.Equals(f.AreaId));
                 if(a!=null)
                 {

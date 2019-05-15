@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace FireProtectionV1.AppService
 {
+ 
     /// <summary>
     /// 维保单位
     /// </summary>
@@ -20,6 +21,15 @@ namespace FireProtectionV1.AppService
         public SafeUnitAppService(ISafeUnitManager manager)
         {
             _manager = manager;
+        }
+        /// <summary>
+        /// 查询维保单位(模糊查询)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<List<GetSafeUnitOutput>> GetSafeUnits(GetSafeUnitInput input)
+        {
+            return await _manager.GetSafeUnits(input);
         }
 
         /// <summary>

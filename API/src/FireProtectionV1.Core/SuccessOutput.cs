@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FireProtectionV1.User.Dto
+namespace FireProtectionV1
 {
-    public class DeptUserLogoutOutput
+    public class SuccessOutput
     {
         /// <summary>
-        /// 注销成功
+        /// 提交是否成功
         /// </summary>
         public bool Success { get; set; }
         /// <summary>

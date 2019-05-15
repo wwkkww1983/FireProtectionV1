@@ -4,16 +4,8 @@ using System.Text;
 
 namespace FireProtectionV1.User.Dto
 {
-    public class DeptUserLoginOutput
+    public class DeptUserLoginOutput:SuccessOutput
     {
-        /// <summary>
-        /// 登录是否成功
-        /// </summary>
-        public bool Success { get; set; }
-        /// <summary>
-        /// 登录失败原因
-        /// </summary>
-        public string FailCause { get; set; }
         /// <summary>
         /// 姓名
         /// </summary>
