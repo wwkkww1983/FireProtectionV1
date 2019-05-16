@@ -36,6 +36,10 @@ namespace FireProtectionV1.Enterprise.Dto
         /// </summary>
         public int SafeUnitId { get; set; }
         /// <summary>
+        /// 地址
+        /// </summary>
+        public string Address { get; set; }
+        /// <summary>
         /// 经度
         /// </summary>
         public decimal Lng { get; set; }

@@ -161,19 +161,42 @@ namespace FireProtectionV1.Enterprise.Manager
                 TypeId = input.TypeId,
                 ContractName = input.ContractName,
                 ContractPhone = input.ContractPhone,
-                InvitationCode = MethodHelper.CreateInvitationCode()
+                InvitationCode = MethodHelper.CreateInvitationCode(),
+                Address=input.Address
             });
             return new SuccessOutput() { Success = true };
         }
-
+        /// <summary>
+        /// 删除防火单位
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> Delete(FireUnitIdInput input)
+        {
+            await _fireUnitRep.DeleteAsync(input.Id);
+            return new SuccessOutput() { Success = true };
+        }
         /// <summary>
         /// 修改防火单位信息
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task Update(UpdateFireUnitInput input)
+        public async Task<SuccessOutput> Update(UpdateFireUnitInput input)
         {
-            
+            await _fireUnitRep.UpdateAsync(new FireUnit()
+            {
+                Id = input.Id,
+                Name = input.Name,
+                TypeId = input.TypeId,
+                AreaId = input.AreaId,
+                Address = input.Address,
+                ContractName = input.ContractName,
+                ContractPhone = input.ContractPhone,
+                SafeUnitId = input.SafeUnitId,
+                Lng = input.Lng,
+                Lat = input.Lat
+            });
+            return new SuccessOutput() { Success = true };
         }
 
         /// <summary>
@@ -187,6 +210,7 @@ namespace FireProtectionV1.Enterprise.Manager
             var f = await _fireUnitRep.SingleAsync(p => p.Id.Equals(input.Id));
             if (f != null)
             {
+                output.Id = f.Id;
                 output.Name = f.Name;
                 output.Address = f.Address;
                 output.ContractName = f.ContractName;

@@ -8,7 +8,11 @@ namespace FireProtectionV1.Web.Startup
         public static void Main(string[] args)
         {
             var host = new WebHostBuilder()
+#if DEBUG
                 .UseUrls("http://*:5000")
+#else
+                .UseUrls("http://*:5080")
+#endif
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()

@@ -14,7 +14,9 @@ namespace FireProtectionV1.Configuration
         //public static IConfigurationRoot Configuration;
         static ConfigHelper()
         {
-            Configuration = IocManager.Instance.Resolve<IConfiguration>();
+            var env = IocManager.Instance.Resolve<IHostingEnvironment>();
+            Configuration = AppConfigurations.Get(env.ContentRootPath, env.EnvironmentName);
+            //Configuration = IocManager.Instance.Resolve<IConfiguration>();
         }
     }
 }
