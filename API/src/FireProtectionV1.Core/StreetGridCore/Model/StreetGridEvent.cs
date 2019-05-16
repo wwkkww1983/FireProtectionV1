@@ -16,13 +16,9 @@ namespace FireProtectionV1.StreetGridCore.Model
         /// </summary>
         public string EventType { get; set; }
         /// <summary>
-        /// 街道网格Id
+        /// 街道网格员Id
         /// </summary>
-        public int StreetGridId { get; set; }
-        /// <summary>
-        /// 所属社区
-        /// </summary>
-        public string Community { get; set; }
+        public int StreetGridUserId { get; set; }
         /// <summary>
         /// 事件状态
         /// </summary>

@@ -6,29 +6,37 @@ using System.Text;
 
 namespace FireProtectionV1.StreetGridCore.Model
 {
-    public class StreetGrid : EntityBase
+    /// <summary>
+    /// 网格员
+    /// </summary>
+    public class StreetGridUser : EntityBase
     {
         /// <summary>
-        /// 名称
+        /// 网格员姓名
+        /// </summary>
+        [MaxLength(StringType.Normal)]
+        public string Name { get; set; }
+        /// <summary>
+        /// 联系电话
+        /// </summary>
+        [Phone]
+        [MaxLength(20)]
+        public string Phone { get; set; }
+        /// <summary>
+        /// 网格名称
         /// </summary>
         [Required]
         [MaxLength(StringType.Normal)]
-        public string Name { get; set; }
+        public string GridName { get; set; }
         /// <summary>
         /// 所属街道
         /// </summary>
         [Required]
         public string Street { get; set; }
         /// <summary>
-        /// 联系人
+        /// 所属社区
         /// </summary>
-        [MaxLength(StringType.Normal)]
-        public string ContractName { get; set; }
-        /// <summary>
-        /// 联系电话
-        /// </summary>
-        [Phone]
-        [MaxLength(20)]
-        public string ContractPhone { get; set; }
+        public string Community { get; set; }
+        
     }
 }

@@ -10,10 +10,14 @@ namespace FireProtectionV1.StreetGridCore.Dto
         /// <summary>
         /// 网格名称
         /// </summary>
-        public string StreeGridName { get; set; }
+        public string GridName { get; set; }
         /// <summary>
         /// 所属街道
         /// </summary>
         public string Street { get; set; }
+        /// <summary>
+        /// 所属社区
+        /// </summary>
+        public string Community { get; set; }
     }
 }
