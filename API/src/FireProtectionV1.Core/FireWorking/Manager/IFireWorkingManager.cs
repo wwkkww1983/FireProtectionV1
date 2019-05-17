@@ -84,5 +84,17 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <returns></returns>
         Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayElecAlarmList(GetFireUnitListInput input);
+        /// <summary>
+        /// （所有防火单位）值班巡查监控（巡查记录）
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<FireUnitPatrolOuput>> GetFireUnitPatrolList(GetFireUnitListInput input);
+        /// <summary>
+        /// （所有防火单位）值班巡查监控（值班记录）
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<FireUnitDutyOuput>> GetFireUnitDutyList(GetFireUnitListInput input);
     }
 }

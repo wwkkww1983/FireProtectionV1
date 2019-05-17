@@ -58,7 +58,6 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpPost]
         public async Task Delete(int id)
         {
             await _manager.Delete(id);

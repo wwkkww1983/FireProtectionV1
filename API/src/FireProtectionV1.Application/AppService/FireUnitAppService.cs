@@ -204,5 +204,25 @@ namespace FireProtectionV1.AppService
         {
             return await _fireWorkingManager.GetFireUnitFaultList(input);
         }
+        /// <summary>
+        /// （所有防火单位）值班巡查监控（巡查记录）
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<FireUnitPatrolOuput>> GetFireUnitPatrolList(GetFireUnitListInput input)
+        {
+            //throw new NotImplementedException();
+            return await _fireWorkingManager.GetFireUnitPatrolList(input);
+        }
+        /// <summary>
+        /// （所有防火单位）值班巡查监控（值班记录）
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<FireUnitDutyOuput>> GetFireUnitDutyList(GetFireUnitListInput input)
+        {
+            //throw new NotImplementedException();
+            return await _fireWorkingManager.GetFireUnitDutyList(input);
+        }
     }
 }
