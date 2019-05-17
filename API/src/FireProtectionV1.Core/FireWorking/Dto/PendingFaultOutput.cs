@@ -4,8 +4,12 @@ using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto
 {
-    public class PendingFault
+    public class PendingFaultOutput
     {
+        /// <summary>
+        /// 设施类型名称
+        /// </summary>
+        public string DetectorTypeName { get; set; }
         /// <summary>
         /// 故障事件描述
         /// </summary>

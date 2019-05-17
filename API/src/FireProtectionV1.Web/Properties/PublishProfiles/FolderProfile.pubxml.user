@@ -8,4 +8,9 @@
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>C:\publish\</_PublishTargetUrl>
   </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="Default">
+      <Value>Server=localhost%3b port=3306%3b Database=FireProtectionV1%3b uid=root%3b pwd=pass%40word1%3b Convert Zero Datetime=True</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
 </Project>

@@ -33,7 +33,7 @@ namespace FireProtectionV1.AppService
             return await _fireUnitManager.GetFireUnitTypes();
         }
         /// <summary>
-        /// 导出防火单位列表excel
+        /// （所有防火单位）导出防火单位列表excel
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -44,7 +44,7 @@ namespace FireProtectionV1.AppService
             throw new NotImplementedException();
         }
         /// <summary>
-        /// 防火单位分页列表
+        /// （所有防火单位）防火单位分页列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -53,7 +53,7 @@ namespace FireProtectionV1.AppService
             return await _fireUnitManager.GetFireUnitList(input);
         }
         /// <summary>
-        /// 防火单位分页列表(手机端)
+        /// （所有防火单位）防火单位分页列表（手机端）
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -70,10 +70,28 @@ namespace FireProtectionV1.AppService
         {
             return await _fireUnitManager.Add(input);
         }
+        /// <summary>
+        /// 修改防火单位信息
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> Update(UpdateFireUnitInput input)
+        {
+            return await _fireUnitManager.Update(input);
+        }
+        /// <summary>
+        /// 删除防火单位
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> Delete(FireUnitIdInput input)
+        {
+            return await _fireUnitManager.Delete(input);
+        }
 
 
         /// <summary>
-        /// 防火单位信息
+        /// （单个防火单位）防火单位详情
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -82,16 +100,16 @@ namespace FireProtectionV1.AppService
             return await _fireUnitManager.GetFireUnitInfo(input);
         }
         /// <summary>
-        /// 防火单位消防数据
+        /// （单个防火单位）防火单位消防数据
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<GetFireUnitAlarmOutput> GetFireUnitAlarm(GetByFireUnitIdInput input)
+        public async Task<GetFireUnitAlarmOutput> GetFireUnitAlarm(FireUnitIdInput input)
         {
             return await _fireWorkingManager.GetFireUnitAlarm(input);
         }
         /// <summary>
-        /// 安全用电最近30天报警记录查询
+        /// （单个防火单位）安全用电最近30天报警记录查询
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -100,7 +118,7 @@ namespace FireProtectionV1.AppService
             return await _fireWorkingManager.GetFireUnit30DayAlarmEle(input);
         }
         /// <summary>
-        /// 火警预警最近30天报警记录查询
+        /// （单个防火单位）火警预警最近30天报警记录查询
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -109,7 +127,7 @@ namespace FireProtectionV1.AppService
             return await _fireWorkingManager.GetFireUnit30DayAlarmFire(input);
         }
         /// <summary>
-        /// 安全用电高频报警部件查询
+        /// （单个防火单位）安全用电高频报警部件查询
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -118,7 +136,25 @@ namespace FireProtectionV1.AppService
             return await _fireWorkingManager.GetFireUnitHighFreqAlarmEle(input);
         }
         /// <summary>
-        /// 火警预警高频报警部件查询
+        /// （单个防火单位）安全用电高频报警部件查询（剩余电流）
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<HighFreqAlarmDetector>> GetFireUnitHighFreqAlarmElecE(GetPageByFireUnitIdInput input)
+        {
+            return await _fireWorkingManager.GetFireUnitHighFreqAlarmEle(input,"elec");
+        }
+        /// <summary>
+        /// （单个防火单位）安全用电高频报警部件查询（电缆温度）
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<HighFreqAlarmDetector>> GetFireUnitHighFreqAlarmElecT(GetPageByFireUnitIdInput input)
+        {
+            return await _fireWorkingManager.GetFireUnitHighFreqAlarmEle(input,"temp");
+        }
+        /// <summary>
+        /// （单个防火单位）火警预警高频报警部件查询
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -127,13 +163,46 @@ namespace FireProtectionV1.AppService
             return await _fireWorkingManager.GetFireUnitHighFreqAlarmFire(input);
         }
         /// <summary>
-        /// 设备设施故障待处理故障查询
+        /// （单个防火单位）设备设施故障待处理故障查询
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<PendingFault>> GetFireUnitPendingFault(GetPageByFireUnitIdInput input)
+        public async Task<PagedResultDto<PendingFaultOutput>> GetFireUnitPendingFault(GetPageByFireUnitIdInput input)
         {
             return await _fireWorkingManager.GetFireUnitPendingFault(input);
+        }
+        /// <summary>
+        /// （所有防火单位）火灾报警监控列表
+        /// </summary>
+        /// <returns></returns>
+        public async Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayFireAlarmList(GetFireUnitListInput input)
+        {
+            return await _fireWorkingManager.GetAreas30DayFireAlarmList(input);
+        }
+        /// <summary>
+        /// （所有防火单位）安全用电监控列表（电缆温度）
+        /// </summary>
+        /// <returns></returns>
+        public async Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayTempAlarmList(GetFireUnitListInput input)
+        {
+            return await _fireWorkingManager.GetAreas30DayTempAlarmList(input);
+        }
+        /// <summary>
+        /// （所有防火单位）安全用电监控列表（剩余电流）
+        /// </summary>
+        /// <returns></returns>
+        public async Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayElecAlarmList(GetFireUnitListInput input)
+        {
+            return await _fireWorkingManager.GetAreas30DayElecAlarmList(input);
+        }
+        /// <summary>
+        /// （所有防火单位）设备设施故障监控
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<FireUnitFaultOuput>> GetFireUnitFaultList(GetFireUnitListInput input)
+        {
+            return await _fireWorkingManager.GetFireUnitFaultList(input);
         }
     }
 }

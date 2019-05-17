@@ -18,7 +18,18 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<SuccessOutput> Add(AddFireUnitInput input);
-
+        /// <summary>
+        /// 修改防火单位信息
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<SuccessOutput> Update(UpdateFireUnitInput input);
+        /// <summary>
+        /// 删除防火单位
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<SuccessOutput> Delete(FireUnitIdInput input);
         /// <summary>
         /// 防火单位信息
         /// </summary>
