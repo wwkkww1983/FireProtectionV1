@@ -18,3 +18,4 @@ bin
 obj
 bin
 /API/src/FireProtectionV1.Web/App_Data/Logs/Logs.txt
+/API/Test
