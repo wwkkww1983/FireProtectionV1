@@ -23,13 +23,13 @@ namespace FireProtectionV1.AppService
             _manager = manager;
         }
         /// <summary>
-        /// 查询维保单位(模糊查询)
+        /// 选择查询维保单位
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<List<GetSafeUnitOutput>> GetSafeUnits(GetSafeUnitInput input)
+        public async Task<List<GetSafeUnitOutput>> GetSelectSafeUnits(GetSafeUnitInput input)
         {
-            return await _manager.GetSafeUnits(input);
+            return await _manager.GetSelectSafeUnits(input);
         }
 
         /// <summary>
@@ -58,6 +58,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [HttpPost]
         public async Task Delete(int id)
         {
             await _manager.Delete(id);

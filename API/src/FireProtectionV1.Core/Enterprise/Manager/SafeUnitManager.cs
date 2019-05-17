@@ -23,11 +23,11 @@ namespace FireProtectionV1.Enterprise.Manager
             _safeUnitRepository = safeUnitRepository;
         }
         /// <summary>
-        /// 查询维保单位(模糊查询)
+        /// 选择查询维保单位
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<List<GetSafeUnitOutput>> GetSafeUnits(GetSafeUnitInput input)
+        public Task<List<GetSafeUnitOutput>> GetSelectSafeUnits(GetSafeUnitInput input)
         {
             var query = _safeUnitRepository.GetAll().Where(p => string.IsNullOrEmpty(input.Name) ? true : p.Name.Contains(input.Name))
                 .Select(p => new GetSafeUnitOutput()

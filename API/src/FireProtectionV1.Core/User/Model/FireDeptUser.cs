@@ -35,6 +35,11 @@ namespace FireProtectionV1.User.Model
         /// </summary>
         [Required]
         public int FireDeptId { get; set; }
+        /// <summary>
+        /// 关注的防火单位ID数组
+        /// </summary>
+        //[MaxLength(400)]
+        public byte[] AttentionFireUnitIds { get; set; } 
 
     }
 }

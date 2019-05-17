@@ -12,11 +12,11 @@ namespace FireProtectionV1.Enterprise.Manager
     public interface ISafeUnitManager : IDomainService
     {
         /// <summary>
-        /// 查询维保单位(模糊查询)
+        /// 选择查询维保单位
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<List<GetSafeUnitOutput>> GetSafeUnits(GetSafeUnitInput input);
+        Task<List<GetSafeUnitOutput>> GetSelectSafeUnits(GetSafeUnitInput input);
 
         /// <summary>
         /// 添加

@@ -62,6 +62,15 @@ namespace FireProtectionV1.AppService
             return await _fireUnitManager.GetFireUnitListForMobile(input);
         }
         /// <summary>
+        /// （单个防火单位）置顶单个防火单位
+        /// </summary>
+        /// <param name="FireUnitId"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> AttentionFireUnit(int FireUnitId)
+        {
+            throw new NotImplementedException();
+        }
+        /// <summary>
         /// 添加防火单位
         /// </summary>
         /// <param name="input"></param>
@@ -175,7 +184,7 @@ namespace FireProtectionV1.AppService
         /// （所有防火单位）火灾报警监控列表
         /// </summary>
         /// <returns></returns>
-        public async Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayFireAlarmList(GetFireUnitListInput input)
+        public async Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayFireAlarmList(GetFireUnitListFilterTypeInput input)
         {
             return await _fireWorkingManager.GetAreas30DayFireAlarmList(input);
         }
@@ -183,7 +192,7 @@ namespace FireProtectionV1.AppService
         /// （所有防火单位）安全用电监控列表（电缆温度）
         /// </summary>
         /// <returns></returns>
-        public async Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayTempAlarmList(GetFireUnitListInput input)
+        public async Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayTempAlarmList(GetFireUnitListFilterTypeInput input)
         {
             return await _fireWorkingManager.GetAreas30DayTempAlarmList(input);
         }
@@ -191,7 +200,7 @@ namespace FireProtectionV1.AppService
         /// （所有防火单位）安全用电监控列表（剩余电流）
         /// </summary>
         /// <returns></returns>
-        public async Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayElecAlarmList(GetFireUnitListInput input)
+        public async Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayElecAlarmList(GetFireUnitListFilterTypeInput input)
         {
             return await _fireWorkingManager.GetAreas30DayElecAlarmList(input);
         }
@@ -209,9 +218,8 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<FireUnitPatrolOuput>> GetFireUnitPatrolList(GetFireUnitListInput input)
+        public async Task<GetFireUnitPatrolListOutput> GetFireUnitPatrolList(GetFireUnitListInput input)
         {
-            //throw new NotImplementedException();
             return await _fireWorkingManager.GetFireUnitPatrolList(input);
         }
         /// <summary>
@@ -219,10 +227,27 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<FireUnitDutyOuput>> GetFireUnitDutyList(GetFireUnitListInput input)
+        public async Task<GetFireUnitDutyListOutput> GetFireUnitDutyList(GetFireUnitListInput input)
         {
-            //throw new NotImplementedException();
             return await _fireWorkingManager.GetFireUnitDutyList(input);
+        }
+        /// <summary>
+        /// （所有防火单位）超过7天没有巡查记录的单位列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<GetFireUnitPatrolListOutput> GetNoPatrol7DayFireUnitList(PagedResultRequestDto input)
+        {
+            return await _fireWorkingManager.GetNoPatrol7DayFireUnitList(input);
+        }
+        /// <summary>
+        /// （所有防火单位）超过1天没有值班记录的单位列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<GetFireUnitDutyListOutput> GetNoDuty1DayFireUnitList(PagedResultRequestDto input)
+        {
+            return await _fireWorkingManager.GetNoDuty1DayFireUnitList(input);
         }
     }
 }

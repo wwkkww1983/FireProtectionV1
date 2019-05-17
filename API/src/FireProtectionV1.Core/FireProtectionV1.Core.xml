@@ -176,6 +176,16 @@
             维保单位
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput.FireUnitTypeId">
+            <summary>
+            防火单位类型Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput.GetwayStatusId">
+            <summary>
+            网关状态Id
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListForMobileOutput.Id">
             <summary>
             防火单位Id
@@ -189,6 +199,11 @@
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListForMobileOutput.Address">
             <summary>
             防火单位地址
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListForMobileOutput.IsAttention">
+            <summary>
+            是否关注
             </summary>
         </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListInput.Name">
@@ -378,9 +393,9 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.Enterprise.Manager.ISafeUnitManager.GetSafeUnits(FireProtectionV1.Enterprise.Dto.GetSafeUnitInput)">
+        <member name="M:FireProtectionV1.Enterprise.Manager.ISafeUnitManager.GetSelectSafeUnits(FireProtectionV1.Enterprise.Dto.GetSafeUnitInput)">
             <summary>
-            查询维保单位(模糊查询)
+            选择查询维保单位
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -420,9 +435,9 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.Enterprise.Manager.SafeUnitManager.GetSafeUnits(FireProtectionV1.Enterprise.Dto.GetSafeUnitInput)">
+        <member name="M:FireProtectionV1.Enterprise.Manager.SafeUnitManager.GetSelectSafeUnits(FireProtectionV1.Enterprise.Dto.GetSafeUnitInput)">
             <summary>
-            查询维保单位(模糊查询)
+            选择查询维保单位
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -595,6 +610,26 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.FireUnitIdInput.Id">
             <summary>
             防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireUnitManualOuput.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireUnitManualOuput.FireUnitName">
+            <summary>
+            防火单位名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireUnitManualOuput.LastTime">
+            <summary>
+            最近一次记录提交时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireUnitManualOuput.Recent30DayCount">
+            <summary>
+            最近30天提交记录数
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetAreas30DayFireAlarmOutput.FireUnitId">
@@ -852,6 +887,26 @@
             值班记录最近30天数量
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitDutyListOutput.NoWork1DayCount">
+            <summary>
+            超过1天没有巡查记录的单位数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitDutyListOutput.PagedResultDto">
+            <summary>
+            巡检页面数据
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitPatrolListOutput.NoWork7DayCount">
+            <summary>
+            超过7天没有巡查记录的单位数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitPatrolListOutput.PagedResultDto">
+            <summary>
+            巡检页面数据
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput.Id">
             <summary>
             防火单位Id
@@ -975,6 +1030,34 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnitPatrolList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+            <summary>
+            （所有防火单位）值班巡查监控（巡查记录）
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnitDutyList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+            <summary>
+            （所有防火单位）值班巡查监控（值班记录）
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetNoPatrol7DayFireUnitList(Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            （所有防火单位）超过7天没有巡查记录的单位列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetNoDuty1DayFireUnitList(Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            （所有防火单位）超过1天没有值班记录的单位列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnitAlarm(FireProtectionV1.FireWorking.Dto.FireUnitIdInput)">
             <summary>
             防火单位消防数据
@@ -1055,6 +1138,34 @@
             <summary>
             （所有防火单位）安全用电监控列表（剩余电流）
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnitPatrolList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+            <summary>
+            （所有防火单位）值班巡查监控（巡查记录）
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnitDutyList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+            <summary>
+            （所有防火单位）值班巡查监控（值班记录）
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetNoPatrol7DayFireUnitList(Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            （所有防火单位）超过7天没有巡查记录的单位列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetNoDuty1DayFireUnitList(Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            （所有防火单位）超过1天没有值班记录的单位列表
+            </summary>
+            <param name="input"></param>
             <returns></returns>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.DetectorId">
@@ -2350,6 +2461,11 @@
         <member name="P:FireProtectionV1.User.Model.FireDeptUser.FireDeptId">
             <summary>
             监管部门ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Model.FireDeptUser.AttentionFireUnitIds">
+            <summary>
+            关注的防火单位ID数组
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Model.FireUnitUser.Account">

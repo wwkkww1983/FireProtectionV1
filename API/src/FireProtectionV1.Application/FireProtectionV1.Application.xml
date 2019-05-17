@@ -128,6 +128,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.AttentionFireUnit(System.Int32)">
+            <summary>
+            （单个防火单位）置顶单个防火单位
+            </summary>
+            <param name="FireUnitId"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.FireUnitAppService.Add(FireProtectionV1.Enterprise.Dto.AddFireUnitInput)">
             <summary>
             添加防火单位
@@ -212,19 +219,19 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetAreas30DayFireAlarmList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetAreas30DayFireAlarmList(FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput)">
             <summary>
             （所有防火单位）火灾报警监控列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetAreas30DayTempAlarmList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetAreas30DayTempAlarmList(FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput)">
             <summary>
             （所有防火单位）安全用电监控列表（电缆温度）
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetAreas30DayElecAlarmList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetAreas30DayElecAlarmList(FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput)">
             <summary>
             （所有防火单位）安全用电监控列表（剩余电流）
             </summary>
@@ -233,6 +240,34 @@
         <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitFaultList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
             <summary>
             （所有防火单位）设备设施故障监控
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitPatrolList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+            <summary>
+            （所有防火单位）值班巡查监控（巡查记录）
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitDutyList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+            <summary>
+            （所有防火单位）值班巡查监控（值班记录）
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetNoPatrol7DayFireUnitList(Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            （所有防火单位）超过7天没有巡查记录的单位列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetNoDuty1DayFireUnitList(Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            （所有防火单位）超过1天没有值班记录的单位列表
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -368,9 +403,9 @@
             维保单位
             </summary>
         </member>
-        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.GetSafeUnits(FireProtectionV1.Enterprise.Dto.GetSafeUnitInput)">
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.GetSelectSafeUnits(FireProtectionV1.Enterprise.Dto.GetSafeUnitInput)">
             <summary>
-            查询维保单位(模糊查询)
+            选择查询维保单位
             </summary>
             <param name="input"></param>
             <returns></returns>

@@ -5,16 +5,16 @@ using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto
 {
-    public class FireUnitDutyOuput
+    public class FireUnitManualOuput
     {
-        /// <summary>
-        /// 超过7天没有巡查记录的单位数量
-        /// </summary>
-        public int NoWork1DayCount { get; set; }
         /// <summary>
         /// 防火单位Id
         /// </summary>
         public int FireUnitId { get; set; }
+        /// <summary>
+        /// 防火单位名称
+        /// </summary>
+        public string FireUnitName { get; set; }
         /// <summary>
         /// 最近一次记录提交时间
         /// </summary>

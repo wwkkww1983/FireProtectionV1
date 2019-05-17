@@ -18,5 +18,9 @@ namespace FireProtectionV1.Enterprise.Dto
         /// 防火单位地址
         /// </summary>
         public string Address { get; set; }
+        /// <summary>
+        /// 是否关注
+        /// </summary>
+        public bool IsAttention { get; set; }
     }
 }
