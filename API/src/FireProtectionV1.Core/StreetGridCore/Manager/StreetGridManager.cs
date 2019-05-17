@@ -12,13 +12,13 @@ using System.Threading.Tasks;
 
 namespace FireProtectionV1.StreetGridCore.Manager
 {
-    public class StreetGridManager : DomainService, IStreetGridManager
+    public class StreetGridUserManager : DomainService, IStreetGridUserManager
     {
-        IRepository<StreetGrid> _streetGridRepository;
+        IRepository<StreetGridUser> _streetGridUserRepository;
 
-        public StreetGridManager(IRepository<StreetGrid> streetGridRepository)
+        public StreetGridUserManager(IRepository<StreetGridUser> streetGridUserRepository)
         {
-            _streetGridRepository = streetGridRepository;
+            _streetGridUserRepository = streetGridUserRepository;
         }
 
         /// <summary>
@@ -26,22 +26,22 @@ namespace FireProtectionV1.StreetGridCore.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<PagedResultDto<StreetGrid>> GetList(GetStreetGridListInput input)
+        public Task<PagedResultDto<StreetGridUser>> GetList(GetStreetGridUserListInput input)
         {
-            var streetGrids = _streetGridRepository.GetAll();
+            var streetGridUsers = _streetGridUserRepository.GetAll();
 
-            var expr = ExprExtension.True<StreetGrid>()
+            var expr = ExprExtension.True<StreetGridUser>()
              .IfAnd(!string.IsNullOrEmpty(input.Name), item => item.Name.Contains(input.Name));
 
-            streetGrids = streetGrids.Where(expr);
+            streetGridUsers = streetGridUsers.Where(expr);
 
-            List<StreetGrid> list = streetGrids
+            List<StreetGridUser> list = streetGridUsers
                 .OrderByDescending(item => item.CreationTime)
                 .Skip(input.SkipCount).Take(input.MaxResultCount)
                 .ToList();
-            var tCount = streetGrids.Count();
+            var tCount = streetGridUsers.Count();
 
-            return Task.FromResult(new PagedResultDto<StreetGrid>(tCount, list));
+            return Task.FromResult(new PagedResultDto<StreetGridUser>(tCount, list));
         }
     }
 }

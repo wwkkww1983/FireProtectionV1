@@ -1882,7 +1882,7 @@
             上限值
             </summary>
         </member>
-        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetEventByIdOutput.StreetGridName">
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetEventByIdOutput.GridName">
             <summary>
             网格名称
             </summary>
@@ -1892,14 +1892,19 @@
             所属街道
             </summary>
         </member>
-        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetEventByIdOutput.ContractName">
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetEventByIdOutput.Community">
             <summary>
-            联系人
+            所属社区
             </summary>
         </member>
-        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetEventByIdOutput.ContractPhone">
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetEventByIdOutput.GridUserName">
             <summary>
-            联系电话
+            网格员
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetEventByIdOutput.Phone">
+            <summary>
+            网格员电话
             </summary>
         </member>
         <member name="P:FireProtectionV1.StreetGridCore.Dto.GetEventByIdOutput.Remark">
@@ -1907,7 +1912,7 @@
             事件描述
             </summary>
         </member>
-        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetStreeGridEventListOutput.StreeGridName">
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetStreeGridEventListOutput.GridName">
             <summary>
             网格名称
             </summary>
@@ -1915,6 +1920,11 @@
         <member name="P:FireProtectionV1.StreetGridCore.Dto.GetStreeGridEventListOutput.Street">
             <summary>
             所属街道
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetStreeGridEventListOutput.Community">
+            <summary>
+            所属社区
             </summary>
         </member>
         <member name="P:FireProtectionV1.StreetGridCore.Dto.GetStreetGridEventListInput.Status">
@@ -1936,7 +1946,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.StreetGridCore.Manager.IStreetGridManager.GetList(FireProtectionV1.StreetGridCore.Dto.GetStreetGridListInput)">
+        <member name="M:FireProtectionV1.StreetGridCore.Manager.IStreetGridUserManager.GetList(FireProtectionV1.StreetGridCore.Dto.GetStreetGridUserListInput)">
             <summary>
             分页列表
             </summary>
@@ -1957,31 +1967,41 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.StreetGridCore.Manager.StreetGridManager.GetList(FireProtectionV1.StreetGridCore.Dto.GetStreetGridListInput)">
+        <member name="M:FireProtectionV1.StreetGridCore.Manager.StreetGridUserManager.GetList(FireProtectionV1.StreetGridCore.Dto.GetStreetGridUserListInput)">
             <summary>
             分页
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGrid.Name">
+        <member name="T:FireProtectionV1.StreetGridCore.Model.StreetGridUser">
             <summary>
-            名称
+            网格员
             </summary>
         </member>
-        <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGrid.Street">
+        <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGridUser.Name">
+            <summary>
+            网格员姓名
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGridUser.Phone">
+            <summary>
+            联系电话
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGridUser.GridName">
+            <summary>
+            网格名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGridUser.Street">
             <summary>
             所属街道
             </summary>
         </member>
-        <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGrid.ContractName">
+        <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGridUser.Community">
             <summary>
-            联系人
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGrid.ContractPhone">
-            <summary>
-            联系电话
+            所属社区
             </summary>
         </member>
         <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGridEvent.Title">
@@ -1994,14 +2014,9 @@
             事件类型
             </summary>
         </member>
-        <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGridEvent.StreetGridId">
+        <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGridEvent.StreetGridUserId">
             <summary>
-            街道网格Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGridEvent.Community">
-            <summary>
-            所属社区
+            街道网格员Id
             </summary>
         </member>
         <member name="P:FireProtectionV1.StreetGridCore.Model.StreetGridEvent.Status">
