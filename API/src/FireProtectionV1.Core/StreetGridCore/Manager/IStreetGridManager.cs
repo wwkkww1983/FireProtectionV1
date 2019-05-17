@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace FireProtectionV1.StreetGridCore.Manager
 {
-    public interface IStreetGridManager : IDomainService
+    public interface IStreetGridUserManager : IDomainService
     {
         /// <summary>
         /// 分页列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<PagedResultDto<StreetGrid>> GetList(GetStreetGridListInput input);
+        Task<PagedResultDto<StreetGridUser>> GetList(GetStreetGridUserListInput input);
     }
 }

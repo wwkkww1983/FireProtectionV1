@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FireProtectionV1.StreetGridCore.Dto
 {
-    public class GetStreetGridListInput : PagedResultRequestDto
+    public class GetStreetGridUserListInput : PagedResultRequestDto
     {
         public string Name { get; set; }
     }

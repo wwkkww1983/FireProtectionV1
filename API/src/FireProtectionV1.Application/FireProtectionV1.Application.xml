@@ -299,8 +299,8 @@
             <summary>
             根据坐标点获取附近1KM直线距离内的微型消防站
             </summary>
-            <param name="lng">经度，例如104.159203</param>
-            <param name="lat">纬度，例如30.633145</param>
+            <param name="lng"></param>
+            <param name="lat"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.Update(FireProtectionV1.MiniFireStationCore.Dto.UpdateMiniFireStationInput)">
@@ -362,9 +362,9 @@
             网格
             </summary>
         </member>
-        <member name="M:FireProtectionV1.AppService.StreetGridAppService.GetList(FireProtectionV1.StreetGridCore.Dto.GetStreetGridListInput)">
+        <member name="M:FireProtectionV1.AppService.StreetGridAppService.GetUserList(FireProtectionV1.StreetGridCore.Dto.GetStreetGridUserListInput)">
             <summary>
-            分页
+            网格员分页
             </summary>
             <param name="input"></param>
             <returns></returns>

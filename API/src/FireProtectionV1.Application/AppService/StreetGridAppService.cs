@@ -14,21 +14,21 @@ namespace FireProtectionV1.AppService
     /// </summary>
     public class StreetGridAppService : AppServiceBase
     {
-        IStreetGridManager _manager;
+        IStreetGridUserManager _userManager;
 
-        public StreetGridAppService(IStreetGridManager manager)
+        public StreetGridAppService(IStreetGridUserManager userManager)
         {
-            _manager = manager;
+            _userManager = userManager;
         }
 
         /// <summary>
-        /// 分页
+        /// 网格员分页
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<StreetGrid>> GetList(GetStreetGridListInput input)
+        public async Task<PagedResultDto<StreetGridUser>> GetUserList(GetStreetGridUserListInput input)
         {
-            return await _manager.GetList(input);
+            return await _userManager.GetList(input);
         }
     }
 }
