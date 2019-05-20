@@ -91,7 +91,12 @@
             工程资质（一、二、三级）
             </summary>
         </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitExcelOutput.Id">
+        <member name="P:FireProtectionV1.Enterprise.Dto.DeptUserAttentionFireUnitInput.UserId">
+            <summary>
+            消防部门用户Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.DeptUserAttentionFireUnitInput.FireUnitId">
             <summary>
             防火单位Id
             </summary>
@@ -266,6 +271,11 @@
             维保单位名称
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.PagedRequestByUserIdDto.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.UpdateFireUnitInput.Id">
             <summary>
             防火单位Id
@@ -365,6 +375,20 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.AttentionFireUnit(FireProtectionV1.Enterprise.Dto.DeptUserAttentionFireUnitInput)">
+            <summary>
+            消防部门用户关注防火单位
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.AttentionFireUnitCancel(FireProtectionV1.Enterprise.Dto.DeptUserAttentionFireUnitInput)">
+            <summary>
+            消防部门用户取消关注防火单位
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.Add(FireProtectionV1.Enterprise.Dto.AddFireUnitInput)">
             <summary>
             添加防火单位（同时会添加防火单位管理员账号）
@@ -389,6 +413,20 @@
         <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.GetFireUnitInfo(FireProtectionV1.Enterprise.Dto.GetFireUnitInfoInput)">
             <summary>
             防火单位信息
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.AttentionFireUnit(FireProtectionV1.Enterprise.Dto.DeptUserAttentionFireUnitInput)">
+            <summary>
+            消防部门用户关注防火单位
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.AttentionFireUnitCancel(FireProtectionV1.Enterprise.Dto.DeptUserAttentionFireUnitInput)">
+            <summary>
+            消防部门用户取消关注防火单位
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -545,6 +583,21 @@
         <member name="P:FireProtectionV1.Enterprise.Model.FireUnit.Lat">
             <summary>
             纬度
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.Enterprise.Model.FireUnitAttention">
+            <summary>
+            防火单位
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitAttention.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitAttention.FireDeptUserId">
+            <summary>
+            消防部门用户Id
             </summary>
         </member>
         <member name="P:FireProtectionV1.Enterprise.Model.SafeUnit.Name">
@@ -1044,14 +1097,14 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetNoPatrol7DayFireUnitList(Abp.Application.Services.Dto.PagedResultRequestDto)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetNoPatrol7DayFireUnitList(FireProtectionV1.Enterprise.Dto.PagedRequestByUserIdDto)">
             <summary>
             （所有防火单位）超过7天没有巡查记录的单位列表
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetNoDuty1DayFireUnitList(Abp.Application.Services.Dto.PagedResultRequestDto)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetNoDuty1DayFireUnitList(FireProtectionV1.Enterprise.Dto.PagedRequestByUserIdDto)">
             <summary>
             （所有防火单位）超过1天没有值班记录的单位列表
             </summary>
@@ -1154,14 +1207,14 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetNoPatrol7DayFireUnitList(Abp.Application.Services.Dto.PagedResultRequestDto)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetNoPatrol7DayFireUnitList(FireProtectionV1.Enterprise.Dto.PagedRequestByUserIdDto)">
             <summary>
             （所有防火单位）超过7天没有巡查记录的单位列表
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetNoDuty1DayFireUnitList(Abp.Application.Services.Dto.PagedResultRequestDto)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetNoDuty1DayFireUnitList(FireProtectionV1.Enterprise.Dto.PagedRequestByUserIdDto)">
             <summary>
             （所有防火单位）超过1天没有值班记录的单位列表
             </summary>
@@ -2384,6 +2437,11 @@
             密码(测试:123)
             </summary>
         </member>
+        <member name="P:FireProtectionV1.User.Dto.DeptUserLoginOutput.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.User.Dto.DeptUserLoginOutput.Name">
             <summary>
             姓名
@@ -2392,11 +2450,6 @@
         <member name="P:FireProtectionV1.User.Dto.DeptUserLoginOutput.DeptName">
             <summary>
             部门名称
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.User.Dto.DeptUserLoginOutput.Token">
-            <summary>
-            身份令牌 
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Dto.FireUnitUserInput.Account">
@@ -2461,11 +2514,6 @@
         <member name="P:FireProtectionV1.User.Model.FireDeptUser.FireDeptId">
             <summary>
             监管部门ID
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.User.Model.FireDeptUser.AttentionFireUnitIds">
-            <summary>
-            关注的防火单位ID数组
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Model.FireUnitUser.Account">

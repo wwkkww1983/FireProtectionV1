@@ -8,18 +8,23 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace FireProtectionV1.AppService
 {
     /// <summary>
     /// 防火单位服务
     /// </summary>
-    public class FireUnitAppService : AppServiceBase
+    public class FireUnitAppService : HttpContextAppService
     {
         IFireUnitManager _fireUnitManager;
         IFireWorkingManager _fireWorkingManager;
 
-        public FireUnitAppService(IFireUnitManager fireUnitInfoManager, IFireWorkingManager fireWorkingManager)
+        public FireUnitAppService(
+            IHttpContextAccessor httpContext,
+            IFireUnitManager fireUnitInfoManager, 
+            IFireWorkingManager fireWorkingManager)
+            :base(httpContext)
         {
             _fireUnitManager = fireUnitInfoManager;
             _fireWorkingManager = fireWorkingManager;
@@ -40,8 +45,24 @@ namespace FireProtectionV1.AppService
         public async Task GetFireUnitListExcel(GetFireUnitListInput input)
         {
             var lst = await _fireUnitManager.GetFireUnitListExcel(input);
-
-            throw new NotImplementedException();
+            using (ExcelBuild excel = new ExcelBuild())
+            {
+                var sheet = excel.BuildWorkSheet("防火单位");
+                sheet.AddRowValues(new string[] { "单位名称", "类型", "区域", "联系人", "联系电话", "维保单位", "邀请码" });
+                foreach (var v in lst)
+                {
+                    sheet.AddRowValues(new string[]{
+                        v.Name,v.Type,v.Area,v.ContractName,v.ContractPhone,v.SafeUnit,v.InvitationCode });
+                }
+                var fileBytes = excel.BuildFileBytes();
+                HttpResponse Response = _httpContext.HttpContext.Response;
+                Response.ContentType = "application/vnd.ms-excel";
+                Response.ContentLength = fileBytes.Length;
+                //Response.Headers.Add("Content-Disposition", string.Format("attachment;filename=防火单位.xls"));
+                Response.Body.Write(fileBytes);
+                Response.Body.Flush();
+            }
+            //return File(sFileName, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         }
         /// <summary>
         /// （所有防火单位）防火单位分页列表
@@ -64,11 +85,20 @@ namespace FireProtectionV1.AppService
         /// <summary>
         /// （单个防火单位）置顶单个防火单位
         /// </summary>
-        /// <param name="FireUnitId"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<SuccessOutput> AttentionFireUnit(int FireUnitId)
+        public async Task<SuccessOutput> AttentionFireUnit(DeptUserAttentionFireUnitInput input)
         {
-            throw new NotImplementedException();
+            return await _fireUnitManager.AttentionFireUnit(input);
+        }
+        /// <summary>
+        /// （单个防火单位）取消置顶单个防火单位
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> AttentionFireUnitCancel(DeptUserAttentionFireUnitInput input)
+        {
+            return await _fireUnitManager.AttentionFireUnitCancel(input);
         }
         /// <summary>
         /// 添加防火单位
@@ -236,7 +266,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<GetFireUnitPatrolListOutput> GetNoPatrol7DayFireUnitList(PagedResultRequestDto input)
+        public async Task<GetFireUnitPatrolListOutput> GetNoPatrol7DayFireUnitList(PagedRequestByUserIdDto input)
         {
             return await _fireWorkingManager.GetNoPatrol7DayFireUnitList(input);
         }
@@ -245,7 +275,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<GetFireUnitDutyListOutput> GetNoDuty1DayFireUnitList(PagedResultRequestDto input)
+        public async Task<GetFireUnitDutyListOutput> GetNoDuty1DayFireUnitList(PagedRequestByUserIdDto input)
         {
             return await _fireWorkingManager.GetNoDuty1DayFireUnitList(input);
         }

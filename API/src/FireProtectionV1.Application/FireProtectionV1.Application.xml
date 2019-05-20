@@ -128,11 +128,18 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireUnitAppService.AttentionFireUnit(System.Int32)">
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.AttentionFireUnit(FireProtectionV1.Enterprise.Dto.DeptUserAttentionFireUnitInput)">
             <summary>
             （单个防火单位）置顶单个防火单位
             </summary>
-            <param name="FireUnitId"></param>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.AttentionFireUnitCancel(FireProtectionV1.Enterprise.Dto.DeptUserAttentionFireUnitInput)">
+            <summary>
+            （单个防火单位）取消置顶单个防火单位
+            </summary>
+            <param name="input"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.FireUnitAppService.Add(FireProtectionV1.Enterprise.Dto.AddFireUnitInput)">
@@ -258,14 +265,14 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetNoPatrol7DayFireUnitList(Abp.Application.Services.Dto.PagedResultRequestDto)">
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetNoPatrol7DayFireUnitList(FireProtectionV1.Enterprise.Dto.PagedRequestByUserIdDto)">
             <summary>
             （所有防火单位）超过7天没有巡查记录的单位列表
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetNoDuty1DayFireUnitList(Abp.Application.Services.Dto.PagedResultRequestDto)">
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetNoDuty1DayFireUnitList(FireProtectionV1.Enterprise.Dto.PagedRequestByUserIdDto)">
             <summary>
             （所有防火单位）超过1天没有值班记录的单位列表
             </summary>
@@ -495,6 +502,12 @@
         <member name="M:FireProtectionV1.AppService.SupervisionAppService.GetSupervisionItem">
             <summary>
             获取所有监管执法项目
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.ExcelBuild.BuildFileBytes">
+            <summary>
+            构建文件字节数据
             </summary>
             <returns></returns>
         </member>

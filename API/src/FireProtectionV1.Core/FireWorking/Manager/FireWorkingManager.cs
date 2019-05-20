@@ -619,7 +619,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public  Task<GetFireUnitPatrolListOutput> GetNoPatrol7DayFireUnitList(PagedResultRequestDto input)
+        public  Task<GetFireUnitPatrolListOutput> GetNoPatrol7DayFireUnitList(PagedRequestByUserIdDto input)
         {
             DateTime now = DateTime.Now;
             var output = new GetFireUnitPatrolListOutput();
@@ -657,7 +657,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<GetFireUnitDutyListOutput> GetNoDuty1DayFireUnitList(PagedResultRequestDto input)
+        public Task<GetFireUnitDutyListOutput> GetNoDuty1DayFireUnitList(PagedRequestByUserIdDto input)
         {
             DateTime now = DateTime.Now;
             var output = new GetFireUnitDutyListOutput();

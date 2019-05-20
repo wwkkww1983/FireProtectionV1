@@ -7,11 +7,6 @@ namespace FireProtectionV1.Enterprise.Dto
     public class GetFireUnitExcelOutput
     {
         /// <summary>
-        /// 防火单位Id
-        /// </summary>
-        public int Id { get; set; }
-
-        /// <summary>
         /// 防火单位名称
         /// </summary>
         public string Name { get; set; }

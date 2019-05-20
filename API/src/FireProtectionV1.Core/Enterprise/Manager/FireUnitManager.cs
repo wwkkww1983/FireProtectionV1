@@ -23,6 +23,7 @@ namespace FireProtectionV1.Enterprise.Manager
 {
     public class FireUnitManager : DomainService, IFireUnitManager
     {
+        IRepository<FireUnitAttention> _fireUnitAttentionRep;
         IRepository<SafeUnit> _safeUnitRep;
         IRepository<Area> _areaRep;
         IRepository<FireUnitType> _fireUnitTypeRep;
@@ -30,6 +31,7 @@ namespace FireProtectionV1.Enterprise.Manager
         IRepository<FireUnitUser> _fireUnitUserRep;
         ICacheManager _cacheManager;
         public FireUnitManager(
+            IRepository<FireUnitAttention> fireUnitAttentionRep,
             IRepository<SafeUnit> safeUnitR,
             IRepository<Area> areaR,
             IRepository<FireUnitType> fireUnitTypeR,
@@ -38,6 +40,7 @@ namespace FireProtectionV1.Enterprise.Manager
             ICacheManager cacheManager
             )
         {
+            _fireUnitAttentionRep = fireUnitAttentionRep;
             _safeUnitRep = safeUnitR;
             _areaRep = areaR;
             _fireUnitTypeRep = fireUnitTypeR;
@@ -77,7 +80,6 @@ namespace FireProtectionV1.Enterprise.Manager
                         on a.SafeUnitId equals d.Id
                         select new GetFireUnitExcelOutput
                         {
-                            Id = a.Id,
                             Name = a.Name,
                             Type = b2.Name,
                             Area = c.Name,
@@ -124,18 +126,31 @@ namespace FireProtectionV1.Enterprise.Manager
                 .IfAnd(!string.IsNullOrEmpty(input.Name), item => item.Name.Contains(input.Name));
             fireUnits = fireUnits.Where(expr);
 
-            var query = from a in fireUnits
+            var attenFireUnits = from a in fireUnits
+                             join b in _fireUnitAttentionRep.GetAll().Where(p => p.FireDeptUserId == input.UserId)
+                             on a.Id equals b.FireUnitId
+                             orderby b.CreationTime descending
+                             select a;
+            var attentions = attenFireUnits.Select(p => new GetFireUnitListForMobileOutput()
+            {
+                IsAttention = true,
+                Id = p.Id,
+                Name = p.Name,
+                Address = p.Address
+            });
+            var query = from a in fireUnits.Except(attenFireUnits)
                         join b in _fireUnitTypeRep.GetAll()
                         on a.TypeId equals b.Id into g
                         from b2 in g.DefaultIfEmpty()
                         orderby a.CreationTime descending
-                        select new GetFireUnitListForMobileOutput
+                        select new GetFireUnitListForMobileOutput()
                         {
+                            IsAttention=false,
                             Id = a.Id,
                             Name = a.Name,
                             Address = a.Address
                         };
-            var list = query
+            var list = attentions.Union(query)
                 .Skip(input.SkipCount).Take(input.MaxResultCount)
                 .ToList();
             var tCount = fireUnits.Count();
@@ -261,6 +276,30 @@ namespace FireProtectionV1.Enterprise.Manager
         {
             await _fireUnitRep.DeleteAsync(id);
         }
-
+        /// <summary>
+        /// 消防部门用户关注防火单位
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> AttentionFireUnit(DeptUserAttentionFireUnitInput input)
+        {
+            var attention = _fireUnitAttentionRep.GetAll().Where(p => p.FireDeptUserId == input.UserId && p.FireUnitId == input.FireUnitId)
+                .FirstOrDefault();
+            if (attention == null)
+            {
+                await _fireUnitAttentionRep.InsertAsync(new FireUnitAttention() { FireDeptUserId = input.UserId, FireUnitId = input.FireUnitId });
+            }
+            return new SuccessOutput() { Success = true };
+        }
+        /// <summary>
+        /// 消防部门用户取消关注防火单位
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> AttentionFireUnitCancel(DeptUserAttentionFireUnitInput input)
+        {
+            await _fireUnitAttentionRep.DeleteAsync(p => p.FireUnitId == input.FireUnitId && p.FireDeptUserId == input.UserId);
+            return new SuccessOutput() { Success = true };
+        }
     }
 }
