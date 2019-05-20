@@ -1,6 +1,7 @@
 ﻿using Abp.Domain.Repositories;
 using Abp.Domain.Services;
 using FireProtectionV1.Enterprise.Model;
+using FireProtectionV1.HydrantCore.Model;
 using FireProtectionV1.Infrastructure.Dto;
 using FireProtectionV1.Infrastructure.Model;
 using FireProtectionV1.MiniFireStationCore.Model;
@@ -21,13 +22,19 @@ namespace FireProtectionV1.Infrastructure.Manager
         IRepository<StreetGridUser> _streetGridUserRepository;
         IRepository<StreetGridEvent> _streetGridEventRepository;
         IRepository<StreetGridEventRemark> _streetGridEventRemarkRepository;
+        IRepository<Hydrant> _hydrantRepository;
+        IRepository<HydrantAlarm> _hydrantAlarmRepository;
+        IRepository<HydrantPressure> _hydrantPressureRepository;
 
         public InfrastructureManager(
             IRepository<SupervisionItem> supervisionItemRepository,
             IRepository<MiniFireStation> miniFireStationRepository,
             IRepository<StreetGridUser> streetGridUserRepository,
             IRepository<StreetGridEvent> streetGridEventRepository,
-            IRepository<StreetGridEventRemark> streetGridEventRemarkRepository
+            IRepository<StreetGridEventRemark> streetGridEventRemarkRepository,
+            IRepository<Hydrant> hydrantRepository,
+            IRepository<HydrantAlarm> hydrantAlarmRepository,
+            IRepository<HydrantPressure> hydrantPressureRepository
             )
         {
             _supervisionItemRepository = supervisionItemRepository;
@@ -35,6 +42,9 @@ namespace FireProtectionV1.Infrastructure.Manager
             _streetGridUserRepository = streetGridUserRepository;
             _streetGridEventRepository = streetGridEventRepository;
             _streetGridEventRemarkRepository = streetGridEventRemarkRepository;
+            _hydrantRepository = hydrantRepository;
+            _hydrantAlarmRepository = hydrantAlarmRepository;
+            _hydrantPressureRepository = hydrantPressureRepository;
         }
 
         /// <summary>
@@ -1009,6 +1019,249 @@ namespace FireProtectionV1.Infrastructure.Manager
                     Remark = "单位检查"
                 };
                 await _streetGridEventRemarkRepository.InsertAsync(streetGridEventRemark);
+            }
+            #endregion
+
+            #region 市政消火栓
+            if (_hydrantRepository.Count() == 0)
+            {
+                Hydrant hydrant = new Hydrant()
+                {
+                    Sn = "jrt4fd",
+                    AreaId = 32950,
+                    Address = "东荆路8号东林景忆小区后门",
+                    Status = Common.Enum.GatewayStatus.Unusual,
+                    Lng = 104.135640M,
+                    Lat = 30.666812M
+                };
+                var id = await _hydrantRepository.InsertAndGetIdAsync(hydrant);
+                HydrantPressure hydrantPressure = new HydrantPressure()
+                {
+                    HydrantId = id,
+                    Pressure = 170,
+                    CreationTime = DateTime.Parse("2019-05-18 09:00"),
+                };
+                await _hydrantPressureRepository.InsertAsync(hydrantPressure);
+                hydrantPressure = new HydrantPressure()
+                {
+                    HydrantId = id,
+                    Pressure = 176,
+                    CreationTime = DateTime.Parse("2019-05-19 09:00"),
+                };
+                await _hydrantPressureRepository.InsertAsync(hydrantPressure);
+                hydrantPressure = new HydrantPressure()
+                {
+                    HydrantId = id,
+                    Pressure = 80,
+                    CreationTime = DateTime.Parse("2019-05-19 16:32"),
+                };
+                await _hydrantPressureRepository.InsertAsync(hydrantPressure);
+                HydrantAlarm hydrantAlarm = new HydrantAlarm()
+                {
+                    HydrantId = id,
+                    CreationTime = DateTime.Parse("2019-05-19 16:32"),
+                    Title = "消火栓水压异常报警。编号jrt4fd，水压80kPa"
+                };
+                await _hydrantAlarmRepository.InsertAsync(hydrantAlarm);
+
+                hydrant = new Hydrant()
+                {
+                    Sn = "htrhh7",
+                    AreaId = 32951,
+                    Address = "二环路东二段2-5号",
+                    Status = Common.Enum.GatewayStatus.Unusual,
+                    Lng = 104.116797M,
+                    Lat = 30.658379M
+                };
+                id = await _hydrantRepository.InsertAndGetIdAsync(hydrant);
+                hydrantPressure = new HydrantPressure()
+                {
+                    HydrantId = id,
+                    Pressure = 220,
+                    CreationTime = DateTime.Parse("2019-05-18 09:00"),
+                };
+                await _hydrantPressureRepository.InsertAsync(hydrantPressure);
+                hydrantPressure = new HydrantPressure()
+                {
+                    HydrantId = id,
+                    Pressure = 198,
+                    CreationTime = DateTime.Parse("2019-05-19 09:00"),
+                };
+                await _hydrantPressureRepository.InsertAsync(hydrantPressure);
+                hydrantPressure = new HydrantPressure()
+                {
+                    HydrantId = id,
+                    Pressure = 33,
+                    CreationTime = DateTime.Parse("2019-05-19 17:02"),
+                };
+                await _hydrantPressureRepository.InsertAsync(hydrantPressure);
+                hydrantAlarm = new HydrantAlarm()
+                {
+                    HydrantId = id,
+                    CreationTime = DateTime.Parse("2019-05-19 17:02"),
+                    Title = "消火栓水压异常报警。编号htrhh7，水压33kPa"
+                };
+                await _hydrantAlarmRepository.InsertAsync(hydrantAlarm);
+                hydrant = new Hydrant()
+                {
+                    Sn = "fjfgjh",
+                    AreaId = 32950,
+                    Address = "双林北支路335号",
+                    Status = Common.Enum.GatewayStatus.Offline,
+                    Lng = 104.098228M,
+                    Lat = 30.713786M
+                };
+                await _hydrantRepository.InsertAsync(hydrant);
+                hydrant = new Hydrant()
+                {
+                    Sn = "gwer5e",
+                    AreaId = 32952,
+                    Address = "东紫路618号附13号",
+                    Status = Common.Enum.GatewayStatus.Online,
+                    Lng = 104.150987M,
+                    Lat = 30.673344M
+                };
+                await _hydrantRepository.InsertAsync(hydrant);
+                hydrant = new Hydrant()
+                {
+                    Sn = "lkjur3",
+                    AreaId = 32952,
+                    Address = "中道街157号",
+                    Status = Common.Enum.GatewayStatus.Online,
+                    Lng = 104.123284M,
+                    Lat = 30.683161M
+                };
+                await _hydrantRepository.InsertAsync(hydrant);
+                hydrant = new Hydrant()
+                {
+                    Sn = "fghdg4",
+                    AreaId = 32953,
+                    Address = "崔家店横一街57号",
+                    Status = Common.Enum.GatewayStatus.Online,
+                    Lng = 104.099134M,
+                    Lat = 30.707252M
+                };
+                await _hydrantRepository.InsertAsync(hydrant);
+                hydrant = new Hydrant()
+                {
+                    Sn = "u5hr64",
+                    AreaId = 32954,
+                    Address = "水碾河北2街19",
+                    Status = Common.Enum.GatewayStatus.Online,
+                    Lng = 104.104024M,
+                    Lat = 30.671676M
+                };
+                await _hydrantRepository.InsertAsync(hydrant);
+                hydrant = new Hydrant()
+                {
+                    Sn = "hhrhbd",
+                    AreaId = 32951,
+                    Address = "建设支巷14号",
+                    Status = Common.Enum.GatewayStatus.Online,
+                    Lng = 104.160230M,
+                    Lat = 30.648819M
+                };
+                await _hydrantRepository.InsertAsync(hydrant);
+                hydrant = new Hydrant()
+                {
+                    Sn = "hftyr6",
+                    AreaId = 32955,
+                    Address = "建设路47号附13-14",
+                    Status = Common.Enum.GatewayStatus.Online,
+                    Lng = 104.123912M,
+                    Lat = 30.657478M
+                };
+                await _hydrantRepository.InsertAsync(hydrant);
+                hydrant = new Hydrant()
+                {
+                    Sn = "rygfr6",
+                    AreaId = 32952,
+                    Address = "新鸿南路77附13号",
+                    Status = Common.Enum.GatewayStatus.Online,
+                    Lng = 104.105732M,
+                    Lat = 30.677001M
+                };
+                await _hydrantRepository.InsertAsync(hydrant);
+                hydrant = new Hydrant()
+                {
+                    Sn = "htyry5",
+                    AreaId = 32956,
+                    Address = "怡福巷36号1层",
+                    Status = Common.Enum.GatewayStatus.Online,
+                    Lng = 104.106435M,
+                    Lat = 30.662876M
+                };
+                await _hydrantRepository.InsertAsync(hydrant);
+                hydrant = new Hydrant()
+                {
+                    Sn = "hrty4h",
+                    AreaId = 32950,
+                    Address = "双成三路15号附189-184号",
+                    Status = Common.Enum.GatewayStatus.Online,
+                    Lng = 104.105681M,
+                    Lat = 30.667650M
+                };
+                await _hydrantRepository.InsertAsync(hydrant);
+                hydrant = new Hydrant()
+                {
+                    Sn = "jrtrg5",
+                    AreaId = 32957,
+                    Address = "天祥街18号",
+                    Status = Common.Enum.GatewayStatus.Online,
+                    Lng = 104.140455M,
+                    Lat = 30.680552M
+                };
+                await _hydrantRepository.InsertAsync(hydrant);
+                hydrant = new Hydrant()
+                {
+                    Sn = "sdfds5",
+                    AreaId = 32952,
+                    Address = "建设支巷14号附4号",
+                    Status = Common.Enum.GatewayStatus.Online,
+                    Lng = 104.122043M,
+                    Lat = 30.685953M
+                };
+                await _hydrantRepository.InsertAsync(hydrant);
+                hydrant = new Hydrant()
+                {
+                    Sn = "gtry4r",
+                    AreaId = 32955,
+                    Address = "新华社区15幢",
+                    Status = Common.Enum.GatewayStatus.Online,
+                    Lng = 104.105096M,
+                    Lat = 30.686094M
+                };
+                await _hydrantRepository.InsertAsync(hydrant);
+                hydrant = new Hydrant()
+                {
+                    Sn = "ert454",
+                    AreaId = 32951,
+                    Address = "东风路北1巷-新1号-附12",
+                    Status = Common.Enum.GatewayStatus.Online,
+                    Lng = 104.145627M,
+                    Lat = 30.649302M
+                };
+                await _hydrantRepository.InsertAsync(hydrant);
+                hydrant = new Hydrant()
+                {
+                    Sn = "hfrty6",
+                    AreaId = 32958,
+                    Address = "双桥路247号1-3号",
+                    Status = Common.Enum.GatewayStatus.Online,
+                    Lng = 104.122429M,
+                    Lat = 30.682856M
+                };
+                await _hydrantRepository.InsertAsync(hydrant);
+                hydrant = new Hydrant()
+                {
+                    Sn = "hrtf54",
+                    AreaId = 32958,
+                    Address = "双桥路184号附1号",
+                    Status = Common.Enum.GatewayStatus.Online,
+                    Lng = 104.121227M,
+                    Lat = 30.675624M
+                };
+                await _hydrantRepository.InsertAsync(hydrant);
             }
             #endregion
 
