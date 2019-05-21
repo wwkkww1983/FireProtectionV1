@@ -12,9 +12,9 @@ namespace FireProtectionV1.Enterprise.Dto
         /// </summary>
         public int FireUnitTypeId { get; set; }
         /// <summary>
-        /// 网关状态Id
+        /// 网关状态值
         /// </summary>
-        public int GetwayStatusId { get; set; }
+        public string GetwayStatusValue { get; set; }
 
     }
 }

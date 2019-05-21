@@ -101,6 +101,12 @@
             防火单位服务
             </summary>
         </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetGatewayStatusTypes">
+            <summary>
+            获取网关状态类型
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitTypes">
             <summary>
             获取防火单位类型数组

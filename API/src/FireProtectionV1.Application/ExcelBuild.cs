@@ -14,18 +14,15 @@ namespace FireProtectionV1
         {
             _worksheet = worksheet;
         }
-        //public void AddColumnHeads(string[] headNames)
-        //{
-        //    for (int i=1;i<=headNames.Length;i++)
-        //    {
-        //        _worksheet.Cells[1, i].Value = headNames[i];
-        //    }
-        //}
-        public void AddRowValues(string[] values)
+        public void AddRowValues(string[] values,bool isHead=false)
         {
             for (int i = 0; i < values.Length; i++)
             {
                 _worksheet.Cells[_row, i+1].Value = values[i];
+                if (isHead)
+                {
+                    _worksheet.Cells[_row, i + 1].Style.Font.Bold = true;
+                }
             }
             _row++;
         }

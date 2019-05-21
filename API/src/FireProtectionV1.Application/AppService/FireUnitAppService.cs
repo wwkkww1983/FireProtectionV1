@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using System.Web;
+using FireProtectionV1.Common.Enum;
 
 namespace FireProtectionV1.AppService
 {
@@ -30,6 +32,18 @@ namespace FireProtectionV1.AppService
             _fireWorkingManager = fireWorkingManager;
         }
         /// <summary>
+        /// 获取网关状态类型
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<GatewayStatusTypeOutput>> GetGatewayStatusTypes()
+        {
+            var lst = new List<GatewayStatusTypeOutput>();
+            lst.Add(new GatewayStatusTypeOutput(){ GatewayStatusValue = GatewayStatus.Offline.ToString(), GatewayStatusName = "离线" });
+            lst.Add(new GatewayStatusTypeOutput() { GatewayStatusValue = GatewayStatus.Online.ToString(), GatewayStatusName = "在线" });
+            lst.Add(new GatewayStatusTypeOutput() { GatewayStatusValue = GatewayStatus.Unusual.ToString(), GatewayStatusName = "异常" });
+            return Task.FromResult< List<GatewayStatusTypeOutput>>(lst);
+        }
+        /// <summary>
         /// 获取防火单位类型数组
         /// </summary>
         /// <returns></returns>
@@ -48,7 +62,7 @@ namespace FireProtectionV1.AppService
             using (ExcelBuild excel = new ExcelBuild())
             {
                 var sheet = excel.BuildWorkSheet("防火单位");
-                sheet.AddRowValues(new string[] { "单位名称", "类型", "区域", "联系人", "联系电话", "维保单位", "邀请码" });
+                sheet.AddRowValues(new string[] { "单位名称", "类型", "区域", "联系人", "联系电话", "维保单位", "邀请码" },true);
                 foreach (var v in lst)
                 {
                     sheet.AddRowValues(new string[]{
@@ -58,7 +72,7 @@ namespace FireProtectionV1.AppService
                 HttpResponse Response = _httpContext.HttpContext.Response;
                 Response.ContentType = "application/vnd.ms-excel";
                 Response.ContentLength = fileBytes.Length;
-                //Response.Headers.Add("Content-Disposition", string.Format("attachment;filename=防火单位.xls"));
+                Response.Headers.Add("Content-Disposition", $"attachment;filename={HttpUtility.UrlEncode("防火单位列表",Encoding.UTF8)}.xls");
                 Response.Body.Write(fileBytes);
                 Response.Body.Flush();
             }
