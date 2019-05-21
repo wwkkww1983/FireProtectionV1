@@ -529,6 +529,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.SupervisionAppService.AddSupervision(FireProtectionV1.SupervisionCore.Dto.AddSupervisionInput)">
+            <summary>
+            添加监管执法记录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.ExcelBuild.BuildFileBytes">
             <summary>
             构建文件字节数据

@@ -58,10 +58,10 @@ namespace FireProtectionV1.SupervisionCore.Model
 
     public enum CheckResult
     {
+        未指定 = 0,
         合格 = 1,
-        现场改正 = 0,
-        限期整改 = -1,
-        停业整顿 = -2,
-        未指定 = -10
+        现场改正 = -1,
+        限期整改 = -2,
+        停业整顿 = -3
     }
 }

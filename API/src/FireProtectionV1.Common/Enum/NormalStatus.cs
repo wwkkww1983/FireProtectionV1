@@ -25,17 +25,21 @@ namespace FireProtectionV1.Common.Enum
     public enum GatewayStatus
     {
         /// <summary>
-        /// 异常（表示当前在线但有故障，例如消火栓的水压偏低）
+        /// 未指定
         /// </summary>
-        Unusual = -1,
+        UnKnow = 0,
+        /// <summary>
+        /// 正常在线
+        /// </summary>
+        Online = 1,
         /// <summary>
         /// 离线
         /// </summary>
-        Offline = 0,
+        Offline = -1,
         /// <summary>
-        /// 在线
+        /// 异常（表示当前在线但有故障，例如消火栓的水压偏低）
         /// </summary>
-        Online = 1
+        Unusual = -2
     }
     public enum DeviceType
     {
