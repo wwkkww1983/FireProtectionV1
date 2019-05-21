@@ -37,5 +37,12 @@ namespace FireProtectionV1.SupervisionCore.Manager
         /// <param name="supervisionId"></param>
         /// <returns></returns>
         Task<List<GetSingleSupervisionDetailOutput>> GetSingleSupervisionDetail(int supervisionId);
+
+        /// <summary>
+        /// 添加监管执法记录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task AddSupervision(AddSupervisionInput input);
     }
 }

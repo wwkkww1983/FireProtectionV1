@@ -36,6 +36,35 @@ namespace FireProtectionV1.SupervisionCore.Manager
         }
 
         /// <summary>
+        /// 添加监管执法记录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task AddSupervision(AddSupervisionInput input)
+        {
+            var supervisionId = await _supervisionRepository.InsertAndGetIdAsync(input.Supervision);    // 综合信息
+            foreach (var detail in input.SupervisionDetailInputs)
+            {
+                var supervisionDetal = new SupervisionDetail()
+                {
+                    SupervisionItemId = detail.SupervisionItemId,
+                    IsOK = detail.IsOK,
+                    SupervisionId = supervisionId
+                };
+                var detailId = await _supervisionDetailRepository.InsertAndGetIdAsync(supervisionDetal);    // 明细项目信息
+                if (!string.IsNullOrEmpty(detail.Remark))
+                {
+                    var supervisionDetailRemark = new SupervisionDetailRemark()
+                    {
+                        SupervisionDetailId = detailId,
+                        Remark = detail.Remark
+                    };
+                    await _supervisionDetailRemarkRepository.InsertAsync(supervisionDetailRemark);  // 明细项目备注信息
+                }
+            }
+        }
+
+        /// <summary>
         /// 分页
         /// </summary>
         /// <param name="input"></param>
@@ -80,28 +109,49 @@ namespace FireProtectionV1.SupervisionCore.Manager
         /// <returns></returns>
         public Task<List<GetSingleSupervisionDetailOutput>> GetSingleSupervisionDetail(int supervisionId)
         {
-            var supervisionDetails = _supervisionDetailRepository.GetAll();
             var supervisionItems = _supervisionItemRepository.GetAll();
+            var supervisionDetails = _supervisionDetailRepository.GetAll().Where(s => s.SupervisionId.Equals(supervisionId));
             var supervisionDetailRemarks = _supervisionDetailRemarkRepository.GetAll();
 
-            var query = from a in supervisionDetails
-                        join b in supervisionItems on a.SupervisionItemId equals b.Id
-                        join c in supervisionDetailRemarks on a.Id equals c.SupervisionDetailId into r1
+            var query = from a in supervisionItems
+                        join b in supervisionItems on a.ParentId equals b.Id
+                        join c in supervisionDetails on a.Id equals c.SupervisionItemId into r1
                         from dr1 in r1.DefaultIfEmpty()
-                        where supervisionId.Equals(a.SupervisionId)
+                        join c in supervisionDetailRemarks on dr1.Id equals c.SupervisionDetailId into r2
+                        from dr2 in r2.DefaultIfEmpty()
+                        orderby a.ParentId
                         select new GetSingleSupervisionDetailOutput
                         {
-                            Id = a.Id,
-                            SupervisionItemId = a.SupervisionItemId,
-                            SupervisionItemName = b.Name,
-                            ParentId = b.ParentId,
-                            ParentName = supervisionItems.Single(s => s.Id.Equals(b.ParentId)).Name,
-                            SupervisionId = a.SupervisionId,
-                            IsOK = a.IsOK,
-                            Remark = dr1.Remark
+                            SupervisionId = supervisionId,
+                            SupervisionItemId = a.Id,
+                            SupervisionItemName = a.Name,
+                            ParentId = a.ParentId,
+                            ParentName = b.Name,
+                            IsOK = dr1 == null ? true : dr1.IsOK,
+                            Remark = dr2 == null ? "" : dr2.Remark
                         };
 
+            var list = query.ToList();
             return Task.FromResult(query.ToList());
+        }
+
+        public void GetTest()
+        {
+            var supervisionItems = _supervisionItemRepository.GetAll();
+            var supervisionDetails = _supervisionDetailRepository.GetAll();
+
+            var query = from a in supervisionItems
+                        join b in supervisionDetails on a.Id equals b.SupervisionItemId into r1
+                        from dr1 in r1.DefaultIfEmpty()
+                        select new
+                        {
+                            SupervisionId = 1,
+                            SupervisionItemId = a.Id,
+                            SupervisionItemName = a.Name,
+                            a.ParentId,
+                            dr1.IsOK
+                        };
+            var list = query.ToList();
         }
 
         /// <summary>

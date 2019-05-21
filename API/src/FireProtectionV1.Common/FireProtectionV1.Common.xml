@@ -153,9 +153,14 @@
             网关状态
             </summary>
         </member>
-        <member name="F:FireProtectionV1.Common.Enum.GatewayStatus.Unusual">
+        <member name="F:FireProtectionV1.Common.Enum.GatewayStatus.UnKnow">
             <summary>
-            异常（表示当前在线但有故障，例如消火栓的水压偏低）
+            未指定
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.GatewayStatus.Online">
+            <summary>
+            正常在线
             </summary>
         </member>
         <member name="F:FireProtectionV1.Common.Enum.GatewayStatus.Offline">
@@ -163,9 +168,9 @@
             离线
             </summary>
         </member>
-        <member name="F:FireProtectionV1.Common.Enum.GatewayStatus.Online">
+        <member name="F:FireProtectionV1.Common.Enum.GatewayStatus.Unusual">
             <summary>
-            在线
+            异常（表示当前在线但有故障，例如消火栓的水压偏低）
             </summary>
         </member>
         <member name="T:FireProtectionV1.Common.Helper.MD5Encrypt">

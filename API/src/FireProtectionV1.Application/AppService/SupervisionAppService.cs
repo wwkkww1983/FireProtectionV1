@@ -56,5 +56,15 @@ namespace FireProtectionV1.AppService
         {
             return await _manager.GetSupervisionItem();
         }
+
+        /// <summary>
+        /// 添加监管执法记录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task AddSupervision(AddSupervisionInput input)
+        {
+            await _manager.AddSupervision(input);
+        }
     }
 }

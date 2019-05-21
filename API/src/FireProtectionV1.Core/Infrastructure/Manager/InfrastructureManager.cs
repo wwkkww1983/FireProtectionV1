@@ -25,6 +25,9 @@ namespace FireProtectionV1.Infrastructure.Manager
         IRepository<Hydrant> _hydrantRepository;
         IRepository<HydrantAlarm> _hydrantAlarmRepository;
         IRepository<HydrantPressure> _hydrantPressureRepository;
+        IRepository<Supervision> _supervisionRepository;
+        IRepository<SupervisionDetail> _supervisionDetailRepository;
+        IRepository<SupervisionDetailRemark> _supervisionDetailRemarkRepository;
 
         public InfrastructureManager(
             IRepository<SupervisionItem> supervisionItemRepository,
@@ -34,7 +37,10 @@ namespace FireProtectionV1.Infrastructure.Manager
             IRepository<StreetGridEventRemark> streetGridEventRemarkRepository,
             IRepository<Hydrant> hydrantRepository,
             IRepository<HydrantAlarm> hydrantAlarmRepository,
-            IRepository<HydrantPressure> hydrantPressureRepository
+            IRepository<HydrantPressure> hydrantPressureRepository,
+            IRepository<Supervision> supervisionRepository,
+            IRepository<SupervisionDetail> supervisionDetailRepository,
+            IRepository<SupervisionDetailRemark> supervisionDetailRemarkRepository
             )
         {
             _supervisionItemRepository = supervisionItemRepository;
@@ -45,6 +51,9 @@ namespace FireProtectionV1.Infrastructure.Manager
             _hydrantRepository = hydrantRepository;
             _hydrantAlarmRepository = hydrantAlarmRepository;
             _hydrantPressureRepository = hydrantPressureRepository;
+            _supervisionRepository = supervisionRepository;
+            _supervisionDetailRepository = supervisionDetailRepository;
+            _supervisionDetailRemarkRepository = supervisionDetailRemarkRepository;
         }
 
         /// <summary>
@@ -1265,7 +1274,120 @@ namespace FireProtectionV1.Infrastructure.Manager
             }
             #endregion
 
-            #region 初始化相关表数据
+            #region 监管执法记录
+            if (_supervisionRepository.Count() == 0)
+            {
+                Supervision supervision = new Supervision()
+                {
+                    FireUnitId = 1,
+                    CheckUser = "杜伟",
+                    CheckResult = CheckResult.限期整改,
+                    FireDeptUserId = 1,
+                    DocumentDeadline = 1,
+                    Remark = "相关人员存在防火预案不熟练，防火设施操作不熟练的情况",
+                    CreationTime = DateTime.Parse("2019-03-06")
+                };
+                var id = await _supervisionRepository.InsertAndGetIdAsync(supervision);
+                SupervisionDetail supervisionDetail = new SupervisionDetail()
+                {
+                    SupervisionId = id,
+                    SupervisionItemId = 4,
+                    IsOK = false
+                };
+                var detailId = await _supervisionDetailRepository.InsertAndGetIdAsync(supervisionDetail);
+                SupervisionDetailRemark supervisionDetailRemark = new SupervisionDetailRemark()
+                {
+                    SupervisionDetailId = detailId,
+                    Remark = "经随机抽查，多数员工未进行过消防安全教育"
+                };
+                await _supervisionDetailRemarkRepository.InsertAsync(supervisionDetailRemark);
+                supervisionDetail = new SupervisionDetail()
+                {
+                    SupervisionId = id,
+                    SupervisionItemId = 13,
+                    IsOK = false
+                };
+                detailId = await _supervisionDetailRepository.InsertAndGetIdAsync(supervisionDetail);
+                supervisionDetailRemark = new SupervisionDetailRemark()
+                {
+                    SupervisionDetailId = detailId,
+                    Remark = "未做灭火消防预案"
+                };
+                await _supervisionDetailRemarkRepository.InsertAsync(supervisionDetailRemark);
+                supervisionDetail = new SupervisionDetail()
+                {
+                    SupervisionId = id,
+                    SupervisionItemId = 37,
+                    IsOK = false
+                };
+                detailId = await _supervisionDetailRepository.InsertAndGetIdAsync(supervisionDetail);
+                supervisionDetailRemark = new SupervisionDetailRemark()
+                {
+                    SupervisionDetailId = detailId,
+                    Remark = "系统故障，不能联动开启"
+                };
+                await _supervisionDetailRemarkRepository.InsertAsync(supervisionDetailRemark);
+
+                supervision = new Supervision()
+                {
+                    FireUnitId = 1,
+                    CheckUser = "杜伟、汪洋",
+                    CheckResult = CheckResult.现场改正,
+                    FireDeptUserId = 1,
+                    DocumentSite = 1,
+                    Remark = "",
+                    CreationTime = DateTime.Parse("2019-04-11")
+                };
+                id = await _supervisionRepository.InsertAndGetIdAsync(supervision);
+                supervisionDetail = new SupervisionDetail()
+                {
+                    SupervisionId = id,
+                    SupervisionItemId = 21,
+                    IsOK = false
+                };
+                detailId = await _supervisionDetailRepository.InsertAndGetIdAsync(supervisionDetail);
+                supervisionDetailRemark = new SupervisionDetailRemark()
+                {
+                    SupervisionDetailId = detailId,
+                    Remark = "防火门未保持关闭状态"
+                };
+                await _supervisionDetailRemarkRepository.InsertAsync(supervisionDetailRemark);
+                supervisionDetail = new SupervisionDetail()
+                {
+                    SupervisionId = id,
+                    SupervisionItemId = 17,
+                    IsOK = false
+                };
+                detailId = await _supervisionDetailRepository.InsertAndGetIdAsync(supervisionDetail);
+                supervisionDetailRemark = new SupervisionDetailRemark()
+                {
+                    SupervisionDetailId = detailId,
+                    Remark = "消防车通道有杂物堵塞"
+                };
+                await _supervisionDetailRemarkRepository.InsertAsync(supervisionDetailRemark);
+
+                supervision = new Supervision()
+                {
+                    FireUnitId = 1,
+                    CheckUser = "杜伟、汪洋",
+                    CheckResult = CheckResult.合格,
+                    FireDeptUserId = 1,
+                    Remark = "",
+                    CreationTime = DateTime.Parse("2019-05-21")
+                };
+                await _supervisionRepository.InsertAsync(supervision);
+                supervision = new Supervision()
+                {
+                    FireUnitId = 2,
+                    CheckUser = "杜伟、陈超",
+                    CheckResult = CheckResult.现场改正,
+                    FireDeptUserId = 1,
+                    DocumentSite = 1,
+                    Remark = "楼梯有电瓶车充电，已现场纠正制止",
+                    CreationTime = DateTime.Parse("2019-04-26")
+                };
+                await _supervisionRepository.InsertAsync(supervision);
+            }
             #endregion
         }
     }
