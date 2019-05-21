@@ -6,7 +6,7 @@ using System.Text;
 
 namespace FireProtectionV1.Enterprise.Dto
 {
-    public class GetFireUnitListInput : PagedResultRequestDto
+    public class GetPagedFireUnitListInput : PagedResultRequestDto
     {
         ///// <summary>
         ///// 消防部门用户Id

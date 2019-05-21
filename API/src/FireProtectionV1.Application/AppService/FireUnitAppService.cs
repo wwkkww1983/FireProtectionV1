@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using System.Web;
 using FireProtectionV1.Common.Enum;
+using System.Linq;
 
 namespace FireProtectionV1.AppService
 {
@@ -56,7 +57,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task GetFireUnitListExcel(GetFireUnitListInput input)
+        public async Task GetFireUnitListExcel(GetPagedFireUnitListInput input)
         {
             var lst = await _fireUnitManager.GetFireUnitListExcel(input);
             using (ExcelBuild excel = new ExcelBuild())
@@ -76,14 +77,13 @@ namespace FireProtectionV1.AppService
                 Response.Body.Write(fileBytes);
                 Response.Body.Flush();
             }
-            //return File(sFileName, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         }
         /// <summary>
         /// （所有防火单位）防火单位分页列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<GetFireUnitListOutput>> GetFireUnitList(GetFireUnitListInput input)
+        public async Task<PagedResultDto<GetFireUnitListOutput>> GetFireUnitList(GetPagedFireUnitListInput input)
         {
             return await _fireUnitManager.GetFireUnitList(input);
         }
@@ -92,7 +92,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<GetFireUnitListForMobileOutput>> GetFireUnitListForMobile(GetFireUnitListInput input)
+        public async Task<PagedResultDto<GetFireUnitListForMobileOutput>> GetFireUnitListForMobile(GetPagedFireUnitListInput input)
         {
             return await _fireUnitManager.GetFireUnitListForMobile(input);
         }
@@ -225,26 +225,185 @@ namespace FireProtectionV1.AppService
             return await _fireWorkingManager.GetFireUnitPendingFault(input);
         }
         /// <summary>
+        /// （所有防火单位）火灾报警监控列表Excel导出
+        /// </summary>
+        /// <returns></returns>
+        public async Task GetAreas30DayFireAlarmListExcel(GetFireUnitListFilterTypeInput input)
+        {
+            var data= await _fireWorkingManager.GetAreas30DayFireAlarmList(new GetPagedFireUnitListFilterTypeInput() {
+                MaxResultCount=10000,
+                FireUnitTypeId=input.FireUnitTypeId,
+                Name=input.Name,
+                GetwayStatusValue=input.GetwayStatusValue,
+                UserId=input.UserId
+            });
+            if(data.TotalCount>10000)
+            {
+                data = await _fireWorkingManager.GetAreas30DayFireAlarmList(new GetPagedFireUnitListFilterTypeInput()
+                {
+                    MaxResultCount = data.TotalCount,
+                    FireUnitTypeId = input.FireUnitTypeId,
+                    Name = input.Name,
+                    GetwayStatusValue = input.GetwayStatusValue,
+                    UserId = input.UserId
+                });
+            }
+            var lst = from a in data.Items
+                      select new
+                      {
+                          a.FireUnitName,
+                          a.TypeName,
+                          a.AlarmTime,
+                          a.AlarmCount,
+                          a.HighFreqCount,
+                          a.StatusName
+                      };
+            using (ExcelBuild excel = new ExcelBuild())
+            {
+                var sheet = excel.BuildWorkSheet("火灾报警监控列表");
+                sheet.AddRowValues(new string[] { "单位名称", "类型", "最后报警时间", "最近30天报警次数", "高频报警部件数量", "网关状态" }, true);
+                foreach (var v in lst)
+                {
+                    sheet.AddRowValues(new string[]{
+                        v.FireUnitName,v.TypeName,v.AlarmTime,v.AlarmCount.ToString(),v.HighFreqCount.ToString(),v.StatusName });
+                }
+                var fileBytes = excel.BuildFileBytes();
+                HttpResponse Response = _httpContext.HttpContext.Response;
+                Response.ContentType = "application/vnd.ms-excel";
+                Response.ContentLength = fileBytes.Length;
+                Response.Headers.Add("Content-Disposition", $"attachment;filename={HttpUtility.UrlEncode("火灾报警监控列表", Encoding.UTF8)}.xls");
+                Response.Body.Write(fileBytes);
+                Response.Body.Flush();
+            }
+        }
+        /// <summary>
         /// （所有防火单位）火灾报警监控列表
         /// </summary>
         /// <returns></returns>
-        public async Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayFireAlarmList(GetFireUnitListFilterTypeInput input)
+        public async Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayFireAlarmList(GetPagedFireUnitListFilterTypeInput input)
         {
+
             return await _fireWorkingManager.GetAreas30DayFireAlarmList(input);
+        }
+        /// <summary>
+        /// （所有防火单位）安全用电监控列表Excel导出（电缆温度）
+        /// </summary>
+        /// <returns></returns>
+        public async Task GetAreas30DayTempAlarmListExcel(GetFireUnitListFilterTypeInput input)
+        {
+            var data= await _fireWorkingManager.GetAreas30DayTempAlarmList(new GetPagedFireUnitListFilterTypeInput()
+            {
+                MaxResultCount = 10000,
+                FireUnitTypeId = input.FireUnitTypeId,
+                Name = input.Name,
+                GetwayStatusValue = input.GetwayStatusValue,
+                UserId = input.UserId
+            });
+            if (data.TotalCount > 10000)
+            {
+                data = await _fireWorkingManager.GetAreas30DayTempAlarmList(new GetPagedFireUnitListFilterTypeInput()
+                {
+                    MaxResultCount = data.TotalCount,
+                    FireUnitTypeId = input.FireUnitTypeId,
+                    Name = input.Name,
+                    GetwayStatusValue = input.GetwayStatusValue,
+                    UserId = input.UserId
+                });
+            }
+            var lst = from a in data.Items
+                      select new
+                      {
+                          a.FireUnitName,
+                          a.TypeName,
+                          a.AlarmTime,
+                          a.AlarmCount,
+                          a.HighFreqCount,
+                          a.StatusName
+                      };
+            using (ExcelBuild excel = new ExcelBuild())
+            {
+                var sheet = excel.BuildWorkSheet("安全用电电缆温度监控列表");
+                sheet.AddRowValues(new string[] { "单位名称", "类型", "最后报警时间", "最近30天报警次数", "高频报警部件数量", "网关状态" }, true);
+                foreach (var v in lst)
+                {
+                    sheet.AddRowValues(new string[]{
+                        v.FireUnitName,v.TypeName,v.AlarmTime,v.AlarmCount.ToString(),v.HighFreqCount.ToString(),v.StatusName });
+                }
+                var fileBytes = excel.BuildFileBytes();
+                HttpResponse Response = _httpContext.HttpContext.Response;
+                Response.ContentType = "application/vnd.ms-excel";
+                Response.ContentLength = fileBytes.Length;
+                Response.Headers.Add("Content-Disposition", $"attachment;filename={HttpUtility.UrlEncode("安全用电电缆温度监控列表", Encoding.UTF8)}.xls");
+                Response.Body.Write(fileBytes);
+                Response.Body.Flush();
+            }
         }
         /// <summary>
         /// （所有防火单位）安全用电监控列表（电缆温度）
         /// </summary>
         /// <returns></returns>
-        public async Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayTempAlarmList(GetFireUnitListFilterTypeInput input)
+        public async Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayTempAlarmList(GetPagedFireUnitListFilterTypeInput input)
         {
             return await _fireWorkingManager.GetAreas30DayTempAlarmList(input);
+        }
+        /// <summary>
+        /// （所有防火单位）安全用电监控列表Excel导出（剩余电流）
+        /// </summary>
+        /// <returns></returns>
+        public async Task GetAreas30DayElecAlarmListExcel(GetFireUnitListFilterTypeInput input)
+        {
+            var data = await _fireWorkingManager.GetAreas30DayElecAlarmList(new GetPagedFireUnitListFilterTypeInput()
+            {
+                MaxResultCount = 10000,
+                FireUnitTypeId = input.FireUnitTypeId,
+                Name = input.Name,
+                GetwayStatusValue = input.GetwayStatusValue,
+                UserId = input.UserId
+            });
+            if (data.TotalCount > 10000)
+            {
+                data = await _fireWorkingManager.GetAreas30DayElecAlarmList(new GetPagedFireUnitListFilterTypeInput()
+                {
+                    MaxResultCount = data.TotalCount,
+                    FireUnitTypeId = input.FireUnitTypeId,
+                    Name = input.Name,
+                    GetwayStatusValue = input.GetwayStatusValue,
+                    UserId = input.UserId
+                });
+            }
+            var lst = from a in data.Items
+                      select new
+                      {
+                          a.FireUnitName,
+                          a.TypeName,
+                          a.AlarmTime,
+                          a.AlarmCount,
+                          a.HighFreqCount,
+                          a.StatusName
+                      };
+            using (ExcelBuild excel = new ExcelBuild())
+            {
+                var sheet = excel.BuildWorkSheet("安全用电剩余电流监控列表");
+                sheet.AddRowValues(new string[] { "单位名称", "类型", "最后报警时间", "最近30天报警次数", "高频报警部件数量", "网关状态" }, true);
+                foreach (var v in lst)
+                {
+                    sheet.AddRowValues(new string[]{
+                        v.FireUnitName,v.TypeName,v.AlarmTime,v.AlarmCount.ToString(),v.HighFreqCount.ToString(),v.StatusName });
+                }
+                var fileBytes = excel.BuildFileBytes();
+                HttpResponse Response = _httpContext.HttpContext.Response;
+                Response.ContentType = "application/vnd.ms-excel";
+                Response.ContentLength = fileBytes.Length;
+                Response.Headers.Add("Content-Disposition", $"attachment;filename={HttpUtility.UrlEncode("安全用电剩余电流监控列表", Encoding.UTF8)}.xls");
+                Response.Body.Write(fileBytes);
+                Response.Body.Flush();
+            }
         }
         /// <summary>
         /// （所有防火单位）安全用电监控列表（剩余电流）
         /// </summary>
         /// <returns></returns>
-        public async Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayElecAlarmList(GetFireUnitListFilterTypeInput input)
+        public async Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayElecAlarmList(GetPagedFireUnitListFilterTypeInput input)
         {
             return await _fireWorkingManager.GetAreas30DayElecAlarmList(input);
         }
@@ -253,7 +412,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<FireUnitFaultOuput>> GetFireUnitFaultList(GetFireUnitListInput input)
+        public async Task<PagedResultDto<FireUnitFaultOuput>> GetFireUnitFaultList(GetPagedFireUnitListInput input)
         {
             return await _fireWorkingManager.GetFireUnitFaultList(input);
         }
@@ -262,7 +421,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<GetFireUnitPatrolListOutput> GetFireUnitPatrolList(GetFireUnitListInput input)
+        public async Task<GetFireUnitPatrolListOutput> GetFireUnitPatrolList(GetPagedFireUnitListInput input)
         {
             return await _fireWorkingManager.GetFireUnitPatrolList(input);
         }
@@ -271,7 +430,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<GetFireUnitDutyListOutput> GetFireUnitDutyList(GetFireUnitListInput input)
+        public async Task<GetFireUnitDutyListOutput> GetFireUnitDutyList(GetPagedFireUnitListInput input)
         {
             return await _fireWorkingManager.GetFireUnitDutyList(input);
         }

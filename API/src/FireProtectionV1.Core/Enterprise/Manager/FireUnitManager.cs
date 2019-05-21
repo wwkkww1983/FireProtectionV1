@@ -62,7 +62,7 @@ namespace FireProtectionV1.Enterprise.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<List<GetFireUnitExcelOutput>> GetFireUnitListExcel(GetFireUnitListInput input)
+        public Task<List<GetFireUnitExcelOutput>> GetFireUnitListExcel(GetPagedFireUnitListInput input)
         {
             var fireUnits = _fireUnitRep.GetAll();
             var expr = ExprExtension.True<FireUnit>()
@@ -90,7 +90,7 @@ namespace FireProtectionV1.Enterprise.Manager
                         };
             return Task.FromResult<List<GetFireUnitExcelOutput>>(query.ToList());
         }
-        public Task<PagedResultDto<GetFireUnitListOutput>> GetFireUnitList(GetFireUnitListInput input)
+        public Task<PagedResultDto<GetFireUnitListOutput>> GetFireUnitList(GetPagedFireUnitListInput input)
         {
             var fireUnits = _fireUnitRep.GetAll();
             var expr = ExprExtension.True<FireUnit>()
@@ -119,7 +119,7 @@ namespace FireProtectionV1.Enterprise.Manager
             return Task.FromResult(new PagedResultDto<GetFireUnitListOutput>(tCount, list));
         }
 
-        public Task<PagedResultDto<GetFireUnitListForMobileOutput>> GetFireUnitListForMobile(GetFireUnitListInput input)
+        public Task<PagedResultDto<GetFireUnitListForMobileOutput>> GetFireUnitListForMobile(GetPagedFireUnitListInput input)
         {
             var fireUnits = _fireUnitRep.GetAll();
             var expr = ExprExtension.True<FireUnit>()

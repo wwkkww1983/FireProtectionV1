@@ -49,7 +49,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<PagedResultDto<FireUnitFaultOuput>> GetFireUnitFaultList(GetFireUnitListInput input);
+        Task<PagedResultDto<FireUnitFaultOuput>> GetFireUnitFaultList(GetPagedFireUnitListInput input);
 
         /// <summary>
         /// 设备设施故障待处理故障查询
@@ -73,29 +73,29 @@ namespace FireProtectionV1.FireWorking.Manager
         /// （所有防火单位）火灾报警监控列表
         /// </summary>
         /// <returns></returns>
-        Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayFireAlarmList(GetFireUnitListFilterTypeInput input);
+        Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayFireAlarmList(GetPagedFireUnitListFilterTypeInput input);
         /// <summary>
         /// （所有防火单位）安全用电监控列表（电缆温度）
         /// </summary>
         /// <returns></returns>
-        Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayTempAlarmList(GetFireUnitListFilterTypeInput input);
+        Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayTempAlarmList(GetPagedFireUnitListFilterTypeInput input);
         /// <summary>
         /// （所有防火单位）安全用电监控列表（剩余电流）
         /// </summary>
         /// <returns></returns>
-        Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayElecAlarmList(GetFireUnitListFilterTypeInput input);
+        Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayElecAlarmList(GetPagedFireUnitListFilterTypeInput input);
         /// <summary>
         /// （所有防火单位）值班巡查监控（巡查记录）
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<GetFireUnitPatrolListOutput> GetFireUnitPatrolList(GetFireUnitListInput input);
+        Task<GetFireUnitPatrolListOutput> GetFireUnitPatrolList(GetPagedFireUnitListInput input);
         /// <summary>
         /// （所有防火单位）值班巡查监控（值班记录）
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<GetFireUnitDutyListOutput> GetFireUnitDutyList(GetFireUnitListInput input);
+        Task<GetFireUnitDutyListOutput> GetFireUnitDutyList(GetPagedFireUnitListInput input);
         /// <summary>
         /// （所有防火单位）超过7天没有巡查记录的单位列表
         /// </summary>

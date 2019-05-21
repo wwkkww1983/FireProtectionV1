@@ -254,7 +254,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<PagedResultDto<FireUnitFaultOuput>> GetFireUnitFaultList(GetFireUnitListInput input)
+        public Task<PagedResultDto<FireUnitFaultOuput>> GetFireUnitFaultList(GetPagedFireUnitListInput input)
         {
             var query = _faultRep.GetAll().GroupBy(p => p.FireUnitId).Select(p => new FireUnitFaultOuput()
             {
@@ -376,7 +376,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// （所有防火单位）火灾报警监控列表
         /// </summary>
         /// <returns></returns>
-        public Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayFireAlarmList(GetFireUnitListFilterTypeInput input)
+        public Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayFireAlarmList(GetPagedFireUnitListFilterTypeInput input)
         {
             var alarmFire = _alarmToFireRep.GetAll().Where(p => p.CreationTime >= DateTime.Now.Date.AddDays(-30));
             //模糊查询
@@ -426,7 +426,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// （所有防火单位）安全用电监控列表（电缆温度）
         /// </summary>
         /// <returns></returns>
-        public Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayTempAlarmList(GetFireUnitListFilterTypeInput input)
+        public Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayTempAlarmList(GetPagedFireUnitListFilterTypeInput input)
         {
             return GetAreas30DayElecAlarmListOnlyId(input, 15);
         }
@@ -434,7 +434,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// （所有防火单位）安全用电监控列表（剩余电流）
         /// </summary>
         /// <returns></returns>
-        public Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayElecAlarmList(GetFireUnitListFilterTypeInput input)
+        public Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayElecAlarmList(GetPagedFireUnitListFilterTypeInput input)
         {
             return GetAreas30DayElecAlarmListOnlyId(input, 6);
         }
@@ -442,7 +442,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// 安全用电剩余电流监控列表
         /// </summary>
         /// <returns></returns>
-        Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayElecAlarmListOnlyId(GetFireUnitListFilterTypeInput input,int id)
+        Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayElecAlarmListOnlyId(GetPagedFireUnitListFilterTypeInput input,int id)
         {
             var alarmFire = from a in _alarmToElectricRep.GetAll().Where(p => p.CreationTime >= DateTime.Now.Date.AddDays(-30))
                             join b in _detectorRep.GetAll().Where(p => p.DetectorTypeId == 6)
@@ -566,7 +566,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<GetFireUnitPatrolListOutput> GetFireUnitPatrolList(GetFireUnitListInput input)
+        public Task<GetFireUnitPatrolListOutput> GetFireUnitPatrolList(GetPagedFireUnitListInput input)
         {
             DateTime now = DateTime.Now;
             var output = new GetFireUnitPatrolListOutput();
@@ -597,7 +597,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<GetFireUnitDutyListOutput> GetFireUnitDutyList(GetFireUnitListInput input)
+        public Task<GetFireUnitDutyListOutput> GetFireUnitDutyList(GetPagedFireUnitListInput input)
         {
             DateTime now = DateTime.Now;
             var output = new GetFireUnitDutyListOutput();
