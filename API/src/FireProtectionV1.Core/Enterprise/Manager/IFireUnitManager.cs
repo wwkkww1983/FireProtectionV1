@@ -39,5 +39,18 @@ namespace FireProtectionV1.Enterprise.Manager
         Task<List<GetFireUnitExcelOutput>> GetFireUnitListExcel(GetFireUnitListInput input);
         Task<PagedResultDto<GetFireUnitListOutput>> GetFireUnitList(GetFireUnitListInput input);
         Task<PagedResultDto<GetFireUnitListForMobileOutput>> GetFireUnitListForMobile(GetFireUnitListInput input);
+        /// <summary>
+        /// 消防部门用户关注防火单位
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<SuccessOutput> AttentionFireUnit(DeptUserAttentionFireUnitInput input);
+        /// <summary>
+        /// 消防部门用户取消关注防火单位
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<SuccessOutput> AttentionFireUnitCancel(DeptUserAttentionFireUnitInput input);
+
     }
 }

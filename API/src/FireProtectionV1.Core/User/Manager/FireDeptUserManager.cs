@@ -31,6 +31,7 @@ namespace FireProtectionV1.User.Manager
             }
             else
             {
+                output.UserId = v.Id;
                 output.Name = v.Name;
                 var dept = await _fireDeptRep.SingleAsync(p => p.Id == v.FireDeptId);
                 if (dept != null)

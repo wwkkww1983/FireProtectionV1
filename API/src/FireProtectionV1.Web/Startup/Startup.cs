@@ -52,7 +52,7 @@ namespace FireProtectionV1.Web.Startup
             services.AddSwaggerGen(options =>
             {
                 Info info= new Info { Title = "FireProtectionV1 WebApi", Version = "v1"
-                    ,Description= "FireDept（消防部门）\r\nFireDeptUser（消防部门用户）\r\nFireUnit（防火单位）\r\nFireUnitUser（防火单位用户）"
+                    //,Description= "FireDept（消防部门）\r\nFireDeptUser（消防部门用户）\r\nFireUnit（防火单位）\r\nFireUnitUser（防火单位用户）"
                 };
                 options.SwaggerDoc("v1", info);
                 options.DocInclusionPredicate((docName, description) => true);

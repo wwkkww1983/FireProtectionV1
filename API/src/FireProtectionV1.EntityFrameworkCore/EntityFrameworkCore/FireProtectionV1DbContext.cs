@@ -14,6 +14,7 @@ namespace FireProtectionV1.EntityFrameworkCore
 {
     public class FireProtectionV1DbContext : AbpDbContext
     {
+        public DbSet<FireUnitAttention> FireUnitAttention { get; set; }
         public DbSet<DataToPatrol> DataToPatrol { get; set; }
         public DbSet<DataToPatrolDetail> DataToPatrolDetail { get; set; }
         public DbSet<DataToPatrolDetailProblem> DataToPatrolDetailProblem { get; set; }
