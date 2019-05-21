@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
+using FireProtectionV1.Common.Enum;
 using FireProtectionV1.Configuration;
 using FireProtectionV1.Enterprise.Dto;
 using FireProtectionV1.Enterprise.Model;
@@ -375,7 +376,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// （所有防火单位）火灾报警监控列表
         /// </summary>
         /// <returns></returns>
-        public Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayFireAlarmList(GetFireUnitListInput input)
+        public Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayFireAlarmList(GetFireUnitListFilterTypeInput input)
         {
             var alarmFire = _alarmToFireRep.GetAll().Where(p => p.CreationTime >= DateTime.Now.Date.AddDays(-30));
             //模糊查询
@@ -391,22 +392,26 @@ namespace FireProtectionV1.FireWorking.Manager
             var alarmFireUnits = alarmFire.GroupBy(p => p.FireUnitId).Select(p => new
             {
                 FireUnitId = p.Key,
-                LastAlarmTime = p.Max(p1=>p1.CreationTime),
+                LastAlarmTime = p.Max(p1 => p1.CreationTime),
                 AlarmCount = p.Count(),
                 FreqCount = p.GroupBy(p1 => p1.DetectorId).Select(p1 => p1.Count() > highFreq).Count()
             });
+            GatewayStatus status = GatewayStatus.Unusual;
+            if (!string.IsNullOrEmpty(input.GetwayStatusValue))
+                status = (GatewayStatus)Enum.Parse(typeof(GatewayStatus), input.GetwayStatusValue);
             var v = from a in alarmFireUnits
-                    join b in _gatewayRep.GetAll()
+                    join b in _gatewayRep.GetAll().Where(p => string.IsNullOrEmpty(input.GetwayStatusValue) ? true : p.Status == status)
                     on a.FireUnitId equals b.FireUnitId
                     join c in _fireUnitRep.GetAll()
                     on a.FireUnitId equals c.Id
-                    join d in _fireUnitTypeRep.GetAll()
+                    join d in _fireUnitTypeRep.GetAll().Where(p => 0 == input.FireUnitTypeId ? true : p.Id == input.FireUnitTypeId)
                     on c.TypeId equals d.Id
                     orderby a.LastAlarmTime descending
                     select new GetAreas30DayFireAlarmOutput()
                     {
                         FireUnitId = a.FireUnitId,
                         FireUnitName = c.Name,
+                        TypeId = d.Id,
                         TypeName = d.Name,
                         AlarmTime = a.LastAlarmTime.ToString("yyyy-MM-dd HH:mm:ss"),
                         AlarmCount = a.AlarmCount,
@@ -414,14 +419,14 @@ namespace FireProtectionV1.FireWorking.Manager
                         StatusValue = b.Status,
                         StatusName = b.Status == Common.Enum.GatewayStatus.Online ? "在线" : "离线"
                     };
-            return Task.FromResult< PagedResultDto < GetAreas30DayFireAlarmOutput >>(new PagedResultDto<GetAreas30DayFireAlarmOutput>
+            return Task.FromResult<PagedResultDto<GetAreas30DayFireAlarmOutput>>(new PagedResultDto<GetAreas30DayFireAlarmOutput>
                  (v.Count(), v.Skip(input.SkipCount).Take(input.MaxResultCount).ToList()));
         }
         /// <summary>
         /// （所有防火单位）安全用电监控列表（电缆温度）
         /// </summary>
         /// <returns></returns>
-        public Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayTempAlarmList(GetFireUnitListInput input)
+        public Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayTempAlarmList(GetFireUnitListFilterTypeInput input)
         {
             return GetAreas30DayElecAlarmListOnlyId(input, 15);
         }
@@ -429,7 +434,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// （所有防火单位）安全用电监控列表（剩余电流）
         /// </summary>
         /// <returns></returns>
-        public Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayElecAlarmList(GetFireUnitListInput input)
+        public Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayElecAlarmList(GetFireUnitListFilterTypeInput input)
         {
             return GetAreas30DayElecAlarmListOnlyId(input, 6);
         }
@@ -437,7 +442,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// 安全用电剩余电流监控列表
         /// </summary>
         /// <returns></returns>
-        Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayElecAlarmListOnlyId(GetFireUnitListInput input,int id)
+        Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayElecAlarmListOnlyId(GetFireUnitListFilterTypeInput input,int id)
         {
             var alarmFire = from a in _alarmToElectricRep.GetAll().Where(p => p.CreationTime >= DateTime.Now.Date.AddDays(-30))
                             join b in _detectorRep.GetAll().Where(p => p.DetectorTypeId == 6)
@@ -459,12 +464,16 @@ namespace FireProtectionV1.FireWorking.Manager
                 AlarmCount = p.Count(),
                 FreqCount = p.GroupBy(p1 => p1.DetectorId).Select(p1 => p1.Count() > highFreq).Count()
             });
+            GatewayStatus status = GatewayStatus.Unusual;
+            if (!string.IsNullOrEmpty(input.GetwayStatusValue))
+                status = (GatewayStatus)Enum.Parse(typeof(GatewayStatus), input.GetwayStatusValue);
+
             var v = from a in alarmFireUnits
-                    join b in _gatewayRep.GetAll()
+                    join b in _gatewayRep.GetAll().Where(p => string.IsNullOrEmpty(input.GetwayStatusValue) ? true : p.Status == status)
                     on a.FireUnitId equals b.FireUnitId
                     join c in _fireUnitRep.GetAll()
                     on a.FireUnitId equals c.Id
-                    join d in _fireUnitTypeRep.GetAll()
+                    join d in _fireUnitTypeRep.GetAll().Where(p => 0 == input.FireUnitTypeId ? true : p.Id == input.FireUnitTypeId)
                     on c.TypeId equals d.Id
                     orderby a.LastAlarmTime descending
                     select new GetAreas30DayFireAlarmOutput()

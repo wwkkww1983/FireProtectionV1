@@ -186,9 +186,9 @@
             防火单位类型Id
             </summary>
         </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput.GetwayStatusId">
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput.GetwayStatusValue">
             <summary>
-            网关状态Id
+            网关状态值
             </summary>
         </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListForMobileOutput.Id">
@@ -685,6 +685,21 @@
             最近30天提交记录数
             </summary>
         </member>
+        <member name="T:FireProtectionV1.FireWorking.Dto.GatewayStatusTypeOutput">
+            <summary>
+            网关状态类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GatewayStatusTypeOutput.GatewayStatusValue">
+            <summary>
+            网关状态值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GatewayStatusTypeOutput.GatewayStatusName">
+            <summary>
+            网关状态名称
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetAreas30DayFireAlarmOutput.FireUnitId">
             <summary>
             防火单位Id
@@ -1052,25 +1067,25 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetAreas30DayFireAlarmList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetAreas30DayFireAlarmList(FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput)">
             <summary>
             （所有防火单位）火灾报警监控列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetAreas30DayTempAlarmList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetAreas30DayTempAlarmList(FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput)">
             <summary>
             （所有防火单位）安全用电监控列表（电缆温度）
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetAreas30DayElecAlarmList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetAreas30DayElecAlarmList(FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput)">
             <summary>
             （所有防火单位）安全用电监控列表（剩余电流）
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetAreas30DayElecAlarmListOnlyId(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput,System.Int32)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetAreas30DayElecAlarmListOnlyId(FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput,System.Int32)">
             <summary>
             安全用电剩余电流监控列表
             </summary>
@@ -1175,19 +1190,19 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetAreas30DayFireAlarmList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetAreas30DayFireAlarmList(FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput)">
             <summary>
             （所有防火单位）火灾报警监控列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetAreas30DayTempAlarmList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetAreas30DayTempAlarmList(FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput)">
             <summary>
             （所有防火单位）安全用电监控列表（电缆温度）
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetAreas30DayElecAlarmList(FireProtectionV1.Enterprise.Dto.GetFireUnitListInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetAreas30DayElecAlarmList(FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput)">
             <summary>
             （所有防火单位）安全用电监控列表（剩余电流）
             </summary>
