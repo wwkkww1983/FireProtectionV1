@@ -133,7 +133,7 @@ namespace FireProtectionV1.SupervisionCore.Manager
                                        ParentName = "",
                                        IsOK = dr1 == null ? true : dr1.IsOK,
                                        Remark = dr2 == null ? "" : dr2.Remark,
-                                       SonList = new List<GetSingleSupervisionDetailOutput>()
+                                       SonList = null
                                    }).ToList();          
             foreach (var parent in queryParentList)
             {
