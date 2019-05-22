@@ -1,6 +1,7 @@
 ﻿using FireProtectionV1.Common.DBContext;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace FireProtectionV1.StreetGridCore.Model
@@ -25,11 +26,16 @@ namespace FireProtectionV1.StreetGridCore.Model
         public EventStatus Status { get; set; }
     }
 
+    [Export("网格事件状态")]
     public enum EventStatus
     {
+        [Description("未指定")]
         未指定 = 0,
+        [Description("待处理")]
         待处理 = 1,
+        [Description("处理中")]
         处理中 = 2,
+        [Description("已办结")]
         已办结 = 3
     }
 }
