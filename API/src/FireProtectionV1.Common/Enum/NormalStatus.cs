@@ -1,5 +1,7 @@
-﻿using System;
+﻿using FireProtectionV1.Common.DBContext;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace FireProtectionV1.Common.Enum
@@ -22,23 +24,28 @@ namespace FireProtectionV1.Common.Enum
     /// <summary>
     /// 网关状态
     /// </summary>
+    [Export("网关状态")]
     public enum GatewayStatus
     {
         /// <summary>
         /// 未指定
         /// </summary>
+        [Description("未指定")]
         UnKnow = 0,
         /// <summary>
         /// 正常在线
         /// </summary>
+        [Description("正常在线")]
         Online = 1,
         /// <summary>
         /// 离线
         /// </summary>
+        [Description("离线")]
         Offline = -1,
         /// <summary>
         /// 异常（表示当前在线但有故障，例如消火栓的水压偏低）
         /// </summary>
+        [Description("异常（表示当前在线但有故障，例如消火栓的水压偏低）")]
         Unusual = -2
     }
     public enum DeviceType

@@ -16,6 +16,8 @@ using System.IO;
 using FireProtectionV1.Configuration;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using FireProtectionV1.Web.SwaggerExt;
+using FireProtectionV1.Common.Enum;
 
 namespace FireProtectionV1.Web.Startup
 {
@@ -72,10 +74,13 @@ namespace FireProtectionV1.Web.Startup
                 {
                     options.IncludeXmlComments(xmlCommon);
                 }
-                //var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                //var commentsFileName = "FireProtectionV1.Application.xml";
-                //var commentsFile = Path.Combine(baseDirectory, commentsFileName);
-                //options.IncludeXmlComments(commentsFile);
+
+                //options.DescribeAllEnumsAsStrings();
+                options.DescribeStringEnumsInCamelCase();
+                options.UseReferencedDefinitionsForEnums();
+
+                options.SwaggerGeneratorOptions.ParameterFilters.AddEnumParameterFilter();
+                options.SwaggerGeneratorOptions.DocumentFilters.AddEnumDocumentFilters(typeof(FireProtectionV1CoreModule).Assembly,typeof(NormalStatus).Assembly);
             });
             //services.AddHttpContextAccessor();
             //Configure Abp and Dependency Injection

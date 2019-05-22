@@ -1,6 +1,7 @@
 ﻿using FireProtectionV1.Common.DBContext;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace FireProtectionV1.SupervisionCore.Model
@@ -56,12 +57,18 @@ namespace FireProtectionV1.SupervisionCore.Model
         public int DocumentPunish { get; set; }
     }
 
+    [Export("监管检查结论")]
     public enum CheckResult
     {
+        [Description("未指定")]
         未指定 = 0,
+        [Description("合格")]
         合格 = 1,
+        [Description("现场改正")]
         现场改正 = -1,
+        [Description("限期整改")]
         限期整改 = -2,
+        [Description("停业整顿")]
         停业整顿 = -3
     }
 }
