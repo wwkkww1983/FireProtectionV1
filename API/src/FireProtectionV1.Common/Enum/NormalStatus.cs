@@ -48,11 +48,16 @@ namespace FireProtectionV1.Common.Enum
         [Description("异常（表示当前在线但有故障，例如消火栓的水压偏低）")]
         Unusual = -2
     }
+    [Export("探测器类型")]
     public enum DeviceType
     {
-        ControllerElectric=1,
+        [Description("电气火灾网关设备")]
+        ControllerElectric = 1,
+        [Description("火警预警网关设备")]
         ControllerFire,
+        [Description("电气火灾探测器")]
         DetectorElectric,
+        [Description("火警预警探测器")]
         DetectorFire
     }
 }
