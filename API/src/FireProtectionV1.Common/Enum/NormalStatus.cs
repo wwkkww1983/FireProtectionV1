@@ -9,15 +9,18 @@ namespace FireProtectionV1.Common.Enum
     /// <summary>
     /// 常用的状态枚举
     /// </summary>
+    [Export("常用状态枚举")]
     public enum NormalStatus
     {
         /// <summary>
         /// 已启用
         /// </summary>
+        [Description("已启用")]
         Enabled = 1,
         /// <summary>
         /// 已停用
         /// </summary>
+        [Description("已停用")]
         Disabled = 2
     }
 
