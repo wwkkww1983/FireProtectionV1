@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Composition;
 using System.Text;
+using ExportAttribute = FireProtectionV1.Common.DBContext.ExportAttribute;
 
 namespace FireProtectionV1.User.Model
 {
@@ -22,6 +23,7 @@ namespace FireProtectionV1.User.Model
         public FireUnitRole Role { get; set; }
     }
 
+    [Export("防火单位人员角色")]
     public enum FireUnitRole
     {
         /// <summary>
