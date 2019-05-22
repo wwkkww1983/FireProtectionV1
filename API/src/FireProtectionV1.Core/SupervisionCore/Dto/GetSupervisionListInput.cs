@@ -17,8 +17,13 @@ namespace FireProtectionV1.SupervisionCore.Dto
         /// </summary>
         public int FireUnitId { get; set; }
         /// <summary>
+        /// 防火单位名称
+        /// </summary>
+        public string FireUnitName { get; set; }
+        /// <summary>
         /// 消防监管人员Id（记录提交人Id）
         /// </summary>
         public int FireDeptUserId { get; set; }
+        
     }
 }

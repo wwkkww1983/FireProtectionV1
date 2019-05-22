@@ -79,6 +79,10 @@ namespace FireProtectionV1.SupervisionCore.Manager
             supervisions = supervisions.Where(expr);
 
             var fireUnits = _fireUnitRepository.GetAll();
+            var expr2 = ExprExtension.True<FireUnit>()
+               .IfAnd(!string.IsNullOrEmpty(input.FireUnitName), item => item.Name.Contains(input.FireUnitName));
+
+            fireUnits = fireUnits.Where(expr2);
 
             var query = from a in supervisions
                         join b in fireUnits
@@ -113,26 +117,78 @@ namespace FireProtectionV1.SupervisionCore.Manager
             var supervisionDetails = _supervisionDetailRepository.GetAll().Where(s => s.SupervisionId.Equals(supervisionId));
             var supervisionDetailRemarks = _supervisionDetailRemarkRepository.GetAll();
 
-            var query = from a in supervisionItems
-                        join b in supervisionItems on a.ParentId equals b.Id
-                        join c in supervisionDetails on a.Id equals c.SupervisionItemId into r1
-                        from dr1 in r1.DefaultIfEmpty()
-                        join c in supervisionDetailRemarks on dr1.Id equals c.SupervisionDetailId into r2
-                        from dr2 in r2.DefaultIfEmpty()
-                        orderby a.ParentId
-                        select new GetSingleSupervisionDetailOutput
-                        {
-                            SupervisionId = supervisionId,
-                            SupervisionItemId = a.Id,
-                            SupervisionItemName = a.Name,
-                            ParentId = a.ParentId,
-                            ParentName = b.Name,
-                            IsOK = dr1 == null ? true : dr1.IsOK,
-                            Remark = dr2 == null ? "" : dr2.Remark
-                        };
+            var queryParentList = (from a in supervisionItems
+                                   join c in supervisionDetails on a.Id equals c.SupervisionItemId into r1
+                                   from dr1 in r1.DefaultIfEmpty()
+                                   join c in supervisionDetailRemarks on dr1.Id equals c.SupervisionDetailId into r2
+                                   from dr2 in r2.DefaultIfEmpty()
+                                   where a.ParentId == 0
+                                   orderby a.Id
+                                   select new GetSingleSupervisionDetailOutput
+                                   {
+                                       SupervisionId = supervisionId,
+                                       SupervisionItemId = a.Id,
+                                       SupervisionItemName = a.Name,
+                                       ParentId = 0,
+                                       ParentName = "",
+                                       IsOK = dr1 == null ? true : dr1.IsOK,
+                                       Remark = dr2 == null ? "" : dr2.Remark,
+                                       SonList = new List<GetSingleSupervisionDetailOutput>()
+                                   }).ToList();          
+            foreach (var parent in queryParentList)
+            {
+                parent.SonList = new List<GetSingleSupervisionDetailOutput>();
+                var sonList = from a in supervisionItems
+                              join c in supervisionDetails on a.Id equals c.SupervisionItemId into r1
+                              from dr1 in r1.DefaultIfEmpty()
+                              join c in supervisionDetailRemarks on dr1.Id equals c.SupervisionDetailId into r2
+                              from dr2 in r2.DefaultIfEmpty()
+                              where a.ParentId == parent.SupervisionItemId
+                              orderby a.Id
+                              select new GetSingleSupervisionDetailOutput
+                              {
+                                  SupervisionId = supervisionId,
+                                  SupervisionItemId = a.Id,
+                                  SupervisionItemName = a.Name,
+                                  ParentId = parent.SupervisionItemId,
+                                  ParentName = parent.SupervisionItemName,
+                                  IsOK = dr1 == null ? true : dr1.IsOK,
+                                  Remark = dr2 == null ? "" : dr2.Remark,
+                                  SonList = null
+                              };
+                parent.SonList.AddRange(sonList);
+            }
 
-            var list = query.ToList();
-            return Task.FromResult(query.ToList());
+            //var query = from a in supervisionItems
+            //            join b in supervisionItems on a.ParentId equals b.Id
+            //            join c in supervisionDetails on a.Id equals c.SupervisionItemId into r1
+            //            from dr1 in r1.DefaultIfEmpty()
+            //            join c in supervisionDetailRemarks on dr1.Id equals c.SupervisionDetailId into r2
+            //            from dr2 in r2.DefaultIfEmpty()
+            //            orderby a.ParentId
+            //            select new GetSingleSupervisionDetailOutput
+            //            {
+            //                SupervisionId = supervisionId,
+            //                SupervisionItemId = a.Id,
+            //                SupervisionItemName = a.Name,
+            //                ParentId = a.ParentId,
+            //                ParentName = b.Name,
+            //                IsOK = dr1 == null ? true : dr1.IsOK,
+            //                Remark = dr2 == null ? "" : dr2.Remark
+            //            };
+
+            return Task.FromResult(queryParentList.ToList());
+
+
+        }
+
+        public IEnumerable<SupervisionItem> GetSonID(int p_id,IQueryable <SupervisionItem> supervisionItems)
+        {
+            var query = from c in supervisionItems
+                        where c.ParentId == p_id
+                        select c;
+
+            return query.ToList().Concat(query.ToList().SelectMany(t => GetSonID(t.Id, query)));
         }
 
         public void GetTest()

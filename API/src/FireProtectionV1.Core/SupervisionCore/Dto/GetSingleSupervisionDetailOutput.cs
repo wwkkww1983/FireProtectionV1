@@ -1,6 +1,7 @@
 ﻿using FireProtectionV1.SupervisionCore.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace FireProtectionV1.SupervisionCore.Dto
@@ -23,5 +24,9 @@ namespace FireProtectionV1.SupervisionCore.Dto
         /// 项目的注释
         /// </summary>
         public string Remark { get; set; }
+        /// <summary>
+        /// 二级执法项目
+        /// </summary>
+        public List<GetSingleSupervisionDetailOutput> SonList { get; set; }
     }
 }

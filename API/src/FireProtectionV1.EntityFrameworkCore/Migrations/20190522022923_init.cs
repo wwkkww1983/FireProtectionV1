@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FireProtectionV1.Migrations
 {
-    public partial class initdb : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -83,6 +83,93 @@ namespace FireProtectionV1.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DataToDuty",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DutyPicture = table.Column<string>(maxLength: 100, nullable: false),
+                    DutyStatus = table.Column<byte>(nullable: false),
+                    FireUnitId = table.Column<int>(nullable: false),
+                    FireUnitUserId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DataToDuty", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DataToDutyProblem",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DutyId = table.Column<int>(nullable: false),
+                    ProblemVoice = table.Column<string>(maxLength: 100, nullable: true),
+                    ProblemPicture = table.Column<string>(maxLength: 100, nullable: true),
+                    ProblemRemark = table.Column<string>(maxLength: 200, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DataToDutyProblem", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DataToPatrol",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    FireUnitId = table.Column<int>(nullable: false),
+                    FireUnitUserId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DataToPatrol", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DataToPatrolDetail",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    PatrolId = table.Column<int>(nullable: false),
+                    DeviceSn = table.Column<string>(maxLength: 20, nullable: true),
+                    PatrolStatus = table.Column<byte>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DataToPatrolDetail", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DataToPatrolDetailProblem",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    PatrolDetailId = table.Column<int>(nullable: false),
+                    ProblemVoice = table.Column<string>(maxLength: 100, nullable: true),
+                    ProblemPicture = table.Column<string>(maxLength: 100, nullable: true),
+                    ProblemRemark = table.Column<string>(maxLength: 500, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DataToPatrolDetailProblem", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Detector",
                 columns: table => new
                 {
@@ -92,10 +179,9 @@ namespace FireProtectionV1.Migrations
                     IsDeleted = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 20, nullable: true),
                     DetectorTypeId = table.Column<int>(nullable: false),
-                    FireSysType = table.Column<int>(nullable: false),
+                    FireSysType = table.Column<byte>(nullable: false),
                     GatewayId = table.Column<int>(nullable: false),
-                    FireUnitId = table.Column<int>(nullable: false),
-                    AlarmTime = table.Column<DateTime>(nullable: false)
+                    FireUnitId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -110,7 +196,7 @@ namespace FireProtectionV1.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     CreationTime = table.Column<DateTime>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    Name = table.Column<string>(maxLength: 20, nullable: true)
+                    Name = table.Column<string>(maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -125,12 +211,11 @@ namespace FireProtectionV1.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     CreationTime = table.Column<DateTime>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
+                    DetectorId = table.Column<int>(nullable: false),
                     FaultTitle = table.Column<string>(maxLength: 50, nullable: false),
                     FaultRemark = table.Column<string>(maxLength: 200, nullable: true),
                     ProcessState = table.Column<byte>(nullable: false),
-                    FireUnitId = table.Column<int>(nullable: false),
-                    DeviceId = table.Column<int>(nullable: false),
-                    DeviceType = table.Column<byte>(nullable: false)
+                    FireUnitId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -204,8 +289,8 @@ namespace FireProtectionV1.Migrations
                     ContractPhone = table.Column<string>(maxLength: 20, nullable: true),
                     InvitationCode = table.Column<string>(maxLength: 10, nullable: true),
                     SafeUnitId = table.Column<int>(nullable: false),
-                    Lng = table.Column<decimal>(nullable: false),
-                    Lat = table.Column<decimal>(nullable: false)
+                    Lng = table.Column<decimal>(type: "decimal(9,6)", nullable: false),
+                    Lat = table.Column<decimal>(type: "decimal(9,6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -213,7 +298,38 @@ namespace FireProtectionV1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FireUnitAccount",
+                name: "FireUnitAttention",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    FireUnitId = table.Column<int>(nullable: false),
+                    FireDeptUserId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FireUnitAttention", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FireUnitType",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    Name = table.Column<string>(maxLength: 10, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FireUnitType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FireUnitUser",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -228,11 +344,11 @@ namespace FireProtectionV1.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FireUnitAccount", x => x.Id);
+                    table.PrimaryKey("PK_FireUnitUser", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "FireUnitAccountRole",
+                name: "FireUnitUserRole",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -244,22 +360,7 @@ namespace FireProtectionV1.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FireUnitAccountRole", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "FireUnitType",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    CreationTime = table.Column<DateTime>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    Name = table.Column<string>(maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FireUnitType", x => x.Id);
+                    table.PrimaryKey("PK_FireUnitUserRole", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -291,8 +392,8 @@ namespace FireProtectionV1.Migrations
                     Sn = table.Column<string>(nullable: false),
                     AreaId = table.Column<int>(nullable: false),
                     Address = table.Column<string>(nullable: true),
-                    Lng = table.Column<decimal>(nullable: false),
-                    Lat = table.Column<decimal>(nullable: false),
+                    Lng = table.Column<decimal>(type: "decimal(9,6)", nullable: false),
+                    Lat = table.Column<decimal>(type: "decimal(9,6)", nullable: false),
                     Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -346,8 +447,8 @@ namespace FireProtectionV1.Migrations
                     ContactPhone = table.Column<string>(nullable: true),
                     PersonNum = table.Column<int>(nullable: false),
                     Address = table.Column<string>(nullable: true),
-                    Lng = table.Column<decimal>(nullable: false),
-                    Lat = table.Column<decimal>(nullable: false)
+                    Lng = table.Column<decimal>(type: "decimal(9,6)", nullable: false),
+                    Lat = table.Column<decimal>(type: "decimal(9,6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -374,24 +475,6 @@ namespace FireProtectionV1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StreetGrid",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    CreationTime = table.Column<DateTime>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    Name = table.Column<string>(maxLength: 50, nullable: false),
-                    Street = table.Column<string>(nullable: false),
-                    ContractName = table.Column<string>(maxLength: 50, nullable: true),
-                    ContractPhone = table.Column<string>(maxLength: 20, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StreetGrid", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "StreetGridEvent",
                 columns: table => new
                 {
@@ -401,8 +484,7 @@ namespace FireProtectionV1.Migrations
                     IsDeleted = table.Column<bool>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     EventType = table.Column<string>(nullable: true),
-                    StreetGridId = table.Column<int>(nullable: false),
-                    Community = table.Column<string>(nullable: true),
+                    StreetGridUserId = table.Column<int>(nullable: false),
                     Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -424,6 +506,25 @@ namespace FireProtectionV1.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_StreetGridEventRemark", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StreetGridUser",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    Name = table.Column<string>(maxLength: 50, nullable: true),
+                    Phone = table.Column<string>(maxLength: 20, nullable: true),
+                    GridName = table.Column<string>(maxLength: 50, nullable: false),
+                    Street = table.Column<string>(nullable: false),
+                    Community = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StreetGridUser", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -516,6 +617,21 @@ namespace FireProtectionV1.Migrations
                 name: "Area");
 
             migrationBuilder.DropTable(
+                name: "DataToDuty");
+
+            migrationBuilder.DropTable(
+                name: "DataToDutyProblem");
+
+            migrationBuilder.DropTable(
+                name: "DataToPatrol");
+
+            migrationBuilder.DropTable(
+                name: "DataToPatrolDetail");
+
+            migrationBuilder.DropTable(
+                name: "DataToPatrolDetailProblem");
+
+            migrationBuilder.DropTable(
                 name: "Detector");
 
             migrationBuilder.DropTable(
@@ -537,13 +653,16 @@ namespace FireProtectionV1.Migrations
                 name: "FireUnit");
 
             migrationBuilder.DropTable(
-                name: "FireUnitAccount");
-
-            migrationBuilder.DropTable(
-                name: "FireUnitAccountRole");
+                name: "FireUnitAttention");
 
             migrationBuilder.DropTable(
                 name: "FireUnitType");
+
+            migrationBuilder.DropTable(
+                name: "FireUnitUser");
+
+            migrationBuilder.DropTable(
+                name: "FireUnitUserRole");
 
             migrationBuilder.DropTable(
                 name: "Gateway");
@@ -564,13 +683,13 @@ namespace FireProtectionV1.Migrations
                 name: "SafeUnit");
 
             migrationBuilder.DropTable(
-                name: "StreetGrid");
-
-            migrationBuilder.DropTable(
                 name: "StreetGridEvent");
 
             migrationBuilder.DropTable(
                 name: "StreetGridEventRemark");
+
+            migrationBuilder.DropTable(
+                name: "StreetGridUser");
 
             migrationBuilder.DropTable(
                 name: "Supervision");
