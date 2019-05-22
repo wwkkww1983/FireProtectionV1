@@ -268,6 +268,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitFaultListExcel(FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput)">
+            <summary>
+            （所有防火单位）设备设施故障监控Excel导出
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitFaultList(FireProtectionV1.Enterprise.Dto.GetPagedFireUnitListInput)">
             <summary>
             （所有防火单位）设备设施故障监控
