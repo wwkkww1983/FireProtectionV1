@@ -408,6 +408,58 @@ namespace FireProtectionV1.AppService
             return await _fireWorkingManager.GetAreas30DayElecAlarmList(input);
         }
         /// <summary>
+        /// （所有防火单位）设备设施故障监控Excel导出
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task GetFireUnitFaultListExcel(GetFireUnitListFilterTypeInput input)
+        {
+            var data = await _fireWorkingManager.GetFireUnitFaultList(new GetPagedFireUnitListFilterTypeInput()
+            {
+                MaxResultCount = 10000,
+                FireUnitTypeId = input.FireUnitTypeId,
+                Name = input.Name,
+                GetwayStatusValue = input.GetwayStatusValue,
+                UserId = input.UserId
+            });
+            if (data.TotalCount > 10000)
+            {
+                data = await _fireWorkingManager.GetFireUnitFaultList(new GetPagedFireUnitListFilterTypeInput()
+                {
+                    MaxResultCount = data.TotalCount,
+                    FireUnitTypeId = input.FireUnitTypeId,
+                    Name = input.Name,
+                    GetwayStatusValue = input.GetwayStatusValue,
+                    UserId = input.UserId
+                });
+            }
+            var lst = from a in data.Items
+                      select new
+                      {
+                          a.FireUnitName,
+                          a.FaultCount,
+                          a.ProcessedCount,
+                          a.PendingCount
+                      };
+            using (ExcelBuild excel = new ExcelBuild())
+            {
+                var sheet = excel.BuildWorkSheet("安全用电剩余电流监控列表");
+                sheet.AddRowValues(new string[] { "单位名称", "故障数量", "已处理故障数量", "待处理故障数量" }, true);
+                foreach (var v in lst)
+                {
+                    sheet.AddRowValues(new string[]{
+                        v.FireUnitName,v.FaultCount.ToString(),v.ProcessedCount.ToString(),v.PendingCount.ToString() });
+                }
+                var fileBytes = excel.BuildFileBytes();
+                HttpResponse Response = _httpContext.HttpContext.Response;
+                Response.ContentType = "application/vnd.ms-excel";
+                Response.ContentLength = fileBytes.Length;
+                Response.Headers.Add("Content-Disposition", $"attachment;filename={HttpUtility.UrlEncode("设备设施故障监控", Encoding.UTF8)}.xls");
+                Response.Body.Write(fileBytes);
+                Response.Body.Flush();
+            }
+        }
+        /// <summary>
         /// （所有防火单位）设备设施故障监控
         /// </summary>
         /// <param name="input"></param>
