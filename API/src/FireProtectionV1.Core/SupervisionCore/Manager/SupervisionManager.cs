@@ -248,9 +248,38 @@ namespace FireProtectionV1.SupervisionCore.Manager
         /// 获取所有监管执法项目
         /// </summary>
         /// <returns></returns>
-        public async Task<List<SupervisionItem>> GetSupervisionItem()
+        public async Task<List<GetSupervisionItemOutput>> GetSupervisionItem()
         {
-            return await _supervisionItemRepository.GetAllListAsync();
+            var supervisionItems = _supervisionItemRepository.GetAll();
+
+            var queryParentList = (from a in supervisionItems
+                                   where a.ParentId == 0
+                                   orderby a.Id
+                                   select new GetSupervisionItemOutput
+                                   {
+                                       SupervisionItemId = a.Id,
+                                       SupervisionItemName = a.Name,
+                                       ParentId = 0,
+                                       ParentName = "",
+                                       SonList = null
+                                   }).ToList();
+            foreach (var parent in queryParentList)
+            {
+                parent.SonList = new List<GetSupervisionItemOutput>();
+                var sonList = from a in supervisionItems
+                              where a.ParentId == parent.SupervisionItemId
+                              orderby a.Id
+                              select new GetSupervisionItemOutput
+                              {                                  
+                                  SupervisionItemId = a.Id,
+                                  SupervisionItemName = a.Name,
+                                  ParentId = parent.SupervisionItemId,
+                                  ParentName = parent.SupervisionItemName,
+                                  SonList = null
+                              };
+                parent.SonList.AddRange(sonList);
+            }
+            return await Task.FromResult(queryParentList.ToList());
         }
     }
 }

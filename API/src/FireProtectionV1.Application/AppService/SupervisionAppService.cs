@@ -52,7 +52,7 @@ namespace FireProtectionV1.AppService
         /// 获取所有监管执法项目
         /// </summary>
         /// <returns></returns>
-        public async Task<List<SupervisionItem>> GetSupervisionItem()
+        public async Task<List<GetSupervisionItemOutput>> GetSupervisionItem()
         {
             return await _manager.GetSupervisionItem();
         }

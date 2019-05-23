@@ -22,7 +22,7 @@ namespace FireProtectionV1.SupervisionCore.Manager
         /// 获得所有监管执法项目
         /// </summary>
         /// <returns></returns>
-        Task<List<SupervisionItem>> GetSupervisionItem();
+        Task<List<GetSupervisionItemOutput>> GetSupervisionItem();
 
         /// <summary>
         /// 获取单条记录主信息

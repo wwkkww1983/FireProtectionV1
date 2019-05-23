@@ -2283,6 +2283,31 @@
             防火单位名称
             </summary>
         </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSupervisionItemOutput.SupervisionItemId">
+            <summary>
+            监督执法项目Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSupervisionItemOutput.SupervisionItemName">
+            <summary>
+            监管执法项目名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSupervisionItemOutput.ParentId">
+            <summary>
+            父级项目Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSupervisionItemOutput.ParentName">
+            <summary>
+            父级项目名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSupervisionItemOutput.SonList">
+            <summary>
+            二级执法项目
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSupervisionListInput.CheckResult">
             <summary>
             执法检查结论
