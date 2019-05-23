@@ -35,9 +35,9 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <summary>
         /// 删除
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
-        Task Delete(int id);
+        Task<SuccessOutput> Delete(DeletFireUnitInput input);
 
         /// <summary>
         /// 获取单个实体信息

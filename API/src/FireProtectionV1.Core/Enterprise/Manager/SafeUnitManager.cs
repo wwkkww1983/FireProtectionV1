@@ -53,11 +53,12 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <summary>
         /// 删除
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
-        public async Task Delete(int id)
+        public async Task<SuccessOutput>  Delete(DeletFireUnitInput input)
         {
-            await _safeUnitRepository.DeleteAsync(id);
+             await _safeUnitRepository.DeleteAsync(input.Id);
+            return new SuccessOutput() { Success = true };
         }
 
         /// <summary>
