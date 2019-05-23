@@ -45,26 +45,22 @@ namespace FireProtectionV1.SupervisionCore.Manager
             var supervisionId = await _supervisionRepository.InsertAndGetIdAsync(input.Supervision);    // 综合信息
             foreach (var detail in input.SupervisionDetailInputs)
             {
-                foreach (var sonlist in detail.SonList)
+                var supervisionDetal = new SupervisionDetail()
                 {
-                    var supervisionDetal = new SupervisionDetail()
+                    SupervisionItemId = detail.SupervisionItemId,
+                    IsOK = detail.IsOK,
+                    SupervisionId = supervisionId
+                };
+                var detailId = await _supervisionDetailRepository.InsertAndGetIdAsync(supervisionDetal);    // 明细项目信息
+                if (!string.IsNullOrEmpty(detail.Remark))
+                {
+                    var supervisionDetailRemark = new SupervisionDetailRemark()
                     {
-                        SupervisionItemId = sonlist.SupervisionItemId,
-                        IsOK = sonlist.IsOK,
-                        SupervisionId = supervisionId
+                        SupervisionDetailId = detailId,
+                        Remark = detail.Remark
                     };
-                    var detailId = await _supervisionDetailRepository.InsertAndGetIdAsync(supervisionDetal);    // 明细项目信息
-                    if (!string.IsNullOrEmpty(sonlist.Remark))
-                    {
-                        var supervisionDetailRemark = new SupervisionDetailRemark()
-                        {
-                            SupervisionDetailId = detailId,
-                            Remark = sonlist.Remark
-                        };
-                        await _supervisionDetailRemarkRepository.InsertAsync(supervisionDetailRemark);  // 明细项目备注信息
-                    }
+                    await _supervisionDetailRemarkRepository.InsertAsync(supervisionDetailRemark);  // 明细项目备注信息
                 }
-
             }
         }
 
