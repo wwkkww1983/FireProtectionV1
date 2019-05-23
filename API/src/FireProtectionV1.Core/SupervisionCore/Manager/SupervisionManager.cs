@@ -228,6 +228,7 @@ namespace FireProtectionV1.SupervisionCore.Manager
                         {
                             Id = a.Id,
                             FireUnitName = b.Name,
+                            FireUnitId=b.Id,
                             CheckUser = a.CheckUser,
                             CreationTime = a.CreationTime,
                             CheckResult = a.CheckResult,
