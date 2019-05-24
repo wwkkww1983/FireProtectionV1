@@ -2660,6 +2660,20 @@
             防火单位巡查员
             </summary>
         </member>
+        <member name="M:FireProtectionV1.VersionCore.Manager.IVersionManager.Add(FireProtectionV1.VersionCore.Dto.AddSuggestInput)">
+            <summary>
+            添加建议
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.VersionCore.Manager.VersionManager.Add(FireProtectionV1.VersionCore.Dto.AddSuggestInput)">
+            <summary>
+            新增
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="T:FireProtectionV1.Web.WebContentDirectoryFinder">
             <summary>
             This class is used to find root path of the web project in;

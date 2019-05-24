@@ -9,6 +9,7 @@ using FireProtectionV1.SupervisionCore.Model;
 using FireProtectionV1.StreetGridCore.Model;
 using FireProtectionV1.SettingCore.Model;
 using FireProtectionV1.HydrantCore.Model;
+using FireProtectionV1.VersionCore.Model;
 
 namespace FireProtectionV1.EntityFrameworkCore
 {
@@ -47,6 +48,7 @@ namespace FireProtectionV1.EntityFrameworkCore
         public DbSet<Hydrant> Hydrant { get; set; }
         public DbSet<HydrantAlarm> HydrantAlarm { get; set; }
         public DbSet<HydrantPressure> HydrantPressure { get; set; }
+        public DbSet<Suggest> Suggest { get; set; }
 
         public FireProtectionV1DbContext(DbContextOptions<FireProtectionV1DbContext> options) 
             : base(options)

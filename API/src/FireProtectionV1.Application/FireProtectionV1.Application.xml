@@ -543,6 +543,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.VersionAppService.Add(FireProtectionV1.VersionCore.Dto.AddSuggestInput)">
+            <summary>
+            添加建议
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.ExcelBuild.BuildFileBytes">
             <summary>
             构建文件字节数据
