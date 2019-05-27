@@ -24,5 +24,11 @@ namespace FireProtectionV1.StreetGridCore.Manager
         /// <param name="id"></param>
         /// <returns></returns>
         Task<GetEventByIdOutput> GetEventById(int id);
+        /// <summary>
+        /// 街道网格Excel导出
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<GetStreeGridEventListOutput>> GetStreetEventExcel(GetStreetGridEventListInput input);
     }
 }

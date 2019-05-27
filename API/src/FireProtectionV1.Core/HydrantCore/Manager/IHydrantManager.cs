@@ -40,6 +40,13 @@ namespace FireProtectionV1.HydrantCore.Manager
         Task<PagedResultDto<GetHydrantListOutput>> GetListForWeb(GetHydrantListInput input);
 
         /// <summary>
+        /// 消火栓Excel导出
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<GetHydrantListOutput>> GetHydrantExcel(GetHydrantListInput input);
+
+        /// <summary>
         /// App端分页列表
         /// </summary>
         /// <param name="input"></param>

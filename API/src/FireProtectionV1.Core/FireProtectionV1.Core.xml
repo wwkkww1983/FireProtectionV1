@@ -458,6 +458,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.ISafeUnitManager.GetSafeUnitsExcel(FireProtectionV1.Enterprise.Dto.GetSafeUnitListInput)">
+            <summary>
+            消防维保Excel导出
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.Enterprise.Manager.ISafeUnitManager.Add(FireProtectionV1.Enterprise.Dto.AddSafeUnitInput)">
             <summary>
             添加
@@ -524,6 +531,13 @@
         <member name="M:FireProtectionV1.Enterprise.Manager.SafeUnitManager.GetList(FireProtectionV1.Enterprise.Dto.GetSafeUnitListInput)">
             <summary>
             分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.SafeUnitManager.GetSafeUnitsExcel(FireProtectionV1.Enterprise.Dto.GetSafeUnitListInput)">
+            <summary>
+            消防维保Excel导出
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -1616,6 +1630,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.HydrantManager.GetHydrantExcel(FireProtectionV1.HydrantCore.Dto.GetHydrantListInput)">
+            <summary>
+            消火栓Excel导出
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.HydrantCore.Manager.HydrantManager.GetNearbyAlarmById(System.Int32)">
             <summary>
             获取最近30天报警记录
@@ -1654,6 +1675,13 @@
         <member name="M:FireProtectionV1.HydrantCore.Manager.IHydrantManager.GetListForWeb(FireProtectionV1.HydrantCore.Dto.GetHydrantListInput)">
             <summary>
             Web端分页列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.IHydrantManager.GetHydrantExcel(FireProtectionV1.HydrantCore.Dto.GetHydrantListInput)">
+            <summary>
+            消火栓Excel导出
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -2145,9 +2173,23 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.StreetGridCore.Manager.IStreetGridEventManager.GetStreetEventExcel(FireProtectionV1.StreetGridCore.Dto.GetStreetGridEventListInput)">
+            <summary>
+            街道网格Excel导出
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.StreetGridCore.Manager.IStreetGridUserManager.GetList(FireProtectionV1.StreetGridCore.Dto.GetStreetGridUserListInput)">
             <summary>
             分页列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.StreetGridCore.Manager.IStreetGridUserManager.GetStreetGridExcel(FireProtectionV1.StreetGridCore.Dto.GetStreetGridUserListInput)">
+            <summary>
+            街道网格Excel导出
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -2166,9 +2208,23 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.StreetGridCore.Manager.StreetGridEventManager.GetStreetEventExcel(FireProtectionV1.StreetGridCore.Dto.GetStreetGridEventListInput)">
+            <summary>
+            街道网格Excel导出
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.StreetGridCore.Manager.StreetGridUserManager.GetList(FireProtectionV1.StreetGridCore.Dto.GetStreetGridUserListInput)">
             <summary>
             分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.StreetGridCore.Manager.StreetGridUserManager.GetStreetGridExcel(FireProtectionV1.StreetGridCore.Dto.GetStreetGridUserListInput)">
+            <summary>
+            街道网格Excel导出
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -2283,6 +2339,26 @@
             防火单位名称
             </summary>
         </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSupervisionExcelOutput.FireUnitName">
+            <summary>
+            防火单位名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSupervisionExcelOutput.CreationTime">
+            <summary>
+            最近检查日期
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSupervisionExcelOutput.CheckUser">
+            <summary>
+            检查人员
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSupervisionExcelOutput.CheckResult">
+            <summary>
+            检查结论
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSupervisionItemOutput.SupervisionItemId">
             <summary>
             监督执法项目Id
@@ -2355,6 +2431,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.SupervisionCore.Manager.ISupervisionManager.GetSupervisionListExcel(FireProtectionV1.SupervisionCore.Dto.GetSupervisionListInput)">
+            <summary>
+            导出监管EXCEL
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.SupervisionCore.Manager.ISupervisionManager.GetSupervisionItem">
             <summary>
             获得所有监管执法项目
@@ -2392,6 +2475,13 @@
         <member name="M:FireProtectionV1.SupervisionCore.Manager.SupervisionManager.GetList(FireProtectionV1.SupervisionCore.Dto.GetSupervisionListInput)">
             <summary>
             分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.SupervisionCore.Manager.SupervisionManager.GetSupervisionListExcel(FireProtectionV1.SupervisionCore.Dto.GetSupervisionListInput)">
+            <summary>
+            导出监管EXCEL
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -2673,6 +2763,11 @@
             </summary>
             <param name="input"></param>
             <returns></returns>
+        </member>
+        <member name="P:FireProtectionV1.VersionCore.Model.Suggest.suggest">
+            <summary>
+            建议
+            </summary>
         </member>
         <member name="T:FireProtectionV1.Web.WebContentDirectoryFinder">
             <summary>

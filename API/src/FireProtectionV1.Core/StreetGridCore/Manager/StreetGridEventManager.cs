@@ -101,5 +101,42 @@ namespace FireProtectionV1.StreetGridCore.Manager
 
             return Task.FromResult(new PagedResultDto<GetStreeGridEventListOutput>(tCount, list));
         }
+
+        /// <summary>
+        /// 街道网格Excel导出
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task<List<GetStreeGridEventListOutput>> GetStreetEventExcel(GetStreetGridEventListInput input)
+        {
+            var streetGridEvents = _streetGridEventRepository.GetAll();
+            var expr = ExprExtension.True<StreetGridEvent>()
+                .IfAnd(input.Status != EventStatus.未指定, item => input.Status.Equals(item.Status));
+            streetGridEvents = streetGridEvents.Where(expr);
+
+            var streetGridUsers = _streetGridUserRepository.GetAll();
+
+            var query = from a in streetGridEvents
+                        join b in streetGridUsers
+                        on a.StreetGridUserId equals b.Id into g
+                        from b2 in g.DefaultIfEmpty()
+                        orderby a.CreationTime descending
+                        select new GetStreeGridEventListOutput
+                        {
+                            Id = a.Id,
+                            Title = a.Title,
+                            EventType = a.EventType,
+                            GridName = b2.GridName,
+                            Street = b2.Street,
+                            Community = b2.Community,
+                            CreationTime = a.CreationTime,
+                            Status = a.Status
+                        };
+
+            var list = query
+                .ToList();
+
+            return Task.FromResult<List<GetStreeGridEventListOutput>>(list);
+        }
     }
 }

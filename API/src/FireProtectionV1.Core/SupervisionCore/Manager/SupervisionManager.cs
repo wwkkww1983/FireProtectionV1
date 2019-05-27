@@ -107,6 +107,40 @@ namespace FireProtectionV1.SupervisionCore.Manager
         }
 
         /// <summary>
+        /// 导出监管EXCEL
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task<List<GetSupervisionExcelOutput>> GetSupervisionListExcel(GetSupervisionListInput input)
+        {
+            var supervisions = _supervisionRepository.GetAll();
+            var expr = ExprExtension.True<Supervision>()
+                .IfAnd(input.CheckResult != CheckResult.未指定, item => input.CheckResult.Equals(item.CheckResult))
+                .IfAnd(input.FireUnitId != 0, item => input.FireUnitId.Equals(item.FireUnitId))
+                .IfAnd(input.FireDeptUserId != 0, item => input.FireDeptUserId.Equals(item.FireDeptUserId));
+            supervisions = supervisions.Where(expr);
+
+            var fireUnits = _fireUnitRepository.GetAll();
+            var expr2 = ExprExtension.True<FireUnit>()
+               .IfAnd(!string.IsNullOrEmpty(input.FireUnitName), item => item.Name.Contains(input.FireUnitName));
+
+            fireUnits = fireUnits.Where(expr2);
+
+            var query = from a in supervisions
+                        join b in fireUnits
+                        on a.FireUnitId equals b.Id
+                        orderby a.CreationTime descending
+                        select new GetSupervisionExcelOutput
+                        {                        
+                            FireUnitName = b.Name,
+                            CreationTime = a.CreationTime,
+                            CheckUser = a.CheckUser,
+                            CheckResult = a.CheckResult
+                        };
+
+            return Task.FromResult<List<GetSupervisionExcelOutput>>(query.ToList());
+        }
+        /// <summary>
         /// 获取单条执法记录明细项目信息
         /// </summary>
         /// <param name="supervisionId"></param>
