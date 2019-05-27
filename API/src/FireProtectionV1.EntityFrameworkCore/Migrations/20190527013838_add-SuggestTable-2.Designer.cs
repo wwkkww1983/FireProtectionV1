@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FireProtectionV1.Migrations
 {
     [DbContext(typeof(FireProtectionV1DbContext))]
-    [Migration("20190522022923_init")]
-    partial class init
+    [Migration("20190527013838_add-SuggestTable-2")]
+    partial class addSuggestTable2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -812,6 +812,22 @@ namespace FireProtectionV1.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FireUnitUserRole");
+                });
+
+            modelBuilder.Entity("FireProtectionV1.VersionCore.Model.Suggest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("suggest");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Suggest");
                 });
 #pragma warning restore 612, 618
         }

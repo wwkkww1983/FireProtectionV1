@@ -17,5 +17,11 @@ namespace FireProtectionV1.StreetGridCore.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<PagedResultDto<StreetGridUser>> GetList(GetStreetGridUserListInput input);
+        /// <summary>
+        /// 街道网格Excel导出
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<StreetGridUser>> GetStreetGridExcel(GetStreetGridUserListInput input);
     }
 }

@@ -31,7 +31,7 @@ namespace FireProtectionV1.StreetGridCore.Manager
             var streetGridUsers = _streetGridUserRepository.GetAll();
 
             var expr = ExprExtension.True<StreetGridUser>()
-             .IfAnd(!string.IsNullOrEmpty(input.Name), item => item.Name.Contains(input.Name));
+             .IfAnd(!string.IsNullOrEmpty(input.GridName), item => item.GridName.Contains(input.GridName));
 
             streetGridUsers = streetGridUsers.Where(expr);
 
@@ -42,6 +42,27 @@ namespace FireProtectionV1.StreetGridCore.Manager
             var tCount = streetGridUsers.Count();
 
             return Task.FromResult(new PagedResultDto<StreetGridUser>(tCount, list));
+        }
+
+        /// <summary>
+        /// 街道网格Excel导出
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task<List<StreetGridUser>> GetStreetGridExcel(GetStreetGridUserListInput input)
+        {
+            var streetGridUsers = _streetGridUserRepository.GetAll();
+
+            var expr = ExprExtension.True<StreetGridUser>()
+             .IfAnd(!string.IsNullOrEmpty(input.GridName), item => item.GridName.Contains(input.GridName));
+
+            streetGridUsers = streetGridUsers.Where(expr);
+
+            List<StreetGridUser> list = streetGridUsers
+                .OrderByDescending(item => item.CreationTime)
+                .ToList();
+
+            return Task.FromResult<List<StreetGridUser>>(list);
         }
     }
 }
