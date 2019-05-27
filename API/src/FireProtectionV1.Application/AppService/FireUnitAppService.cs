@@ -22,13 +22,16 @@ namespace FireProtectionV1.AppService
     {
         IFireUnitManager _fireUnitManager;
         IFireWorkingManager _fireWorkingManager;
+        IPatrolManager _patrolManager;
 
         public FireUnitAppService(
+            IPatrolManager patrolManager,
             IHttpContextAccessor httpContext,
             IFireUnitManager fireUnitInfoManager, 
             IFireWorkingManager fireWorkingManager)
             :base(httpContext)
         {
+            _patrolManager = patrolManager;
             _fireUnitManager = fireUnitInfoManager;
             _fireWorkingManager = fireWorkingManager;
         }
@@ -484,7 +487,15 @@ namespace FireProtectionV1.AppService
         /// <returns></returns>
         public async Task<GetFireUnitPatrolListOutput> GetFireUnitPatrolList(GetPagedFireUnitListInput input)
         {
-            return await _fireWorkingManager.GetFireUnitPatrolList(input);
+            var output = new GetFireUnitPatrolListOutput();
+            await Task.Run(() =>
+            {
+                output.NoWork7DayCount = _patrolManager.GetNoPatrol7DayFireUnits().Count();
+                var query = _patrolManager.GetPatrolFireUnitsAll(input.Name).OrderByDescending(p => p.LastTime);
+                output.PagedResultDto = new PagedResultDto<FireUnitManualOuput>(query.Count()
+                    , query.Skip(input.SkipCount).Take(input.MaxResultCount).ToList());
+            });
+            return output;
         }
         /// <summary>
         /// （所有防火单位）值班巡查监控（值班记录）

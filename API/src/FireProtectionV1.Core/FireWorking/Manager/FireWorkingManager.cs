@@ -363,7 +363,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 DateTime now = DateTime.Now;
                 DateTime nowMonDay1 = now.Date.AddDays(1 - now.Day);
                 var monthAlarmCounts = _alarmToElectricRep.GetAll().Where(p => p.CreationTime >= nowMonDay1.AddMonths(-3))
-                .GroupBy(p=>p.CreationTime.ToString("yyyy年MM月")).Select(p=>new MonthAlarmCount() { Month = p.Key, Count = p.Count() });
+                .GroupBy(p=>p.CreationTime.ToString("yyyy年MM月")).Select(p=>new MonthCount() { Month = p.Key, Count = p.Count() });
                 output.MonthAlarmCounts = monthAlarmCounts.ToList();
                 //最近30天报警次数Top10
                 var unitAlarmCounts30=_alarmToElectricRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-30))
@@ -554,7 +554,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 DateTime now = DateTime.Now;
                 DateTime nowMonDay1 = now.Date.AddDays(1 - now.Day);
                 var monthAlarmCounts = _alarmToFireRep.GetAll().Where(p => p.CreationTime >= nowMonDay1.AddMonths(-3))
-                .GroupBy(p => p.CreationTime.ToString("yyyy年MM月")).Select(p => new MonthAlarmCount() { Month = p.Key, Count = p.Count() });
+                .GroupBy(p => p.CreationTime.ToString("yyyy年MM月")).Select(p => new MonthCount() { Month = p.Key, Count = p.Count() });
                 output.MonthAlarmCounts = monthAlarmCounts.ToList();
                 //最近30天报警次数Top10
                 var unitAlarmCounts30 = _alarmToFireRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-30))
@@ -572,73 +572,7 @@ namespace FireProtectionV1.FireWorking.Manager
             });
             return output;
         }
-        /// <summary>
-        /// （所有防火单位）值班巡查监控（巡查记录）
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public Task<GetFireUnitPatrolListOutput> GetFireUnitPatrolList(GetPagedFireUnitListInput input)
-        {
-            DateTime now = DateTime.Now;
-            var output = new GetFireUnitPatrolListOutput();
-            output.NoWork7DayCount=_patrolRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-7)).GroupBy(p => p.FireUnitId).Count();
-            var query = from a in _fireUnitRep.GetAll().Where(p=>string.IsNullOrEmpty(input.Name)?true:p.Name.Contains(input.Name))
-                        join b in _patrolRep.GetAll().GroupBy(p => p.FireUnitId).Select(p => new
-                        {
-                            FireUnitId = p.Key,
-                            LastTime = p.Max(p1 => p1.CreationTime),
-                            Day30Count = p.Where(p1 => p1.CreationTime >= now.Date.AddDays(-30)).Count()
-                        })
-                        on a.Id equals b.FireUnitId into g
-                        from b2 in g.DefaultIfEmpty()
-                        select new FireUnitManualOuput()
-                        {
-                            FireUnitId = a.Id,
-                            FireUnitName = a.Name,
-                            LastTime = b2 == null ? "" : b2.LastTime.ToString("yyyy-MM-dd"),
-                            Recent30DayCount = b2 == null ? 0 : b2.Day30Count
-                        };
-            query = query.OrderByDescending(p => p.LastTime);
-            output.PagedResultDto = new PagedResultDto<FireUnitManualOuput>(query.Count()
-                , query.Skip(input.SkipCount).Take(input.MaxResultCount).ToList());
-            return Task.FromResult<GetFireUnitPatrolListOutput>(output);
-        }
-        public IQueryable<DataToPatrol> GetPatrolDataAll()
-        {
-            return _patrolRep.GetAll();
-        }
-        public IQueryable<DataToPatrol> GetPatrolDataDuration(DateTime start,DateTime end)
-        {
-            return _patrolRep.GetAll().Where(p=>p.CreationTime>=start&&p.CreationTime<=end);
-        }
-        public IQueryable<FireUnitManualOuput> GetNoPatrol7DayFireUnits()
-        {
-            DateTime now = DateTime.Now;
-            var workFireUnits = from a in _patrolRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-7))
-                                    .GroupBy(p => p.FireUnitId).Select(p => p.Key).ToList()
-                                join b in _fireUnitRep.GetAll()
-                                on a equals b.Id
-                                select b;
 
-            var noWorkFireUnits = _fireUnitRep.GetAll().Except(workFireUnits);
-            var query = from a in noWorkFireUnits
-                        join b in _patrolRep.GetAll().GroupBy(p => p.FireUnitId).Select(p => new
-                        {
-                            FireUnitId = p.Key,
-                            LastTime = p.Max(p1 => p1.CreationTime),
-                            Day30Count = p.Where(p1 => p1.CreationTime >= now.Date.AddDays(-30)).Count()
-                        })
-                        on a.Id equals b.FireUnitId into g
-                        from b2 in g.DefaultIfEmpty()
-                        select new FireUnitManualOuput()
-                        {
-                            FireUnitId = a.Id,
-                            FireUnitName = a.Name,
-                            LastTime = b2 == null ? "" : b2.LastTime.ToString("yyyy-MM-dd"),
-                            Recent30DayCount = b2 == null ? 0 : b2.Day30Count
-                        };
-            return query;
-        }
         /// <summary>
         /// （所有防火单位）值班巡查监控（值班记录）
         /// </summary>

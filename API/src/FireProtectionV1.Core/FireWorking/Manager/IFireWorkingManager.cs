@@ -2,8 +2,10 @@
 using Abp.Domain.Services;
 using FireProtectionV1.Enterprise.Dto;
 using FireProtectionV1.FireWorking.Dto;
+using FireProtectionV1.FireWorking.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -85,12 +87,6 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <returns></returns>
         Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayElecAlarmList(GetPagedFireUnitListFilterTypeInput input);
-        /// <summary>
-        /// （所有防火单位）值班巡查监控（巡查记录）
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        Task<GetFireUnitPatrolListOutput> GetFireUnitPatrolList(GetPagedFireUnitListInput input);
         /// <summary>
         /// （所有防火单位）值班巡查监控（值班记录）
         /// </summary>
