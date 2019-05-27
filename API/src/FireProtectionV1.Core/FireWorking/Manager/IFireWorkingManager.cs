@@ -21,8 +21,9 @@ namespace FireProtectionV1.FireWorking.Manager
         /// 安全用电最近30天报警记录查询
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="detectorTypeId">探测器类型</param>
         /// <returns></returns>
-        Task<PagedResultDto<AlarmRecord>> GetFireUnit30DayAlarmEle(GetPageByFireUnitIdInput input);
+        Task<PagedResultDto<AlarmRecord>> GetFireUnit30DayAlarmEle(GetPageByFireUnitIdInput input, int detectorTypeId);
 
         /// <summary>
         /// 火警预警最近30天报警记录查询

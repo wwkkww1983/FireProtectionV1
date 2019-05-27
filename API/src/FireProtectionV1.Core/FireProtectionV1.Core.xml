@@ -1037,11 +1037,12 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnit30DayAlarmEle(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnit30DayAlarmEle(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput,System.Int32)">
             <summary>
             安全用电最近30天报警记录查询
             </summary>
             <param name="input"></param>
+            <param name="detectorTypeId">探测器类型</param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnit30DayAlarmFire(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
@@ -1153,11 +1154,12 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnit30DayAlarmEle(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnit30DayAlarmEle(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput,System.Int32)">
             <summary>
             安全用电最近30天报警记录查询
             </summary>
             <param name="input"></param>
+            <param name="detectorTypeId">探测器类型</param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnit30DayAlarmFire(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">

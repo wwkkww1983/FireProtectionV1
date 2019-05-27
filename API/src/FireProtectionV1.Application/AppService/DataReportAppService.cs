@@ -46,5 +46,23 @@ namespace FireProtectionV1.AppService
         {
             return await _fireWorkingManager.GetAreasAlarmFire(input);
         }
+        ///// <summary>
+        ///// 值班巡查数据分析（巡查）
+        ///// </summary>
+        ///// <param name="UserId">用户Id</param>
+        ///// <returns></returns>
+        //public async Task<GetAreasAlarmFireOutput> GetAreasPatrol(int UserId)
+        //{
+        //    return await _fireWorkingManager.GetAreasPatrol();
+        //}
+        ///// <summary>
+        ///// 值班巡查数据分析（值班）
+        ///// </summary>
+        ///// <param name="UserId">用户Id</param>
+        ///// <returns></returns>
+        //public async Task<GetAreasAlarmFireOutput> GetAreasDuty(int UserId)
+        //{
+        //    return await _fireWorkingManager.GetAreasDuty();
+        //}
     }
 }

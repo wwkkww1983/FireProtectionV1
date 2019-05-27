@@ -183,9 +183,16 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnit30DayAlarmEle(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnit30DayAlarmElecE(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
-            （单个防火单位）安全用电最近30天报警记录查询
+            （单个防火单位）安全用电最近30天(剩余电流)报警记录查询
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnit30DayAlarmElecT(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
+            <summary>
+            （单个防火单位）安全用电最近30天(电缆温度)报警记录查询
             </summary>
             <param name="input"></param>
             <returns></returns>
