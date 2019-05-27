@@ -30,7 +30,7 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task Delete(int id);
+        Task<SuccessOutput> Delete(DeletMiniFireStationInput input);
 
         /// <summary>
         /// 获取单个实体信息

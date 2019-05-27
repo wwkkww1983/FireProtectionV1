@@ -44,11 +44,12 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
         /// <summary>
         /// 删除
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
-        public async Task Delete(int id)
+        public async Task<SuccessOutput> Delete(DeletMiniFireStationInput input)
         {
-            await _miniFireStationRepository.DeleteAsync(id);
+            await _miniFireStationRepository.DeleteAsync(input.Id);
+            return new SuccessOutput() { Success = true };
         }
 
         /// <summary>
