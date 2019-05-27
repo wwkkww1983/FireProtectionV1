@@ -36,12 +36,12 @@ namespace FireProtectionV1.AppService
         /// <summary>
         /// 删除
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task Delete(int id)
+        public async Task<SuccessOutput> Delete(DeletMiniFireStationInput input)
         {
-            await _manager.Delete(id);
+            return await _manager.Delete(input);
         }
 
         /// <summary>

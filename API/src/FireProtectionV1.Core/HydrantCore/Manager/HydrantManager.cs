@@ -50,11 +50,12 @@ namespace FireProtectionV1.HydrantCore.Manager
         /// <summary>
         /// 删除
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
-        public async Task Delete(int id)
+        public async Task<SuccessOutput> Delete(DeletHydrantInput input)
         {
-            await _hydrantRepository.DeleteAsync(id);
+            await _hydrantRepository.DeleteAsync(input.Id);
+            return new SuccessOutput() { Success = true };
         }
 
         /// <summary>

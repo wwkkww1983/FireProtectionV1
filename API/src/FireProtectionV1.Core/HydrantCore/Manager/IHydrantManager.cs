@@ -30,7 +30,7 @@ namespace FireProtectionV1.HydrantCore.Manager
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task Delete(int id);
+        Task<SuccessOutput> Delete(DeletHydrantInput id);
 
         /// <summary>
         /// Web端分页列表
