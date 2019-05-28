@@ -5,6 +5,7 @@ using FireProtectionV1.HydrantCore.Model;
 using FireProtectionV1.Infrastructure.Dto;
 using FireProtectionV1.Infrastructure.Model;
 using FireProtectionV1.MiniFireStationCore.Model;
+using FireProtectionV1.SettingCore.Model;
 using FireProtectionV1.StreetGridCore.Model;
 using FireProtectionV1.SupervisionCore.Model;
 using System;
@@ -28,7 +29,7 @@ namespace FireProtectionV1.Infrastructure.Manager
         IRepository<Supervision> _supervisionRepository;
         IRepository<SupervisionDetail> _supervisionDetailRepository;
         IRepository<SupervisionDetailRemark> _supervisionDetailRemarkRepository;
-
+        IRepository<FireSetting> _settingRepository;
         public InfrastructureManager(
             IRepository<SupervisionItem> supervisionItemRepository,
             IRepository<MiniFireStation> miniFireStationRepository,
@@ -40,7 +41,8 @@ namespace FireProtectionV1.Infrastructure.Manager
             IRepository<HydrantPressure> hydrantPressureRepository,
             IRepository<Supervision> supervisionRepository,
             IRepository<SupervisionDetail> supervisionDetailRepository,
-            IRepository<SupervisionDetailRemark> supervisionDetailRemarkRepository
+            IRepository<SupervisionDetailRemark> supervisionDetailRemarkRepository,
+            IRepository<FireSetting> settingRepository
             )
         {
             _supervisionItemRepository = supervisionItemRepository;
@@ -54,6 +56,7 @@ namespace FireProtectionV1.Infrastructure.Manager
             _supervisionRepository = supervisionRepository;
             _supervisionDetailRepository = supervisionDetailRepository;
             _supervisionDetailRemarkRepository = supervisionDetailRemarkRepository;
+            _settingRepository = settingRepository;
         }
 
         /// <summary>
@@ -1389,6 +1392,69 @@ namespace FireProtectionV1.Infrastructure.Manager
                 await _supervisionRepository.InsertAsync(supervision);
             }
             #endregion
+
+            #region fireSetting初始化
+            /// 设置初始化
+            /// MinValue、MaxValue都是数值型，有的设置只有下限值或只有上限值
+            /// 因此约定：MaxValue=10000表示无上限值，MinValue=-10000表示无下限值
+            // 电缆温度℃
+            var setlist = _settingRepository.GetAll();
+            var setting = setlist.Where(item => "CableTemperature".Equals(item.Name)).Count();
+            if (setting == 0)
+            {
+                await _settingRepository.InsertAsync(new FireSetting()
+                {
+                    Name = "CableTemperature",
+                    MinValue = -20,
+                    MaxValue = 100
+                });
+            }
+            // 剩余电流mA
+            setting = setlist.Where(item => "ResidualCurrent".Equals(item.Name)).Count();
+            if (setting == 0)
+            {
+                await _settingRepository.InsertAsync(new FireSetting()
+                {
+                    Name = "ResidualCurrent",
+                    MinValue = -10000,
+                    MaxValue = 500
+                });
+            }
+            // 消防水池水压KPa
+            setting = setlist.Where(item => "PoolWaterPressure".Equals(item.Name)).Count();
+            if (setting == 0)
+            {
+                await _settingRepository.InsertAsync(new FireSetting()
+                {
+                    Name = "PoolWaterPressure",
+                    MinValue = 70,
+                    MaxValue = 10000
+                });
+            }
+            // 消防水池液位高度M
+            setting = setlist.Where(item => "PoolWaterHeight".Equals(item.Name)).Count();
+            if (setting == 0)
+            {
+                await _settingRepository.InsertAsync(new FireSetting()
+                {
+                    Name = "PoolWaterHeight",
+                    MinValue = 0.5,
+                    MaxValue = 5.8
+                });
+            }
+            // 市政消火栓水压kPa
+            setting = setlist.Where(item => "HydrantPressure".Equals(item.Name)).Count();
+            if (setting == 0)
+            {
+                await _settingRepository.InsertAsync(new FireSetting()
+                {
+                    Name = "HydrantPressure",
+                    MinValue = 100,
+                    MaxValue = 10000
+                });
+            }
+            #endregion
         }
+
     }
 }

@@ -4,6 +4,7 @@ using FireProtectionV1.Common.Helper;
 using FireProtectionV1.SettingCore.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,12 +25,6 @@ namespace FireProtectionV1.SettingCore.Manager
         public async Task<List<FireSetting>> GetAllSetting()
         {
             List<FireSetting> settings = await _settingRepository.GetAllListAsync();
-            // 如果设置为空，则执行一次初始化
-            if (settings == null || settings.Count == 0)
-            {
-                await InitSetting();
-                settings = await _settingRepository.GetAllListAsync();
-            }
             return settings;
         }
 
@@ -65,8 +60,9 @@ namespace FireProtectionV1.SettingCore.Manager
         public async Task InitSetting()
         {
             // 电缆温度℃
-            FireSetting setting = await _settingRepository.SingleAsync(item => "CableTemperature".Equals(item.Name));
-            if (setting == null)
+            var setlist = _settingRepository.GetAll();
+            var setting = setlist.Where(item => "CableTemperature".Equals(item.Name)).Count();
+            if (setting == 0)
             {
                 await _settingRepository.InsertAsync(new FireSetting()
                 {
@@ -76,8 +72,8 @@ namespace FireProtectionV1.SettingCore.Manager
                 });
             }
             // 剩余电流mA
-            setting = await _settingRepository.SingleAsync(item => "ResidualCurrent".Equals(item.Name));
-            if (setting == null)
+            setting = setlist.Where(item => "ResidualCurrent".Equals(item.Name)).Count();
+            if (setting == 0)
             {
                 await _settingRepository.InsertAsync(new FireSetting()
                 {
@@ -87,8 +83,8 @@ namespace FireProtectionV1.SettingCore.Manager
                 });
             }
             // 消防水池水压KPa
-            setting = await _settingRepository.SingleAsync(item => "PoolWaterPressure".Equals(item.Name));
-            if (setting == null)
+            setting = setlist.Where(item => "PoolWaterPressure".Equals(item.Name)).Count();
+            if (setting == 0)
             {
                 await _settingRepository.InsertAsync(new FireSetting()
                 {
@@ -98,8 +94,8 @@ namespace FireProtectionV1.SettingCore.Manager
                 });
             }
             // 消防水池液位高度M
-            setting = await _settingRepository.SingleAsync(item => "PoolWaterHeight".Equals(item.Name));
-            if (setting == null)
+            setting = setlist.Where(item => "PoolWaterHeight".Equals(item.Name)).Count();
+            if (setting == 0)
             {
                 await _settingRepository.InsertAsync(new FireSetting()
                 {
@@ -109,8 +105,8 @@ namespace FireProtectionV1.SettingCore.Manager
                 });
             }
             // 市政消火栓水压kPa
-            setting = await _settingRepository.SingleAsync(item => "HydrantPressure".Equals(item.Name));
-            if (setting == null)
+            setting = setlist.Where(item => "HydrantPressure".Equals(item.Name)).Count();
+            if (setting == 0)
             {
                 await _settingRepository.InsertAsync(new FireSetting()
                 {
