@@ -251,6 +251,16 @@
             邀请码（自动生成）
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitMapListOutput.Lng">
+            <summary>
+            经度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitMapListOutput.Lat">
+            <summary>
+            纬度
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitTypeOutput.TypeId">
             <summary>
             防火单位类型Id
@@ -409,6 +419,12 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.GetMapList">
+            <summary>
+            地图加载所需使用到的防火单位列表数据
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.Add(FireProtectionV1.Enterprise.Dto.AddFireUnitInput)">
             <summary>
             添加防火单位（同时会添加防火单位管理员账号）
@@ -449,6 +465,12 @@
             消防部门用户取消关注防火单位
             </summary>
             <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.GetMapList">
+            <summary>
+            地图加载所需使用到的防火单位列表数据
+            </summary>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.Enterprise.Manager.ISafeUnitManager.GetSelectSafeUnits(FireProtectionV1.Enterprise.Dto.GetSafeUnitInput)">

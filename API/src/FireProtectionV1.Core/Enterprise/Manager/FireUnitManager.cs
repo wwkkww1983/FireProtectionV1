@@ -301,5 +301,24 @@ namespace FireProtectionV1.Enterprise.Manager
             await _fireUnitAttentionRep.DeleteAsync(p => p.FireUnitId == input.FireUnitId && p.FireDeptUserId == input.UserId);
             return new SuccessOutput() { Success = true };
         }
+        /// <summary>
+        /// 地图加载所需使用到的防火单位列表数据
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<GetFireUnitMapListOutput>> GetMapList()
+        {
+            var fireUnits = _fireUnitRep.GetAll();
+
+            var query = from a in fireUnits
+                        select new GetFireUnitMapListOutput()
+                        {
+                            Id = a.Id,
+                            Lat = a.Lat,
+                            Lng = a.Lng
+                        };
+
+            var list = query.ToList();
+            return Task.FromResult(list);
+        }
     }
 }
