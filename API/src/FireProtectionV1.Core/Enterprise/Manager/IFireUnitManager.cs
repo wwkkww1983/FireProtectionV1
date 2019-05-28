@@ -51,6 +51,10 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<SuccessOutput> AttentionFireUnitCancel(DeptUserAttentionFireUnitInput input);
-
+        /// <summary>
+        /// 地图加载所需使用到的防火单位列表数据
+        /// </summary>
+        /// <returns></returns>
+        Task<List<GetFireUnitMapListOutput>> GetMapList();
     }
 }
