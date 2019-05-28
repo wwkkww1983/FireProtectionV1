@@ -21,17 +21,19 @@ namespace FireProtectionV1.HydrantCore.Manager
         IRepository<HydrantPressure> _hydrantPressureRepository;
         IRepository<HydrantAlarm> _hydrantAlarmRepository;
         IRepository<Area> _areaRepository;
-
+        ISqlRepository _SqlRepository;
         public HydrantManager(
             IRepository<Hydrant> hydrantRepository,
             IRepository<HydrantPressure> hydrantPressureRepository,
             IRepository<HydrantAlarm> hydrantAlarmRepository,
-            IRepository<Area> areaRepository)
+            IRepository<Area> areaRepository, 
+            ISqlRepository sqlRepository)
         {
             _hydrantRepository = hydrantRepository;
             _hydrantPressureRepository = hydrantPressureRepository;
             _hydrantAlarmRepository = hydrantAlarmRepository;
             _areaRepository = areaRepository;
+            _SqlRepository = sqlRepository;
         }
 
         /// <summary>
@@ -235,6 +237,22 @@ namespace FireProtectionV1.HydrantCore.Manager
 
             var entity = input.MapTo<Hydrant>();
             await _hydrantRepository.UpdateAsync(entity);
+        }
+
+        /// <summary>
+        /// 根据坐标点获取附近1KM直线距离内的消火栓
+        /// </summary>
+        /// <param name="lng">经度，例如104.159203</param>
+        /// <param name="lat">纬度，例如30.633145</param>
+        /// <returns></returns>
+        public Task<List<GetNearbyHydrantOutput>> GetNearbyHydrant(decimal lng, decimal lat)
+        {
+            // 6378.138是地球赤道的半径，单位千米
+            string sql = $@"SELECT * FROM (SELECT *, ROUND(6378.138 * 2 * ASIN(SQRT(POW(SIN(({lat} * PI() / 180 - Lat * PI() / 180) / 2), 2) + COS({lat} * PI() / 180) * COS(Lat * PI() / 180) * 
+POW(SIN(({lng} * PI() / 180 - Lng * PI() / 180) / 2), 2))) *1000) AS Distance FROM Hydrant WHERE Lat !=0 and Lng != 0) a WHERE Distance <= 1000 ORDER BY Distance ASC";
+
+            var dataTable = _SqlRepository.Query(sql);
+            return Task.FromResult(_SqlRepository.DataTableToList<GetNearbyHydrantOutput>(dataTable));
         }
     }
 }

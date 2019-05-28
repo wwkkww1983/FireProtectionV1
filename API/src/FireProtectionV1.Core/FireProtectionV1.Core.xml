@@ -1630,6 +1630,11 @@
             最近30天报警次数
             </summary>
         </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetNearbyHydrantOutput.Distance">
+            <summary>
+            距离（米）
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.HydrantCore.Dto.HydrantDetailOutput.AreaName">
             <summary>
             区域名称
@@ -1696,6 +1701,14 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.HydrantManager.GetNearbyHydrant(System.Decimal,System.Decimal)">
+            <summary>
+            根据坐标点获取附近1KM直线距离内的消火栓
+            </summary>
+            <param name="lng">经度，例如104.159203</param>
+            <param name="lat">纬度，例如30.633145</param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.HydrantCore.Manager.IHydrantManager.Add(FireProtectionV1.HydrantCore.Dto.AddHydrantInput)">
             <summary>
             添加
@@ -1749,7 +1762,15 @@
             <summary>
             获取最近30天报警记录
             </summary>
-            <param name="id"></param>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.IHydrantManager.GetNearbyHydrant(System.Decimal,System.Decimal)">
+            <summary>
+            根据坐标点获取附近1KM直线距离内的消火栓
+            </summary>
+            <param name="lng">经度，例如104.159203</param>
+            <param name="lat">纬度，例如30.633145</param>
             <returns></returns>
         </member>
         <member name="T:FireProtectionV1.HydrantCore.Model.Hydrant">

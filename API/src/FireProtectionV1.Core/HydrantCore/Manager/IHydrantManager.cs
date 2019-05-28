@@ -63,8 +63,16 @@ namespace FireProtectionV1.HydrantCore.Manager
         /// <summary>
         /// 获取最近30天报警记录
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
         Task<PagedResultDto<HydrantAlarm>> GetNearbyAlarmById(GetHydrantAlarmInput input);
+
+        /// <summary>
+        /// 根据坐标点获取附近1KM直线距离内的消火栓
+        /// </summary>
+        /// <param name="lng">经度，例如104.159203</param>
+        /// <param name="lat">纬度，例如30.633145</param>
+        /// <returns></returns>
+        Task<List<GetNearbyHydrantOutput>> GetNearbyHydrant(decimal lng, decimal lat);
     }
 }
