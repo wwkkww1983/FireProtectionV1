@@ -166,6 +166,16 @@ namespace FireProtectionV1.AppService
             return await _fireWorkingManager.GetFireUnitAlarm(input);
         }
         /// <summary>
+        /// （单个防火单位）安全用电最近30天报警记录查询
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<AlarmRecord>> GetFireUnit30DayAlarmEle(GetPageByFireUnitIdInput input)
+        {
+            return await _fireWorkingManager.GetFireUnit30DayAlarmEle(input,-1);
+        }
+
+        /// <summary>
         /// （单个防火单位）安全用电最近30天(剩余电流)报警记录查询
         /// </summary>
         /// <param name="input"></param>
