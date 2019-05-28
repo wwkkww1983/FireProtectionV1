@@ -20,3 +20,4 @@ bin
 /API/src/FireProtectionV1.Web/App_Data/Logs/Logs.txt
 /API/Test
 /API/src/Publish
+/API/src/FireProtectionV1.Web/Properties/PublishProfiles
