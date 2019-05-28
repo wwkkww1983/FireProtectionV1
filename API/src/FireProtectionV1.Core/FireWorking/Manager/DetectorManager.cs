@@ -21,12 +21,12 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             _detectorRep.Insert(new Detector()
             {
-                DetectorTypeId=detectorTypeId,
-                FireSysType=sysTypeId,
-                Name=name,
-                GatewayId=gatewayId,
-                FireUnitId=fireunitId
-            })
+                DetectorTypeId = detectorTypeId,
+                FireSysType = sysTypeId,
+                Name = name,
+                GatewayId = gatewayId,
+                FireUnitId = fireunitId
+            });
         }
     }
 }
