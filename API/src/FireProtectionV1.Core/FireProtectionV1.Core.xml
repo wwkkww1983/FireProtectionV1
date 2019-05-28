@@ -1029,6 +1029,31 @@
             最近30天报警次数
             </summary>
         </member>
+        <member name="T:FireProtectionV1.FireWorking.Dto.PendingFaultFireUnitOutput">
+            <summary>
+            待处理故障单位
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.PendingFaultFireUnitOutput.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.PendingFaultFireUnitOutput.FireUnitName">
+            <summary>
+            防火单位名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.PendingFaultFireUnitOutput.Count">
+            <summary>
+            故障数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.PendingFaultFireUnitOutput.PendingCount">
+            <summary>
+            待处理故障数量
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.PendingFaultOutput.DetectorTypeName">
             <summary>
             设施类型名称
