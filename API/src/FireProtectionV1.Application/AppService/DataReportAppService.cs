@@ -13,16 +13,19 @@ namespace FireProtectionV1.AppService
 {
     public class DataReportAppService : AppServiceBase
     {
+        IFaultManager _faultManager;
         IDutyManager _dutyManager;
         IPatrolManager _patrolManager;
         IDataReportManager _manager;
         IFireWorkingManager _fireWorkingManager;
 
         public DataReportAppService(
+            IFaultManager faultManager,
             IDutyManager dutyManager,
             IPatrolManager patrolManager,
             IDataReportManager manager, IFireWorkingManager fireWorkingManager)
         {
+            _faultManager = faultManager;
             _dutyManager = dutyManager;
             _patrolManager = patrolManager;
             _manager = manager;
@@ -94,6 +97,37 @@ namespace FireProtectionV1.AppService
                 }
                 output.NoWork1DayCount = _dutyManager.GetNoDuty1DayFireUnits().Count();
                 output.DutyFireUnitManualOuputs = _dutyManager.GetNoDuty1DayFireUnits().OrderByDescending(p => p.LastTime).Take(10).ToList();
+            });
+            return output;
+        }
+        /// <summary>
+        /// 设施故障数据分析
+        /// </summary>
+        /// <param name="UserId">用户Id</param>
+        /// <returns></returns>
+        public async Task<GetAreasFaultOutput> GetAreasFault(int UserId)
+        {
+            DateTime now = DateTime.Now;
+            DateTime nowMonDay1 = now.Date.AddDays(1 - now.Day);
+            var output = new GetAreasFaultOutput();
+            await Task.Run(() =>
+            {
+                var faultall = _faultManager.GetFaultDataAll();
+                output.FaultCount = faultall.Count();
+                output.FaultPendingCount = faultall.Where(p => p.ProcessState == 0).Count();
+                output.MonthFaultCounts = new List<MonthFaultCount>();
+                for (int i = 3; i >= 1; i--)
+                {
+                    DateTime mon = now.AddMonths(-i);
+                    var faultDataMonth = _faultManager.GetFaultDataMonth(mon.Year, mon.Month);
+                    output.MonthFaultCounts.Add(new MonthFaultCount()
+                    {
+                        Month = mon.ToString("yyyy-MM"),
+                        Count = faultDataMonth.Count(),
+                        PendingCount = faultDataMonth.Where(p => p.ProcessState == 0).Count()
+                    });
+                }
+                output.PendingFaultFireUnits = _faultManager.GetPendingFaultFireUnits().OrderByDescending(p=>p.PendingCount).Take(10).ToList();
             });
             return output;
         }

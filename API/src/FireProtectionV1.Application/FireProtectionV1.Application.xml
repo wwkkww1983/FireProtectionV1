@@ -48,6 +48,13 @@
             <param name="UserId">用户Id</param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.DataReportAppService.GetAreasFault(System.Int32)">
+            <summary>
+            设施故障数据分析
+            </summary>
+            <param name="UserId">用户Id</param>
+            <returns></returns>
+        </member>
         <member name="T:FireProtectionV1.AppService.FireDeptUserAppService">
             <summary>
             消防部门用户接口
@@ -192,6 +199,13 @@
         <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitAlarm(FireProtectionV1.FireWorking.Dto.FireUnitIdInput)">
             <summary>
             （单个防火单位）防火单位消防数据
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnit30DayAlarmEle(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
+            <summary>
+            （单个防火单位）安全用电最近30天报警记录查询
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -604,6 +618,46 @@
             </summary>
             <param name="input"></param>
             <returns></returns>
+        </member>
+        <member name="P:FireProtectionV1.Dto.GetAreasFaultOutput.FaultCount">
+            <summary>
+            设施故障累计数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Dto.GetAreasFaultOutput.FaultPendingCount">
+            <summary>
+            设施故障待处理累计数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Dto.GetAreasFaultOutput.MonthFaultCounts">
+            <summary>
+            最近月份故障数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Dto.GetAreasFaultOutput.PendingFaultFireUnits">
+            <summary>
+            待处理故障单位前10位
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.Dto.MonthFaultCount">
+            <summary>
+            月故障数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Dto.MonthFaultCount.Month">
+            <summary>
+            月份
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Dto.MonthFaultCount.Count">
+            <summary>
+            故障数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Dto.MonthFaultCount.PendingCount">
+            <summary>
+            待处理故障数量
+            </summary>
         </member>
         <member name="P:FireProtectionV1.Dto.GetAreasPatrolDutyOutput.PatrolCount">
             <summary>
