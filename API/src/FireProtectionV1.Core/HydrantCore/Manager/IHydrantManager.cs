@@ -65,6 +65,6 @@ namespace FireProtectionV1.HydrantCore.Manager
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<List<HydrantAlarm>> GetNearbyAlarmById(int id);
+        Task<PagedResultDto<HydrantAlarm>> GetNearbyAlarmById(GetHydrantAlarmInput input);
     }
 }

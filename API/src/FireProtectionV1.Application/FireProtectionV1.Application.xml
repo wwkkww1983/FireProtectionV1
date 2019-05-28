@@ -183,6 +183,12 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetMapList">
+            <summary>
+            地图加载所需使用到的防火单位列表数据
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitInfo(FireProtectionV1.Enterprise.Dto.GetFireUnitInfoInput)">
             <summary>
             （单个防火单位）防火单位详情
@@ -398,7 +404,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.HydrantAppService.GetNearbyAlarmById(System.Int32)">
+        <member name="M:FireProtectionV1.AppService.HydrantAppService.GetNearbyAlarmById(FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInput)">
             <summary>
             获取最近30天报警记录
             </summary>

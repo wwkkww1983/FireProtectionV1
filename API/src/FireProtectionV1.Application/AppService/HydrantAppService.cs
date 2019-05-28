@@ -108,9 +108,9 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<List<HydrantAlarm>> GetNearbyAlarmById(int id)
+        public async Task<PagedResultDto<HydrantAlarm>> GetNearbyAlarmById(GetHydrantAlarmInput input)
         {
-            return await _manager.GetNearbyAlarmById(id);
+            return await _manager.GetNearbyAlarmById(input);
         }
 
         /// <summary>

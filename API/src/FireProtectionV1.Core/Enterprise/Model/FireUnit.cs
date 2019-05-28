@@ -53,7 +53,6 @@ namespace FireProtectionV1.Enterprise.Model
         /// 维保单位Id
         /// </summary>
         public int SafeUnitId { get; set; }
-
         /// <summary>
         /// 经度
         /// </summary>

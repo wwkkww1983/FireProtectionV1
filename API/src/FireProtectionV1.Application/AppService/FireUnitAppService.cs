@@ -146,6 +146,14 @@ namespace FireProtectionV1.AppService
             return await _fireUnitManager.Delete(input);
         }
 
+        /// <summary>
+        /// 地图加载所需使用到的防火单位列表数据
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<GetFireUnitMapListOutput>> GetMapList()
+        {
+            return await _fireUnitManager.GetMapList();
+        }
 
         /// <summary>
         /// （单个防火单位）防火单位详情
