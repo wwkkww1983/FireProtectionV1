@@ -101,16 +101,27 @@ namespace FireProtectionV1.AppService
                 Response.Body.Flush();
             }
         }
-    
+
 
         /// <summary>
         /// 获取最近30天报警记录
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
         public async Task<PagedResultDto<HydrantAlarm>> GetNearbyAlarmById(GetHydrantAlarmInput input)
         {
             return await _manager.GetNearbyAlarmById(input);
+        }
+
+        /// <summary>
+        /// 根据坐标点获取附近1KM直线距离内的消火栓
+        /// </summary>
+        /// <param name="lng"></param>
+        /// <param name="lat"></param>
+        /// <returns></returns>
+        public async Task<List<GetNearbyHydrantOutput>> GetNearbyHydrant(decimal lng, decimal lat)
+        {
+            return await _manager.GetNearbyHydrant(lng,lat);
         }
 
         /// <summary>
@@ -123,5 +134,8 @@ namespace FireProtectionV1.AppService
         {
             await _manager.Update(input);
         }
+
+
+
     }
 }
