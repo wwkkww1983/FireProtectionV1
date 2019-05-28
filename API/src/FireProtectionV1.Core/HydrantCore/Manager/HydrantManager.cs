@@ -215,10 +215,13 @@ namespace FireProtectionV1.HydrantCore.Manager
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<List<HydrantAlarm>> GetNearbyAlarmById(int id)
+        public Task<PagedResultDto<HydrantAlarm>> GetNearbyAlarmById(GetHydrantAlarmInput input)
         {
-            var list = _hydrantAlarmRepository.GetAll().Where(item => id.Equals(item.HydrantId) && item.CreationTime >= DateTime.Now.AddDays(-30)).ToList();
-            return Task.FromResult(list);
+            var query = _hydrantAlarmRepository.GetAll().Where(item => input.id.Equals(item.HydrantId) && item.CreationTime >= DateTime.Now.AddDays(-30)).ToList();
+            var list = query.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+            var tCount = query.Count();
+
+            return Task.FromResult(new PagedResultDto<HydrantAlarm>(tCount, list));
         }
 
         /// <summary>

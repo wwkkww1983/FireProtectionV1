@@ -370,7 +370,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.HydrantAppService.GetNearbyAlarmById(System.Int32)">
+        <member name="M:FireProtectionV1.AppService.HydrantAppService.GetNearbyAlarmById(FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInput)">
             <summary>
             获取最近30天报警记录
             </summary>
