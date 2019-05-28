@@ -22,7 +22,7 @@ namespace FireProtectionV1.HydrantCore.Dto
         /// <summary>
         /// 最近一次报警事件
         /// </summary>
-        public DateTime LastAlarmTime { get; set; }
+        public string LastAlarmTime { get; set; }
         /// <summary>
         /// 最近30天报警次数
         /// </summary>

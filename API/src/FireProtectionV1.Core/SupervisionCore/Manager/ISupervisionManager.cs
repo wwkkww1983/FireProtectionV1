@@ -19,10 +19,17 @@ namespace FireProtectionV1.SupervisionCore.Manager
         Task<PagedResultDto<GetSupervisionListOutput>> GetList(GetSupervisionListInput input);
 
         /// <summary>
+        /// 导出监管EXCEL
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<GetSupervisionExcelOutput>> GetSupervisionListExcel(GetSupervisionListInput input);
+
+        /// <summary>
         /// 获得所有监管执法项目
         /// </summary>
         /// <returns></returns>
-        Task<List<SupervisionItem>> GetSupervisionItem();
+        Task<List<GetSupervisionItemOutput>> GetSupervisionItem();
 
         /// <summary>
         /// 获取单条记录主信息

@@ -2,8 +2,10 @@
 using Abp.Domain.Services;
 using FireProtectionV1.Enterprise.Dto;
 using FireProtectionV1.FireWorking.Dto;
+using FireProtectionV1.FireWorking.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,8 +23,9 @@ namespace FireProtectionV1.FireWorking.Manager
         /// 安全用电最近30天报警记录查询
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="detectorTypeId">探测器类型</param>
         /// <returns></returns>
-        Task<PagedResultDto<AlarmRecord>> GetFireUnit30DayAlarmEle(GetPageByFireUnitIdInput input);
+        Task<PagedResultDto<AlarmRecord>> GetFireUnit30DayAlarmEle(GetPageByFireUnitIdInput input, int detectorTypeId);
 
         /// <summary>
         /// 火警预警最近30天报警记录查询
@@ -84,12 +87,6 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <returns></returns>
         Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayElecAlarmList(GetPagedFireUnitListFilterTypeInput input);
-        /// <summary>
-        /// （所有防火单位）值班巡查监控（巡查记录）
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        Task<GetFireUnitPatrolListOutput> GetFireUnitPatrolList(GetPagedFireUnitListInput input);
         /// <summary>
         /// （所有防火单位）值班巡查监控（值班记录）
         /// </summary>

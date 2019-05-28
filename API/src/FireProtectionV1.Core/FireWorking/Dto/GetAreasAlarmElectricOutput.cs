@@ -34,7 +34,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 安全用电累计预警（最近月份流量图）
         /// </summary>
-        public List<MonthAlarmCount> MonthAlarmCounts { get; set; }
+        public List<MonthCount> MonthAlarmCounts { get; set; }
         /// <summary>
         /// 最近30天报警次数Top10
         /// </summary>
@@ -76,14 +76,14 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public string Time { get; set; }
     }
-    public class MonthAlarmCount
+    public class MonthCount
     {
         /// <summary>
         /// 月份
         /// </summary>
         public string Month { get; set; }
         /// <summary>
-        /// 预警数量
+        /// 数量
         /// </summary>
         public int Count { get; set; }
     }

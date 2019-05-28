@@ -121,14 +121,18 @@ namespace FireProtectionV1.FireWorking.Manager
         /// 安全用电最近30天报警记录查询
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="detectorTypeId">探测器类型</param>
         /// <returns></returns>
-        public async Task<PagedResultDto<AlarmRecord>> GetFireUnit30DayAlarmEle(GetPageByFireUnitIdInput input)
+        public async Task<PagedResultDto<AlarmRecord>> GetFireUnit30DayAlarmEle(GetPageByFireUnitIdInput input,int detectorTypeId)
         {
             var output = new PagedResultDto<AlarmRecord>();
             await Task.Run(() =>
             {
-                var alarm30 = _alarmToElectricRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30))
-                    .OrderByDescending(p => p.CreationTime);
+                var alarm30 = from a in _alarmToElectricRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30))
+                              join b in _detectorRep.GetAll().Where(p => p.DetectorTypeId == detectorTypeId)
+                              on a.DetectorId equals b.Id
+                              orderby a.CreationTime descending
+                              select a;
                 var lstRecords = from a in alarm30
                                  join b in _detectorRep.GetAll()
                                  on a.DetectorId equals b.Id
@@ -313,21 +317,26 @@ namespace FireProtectionV1.FireWorking.Manager
             await Task.Run(() =>
             {
                 //安全用电数据：管控点位数量、网关状态、最近30天报警次数（可查）、高频报警部件数量（可查）
-                var alarmElec = _alarmToElectricRep.GetAll().Where(p => p.CreationTime >= DateTime.Now.Date.AddDays(-30));
-                output.JoinFireUnitCount = alarmElec.Count();
+                //var alarmElec = _alarmToElectricRep.GetAll().Where(p => p.CreationTime >= DateTime.Now.Date.AddDays(-30));
+                //var elecFireUnits=_detectorRep.GetAll().Where(p=>p.FireSysType==)
+                //output.JoinFireUnitCount = alarmElec.Count();
                 //联网防火单位类型数量分布
-                var detectElec = _detectorRep.GetAll().Where(p => p.FireSysType == electricType);
-                var joinTypeCounts = from a in detectElec
+                var detectElec = from a in _detectorRep.GetAll().Where(p => p.FireSysType == electricType)
+                                 join b in _fireUnitRep.GetAll()
+                                 on a.FireUnitId equals b.Id
+                                 select a;
+                var fireunits = detectElec.GroupBy(p => p.FireUnitId);
+                output.JoinFireUnitCount = fireunits.Count();
+                var joinTypeCounts = from a in fireunits.Select(p=>p.Key).ToList()
                                      join b in _fireUnitRep.GetAll()
-                                     on a.FireUnitId equals b.Id
-                                     group b.TypeId by new { b.Id, b.TypeId } into g
+                                     on a equals b.Id
                                      join c in _fireUnitTypeRep.GetAll()
-                                     on g.Key.TypeId equals c.Id
-                                     group g.Count() by c.Name into g2
+                                     on b.TypeId equals c.Id
+                                     group a by c.Name into g
                                      select new JoinTypeCount()
                                      {
-                                         Type = g2.Key,
-                                         Count = g2.FirstOrDefault()
+                                         Type = g.Key,
+                                         Count = g.Count()
                                      };
                 output.JoinTypeCounts = joinTypeCounts.ToList();
                 //联网监控点位（单位类型柱状图）
@@ -354,7 +363,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 DateTime now = DateTime.Now;
                 DateTime nowMonDay1 = now.Date.AddDays(1 - now.Day);
                 var monthAlarmCounts = _alarmToElectricRep.GetAll().Where(p => p.CreationTime >= nowMonDay1.AddMonths(-3))
-                .GroupBy(p=>p.CreationTime.ToString("yyyy年MM月")).Select(p=>new MonthAlarmCount() { Month = p.Key, Count = p.Count() });
+                .GroupBy(p=>p.CreationTime.ToString("yyyy年MM月")).Select(p=>new MonthCount() { Month = p.Key, Count = p.Count() });
                 output.MonthAlarmCounts = monthAlarmCounts.ToList();
                 //最近30天报警次数Top10
                 var unitAlarmCounts30=_alarmToElectricRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-30))
@@ -445,7 +454,7 @@ namespace FireProtectionV1.FireWorking.Manager
         Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayElecAlarmListOnlyId(GetPagedFireUnitListFilterTypeInput input,int id)
         {
             var alarmFire = from a in _alarmToElectricRep.GetAll().Where(p => p.CreationTime >= DateTime.Now.Date.AddDays(-30))
-                            join b in _detectorRep.GetAll().Where(p => p.DetectorTypeId == 6)
+                            join b in _detectorRep.GetAll().Where(p => p.DetectorTypeId == id)
                             on a.DetectorId equals b.Id
                             select a;
             //模糊查询
@@ -502,22 +511,24 @@ namespace FireProtectionV1.FireWorking.Manager
             await Task.Run(() =>
             {
                 //火警预警数据：管控点位数量、网关状态、最近30天报警次数（可查）、高频报警部件数量（可查）
-                var alarmFire = _alarmToFireRep.GetAll().Where(p => p.CreationTime >= DateTime.Now.Date.AddDays(-30));
-                output.JoinFireUnitCount = alarmFire.Count();
-                //联网防火单位类型数量分布
-                var detectFire = _detectorRep.GetAll().Where(p => p.FireSysType == fireType);
-                var joinTypeCounts = from a in detectFire
+                var detectFire = from a in _detectorRep.GetAll().Where(p => p.FireSysType == fireType)
+                                 join b in _fireUnitRep.GetAll()
+                                 on a.FireUnitId equals b.Id
+                                 select a;
+                var fireunits = detectFire.GroupBy(p => p.FireUnitId);
+                output.JoinFireUnitCount = fireunits.Count();
+                var joinTypeCounts = from a in fireunits.Select(p => p.Key).ToList()
                                      join b in _fireUnitRep.GetAll()
-                                     on a.FireUnitId equals b.Id
-                                     group b.TypeId by new { b.Id, b.TypeId } into g
+                                     on a equals b.Id
                                      join c in _fireUnitTypeRep.GetAll()
-                                     on g.Key.TypeId equals c.Id
-                                     group g.Count() by c.Name into g2
+                                     on b.TypeId equals c.Id
+                                     group a by c.Name into g
                                      select new JoinTypeCount()
                                      {
-                                         Type = g2.Key,
-                                         Count = g2.FirstOrDefault()
+                                         Type = g.Key,
+                                         Count = g.Count()
                                      };
+                //联网防火单位类型数量分布
                 output.JoinTypeCounts = joinTypeCounts.ToList();
                 ////联网监控点位（单位类型柱状图）
                 //output.JoinPointCount = detectElec.Count();
@@ -543,7 +554,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 DateTime now = DateTime.Now;
                 DateTime nowMonDay1 = now.Date.AddDays(1 - now.Day);
                 var monthAlarmCounts = _alarmToFireRep.GetAll().Where(p => p.CreationTime >= nowMonDay1.AddMonths(-3))
-                .GroupBy(p => p.CreationTime.ToString("yyyy年MM月")).Select(p => new MonthAlarmCount() { Month = p.Key, Count = p.Count() });
+                .GroupBy(p => p.CreationTime.ToString("yyyy年MM月")).Select(p => new MonthCount() { Month = p.Key, Count = p.Count() });
                 output.MonthAlarmCounts = monthAlarmCounts.ToList();
                 //最近30天报警次数Top10
                 var unitAlarmCounts30 = _alarmToFireRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-30))
@@ -561,37 +572,7 @@ namespace FireProtectionV1.FireWorking.Manager
             });
             return output;
         }
-        /// <summary>
-        /// （所有防火单位）值班巡查监控（巡查记录）
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public Task<GetFireUnitPatrolListOutput> GetFireUnitPatrolList(GetPagedFireUnitListInput input)
-        {
-            DateTime now = DateTime.Now;
-            var output = new GetFireUnitPatrolListOutput();
-            output.NoWork7DayCount=_patrolRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-7)).GroupBy(p => p.FireUnitId).Count();
-            var query = from a in _fireUnitRep.GetAll().Where(p=>string.IsNullOrEmpty(input.Name)?true:p.Name.Contains(input.Name))
-                        join b in _patrolRep.GetAll().GroupBy(p => p.FireUnitId).Select(p => new
-                        {
-                            FireUnitId = p.Key,
-                            LastTime = p.Max(p1 => p1.CreationTime),
-                            Day30Count = p.Where(p1 => p1.CreationTime >= now.Date.AddDays(-30)).Count()
-                        })
-                        on a.Id equals b.FireUnitId into g
-                        from b2 in g.DefaultIfEmpty()
-                        select new FireUnitManualOuput()
-                        {
-                            FireUnitId = a.Id,
-                            FireUnitName = a.Name,
-                            LastTime = b2 == null ? "" : b2.LastTime.ToString("yyyy-MM-dd"),
-                            Recent30DayCount = b2 == null ? 0 : b2.Day30Count
-                        };
-            query = query.OrderByDescending(p => p.LastTime);
-            output.PagedResultDto = new PagedResultDto<FireUnitManualOuput>(query.Count()
-                , query.Skip(input.SkipCount).Take(input.MaxResultCount).ToList());
-            return Task.FromResult<GetFireUnitPatrolListOutput>(output);
-        }
+
         /// <summary>
         /// （所有防火单位）值班巡查监控（值班记录）
         /// </summary>

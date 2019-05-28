@@ -30,7 +30,7 @@ namespace FireProtectionV1.HydrantCore.Manager
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task Delete(int id);
+        Task<SuccessOutput> Delete(DeletHydrantInput id);
 
         /// <summary>
         /// Web端分页列表
@@ -38,6 +38,13 @@ namespace FireProtectionV1.HydrantCore.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<PagedResultDto<GetHydrantListOutput>> GetListForWeb(GetHydrantListInput input);
+
+        /// <summary>
+        /// 消火栓Excel导出
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<GetHydrantListOutput>> GetHydrantExcel(GetHydrantListInput input);
 
         /// <summary>
         /// App端分页列表

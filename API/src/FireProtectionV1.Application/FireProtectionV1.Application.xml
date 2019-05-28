@@ -41,6 +41,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.DataReportAppService.GetAreasPatrolDuty(System.Int32)">
+            <summary>
+            值班巡查数据分析
+            </summary>
+            <param name="UserId">用户Id</param>
+            <returns></returns>
+        </member>
         <member name="T:FireProtectionV1.AppService.FireDeptUserAppService">
             <summary>
             消防部门用户接口
@@ -189,9 +196,16 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnit30DayAlarmEle(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnit30DayAlarmElecE(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
             <summary>
-            （单个防火单位）安全用电最近30天报警记录查询
+            （单个防火单位）安全用电最近30天(剩余电流)报警记录查询
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnit30DayAlarmElecT(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
+            <summary>
+            （单个防火单位）安全用电最近30天(电缆温度)报警记录查询
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -341,11 +355,11 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.HydrantAppService.Delete(System.Int32)">
+        <member name="M:FireProtectionV1.AppService.HydrantAppService.Delete(FireProtectionV1.HydrantCore.Dto.DeletHydrantInput)">
             <summary>
             删除
             </summary>
-            <param name="id"></param>
+            <param name="input"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.HydrantAppService.GetInfoById(System.Int32)">
@@ -365,6 +379,13 @@
         <member name="M:FireProtectionV1.AppService.HydrantAppService.GetListForWeb(FireProtectionV1.HydrantCore.Dto.GetHydrantListInput)">
             <summary>
             Web端分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.HydrantAppService.GetHydrantExcel(FireProtectionV1.HydrantCore.Dto.GetHydrantListInput)">
+            <summary>
+            消火栓Excel导出
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -406,11 +427,11 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.Delete(System.Int32)">
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.Delete(FireProtectionV1.MiniFireStationCore.Dto.DeletMiniFireStationInput)">
             <summary>
             删除
             </summary>
-            <param name="id"></param>
+            <param name="input"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.GetById(System.Int32)">
@@ -489,6 +510,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.GetSafeUnitsExcel(FireProtectionV1.Enterprise.Dto.GetSafeUnitListInput)">
+            <summary>
+            消防维保EXCEL导出
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="T:FireProtectionV1.AppService.StreetGridAppService">
             <summary>
             网格
@@ -497,6 +525,13 @@
         <member name="M:FireProtectionV1.AppService.StreetGridAppService.GetUserList(FireProtectionV1.StreetGridCore.Dto.GetStreetGridUserListInput)">
             <summary>
             网格员分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.StreetGridAppService.GetStreetGridExcel(FireProtectionV1.StreetGridCore.Dto.GetStreetGridUserListInput)">
+            <summary>
+            街道网格Excel导出
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -515,9 +550,23 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.StreetGridEventAppService.GetStreetEventExcel(FireProtectionV1.StreetGridCore.Dto.GetStreetGridEventListInput)">
+            <summary>
+            街道事件Excel导出
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.SupervisionAppService.GetList(FireProtectionV1.SupervisionCore.Dto.GetSupervisionListInput)">
             <summary>
             分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SupervisionAppService.GetSupervisionListExcel(FireProtectionV1.SupervisionCore.Dto.GetSupervisionListInput)">
+            <summary>
+            监督查询EXCEL导出
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -548,6 +597,53 @@
             </summary>
             <param name="input"></param>
             <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.VersionAppService.Add(FireProtectionV1.VersionCore.Dto.AddSuggestInput)">
+            <summary>
+            添加建议
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="P:FireProtectionV1.Dto.GetAreasPatrolDutyOutput.PatrolCount">
+            <summary>
+            消防巡查累计记录
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Dto.GetAreasPatrolDutyOutput.PatrolMonthCounts">
+            <summary>
+            最近月份巡查数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Dto.GetAreasPatrolDutyOutput.NoWork7DayCount">
+            <summary>
+            超过7天没有巡查记录的单位数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Dto.GetAreasPatrolDutyOutput.PatrolFireUnitManualOuputs">
+            <summary>
+            超过7天没有巡查记录的单位前10位
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Dto.GetAreasPatrolDutyOutput.DutyCount">
+            <summary>
+            消防值班累计记录
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Dto.GetAreasPatrolDutyOutput.DutyMonthCounts">
+            <summary>
+            最近月份值班数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Dto.GetAreasPatrolDutyOutput.NoWork1DayCount">
+            <summary>
+            超过1天没有值班记录的单位数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Dto.GetAreasPatrolDutyOutput.DutyFireUnitManualOuputs">
+            <summary>
+            超过1天没有值班记录的单位前10位
+            </summary>
         </member>
         <member name="M:FireProtectionV1.ExcelBuild.BuildFileBytes">
             <summary>

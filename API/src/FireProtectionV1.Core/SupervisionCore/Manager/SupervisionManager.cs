@@ -45,26 +45,22 @@ namespace FireProtectionV1.SupervisionCore.Manager
             var supervisionId = await _supervisionRepository.InsertAndGetIdAsync(input.Supervision);    // 综合信息
             foreach (var detail in input.SupervisionDetailInputs)
             {
-                foreach (var sonlist in detail.SonList)
+                var supervisionDetal = new SupervisionDetail()
                 {
-                    var supervisionDetal = new SupervisionDetail()
+                    SupervisionItemId = detail.SupervisionItemId,
+                    IsOK = detail.IsOK,
+                    SupervisionId = supervisionId
+                };
+                var detailId = await _supervisionDetailRepository.InsertAndGetIdAsync(supervisionDetal);    // 明细项目信息
+                if (!string.IsNullOrEmpty(detail.Remark))
+                {
+                    var supervisionDetailRemark = new SupervisionDetailRemark()
                     {
-                        SupervisionItemId = sonlist.SupervisionItemId,
-                        IsOK = sonlist.IsOK,
-                        SupervisionId = supervisionId
+                        SupervisionDetailId = detailId,
+                        Remark = detail.Remark
                     };
-                    var detailId = await _supervisionDetailRepository.InsertAndGetIdAsync(supervisionDetal);    // 明细项目信息
-                    if (!string.IsNullOrEmpty(sonlist.Remark))
-                    {
-                        var supervisionDetailRemark = new SupervisionDetailRemark()
-                        {
-                            SupervisionDetailId = detailId,
-                            Remark = sonlist.Remark
-                        };
-                        await _supervisionDetailRemarkRepository.InsertAsync(supervisionDetailRemark);  // 明细项目备注信息
-                    }
+                    await _supervisionDetailRemarkRepository.InsertAsync(supervisionDetailRemark);  // 明细项目备注信息
                 }
-
             }
         }
 
@@ -110,6 +106,40 @@ namespace FireProtectionV1.SupervisionCore.Manager
             return Task.FromResult(new PagedResultDto<GetSupervisionListOutput>(tCount, list));
         }
 
+        /// <summary>
+        /// 导出监管EXCEL
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task<List<GetSupervisionExcelOutput>> GetSupervisionListExcel(GetSupervisionListInput input)
+        {
+            var supervisions = _supervisionRepository.GetAll();
+            var expr = ExprExtension.True<Supervision>()
+                .IfAnd(input.CheckResult != CheckResult.未指定, item => input.CheckResult.Equals(item.CheckResult))
+                .IfAnd(input.FireUnitId != 0, item => input.FireUnitId.Equals(item.FireUnitId))
+                .IfAnd(input.FireDeptUserId != 0, item => input.FireDeptUserId.Equals(item.FireDeptUserId));
+            supervisions = supervisions.Where(expr);
+
+            var fireUnits = _fireUnitRepository.GetAll();
+            var expr2 = ExprExtension.True<FireUnit>()
+               .IfAnd(!string.IsNullOrEmpty(input.FireUnitName), item => item.Name.Contains(input.FireUnitName));
+
+            fireUnits = fireUnits.Where(expr2);
+
+            var query = from a in supervisions
+                        join b in fireUnits
+                        on a.FireUnitId equals b.Id
+                        orderby a.CreationTime descending
+                        select new GetSupervisionExcelOutput
+                        {                        
+                            FireUnitName = b.Name,
+                            CreationTime = a.CreationTime,
+                            CheckUser = a.CheckUser,
+                            CheckResult = a.CheckResult
+                        };
+
+            return Task.FromResult<List<GetSupervisionExcelOutput>>(query.ToList());
+        }
         /// <summary>
         /// 获取单条执法记录明细项目信息
         /// </summary>
@@ -232,6 +262,7 @@ namespace FireProtectionV1.SupervisionCore.Manager
                         {
                             Id = a.Id,
                             FireUnitName = b.Name,
+                            FireUnitId=b.Id,
                             CheckUser = a.CheckUser,
                             CreationTime = a.CreationTime,
                             CheckResult = a.CheckResult,
@@ -251,9 +282,38 @@ namespace FireProtectionV1.SupervisionCore.Manager
         /// 获取所有监管执法项目
         /// </summary>
         /// <returns></returns>
-        public async Task<List<SupervisionItem>> GetSupervisionItem()
+        public async Task<List<GetSupervisionItemOutput>> GetSupervisionItem()
         {
-            return await _supervisionItemRepository.GetAllListAsync();
+            var supervisionItems = _supervisionItemRepository.GetAll();
+
+            var queryParentList = (from a in supervisionItems
+                                   where a.ParentId == 0
+                                   orderby a.Id
+                                   select new GetSupervisionItemOutput
+                                   {
+                                       SupervisionItemId = a.Id,
+                                       SupervisionItemName = a.Name,
+                                       ParentId = 0,
+                                       ParentName = "",
+                                       SonList = null
+                                   }).ToList();
+            foreach (var parent in queryParentList)
+            {
+                parent.SonList = new List<GetSupervisionItemOutput>();
+                var sonList = from a in supervisionItems
+                              where a.ParentId == parent.SupervisionItemId
+                              orderby a.Id
+                              select new GetSupervisionItemOutput
+                              {                                  
+                                  SupervisionItemId = a.Id,
+                                  SupervisionItemName = a.Name,
+                                  ParentId = parent.SupervisionItemId,
+                                  ParentName = parent.SupervisionItemName,
+                                  SonList = null
+                              };
+                parent.SonList.AddRange(sonList);
+            }
+            return await Task.FromResult(queryParentList.ToList());
         }
     }
 }

@@ -19,6 +19,13 @@ namespace FireProtectionV1.Enterprise.Manager
         Task<List<GetSafeUnitOutput>> GetSelectSafeUnits(GetSafeUnitInput input);
 
         /// <summary>
+        /// 消防维保Excel导出
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<SafeUnit>> GetSafeUnitsExcel(GetSafeUnitListInput input);
+
+        /// <summary>
         /// 添加
         /// </summary>
         /// <param name="input"></param>

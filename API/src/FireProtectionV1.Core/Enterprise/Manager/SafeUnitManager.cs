@@ -93,7 +93,27 @@ namespace FireProtectionV1.Enterprise.Manager
 
             return Task.FromResult(new PagedResultDto<SafeUnit>(tCount, list));
         }
+        /// <summary>
+        /// 消防维保Excel导出
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task<List<SafeUnit>> GetSafeUnitsExcel(GetSafeUnitListInput input)
+        {
+            var safeUnits = _safeUnitRepository.GetAll();
 
+            var expr = ExprExtension.True<SafeUnit>()
+             .IfAnd(!string.IsNullOrEmpty(input.Name), item => item.Name.Contains(input.Name));
+
+            safeUnits = safeUnits.Where(expr);
+
+            List<SafeUnit> list = safeUnits
+                .OrderByDescending(item => item.CreationTime)
+                .ToList();
+            var tCount = safeUnits.Count();
+
+            return Task.FromResult<List<SafeUnit>>(list);
+        }
         /// <summary>
         /// 修改
         /// </summary>

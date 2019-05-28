@@ -26,7 +26,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 火警累计预警（最近月份流量图）
         /// </summary>
-        public List<MonthAlarmCount> MonthAlarmCounts { get; set; }
+        public List<MonthCount> MonthAlarmCounts { get; set; }
         /// <summary>
         /// 最近30天报警次数Top10
         /// </summary>
