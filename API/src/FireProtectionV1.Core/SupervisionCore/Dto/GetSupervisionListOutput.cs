@@ -19,7 +19,7 @@ namespace FireProtectionV1.SupervisionCore.Dto
         /// <summary>
         /// 检查日期
         /// </summary>
-        public DateTime CreationTime { get; set; }
+        public string CreationTime { get; set; }
         /// <summary>
         /// 检查结论
         /// </summary>

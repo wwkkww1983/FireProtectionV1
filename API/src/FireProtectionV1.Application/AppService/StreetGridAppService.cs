@@ -28,7 +28,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<StreetGridUser>> GetUserList(GetStreetGridUserListInput input)
+        public async Task<PagedResultDto<GetStreetListOutput>> GetUserList(GetStreetGridUserListInput input)
         {
             return await _userManager.GetList(input);
         }

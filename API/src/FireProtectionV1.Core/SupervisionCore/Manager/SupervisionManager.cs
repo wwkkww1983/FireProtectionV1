@@ -93,7 +93,7 @@ namespace FireProtectionV1.SupervisionCore.Manager
                             Id = a.Id,
                             FireUnitName = b.Name,
                             CheckUser = a.CheckUser,
-                            CreationTime = a.CreationTime,
+                            CreationTime = a.CreationTime.ToUniversalTime().ToString(),
                             CheckResult = a.CheckResult
                         };
 

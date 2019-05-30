@@ -7,6 +7,7 @@ using FireProtectionV1.Common.Helper;
 using FireProtectionV1.HydrantCore.Dto;
 using FireProtectionV1.HydrantCore.Model;
 using FireProtectionV1.Infrastructure.Model;
+using FireProtectionV1.SettingCore.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,18 +22,22 @@ namespace FireProtectionV1.HydrantCore.Manager
         IRepository<HydrantPressure> _hydrantPressureRepository;
         IRepository<HydrantAlarm> _hydrantAlarmRepository;
         IRepository<Area> _areaRepository;
+        IRepository<FireSetting> _settingRepository;
         ISqlRepository _SqlRepository;
+
         public HydrantManager(
             IRepository<Hydrant> hydrantRepository,
             IRepository<HydrantPressure> hydrantPressureRepository,
             IRepository<HydrantAlarm> hydrantAlarmRepository,
-            IRepository<Area> areaRepository, 
+            IRepository<Area> areaRepository,
+            IRepository<FireSetting> settingRepository,
             ISqlRepository sqlRepository)
         {
             _hydrantRepository = hydrantRepository;
             _hydrantPressureRepository = hydrantPressureRepository;
             _hydrantAlarmRepository = hydrantAlarmRepository;
             _areaRepository = areaRepository;
+            _settingRepository = settingRepository;
             _SqlRepository = sqlRepository;
         }
 
@@ -116,17 +121,17 @@ namespace FireProtectionV1.HydrantCore.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<PagedResultDto<GetHydrantListOutput>> GetListForWeb(GetHydrantListInput input)
+        public Task<GetPressureSubstandardOutput> GetListForWeb(GetHydrantListInput input)
         {
             var hydrants = _hydrantRepository.GetAll();
-            var expr = ExprExtension.True<Hydrant>()
-                .IfAnd(!string.IsNullOrEmpty(input.Sn), item => item.Sn.Contains(input.Sn));
-            hydrants = hydrants.Where(expr);
-
             var areas = _areaRepository.GetAll();
             var hydrantPressures = _hydrantPressureRepository.GetAll();
             var hydrantAlarms = _hydrantAlarmRepository.GetAll();
+            var output = new GetPressureSubstandardOutput();
 
+            var expr = ExprExtension.True<Hydrant>()
+                .IfAnd(!string.IsNullOrEmpty(input.Sn), item => item.Sn.Contains(input.Sn));
+            hydrants = hydrants.Where(expr);
             var hydrantlist = from a in hydrants
                               join b in areas
                               on a.AreaId equals b.Id into r1
@@ -155,14 +160,81 @@ namespace FireProtectionV1.HydrantCore.Manager
                 temp.NearbyAlarmNumber = hydrantAlarms.Where(h => h.HydrantId.Equals(hydrant.Id) && h.CreationTime >= DateTime.Now.AddDays(-30)).Count();
                 query.Add(temp);
             }
+            var substan = _settingRepository.GetAll().Where(u => u.Name.Equals("PoolWaterPressure")).FirstOrDefault();
+            if (substan != null)
+            {
+                output.SubstanCount = query.Where(u => u.Pressure <= substan.MinValue&&u.Pressure!=0).Count();
+            }
+
             var list = query.OrderByDescending(a=>a.Status)
                 .Skip(input.SkipCount).Take(input.MaxResultCount)
                 .ToList();
             var tCount = query.Count();
-
-            return Task.FromResult(new PagedResultDto<GetHydrantListOutput>(tCount, list));
+            output.PagedResultDto = new PagedResultDto<GetHydrantListOutput>(tCount, list);
+            return Task.FromResult<GetPressureSubstandardOutput>(output);
         }
 
+
+        /// <summary>
+        /// 查询水压低于标准值的消火栓
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task<GetPressureSubstandardOutput> GetPressureSubstandard(GetHydrantListInput input)
+        {
+            var hydrants = _hydrantRepository.GetAll();
+            var areas = _areaRepository.GetAll();
+            var hydrantPressures = _hydrantPressureRepository.GetAll();
+            var hydrantAlarms = _hydrantAlarmRepository.GetAll();
+            var output = new GetPressureSubstandardOutput();
+
+            var expr = ExprExtension.True<Hydrant>()
+                .IfAnd(!string.IsNullOrEmpty(input.Sn), item => item.Sn.Contains(input.Sn));
+            hydrants = hydrants.Where(expr);
+            var hydrantlist = from a in hydrants
+                              join b in areas
+                              on a.AreaId equals b.Id into r1
+                              from dr1 in r1.DefaultIfEmpty()
+                              orderby a.Status
+                              select new
+                              {
+                                  Id = a.Id,
+                                  Sn = a.Sn,
+                                  AreaName = dr1.Name,
+                                  Address = a.Address,
+                                  Status = a.Status,
+                              };
+            List<GetHydrantListOutput> query = new List<GetHydrantListOutput>();
+            foreach (var hydrant in hydrantlist)
+            {
+                GetHydrantListOutput temp = new GetHydrantListOutput();
+                temp.Id = hydrant.Id;
+                temp.Sn = hydrant.Sn;
+                temp.AreaName = hydrant.AreaName;
+                temp.Address = hydrant.Address;
+                temp.Status = hydrant.Status;
+                temp.Pressure = hydrantPressures.Where(p => p.HydrantId.Equals(hydrant.Id)).Count() == 0 ? 0 : hydrantPressures.OrderByDescending(p => p.CreationTime).First(p => p.HydrantId.Equals(hydrant.Id)).Pressure;
+                temp.LastAlarmTime = hydrantAlarms.Where(h => h.HydrantId.Equals(hydrant.Id)).Count() == 0 ? null : hydrantAlarms.OrderByDescending(h => h.CreationTime).First(h => h.HydrantId.Equals(hydrant.Id)).CreationTime.ToUniversalTime().ToString();
+                temp.LastAlarmTitle = hydrantAlarms.Where(h => h.HydrantId.Equals(hydrant.Id)).Count() == 0 ? null : hydrantAlarms.OrderByDescending(h => h.CreationTime).First(h => h.HydrantId.Equals(hydrant.Id)).Title;
+                temp.NearbyAlarmNumber = hydrantAlarms.Where(h => h.HydrantId.Equals(hydrant.Id) && h.CreationTime >= DateTime.Now.AddDays(-30)).Count();
+                query.Add(temp);
+            }
+            var substan = _settingRepository.GetAll().Where(u => "PoolWaterPressure".Equals(u.Name)).FirstOrDefault();
+            if (substan != null)
+            {
+                output.SubstanCount = query.Where(u => u.Pressure <= substan.MinValue && u.Pressure != 0).Count();
+                query = (from a in query
+                        where a.Pressure <= substan.MinValue && a.Pressure != 0
+                         select a).ToList();
+            }
+
+            var list = query.OrderByDescending(a => a.Status)
+                .Skip(input.SkipCount).Take(input.MaxResultCount)
+                .ToList();
+            var tCount = query.Count();
+            output.PagedResultDto = new PagedResultDto<GetHydrantListOutput>(tCount, list);
+            return Task.FromResult<GetPressureSubstandardOutput>(output);
+        }
         /// <summary>
         /// 消火栓Excel导出
         /// </summary>

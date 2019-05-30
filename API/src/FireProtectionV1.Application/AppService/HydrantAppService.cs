@@ -70,9 +70,19 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<GetHydrantListOutput>> GetListForWeb(GetHydrantListInput input)
+        public async Task<GetPressureSubstandardOutput> GetListForWeb(GetHydrantListInput input)
         {
             return await _manager.GetListForWeb(input);
+        }
+
+        /// <summary>
+        /// 查询水压低于标准值的消火栓
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<GetPressureSubstandardOutput> GetPressureSubstandard(GetHydrantListInput input)
+        {
+            return await _manager.GetPressureSubstandard(input);
         }
 
         /// <summary>

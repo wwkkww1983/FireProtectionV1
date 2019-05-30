@@ -3,22 +3,24 @@ using Abp.Domain.Uow;
 using FireProtectionV1.MiniFireStationCore.Dto;
 using FireProtectionV1.MiniFireStationCore.Manager;
 using FireProtectionV1.MiniFireStationCore.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace FireProtectionV1.AppService
 {
     /// <summary>
     /// 微型消防站
     /// </summary>
-    public class MiniFireStationAppService : AppServiceBase
+    public class MiniFireStationAppService : HttpContextAppService
     {
         IMiniFireStationManager _manager;
 
-        public MiniFireStationAppService(IMiniFireStationManager manager)
+        public MiniFireStationAppService(IMiniFireStationManager manager, IHttpContextAccessor httpContext):base(httpContext)
         {
             _manager = manager;
         }
@@ -62,6 +64,33 @@ namespace FireProtectionV1.AppService
         public async Task<PagedResultDto<MiniFireStation>> GetList(GetMiniFireStationListInput input)
         {
             return await _manager.GetList(input);
+        }
+
+        /// <summary>
+        /// 微型消防站Excel导出
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task GetStationExcel(GetMiniFireStationListInput input)
+        {
+            var lst = await _manager.GetStationExcel(input);
+            using (ExcelBuild excel = new ExcelBuild())
+            {
+                var sheet = excel.BuildWorkSheet("微信消防站列表");
+                sheet.AddRowValues(new string[] { "站点名称", "联系人", "联系电话", "人员配备", "区域"}, true);
+                foreach (var v in lst)
+                {
+                    sheet.AddRowValues(new string[]{
+                        v.Name,v.ContactName,v.ContactPhone,v.PersonNum.ToString(),v.Address});
+                }
+                var fileBytes = excel.BuildFileBytes();
+                HttpResponse Response = _httpContext.HttpContext.Response;
+                Response.ContentType = "application/vnd.ms-excel";
+                Response.ContentLength = fileBytes.Length;
+                Response.Headers.Add("Content-Disposition", $"attachment;filename={HttpUtility.UrlEncode("微信消防站列表", Encoding.UTF8)}.xls");
+                Response.Body.Write(fileBytes);
+                Response.Body.Flush();
+            }
         }
 
         /// <summary>

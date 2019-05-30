@@ -47,6 +47,13 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
         Task<PagedResultDto<MiniFireStation>> GetList(GetMiniFireStationListInput input);
 
         /// <summary>
+        /// 微型消防站Excel导出
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<MiniFireStation>> GetStationExcel(GetMiniFireStationListInput input);
+
+        /// <summary>
         /// 根据坐标点获取附近1KM直线距离内的微型消防站
         /// </summary>
         /// <param name="lng">经度，例如104.159203</param>

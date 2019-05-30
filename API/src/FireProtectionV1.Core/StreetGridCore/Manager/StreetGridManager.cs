@@ -26,7 +26,7 @@ namespace FireProtectionV1.StreetGridCore.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<PagedResultDto<StreetGridUser>> GetList(GetStreetGridUserListInput input)
+        public Task<PagedResultDto<GetStreetListOutput>> GetList(GetStreetGridUserListInput input)
         {
             var streetGridUsers = _streetGridUserRepository.GetAll();
 
@@ -34,14 +34,26 @@ namespace FireProtectionV1.StreetGridCore.Manager
              .IfAnd(!string.IsNullOrEmpty(input.GridName), item => item.GridName.Contains(input.GridName));
 
             streetGridUsers = streetGridUsers.Where(expr);
+            var temp = from a in streetGridUsers
+                       select new GetStreetListOutput
+                       {
+                           Name=a.Name,
+                           Phone=a.Phone,
+                           GridName=a.GridName,
+                           Street=a.Street,
+                           Community=a.Community,
+                           id=a.Id,
+                           isDeleted=a.IsDeleted,
+                           CreationTime = a.CreationTime.ToUniversalTime().ToString()
+                       };
 
-            List<StreetGridUser> list = streetGridUsers
+            List<GetStreetListOutput> list = temp
                 .OrderByDescending(item => item.CreationTime)
                 .Skip(input.SkipCount).Take(input.MaxResultCount)
                 .ToList();
             var tCount = streetGridUsers.Count();
 
-            return Task.FromResult(new PagedResultDto<StreetGridUser>(tCount, list));
+            return Task.FromResult(new PagedResultDto<GetStreetListOutput>(tCount, list));
         }
 
         /// <summary>
