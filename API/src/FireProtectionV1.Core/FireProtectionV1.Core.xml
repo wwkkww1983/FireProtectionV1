@@ -2915,6 +2915,21 @@
             父级项目Id
             </summary>
         </member>
+        <member name="P:FireProtectionV1.User.Dto.DeptChangePassword.Account">
+            <summary>
+            账号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.DeptChangePassword.OldPassword">
+            <summary>
+            原始密码
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.DeptChangePassword.NewPassword">
+            <summary>
+            新密码
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.User.Dto.DeptUserLoginInput.Account">
             <summary>
             账号(测试:test)
@@ -2968,6 +2983,13 @@
         <member name="M:FireProtectionV1.User.Manager.FireUnitUserManager.Add(FireProtectionV1.User.Dto.FireUnitUserInput)">
             <summary>
             添加防火单位账号
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.IFireDeptUserManager.ChangePassword(FireProtectionV1.User.Dto.DeptChangePassword)">
+            <summary>
+            修改密码
             </summary>
             <param name="input"></param>
             <returns></returns>

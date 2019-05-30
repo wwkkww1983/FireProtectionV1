@@ -81,6 +81,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.FireDeptUserAppService.ChangePassword(FireProtectionV1.User.Dto.DeptChangePassword)">
+            <summary>
+            修改密码
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.FireSettingAppService.GetAllSetting">
             <summary>
             获取所有设置

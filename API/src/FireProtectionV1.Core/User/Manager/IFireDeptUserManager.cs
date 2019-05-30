@@ -11,5 +11,12 @@ namespace FireProtectionV1.User.Manager
     {
         Task<DeptUserLoginOutput> UserLogin(DeptUserLoginInput input);
         //Task<UserRegistOutput> UserRegist(UserRegistInput input);
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<SuccessOutput> ChangePassword(DeptChangePassword input);
     }
 }
