@@ -63,4 +63,17 @@ namespace FireProtectionV1.Common.Enum
         [Description("火警预警探测器")]
         DetectorFire
     }
+    /// <summary>
+    /// 消防系统类型
+    public enum FireSysType
+    {
+        /// <summary>
+        /// 安全用电
+        /// </summary>
+        Electric = 1,
+        /// <summary>
+        /// 火警预警
+        /// </summary>
+        Fire = 2
+    }
 }

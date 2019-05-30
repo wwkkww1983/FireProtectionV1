@@ -8,20 +8,25 @@ using System.Threading.Tasks;
 
 namespace FireProtectionV1.FireWorking.Manager
 {
-    public interface IAlarmManager : IDomainService
+    public interface IDeviceManager : IDomainService
     {
         /// <summary>
-        /// 新增安全用电报警
+        /// 新增探测器部件
         /// </summary>
         /// <param name="input"></param>
-        /// <param name="alarmLimit"></param>
         /// <returns></returns>
-        Task AddAlarmElec(AddDataElecInput input, string alarmLimit);
+        Task<Detector> AddDetector(AddDetectorInput input);
         /// <summary>
-        /// 新增火灾监控设备报警
+        /// 新增网关设备
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task AddAlarmFire(AddAlarmFireInput input);
+        Task AddGateway(AddGatewayInput input);
+        /// <summary>
+        /// 根据identify查询探测器
+        /// </summary>
+        /// <param name="identify"></param>
+        /// <returns></returns>
+        Detector GetDetector(string identify);
     }
 }

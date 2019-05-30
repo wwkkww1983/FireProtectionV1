@@ -136,10 +136,12 @@ namespace FireProtectionV1.FireWorking.Manager
                 var lstRecords = from a in alarm30
                                  join b in _detectorRep.GetAll()
                                  on a.DetectorId equals b.Id
+                                 join c in _detectorTypeRep.GetAll()
+                                 on b.DetectorTypeId equals c.Id
                                  select new AlarmRecord()
                                  {
                                      Time = a.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                                     Content = $"{b.Name}发生预警，当前值{a.CurrentData.ToString("0")},安全范围{a.SafeRange}"
+                                     Content = $"报警部件：{c.Name}，报警地点：{b.Location}，当前值：{a.Analog.ToString("0")}{a.Unit},警戒值：{a.AlarmLimit}"
                                  };
 
                 var lst = lstRecords.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
@@ -163,10 +165,12 @@ namespace FireProtectionV1.FireWorking.Manager
                 var lstRecords = from a in alarm30
                                  join b in _detectorRep.GetAll()
                                  on a.DetectorId equals b.Id
+                                 join c in _detectorTypeRep.GetAll()
+                                 on b.DetectorTypeId equals c.Id
                                  select new AlarmRecord()
                                  {
                                      Time = a.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                                     Content = $"{b.Name}发生预警，{a.AlarmRemark}"
+                                     Content = $"报警部件：{c.Name}，报警地点：{b.Location}"
                                  };
 
                 var lst = lstRecords.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
@@ -204,10 +208,12 @@ namespace FireProtectionV1.FireWorking.Manager
                 var lstResult = from a in alarmDevices
                                 join b in _detectorRep.GetAll()
                                 on a.DetectorId equals b.Id
+                                join c in _detectorTypeRep.GetAll()
+                                on b.DetectorTypeId equals c.Id
                                 orderby a.AlramCount descending
                                 select new HighFreqAlarmDetector()
                                 {
-                                    Name = b.Name,
+                                    Name = c.Name,
                                     Time = a.LastTime.ToString("yyyy-MM-dd HH:mm:ss"),
                                     Count = a.AlramCount
                                 };
@@ -240,10 +246,12 @@ namespace FireProtectionV1.FireWorking.Manager
                 var lstResult = from a in alarmDevices
                                 join b in _detectorRep.GetAll()
                                 on a.DetectorId equals b.Id
+                                join c in _detectorTypeRep.GetAll()
+                                on b.DetectorTypeId equals  c.Id
                                 orderby a.AlramCount descending
                                 select new HighFreqAlarmDetector()
                                 {
-                                    Name = b.Name,
+                                    Name = c.Name,
                                     Time = a.LastTime.ToString("yyyy-MM-dd HH:mm:ss"),
                                     Count = a.AlramCount
                                 };

@@ -3,14 +3,16 @@ using System;
 using FireProtectionV1.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FireProtectionV1.Migrations
 {
     [DbContext(typeof(FireProtectionV1DbContext))]
-    partial class FireProtectionV1DbContextModelSnapshot : ModelSnapshot
+    [Migration("20190529090702_0529_1")]
+    partial class _0529_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,11 +138,19 @@ namespace FireProtectionV1.Migrations
                         .IsRequired()
                         .HasMaxLength(20);
 
+                    b.Property<string>("AlarmLocation")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
                     b.Property<decimal>("Analog");
 
                     b.Property<DateTime>("CreationTime");
 
                     b.Property<int>("DetectorId");
+
+                    b.Property<string>("DetectorType")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.Property<int>("FireUnitId");
 
@@ -160,9 +170,17 @@ namespace FireProtectionV1.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("AlarmLocation")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
                     b.Property<DateTime>("CreationTime");
 
                     b.Property<int>("DetectorId");
+
+                    b.Property<string>("DetectorType")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.Property<int>("FireUnitId");
 
@@ -328,14 +346,14 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<int>("GatewayId");
 
-                    b.Property<string>("Identify")
-                        .HasMaxLength(20);
-
                     b.Property<bool>("IsDeleted");
 
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasMaxLength(100);
+
+                    b.Property<string>("Sn")
+                        .HasMaxLength(20);
 
                     b.HasKey("Id");
 
@@ -394,18 +412,16 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<DateTime>("CreationTime");
 
-                    b.Property<byte>("FireSysType");
-
                     b.Property<int>("FireUnitId");
-
-                    b.Property<string>("Identify")
-                        .HasMaxLength(20);
 
                     b.Property<bool>("IsDeleted");
 
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasMaxLength(100);
+
+                    b.Property<string>("Sn")
+                        .HasMaxLength(50);
 
                     b.Property<int>("Status");
 

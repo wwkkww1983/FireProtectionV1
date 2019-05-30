@@ -681,6 +681,86 @@
             邀请码（自动生成）
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddAlarmFireInput.DetectorType">
+            <summary>
+            部件类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddAlarmFireInput.Identify">
+            <summary>
+            设备标识
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddAlarmFireInput.GatewayIdentify">
+            <summary>
+            网关设备标识
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataElecInput.DetectorType">
+            <summary>
+            部件类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataElecInput.Identify">
+            <summary>
+            设备标识
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataElecInput.GatewayIdentify">
+            <summary>
+            网关设备标识
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataElecInput.Analog">
+            <summary>
+            模拟量值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataElecInput.Unit">
+            <summary>
+            计量单位
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDetectorInput.DetectorType">
+            <summary>
+            部件类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDetectorInput.Identify">
+            <summary>
+            设备标识
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDetectorInput.GatewayIdentify">
+            <summary>
+            网关设备标识
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDetectorInput.Location">
+            <summary>
+            部件地点
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddGatewayInput.FireSysType">
+            <summary>
+            消防系统类型(1:安全用电,2:火警预警)appsetings.json"FireDomain:FireSysType"
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddGatewayInput.Identify">
+            <summary>
+            设备标识
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddGatewayInput.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddGatewayInput.Location">
+            <summary>
+            设备地点
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AlarmRecord.Content">
             <summary>
             报警内容
@@ -1091,6 +1171,35 @@
             故障时间
             </summary>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.AlarmManager.AddAlarmElec(FireProtectionV1.FireWorking.Dto.AddDataElecInput,System.String)">
+            <summary>
+            新增安全用电报警
+            </summary>
+            <param name="input"></param>
+            <param name="alarmLimit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.AlarmManager.AddAlarmFire(FireProtectionV1.FireWorking.Dto.AddAlarmFireInput)">
+            <summary>
+            新增火灾监控设备报警
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.AddGateway(FireProtectionV1.FireWorking.Dto.AddGatewayInput)">
+            <summary>
+            新增网关设备
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.GetDetector(System.String)">
+            <summary>
+            根据identify查询探测器
+            </summary>
+            <param name="identify"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnitAlarm(FireProtectionV1.FireWorking.Dto.FireUnitIdInput)">
             <summary>
             防火单位消防数据
@@ -1199,6 +1308,42 @@
             （所有防火单位）超过1天没有值班记录的单位列表
             </summary>
             <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IAlarmManager.AddAlarmElec(FireProtectionV1.FireWorking.Dto.AddDataElecInput,System.String)">
+            <summary>
+            新增安全用电报警
+            </summary>
+            <param name="input"></param>
+            <param name="alarmLimit"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IAlarmManager.AddAlarmFire(FireProtectionV1.FireWorking.Dto.AddAlarmFireInput)">
+            <summary>
+            新增火灾监控设备报警
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.AddDetector(FireProtectionV1.FireWorking.Dto.AddDetectorInput)">
+            <summary>
+            新增探测器部件
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.AddGateway(FireProtectionV1.FireWorking.Dto.AddGatewayInput)">
+            <summary>
+            新增网关设备
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetDetector(System.String)">
+            <summary>
+            根据identify查询探测器
+            </summary>
+            <param name="identify"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnitAlarm(FireProtectionV1.FireWorking.Dto.FireUnitIdInput)">
@@ -1310,14 +1455,19 @@
             探测器Id
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.CurrentData">
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.Analog">
             <summary>
-            实时数据
+            模拟量值
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.SafeRange">
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.Unit">
             <summary>
-            安全范围
+            计量单位
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.AlarmLimit">
+            <summary>
+            预警限值
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.FireUnitId">
@@ -1328,16 +1478,6 @@
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmToFire.DetectorId">
             <summary>
             探测器Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToFire.AlarmTitle">
-            <summary>
-            报警标题
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToFire.AlarmRemark">
-            <summary>
-            报警描述
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmToFire.FireUnitId">
@@ -1485,9 +1625,9 @@
             预警探测器
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.Detector.Name">
+        <member name="P:FireProtectionV1.FireWorking.Model.Detector.Identify">
             <summary>
-            名称
+            设备标识
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.Detector.DetectorTypeId">
@@ -1508,6 +1648,11 @@
         <member name="P:FireProtectionV1.FireWorking.Model.Detector.FireUnitId">
             <summary>
             防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.Detector.Location">
+            <summary>
+            设备地点
             </summary>
         </member>
         <member name="T:FireProtectionV1.FireWorking.Model.DetectorType">
@@ -1555,9 +1700,14 @@
             预警探测器
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.Gateway.Name">
+        <member name="P:FireProtectionV1.FireWorking.Model.Gateway.Identify">
             <summary>
-            名称
+            设备标识
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.Gateway.FireSysType">
+            <summary>
+            消防系统类型(1:安全用电,2:火警预警)appsetings.json"FireDomain:FireSysType"
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.Gateway.FireUnitId">
@@ -1573,6 +1723,11 @@
         <member name="P:FireProtectionV1.FireWorking.Model.Gateway.StatusChangeTime">
             <summary>
             网关状态改变时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.Gateway.Location">
+            <summary>
+            设备地点
             </summary>
         </member>
         <member name="P:FireProtectionV1.HydrantCore.Dto.AddHydrantInput.Sn">

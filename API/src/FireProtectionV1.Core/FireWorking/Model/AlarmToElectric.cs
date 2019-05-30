@@ -14,15 +14,22 @@ namespace FireProtectionV1.FireWorking.Model
         [Required]
         public int DetectorId { get; set; }
         /// <summary>
-        /// 实时数据
+        /// 模拟量值
         /// </summary>
         [Required]
-        public decimal CurrentData { get; set; }
+        public decimal Analog { get; set; }
         /// <summary>
-        /// 安全范围
+        /// 计量单位
         /// </summary>
-        [MaxLength(StringType.Normal)]
-        public string SafeRange { get; set; }
+        [Required]
+        [MaxLength(4)]
+        public string Unit { get; set; }
+        /// <summary>
+        /// 预警限值
+        /// </summary>
+        [Required]
+        [MaxLength(20)]
+        public string AlarmLimit { get; set; }
         /// <summary>
         /// 防火单位Id
         /// </summary>

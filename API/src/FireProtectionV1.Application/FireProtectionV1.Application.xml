@@ -627,6 +627,41 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.DeviceService.DataAppService.AddDataElecT(FireProtectionV1.FireWorking.Dto.AddDataElecInput)">
+            <summary>
+            新增安全用电数据温度(超限判断后新增报警)
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.DataAppService.AddDataElecE(FireProtectionV1.FireWorking.Dto.AddDataElecInput)">
+            <summary>
+            新增安全用电数据电流(超限判断后新增报警)
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.DataAppService.AddAlarmFire(FireProtectionV1.FireWorking.Dto.AddAlarmFireInput)">
+            <summary>
+            新增火灾监控设备报警
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.DeviceAppService.AddDetector(FireProtectionV1.FireWorking.Dto.AddDetectorInput)">
+            <summary>
+            新增探测器部件
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.DeviceAppService.AddGateway(FireProtectionV1.FireWorking.Dto.AddGatewayInput)">
+            <summary>
+            新增网关设备
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="P:FireProtectionV1.Dto.GetAreasFaultOutput.FaultCount">
             <summary>
             设施故障累计数量
