@@ -21,3 +21,5 @@ bin
 /API/Test
 /API/src/Publish
 /API/src/FireProtectionV1.Web/Properties/PublishProfiles
+
+/WebVue

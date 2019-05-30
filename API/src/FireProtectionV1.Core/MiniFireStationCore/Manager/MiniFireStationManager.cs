@@ -86,6 +86,27 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
         }
 
         /// <summary>
+        /// 微型消防站Excel导出
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task<List<MiniFireStation>> GetStationExcel(GetMiniFireStationListInput input)
+        {
+            var miniFireStations = _miniFireStationRepository.GetAll();
+
+            var expr = ExprExtension.True<MiniFireStation>()
+             .IfAnd(!string.IsNullOrEmpty(input.Name), item => item.Name.Contains(input.Name));
+
+            miniFireStations = miniFireStations.Where(expr);
+
+            List<MiniFireStation> list = miniFireStations
+                .OrderByDescending(item => item.CreationTime)
+                .ToList();
+
+            return Task.FromResult<List<MiniFireStation>>(list);
+        }
+
+        /// <summary>
         /// 根据坐标点获取附近1KM直线距离内的微型消防站
         /// </summary>
         /// <param name="lng">经度，例如104.159203</param>

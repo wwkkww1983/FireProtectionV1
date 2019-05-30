@@ -1790,6 +1790,16 @@
             距离（米）
             </summary>
         </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetPressureSubstandardOutput.SubstanCount">
+            <summary>
+            低于设定水压总数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetPressureSubstandardOutput.PagedResultDto">
+            <summary>
+            消火栓页面数据
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.HydrantCore.Dto.HydrantDetailOutput.AreaName">
             <summary>
             区域名称
@@ -1831,6 +1841,13 @@
         <member name="M:FireProtectionV1.HydrantCore.Manager.HydrantManager.GetListForWeb(FireProtectionV1.HydrantCore.Dto.GetHydrantListInput)">
             <summary>
             Web端分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.HydrantManager.GetPressureSubstandard(FireProtectionV1.HydrantCore.Dto.GetHydrantListInput)">
+            <summary>
+            查询水压低于标准值的消火栓
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -1888,6 +1905,13 @@
         <member name="M:FireProtectionV1.HydrantCore.Manager.IHydrantManager.GetListForWeb(FireProtectionV1.HydrantCore.Dto.GetHydrantListInput)">
             <summary>
             Web端分页列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.IHydrantManager.GetPressureSubstandard(FireProtectionV1.HydrantCore.Dto.GetHydrantListInput)">
+            <summary>
+            水压低于标准值
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -2173,6 +2197,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.MiniFireStationCore.Manager.IMiniFireStationManager.GetStationExcel(FireProtectionV1.MiniFireStationCore.Dto.GetMiniFireStationListInput)">
+            <summary>
+            微型消防站Excel导出
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.MiniFireStationCore.Manager.IMiniFireStationManager.GetNearbyStation(System.Decimal,System.Decimal)">
             <summary>
             根据坐标点获取附近1KM直线距离内的微型消防站
@@ -2205,6 +2236,13 @@
         <member name="M:FireProtectionV1.MiniFireStationCore.Manager.MiniFireStationManager.GetList(FireProtectionV1.MiniFireStationCore.Dto.GetMiniFireStationListInput)">
             <summary>
             分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.MiniFireStationCore.Manager.MiniFireStationManager.GetStationExcel(FireProtectionV1.MiniFireStationCore.Dto.GetMiniFireStationListInput)">
+            <summary>
+            微型消防站Excel导出
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -2383,6 +2421,46 @@
         <member name="P:FireProtectionV1.StreetGridCore.Dto.GetStreetGridEventListInput.Status">
             <summary>
             事件状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetStreetListOutput.Name">
+            <summary>
+            网格员姓名
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetStreetListOutput.Phone">
+            <summary>
+            联系电话
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetStreetListOutput.GridName">
+            <summary>
+            网格名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetStreetListOutput.Street">
+            <summary>
+            所属街道
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetStreetListOutput.Community">
+            <summary>
+            所属社区
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetStreetListOutput.CreationTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetStreetListOutput.isDeleted">
+            <summary>
+            是否删除
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetStreetListOutput.id">
+            <summary>
+            id
             </summary>
         </member>
         <member name="M:FireProtectionV1.StreetGridCore.Manager.IStreetGridEventManager.GetList(FireProtectionV1.StreetGridCore.Dto.GetStreetGridEventListInput)">

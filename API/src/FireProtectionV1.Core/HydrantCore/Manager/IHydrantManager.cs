@@ -37,8 +37,13 @@ namespace FireProtectionV1.HydrantCore.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<PagedResultDto<GetHydrantListOutput>> GetListForWeb(GetHydrantListInput input);
-
+        Task<GetPressureSubstandardOutput> GetListForWeb(GetHydrantListInput input);
+        /// <summary>
+        /// 水压低于标准值
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<GetPressureSubstandardOutput> GetPressureSubstandard(GetHydrantListInput input);
         /// <summary>
         /// 消火栓Excel导出
         /// </summary>
