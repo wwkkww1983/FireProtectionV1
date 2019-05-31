@@ -52,17 +52,17 @@ namespace FireProtectionV1.AppService
         public async Task<DeptUserLoginOutput> UserLogin(PcDeptUserLoginInput input)
         {
             //判断验证码
-            //if (string.IsNullOrEmpty(input.VerifyCode))
-            //{
-            //    return new DeptUserLoginOutput() { Success = false, FailCause = "请输入验证码" };
-            //}
-            //byte[] verifyValue ;
-            //_httpContext.HttpContext.Session.TryGetValue("VerifyCode",out verifyValue);
-            //if(null==verifyValue)
-            //    return new DeptUserLoginOutput() { Success = false, FailCause = "验证码错误" };
-            //string verifyCode = Encoding.Default.GetString(verifyValue);
-            //if (!verifyCode.Equals(input.VerifyCode))
-            //    return new DeptUserLoginOutput() { Success = false, FailCause = "验证码错误" };
+            if (string.IsNullOrEmpty(input.VerifyCode))
+            {
+                return new DeptUserLoginOutput() { Success = false, FailCause = "请输入验证码" };
+            }
+            byte[] verifyValue;
+            _httpContext.HttpContext.Session.TryGetValue("VerifyCode", out verifyValue);
+            if (null == verifyValue)
+                return new DeptUserLoginOutput() { Success = false, FailCause = "验证码错误" };
+            string verifyCode = Encoding.Default.GetString(verifyValue);
+            if (!verifyCode.Equals(input.VerifyCode))
+                return new DeptUserLoginOutput() { Success = false, FailCause = "验证码错误" };
             //登录判断
             return await Login(input);
         }

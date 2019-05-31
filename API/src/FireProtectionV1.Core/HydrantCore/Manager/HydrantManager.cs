@@ -306,9 +306,11 @@ namespace FireProtectionV1.HydrantCore.Manager
         public async Task Update(UpdateHydrantInput input)
         {
             Valid.Exception(_hydrantRepository.Count(m => input.Sn.Equals(m.Sn) && !input.Id.Equals(m.Id)) > 0, "保存失败：设施编号已存在");
-
-            var entity = input.MapTo<Hydrant>();
-            await _hydrantRepository.UpdateAsync(entity);
+            var old = _hydrantRepository.GetAll().Where(u => u.Id == input.Id).FirstOrDefault();
+            old.Sn = input.Sn;
+            old.AreaId = input.AreaId;
+            old.Address = input.Address;
+            await _hydrantRepository.UpdateAsync(old);
         }
 
         /// <summary>
