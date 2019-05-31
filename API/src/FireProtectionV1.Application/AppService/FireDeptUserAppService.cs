@@ -89,6 +89,7 @@ namespace FireProtectionV1.AppService
             var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
             identity.AddClaim(new Claim(ClaimTypes.Sid, input.Account));
             identity.AddClaim(new Claim(ClaimTypes.Name, output.Name));
+            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, input.Password));
             //identity.AddClaim(new Claim(ClaimTypes.Role, user.Role));
             var principal = new ClaimsPrincipal(identity);
             await _httpContext.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
