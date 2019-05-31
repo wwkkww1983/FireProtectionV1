@@ -686,9 +686,9 @@
             邀请码（自动生成）
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.AddAlarmFireInput.DetectorType">
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddAlarmFireInput.DetectorGBType">
             <summary>
-            部件类型
+            部件国标类型
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AddAlarmFireInput.Identify">
@@ -701,9 +701,9 @@
             网关设备标识
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataElecInput.DetectorType">
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataElecInput.DetectorGBType">
             <summary>
-            部件类型
+            部件国标类型
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AddDataElecInput.Identify">
@@ -726,7 +726,7 @@
             计量单位
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.AddDetectorInput.DetectorType">
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDetectorInput.DetectorGBType">
             <summary>
             部件类型
             </summary>
@@ -1187,6 +1187,13 @@
         <member name="M:FireProtectionV1.FireWorking.Manager.AlarmManager.AddAlarmFire(FireProtectionV1.FireWorking.Dto.AddAlarmFireInput)">
             <summary>
             新增火灾监控设备报警
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.AddDetector(FireProtectionV1.FireWorking.Dto.AddDetectorInput)">
+            <summary>
+            新增探测器部件
             </summary>
             <param name="input"></param>
             <returns></returns>

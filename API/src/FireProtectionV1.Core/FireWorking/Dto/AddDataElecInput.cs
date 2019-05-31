@@ -8,9 +8,9 @@ namespace FireProtectionV1.FireWorking.Dto
     public class AddDataElecInput
     {
         /// <summary>
-        /// 部件类型
+        /// 部件国标类型
         /// </summary>
-        public byte DetectorType { get; set; }
+        public byte DetectorGBType { get; set; }
         /// <summary>
         /// 设备标识
         /// </summary>
