@@ -10,7 +10,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 部件类型
         /// </summary>
-        public byte DetectorType { get; set; }
+        public byte DetectorGBType { get; set; }
         /// <summary>
         /// 设备标识
         /// </summary>

@@ -17,5 +17,6 @@ namespace FireProtectionV1.FireWorking.Model
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
+        public byte GBType { get; set; }
     }
 }

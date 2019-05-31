@@ -39,7 +39,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 //新增探测器
                 detector=await _deviceManager.AddDetector(new AddDetectorInput()
                 {
-                    DetectorType = input.DetectorType,
+                    DetectorGBType = input.DetectorGBType,
                     GatewayIdentify = input.GatewayIdentify,
                     Identify = input.Identify
                 });
@@ -64,7 +64,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 //新增探测器
                 detector = await _deviceManager.AddDetector(new AddDetectorInput()
                 {
-                    DetectorType = input.DetectorType,
+                    DetectorGBType = input.DetectorGBType,
                     GatewayIdentify = input.GatewayIdentify,
                     Identify = input.Identify
                 });

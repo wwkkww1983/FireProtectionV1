@@ -11,22 +11,33 @@ namespace FireProtectionV1.FireWorking.Manager
 {
     public class DeviceManager : IDeviceManager
     {
+        IRepository<DetectorType> _detectorTypeRep;
         IRepository<Gateway> _gatewayRep;
         IRepository<Detector> _detectorRep;
         public DeviceManager(IRepository<Detector> detectorRep,
-            IRepository<Gateway> gatewayRep)
+             IRepository<DetectorType> detectorTypeRep,
+           IRepository<Gateway> gatewayRep)
         {
+            _detectorTypeRep = detectorTypeRep;
             _detectorRep = detectorRep;
             _gatewayRep = gatewayRep;
         }
+        /// <summary>
+        /// 新增探测器部件
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<Detector> AddDetector(AddDetectorInput input)
         {
-            var gateway = _gatewayRep.GetAll().Where(p => p.Identify == input.Identify).FirstOrDefault();
+            var gateway = _gatewayRep.GetAll().Where(p => p.Identify == input.GatewayIdentify).FirstOrDefault();
             if (gateway == null)
+                return null;
+            var type = _detectorTypeRep.GetAll().Where(p => p.GBType == input.DetectorGBType).FirstOrDefault();
+            if (type == null)
                 return null;
             return await _detectorRep.InsertAsync(new Detector()
             {
-                DetectorTypeId = input.DetectorType,
+                DetectorTypeId = type.Id,
                 FireSysType = gateway.FireSysType,
                 Identify = input.Identify,
                 Location =input.Location,
