@@ -131,8 +131,16 @@ POW(SIN(({lng} * PI() / 180 - Lng * PI() / 180) / 2), 2))) *1000) AS Distance FR
         {
             Valid.Exception(_miniFireStationRepository.Count(m => input.Name.Equals(m.Name) && !input.Id.Equals(m.Id)) > 0, "保存失败：站点名称已存在");
 
-            var entity = input.MapTo<MiniFireStation>();
-            await _miniFireStationRepository.UpdateAsync(entity);
+            var old = _miniFireStationRepository.GetAll().Where(u => u.Id == input.Id).FirstOrDefault();
+            old.Name = input.Name;
+            old.Level = input.Level;
+            old.ContactName = input.ContactName;
+            old.ContactPhone = input.ContactPhone;
+            old.PersonNum = input.PersonNum;
+            old.Address = input.Address;
+            old.Lng = input.Lng;
+            old.Lat = input.Lat;
+            await _miniFireStationRepository.UpdateAsync(old);
         }
     }
 }

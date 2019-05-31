@@ -45,11 +45,17 @@ namespace FireProtectionV1.Enterprise.Manager
         public async Task<int> Add(AddSafeUnitInput input)
         {
             Valid.Exception(_safeUnitRepository.Count(m => input.Name.Equals(m.Name)) > 0, "保存失败：单位名称已存在");
-
-            var entity = input.MapTo<SafeUnit>();
-            return await _safeUnitRepository.InsertAndGetIdAsync(entity);
+            
+            return await _safeUnitRepository.InsertAndGetIdAsync(new SafeUnit()
+            {
+                CreationTime = DateTime.Now,
+                Name = input.Name,
+                ContractName = input.ContractName,
+                ContractPhone = input.ContractPhone,
+                Level = input.Level,
+                InvitationCode = MethodHelper.CreateInvitationCode().Trim(),
+            });
         }
-
         /// <summary>
         /// 删除
         /// </summary>
@@ -122,9 +128,12 @@ namespace FireProtectionV1.Enterprise.Manager
         public async Task Update(UpdateSafeUnitInput input)
         {
             Valid.Exception(_safeUnitRepository.Count(m => input.Name.Equals(m.Name) && !input.Id.Equals(m.Id)) > 0, "保存失败：单位名称已存在");
-
-            var entity = input.MapTo<SafeUnit>();
-            await _safeUnitRepository.UpdateAsync(entity);
+            var old = _safeUnitRepository.GetAll().Where(u => u.Id == input.Id).FirstOrDefault();
+            old.Name = input.Name;
+            old.Level = input.Level;
+            old.ContractName = input.ContractName;
+            old.ContractPhone = input.ContractPhone;
+            await _safeUnitRepository.UpdateAsync(old);
         }
     }
 }

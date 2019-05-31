@@ -19,5 +19,9 @@ namespace FireProtectionV1.StreetGridCore.Dto
         /// 所属社区
         /// </summary>
         public string Community { get; set; }
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public string CreationTime { get; set; }
     }
 }

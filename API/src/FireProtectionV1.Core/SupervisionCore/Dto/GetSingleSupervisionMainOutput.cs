@@ -11,5 +11,9 @@ namespace FireProtectionV1.SupervisionCore.Dto
         /// 防火单位名称
         /// </summary>
         public string FireUnitName { get; set; }
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public string CreationTime { get; set; }
     }
 }

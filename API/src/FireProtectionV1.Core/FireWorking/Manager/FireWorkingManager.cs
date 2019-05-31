@@ -272,6 +272,7 @@ namespace FireProtectionV1.FireWorking.Manager
             {
                 FireUnitId = p.Key,
                 FaultCount = p.Count(),
+                FireUnitName = _fireUnitRep.GetAll().Where(u => u.Id==p.Key).FirstOrDefault().Name,
                 ProcessedCount = p.Select(p1 => p1.ProcessState == 1).Count(),
                 PendingCount = p.Select(p1 => p1.ProcessState == 0).Count()
             });

@@ -264,7 +264,7 @@ namespace FireProtectionV1.SupervisionCore.Manager
                             FireUnitName = b.Name,
                             FireUnitId=b.Id,
                             CheckUser = a.CheckUser,
-                            CreationTime = a.CreationTime,
+                            CreationTime = a.CreationTime.ToUniversalTime().ToString(),
                             CheckResult = a.CheckResult,
                             DocumentDeadline = a.DocumentDeadline,
                             DocumentInspection = a.DocumentInspection,
