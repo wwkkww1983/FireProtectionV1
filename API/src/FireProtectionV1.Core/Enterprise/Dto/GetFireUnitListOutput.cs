@@ -31,5 +31,9 @@ namespace FireProtectionV1.Enterprise.Dto
         /// 邀请码（自动生成）
         /// </summary>
         public string InvitationCode { get; set; }
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public string CreationTime { get; set; }
     }
 }

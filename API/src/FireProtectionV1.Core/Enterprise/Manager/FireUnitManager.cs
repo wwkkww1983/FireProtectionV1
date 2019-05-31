@@ -109,9 +109,11 @@ namespace FireProtectionV1.Enterprise.Manager
                             Type = b2.Name,
                             ContractName = a.ContractName,
                             ContractPhone = a.ContractPhone,
-                            InvitationCode = a.InvitationCode
+                            InvitationCode = a.InvitationCode,
+                            CreationTime = a.CreationTime.ToUniversalTime().ToString()
                         };
             var list = query
+                .OrderByDescending(u=>u.CreationTime)
                 .Skip(input.SkipCount).Take(input.MaxResultCount)
                 .ToList();
             var tCount = fireUnits.Count();
@@ -176,7 +178,7 @@ namespace FireProtectionV1.Enterprise.Manager
                 TypeId = input.TypeId,
                 ContractName = input.ContractName,
                 ContractPhone = input.ContractPhone,
-                InvitationCode = MethodHelper.CreateInvitationCode(),
+                InvitationCode = MethodHelper.CreateInvitationCode().Trim(),
                 Address=input.Address
             });
             return new SuccessOutput() { Success = true };
@@ -198,19 +200,18 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <returns></returns>
         public async Task<SuccessOutput> Update(UpdateFireUnitInput input)
         {
-            await _fireUnitRep.UpdateAsync(new FireUnit()
-            {
-                Id = input.Id,
-                Name = input.Name,
-                TypeId = input.TypeId,
-                AreaId = input.AreaId,
-                Address = input.Address,
-                ContractName = input.ContractName,
-                ContractPhone = input.ContractPhone,
-                SafeUnitId = input.SafeUnitId,
-                Lng = input.Lng,
-                Lat = input.Lat
-            });
+            var old= _fireUnitRep.GetAll().Where(u=>u.Id==input.Id).FirstOrDefault();
+            old.Name = input.Name;
+            old.TypeId = input.TypeId;
+            old.AreaId = input.AreaId;
+            old.Address = input.Address;
+            old.ContractName = input.ContractName;
+            old.ContractPhone = input.ContractPhone;
+            old.SafeUnitId = input.SafeUnitId;
+            old.Lng = input.Lng;
+            old.Lat = input.Lat;
+
+            await _fireUnitRep.UpdateAsync(old);
             return new SuccessOutput() { Success = true };
         }
 

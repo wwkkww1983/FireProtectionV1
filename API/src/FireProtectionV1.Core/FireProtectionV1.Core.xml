@@ -251,6 +251,11 @@
             邀请码（自动生成）
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListOutput.CreationTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitMapListOutput.Lng">
             <summary>
             经度
@@ -2403,6 +2408,11 @@
             事件描述
             </summary>
         </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetEventByIdOutput.CreationTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.StreetGridCore.Dto.GetStreeGridEventListOutput.GridName">
             <summary>
             网格名称
@@ -2416,6 +2426,11 @@
         <member name="P:FireProtectionV1.StreetGridCore.Dto.GetStreeGridEventListOutput.Community">
             <summary>
             所属社区
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.StreetGridCore.Dto.GetStreeGridEventListOutput.CreationTime">
+            <summary>
+            创建时间
             </summary>
         </member>
         <member name="P:FireProtectionV1.StreetGridCore.Dto.GetStreetGridEventListInput.Status">
@@ -2641,6 +2656,11 @@
         <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSingleSupervisionMainOutput.FireUnitName">
             <summary>
             防火单位名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSingleSupervisionMainOutput.CreationTime">
+            <summary>
+            创建时间
             </summary>
         </member>
         <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSupervisionExcelOutput.FireUnitName">

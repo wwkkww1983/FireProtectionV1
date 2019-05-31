@@ -54,7 +54,7 @@ namespace FireProtectionV1.AppService
                 foreach (var v in lst)
                 {
                     sheet.AddRowValues(new string[]{
-                        v.Title,v.GridName,v.Street,v.Community,v.CreationTime.ToUniversalTime().ToString(),v.Status.ToString()});
+                        v.Title,v.GridName,v.Street,v.Community,v.CreationTime,v.Status.ToString()});
                 }
                 var fileBytes = excel.BuildFileBytes();
                 HttpResponse Response = _httpContext.HttpContext.Response;

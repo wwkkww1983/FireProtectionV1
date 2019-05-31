@@ -31,5 +31,9 @@ namespace FireProtectionV1.StreetGridCore.Dto
         /// 事件描述
         /// </summary>
         public string Remark { get; set; }
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public string CreationTime { get; set; }
     }
 }
