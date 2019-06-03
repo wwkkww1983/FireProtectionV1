@@ -24,7 +24,13 @@ namespace FireProtectionV1.DeviceService
         /// <returns></returns>
         public async Task AddDetector(AddDetectorInput input)
         {
-            await _detectorManager.AddDetector(input);
+            try
+            {
+                await _detectorManager.AddDetector(input);
+            }catch(Exception e)
+            {
+
+            }
         }
         /// <summary>
         /// 新增网关设备
