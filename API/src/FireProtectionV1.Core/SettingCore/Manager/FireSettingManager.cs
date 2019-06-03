@@ -1,6 +1,7 @@
 ﻿using Abp.Domain.Repositories;
 using Abp.Domain.Services;
 using FireProtectionV1.Common.Helper;
+using FireProtectionV1.SettingCore.Dto;
 using FireProtectionV1.SettingCore.Model;
 using System;
 using System.Collections.Generic;
@@ -43,11 +44,16 @@ namespace FireProtectionV1.SettingCore.Manager
         /// </summary>
         /// <param name="settings"></param>
         /// <returns></returns>
-        public async Task SaveSetting(List<FireSetting> settings)
+        public async Task SaveSetting(List<FireSettingInput> settings)
         {
-            foreach (FireSetting setting in settings)
+            foreach (FireSettingInput setting in settings)
             {
-                await _settingRepository.InsertOrUpdateAsync(setting);
+                var set = _settingRepository.GetAll().Where(u=>u.Name==setting.Name).FirstOrDefault();
+                if (set == null) continue;
+                set.Name = setting.Name;
+                set.MinValue = setting.MinValue;
+                set.MaxValue = setting.MaxValue;
+                await _settingRepository.InsertOrUpdateAsync(set);
             }
         }
 

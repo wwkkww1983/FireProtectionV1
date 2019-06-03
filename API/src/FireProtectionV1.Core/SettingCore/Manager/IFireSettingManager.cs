@@ -1,4 +1,5 @@
 ﻿using Abp.Domain.Services;
+using FireProtectionV1.SettingCore.Dto;
 using FireProtectionV1.SettingCore.Model;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace FireProtectionV1.SettingCore.Manager
         /// </summary>
         /// <param name="settings"></param>
         /// <returns></returns>
-        Task SaveSetting(List<FireSetting> settings);
+        Task SaveSetting(List<FireSettingInput> settings);
         /// <summary>
         /// 获取所有设置
         /// </summary>
