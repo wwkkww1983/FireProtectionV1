@@ -1,4 +1,5 @@
-﻿using FireProtectionV1.SettingCore.Manager;
+﻿using FireProtectionV1.SettingCore.Dto;
+using FireProtectionV1.SettingCore.Manager;
 using FireProtectionV1.SettingCore.Model;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="settings"></param>
         /// <returns></returns>
-        public async Task SaveSetting(List<FireSetting> settings)
+        public async Task SaveSetting(List<FireSettingInput> settings)
         {
             await _manager.SaveSetting(settings);
         }

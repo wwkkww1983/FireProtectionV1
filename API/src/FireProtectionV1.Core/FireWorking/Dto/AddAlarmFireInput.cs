@@ -14,7 +14,6 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 设备标识
         /// </summary>
-        [MaxLength(20)]
         public string Identify { get; set; }
         /// <summary>
         /// 网关设备标识

@@ -102,7 +102,7 @@
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireSettingAppService.SaveSetting(System.Collections.Generic.List{FireProtectionV1.SettingCore.Model.FireSetting})">
+        <member name="M:FireProtectionV1.AppService.FireSettingAppService.SaveSetting(System.Collections.Generic.List{FireProtectionV1.SettingCore.Dto.FireSettingInput})">
             <summary>
             保存设置
             </summary>

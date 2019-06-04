@@ -15,7 +15,7 @@ namespace FireProtectionV1.FireWorking.Model
         /// <summary>
         /// 设备标识
         /// </summary>
-        [MaxLength(20)]
+        [MaxLength(50)]
         public string Identify { get; set; }
         /// <summary>
         /// 消防系统类型(1:安全用电,2:火警预警)appsetings.json"FireDomain:FireSysType"

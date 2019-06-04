@@ -726,6 +726,11 @@
             计量单位
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataOutput.IsDetectorExit">
+            <summary>
+            是否存在探测器部件
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AddDetectorInput.DetectorGBType">
             <summary>
             部件类型
@@ -2314,6 +2319,21 @@
             纬度
             </summary>
         </member>
+        <member name="P:FireProtectionV1.SettingCore.Dto.FireSettingInput.Name">
+            <summary>
+            设置项
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SettingCore.Dto.FireSettingInput.MinValue">
+            <summary>
+            下限值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SettingCore.Dto.FireSettingInput.MaxValue">
+            <summary>
+            上限值
+            </summary>
+        </member>
         <member name="M:FireProtectionV1.SettingCore.Manager.FireSettingManager.GetAllSetting">
             <summary>
             获取所有设置
@@ -2327,7 +2347,7 @@
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.SettingCore.Manager.FireSettingManager.SaveSetting(System.Collections.Generic.List{FireProtectionV1.SettingCore.Model.FireSetting})">
+        <member name="M:FireProtectionV1.SettingCore.Manager.FireSettingManager.SaveSetting(System.Collections.Generic.List{FireProtectionV1.SettingCore.Dto.FireSettingInput})">
             <summary>
             保存设置
             </summary>
@@ -2342,7 +2362,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.SettingCore.Manager.IFireSettingManager.SaveSetting(System.Collections.Generic.List{FireProtectionV1.SettingCore.Model.FireSetting})">
+        <member name="M:FireProtectionV1.SettingCore.Manager.IFireSettingManager.SaveSetting(System.Collections.Generic.List{FireProtectionV1.SettingCore.Dto.FireSettingInput})">
             <summary>
             保存设置
             </summary>
