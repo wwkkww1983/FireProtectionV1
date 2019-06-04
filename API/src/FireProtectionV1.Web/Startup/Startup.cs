@@ -85,6 +85,11 @@ namespace FireProtectionV1.Web.Startup
             //services.AddHttpContextAccessor();
             //Configure Abp and Dependency Injection
             services.AddSession();
+            //配置跨域处理，允许所有来源：
+            services.AddCors(options =>
+            options.AddPolicy("自定义",
+            p => p.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin())
+            );
             return services.AddAbp<FireProtectionV1WebModule>(options =>
             {
                 //Configure Log4Net logging
@@ -92,6 +97,7 @@ namespace FireProtectionV1.Web.Startup
                     f => f.UseAbpLog4Net().WithConfig("log4net.config")
                 );
             });
+
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -112,6 +118,7 @@ namespace FireProtectionV1.Web.Startup
             app.UseSession();
             //验证中间件
             app.UseAuthentication();
+            app.UseCors("自定义");
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

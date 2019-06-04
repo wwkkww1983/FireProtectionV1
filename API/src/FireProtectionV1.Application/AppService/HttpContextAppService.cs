@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace FireProtectionV1.AppService
 {
-    public abstract class HttpContextAppService:AppServiceBase
+    public abstract class HttpContextAppService : AppServiceBase
     {
         protected readonly IHttpContextAccessor _httpContext;
-        public HttpContextAppService( IHttpContextAccessor httpContext)
+        public HttpContextAppService(IHttpContextAccessor httpContext)
         {
             _httpContext = httpContext;
         }
@@ -22,25 +22,31 @@ namespace FireProtectionV1.AppService
         /// <returns></returns>
         public async Task GetVerifyCode()
         {
-           await Task.Run(() =>
-           {
-               string code = VerifyCodeHelper.GetSingleObj().CreateVerifyCode(VerifyCodeHelper.VerifyCodeType.NumberVerifyCode);
-               _httpContext.HttpContext.Session.Set("VerifyCode", Encoding.Default.GetBytes(code));
-               var bitmap = VerifyCodeHelper.GetSingleObj().CreateBitmapByImgVerifyCode(code, 100, 40);
-               using (MemoryStream stream = new MemoryStream())
-               {
-                   bitmap.Save(stream, ImageFormat.Gif);
-                   HttpResponse Response = _httpContext.HttpContext.Response;
-                   Response.ContentType = "image/gif";
-                   Response.ContentLength = stream.Length;
+            await Task.Run(() =>
+            {
+                string code = VerifyCodeHelper.GetSingleObj().CreateVerifyCode(VerifyCodeHelper.VerifyCodeType.NumberVerifyCode);
+                _httpContext.HttpContext.Session.Set("VerifyCode", Encoding.Default.GetBytes(code));
+
+                Console.WriteLine("获取" + code);
+                Console.WriteLine("获取" + _httpContext.HttpContext.Session.Id);
+                Console.WriteLine("获取KEYS:");
+                foreach (var a in _httpContext.HttpContext.Session.Keys)
+                {
+                    Console.WriteLine("获取"+a);
+                }
+                var bitmap = VerifyCodeHelper.GetSingleObj().CreateBitmapByImgVerifyCode(code, 100, 40);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    bitmap.Save(stream, ImageFormat.Gif);
+                    HttpResponse Response = _httpContext.HttpContext.Response;
+                    Response.ContentType = "image/gif";
+                    Response.ContentLength = stream.Length;
                    //Response.Headers.Add("Content-Disposition", string.Format("attachment;filename=VerifyCode.gif"));
                    Response.Body.Write(stream.ToArray());
-                   Response.Body.Flush();
+                    Response.Body.Flush();
 
-               }
-           }
-           );
+                }
+            });
         }
-
     }
 }
