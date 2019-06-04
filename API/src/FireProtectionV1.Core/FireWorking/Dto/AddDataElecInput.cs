@@ -11,6 +11,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// 部件国标类型
         /// </summary>
         public byte DetectorGBType { get; set; }
+
         /// <summary>
         /// 设备标识
         /// </summary>

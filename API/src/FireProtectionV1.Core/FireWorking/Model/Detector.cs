@@ -40,5 +40,10 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         [MaxLength(100)]
         public string Location { get; set; }
+        /// <summary>
+        /// 设备来源(厂家)
+        /// </summary>
+        [MaxLength(50)]
+        public string Origin { get; set; }
     }
 }
