@@ -27,15 +27,15 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<Detector> AddDetector(AddDetectorInput input)
+        public async Task AddDetector(AddDetectorInput input)
         {
             var gateway = _gatewayRep.GetAll().Where(p => p.Identify == input.GatewayIdentify).FirstOrDefault();
             if (gateway == null)
-                return null;
+                return ;
             var type = _detectorTypeRep.GetAll().Where(p => p.GBType == input.DetectorGBType).FirstOrDefault();
             if (type == null)
-                return null;
-            return await _detectorRep.InsertAsync(new Detector()
+                return ;
+             await _detectorRep.InsertAsync(new Detector()
             {
                 DetectorTypeId = type.Id,
                 FireSysType = gateway.FireSysType,
@@ -60,6 +60,10 @@ namespace FireProtectionV1.FireWorking.Manager
                 FireUnitId = input.FireUnitId
             });
         }
+        public DetectorType GetDetectorType(byte GBtype)
+        {
+            return _detectorTypeRep.GetAll().Where(p => p.GBType == GBtype).FirstOrDefault();
+        }
         /// <summary>
         /// 根据identify查询探测器
         /// </summary>
@@ -68,6 +72,10 @@ namespace FireProtectionV1.FireWorking.Manager
         public Detector GetDetector(string identify)
         {
             return _detectorRep.GetAll().Where(p => p.Identify.Equals(identify)).FirstOrDefault();
+        }
+        public Gateway GetGateway(string gatewayIdentify)
+        {
+            return _gatewayRep.GetAll().Where(p => p.Identify.Equals(gatewayIdentify)).FirstOrDefault();
         }
     }
 }

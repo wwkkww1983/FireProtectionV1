@@ -129,7 +129,7 @@ namespace FireProtectionV1.FireWorking.Manager
             await Task.Run(() =>
             {
                 var alarm30 = from a in _alarmToElectricRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30))
-                              join b in _detectorRep.GetAll().Where(p => -1==detectorTypeId?true:p.DetectorTypeId == detectorTypeId)
+                              join b in _detectorRep.GetAll().Where(p => (-1==detectorTypeId?true:p.DetectorTypeId == detectorTypeId))
                               on a.DetectorId equals b.Id
                               orderby a.CreationTime descending
                               select a;

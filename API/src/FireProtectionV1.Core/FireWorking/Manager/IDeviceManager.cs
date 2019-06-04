@@ -15,7 +15,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<Detector> AddDetector(AddDetectorInput input);
+        Task AddDetector(AddDetectorInput input);
         /// <summary>
         /// 新增网关设备
         /// </summary>
@@ -27,6 +27,8 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="identify"></param>
         /// <returns></returns>
+        DetectorType GetDetectorType(byte GBtype);
         Detector GetDetector(string identify);
+        Gateway GetGateway(string gatewayIdentify);
     }
 }

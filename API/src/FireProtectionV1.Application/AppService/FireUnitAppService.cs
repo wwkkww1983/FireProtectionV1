@@ -23,14 +23,17 @@ namespace FireProtectionV1.AppService
         IFireUnitManager _fireUnitManager;
         IFireWorkingManager _fireWorkingManager;
         IPatrolManager _patrolManager;
+        IDeviceManager _deviceManager;
 
         public FireUnitAppService(
+            IDeviceManager deviceManager,
             IPatrolManager patrolManager,
             IHttpContextAccessor httpContext,
             IFireUnitManager fireUnitInfoManager, 
             IFireWorkingManager fireWorkingManager)
             :base(httpContext)
         {
+            _deviceManager = deviceManager;
             _patrolManager = patrolManager;
             _fireUnitManager = fireUnitInfoManager;
             _fireWorkingManager = fireWorkingManager;
@@ -190,7 +193,8 @@ namespace FireProtectionV1.AppService
         /// <returns></returns>
         public async Task<PagedResultDto<AlarmRecord>> GetFireUnit30DayAlarmElecE(GetPageByFireUnitIdInput input)
         {
-            return await _fireWorkingManager.GetFireUnit30DayAlarmEle(input,6);
+            var detectorType = _deviceManager.GetDetectorType((byte)DeviceServer.Tcp.Protocol.UnitType.ElectricResidual);
+            return await _fireWorkingManager.GetFireUnit30DayAlarmEle(input, detectorType.Id);
         }
         /// <summary>
         /// （单个防火单位）安全用电最近30天(电缆温度)报警记录查询
@@ -199,7 +203,8 @@ namespace FireProtectionV1.AppService
         /// <returns></returns>
         public async Task<PagedResultDto<AlarmRecord>> GetFireUnit30DayAlarmElecT(GetPageByFireUnitIdInput input)
         {
-            return await _fireWorkingManager.GetFireUnit30DayAlarmEle(input, 15);
+            var detectorType = _deviceManager.GetDetectorType((byte)DeviceServer.Tcp.Protocol.UnitType.ElectricTemperature);
+            return await _fireWorkingManager.GetFireUnit30DayAlarmEle(input, detectorType.Id);
         }        /// <summary>
                  /// （单个防火单位）火警预警最近30天报警记录查询
                  /// </summary>

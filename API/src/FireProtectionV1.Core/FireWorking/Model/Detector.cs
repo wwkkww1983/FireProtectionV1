@@ -14,7 +14,7 @@ namespace FireProtectionV1.FireWorking.Model
         /// <summary>
         /// 设备标识
         /// </summary>
-        [MaxLength(20)]
+        [MaxLength(50)]
         public string Identify { get; set; }
         /// <summary>
         /// 探测器类型
@@ -38,7 +38,6 @@ namespace FireProtectionV1.FireWorking.Model
         /// <summary>
         /// 设备地点
         /// </summary>
-        [Required]
         [MaxLength(100)]
         public string Location { get; set; }
     }
