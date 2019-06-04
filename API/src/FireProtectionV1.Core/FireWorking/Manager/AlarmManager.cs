@@ -31,49 +31,49 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="input"></param>
         /// <param name="alarmLimit"></param>
         /// <returns></returns>
-        public async Task AddAlarmElec(AddDataElecInput input,string alarmLimit)
+        public async Task<AddDataOutput> AddAlarmElec(AddDataElecInput input,string alarmLimit)
         {
             Detector detector = _deviceManager.GetDetector(input.Identify);
-            if(detector==null)
+            if (detector == null)
             {
-                //新增探测器
-                detector=await _deviceManager.AddDetector(new AddDetectorInput()
+                return new AddDataOutput()
                 {
-                    DetectorGBType = input.DetectorGBType,
-                    GatewayIdentify = input.GatewayIdentify,
-                    Identify = input.Identify
-                });
+                    IsDetectorExit = false
+                };
             }
             await _alarmToElectricRep.InsertAsync(new AlarmToElectric() {
+                FireUnitId = detector.FireUnitId,
                 DetectorId=detector.Id,
                 Analog=input.Analog,
                 AlarmLimit=alarmLimit,
                 Unit=input.Unit
             });
-        }
+            return new AddDataOutput() { IsDetectorExit = true }
+;        }
         /// <summary>
         /// 新增火灾监控设备报警
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task AddAlarmFire(AddAlarmFireInput input)
+        public async Task<AddDataOutput> AddAlarmFire(AddAlarmFireInput input)
         {
             Detector detector = _deviceManager.GetDetector(input.Identify);
             if (detector == null)
             {
-                //新增探测器
-                detector = await _deviceManager.AddDetector(new AddDetectorInput()
+                return new AddDataOutput()
                 {
-                    DetectorGBType = input.DetectorGBType,
-                    GatewayIdentify = input.GatewayIdentify,
-                    Identify = input.Identify
-                });
+                    IsDetectorExit = false
+                };
             }
             await _alarmToFireRep.InsertAsync(new AlarmToFire()
             {
-                FireUnitId=detector.FireUnitId,
-                DetectorId=detector.Id
+                FireUnitId= detector.FireUnitId,
+                DetectorId= detector.Id
             });
+            return new AddDataOutput()
+            {
+                IsDetectorExit = true
+            };
         }
     }
 }

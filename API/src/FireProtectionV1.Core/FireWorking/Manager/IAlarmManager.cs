@@ -16,12 +16,12 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="input"></param>
         /// <param name="alarmLimit"></param>
         /// <returns></returns>
-        Task AddAlarmElec(AddDataElecInput input, string alarmLimit);
+        Task<AddDataOutput> AddAlarmElec(AddDataElecInput input, string alarmLimit);
         /// <summary>
         /// 新增火灾监控设备报警
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task AddAlarmFire(AddAlarmFireInput input);
+        Task<AddDataOutput> AddAlarmFire(AddAlarmFireInput input);
     }
 }

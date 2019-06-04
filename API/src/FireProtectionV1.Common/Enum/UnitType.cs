@@ -7,7 +7,7 @@ namespace DeviceServer.Tcp.Protocol
     /// <summary>
     /// 部件类型
     /// </summary>
-    enum UnitType:byte
+    public enum UnitType:byte
     {
         /// <summary>
         /// 火灾报警控制器
