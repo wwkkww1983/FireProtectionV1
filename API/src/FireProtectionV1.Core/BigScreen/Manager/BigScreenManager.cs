@@ -69,6 +69,7 @@ namespace FireProtectionV1.BigScreen.Manager
                     from = fireUnit.Lng + "," + fireUnit.Lat
                 });
             }
+
             return Task.FromResult(lstFlyLine);
         }
         /// <summary>
@@ -112,7 +113,7 @@ namespace FireProtectionV1.BigScreen.Manager
                 Random random = new Random();
                 if (random.Next(0, 10) == 9)    // 十分之一的机会
                 {
-                    int alarmTypeEnum = random.Next(0, 2);
+                    int alarmTypeEnum = random.Next(0, 5);  // 五分之一的机会是电缆温度，五分之四的机会是剩余电流
                     var lstFireUnit = _cacheManager.GetCache("BigScreen").Get("lstFireUnit", () => GetAllFireUnit());
                     int key = random.Next(0, lstFireUnit.Count);
                     lstAlarmElec.Insert(0, new AlarmElec()
@@ -140,7 +141,10 @@ namespace FireProtectionV1.BigScreen.Manager
                 mt.value += $"<br/>{alarmElec.ContractName}({alarmElec.ContractPhone}) {alarmElec.Address}<br/>【{alarmElec.AlarmType}】{alarmElec.AlarmValue}<br/>";
             }
 
-            mt.value = mt.value.Substring(5);
+            if (!string.IsNullOrEmpty(mt.value))
+            {
+                mt.value = mt.value.Substring(5);
+            }
             return Task.FromResult(mt);
         }
         /// <summary>
@@ -215,6 +219,10 @@ namespace FireProtectionV1.BigScreen.Manager
             {
                 dataText.value = fireUnit.Name;
             }
+            else
+            {
+                dataText.value = "未知数据";
+            }
             return dataText;
         }
         /// <summary>
@@ -229,6 +237,10 @@ namespace FireProtectionV1.BigScreen.Manager
             if (fireUnit != null)
             {
                 dataText.value = $"{fireUnit.ContractName} {fireUnit.ContractPhone}<br/>{fireUnit.Address}";
+            }
+            else
+            {
+                dataText.value = "未知数据";
             }
             return dataText;
         }

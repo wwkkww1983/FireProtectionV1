@@ -277,5 +277,60 @@
             AbpRedis缓存注入模块
             </summary>
         </member>
+        <member name="T:DeviceServer.Tcp.Protocol.UnitType">
+            <summary>
+            部件类型
+            </summary>
+        </member>
+        <member name="F:DeviceServer.Tcp.Protocol.UnitType.AlarmController">
+            <summary>
+            火灾报警控制器
+            </summary>
+        </member>
+        <member name="F:DeviceServer.Tcp.Protocol.UnitType.UITD">
+            <summary>
+            (自定义)用户信息传输装置
+            </summary>
+        </member>
+        <member name="F:DeviceServer.Tcp.Protocol.UnitType.GasDetector">
+            <summary>
+            可燃气体探铡器
+            </summary>
+        </member>
+        <member name="F:DeviceServer.Tcp.Protocol.UnitType.GasDetectorPoint">
+            <summary>
+            点型可燃气体探测器
+            </summary>
+        </member>
+        <member name="F:DeviceServer.Tcp.Protocol.UnitType.GasDetectorDiscrete">
+            <summary>
+            独立式可燃气体探测器
+            </summary>
+        </member>
+        <member name="F:DeviceServer.Tcp.Protocol.UnitType.GasDetectorLine">
+            <summary>
+            线型可燃气体探测器
+            </summary>
+        </member>
+        <member name="F:DeviceServer.Tcp.Protocol.UnitType.ElectricAlertor">
+            <summary>
+            电气火灾监控报警器
+            </summary>
+        </member>
+        <member name="F:DeviceServer.Tcp.Protocol.UnitType.ElectricResidual">
+            <summary>
+            剩余电流式电气火灾监控探测器
+            </summary>
+        </member>
+        <member name="F:DeviceServer.Tcp.Protocol.UnitType.ElectricTemperature">
+            <summary>
+            测温式电气火灾监控探测器
+            </summary>
+        </member>
+        <member name="F:DeviceServer.Tcp.Protocol.UnitType.ManualAlarmButton">
+            <summary>
+            手动火灾报警按钮
+            </summary>
+        </member>
     </members>
 </doc>
