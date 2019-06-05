@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FireProtectionV1.Web.Controllers
 {
-    public class TestController:AbpController
+    public class TestController : AbpController
     {
 
         /// <summary>
@@ -23,11 +23,11 @@ namespace FireProtectionV1.Web.Controllers
             FileContentResult result = null;
             await Task.Run(() =>
             {
-            string code = VerifyCodeHelper.GetSingleObj().CreateVerifyCode(VerifyCodeHelper.VerifyCodeType.MixVerifyCode);
-            var bitmap = VerifyCodeHelper.GetSingleObj().CreateBitmapByImgVerifyCode(code, 100, 40);
-            MemoryStream stream = new MemoryStream();
-            bitmap.Save(stream, ImageFormat.Gif);
-            result= File(stream.ToArray(), "image/gif");
+                string code = VerifyCodeHelper.GetSingleObj().CreateVerifyCode(VerifyCodeHelper.VerifyCodeType.MixVerifyCode);
+                var bitmap = VerifyCodeHelper.GetSingleObj().CreateBitmapByImgVerifyCode(code, 100, 40);
+                MemoryStream stream = new MemoryStream();
+                bitmap.Save(stream, ImageFormat.Gif);
+                result = File(stream.ToArray(), "image/gif");
 
             });
             return result;

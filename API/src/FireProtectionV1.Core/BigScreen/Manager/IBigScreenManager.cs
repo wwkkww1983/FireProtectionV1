@@ -35,7 +35,6 @@ namespace FireProtectionV1.BigScreen.Manager
         /// <summary>
         /// 首页：地图多行文本
         /// </summary>
-        /// <param name="value"></param>
         /// <returns></returns>
         Task<DataText> GetMapMultiText();
         /// <summary>

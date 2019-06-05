@@ -136,7 +136,6 @@
             <summary>
             首页：地图多行文本
             </summary>
-            <param name="value"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetTianXunTong">

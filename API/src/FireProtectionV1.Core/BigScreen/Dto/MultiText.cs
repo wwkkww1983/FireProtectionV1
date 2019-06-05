@@ -9,6 +9,6 @@ namespace FireProtectionV1.BigScreen.Dto
     /// </summary>
     public class DataText
     {
-        public string value { get; set; } = "未知数据";
+        public string value { get; set; }
     }
 }

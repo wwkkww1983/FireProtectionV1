@@ -1,5 +1,8 @@
-﻿using FireProtectionV1.BigScreen.Dto;
+﻿using Abp.Application.Services;
+using Abp.Web.Models;
+using FireProtectionV1.BigScreen.Dto;
 using FireProtectionV1.BigScreen.Manager;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace FireProtectionV1.AppService
 {
+    [DontWrapResult]
     public class BigScreenAppService : AppServiceBase
     {
         IBigScreenManager _manager;
