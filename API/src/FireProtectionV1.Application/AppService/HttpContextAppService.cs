@@ -26,14 +26,6 @@ namespace FireProtectionV1.AppService
             {
                 string code = VerifyCodeHelper.GetSingleObj().CreateVerifyCode(VerifyCodeHelper.VerifyCodeType.NumberVerifyCode);
                 _httpContext.HttpContext.Session.Set("VerifyCode", Encoding.Default.GetBytes(code));
-
-                Console.WriteLine("获取" + code);
-                Console.WriteLine("获取" + _httpContext.HttpContext.Session.Id);
-                Console.WriteLine("获取KEYS:");
-                foreach (var a in _httpContext.HttpContext.Session.Keys)
-                {
-                    Console.WriteLine("获取"+a);
-                }
                 var bitmap = VerifyCodeHelper.GetSingleObj().CreateBitmapByImgVerifyCode(code, 100, 40);
                 using (MemoryStream stream = new MemoryStream())
                 {

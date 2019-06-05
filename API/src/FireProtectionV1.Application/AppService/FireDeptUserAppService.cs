@@ -58,18 +58,9 @@ namespace FireProtectionV1.AppService
             }
             byte[] verifyValue;
             _httpContext.HttpContext.Session.TryGetValue("VerifyCode", out verifyValue);
-            
-            Console.WriteLine(_httpContext.HttpContext.Session.Id);
-            Console.WriteLine("KEYS:");
-            foreach (var a in _httpContext.HttpContext.Session.Keys)
-            {
-                Console.WriteLine(a);
-            }
-
             if (null == verifyValue)
                 return new DeptUserLoginOutput() { Success = false, FailCause = "验证码错误" };
             string verifyCode = Encoding.Default.GetString(verifyValue);
-            Console.WriteLine(verifyCode);
             if (!verifyCode.Equals(input.VerifyCode))
                 return new DeptUserLoginOutput() { Success = false, FailCause = "验证码错误" };
             //登录判断
