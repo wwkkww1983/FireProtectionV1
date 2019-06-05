@@ -22,13 +22,9 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task AddGateway(AddGatewayInput input);
-        /// <summary>
-        /// 根据identify查询探测器
-        /// </summary>
-        /// <param name="identify"></param>
-        /// <returns></returns>
+
+        Detector GetDetector(string identify,string origin);
+        Gateway GetGateway(string identify, string origin);
         DetectorType GetDetectorType(byte GBtype);
-        Detector GetDetector(string identify);
-        Gateway GetGateway(string gatewayIdentify);
     }
 }

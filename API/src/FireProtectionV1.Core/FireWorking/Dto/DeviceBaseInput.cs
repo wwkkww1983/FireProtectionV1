@@ -5,15 +5,17 @@ using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto
 {
-    public class AddAlarmFireInput : DeviceBaseInput
+    public abstract class DeviceBaseInput
     {
         /// <summary>
-        /// 部件国标类型
+        /// 设备标识
         /// </summary>
-        public byte DetectorGBType { get; set; }
+        [MaxLength(50)]
+        public string Identify { get; set; }
         /// <summary>
-        /// 网关设备标识
+        /// 设备来源(厂家)
         /// </summary>
-        public string GatewayIdentify { get; set; }
+        [MaxLength(50)]
+        public string Origin { get; set; }
     }
 }

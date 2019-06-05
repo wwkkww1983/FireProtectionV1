@@ -43,6 +43,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 Location =input.Location,
                 GatewayId= gateway.Id,
                 FireUnitId=gateway.FireUnitId,
+                Origin=input.Origin
             });
         }
         /// <summary>
@@ -57,25 +58,21 @@ namespace FireProtectionV1.FireWorking.Manager
                 FireSysType = input.FireSysType,
                 Identify = input.Identify,
                 Location = input.Location,
-                FireUnitId = input.FireUnitId
+                FireUnitId = input.FireUnitId,
+                Origin=input.Origin
             });
         }
         public DetectorType GetDetectorType(byte GBtype)
         {
             return _detectorTypeRep.GetAll().Where(p => p.GBType == GBtype).FirstOrDefault();
         }
-        /// <summary>
-        /// 根据identify查询探测器
-        /// </summary>
-        /// <param name="identify"></param>
-        /// <returns></returns>
-        public Detector GetDetector(string identify)
+        public Detector GetDetector(string identify, string origin)
         {
-            return _detectorRep.GetAll().Where(p => p.Identify.Equals(identify)).FirstOrDefault();
+            return _detectorRep.GetAll().Where(p => p.Identify.Equals(identify)&&p.Origin.Equals(origin)).FirstOrDefault();
         }
-        public Gateway GetGateway(string gatewayIdentify)
+        public Gateway GetGateway(string gatewayIdentify, string origin)
         {
-            return _gatewayRep.GetAll().Where(p => p.Identify.Equals(gatewayIdentify)).FirstOrDefault();
+            return _gatewayRep.GetAll().Where(p => p.Identify.Equals(gatewayIdentify) && p.Origin.Equals(origin)).FirstOrDefault();
         }
     }
 }
