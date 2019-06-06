@@ -32,7 +32,7 @@ namespace FireProtectionV1.DeviceService
         {
             var setting =await _fireSettingManager.GetByName("CableTemperature");
             Console.WriteLine($"{DateTime.Now} 收到模拟量值 AddDataElecT Analog:{input.Analog}{input.Unit} 部件地址：{input.Identify} 网关地址：{input.GatewayIdentify}");
-            if (input.Analog >= (decimal)setting.MaxValue)
+            if (input.Analog >= setting.MaxValue)
             {
                 Console.WriteLine($"{DateTime.Now} 触发报警 Analog:{input.Analog}{input.Unit} 报警限值:{setting.MaxValue} 部件地址：{input.Identify} 网关地址：{input.GatewayIdentify}");
                 return await _alarmManager.AddAlarmElec(input,$"{setting.MaxValue}{input.Unit}");
@@ -48,7 +48,7 @@ namespace FireProtectionV1.DeviceService
         {
             var setting = await _fireSettingManager.GetByName("ResidualCurrent");
             Console.WriteLine($"{DateTime.Now} 收到模拟量值 AddDataElecE Analog:{input.Analog}{input.Unit} 部件地址：{input.Identify} 网关地址：{input.GatewayIdentify}");
-            if (input.Analog >= (decimal)setting.MaxValue)
+            if (input.Analog >= setting.MaxValue)
             {
                 Console.WriteLine($"{DateTime.Now} 触发报警 Analog:{input.Analog}{input.Unit} 报警限值:{setting.MaxValue} 部件地址：{input.Identify} 网关地址：{input.GatewayIdentify}");
                 return await _alarmManager.AddAlarmElec(input, $"{setting.MaxValue}{input.Unit}");

@@ -88,7 +88,7 @@ namespace FireProtectionV1.Web.Startup
             //配置跨域处理，允许所有来源：
             services.AddCors(options =>
             options.AddPolicy("自定义",
-            p => p.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin())
+            p => p.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials())
             );
             return services.AddAbp<FireProtectionV1WebModule>(options =>
             {

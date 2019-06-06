@@ -938,11 +938,6 @@
             部件国标类型
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.AddAlarmFireInput.Identify">
-            <summary>
-            设备标识
-            </summary>
-        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AddAlarmFireInput.GatewayIdentify">
             <summary>
             网关设备标识
@@ -951,11 +946,6 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.AddDataElecInput.DetectorGBType">
             <summary>
             部件国标类型
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataElecInput.Identify">
-            <summary>
-            设备标识
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AddDataElecInput.GatewayIdentify">
@@ -983,11 +973,6 @@
             部件类型
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.AddDetectorInput.Identify">
-            <summary>
-            设备标识
-            </summary>
-        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AddDetectorInput.GatewayIdentify">
             <summary>
             网关设备标识
@@ -1001,11 +986,6 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.AddGatewayInput.FireSysType">
             <summary>
             消防系统类型(1:安全用电,2:火警预警)appsetings.json"FireDomain:FireSysType"
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.AddGatewayInput.Identify">
-            <summary>
-            设备标识
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AddGatewayInput.FireUnitId">
@@ -1026,6 +1006,16 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.AlarmRecord.Time">
             <summary>
             报警时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.DeviceBaseInput.Identify">
+            <summary>
+            设备标识
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.DeviceBaseInput.Origin">
+            <summary>
+            设备来源(厂家)
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.FireUnitFaultOuput.FireUnitId">
@@ -1457,13 +1447,6 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.GetDetector(System.String)">
-            <summary>
-            根据identify查询探测器
-            </summary>
-            <param name="identify"></param>
-            <returns></returns>
-        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnitAlarm(FireProtectionV1.FireWorking.Dto.FireUnitIdInput)">
             <summary>
             防火单位消防数据
@@ -1601,13 +1584,6 @@
             新增网关设备
             </summary>
             <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetDetectorType(System.Byte)">
-            <summary>
-            根据identify查询探测器
-            </summary>
-            <param name="identify"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnitAlarm(FireProtectionV1.FireWorking.Dto.FireUnitIdInput)">
@@ -1919,6 +1895,11 @@
             设备地点
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.Detector.Origin">
+            <summary>
+            设备来源(厂家)
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.FireWorking.Model.DetectorType">
             <summary>
             探测器类型
@@ -1992,6 +1973,11 @@
         <member name="P:FireProtectionV1.FireWorking.Model.Gateway.Location">
             <summary>
             设备地点
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.Gateway.Origin">
+            <summary>
+            设备来源(厂家)
             </summary>
         </member>
         <member name="P:FireProtectionV1.HydrantCore.Dto.AddHydrantInput.Sn">

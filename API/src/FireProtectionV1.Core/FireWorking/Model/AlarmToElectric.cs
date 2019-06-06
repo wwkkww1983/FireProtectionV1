@@ -17,7 +17,7 @@ namespace FireProtectionV1.FireWorking.Model
         /// 模拟量值
         /// </summary>
         [Required]
-        public decimal Analog { get; set; }
+        public double Analog { get; set; }
         /// <summary>
         /// 计量单位
         /// </summary>

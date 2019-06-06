@@ -5,17 +5,13 @@ using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto
 {
-    public class AddDataElecInput
+    public class AddDataElecInput : DeviceBaseInput
     {
         /// <summary>
         /// 部件国标类型
         /// </summary>
         public byte DetectorGBType { get; set; }
-        /// <summary>
-        /// 设备标识
-        /// </summary>
-        [MaxLength(20)]
-        public string Identify { get; set; }
+
         /// <summary>
         /// 网关设备标识
         /// </summary>
@@ -24,7 +20,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// 模拟量值
         /// </summary>
         [Required]
-        public decimal Analog { get; set; }
+        public double Analog { get; set; }
         /// <summary>
         /// 计量单位
         /// </summary>

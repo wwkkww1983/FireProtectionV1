@@ -33,7 +33,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public async Task<AddDataOutput> AddAlarmElec(AddDataElecInput input,string alarmLimit)
         {
-            Detector detector = _deviceManager.GetDetector(input.Identify);
+            Detector detector = _deviceManager.GetDetector(input.Identify,input.Origin);
             if (detector == null)
             {
                 return new AddDataOutput()
@@ -57,7 +57,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public async Task<AddDataOutput> AddAlarmFire(AddAlarmFireInput input)
         {
-            Detector detector = _deviceManager.GetDetector(input.Identify);
+            Detector detector = _deviceManager.GetDetector(input.Identify,input.Origin);
             if (detector == null)
             {
                 return new AddDataOutput()
