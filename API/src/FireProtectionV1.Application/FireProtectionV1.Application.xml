@@ -60,21 +60,21 @@
             <param name="value"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetFireUnitName(System.Int32)">
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetFireUnitName(System.String)">
             <summary>
             防火单位：单位名称
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetFireUnitContractAddress(System.Int32)">
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetFireUnitContractAddress(System.String)">
             <summary>
             防火单位：单位联系方式
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetFireUnitDataGrid(System.Int32)">
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetFireUnitDataGrid(System.String)">
             <summary>
             防火单位：单位数据表格
             </summary>
@@ -93,28 +93,28 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetHydrantSn(System.Int32)">
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetHydrantSn(System.String)">
             <summary>
             消火栓：编号
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetHydrantAddress(System.Int32)">
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetHydrantAddress(System.String)">
             <summary>
             消火栓：地址
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetHydrantPress(System.Int32)">
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetHydrantPress(System.String)">
             <summary>
             消火栓：当前水压
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetHydrantPressHistory(System.Int32)">
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetHydrantPressHistory(System.String)">
             <summary>
             消火栓：历史水压
             </summary>

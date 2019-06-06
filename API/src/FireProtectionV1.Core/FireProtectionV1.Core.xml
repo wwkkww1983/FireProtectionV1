@@ -78,21 +78,21 @@
             <param name="value"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetFireUnitName(System.Int32)">
+        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetFireUnitName(System.String)">
             <summary>
             防火单位：单位名称
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetFireUnitContractAddress(System.Int32)">
+        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetFireUnitContractAddress(System.String)">
             <summary>
             防火单位：单位联系方式
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetFireUnitDataGrid(System.Int32)">
+        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetFireUnitDataGrid(System.String)">
             <summary>
             防火单位：单位数据表格
             </summary>
@@ -111,28 +111,28 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetHydrantSn(System.Int32)">
+        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetHydrantSn(System.String)">
             <summary>
             消火栓：编号
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetHydrantAddress(System.Int32)">
+        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetHydrantAddress(System.String)">
             <summary>
             消火栓：地址
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetHydrantPress(System.Int32)">
+        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetHydrantPress(System.String)">
             <summary>
             消火栓：当前水压
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetHydrantPressHistory(System.Int32)">
+        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetHydrantPressHistory(System.String)">
             <summary>
             消火栓：历史水压
             </summary>
@@ -184,21 +184,21 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetFireUnitName(System.Int32)">
+        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetFireUnitName(System.String)">
             <summary>
             防火单位：单位名称
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetFireUnitContractAddress(System.Int32)">
+        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetFireUnitContractAddress(System.String)">
             <summary>
             防火单位：单位联系方式
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetFireUnitDataGrid(System.Int32)">
+        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetFireUnitDataGrid(System.String)">
             <summary>
             防火单位：单位数据表格
             </summary>
@@ -217,28 +217,28 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetHydrantSn(System.Int32)">
+        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetHydrantSn(System.String)">
             <summary>
             消火栓：编号
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetHydrantAddress(System.Int32)">
+        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetHydrantAddress(System.String)">
             <summary>
             消火栓：地址
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetHydrantPress(System.Int32)">
+        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetHydrantPress(System.String)">
             <summary>
             消火栓：当前水压
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetHydrantPressHistory(System.Int32)">
+        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetHydrantPressHistory(System.String)">
             <summary>
             消火栓：历史水压
             </summary>

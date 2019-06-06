@@ -47,19 +47,19 @@ namespace FireProtectionV1.BigScreen.Manager
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<List<DataText>> GetFireUnitName(int id);
+        Task<List<DataText>> GetFireUnitName(string id);
         /// <summary>
         /// 防火单位：单位联系方式
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<List<DataText>> GetFireUnitContractAddress(int id);
+        Task<List<DataText>> GetFireUnitContractAddress(string id);
         /// <summary>
         /// 防火单位：单位数据表格
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<string> GetFireUnitDataGrid(int id);
+        Task<string> GetFireUnitDataGrid(string id);
         /// <summary>
         /// 防火单位：类型柱状图
         /// </summary>
@@ -75,25 +75,25 @@ namespace FireProtectionV1.BigScreen.Manager
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<List<DataText>> GetHydrantSn(int id);
+        Task<List<DataText>> GetHydrantSn(string id);
         /// <summary>
         /// 消火栓：地址
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<List<DataText>> GetHydrantAddress(int id);
+        Task<List<DataText>> GetHydrantAddress(string id);
         /// <summary>
         /// 消火栓：当前水压
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<List<NumberCard>> GetHydrantPress(int id);
+        Task<List<NumberCard>> GetHydrantPress(string id);
         /// <summary>
         /// 消火栓：历史水压
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<List<Histogram>> GetHydrantPressHistory(int id);
+        Task<List<Histogram>> GetHydrantPressHistory(string id);
         /// <summary>
         /// 消火栓：区域柱状图
         /// </summary>
