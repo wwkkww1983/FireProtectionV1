@@ -112,7 +112,7 @@ namespace FireProtectionV1.Enterprise.Manager
                             ContractName = a.ContractName,
                             ContractPhone = a.ContractPhone,
                             InvitationCode = a.InvitationCode,
-                            CreationTime = a.CreationTime.ToUniversalTime().ToString()
+                            CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")
                         };
             var list = query
                 .OrderByDescending(u=>u.CreationTime)
@@ -169,6 +169,11 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <returns></returns>
         public async Task<SuccessOutput> Add(AddFireUnitInput input)
         {
+            var existflag = _fireUnitRep.GetAll().Where(u => u.Name == input.Name).Count();
+            if(existflag!=0)
+            {
+                return new SuccessOutput() { Success = false, FailCause="防火单位："+input.Name+".已存在" };
+            }
             await _fireUnitRep.InsertAsync(new FireUnit()
             {
                 CreationTime = DateTime.Now,

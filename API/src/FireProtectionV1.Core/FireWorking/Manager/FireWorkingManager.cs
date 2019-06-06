@@ -590,7 +590,13 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             DateTime now = DateTime.Now;
             var output = new GetFireUnitDutyListOutput();
-            output.NoWork1DayCount = _dutyRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-1)).GroupBy(p => p.FireUnitId).Count();
+            var workFireUnits = from a in _dutyRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-1)).GroupBy(p => p.FireUnitId)
+                    .Select(p => p.Key).ToList()
+                                join b in _fireUnitRep.GetAll()
+                                on a equals b.Id
+                                select b;
+            var noWorkFireUnits = _fireUnitRep.GetAll().Except(workFireUnits);
+            output.NoWork1DayCount = noWorkFireUnits.Count();
             var query = from a in _fireUnitRep.GetAll().Where(p => string.IsNullOrEmpty(input.Name) ? true : p.Name.Contains(input.Name))
                         join b in _dutyRep.GetAll().GroupBy(p => p.FireUnitId).Select(p => new
                         {
