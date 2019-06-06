@@ -50,12 +50,14 @@ namespace FireProtectionV1.Enterprise.Manager
         }
         public Task<List<GetFireUnitTypeOutput>> GetFireUnitTypes()
         {
-            return Task.FromResult<List<GetFireUnitTypeOutput>>(
-                _fireUnitTypeRep.GetAll().Select(p => new GetFireUnitTypeOutput()
-                {
-                    TypeId = p.Id,
-                    TypeName = p.Name
-                }).ToList());
+            var v =new List<GetFireUnitTypeOutput>(){ new GetFireUnitTypeOutput() { TypeId=0,TypeName="全部"}};
+            var v2 = _fireUnitTypeRep.GetAll().Select(p => new GetFireUnitTypeOutput()
+            {
+                TypeId = p.Id,
+                TypeName = p.Name
+            }).ToList();
+            v.Union(v2);
+            return Task.FromResult<List<GetFireUnitTypeOutput>>(v);
         }
         /// <summary>
         /// 得到防火单位列表excel数据

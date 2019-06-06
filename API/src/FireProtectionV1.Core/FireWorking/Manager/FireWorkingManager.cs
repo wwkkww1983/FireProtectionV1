@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
+using DeviceServer.Tcp.Protocol;
 using FireProtectionV1.Common.Enum;
 using FireProtectionV1.Configuration;
 using FireProtectionV1.Enterprise.Dto;
@@ -443,7 +444,8 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayTempAlarmList(GetPagedFireUnitListFilterTypeInput input)
         {
-            return GetAreas30DayElecAlarmListOnlyId(input, 15);
+            var type = _detectorTypeRep.GetAll().Where(p => p.GBType == (byte)UnitType.ElectricTemperature).FirstOrDefault();
+            return GetAreas30DayElecAlarmListOnlyId(input, type.Id);
         }
         /// <summary>
         /// （所有防火单位）安全用电监控列表（剩余电流）
@@ -451,7 +453,8 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayElecAlarmList(GetPagedFireUnitListFilterTypeInput input)
         {
-            return GetAreas30DayElecAlarmListOnlyId(input, 6);
+            var type = _detectorTypeRep.GetAll().Where(p => p.GBType == (byte)UnitType.ElectricResidual).FirstOrDefault();
+            return GetAreas30DayElecAlarmListOnlyId(input, type.Id);
         }
         /// <summary>
         /// 安全用电剩余电流监控列表
@@ -488,7 +491,7 @@ namespace FireProtectionV1.FireWorking.Manager
                     on a.FireUnitId equals b.FireUnitId
                     join c in _fireUnitRep.GetAll()
                     on a.FireUnitId equals c.Id
-                    join d in _fireUnitTypeRep.GetAll().Where(p => 0 == input.FireUnitTypeId ? true : p.Id == input.FireUnitTypeId)
+                    join d in _fireUnitTypeRep.GetAll().Where(p => (0 == input.FireUnitTypeId ? true : p.Id == input.FireUnitTypeId))
                     on c.TypeId equals d.Id
                     orderby a.LastAlarmTime descending
                     select new GetAreas30DayFireAlarmOutput()

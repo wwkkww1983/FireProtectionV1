@@ -45,7 +45,7 @@ namespace FireProtectionV1.AppService
         public Task<List<GatewayStatusTypeOutput>> GetGatewayStatusTypes()
         {
             var lst = new List<GatewayStatusTypeOutput>();
-            lst.Add(new GatewayStatusTypeOutput() { GatewayStatusValue = GatewayStatus.UnKnow.ToString(), GatewayStatusName = "未指定" });
+            lst.Add(new GatewayStatusTypeOutput() { GatewayStatusValue = "", GatewayStatusName = "全部" });
             lst.Add(new GatewayStatusTypeOutput(){ GatewayStatusValue = GatewayStatus.Offline.ToString(), GatewayStatusName = "离线" });
             lst.Add(new GatewayStatusTypeOutput() { GatewayStatusValue = GatewayStatus.Online.ToString(), GatewayStatusName = "在线" });
             lst.Add(new GatewayStatusTypeOutput() { GatewayStatusValue = GatewayStatus.Unusual.ToString(), GatewayStatusName = "异常" });

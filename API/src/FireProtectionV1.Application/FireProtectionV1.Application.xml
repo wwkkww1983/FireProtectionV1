@@ -166,11 +166,10 @@
             消防部门用户接口
             </summary>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireDeptUserAppService.UserLogout(FireProtectionV1.User.Dto.DeptUserLogoutInput)">
+        <member name="M:FireProtectionV1.AppService.FireDeptUserAppService.UserLogout">
             <summary>
             注销用户
             </summary>
-            <param name="input"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.FireDeptUserAppService.UserLogin(FireProtectionV1.User.Dto.PcDeptUserLoginInput)">
