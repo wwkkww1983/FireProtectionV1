@@ -114,6 +114,7 @@ export default {
     .el-dialog__title {
       color: $font-white;
       font-weight: bold;
+      letter-spacing: 10px;
     }
     .el-dialog__headerbtn .el-dialog__close {
       color: $font-white;

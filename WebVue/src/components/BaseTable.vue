@@ -147,7 +147,7 @@ export default {
           className: "normal"
         }
       ],
-      // 网关状态状态的映射
+      // 网关状态状态的映射、因为有部分数据存在中文的状态而不是数字
       gatewayStatus: [
         {
           label: "未指定",
@@ -167,6 +167,19 @@ export default {
           label: "异常",
           value: -2,
           className: "shutDown"
+        }
+      ],
+      // 在线、离线样式表
+      statusName: [
+        {
+          value: "离线",
+          label: "离线",
+          className: "correctNow"
+        },
+        {
+          value: "在线",
+          label: "在线",
+          className: "normal"
         }
       ]
     };
@@ -252,5 +265,8 @@ export default {
 }
 .correctNow {
   color: #e6a23c;
+}
+.off-line {
+  color: #f56c6c;
 }
 </style>

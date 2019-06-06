@@ -177,7 +177,7 @@ export default {
           value: "gridName"
         },
         {
-          label: "网格员：",
+          label: "网格专员：",
           value: "gridUserName"
         },
         {
@@ -215,7 +215,6 @@ export default {
             this.$refs.BaseDialog.title = "STREET_EVENT_DETAIL";
             this.form = res.result;
             this.isDeit = 1;
-            console.log(res);
           }
         });
     },
@@ -230,7 +229,6 @@ export default {
           if (res.success) {
             this.tableData = res.result.items;
             this.page.total = res.result.totalCount;
-            console.log(res);
           }
         });
     }
@@ -272,7 +270,7 @@ export default {
       min-width: 50%;
     }
     & > :nth-child(n + 9) {
-      min-width: 20%;
+      min-width: 25%;
     }
     .el-form-item {
       padding: 5px 0;

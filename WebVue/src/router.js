@@ -126,7 +126,7 @@ const router = new Router({
 // todo 登录判定
 router.beforeEach(function(to, from, next) {
   console.log(to);
-  if (store.state.userInfo) {
+  if (store.state.userInfo.userId) {
     //表示登陆状态
     console.log(from, to);
     if (to.name === "login") {

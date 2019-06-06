@@ -45,6 +45,9 @@ html, body {
   color: $font-white !important;
   background-color: $input-back !important;
 }
+.el-select-dropdown{
+  border-color: $input-color !important;
+}
 
 // 修改表格样式
 
@@ -108,7 +111,7 @@ html, body {
       .el-form-item__content{
         line-height: 25px;
         div{
-          color: $dialog-header;
+          color: #167FFF;
           span{
             color: $font-white;
           }
@@ -127,3 +130,7 @@ html, body {
   color: $font-white !important;
 }
 
+//复选框未选中时候，文字的颜色
+.el-checkbox__label{
+  color: #409EFF;
+}

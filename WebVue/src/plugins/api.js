@@ -6,7 +6,7 @@ const API = {
 
   //todo 系统设置
   GET_ALL_SETTING: "/api/services/app/FireSetting/GetAllSetting", //获取所有设置
-  GetByName: "/api/services/app/FireSetting/GetByName", //根据设置名获取某一具体设置
+  GET_BY_NAME: "/api/services/app/FireSetting/GetByName", //根据设置名获取某一具体设置
   SAVE_SETTING: "/api/services/app/FireSetting/SaveSetting", //保存设置
   InitSetting: "/api/services/app/FireSetting/InitSetting", //设置初始化
 
