@@ -14,8 +14,8 @@ export default new Vuex.Store({
   // todo this.$store.commit("increment")
   mutations: {
     // 设置用户信息
-    setUserInfo(state, payload, token) {
-      state.userInfo = payload;
+    setUserInfo(state, payload = {}, token = "") {
+      state.userInfo = payload ? payload : {};
       state.token = token;
     }
   },

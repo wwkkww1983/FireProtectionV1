@@ -1,9 +1,5 @@
 <template>
-  <el-tabs
-    class="unit-patrol"
-    v-model="tabValue"
-    type="card"
-  >
+  <el-tabs class="unit-patrol" v-model="tabValue" type="card">
     <el-tab-pane label="巡逻记录" name="first">
       <div class="unit-patrol-tab">
         <!--    todo 筛选-->
@@ -191,7 +187,6 @@ export default {
               : res.result.noWork1DayCount;
             this.tableData = items;
             this.page.total = totalCount;
-            console.log(res);
           }
         });
     }

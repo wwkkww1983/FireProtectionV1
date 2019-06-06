@@ -56,7 +56,10 @@ export default {
   methods: {
     // todo 返回位置具体信息
     savePositon() {
-      this.$emit("setPosition", this.position.name ? this.position : this.keyWord);
+      this.$emit(
+        "setPosition",
+        this.position.name ? this.position : this.keyWord
+      );
     },
     // todo 下拉选择的值
     handleSelect(val) {

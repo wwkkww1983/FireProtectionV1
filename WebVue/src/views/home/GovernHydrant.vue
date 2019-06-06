@@ -30,9 +30,9 @@
     <!--    todo 水压范围-->
     <div>
       <el-checkbox v-model="checked"
-        >水压标准范围：>=0.14MPa，当前水压低于标准的消火栓数量：{{
-          substanCount
-        }}</el-checkbox
+        >水压标准范围：>={{
+          minWaterPressure
+        }}MPa，当前水压低于标准的消火栓数量：{{ substanCount }}</el-checkbox
       >
     </div>
 
@@ -91,12 +91,6 @@
             <img alt="" src="../../assets/positioning_img.png" />
             <span>地图定位</span>
           </el-button>
-          <!--          <el-input-->
-          <!--            v-if="!isDeit"-->
-          <!--            v-model="form.address"-->
-          <!--            placeholder="请输入具体安装地址（必填）"-->
-          <!--          ></el-input>-->
-          <!--          <span v-else>{{ form.address }}</span>-->
         </el-form-item>
       </el-form>
     </base-dialog>
@@ -162,6 +156,7 @@ export default {
   // Todo: 双向绑定的数据
   data() {
     return {
+      minWaterPressure: "0.14",
       substanCount: 0, // 低于标准水压的数量
       checked: false,
       key: 0,
@@ -243,35 +238,52 @@ export default {
   // Todo: HTML渲染后
   mounted: function() {
     this.getAreas();
+    this.getMinWaterPressure();
   },
   // Todo: 方法
   methods: {
+    // todo 获取最低水压标准值
+    getMinWaterPressure() {
+      this.$axios
+        .get(this.$api.GET_BY_NAME, {
+          params: { name: "PoolWaterPressure" }
+        })
+        .then(res => {
+          if (res.success) {
+            this.minWaterPressure = res.result.minValue;
+          }
+        });
+    },
     // todo 打开地图
     openMap() {
-      this.key = this.key + 1;
+      this.key += 1;
       this.$refs.MapDia.show = true;
     },
     //  todo 设置位置信息
     setPosition(val) {
       console.log(val);
       this.$refs.MapDia.show = false;
-      this.form.lat = val.location.lat;
-      this.form.lng = val.location.lng;
-      this.form.address = `${val.pname}${val.cityname}${val.adname}${val.name}`;
+      // this.form.lat = val.location.lat;
+      // this.form.lng = val.location.lng;
+      let addressValue = val.name
+        ? `${val.pname}${val.cityname}${val.adname}${val.name}`
+        : val;
+      this.$set(this.form, "address", addressValue);
     },
     // todo 获取slot详情
     slotDetail(val, slotName) {
       console.log(val, slotName);
       this.recordPage.id = val.id;
-      this.$refs.alarmRecord.show = true;
       this.$refs.alarmRecord.title = "ALARM_COUNT";
-      this.slotPageDetail();
+      this.slotPageDetail().then(() => {
+        this.$refs.alarmRecord.show = true;
+      });
     },
     // todo 分页查询slot数据
-    slotPageDetail() {
+    async slotPageDetail() {
       this.recordPage.SkipCount =
         (this.recordPage.current - 1) * this.recordPage.MaxResultCount;
-      this.$axios
+      await this.$axios
         .get(this.$api.GET_NEARBY_ALARM_BYID, {
           params: this.recordPage
         })
@@ -317,10 +329,11 @@ export default {
         })
         .then(res => {
           if (res.success) {
-            this.tableData = res.result.pagedResultDto.items;
-            this.page.total = res.result.pagedResultDto.totalCount;
+            ({
+              items: this.tableData,
+              totalCount: this.page.total
+            } = res.result.pagedResultDto);
             this.substanCount = res.result.substanCount;
-            console.log(res);
           }
         });
     },
@@ -336,13 +349,11 @@ export default {
             this.$refs.BaseDialog.title = "HYDRANT_DETAIL";
             this.form = res.result;
             this.isDeit = 1;
-            console.log(res);
           }
         });
     },
     //  todo 删除数据
     deleteInfo(val) {
-      console.log(val);
       this.$axios.post(this.$api.DELETE_HYDRANT, { id: val.id }).then(res => {
         if (res.success) {
           this.$message.success(`删除${val.sn}成功`);
@@ -367,7 +378,6 @@ export default {
               this.getList();
             }
           });
-          console.log(this.form);
         }
       });
     }

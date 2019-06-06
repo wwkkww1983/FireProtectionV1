@@ -233,11 +233,11 @@ export default {
     },
     //  todo 设置位置信息
     setPosition(val) {
-      console.log(val);
       this.$refs.MapDia.show = false;
-      this.form.lat = val.location.lat;
-      this.form.lng = val.location.lng;
-      this.form.address = `${val.pname}${val.cityname}${val.adname}${val.name}`;
+      let addressValue = val.name
+        ? `${val.pname}${val.cityname}${val.adname}${val.name}`
+        : val;
+      this.$set(this.form, "address", addressValue);
     },
     // todo 查看详情
     async getDetail(id) {
@@ -262,7 +262,6 @@ export default {
     },
     //  todo 删除数据
     deleteInfo(val) {
-      console.log(val);
       this.$axios
         .post(this.$api.DELETE_MINI_FIRE_STATION, { id: val.id })
         .then(res => {
@@ -292,7 +291,6 @@ export default {
         }
       });
 
-      console.log(this.form);
     },
     // todo 修改
     editInfo(val) {
@@ -316,7 +314,6 @@ export default {
           if (res.success) {
             this.tableData = res.result.items;
             this.page.total = res.result.totalCount;
-            console.log(res);
           }
         });
     }

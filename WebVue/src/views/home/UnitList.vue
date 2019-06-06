@@ -299,7 +299,6 @@ export default {
     },
     //  todo 设置位置信息
     setPosition(val) {
-      console.log(val);
       this.$refs.MapDia.show = false;
       // this.form.lat = val.location.lat;
       // this.form.lng = val.location.lng;
@@ -321,7 +320,6 @@ export default {
               if (res.success) {
                 this.loading = false;
                 this.safeUnitsOpt = res.result;
-                console.log(res);
               }
             });
         }, 200);
@@ -367,7 +365,6 @@ export default {
           if (res.success) {
             this.tableData = res.result.items;
             this.page.total = res.result.totalCount;
-            console.log(res);
           }
         });
     },
@@ -390,13 +387,11 @@ export default {
             this.$refs.BaseDialog.title = "EDIT_UNIT_LIST";
             this.form = res.result;
             this.isDeit = 1;
-            console.log(res);
           }
         });
     },
     //  todo 删除数据
     deleteInfo(val) {
-      console.log(val);
       this.$axios
         .delete(this.$api.DELETE_FIRE_UNIT, {
           params: { id: val.id }
@@ -425,7 +420,6 @@ export default {
               this.getList();
             }
           });
-          console.log(this.form);
         }
       });
     }

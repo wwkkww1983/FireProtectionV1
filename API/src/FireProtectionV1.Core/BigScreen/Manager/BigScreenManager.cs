@@ -4,6 +4,7 @@ using Abp.Runtime.Caching;
 using FireProtectionV1.BigScreen.Dto;
 using FireProtectionV1.Common.DBContext;
 using FireProtectionV1.Enterprise.Model;
+using FireProtectionV1.HydrantCore.Model;
 using FireProtectionV1.Infrastructure.Model;
 using System;
 using System.Collections.Generic;
@@ -20,12 +21,19 @@ namespace FireProtectionV1.BigScreen.Manager
 
         IRepository<FireUnit> _fireUnitRep;
         IRepository<FireUnitType> _fireUnitTypeRep;
+        IRepository<Hydrant> _hydrantRep;
         ICacheManager _cacheManager;
         ISqlRepository _sqlRepository;
-        public BigScreenManager(IRepository<FireUnit> fireUnitRep, IRepository<FireUnitType> fireUnitTypeRep, ICacheManager cacheManager, ISqlRepository sqlRepository)
+        public BigScreenManager(
+            IRepository<FireUnit> fireUnitRep,
+            IRepository<FireUnitType> fireUnitTypeRep,
+            IRepository<Hydrant> hydrantRep,
+            ICacheManager cacheManager,
+            ISqlRepository sqlRepository)
         {
             _fireUnitRep = fireUnitRep;
             _fireUnitTypeRep = fireUnitTypeRep;
+            _hydrantRep = hydrantRep;
             _cacheManager = cacheManager;
             _sqlRepository = sqlRepository;
         }
@@ -76,8 +84,9 @@ namespace FireProtectionV1.BigScreen.Manager
         /// 首页：地图多行文本
         /// </summary>
         /// <returns></returns>
-        public Task<DataText> GetMapMultiText()
+        public Task<List<DataText>> GetMapMultiText()
         {
+            List<DataText> lstDataText = new List<DataText>();
             DataText mt = new DataText();
             var lstFireUnit = _cacheManager.GetCache("BigScreen").Get("lstFireUnit", () => GetAllFireUnit());
             int cntFireUnit = lstFireUnit.Count();
@@ -88,16 +97,18 @@ namespace FireProtectionV1.BigScreen.Manager
                 mt.value += $"<br/>{DateTime.Now.ToString("HH:mm:ss")}<br/>接收{lstFireUnit[i].Name}网关心跳";
             }
             mt.value = mt.value.Substring(5);
-            return Task.FromResult(mt);
+            lstDataText.Add(mt);
+            return Task.FromResult(lstDataText);
         }
         /// <summary>
         /// 首页：电气警情天讯通
         /// </summary>
         /// <returns></returns>
-        public Task<DataText> GetTianXunTong()
+        public Task<List<DataText>> GetTianXunTong()
         {
+            List<DataText> lstDataText = new List<DataText>();
             DataText mt = new DataText();
-            var lstAlarmElec = _cacheManager.GetCache("BigScreen").Get("lstAlarmElec", () => new List<AlarmElec>());
+            var lstAlarmElec = _cacheManager.GetCache("BigScreen").Get("lstAlarmElec", () => InitAlarmElecList());
 
             List<AlarmElec> lstAlarmElecNew = null;    // 获取CreationTime大于_AlarmElecTime的电气火灾报警数据
             if (lstAlarmElecNew != null && lstAlarmElecNew.Count > 0)
@@ -145,15 +156,17 @@ namespace FireProtectionV1.BigScreen.Manager
             {
                 mt.value = mt.value.Substring(5);
             }
-            return Task.FromResult(mt);
+            lstDataText.Add(mt);
+            return Task.FromResult(lstDataText);
         }
         /// <summary>
         /// 首页：获取每个月防火单位总接入数量
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public Task<NumberCard> GetTotalFireUnitNum(string value)
+        public Task<List<NumberCard>> GetTotalFireUnitNum(string value)
         {
+            List<NumberCard> lstNumberCard = new List<NumberCard>();
             NumberCard totalWarning = new NumberCard();
             totalWarning.name = "";
             switch (value)
@@ -174,15 +187,17 @@ namespace FireProtectionV1.BigScreen.Manager
                     totalWarning.value = 116;
                     break;
             }
-            return Task.FromResult(totalWarning);
+            lstNumberCard.Add(totalWarning);
+            return Task.FromResult(lstNumberCard);
         }
         /// <summary>
         /// 首页：获取每个月总预警数量
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public Task<NumberCard> GetTotalWarningNum(string value)
+        public Task<List<NumberCard>> GetTotalWarningNum(string value)
         {
+            List<NumberCard> lstNumberCard = new List<NumberCard>();
             NumberCard totalWarning = new NumberCard();
             totalWarning.name = "";
             switch (value)
@@ -203,7 +218,8 @@ namespace FireProtectionV1.BigScreen.Manager
                     totalWarning.value = 2633;
                     break;
             }
-            return Task.FromResult(totalWarning);
+            lstNumberCard.Add(totalWarning);
+            return Task.FromResult(lstNumberCard);
         }
 
         /// <summary>
@@ -211,8 +227,9 @@ namespace FireProtectionV1.BigScreen.Manager
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<DataText> GetFireUnitName(int id)
+        public async Task<List<DataText>> GetFireUnitName(int id)
         {
+            List<DataText> lstDataText = new List<DataText>();
             var fireUnit = await _fireUnitRep.GetAsync(id);
             DataText dataText = new DataText();
             if (fireUnit != null)
@@ -223,15 +240,17 @@ namespace FireProtectionV1.BigScreen.Manager
             {
                 dataText.value = "未知数据";
             }
-            return dataText;
+            lstDataText.Add(dataText);
+            return lstDataText;
         }
         /// <summary>
         /// 防火单位：单位联系方式
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<DataText> GetFireUnitContractAddress(int id)
+        public async Task<List<DataText>> GetFireUnitContractAddress(int id)
         {
+            List<DataText> lstDataText = new List<DataText>();
             var fireUnit = await _fireUnitRep.GetAsync(id);
             DataText dataText = new DataText();
             if (fireUnit != null)
@@ -242,7 +261,8 @@ namespace FireProtectionV1.BigScreen.Manager
             {
                 dataText.value = "未知数据";
             }
-            return dataText;
+            lstDataText.Add(dataText);
+            return lstDataText;
         }
         /// <summary>
         /// 防火单位：单位数据表格
@@ -266,7 +286,7 @@ namespace FireProtectionV1.BigScreen.Manager
         public Task<List<Histogram>> GetFireUnitTypeHistogram()
         {
             List<Histogram> lstHistogram = new List<Histogram>();
-            string sql = "SELECT TypeId, b.name, COUNT(1) cnt FROM fireunit a INNER JOIN fireunittype b ON a.`TypeId` = b.`Id` GROUP BY TypeId ORDER BY cnt DESC LIMIT 10";
+            string sql = "SELECT TypeId, b.name, COUNT(1) cnt FROM fireunit a INNER JOIN fireunittype b ON a.`TypeId` = b.`Id` WHERE lng > 0 GROUP BY TypeId ORDER BY cnt DESC LIMIT 10";
             var dataTable = _sqlRepository.Query(sql);
             foreach (DataRow row in dataTable.Rows)
             {
@@ -279,9 +299,150 @@ namespace FireProtectionV1.BigScreen.Manager
             return Task.FromResult(lstHistogram);
         }
 
+        /// <summary>
+        /// 消火栓：地图呼吸气泡层
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<BreathingBubble>> GetHydrantBreathingBubble()
+        {
+            List<BreathingBubble> lstBreathingBubble = new List<BreathingBubble>();
+
+            var lstHydrantBreath = _hydrantRep.GetAll().Where(item => item.Lng > 0).ToList();
+            foreach (var hydrant in lstHydrantBreath)
+            {
+                lstBreathingBubble.Add(new BreathingBubble()
+                {
+                    id = hydrant.Id,
+                    lng = (double)hydrant.Lng,
+                    lat = (double)hydrant.Lat
+                });
+            }
+            return Task.FromResult(lstBreathingBubble);
+        }
+        /// <summary>
+        /// 消火栓：编号
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<DataText>> GetHydrantSn(int id)
+        {
+            var hydrant = await _hydrantRep.GetAsync(id);
+            List<DataText> lstDataText = new List<DataText>();
+            DataText dataText = new DataText();
+            if (hydrant != null)
+            {
+                dataText.value = hydrant.Sn;
+            }
+            else
+            {
+                dataText.value = "未知数据";
+            }
+            lstDataText.Add(dataText);
+            return lstDataText;
+        }
+        /// <summary>
+        /// 消火栓：地址
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<DataText>> GetHydrantAddress(int id)
+        {
+            List<DataText> lstDataText = new List<DataText>();
+            var hydrant = await _hydrantRep.GetAsync(id);
+            DataText dataText = new DataText();
+            if (hydrant != null)
+            {
+                dataText.value = hydrant.Address;
+            }
+            else
+            {
+                dataText.value = "未知数据";
+            }
+            lstDataText.Add(dataText);
+            return lstDataText;
+        }
+        /// <summary>
+        /// 消火栓：当前水压
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Task<List<NumberCard>> GetHydrantPress(int id)
+        {
+            List<NumberCard> lstNumberCard = new List<NumberCard>();
+            Random random = new Random();
+            NumberCard numberCard = new NumberCard();
+            numberCard.name = "";
+            numberCard.value = random.Next(105, 200);
+            lstNumberCard.Add(numberCard);
+            return Task.FromResult(lstNumberCard);
+        }
+        /// <summary>
+        /// 消火栓：历史水压
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Task<List<Histogram>> GetHydrantPressHistory(int id)
+        {
+            Random random = new Random();
+            List<Histogram> lstHistogram = new List<Histogram>();
+            for (int i=1;i<31;i++)
+            {
+                lstHistogram.Add(new Histogram()
+                {
+                    x = DateTime.Now.AddDays(-i).ToString("yyyy/MM/dd  00:00:00"),
+                    y = random.Next(120, 150),
+                });
+            }
+
+            return Task.FromResult(lstHistogram);
+        }
+        /// <summary>
+        /// 消火栓：区域柱状图
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<Histogram>> GetHydrantAreaHistogram()
+        {
+            List<Histogram> lstHistogram = new List<Histogram>();
+            string sql = "SELECT AreaId, b.Name, COUNT(1) AS cnt FROM hydrant a INNER JOIN AREA b ON a.`AreaId` = b.`Id` WHERE lng > 0 GROUP BY AreaId ORDER BY cnt DESC LIMIT 10";
+            var dataTable = _sqlRepository.Query(sql);
+            foreach (DataRow row in dataTable.Rows)
+            {
+                lstHistogram.Add(new Histogram()
+                {
+                    x = row["Name"].ToString(),
+                    y = int.Parse(row["cnt"].ToString())
+                });
+            }
+            return Task.FromResult(lstHistogram);
+        }
+
         private List<FireUnit> GetAllFireUnit()
         {
             return _fireUnitRep.GetAll().Where(item => item.Lng > 0).OrderBy(item => item.CreationTime).ToList();
+        }
+
+        private List<AlarmElec> InitAlarmElecList()
+        {
+            var tempAlarmElecList = new List<AlarmElec>();
+            var lstFireUnit = _cacheManager.GetCache("BigScreen").Get("lstFireUnit", () => GetAllFireUnit());
+            int cntFireUnit = lstFireUnit.Count();
+            Random random = new Random();
+            for (int i = 0; i < 8; i++) // 初始化8条数据
+            {
+                int alarmTypeEnum = random.Next(0, 5);  // 五分之一的机会是电缆温度，五分之四的机会是剩余电流
+                var fireUnit = lstFireUnit[random.Next(0, cntFireUnit)];
+                tempAlarmElecList.Add(new AlarmElec()
+                {
+                    CreationTime = DateTime.Now.AddMinutes(random.Next(-30, -2)),
+                    FireUnitName = fireUnit.Name,
+                    ContractName = fireUnit.ContractName,
+                    ContractPhone = fireUnit.ContractPhone,
+                    Address = fireUnit.Address,
+                    AlarmType = alarmTypeEnum.Equals(0) ? "电缆温度探测器" : "剩余电流探测器",
+                    AlarmValue = alarmTypeEnum.Equals(0) ? random.Next(102, 150) + "℃" : random.Next(320, 500) + "mA"
+                });
+            }
+            return tempAlarmElecList.OrderBy(item => item.CreationTime).ToList();
         }
     }
 }

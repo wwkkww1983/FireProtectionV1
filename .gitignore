@@ -23,3 +23,4 @@ bin
 /API/src/FireProtectionV1.Web/Properties/PublishProfiles
 
 /WebVue
+/API/src/FireProtectionV1.Web/appsettings.json

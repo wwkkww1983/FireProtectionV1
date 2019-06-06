@@ -183,7 +183,8 @@ export default {
         {
           width: "100",
           prop: "statusName",
-          label: "网关状态"
+          label: "网关状态",
+          map: "statusName"
         }
       ],
       partTableData: [],
@@ -269,8 +270,8 @@ export default {
           if (res.success) {
             this.partTableData = res.result.items;
             this.slotPage.total = res.result.totalCount;
-            this.$refs[this.slotName].show = true;
             this.$refs[this.slotName].title = APILIST[this.slotName].title;
+            this.$refs[this.slotName].show = true;
           }
         });
     },
