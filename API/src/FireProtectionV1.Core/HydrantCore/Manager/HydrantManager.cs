@@ -166,7 +166,7 @@ namespace FireProtectionV1.HydrantCore.Manager
                 output.SubstanCount = query.Where(u => u.Pressure <= substan.MinValue&&u.Pressure!=0).Count();
             }
 
-            var list = query.OrderByDescending(a=>a.Status)
+            var list = query.OrderByDescending(a=>a.LastAlarmTime)
                 .Skip(input.SkipCount).Take(input.MaxResultCount)
                 .ToList();
             var tCount = query.Count();
