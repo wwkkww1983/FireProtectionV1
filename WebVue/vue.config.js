@@ -10,15 +10,15 @@ module.exports = {
 
   devServer: {
     port: 8084, // 端口号
-    host: "localhost",
+    host: "0.0.0.0",
     https: false, // https:{type:Boolean}
     open: false, //配置自动启动浏览器
     // proxy: "http://localhost:4000" // 配置跨域处理,只有一个代理
     proxy: {
-      // 首页
       "/api": {
-        // target: "http://192.168.0.67:5000", //线上环境
-        target: "http://192.168.0.67:5080", //调试环境
+        target: "http://fd.sctsjkj.com:5080", //线上环境
+        // target: "http://192.168.0.67:5080", //调试环境、陈龙
+        // target: "http://192.168.0.179:5000", //调试环境、陈昊文
         ws: true,
         changeOrigin: true,
         pathRewrite: {

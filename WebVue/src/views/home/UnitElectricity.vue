@@ -269,7 +269,6 @@ export default {
       tableData: [],
       tableList: [
         {
-          width: "400px",
           prop: "fireUnitName",
           label: "防火单位"
         },
@@ -295,7 +294,8 @@ export default {
         },
         {
           prop: "statusName",
-          label: "网关状态"
+          label: "网关状态",
+          map: "statusName"
         }
       ],
       page: {
@@ -395,7 +395,6 @@ export default {
             let { items, totalCount } = res.result;
             this.tableData = items;
             this.page.total = totalCount;
-            console.log(res);
           }
         });
     }

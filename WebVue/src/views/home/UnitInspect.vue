@@ -213,7 +213,6 @@ export default {
       tableData: [],
       tableList: [
         {
-          width: "400px",
           prop: "fireUnitName",
           label: "防火单位"
         },
@@ -282,7 +281,6 @@ export default {
         if (res1.success && res2.success) {
           this.form = res1.result;
           this.formDetail = res2.result;
-          console.log(res1);
           this.$refs.BaseDialog.title = "UNIT_INSPECT_DETAIL";
           this.$refs.BaseDialog.show = true;
         }

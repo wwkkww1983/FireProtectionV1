@@ -123,7 +123,6 @@ export default {
           if (res.success) {
             this.tableData = res.result.items;
             this.page.total = res.result.totalCount;
-            console.log(res);
           }
         });
     },
@@ -146,13 +145,11 @@ export default {
             this.$refs.BaseDialog.title = "EDIT_UNIT_LIST";
             this.form = res.result;
             this.isDeit = 1;
-            console.log(res);
           }
         });
     },
     //  todo 删除数据
     deleteInfo(val) {
-      console.log(val);
       this.$axios
         .delete(this.$api.DELETE_FIRE_UNIT, {
           params: { id: val.id }

@@ -1,9 +1,11 @@
 <template>
   <div class="base-header">
     <div></div>
-    <div>城市智慧消防安全用电系统</div>
+
+    <div>城市智慧消防一体化工作台</div>
+
     <!--    todo 操作按钮-->
-    <div>
+    <div class="base-header-but">
       <el-button type="text" icon="el-icon-user">{{
         $store.state.userInfo.deptName
       }}</el-button>
@@ -20,6 +22,7 @@
         icon="el-icon-switch-button"
       ></el-button>
     </div>
+
     <!--  todo 设置弹窗-->
     <base-dialog ref="BaseDialog" @submit="saveSetting">
       <el-form label-position="top" class="base-header-form">
@@ -27,7 +30,7 @@
           <div slot="label">{{ formList[item.name].title }}</div>
           <!--          todo 下线-->
           <el-input
-            :disabled="item.minValue < -1000"
+            v-if="item.minValue > -10000"
             type="number"
             step="0.01"
             max="999"
@@ -37,10 +40,13 @@
           >
             <span slot="suffix">{{ formList[item.name].unit }}</span>
           </el-input>
+          <el-input :disabled="true" v-else placeholder="无下限">
+            <span slot="suffix">{{ formList[item.name].unit }}</span>
+          </el-input>
           <span> — </span>
           <!--          todo 上限-->
           <el-input
-            :disabled="item.maxValue > 1000"
+            v-if="item.maxValue < 10000"
             type="number"
             step="0.01"
             min="-999"
@@ -48,6 +54,9 @@
             v-model="item.maxValue"
             @change="watchValue(item)"
           >
+            <span slot="suffix">{{ formList[item.name].unit }}</span>
+          </el-input>
+          <el-input :disabled="true" v-else placeholder="无上限">
             <span slot="suffix">{{ formList[item.name].unit }}</span>
           </el-input>
         </el-form-item>
@@ -84,11 +93,11 @@ export default {
         },
         ResidualCurrent: {
           title: "安全用电之剩余电流标准范围",
-          unit: "A"
+          unit: "mA"
         },
         PoolWaterPressure: {
           title: "消防水池水压标准范围",
-          unit: "KPa"
+          unit: "kPa"
         },
         PoolWaterHeight: {
           title: "消防水箱液位标准范围",
@@ -96,7 +105,7 @@ export default {
         },
         HydrantPressure: {
           title: "市政消火栓水压标准范围",
-          unit: "KPa"
+          unit: "kPa"
         }
       }
     };
@@ -138,11 +147,18 @@ export default {
     },
     //  todo 退出
     logOut() {
-      this.$axios.post(this.$api.USER_LOG_OUT).then(res => {
-        if (res.success) {
-          this.$message.success("退出成功！");
-        }
-      });
+      this.$axios
+        .post(this.$api.USER_LOG_OUT, {
+          contentType: "application/json"
+        })
+        .then(res => {
+          if (res.success) {
+            this.$message.success("退出成功！");
+            this.$store.commit("setUserInfo");
+            sessionStorage.clear();
+            this.$router.push("/");
+          }
+        });
     }
   }
 };
@@ -150,7 +166,7 @@ export default {
 <style lang="scss">
 @import "../style/app-variables";
 .base-header {
-  min-height: 50px;
+  min-height: 50px; // 为了兼容360浏览器而设置的一个固定高度、否则会被挤压
   display: flex;
   justify-content: space-between;
   padding: 0 10px;
@@ -161,6 +177,11 @@ export default {
   }
   & > :nth-child(2) {
     font-size: 20px;
+  }
+  & > :nth-child(1),// 左右两边的固定宽度，为了让中间内容居中
+  &-but {
+    min-width: 183px;
+    text-align: right;
   }
   &-form {
     .el-form-item__label {
