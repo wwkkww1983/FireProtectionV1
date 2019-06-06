@@ -4,6 +4,9 @@ import store from "../store";
 import NProgress from "nprogress"; // 顶部进度条
 import "nprogress/nprogress.css";
 
+// axios.defaults.baseURL = "http://47.98.179.238:5080";
+// axios.defaults.headers.post["Content-Type"] =
+//   "application/x-www-form-urlencoded;charset=UTF-8";
 const service = axios.create({
   timeout: 30000
 });

@@ -75,7 +75,7 @@
     <!--    todo 弹窗-->
     <base-dialog :isShowFooter="false" ref="getTimeDetail" class="alarm-record">
       <div>
-        <div>title</div>
+        <div>{{ slotVal.fireUnitName }}</div>
         <div>总数：{{ slotPage.total }}</div>
       </div>
       <el-form>
@@ -125,13 +125,13 @@ export default {
   // Todo: 双向绑定的数据
   data() {
     return {
+      slotVal: {},
       slotForm: [],
       alarmStatusOpt: [],
       alarmTypeOpt: [],
       tableData: [],
       tableList: [
         {
-          width: "400px",
           prop: "fireUnitName",
           label: "防火单位"
         },
@@ -172,11 +172,12 @@ export default {
   // Todo: HTML 渲染前
   created: function() {
     this.getList();
+  },
+  // Todo: HTML渲染后
+  mounted: function() {
     this.getUnitType();
     this.getStatusType();
   },
-  // Todo: HTML渲染后
-  mounted: function() {},
   // Todo: 方法
   methods: {
     // todo 获取单位类型
@@ -197,17 +198,18 @@ export default {
     },
     // todo 获取slot详情
     slotDetail(val) {
-      console.log(val);
+      this.slotVal = val;
       this.$refs.getTimeDetail.title = "FAULT_DETAIL";
-      this.$refs.getTimeDetail.show = true;
       this.slotPage.id = val.fireUnitId;
-      this.slotPageDetail();
+      this.slotPageDetail().then(() => {
+        this.$refs.getTimeDetail.show = true;
+      });
     },
     // todo 分页查询slot数据
-    slotPageDetail() {
+    async slotPageDetail() {
       this.slotPage.SkipCount =
         (this.slotPage.current - 1) * this.slotPage.MaxResultCount;
-      this.$axios
+      await this.$axios
         .get(this.$api.GET_FIRE_UNIT_PENDING_FAULT, {
           params: this.slotPage
         })
@@ -217,11 +219,6 @@ export default {
             this.slotPage.total = res.result.totalCount;
           }
         });
-    },
-    // todo 关键字查询
-    searchKey(kw) {
-      this.page.name = kw ? kw : "";
-      this.getList();
     },
     //  todo 获取设施故障监控list
     getList() {
@@ -233,7 +230,6 @@ export default {
           if (res.success) {
             this.tableData = res.result.items;
             this.page.total = res.result.totalCount;
-            console.log(res);
           }
         });
     }

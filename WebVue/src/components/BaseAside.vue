@@ -141,7 +141,6 @@ export default {
   // Todo: HTML 渲染前
   created: function() {
     this.menuValue = this.$route.name;
-    console.log(this.$route);
   },
   // Todo: HTML渲染后
   mounted: function() {},
@@ -161,11 +160,11 @@ export default {
 
 <style lang="scss">
 @import "../style/app-variables";
-/*hover*/
+/*二级菜单hover*/
 .el-submenu .el-menu-item:hover {
   background-color: $table-header !important;
 }
-/*x选中时*/
+/*x二级菜单选中时*/
 .el-submenu .el-menu-item:focus {
   color: $font-white !important;
   background-color: $table-header !important;
@@ -177,7 +176,7 @@ export default {
     /*background: linear-gradient(#006699, #000066, #006699);*/
     background-color: $table-main;
   }
-  /*  todo 选中*/
+  /*  todo 二级菜单选中*/
   .el-menu-item.is-active {
     color: $font-white !important;
     background-color: $table-header !important;
@@ -187,13 +186,16 @@ export default {
     content: ">";
     float: right;
   }
+  /*一级菜单hover*/
+  .el-submenu__title:hover {
+    transition: all 1s ease 0s;
+    background-color: $input-back !important;
+  }
   /*  todo 已打开*/
-  /*
   .is-opened {
     .el-submenu__title {
-      background-color: $body-back !important;
+      background-color: $input-back !important;
     }
   }
-   */
 }
 </style>

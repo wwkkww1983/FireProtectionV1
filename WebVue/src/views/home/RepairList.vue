@@ -157,7 +157,7 @@ export default {
         },
         {
           width: "125px",
-          label: "操作",
+          label: "操作"
         }
       ],
       page: {
@@ -171,7 +171,7 @@ export default {
           { required: true, message: "请输入单位名称", trigger: "blur" },
           { max: 50, message: "长度不能超过50个字符", trigger: "blur" }
         ],
-        contractPhone: [{required:true, validator: validatePhone }],
+        contractPhone: [{ required: true, validator: validatePhone }],
         level: [
           { required: true, message: "请选择工程资质", trigger: "change" }
         ]
@@ -212,7 +212,6 @@ export default {
           });
         }
       });
-      console.log(this.form);
     },
     // todo 新增消防维保
     addInfo() {
@@ -238,7 +237,6 @@ export default {
     },
     //  todo 删除数据
     deleteInfo(val) {
-      console.log(val);
       this.$axios
         .post(this.$api.DELETE_SAFE_UNITS, { id: val.id })
         .then(res => {
@@ -260,7 +258,6 @@ export default {
           if (res.success) {
             this.tableData = res.result.items;
             this.page.total = res.result.totalCount;
-            console.log(res);
           }
         });
     }
