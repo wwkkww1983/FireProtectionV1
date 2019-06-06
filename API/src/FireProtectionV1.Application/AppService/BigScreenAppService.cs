@@ -42,7 +42,7 @@ namespace FireProtectionV1.AppService
         /// 首页：地图多行文本
         /// </summary>
         /// <returns></returns>
-        public async Task<DataText> GetMapMultiText()
+        public async Task<List<DataText>> GetMapMultiText()
         {
             return await _manager.GetMapMultiText();
         }
@@ -50,7 +50,7 @@ namespace FireProtectionV1.AppService
         /// 首页：电气警情天讯通
         /// </summary>
         /// <returns></returns>
-        public async Task<DataText> GetTianXunTong()
+        public async Task<List<DataText>> GetTianXunTong()
         {
             return await _manager.GetTianXunTong();
         }
@@ -59,7 +59,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public async Task<NumberCard> GetTotalFireUnitNum(string value)
+        public async Task<List<NumberCard>> GetTotalFireUnitNum(string value)
         {
             return await _manager.GetTotalFireUnitNum(value);
         }
@@ -68,7 +68,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public async Task<NumberCard> GetTotalWarningNum(string value)
+        public async Task<List<NumberCard>> GetTotalWarningNum(string value)
         {
             return await _manager.GetTotalWarningNum(value);
         }
@@ -78,7 +78,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<DataText> GetFireUnitName(int id)
+        public async Task<List<DataText>> GetFireUnitName(int id)
         {
             return await _manager.GetFireUnitName(id);
         }
@@ -87,7 +87,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<DataText> GetFireUnitContractAddress(int id)
+        public async Task<List<DataText>> GetFireUnitContractAddress(int id)
         {
             return await _manager.GetFireUnitContractAddress(id);
         }
@@ -107,6 +107,58 @@ namespace FireProtectionV1.AppService
         public async Task<List<Histogram>> GetFireUnitTypeHistogram()
         {
             return await _manager.GetFireUnitTypeHistogram();
+        }
+        /// <summary>
+        /// 消火栓：地图呼吸气泡层
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<BreathingBubble>> GetHydrantBreathingBubble()
+        {
+            return await _manager.GetHydrantBreathingBubble();
+        }
+        /// <summary>
+        /// 消火栓：编号
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<DataText>> GetHydrantSn(int id)
+        {
+            return await _manager.GetHydrantSn(id);
+        }
+        /// <summary>
+        /// 消火栓：地址
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<DataText>> GetHydrantAddress(int id)
+        {
+            return await _manager.GetHydrantAddress(id);
+        }
+        /// <summary>
+        /// 消火栓：当前水压
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<NumberCard>> GetHydrantPress(int id)
+        {
+            return await _manager.GetHydrantPress(id);
+        }
+        /// <summary>
+        /// 消火栓：历史水压
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<Histogram>> GetHydrantPressHistory(int id)
+        {
+            return await _manager.GetHydrantPressHistory(id);
+        }
+        /// <summary>
+        /// 消火栓：区域柱状图
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Histogram>> GetHydrantAreaHistogram()
+        {
+            return await _manager.GetHydrantAreaHistogram();
         }
     }
 }

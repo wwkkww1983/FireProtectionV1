@@ -105,6 +105,46 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetHydrantBreathingBubble">
+            <summary>
+            消火栓：地图呼吸气泡层
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetHydrantSn(System.Int32)">
+            <summary>
+            消火栓：编号
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetHydrantAddress(System.Int32)">
+            <summary>
+            消火栓：地址
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetHydrantPress(System.Int32)">
+            <summary>
+            消火栓：当前水压
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetHydrantPressHistory(System.Int32)">
+            <summary>
+            消火栓：历史水压
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetHydrantAreaHistogram">
+            <summary>
+            消火栓：区域柱状图
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetTotalWarningNum(System.String)">
             <summary>
             首页：获取每个月总预警数量
@@ -168,6 +208,46 @@
         <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetFireUnitTypeHistogram">
             <summary>
             防火单位：类型柱状图
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetHydrantBreathingBubble">
+            <summary>
+            消火栓：地图呼吸气泡层
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetHydrantSn(System.Int32)">
+            <summary>
+            消火栓：编号
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetHydrantAddress(System.Int32)">
+            <summary>
+            消火栓：地址
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetHydrantPress(System.Int32)">
+            <summary>
+            消火栓：当前水压
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetHydrantPressHistory(System.Int32)">
+            <summary>
+            消火栓：历史水压
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetHydrantAreaHistogram">
+            <summary>
+            消火栓：区域柱状图
             </summary>
             <returns></returns>
         </member>

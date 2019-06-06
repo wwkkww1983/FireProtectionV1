@@ -14,13 +14,13 @@ namespace FireProtectionV1.BigScreen.Manager
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        Task<NumberCard> GetTotalWarningNum(string value);
+        Task<List<NumberCard>> GetTotalWarningNum(string value);
         /// <summary>
         /// 首页：获取每个月防火单位总接入数量
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        Task<NumberCard> GetTotalFireUnitNum(string value);
+        Task<List<NumberCard>> GetTotalFireUnitNum(string value);
         /// <summary>
         /// 首页：地图呼吸气泡层
         /// </summary>
@@ -36,24 +36,24 @@ namespace FireProtectionV1.BigScreen.Manager
         /// 首页：地图多行文本
         /// </summary>
         /// <returns></returns>
-        Task<DataText> GetMapMultiText();
+        Task<List<DataText>> GetMapMultiText();
         /// <summary>
         /// 首页：电气警情天讯通
         /// </summary>
         /// <returns></returns>
-        Task<DataText> GetTianXunTong();
+        Task<List<DataText>> GetTianXunTong();
         /// <summary>
         /// 防火单位：单位名称
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<DataText> GetFireUnitName(int id);
+        Task<List<DataText>> GetFireUnitName(int id);
         /// <summary>
         /// 防火单位：单位联系方式
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<DataText> GetFireUnitContractAddress(int id);
+        Task<List<DataText>> GetFireUnitContractAddress(int id);
         /// <summary>
         /// 防火单位：单位数据表格
         /// </summary>
@@ -65,5 +65,39 @@ namespace FireProtectionV1.BigScreen.Manager
         /// </summary>
         /// <returns></returns>
         Task<List<Histogram>> GetFireUnitTypeHistogram();
+        /// <summary>
+        /// 消火栓：地图呼吸气泡层
+        /// </summary>
+        /// <returns></returns>
+        Task<List<BreathingBubble>> GetHydrantBreathingBubble();
+        /// <summary>
+        /// 消火栓：编号
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<List<DataText>> GetHydrantSn(int id);
+        /// <summary>
+        /// 消火栓：地址
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<List<DataText>> GetHydrantAddress(int id);
+        /// <summary>
+        /// 消火栓：当前水压
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<List<NumberCard>> GetHydrantPress(int id);
+        /// <summary>
+        /// 消火栓：历史水压
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<List<Histogram>> GetHydrantPressHistory(int id);
+        /// <summary>
+        /// 消火栓：区域柱状图
+        /// </summary>
+        /// <returns></returns>
+        Task<List<Histogram>> GetHydrantAreaHistogram();
     }
 }

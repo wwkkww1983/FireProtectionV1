@@ -87,6 +87,46 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetHydrantBreathingBubble">
+            <summary>
+            消火栓：地图呼吸气泡层
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetHydrantSn(System.Int32)">
+            <summary>
+            消火栓：编号
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetHydrantAddress(System.Int32)">
+            <summary>
+            消火栓：地址
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetHydrantPress(System.Int32)">
+            <summary>
+            消火栓：当前水压
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetHydrantPressHistory(System.Int32)">
+            <summary>
+            消火栓：历史水压
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetHydrantAreaHistogram">
+            <summary>
+            消火栓：区域柱状图
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.DataReportAppService.GetDataMinotor">
             <summary>
             数据监控页
