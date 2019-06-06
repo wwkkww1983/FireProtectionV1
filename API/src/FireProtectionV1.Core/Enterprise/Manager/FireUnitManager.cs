@@ -56,8 +56,8 @@ namespace FireProtectionV1.Enterprise.Manager
                 TypeId = p.Id,
                 TypeName = p.Name
             }).ToList();
-            v.Union(v2);
-            return Task.FromResult<List<GetFireUnitTypeOutput>>(v);
+            ;
+            return Task.FromResult<List<GetFireUnitTypeOutput>>(v.Union(v2).ToList());
         }
         /// <summary>
         /// 得到防火单位列表excel数据

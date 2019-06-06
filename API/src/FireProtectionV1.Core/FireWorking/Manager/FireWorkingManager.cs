@@ -410,7 +410,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 FireUnitId = p.Key,
                 LastAlarmTime = p.Max(p1 => p1.CreationTime),
                 AlarmCount = p.Count(),
-                FreqCount = p.GroupBy(p1 => p1.DetectorId).Select(p1 => p1.Count() > highFreq).Count()
+                FreqCount = p.GroupBy(p1 => p1.DetectorId).Where(p1 => p1.Count() > highFreq).Count()
             });
             GatewayStatus status = GatewayStatus.Unusual;
             if (!string.IsNullOrEmpty(input.GetwayStatusValue))
@@ -480,7 +480,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 FireUnitId = p.Key,
                 LastAlarmTime = p.Max(p1 => p1.CreationTime),
                 AlarmCount = p.Count(),
-                FreqCount = p.GroupBy(p1 => p1.DetectorId).Select(p1 => p1.Count() > highFreq).Count()
+                FreqCount = p.GroupBy(p1 => p1.DetectorId).Where(p1 => p1.Count() > highFreq).Count()
             });
             GatewayStatus status = GatewayStatus.Unusual;
             if (!string.IsNullOrEmpty(input.GetwayStatusValue))
