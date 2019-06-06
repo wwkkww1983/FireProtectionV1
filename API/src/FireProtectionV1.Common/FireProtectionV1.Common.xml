@@ -133,6 +133,21 @@
             如果超出Long的范围，则直接用string定义字段类型，不使用此枚举限制
             </summary>
         </member>
+        <member name="T:FireProtectionV1.Common.Enum.FireSysType">
+            <summary>
+            消防报警系统类型
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.FireSysType.Electric">
+            <summary>
+            电气火灾
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.FireSysType.Fire">
+            <summary>
+            火警预警
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.Common.Enum.NormalStatus">
             <summary>
             常用的状态枚举
@@ -171,17 +186,6 @@
         <member name="F:FireProtectionV1.Common.Enum.GatewayStatus.Unusual">
             <summary>
             异常（表示当前在线但有故障，例如消火栓的水压偏低）
-            </summary>
-        </member>
-        <!-- 对于成员“T:FireProtectionV1.Common.Enum.FireSysType”忽略有格式错误的 XML 注释 -->
-        <member name="F:FireProtectionV1.Common.Enum.FireSysType.Electric">
-            <summary>
-            安全用电
-            </summary>
-        </member>
-        <member name="F:FireProtectionV1.Common.Enum.FireSysType.Fire">
-            <summary>
-            火警预警
             </summary>
         </member>
         <member name="T:FireProtectionV1.Common.Helper.MD5Encrypt">
