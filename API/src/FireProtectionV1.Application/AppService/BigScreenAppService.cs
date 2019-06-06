@@ -78,7 +78,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<List<DataText>> GetFireUnitName(int id)
+        public async Task<List<DataText>> GetFireUnitName(string id)
         {
             return await _manager.GetFireUnitName(id);
         }
@@ -87,7 +87,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<List<DataText>> GetFireUnitContractAddress(int id)
+        public async Task<List<DataText>> GetFireUnitContractAddress(string id)
         {
             return await _manager.GetFireUnitContractAddress(id);
         }
@@ -96,7 +96,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<string> GetFireUnitDataGrid(int id)
+        public async Task<string> GetFireUnitDataGrid(string id)
         {
             return await _manager.GetFireUnitDataGrid(id);
         }
@@ -121,7 +121,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<List<DataText>> GetHydrantSn(int id)
+        public async Task<List<DataText>> GetHydrantSn(string id)
         {
             return await _manager.GetHydrantSn(id);
         }
@@ -130,7 +130,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<List<DataText>> GetHydrantAddress(int id)
+        public async Task<List<DataText>> GetHydrantAddress(string id)
         {
             return await _manager.GetHydrantAddress(id);
         }
@@ -139,7 +139,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<List<NumberCard>> GetHydrantPress(int id)
+        public async Task<List<NumberCard>> GetHydrantPress(string id)
         {
             return await _manager.GetHydrantPress(id);
         }
@@ -148,7 +148,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<List<Histogram>> GetHydrantPressHistory(int id)
+        public async Task<List<Histogram>> GetHydrantPressHistory(string id)
         {
             return await _manager.GetHydrantPressHistory(id);
         }

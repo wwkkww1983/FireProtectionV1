@@ -124,7 +124,7 @@ namespace FireProtectionV1.BigScreen.Manager
                 Random random = new Random();
                 if (random.Next(0, 10) == 9)    // 十分之一的机会
                 {
-                    int alarmTypeEnum = random.Next(0, 5);  // 五分之一的机会是电缆温度，五分之四的机会是剩余电流
+                    int alarmTypeEnum = random.Next(0, 10);  // 十分之一的机会是电缆温度，十分之九的机会是剩余电流
                     var lstFireUnit = _cacheManager.GetCache("BigScreen").Get("lstFireUnit", () => GetAllFireUnit());
                     int key = random.Next(0, lstFireUnit.Count);
                     lstAlarmElec.Insert(0, new AlarmElec()
@@ -135,7 +135,7 @@ namespace FireProtectionV1.BigScreen.Manager
                         ContractPhone = lstFireUnit[key].ContractPhone,
                         Address = lstFireUnit[key].Address,
                         AlarmType = alarmTypeEnum.Equals(0) ? "电缆温度探测器" : "剩余电流探测器",
-                        AlarmValue = alarmTypeEnum.Equals(0) ? random.Next(102, 150) + "℃" : random.Next(320, 500) + "mA"
+                        AlarmValue = alarmTypeEnum.Equals(0) ? random.Next(102, 150) + "℃" : random.Next(300, 500) + "mA"
                     });
                 }
             }
@@ -147,7 +147,7 @@ namespace FireProtectionV1.BigScreen.Manager
                 mt.value += $"<br/>{alarmElec.CreationTime.ToString("HH:mm")} {alarmElec.FireUnitName}";
                 if (alarmElec.CreationTime.AddMinutes(5) >= DateTime.Now)   // 5分钟之内的，显示“new”
                 {
-                    mt.value += "<img src=\"http://firea.go028.cn:8006/new.png\" />";
+                    mt.value += " <img src=\"http://firea.go028.cn:8006/new.png\" />";
                 }
                 mt.value += $"<br/>{alarmElec.ContractName}({alarmElec.ContractPhone}) {alarmElec.Address}<br/>【{alarmElec.AlarmType}】{alarmElec.AlarmValue}<br/>";
             }
@@ -227,18 +227,26 @@ namespace FireProtectionV1.BigScreen.Manager
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<List<DataText>> GetFireUnitName(int id)
+        public async Task<List<DataText>> GetFireUnitName(string id)
         {
             List<DataText> lstDataText = new List<DataText>();
-            var fireUnit = await _fireUnitRep.GetAsync(id);
             DataText dataText = new DataText();
-            if (fireUnit != null)
+            if (":id".Equals(id))
             {
-                dataText.value = fireUnit.Name;
+                dataText.value = "四川天树聚科技有限公司";
             }
             else
             {
-                dataText.value = "未知数据";
+                var fireUnit = await _fireUnitRep.GetAsync(int.Parse(id));
+
+                if (fireUnit != null)
+                {
+                    dataText.value = fireUnit.Name;
+                }
+                else
+                {
+                    dataText.value = "未知数据";
+                }
             }
             lstDataText.Add(dataText);
             return lstDataText;
@@ -248,18 +256,26 @@ namespace FireProtectionV1.BigScreen.Manager
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<List<DataText>> GetFireUnitContractAddress(int id)
+        public async Task<List<DataText>> GetFireUnitContractAddress(string id)
         {
             List<DataText> lstDataText = new List<DataText>();
-            var fireUnit = await _fireUnitRep.GetAsync(id);
             DataText dataText = new DataText();
-            if (fireUnit != null)
+            if (":id".Equals(id))
             {
-                dataText.value = $"{fireUnit.ContractName} {fireUnit.ContractPhone}<br/>{fireUnit.Address}";
+                dataText.value = "天树 15667788835<br/>丽都路518号14楼";
             }
             else
             {
-                dataText.value = "未知数据";
+                var fireUnit = await _fireUnitRep.GetAsync(int.Parse(id));
+
+                if (fireUnit != null)
+                {
+                    dataText.value = $"{fireUnit.ContractName} {fireUnit.ContractPhone}<br/>{fireUnit.Address}";
+                }
+                else
+                {
+                    dataText.value = "未知数据";
+                }
             }
             lstDataText.Add(dataText);
             return lstDataText;
@@ -269,7 +285,7 @@ namespace FireProtectionV1.BigScreen.Manager
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<string> GetFireUnitDataGrid(int id)
+        public Task<string> GetFireUnitDataGrid(string id)
         {
             Random random = new Random();
             string result = "[{\"label\":\"数据类型\",\"value\":\"最近30天记录数\"},{\"火警预警\":01,\"电气预警\":02,\"值班记录\":03,\"巡查记录\":04}]";
@@ -324,18 +340,26 @@ namespace FireProtectionV1.BigScreen.Manager
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<List<DataText>> GetHydrantSn(int id)
+        public async Task<List<DataText>> GetHydrantSn(string id)
         {
-            var hydrant = await _hydrantRep.GetAsync(id);
             List<DataText> lstDataText = new List<DataText>();
             DataText dataText = new DataText();
-            if (hydrant != null)
+            if (":id".Equals(id))
             {
-                dataText.value = hydrant.Sn;
+                dataText.value = "jrt4fd";
             }
             else
             {
-                dataText.value = "未知数据";
+                var hydrant = await _hydrantRep.GetAsync(int.Parse(id));
+
+                if (hydrant != null)
+                {
+                    dataText.value = hydrant.Sn;
+                }
+                else
+                {
+                    dataText.value = "未知数据";
+                }
             }
             lstDataText.Add(dataText);
             return lstDataText;
@@ -345,18 +369,26 @@ namespace FireProtectionV1.BigScreen.Manager
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<List<DataText>> GetHydrantAddress(int id)
+        public async Task<List<DataText>> GetHydrantAddress(string id)
         {
             List<DataText> lstDataText = new List<DataText>();
-            var hydrant = await _hydrantRep.GetAsync(id);
             DataText dataText = new DataText();
-            if (hydrant != null)
+            if (":id".Equals(id))
             {
-                dataText.value = hydrant.Address;
+                dataText.value = "jrt4fd";
             }
             else
             {
-                dataText.value = "未知数据";
+                var hydrant = await _hydrantRep.GetAsync(int.Parse(id));
+
+                if (hydrant != null)
+                {
+                    dataText.value = hydrant.Address;
+                }
+                else
+                {
+                    dataText.value = "未知数据";
+                }
             }
             lstDataText.Add(dataText);
             return lstDataText;
@@ -366,7 +398,7 @@ namespace FireProtectionV1.BigScreen.Manager
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<List<NumberCard>> GetHydrantPress(int id)
+        public Task<List<NumberCard>> GetHydrantPress(string id)
         {
             List<NumberCard> lstNumberCard = new List<NumberCard>();
             Random random = new Random();
@@ -381,7 +413,7 @@ namespace FireProtectionV1.BigScreen.Manager
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<List<Histogram>> GetHydrantPressHistory(int id)
+        public Task<List<Histogram>> GetHydrantPressHistory(string id)
         {
             Random random = new Random();
             List<Histogram> lstHistogram = new List<Histogram>();
