@@ -55,7 +55,7 @@ namespace FireProtectionV1.StreetGridCore.Manager
                             GridUserName = b.Name,
                             Phone = b.Phone,
                             Status = a.Status,
-                            CreationTime = a.CreationTime.ToUniversalTime().ToString(),
+                            CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"),
                             Remark = dr1.Remark
                         };
 
@@ -90,7 +90,7 @@ namespace FireProtectionV1.StreetGridCore.Manager
                             GridName = b2.GridName,
                             Street = b2.Street,
                             Community = b2.Community,
-                            CreationTime = a.CreationTime.ToUniversalTime().ToString(),
+                            CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"),
                             Status = a.Status
                         };
 
@@ -129,7 +129,7 @@ namespace FireProtectionV1.StreetGridCore.Manager
                             GridName = b2.GridName,
                             Street = b2.Street,
                             Community = b2.Community,
-                            CreationTime = a.CreationTime.ToUniversalTime().ToString(),
+                            CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"),
                             Status = a.Status
                         };
 

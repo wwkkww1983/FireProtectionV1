@@ -110,7 +110,7 @@ namespace FireProtectionV1.Enterprise.Manager
                             ContractName = a.ContractName,
                             ContractPhone = a.ContractPhone,
                             InvitationCode = a.InvitationCode,
-                            CreationTime = a.CreationTime.ToUniversalTime().ToString()
+                            CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")
                         };
             var list = query
                 .OrderByDescending(u=>u.CreationTime)

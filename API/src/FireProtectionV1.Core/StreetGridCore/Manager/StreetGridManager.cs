@@ -44,7 +44,7 @@ namespace FireProtectionV1.StreetGridCore.Manager
                            Community=a.Community,
                            id=a.Id,
                            isDeleted=a.IsDeleted,
-                           CreationTime = a.CreationTime.ToUniversalTime().ToString()
+                           CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")
                        };
 
             List<GetStreetListOutput> list = temp
