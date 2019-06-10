@@ -412,12 +412,13 @@ namespace FireProtectionV1.BigScreen.Manager
         /// 消火栓：历史水压
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="days"></param>
         /// <returns></returns>
-        public Task<List<Histogram>> GetHydrantPressHistory(string id)
+        public Task<List<Histogram>> GetHydrantPressHistory(string id, int days)
         {
             Random random = new Random();
             List<Histogram> lstHistogram = new List<Histogram>();
-            for (int i=1;i<31;i++)
+            for (int i=1;i<=days;i++)
             {
                 lstHistogram.Add(new Histogram()
                 {

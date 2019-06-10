@@ -92,8 +92,9 @@ namespace FireProtectionV1.BigScreen.Manager
         /// 消火栓：历史水压
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="days"></param>
         /// <returns></returns>
-        Task<List<Histogram>> GetHydrantPressHistory(string id);
+        Task<List<Histogram>> GetHydrantPressHistory(string id, int days);
         /// <summary>
         /// 消火栓：区域柱状图
         /// </summary>
