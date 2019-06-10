@@ -174,12 +174,19 @@ namespace FireProtectionV1.FireWorking.Manager
             var output = new PagedResultDto<HighFreqAlarmDetector>();
             await Task.Run(() =>
             {
-                var alarmFire = string.IsNullOrEmpty(onlyElecOrTemp) ?
-                _alarmToElectricRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30))
-                : from a in _alarmToElectricRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30))
-                  join b in _detectorRep.GetAll().Where(p => p.DetectorTypeId == (onlyElecOrTemp.Equals("elec") ? 6 : 15))
-                  on a.DetectorId equals b.Id
-                  select a;
+                DetectorType detectorType = null;
+                if (onlyElecOrTemp.Equals("elec"))
+                    detectorType = _detectorTypeRep.GetAll().Where(p => p.GBType == (byte)UnitType.ElectricResidual).FirstOrDefault();
+                else if(onlyElecOrTemp.Equals("temp"))
+                    detectorType = _detectorTypeRep.GetAll().Where(p => p.GBType == (byte)UnitType.ElectricTemperature).FirstOrDefault();
+                int typeid = detectorType == null ? 0 : detectorType.Id;
+                //var alarmFire = string.IsNullOrEmpty(onlyElecOrTemp) ?
+                //_alarmToElectricRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30))
+                //:
+                var alarmFire = from a in _alarmToElectricRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30))
+                                join b in _detectorRep.GetAll().Where(p => (typeid == 0 ? true : (p.DetectorTypeId == typeid)))
+                                on a.DetectorId equals b.Id
+                                select a;
                 int highFreq = int.Parse(ConfigHelper.Configuration["FireDomain:HighFreqAlarm"]);
                 var alarmDevices = alarmFire.GroupBy(p => p.DetectorId).Select(p => new
                 {
