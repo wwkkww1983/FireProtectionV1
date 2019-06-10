@@ -582,7 +582,7 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             DateTime now = DateTime.Now;
             var output = new GetFireUnitDutyListOutput();
-            var workFireUnits = from a in _dutyRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-1)).GroupBy(p => p.FireUnitId)
+            var workFireUnits = from a in _dutyRep.GetAll().Where(p => p.CreationTime > now.Date.AddDays(-1)).GroupBy(p => p.FireUnitId)
                     .Select(p => p.Key).ToList()
                                 join b in _fireUnitRep.GetAll()
                                 on a equals b.Id
@@ -619,7 +619,7 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             DateTime now = DateTime.Now;
             var output = new GetFireUnitPatrolListOutput();
-            var workFireUnits = from a in _patrolRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-7))
+            var workFireUnits = from a in _patrolRep.GetAll().Where(p => p.CreationTime > now.Date.AddDays(-7))
                                     .GroupBy(p => p.FireUnitId).Select(p =>p.Key).ToList()
                                 join b in _fireUnitRep.GetAll()
                                 on a equals b.Id
@@ -628,7 +628,7 @@ namespace FireProtectionV1.FireWorking.Manager
             var noWorkFireUnits = _fireUnitRep.GetAll().Except(workFireUnits);
             output.NoWork7DayCount = noWorkFireUnits.Count();
             var query = from a in noWorkFireUnits
-                        join b in _patrolRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-7)).GroupBy(p => p.FireUnitId).Select(p => new
+                        join b in _patrolRep.GetAll().Where(p => p.CreationTime > now.Date.AddDays(-7)).GroupBy(p => p.FireUnitId).Select(p => new
                         {
                             FireUnitId = p.Key,
                             LastTime = p.Max(p1 => p1.CreationTime),
@@ -657,7 +657,7 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             DateTime now = DateTime.Now;
             var output = new GetFireUnitDutyListOutput();
-            var workFireUnits = from a in _dutyRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-1)).GroupBy(p => p.FireUnitId)
+            var workFireUnits = from a in _dutyRep.GetAll().Where(p => p.CreationTime > now.Date.AddDays(-1)).GroupBy(p => p.FireUnitId)
                                 .Select(p=>p.Key).ToList()
                                 join b in _fireUnitRep.GetAll()
                                 on a equals b.Id
@@ -665,7 +665,7 @@ namespace FireProtectionV1.FireWorking.Manager
             var noWorkFireUnits = _fireUnitRep.GetAll().Except(workFireUnits);
             output.NoWork1DayCount = noWorkFireUnits.Count();
             var query = from a in noWorkFireUnits
-                        join b in _dutyRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-1)).GroupBy(p => p.FireUnitId).Select(p => new
+                        join b in _dutyRep.GetAll().Where(p => p.CreationTime > now.Date.AddDays(-1)).GroupBy(p => p.FireUnitId).Select(p => new
                         {
                             FireUnitId = p.Key,
                             LastTime = p.Max(p1 => p1.CreationTime),
