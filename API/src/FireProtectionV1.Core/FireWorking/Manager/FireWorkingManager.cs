@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
+using DeviceServer.Tcp.Protocol;
 using FireProtectionV1.Common.Enum;
 using FireProtectionV1.Configuration;
 using FireProtectionV1.Enterprise.Dto;
@@ -70,19 +71,12 @@ namespace FireProtectionV1.FireWorking.Manager
                 0 : alarmElec.GroupBy(p => p.DetectorId).Select(p=>new {DetectorId=p.Key, Count = p.Count() })
                 .Where(p => p.Count > highFreq).Count();
                 var detectsEle = _detectorRep.GetAll().Where(p => p.FireUnitId == input.Id && p.FireSysType == FireSysType.Electric);
-                output.ElecPointsCount = detectsEle.Count();
-                var netStates = from a in detectsEle
-                                join b in _gatewayRep.GetAll()
-                                on a.GatewayId equals b.Id
-                                select b.Status;
-                int netStatesCount = netStates.Count();
-                if (netStatesCount > 0)
-                {
-                    output.ElecStateValue = netStates.First();
-                    output.ElecStateName = output.ElecStateValue == Common.Enum.GatewayStatus.Online ? "在线" : "离线";
-                    //if (netStatesCount > 1)
-                    //    output.ElecState = $"{output.ElecState}({netStates.Select(p => p.Equals(output.ElecState)).Count()}/{netStatesCount})";
-                }
+                var typeE = _detectorTypeRep.GetAll().Where(p => p.GBType == (byte)UnitType.ElectricResidual).FirstOrDefault();
+                if(typeE != null)
+                    output.ElecECount = detectsEle.Where(p=>p.DetectorTypeId== typeE.Id).Count();
+                var typeT = _detectorTypeRep.GetAll().Where(p => p.GBType == (byte)UnitType.ElectricTemperature).FirstOrDefault();
+                if (typeT != null)
+                    output.ElecTCount = detectsEle.Where(p => p.DetectorTypeId == typeT.Id).Count();
                 //火警预警数据：管控点位数量、网关状态、最近30天报警次数（可查）、高频报警部件数量（可查）；
                 var alarmFire = _alarmToFireRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30));
                 output.Fire30DayCount = alarmFire.Count();
@@ -91,18 +85,6 @@ namespace FireProtectionV1.FireWorking.Manager
                 .Where(p => p.Count > highFreq).Count();
                 var detectsFire = _detectorRep.GetAll().Where(p => p.FireUnitId == input.Id && p.FireSysType == FireSysType.Fire);
                 output.FirePointsCount = detectsFire.Count();
-                netStates = from a in detectsFire
-                            join b in _gatewayRep.GetAll()
-                            on a.GatewayId equals b.Id
-                            select b.Status;
-                netStatesCount = netStates.Count();
-                if (netStatesCount > 0)
-                {
-                    output.FireStateValue = netStates.First();
-                    output.FireStateName = output.FireStateValue == Common.Enum.GatewayStatus.Online ? "在线" : "离线";
-                    //if (netStatesCount > 1)
-                    //    output.FireState = $"{output.FireState}({netStates.Select(p => p.Equals(output.FireState)).Count()}/{netStatesCount})";
-                }
                 //故障数据
                 var faults = _faultRep.GetAll().Where(p => p.FireUnitId == input.Id);
                 output.FaultCount = faults.Count();
@@ -139,7 +121,9 @@ namespace FireProtectionV1.FireWorking.Manager
                                  select new AlarmRecord()
                                  {
                                      Time = a.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                                     Content = $"报警部件：{c.Name}，报警地点：{b.Location}，当前值：{a.Analog.ToString("0")}{a.Unit},警戒值：{a.AlarmLimit}"
+                                     //Content = $"报警部件：{c.Name}，当前值：{a.Analog.ToString("0")}{a.Unit},警戒值：{a.AlarmLimit}",
+                                     Content = $"【{c.Name}】发生报警，探测值{a.Analog.ToString("0")}{a.Unit},警戒值{a.AlarmLimit}",
+                                     Location =b.Location
                                  };
 
                 var lst = lstRecords.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
@@ -168,7 +152,9 @@ namespace FireProtectionV1.FireWorking.Manager
                                  select new AlarmRecord()
                                  {
                                      Time = a.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                                     Content = $"报警部件：{c.Name}，报警地点：{b.Location}"
+                                     //Content = $"报警部件：{c.Name}，报警地点：{b.Location}",
+                                     Content = $"【{c.Name}】发生报警",
+                                     Location = b.Location
                                  };
 
                 var lst = lstRecords.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
@@ -188,12 +174,19 @@ namespace FireProtectionV1.FireWorking.Manager
             var output = new PagedResultDto<HighFreqAlarmDetector>();
             await Task.Run(() =>
             {
-                var alarmFire = string.IsNullOrEmpty(onlyElecOrTemp) ?
-                _alarmToElectricRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30))
-                : from a in _alarmToElectricRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30))
-                  join b in _detectorRep.GetAll().Where(p => p.DetectorTypeId == (onlyElecOrTemp.Equals("elec") ? 6 : 15))
-                  on a.DetectorId equals b.Id
-                  select a;
+                DetectorType detectorType = null;
+                if (onlyElecOrTemp.Equals("elec"))
+                    detectorType = _detectorTypeRep.GetAll().Where(p => p.GBType == (byte)UnitType.ElectricResidual).FirstOrDefault();
+                else if(onlyElecOrTemp.Equals("temp"))
+                    detectorType = _detectorTypeRep.GetAll().Where(p => p.GBType == (byte)UnitType.ElectricTemperature).FirstOrDefault();
+                int typeid = detectorType == null ? 0 : detectorType.Id;
+                //var alarmFire = string.IsNullOrEmpty(onlyElecOrTemp) ?
+                //_alarmToElectricRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30))
+                //:
+                var alarmFire = from a in _alarmToElectricRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30))
+                                join b in _detectorRep.GetAll().Where(p => (typeid == 0 ? true : (p.DetectorTypeId == typeid)))
+                                on a.DetectorId equals b.Id
+                                select a;
                 int highFreq = int.Parse(ConfigHelper.Configuration["FireDomain:HighFreqAlarm"]);
                 var alarmDevices = alarmFire.GroupBy(p => p.DetectorId).Select(p => new
                 {
@@ -211,7 +204,7 @@ namespace FireProtectionV1.FireWorking.Manager
                                 orderby a.AlramCount descending
                                 select new HighFreqAlarmDetector()
                                 {
-                                    Name = c.Name,
+                                    Name = $"【{c.Name}】{b.Location}",
                                     Time = a.LastTime.ToString("yyyy-MM-dd HH:mm:ss"),
                                     Count = a.AlramCount
                                 };
@@ -249,7 +242,7 @@ namespace FireProtectionV1.FireWorking.Manager
                                 orderby a.AlramCount descending
                                 select new HighFreqAlarmDetector()
                                 {
-                                    Name = c.Name,
+                                    Name = $"【{c.Name}】{b.Location}",
                                     Time = a.LastTime.ToString("yyyy-MM-dd HH:mm:ss"),
                                     Count = a.AlramCount
                                 };
@@ -409,7 +402,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 FireUnitId = p.Key,
                 LastAlarmTime = p.Max(p1 => p1.CreationTime),
                 AlarmCount = p.Count(),
-                FreqCount = p.GroupBy(p1 => p1.DetectorId).Select(p1 => p1.Count() > highFreq).Count()
+                FreqCount = p.GroupBy(p1 => p1.DetectorId).Where(p1 => p1.Count() > highFreq).Count()
             });
             GatewayStatus status = GatewayStatus.Unusual;
             if (!string.IsNullOrEmpty(input.GetwayStatusValue))
@@ -443,7 +436,8 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayTempAlarmList(GetPagedFireUnitListFilterTypeInput input)
         {
-            return GetAreas30DayElecAlarmListOnlyId(input, 15);
+            var type = _detectorTypeRep.GetAll().Where(p => p.GBType == (byte)UnitType.ElectricTemperature).FirstOrDefault();
+            return GetAreas30DayElecAlarmListOnlyId(input, type.Id);
         }
         /// <summary>
         /// （所有防火单位）安全用电监控列表（剩余电流）
@@ -451,7 +445,8 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public Task<PagedResultDto<GetAreas30DayFireAlarmOutput>> GetAreas30DayElecAlarmList(GetPagedFireUnitListFilterTypeInput input)
         {
-            return GetAreas30DayElecAlarmListOnlyId(input, 6);
+            var type = _detectorTypeRep.GetAll().Where(p => p.GBType == (byte)UnitType.ElectricResidual).FirstOrDefault();
+            return GetAreas30DayElecAlarmListOnlyId(input, type.Id);
         }
         /// <summary>
         /// 安全用电剩余电流监控列表
@@ -477,7 +472,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 FireUnitId = p.Key,
                 LastAlarmTime = p.Max(p1 => p1.CreationTime),
                 AlarmCount = p.Count(),
-                FreqCount = p.GroupBy(p1 => p1.DetectorId).Select(p1 => p1.Count() > highFreq).Count()
+                FreqCount = p.GroupBy(p1 => p1.DetectorId).Where(p1 => p1.Count() > highFreq).Count()
             });
             GatewayStatus status = GatewayStatus.Unusual;
             if (!string.IsNullOrEmpty(input.GetwayStatusValue))
@@ -488,7 +483,7 @@ namespace FireProtectionV1.FireWorking.Manager
                     on a.FireUnitId equals b.FireUnitId
                     join c in _fireUnitRep.GetAll()
                     on a.FireUnitId equals c.Id
-                    join d in _fireUnitTypeRep.GetAll().Where(p => 0 == input.FireUnitTypeId ? true : p.Id == input.FireUnitTypeId)
+                    join d in _fireUnitTypeRep.GetAll().Where(p => (0 == input.FireUnitTypeId ? true : p.Id == input.FireUnitTypeId))
                     on c.TypeId equals d.Id
                     orderby a.LastAlarmTime descending
                     select new GetAreas30DayFireAlarmOutput()
@@ -587,7 +582,13 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             DateTime now = DateTime.Now;
             var output = new GetFireUnitDutyListOutput();
-            output.NoWork1DayCount = _dutyRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-1)).GroupBy(p => p.FireUnitId).Count();
+            var workFireUnits = from a in _dutyRep.GetAll().Where(p => p.CreationTime > now.Date.AddDays(-1)).GroupBy(p => p.FireUnitId)
+                    .Select(p => p.Key).ToList()
+                                join b in _fireUnitRep.GetAll()
+                                on a equals b.Id
+                                select b;
+            var noWorkFireUnits = _fireUnitRep.GetAll().Except(workFireUnits);
+            output.NoWork1DayCount = noWorkFireUnits.Count();
             var query = from a in _fireUnitRep.GetAll().Where(p => string.IsNullOrEmpty(input.Name) ? true : p.Name.Contains(input.Name))
                         join b in _dutyRep.GetAll().GroupBy(p => p.FireUnitId).Select(p => new
                         {
@@ -614,39 +615,39 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public  Task<GetFireUnitPatrolListOutput> GetNoPatrol7DayFireUnitList(PagedRequestByUserIdDto input)
-        {
-            DateTime now = DateTime.Now;
-            var output = new GetFireUnitPatrolListOutput();
-            var workFireUnits = from a in _patrolRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-7))
-                                    .GroupBy(p => p.FireUnitId).Select(p =>p.Key).ToList()
-                                join b in _fireUnitRep.GetAll()
-                                on a equals b.Id
-                                select b;
+        //public  Task<GetFireUnitPatrolListOutput> GetNoPatrol7DayFireUnitList(PagedRequestByUserIdDto input)
+        //{
+        //    DateTime now = DateTime.Now;
+        //    var output = new GetFireUnitPatrolListOutput();
+        //    var workFireUnits = from a in _patrolRep.GetAll().Where(p => p.CreationTime > now.Date.AddDays(-7))
+        //                            .GroupBy(p => p.FireUnitId).Select(p =>p.Key).ToList()
+        //                        join b in _fireUnitRep.GetAll()
+        //                        on a equals b.Id
+        //                        select b;
 
-            var noWorkFireUnits = _fireUnitRep.GetAll().Except(workFireUnits);
-            output.NoWork7DayCount = noWorkFireUnits.Count();
-            var query = from a in noWorkFireUnits
-                        join b in _patrolRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-7)).GroupBy(p => p.FireUnitId).Select(p => new
-                        {
-                            FireUnitId = p.Key,
-                            LastTime = p.Max(p1 => p1.CreationTime),
-                            Day30Count = p.Where(p1 => p1.CreationTime >= now.Date.AddDays(-30)).Count()
-                        })
-                        on a.Id equals b.FireUnitId into g
-                        from b2 in g.DefaultIfEmpty()
-                        select new FireUnitManualOuput()
-                        {
-                            FireUnitId = a.Id,
-                            FireUnitName = a.Name,
-                            LastTime = b2 == null ? "" : b2.LastTime.ToString("yyyy-MM-dd"),
-                            Recent30DayCount = b2 == null ? 0 : b2.Day30Count
-                        };
-            query = query.OrderByDescending(p => p.LastTime);
-            output.PagedResultDto = new PagedResultDto<FireUnitManualOuput>(query.Count()
-                , query.Skip(input.SkipCount).Take(input.MaxResultCount).ToList());
-            return Task.FromResult<GetFireUnitPatrolListOutput>(output);
-        }
+        //    var noWorkFireUnits = _fireUnitRep.GetAll().Except(workFireUnits);
+        //    output.NoWork7DayCount = noWorkFireUnits.Count();
+        //    var query = from a in noWorkFireUnits
+        //                join b in _patrolRep.GetAll().Where(p => p.CreationTime > now.Date.AddDays(-7)).GroupBy(p => p.FireUnitId).Select(p => new
+        //                {
+        //                    FireUnitId = p.Key,
+        //                    LastTime = p.Max(p1 => p1.CreationTime),
+        //                    Day30Count = p.Where(p1 => p1.CreationTime >= now.Date.AddDays(-30)).Count()
+        //                })
+        //                on a.Id equals b.FireUnitId into g
+        //                from b2 in g.DefaultIfEmpty()
+        //                select new FireUnitManualOuput()
+        //                {
+        //                    FireUnitId = a.Id,
+        //                    FireUnitName = a.Name,
+        //                    LastTime = b2 == null ? "" : b2.LastTime.ToString("yyyy-MM-dd"),
+        //                    Recent30DayCount = b2 == null ? 0 : b2.Day30Count
+        //                };
+        //    query = query.OrderByDescending(p => p.LastTime);
+        //    output.PagedResultDto = new PagedResultDto<FireUnitManualOuput>(query.Count()
+        //        , query.Skip(input.SkipCount).Take(input.MaxResultCount).ToList());
+        //    return Task.FromResult<GetFireUnitPatrolListOutput>(output);
+        //}
         /// <summary>
         /// （所有防火单位）超过1天没有值班记录的单位列表
         /// </summary>
@@ -656,7 +657,7 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             DateTime now = DateTime.Now;
             var output = new GetFireUnitDutyListOutput();
-            var workFireUnits = from a in _dutyRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-1)).GroupBy(p => p.FireUnitId)
+            var workFireUnits = from a in _dutyRep.GetAll().Where(p => p.CreationTime > now.Date.AddDays(-1)).GroupBy(p => p.FireUnitId)
                                 .Select(p=>p.Key).ToList()
                                 join b in _fireUnitRep.GetAll()
                                 on a equals b.Id
@@ -664,7 +665,7 @@ namespace FireProtectionV1.FireWorking.Manager
             var noWorkFireUnits = _fireUnitRep.GetAll().Except(workFireUnits);
             output.NoWork1DayCount = noWorkFireUnits.Count();
             var query = from a in noWorkFireUnits
-                        join b in _dutyRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-1)).GroupBy(p => p.FireUnitId).Select(p => new
+                        join b in _dutyRep.GetAll().Where(p => p.CreationTime > now.Date.AddDays(-1)).GroupBy(p => p.FireUnitId).Select(p => new
                         {
                             FireUnitId = p.Key,
                             LastTime = p.Max(p1 => p1.CreationTime),

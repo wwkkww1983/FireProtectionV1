@@ -14,5 +14,9 @@ namespace FireProtectionV1.FireWorking.Dto
         /// 报警时间
         /// </summary>
         public string Time { get; set; }
+        /// <summary>
+        /// 报警地点
+        /// </summary>
+        public string Location { get; set; }
     }
 }

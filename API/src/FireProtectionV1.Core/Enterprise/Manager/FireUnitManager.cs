@@ -50,12 +50,14 @@ namespace FireProtectionV1.Enterprise.Manager
         }
         public Task<List<GetFireUnitTypeOutput>> GetFireUnitTypes()
         {
-            return Task.FromResult<List<GetFireUnitTypeOutput>>(
-                _fireUnitTypeRep.GetAll().Select(p => new GetFireUnitTypeOutput()
-                {
-                    TypeId = p.Id,
-                    TypeName = p.Name
-                }).ToList());
+            var v =new List<GetFireUnitTypeOutput>(){ new GetFireUnitTypeOutput() { TypeId=0,TypeName="全部"}};
+            var v2 = _fireUnitTypeRep.GetAll().Select(p => new GetFireUnitTypeOutput()
+            {
+                TypeId = p.Id,
+                TypeName = p.Name
+            }).ToList();
+            ;
+            return Task.FromResult<List<GetFireUnitTypeOutput>>(v.Union(v2).ToList());
         }
         /// <summary>
         /// 得到防火单位列表excel数据
@@ -110,7 +112,7 @@ namespace FireProtectionV1.Enterprise.Manager
                             ContractName = a.ContractName,
                             ContractPhone = a.ContractPhone,
                             InvitationCode = a.InvitationCode,
-                            CreationTime = a.CreationTime.ToUniversalTime().ToString()
+                            CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")
                         };
             var list = query
                 .OrderByDescending(u=>u.CreationTime)
@@ -167,6 +169,11 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <returns></returns>
         public async Task<SuccessOutput> Add(AddFireUnitInput input)
         {
+            var existflag = _fireUnitRep.GetAll().Where(u => u.Name == input.Name).Count();
+            if(existflag!=0)
+            {
+                return new SuccessOutput() { Success = false, FailCause="防火单位："+input.Name+".已存在" };
+            }
             await _fireUnitRep.InsertAsync(new FireUnit()
             {
                 CreationTime = DateTime.Now,
@@ -223,9 +230,11 @@ namespace FireProtectionV1.Enterprise.Manager
         public async Task<GetFireUnitInfoOutput> GetFireUnitInfo(GetFireUnitInfoInput input)
         {
             GetFireUnitInfoOutput output = new GetFireUnitInfoOutput();
+            var att = _fireUnitAttentionRep.GetAll().Where(p => p.FireDeptUserId == input.UserId && p.FireUnitId == input.Id).FirstOrDefault();
             var f = await _fireUnitRep.SingleAsync(p => p.Id.Equals(input.Id));
             if (f != null)
             {
+                output.IsAttention = att != null;
                 output.Id = f.Id;
                 output.Name = f.Name;
                 output.Address = f.Address;

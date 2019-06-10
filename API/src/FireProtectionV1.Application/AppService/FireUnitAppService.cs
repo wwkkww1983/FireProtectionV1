@@ -45,7 +45,7 @@ namespace FireProtectionV1.AppService
         public Task<List<GatewayStatusTypeOutput>> GetGatewayStatusTypes()
         {
             var lst = new List<GatewayStatusTypeOutput>();
-            lst.Add(new GatewayStatusTypeOutput() { GatewayStatusValue = GatewayStatus.UnKnow.ToString(), GatewayStatusName = "未指定" });
+            lst.Add(new GatewayStatusTypeOutput() { GatewayStatusValue = "", GatewayStatusName = "全部" });
             lst.Add(new GatewayStatusTypeOutput(){ GatewayStatusValue = GatewayStatus.Offline.ToString(), GatewayStatusName = "离线" });
             lst.Add(new GatewayStatusTypeOutput() { GatewayStatusValue = GatewayStatus.Online.ToString(), GatewayStatusName = "在线" });
             lst.Add(new GatewayStatusTypeOutput() { GatewayStatusValue = GatewayStatus.Unusual.ToString(), GatewayStatusName = "异常" });
@@ -536,7 +536,20 @@ namespace FireProtectionV1.AppService
         /// <returns></returns>
         public async Task<GetFireUnitPatrolListOutput> GetNoPatrol7DayFireUnitList(PagedRequestByUserIdDto input)
         {
-            return await _fireWorkingManager.GetNoPatrol7DayFireUnitList(input);
+            var output = new GetFireUnitPatrolListOutput();
+            await Task.Run(() =>
+            {
+                var fireunits = _patrolManager.GetNoPatrol7DayFireUnits();
+                output.NoWork7DayCount = fireunits.Count();
+                var query = from a in fireunits
+                            join b in _patrolManager.GetPatrolFireUnitsAll().ToList()
+                            on a.FireUnitId equals b.FireUnitId
+                            orderby b.LastTime descending
+                            select b;
+                output.PagedResultDto = new PagedResultDto<FireUnitManualOuput>(query.Count()
+                    , query.Skip(input.SkipCount).Take(input.MaxResultCount).ToList());
+            });
+            return output;
         }
         /// <summary>
         /// （所有防火单位）超过1天没有值班记录的单位列表

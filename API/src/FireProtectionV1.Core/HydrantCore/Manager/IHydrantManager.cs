@@ -70,7 +70,7 @@ namespace FireProtectionV1.HydrantCore.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<PagedResultDto<HydrantAlarm>> GetNearbyAlarmById(GetHydrantAlarmInput input);
+        Task<PagedResultDto<GetNearAlarmOutput>> GetNearbyAlarmById(GetHydrantAlarmInput input);
 
         /// <summary>
         /// 根据坐标点获取附近1KM直线距离内的消火栓

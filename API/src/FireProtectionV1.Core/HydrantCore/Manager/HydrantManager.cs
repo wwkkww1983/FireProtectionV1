@@ -86,7 +86,8 @@ namespace FireProtectionV1.HydrantCore.Manager
                             Sn = a.Sn,
                             AreaName = dr1.Name,
                             Address = a.Address,
-                            Pressure = hydrantPressures.Where(p => p.HydrantId.Equals(a.Id)).Count()==0?0:hydrantPressures.OrderByDescending(p => p.CreationTime).First(p => p.HydrantId.Equals(a.Id)).Pressure
+                            Pressure = hydrantPressures.Where(p => p.HydrantId.Equals(a.Id)).Count()==0?0:hydrantPressures.OrderByDescending(p => p.CreationTime).First(p => p.HydrantId.Equals(a.Id)).Pressure,
+                            Status=a.Status
                         };
 
             var result = query.SingleOrDefault();
@@ -155,7 +156,7 @@ namespace FireProtectionV1.HydrantCore.Manager
                 temp.Address = hydrant.Address;
                 temp.Status = hydrant.Status;
                 temp.Pressure = hydrantPressures.Where(p => p.HydrantId.Equals(hydrant.Id)).Count() == 0 ? 0 : hydrantPressures.OrderByDescending(p => p.CreationTime).First(p => p.HydrantId.Equals(hydrant.Id)).Pressure;
-                temp.LastAlarmTime = hydrantAlarms.Where(h => h.HydrantId.Equals(hydrant.Id)).Count() == 0 ? null : hydrantAlarms.OrderByDescending(h => h.CreationTime).First(h => h.HydrantId.Equals(hydrant.Id)).CreationTime.ToUniversalTime().ToString();
+                temp.LastAlarmTime = hydrantAlarms.Where(h => h.HydrantId.Equals(hydrant.Id)).Count() == 0 ? null : hydrantAlarms.OrderByDescending(h => h.CreationTime).First(h => h.HydrantId.Equals(hydrant.Id)).CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
                 temp.LastAlarmTitle = hydrantAlarms.Where(h => h.HydrantId.Equals(hydrant.Id)).Count() == 0 ? null : hydrantAlarms.OrderByDescending(h => h.CreationTime).First(h => h.HydrantId.Equals(hydrant.Id)).Title;
                 temp.NearbyAlarmNumber = hydrantAlarms.Where(h => h.HydrantId.Equals(hydrant.Id) && h.CreationTime >= DateTime.Now.AddDays(-30)).Count();
                 query.Add(temp);
@@ -166,7 +167,7 @@ namespace FireProtectionV1.HydrantCore.Manager
                 output.SubstanCount = query.Where(u => u.Pressure <= substan.MinValue&&u.Pressure!=0).Count();
             }
 
-            var list = query.OrderByDescending(a=>a.Status)
+            var list = query.OrderByDescending(a=>a.LastAlarmTime)
                 .Skip(input.SkipCount).Take(input.MaxResultCount)
                 .ToList();
             var tCount = query.Count();
@@ -214,7 +215,7 @@ namespace FireProtectionV1.HydrantCore.Manager
                 temp.Address = hydrant.Address;
                 temp.Status = hydrant.Status;
                 temp.Pressure = hydrantPressures.Where(p => p.HydrantId.Equals(hydrant.Id)).Count() == 0 ? 0 : hydrantPressures.OrderByDescending(p => p.CreationTime).First(p => p.HydrantId.Equals(hydrant.Id)).Pressure;
-                temp.LastAlarmTime = hydrantAlarms.Where(h => h.HydrantId.Equals(hydrant.Id)).Count() == 0 ? null : hydrantAlarms.OrderByDescending(h => h.CreationTime).First(h => h.HydrantId.Equals(hydrant.Id)).CreationTime.ToUniversalTime().ToString();
+                temp.LastAlarmTime = hydrantAlarms.Where(h => h.HydrantId.Equals(hydrant.Id)).Count() == 0 ? null : hydrantAlarms.OrderByDescending(h => h.CreationTime).First(h => h.HydrantId.Equals(hydrant.Id)).CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
                 temp.LastAlarmTitle = hydrantAlarms.Where(h => h.HydrantId.Equals(hydrant.Id)).Count() == 0 ? null : hydrantAlarms.OrderByDescending(h => h.CreationTime).First(h => h.HydrantId.Equals(hydrant.Id)).Title;
                 temp.NearbyAlarmNumber = hydrantAlarms.Where(h => h.HydrantId.Equals(hydrant.Id) && h.CreationTime >= DateTime.Now.AddDays(-30)).Count();
                 query.Add(temp);
@@ -274,7 +275,7 @@ namespace FireProtectionV1.HydrantCore.Manager
                 temp.Address = hydrant.Address;
                 temp.Status = hydrant.Status;
                 temp.Pressure = hydrantPressures.Where(p => p.HydrantId.Equals(hydrant.Id)).Count() == 0 ? 0 : hydrantPressures.OrderByDescending(p => p.CreationTime).First(p => p.HydrantId.Equals(hydrant.Id)).Pressure;
-                temp.LastAlarmTime = hydrantAlarms.Where(h => h.HydrantId.Equals(hydrant.Id)).Count() == 0 ? null : hydrantAlarms.OrderByDescending(h => h.CreationTime).First(h => h.HydrantId.Equals(hydrant.Id)).CreationTime.ToUniversalTime().ToString();
+                temp.LastAlarmTime = hydrantAlarms.Where(h => h.HydrantId.Equals(hydrant.Id)).Count() == 0 ? null : hydrantAlarms.OrderByDescending(h => h.CreationTime).First(h => h.HydrantId.Equals(hydrant.Id)).CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
                 temp.LastAlarmTitle = hydrantAlarms.Where(h => h.HydrantId.Equals(hydrant.Id)).Count() == 0 ? null : hydrantAlarms.OrderByDescending(h => h.CreationTime).First(h => h.HydrantId.Equals(hydrant.Id)).Title;
                 temp.NearbyAlarmNumber = hydrantAlarms.Where(h => h.HydrantId.Equals(hydrant.Id) && h.CreationTime >= DateTime.Now.AddDays(-30)).Count();
                 query.Add(temp);
@@ -287,15 +288,24 @@ namespace FireProtectionV1.HydrantCore.Manager
         /// <summary>
         /// 获取最近30天报警记录
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
-        public Task<PagedResultDto<HydrantAlarm>> GetNearbyAlarmById(GetHydrantAlarmInput input)
+        public Task<PagedResultDto<GetNearAlarmOutput>> GetNearbyAlarmById(GetHydrantAlarmInput input)
         {
             var query = _hydrantAlarmRepository.GetAll().Where(item => input.id.Equals(item.HydrantId) && item.CreationTime >= DateTime.Now.AddDays(-30)).ToList();
-            var list = query.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+            var changeType = from a in query
+                             select new GetNearAlarmOutput
+                             {
+                                 CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                                 HydrantId = a.HydrantId,
+                                 Id = a.Id,
+                                 IsDeleted = a.IsDeleted,
+                                 Title = a.Title,
+                             };
+            var list = changeType.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
             var tCount = query.Count();
 
-            return Task.FromResult(new PagedResultDto<HydrantAlarm>(tCount, list));
+            return Task.FromResult(new PagedResultDto<GetNearAlarmOutput>(tCount, list));
         }
 
         /// <summary>
