@@ -114,11 +114,12 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetHydrantPressHistory(System.String)">
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetHydrantPressHistory(System.String,System.Int32)">
             <summary>
             消火栓：历史水压
             </summary>
             <param name="id"></param>
+            <param name="days"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetHydrantAreaHistogram">

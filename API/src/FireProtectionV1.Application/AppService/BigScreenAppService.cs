@@ -147,10 +147,11 @@ namespace FireProtectionV1.AppService
         /// 消火栓：历史水压
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="days"></param>
         /// <returns></returns>
-        public async Task<List<Histogram>> GetHydrantPressHistory(string id)
+        public async Task<List<Histogram>> GetHydrantPressHistory(string id, int days = 7)
         {
-            return await _manager.GetHydrantPressHistory(id);
+            return await _manager.GetHydrantPressHistory(id, days);
         }
         /// <summary>
         /// 消火栓：区域柱状图
