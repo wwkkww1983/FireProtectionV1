@@ -197,7 +197,7 @@ namespace FireProtectionV1.FireWorking.Manager
                                 orderby a.AlramCount descending
                                 select new HighFreqAlarmDetector()
                                 {
-                                    Name = c.Name,
+                                    Name = $"【{c.Name}】{b.Location}",
                                     Time = a.LastTime.ToString("yyyy-MM-dd HH:mm:ss"),
                                     Count = a.AlramCount
                                 };
@@ -235,7 +235,7 @@ namespace FireProtectionV1.FireWorking.Manager
                                 orderby a.AlramCount descending
                                 select new HighFreqAlarmDetector()
                                 {
-                                    Name = c.Name,
+                                    Name = $"【{c.Name}】{b.Location}",
                                     Time = a.LastTime.ToString("yyyy-MM-dd HH:mm:ss"),
                                     Count = a.AlramCount
                                 };
