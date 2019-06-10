@@ -56,7 +56,7 @@ namespace FireProtectionV1.FireWorking.Manager
         public IQueryable<FireUnitManualOuput> GetNoDuty1DayFireUnits()
         {
             DateTime now = DateTime.Now;
-            var workFireUnits = from a in _dutyRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-1))
+            var workFireUnits = from a in _dutyRep.GetAll().Where(p => p.CreationTime > now.Date.AddDays(-1))
                                     .GroupBy(p => p.FireUnitId).Select(p => p.Key).ToList()
                                 join b in _fireUnitRep.GetAll()
                                 on a equals b.Id
