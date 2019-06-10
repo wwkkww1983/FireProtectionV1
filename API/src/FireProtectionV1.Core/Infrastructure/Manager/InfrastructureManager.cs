@@ -1072,7 +1072,7 @@ namespace FireProtectionV1.Infrastructure.Manager
                 {
                     HydrantId = id,
                     CreationTime = DateTime.Parse("2019-05-19 16:32"),
-                    Title = "消火栓水压异常报警。编号jrt4fd，水压80kPa"
+                    Title = "水压异常，80kPa"
                 };
                 await _hydrantAlarmRepository.InsertAsync(hydrantAlarm);
 
@@ -1111,7 +1111,7 @@ namespace FireProtectionV1.Infrastructure.Manager
                 {
                     HydrantId = id,
                     CreationTime = DateTime.Parse("2019-05-19 17:02"),
-                    Title = "消火栓水压异常报警。编号htrhh7，水压33kPa"
+                    Title = "水压异常，33kPa"
                 };
                 await _hydrantAlarmRepository.InsertAsync(hydrantAlarm);
                 hydrant = new Hydrant()
