@@ -288,7 +288,7 @@ namespace FireProtectionV1.HydrantCore.Manager
         /// <summary>
         /// 获取最近30天报警记录
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
         public Task<PagedResultDto<GetNearAlarmOutput>> GetNearbyAlarmById(GetHydrantAlarmInput input)
         {
