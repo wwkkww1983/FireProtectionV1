@@ -2035,6 +2035,11 @@
             最近30天报警次数
             </summary>
         </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetNearAlarmOutput.CreationTime">
+            <summary>
+            距离（米）
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.HydrantCore.Dto.GetNearbyHydrantOutput.Distance">
             <summary>
             距离（米）

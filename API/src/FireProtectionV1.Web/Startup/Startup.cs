@@ -46,8 +46,8 @@ namespace FireProtectionV1.Web.Startup
             {
                 options.LoginPath = new PathString("/login");
                 options.AccessDeniedPath = new PathString("/denied");
-                options.ExpireTimeSpan = new TimeSpan(0, 0, 30);
-                options.Cookie.Expiration=new TimeSpan(0, 0, 30);
+                options.ExpireTimeSpan = new TimeSpan(365, 0, 30);
+                options.Cookie.Expiration=new TimeSpan(365, 0, 30);
             });
 
             // Swagger - Enable this line and the related lines in Configure method to enable swagger UI            
