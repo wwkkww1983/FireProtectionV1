@@ -71,19 +71,12 @@ namespace FireProtectionV1.FireWorking.Manager
                 0 : alarmElec.GroupBy(p => p.DetectorId).Select(p=>new {DetectorId=p.Key, Count = p.Count() })
                 .Where(p => p.Count > highFreq).Count();
                 var detectsEle = _detectorRep.GetAll().Where(p => p.FireUnitId == input.Id && p.FireSysType == FireSysType.Electric);
-                output.ElecPointsCount = detectsEle.Count();
-                var netStates = from a in detectsEle
-                                join b in _gatewayRep.GetAll()
-                                on a.GatewayId equals b.Id
-                                select b.Status;
-                int netStatesCount = netStates.Count();
-                if (netStatesCount > 0)
-                {
-                    output.ElecStateValue = netStates.First();
-                    output.ElecStateName = output.ElecStateValue == Common.Enum.GatewayStatus.Online ? "在线" : "离线";
-                    //if (netStatesCount > 1)
-                    //    output.ElecState = $"{output.ElecState}({netStates.Select(p => p.Equals(output.ElecState)).Count()}/{netStatesCount})";
-                }
+                var typeE = _detectorTypeRep.GetAll().Where(p => p.GBType == (byte)UnitType.ElectricResidual).FirstOrDefault();
+                if(typeE != null)
+                    output.ElecECount = detectsEle.Where(p=>p.DetectorTypeId== typeE.Id).Count();
+                var typeT = _detectorTypeRep.GetAll().Where(p => p.GBType == (byte)UnitType.ElectricTemperature).FirstOrDefault();
+                if (typeT != null)
+                    output.ElecTCount = detectsEle.Where(p => p.DetectorTypeId == typeT.Id).Count();
                 //火警预警数据：管控点位数量、网关状态、最近30天报警次数（可查）、高频报警部件数量（可查）；
                 var alarmFire = _alarmToFireRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30));
                 output.Fire30DayCount = alarmFire.Count();
@@ -92,18 +85,6 @@ namespace FireProtectionV1.FireWorking.Manager
                 .Where(p => p.Count > highFreq).Count();
                 var detectsFire = _detectorRep.GetAll().Where(p => p.FireUnitId == input.Id && p.FireSysType == FireSysType.Fire);
                 output.FirePointsCount = detectsFire.Count();
-                netStates = from a in detectsFire
-                            join b in _gatewayRep.GetAll()
-                            on a.GatewayId equals b.Id
-                            select b.Status;
-                netStatesCount = netStates.Count();
-                if (netStatesCount > 0)
-                {
-                    output.FireStateValue = netStates.First();
-                    output.FireStateName = output.FireStateValue == Common.Enum.GatewayStatus.Online ? "在线" : "离线";
-                    //if (netStatesCount > 1)
-                    //    output.FireState = $"{output.FireState}({netStates.Select(p => p.Equals(output.FireState)).Count()}/{netStatesCount})";
-                }
                 //故障数据
                 var faults = _faultRep.GetAll().Where(p => p.FireUnitId == input.Id);
                 output.FaultCount = faults.Count();
@@ -140,7 +121,9 @@ namespace FireProtectionV1.FireWorking.Manager
                                  select new AlarmRecord()
                                  {
                                      Time = a.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                                     Content = $"报警部件：{c.Name}，报警地点：{b.Location}，当前值：{a.Analog.ToString("0")}{a.Unit},警戒值：{a.AlarmLimit}"
+                                     //Content = $"报警部件：{c.Name}，当前值：{a.Analog.ToString("0")}{a.Unit},警戒值：{a.AlarmLimit}",
+                                     Content = $"【{c.Name}】发生报警，探测值{a.Analog.ToString("0")}{a.Unit},警戒值{a.AlarmLimit}",
+                                     Location =b.Location
                                  };
 
                 var lst = lstRecords.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
@@ -169,7 +152,9 @@ namespace FireProtectionV1.FireWorking.Manager
                                  select new AlarmRecord()
                                  {
                                      Time = a.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                                     Content = $"报警部件：{c.Name}，报警地点：{b.Location}"
+                                     //Content = $"报警部件：{c.Name}，报警地点：{b.Location}",
+                                     Content = $"【{c.Name}】发生报警",
+                                     Location = b.Location
                                  };
 
                 var lst = lstRecords.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();

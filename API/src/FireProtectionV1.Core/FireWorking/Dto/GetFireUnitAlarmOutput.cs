@@ -12,17 +12,13 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public string FireUnitName { get; set; }
         /// <summary>
-        /// （安全用电）管控点位
+        /// 剩余电流探测器数量
         /// </summary>
-        public int ElecPointsCount { get; set; }
+        public int ElecECount { get; set; }
         /// <summary>
-        /// （安全用电）网关状态
+        /// 电缆温度探测器数量
         /// </summary>
-        public GatewayStatus ElecStateValue { get; set; }
-        /// <summary>
-        /// （安全用电）网关状态
-        /// </summary>
-        public string ElecStateName { get; set; }
+        public int ElecTCount { get; set; }
         /// <summary>
         /// （安全用电）最近30天报警次数
         /// </summary>
@@ -32,17 +28,9 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public int ElecHighCount { get; set; }
         /// <summary>
-        /// （火警预警）管控点位
+        /// （火警预警）物联网数据终端数量
         /// </summary>
         public int FirePointsCount { get; set; }
-        /// <summary>
-        /// （火警预警）网关状态
-        /// </summary>
-        public GatewayStatus FireStateValue { get; set; }
-        /// <summary>
-        /// （火警预警）网关状态
-        /// </summary>
-        public string FireStateName { get; set; }
         /// <summary>
         /// （火警预警）最近30天报警次数
         /// </summary>

@@ -38,5 +38,9 @@ namespace FireProtectionV1.Enterprise.Dto
         /// 维保单位
         /// </summary>
         public string SafeUnit { get; set; }
+        /// <summary>
+        /// 是否关注
+        /// </summary>
+        public bool IsAttention { get; set; }
     }
 }

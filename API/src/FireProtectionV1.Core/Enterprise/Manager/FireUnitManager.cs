@@ -230,9 +230,11 @@ namespace FireProtectionV1.Enterprise.Manager
         public async Task<GetFireUnitInfoOutput> GetFireUnitInfo(GetFireUnitInfoInput input)
         {
             GetFireUnitInfoOutput output = new GetFireUnitInfoOutput();
+            var att = _fireUnitAttentionRep.GetAll().Where(p => p.FireDeptUserId == input.UserId && p.FireUnitId == input.Id).FirstOrDefault();
             var f = await _fireUnitRep.SingleAsync(p => p.Id.Equals(input.Id));
             if (f != null)
             {
+                output.IsAttention = att != null;
                 output.Id = f.Id;
                 output.Name = f.Name;
                 output.Address = f.Address;

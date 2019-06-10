@@ -433,6 +433,11 @@
             维保单位
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.IsAttention">
+            <summary>
+            是否关注
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput.Name">
             <summary>
             防火单位名称
@@ -1008,6 +1013,11 @@
             报警时间
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmRecord.Location">
+            <summary>
+            报警地点
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.DeviceBaseInput.Identify">
             <summary>
             设备标识
@@ -1263,19 +1273,14 @@
             防火单位名称
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.ElecPointsCount">
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.ElecECount">
             <summary>
-            （安全用电）管控点位
+            剩余电流探测器数量
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.ElecStateValue">
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.ElecTCount">
             <summary>
-            （安全用电）网关状态
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.ElecStateName">
-            <summary>
-            （安全用电）网关状态
+            电缆温度探测器数量
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.Elec30DayCount">
@@ -1290,17 +1295,7 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.FirePointsCount">
             <summary>
-            （火警预警）管控点位
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.FireStateValue">
-            <summary>
-            （火警预警）网关状态
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.FireStateName">
-            <summary>
-            （火警预警）网关状态
+            （火警预警）物联网数据终端数量
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.Fire30DayCount">
