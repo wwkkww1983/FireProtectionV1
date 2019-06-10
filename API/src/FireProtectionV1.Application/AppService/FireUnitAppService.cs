@@ -23,10 +23,12 @@ namespace FireProtectionV1.AppService
         IFireUnitManager _fireUnitManager;
         IFireWorkingManager _fireWorkingManager;
         IPatrolManager _patrolManager;
+        IDutyManager _dutyManager;
         IDeviceManager _deviceManager;
 
         public FireUnitAppService(
             IDeviceManager deviceManager,
+            IDutyManager dutyManager,
             IPatrolManager patrolManager,
             IHttpContextAccessor httpContext,
             IFireUnitManager fireUnitInfoManager, 
@@ -34,6 +36,7 @@ namespace FireProtectionV1.AppService
             :base(httpContext)
         {
             _deviceManager = deviceManager;
+            _dutyManager = dutyManager;
             _patrolManager = patrolManager;
             _fireUnitManager = fireUnitInfoManager;
             _fireWorkingManager = fireWorkingManager;
@@ -527,7 +530,17 @@ namespace FireProtectionV1.AppService
         /// <returns></returns>
         public async Task<GetFireUnitDutyListOutput> GetFireUnitDutyList(GetPagedFireUnitListInput input)
         {
-            return await _fireWorkingManager.GetFireUnitDutyList(input);
+            var output = new GetFireUnitDutyListOutput();
+            await Task.Run(() =>
+            {
+                output.NoWork1DayCount = _dutyManager.GetNoDuty1DayFireUnits().Count();
+                var query = _dutyManager.GetDutyFireUnitsAll(input.Name).OrderByDescending(p => p.LastTime);
+                output.PagedResultDto = new PagedResultDto<FireUnitManualOuput>(query.Count()
+                    , query.Skip(input.SkipCount).Take(input.MaxResultCount).ToList());
+            });
+            return output;
+
+            //return await _fireWorkingManager.GetFireUnitDutyList(input);
         }
         /// <summary>
         /// （所有防火单位）超过7天没有巡查记录的单位列表
@@ -558,7 +571,20 @@ namespace FireProtectionV1.AppService
         /// <returns></returns>
         public async Task<GetFireUnitDutyListOutput> GetNoDuty1DayFireUnitList(PagedRequestByUserIdDto input)
         {
-            return await _fireWorkingManager.GetNoDuty1DayFireUnitList(input);
+            var output = new GetFireUnitDutyListOutput();
+            await Task.Run(() =>
+            {
+                var fireunits = _dutyManager.GetNoDuty1DayFireUnits();
+                output.NoWork1DayCount = fireunits.Count();
+                var query = from a in fireunits
+                            join b in _dutyManager.GetDutyFireUnitsAll().ToList()
+                            on a.FireUnitId equals b.FireUnitId
+                            orderby b.LastTime descending
+                            select b;
+                output.PagedResultDto = new PagedResultDto<FireUnitManualOuput>(query.Count()
+                    , query.Skip(input.SkipCount).Take(input.MaxResultCount).ToList());
+            });
+            return output;
         }
     }
 }
