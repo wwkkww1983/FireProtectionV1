@@ -19,12 +19,21 @@ namespace FireProtectionV1.AppService
             _manager = manager;
         }
         /// <summary>
-                 /// 初始化数据(部署初始化)
-                 /// </summary>
-                 /// <returns></returns>
+        /// 初始化数据(部署初始化)
+        /// </summary>
+        /// <returns></returns>
         public async Task InitData()
         {
             await _manager.InitData();
+        }
+        /// <summary>
+        /// 增加市政消火栓
+        /// </summary>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        public async Task AddHydrant(int num)
+        {
+            await _manager.AddHydrant(num); 
         }
     }
 }

@@ -218,6 +218,68 @@
             <param name="stream"></param>
             <returns></returns>
         </member>
+        <member name="T:FireProtectionV1.Common.Helper.RandomHelper">
+            <summary>
+            随机字符串工具类
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Helper.RandomHelper._RandIndex">
+            <summary>
+            随机系数
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.RandomHelper.GetRandomNumber(System.Double,System.Double,System.Int32,System.Boolean,System.Int32)">
+            <summary>
+            获取某个区间的一个随机数
+            </summary>
+            <param name="minimum">开始区间</param>
+            <param name="maximum">结束区间</param>
+            <param name="length">小数点的位数</param>
+            <param name="isSleep">是否线程睡眠</param>
+            <param name="millisecondsTimeout">线程时间</param>
+            <returns>返回某个区间的一个随机数</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.RandomHelper.RndInt(System.Int32,System.Int32)">
+            <summary>
+            数字随机数
+            </summary>
+            <param name="minNum">随机数的最小值</param>
+            <param name="maxNum">随机数的最大值</param>
+            <returns>从多少到多少之间的数据 包括开始不包括结束</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.RandomHelper.RndNum(System.Int32)">
+            <summary>
+            数字随机数
+            </summary>
+            <param name="length">生成长度</param>
+            <returns>返回指定长度的数字随机串</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.RandomHelper.RndDateStr">
+            <summary>
+            日期随机函数
+            </summary>
+            <returns>返回日期随机串</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.RandomHelper.RndCode(System.Int32)">
+            <summary>
+            数字和字母随机数
+            </summary>
+            <param name="length">生成长度</param>
+            <returns>返回指定长度的数字和字母的随机串</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.RandomHelper.RndLetter(System.Int32)">
+            <summary>
+            字母随机数
+            </summary>
+            <param name="length">生成长度</param>
+            <returns>返回指定长度的字母随机数</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.RandomHelper.GetGuid">
+            <summary>
+            生成GUID
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:FireProtectionV1.Common.Helper.Valid">
             <summary>
             异常过滤辅助类

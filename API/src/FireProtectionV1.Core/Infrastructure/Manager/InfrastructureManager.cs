@@ -1,5 +1,6 @@
 ﻿using Abp.Domain.Repositories;
 using Abp.Domain.Services;
+using FireProtectionV1.Common.Helper;
 using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.HydrantCore.Model;
 using FireProtectionV1.Infrastructure.Dto;
@@ -57,6 +58,41 @@ namespace FireProtectionV1.Infrastructure.Manager
             _supervisionDetailRepository = supervisionDetailRepository;
             _supervisionDetailRemarkRepository = supervisionDetailRemarkRepository;
             _settingRepository = settingRepository;
+        }
+
+        /// <summary>
+        /// 增加市政消火栓
+        /// </summary>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        public Task AddHydrant(int num)
+        {
+            if (num > 500)
+            {
+                return Task.FromResult("每次增加的数量不能大于500");
+            }
+            for (int i=0;i<num;i++)
+            {
+                var hydrant = new Hydrant()
+                {
+                    Sn = RandomHelper.RndCode(6).ToUpper(),
+                    AreaId = RandomHelper.RndInt(32950,32964),
+                    Address = "",
+                    Status = Common.Enum.GatewayStatus.Online,
+                    Lng = (decimal)RandomHelper.GetRandomNumber(104.089777, 104.219777, 6),
+                    Lat = (decimal)RandomHelper.GetRandomNumber(30.620157, 30.730157, 6)
+                };
+                int id = _hydrantRepository.InsertAndGetId(hydrant);
+
+                var hydrantPress = new HydrantPressure()
+                {
+                    HydrantId = id,
+                    Pressure = RandomHelper.RndInt(155, 260)
+                };
+                _hydrantPressureRepository.Insert(hydrantPress);
+            }
+
+            return Task.FromResult($"已成功插入{num}条数据");
         }
 
         /// <summary>
