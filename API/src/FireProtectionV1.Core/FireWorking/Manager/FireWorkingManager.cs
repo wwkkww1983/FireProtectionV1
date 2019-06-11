@@ -380,7 +380,7 @@ namespace FireProtectionV1.FireWorking.Manager
                                      on a.FireUnitId equals b.FireUnitId
                                      group a by b into g
                                      select new Top10FireUnit() { AlarmCount = g.Key.Count, Name = g.Key.Name, PointCount = g.Count() };
-                output.Top10FireUnits = top10FireUnits.ToList();
+                output.Top10FireUnits = top10FireUnits.OrderByDescending(p=>p.AlarmCount).ToList();
             });
             return output;
         }
@@ -572,7 +572,7 @@ namespace FireProtectionV1.FireWorking.Manager
                                      on a.FireUnitId equals b.FireUnitId
                                      group a by b into g
                                      select new Top10FireUnit() { AlarmCount = g.Key.Count, Name = g.Key.Name, PointCount = g.Count() };
-                output.Top10FireUnits = top10FireUnits.ToList();
+                output.Top10FireUnits = top10FireUnits.OrderByDescending(p=>p.AlarmCount).ToList();
             });
             return output;
         }
