@@ -170,6 +170,9 @@ namespace FireProtectionV1.BigScreen.Manager
                     });
                 }
             }
+            lstAlarmElec.RemoveAll(item => item.CreationTime.AddHours(1) < DateTime.Now);
+            lstAlarmElec = lstAlarmElec.OrderByDescending(item => item.CreationTime).ToList();
+            _cacheManager.GetCache("BigScreen").Set("lstAlarmElec", lstAlarmElec);
 
             int cntAlarmElec = lstAlarmElec.Count > 10 ? 10 : lstAlarmElec.Count;   // 最多取10条
             for (int i = 0; i < cntAlarmElec; i++)
@@ -450,7 +453,7 @@ namespace FireProtectionV1.BigScreen.Manager
         {
             Random random = new Random();
             List<Histogram> lstHistogram = new List<Histogram>();
-            for (int i=1;i<=days;i++)
+            for (int i = 1; i <= days; i++)
             {
                 lstHistogram.Add(new Histogram()
                 {
