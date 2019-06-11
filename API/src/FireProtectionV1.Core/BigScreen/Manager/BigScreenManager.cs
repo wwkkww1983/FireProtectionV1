@@ -375,7 +375,7 @@ namespace FireProtectionV1.BigScreen.Manager
             DataText dataText = new DataText();
             if (":id".Equals(id))
             {
-                dataText.value = "jrt4fd";
+                dataText.value = "东荆路8号东林景忆小区后门";
             }
             else
             {
@@ -422,7 +422,7 @@ namespace FireProtectionV1.BigScreen.Manager
             {
                 lstHistogram.Add(new Histogram()
                 {
-                    x = DateTime.Now.AddDays(-i).ToString("yyyy/MM/dd  00:00:00"),
+                    x = DateTime.Now.AddDays(-i).ToString("yyyy/MM/dd 00:00:00"),
                     y = random.Next(120, 150),
                 });
             }
