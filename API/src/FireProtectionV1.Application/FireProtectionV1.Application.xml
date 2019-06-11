@@ -557,6 +557,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.InfrastructureAppService.AddHydrant(System.Int32)">
+            <summary>
+            增加市政消火栓
+            </summary>
+            <param name="num"></param>
+            <returns></returns>
+        </member>
         <member name="T:FireProtectionV1.AppService.MiniFireStationAppService">
             <summary>
             微型消防站
