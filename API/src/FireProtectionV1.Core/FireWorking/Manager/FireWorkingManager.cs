@@ -90,8 +90,12 @@ namespace FireProtectionV1.FireWorking.Manager
                 output.FaultCount = faults.Count();
                 output.FaultPendingCount = faults.Where(p => p.ProcessState == 0).Count();
                 output.FaultProcessedCount = output.FaultCount - output.FaultPendingCount;
+                var lastPatrol = _patrolRep.GetAll().Where(p => p.FireUnitId == input.Id).OrderByDescending(p => p.CreationTime).FirstOrDefault();
+                output.PatrolLastTime = lastPatrol == null ? "" : lastPatrol.CreationTime.ToString("yyyy-MM-dd HH:mm");
                 //巡查记录：最近提交时间、最近30天提交记录数量
                 output.Patrol30DayCount = _patrolRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30)).Count();
+                var lastDuty = _dutyRep.GetAll().Where(p => p.FireUnitId == input.Id).OrderByDescending(p => p.CreationTime).FirstOrDefault();
+                output.DutyLastTime = lastDuty == null ? "" : lastDuty.CreationTime.ToString("yyyy-MM-dd HH:mm");
                 //值班记录：最近提交时间、最近30天提交记录数量
                 output.Duty30DayCount = _dutyRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30)).Count();
             });
