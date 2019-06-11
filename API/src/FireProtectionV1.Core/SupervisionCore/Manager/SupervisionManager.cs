@@ -93,7 +93,7 @@ namespace FireProtectionV1.SupervisionCore.Manager
                             Id = a.Id,
                             FireUnitName = b.Name,
                             CheckUser = a.CheckUser,
-                            CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                            CreationTime = a.CreationTime.ToString("yyyy-MM-dd"),
                             CheckResult = a.CheckResult
                         };
 
