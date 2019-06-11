@@ -1548,6 +1548,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IAlarmManager.GetNewElecAlarm(System.DateTime)">
+            <summary>
+            查询指定时间以后的最新电气火灾报警数据
+            </summary>
+            <param name="startTime"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.AddDetector(FireProtectionV1.FireWorking.Dto.AddDetectorInput)">
             <summary>
             新增探测器部件

@@ -1,4 +1,5 @@
 ﻿using Abp.Domain.Repositories;
+using FireProtectionV1.Common.Enum;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
 using System;
@@ -73,6 +74,14 @@ namespace FireProtectionV1.FireWorking.Manager
         public Gateway GetGateway(string gatewayIdentify, string origin)
         {
             return _gatewayRep.GetAll().Where(p => p.Identify.Equals(gatewayIdentify) && p.Origin.Equals(origin)).FirstOrDefault();
+        }
+        public IQueryable<Detector> GetDetectorElectricAll()
+        {
+            return _detectorRep.GetAll().Where(p=>p.FireSysType==FireSysType.Electric);
+        }
+        public IQueryable<DetectorType> GetDetectorTypeAll()
+        {
+            return _detectorTypeRep.GetAll();
         }
     }
 }

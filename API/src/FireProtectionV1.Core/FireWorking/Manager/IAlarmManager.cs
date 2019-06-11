@@ -3,6 +3,7 @@ using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,5 +24,11 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<AddDataOutput> AddAlarmFire(AddAlarmFireInput input);
+        /// <summary>
+        /// 查询指定时间以后的最新电气火灾报警数据
+        /// </summary>
+        /// <param name="startTime"></param>
+        /// <returns></returns>
+        IQueryable<AlarmToElectric> GetNewElecAlarm(DateTime startTime);
     }
 }

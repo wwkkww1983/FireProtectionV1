@@ -3,6 +3,7 @@ using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,5 +27,7 @@ namespace FireProtectionV1.FireWorking.Manager
         Detector GetDetector(string identify,string origin);
         Gateway GetGateway(string identify, string origin);
         DetectorType GetDetectorType(byte GBtype);
+        IQueryable<Detector> GetDetectorElectricAll();
+        IQueryable<DetectorType> GetDetectorTypeAll();
     }
 }

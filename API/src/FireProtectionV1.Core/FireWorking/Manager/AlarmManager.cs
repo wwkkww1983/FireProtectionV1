@@ -25,6 +25,10 @@ namespace FireProtectionV1.FireWorking.Manager
             _alarmToElectricRep = alarmToElectricRep;
             _alarmToFireRep = alarmToFireRep;
         }
+        public IQueryable< AlarmToElectric> GetNewElecAlarm(DateTime startTime)
+        {
+            return _alarmToElectricRep.GetAll().Where(p => p.CreationTime > startTime);
+        }
         /// <summary>
         /// 新增安全用电报警
         /// </summary>

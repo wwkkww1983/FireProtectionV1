@@ -1,9 +1,11 @@
 ﻿using Abp.Domain.Repositories;
 using Abp.Domain.Services;
 using Abp.Runtime.Caching;
+using DeviceServer.Tcp.Protocol;
 using FireProtectionV1.BigScreen.Dto;
 using FireProtectionV1.Common.DBContext;
 using FireProtectionV1.Enterprise.Model;
+using FireProtectionV1.FireWorking.Manager;
 using FireProtectionV1.HydrantCore.Model;
 using FireProtectionV1.Infrastructure.Model;
 using System;
@@ -19,18 +21,24 @@ namespace FireProtectionV1.BigScreen.Manager
     {
         static DateTime _AlarmElecTime = DateTime.Now;   // 被电气警情天讯通使用
 
+        IDeviceManager _deviceManager;
+        IAlarmManager _alarmManager;
         IRepository<FireUnit> _fireUnitRep;
         IRepository<FireUnitType> _fireUnitTypeRep;
         IRepository<Hydrant> _hydrantRep;
         ICacheManager _cacheManager;
         ISqlRepository _sqlRepository;
         public BigScreenManager(
+            IDeviceManager deviceManager,
+            IAlarmManager alarmManager,
             IRepository<FireUnit> fireUnitRep,
             IRepository<FireUnitType> fireUnitTypeRep,
             IRepository<Hydrant> hydrantRep,
             ICacheManager cacheManager,
             ISqlRepository sqlRepository)
         {
+            _deviceManager = deviceManager;
+            _alarmManager = alarmManager;
             _fireUnitRep = fireUnitRep;
             _fireUnitTypeRep = fireUnitTypeRep;
             _hydrantRep = hydrantRep;
@@ -100,6 +108,28 @@ namespace FireProtectionV1.BigScreen.Manager
             lstDataText.Add(mt);
             return Task.FromResult(lstDataText);
         }
+        List<AlarmElec> GetNewAlarmElec(DateTime startTime)
+        {
+            var query = from a in _alarmManager.GetNewElecAlarm(startTime)
+                        join b in _deviceManager.GetDetectorElectricAll()
+                        on a.DetectorId equals b.Id
+                        join c in _deviceManager.GetDetectorTypeAll()
+                        on b.DetectorTypeId equals c.Id
+                        join d in _fireUnitRep.GetAll()
+                        on a.FireUnitId equals d.Id
+                        orderby a.CreationTime descending
+                        select new AlarmElec()
+                        {
+                            Address = d.Address,
+                            AlarmType = c.Name,
+                            AlarmValue = $"{a.Analog}{a.Unit}",
+                            ContractName = d.ContractName,
+                            ContractPhone = d.ContractPhone,
+                            CreationTime = a.CreationTime,
+                            FireUnitName = d.Name
+                        };
+            return query.ToList();
+        }
         /// <summary>
         /// 首页：电气警情天讯通
         /// </summary>
@@ -110,7 +140,7 @@ namespace FireProtectionV1.BigScreen.Manager
             DataText mt = new DataText();
             var lstAlarmElec = _cacheManager.GetCache("BigScreen").Get("lstAlarmElec", () => InitAlarmElecList());
 
-            List<AlarmElec> lstAlarmElecNew = null;    // 获取CreationTime大于_AlarmElecTime的电气火灾报警数据
+            List<AlarmElec> lstAlarmElecNew = GetNewAlarmElec(_AlarmElecTime);    // 获取CreationTime大于_AlarmElecTime的电气火灾报警数据
             if (lstAlarmElecNew != null && lstAlarmElecNew.Count > 0)
             {
                 _AlarmElecTime = DateTime.Now;  // 如果获取到了数据，则更新_AlarmElecTime，下次只需获取CreationTime大于_AlarmElecTime的电气火灾报警数据
