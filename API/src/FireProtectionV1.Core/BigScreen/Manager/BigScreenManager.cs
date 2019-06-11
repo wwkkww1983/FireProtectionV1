@@ -66,7 +66,7 @@ namespace FireProtectionV1.BigScreen.Manager
                     info = fireUnit.Name
                 });
                 jsq++;
-                if ((jsq == 8 && "1".Equals(value)) || (jsq == 19 && "2".Equals(value)) || (jsq == 92 && "3".Equals(value))) break;
+                if ((jsq == 8 && "2018-01".Equals(value)) || (jsq == 19 && "2018-03".Equals(value)) || (jsq == 92 && "2019-01".Equals(value))) break;
             }
             return Task.FromResult(lstBreathingBubble);
         }
@@ -153,7 +153,7 @@ namespace FireProtectionV1.BigScreen.Manager
             else
             {
                 Random random = new Random();
-                if (random.Next(0, 10) == 9)    // 十分之一的机会
+                if (random.Next(0, 20) == 9)    // 二十分之一的机会
                 {
                     int alarmTypeEnum = random.Next(0, 10);  // 十分之一的机会是电缆温度，十分之九的机会是剩余电流
                     var lstFireUnit = _cacheManager.GetCache("BigScreen").Get("lstFireUnit", () => GetAllFireUnit());
@@ -205,16 +205,16 @@ namespace FireProtectionV1.BigScreen.Manager
             totalWarning.name = "";
             switch (value)
             {
-                case "1":
+                case "2018-01":
                     totalWarning.value = 8;
                     break;
-                case "2":
+                case "2018-03":
                     totalWarning.value = 19;
                     break;
-                case "3":
+                case "2019-01":
                     totalWarning.value = 92;
                     break;
-                case "4":
+                case "2019-04":
                     totalWarning.value = 116;
                     break;
                 default:
@@ -236,16 +236,16 @@ namespace FireProtectionV1.BigScreen.Manager
             totalWarning.name = "";
             switch (value)
             {
-                case "1":
+                case "2018-01":
                     totalWarning.value = 689;
                     break;
-                case "2":
+                case "2018-03":
                     totalWarning.value = 1964;
                     break;
-                case "3":
+                case "2019-01":
                     totalWarning.value = 3310;
                     break;
-                case "4":
+                case "2019-04":
                     totalWarning.value = 2187;
                     break;
                 default:
@@ -381,7 +381,7 @@ namespace FireProtectionV1.BigScreen.Manager
             DataText dataText = new DataText();
             if (":id".Equals(id))
             {
-                dataText.value = "jrt4fd";
+                dataText.value = "JRT4FD";
             }
             else
             {
