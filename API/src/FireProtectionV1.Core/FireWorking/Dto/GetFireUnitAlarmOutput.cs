@@ -52,9 +52,17 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public int FaultPendingCount { get; set; }
         /// <summary>
+        /// 最近巡检提交时间
+        /// </summary>
+        public string PatrolLastTime { get; set; }
+        /// <summary>
         /// 巡查记录最近30天数量
         /// </summary>
         public int Patrol30DayCount { get; set; }
+        /// <summary>
+        /// 最近值班提交时间
+        /// </summary>
+        public string DutyLastTime { get; set; }
         /// <summary>
         /// 值班记录最近30天数量
         /// </summary>
