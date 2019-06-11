@@ -62,7 +62,7 @@ namespace FireProtectionV1.FireWorking.Manager
                                 on a equals b.Id
                                 select b;
 
-            var noWorkFireUnits = _fireUnitRep.GetAll().Except(workFireUnits);
+            var noWorkFireUnits = _fireUnitRep.GetAll().Except(workFireUnits.ToList());
             var query = from a in noWorkFireUnits
                         join b in _dutyRep.GetAll().GroupBy(p => p.FireUnitId).Select(p => new
                         {

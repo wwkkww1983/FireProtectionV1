@@ -1533,20 +1533,6 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetFireUnitDutyList(FireProtectionV1.Enterprise.Dto.GetPagedFireUnitListInput)">
-            <summary>
-            （所有防火单位）值班巡查监控（值班记录）
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.FireWorkingManager.GetNoDuty1DayFireUnitList(FireProtectionV1.Enterprise.Dto.PagedRequestByUserIdDto)">
-            <summary>
-            （所有防火单位）超过1天没有值班记录的单位列表
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IAlarmManager.AddAlarmElec(FireProtectionV1.FireWorking.Dto.AddDataElecInput,System.String)">
             <summary>
             新增安全用电报警
@@ -1657,20 +1643,6 @@
             <summary>
             （所有防火单位）安全用电监控列表（剩余电流）
             </summary>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnitDutyList(FireProtectionV1.Enterprise.Dto.GetPagedFireUnitListInput)">
-            <summary>
-            （所有防火单位）值班巡查监控（值班记录）
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetNoDuty1DayFireUnitList(FireProtectionV1.Enterprise.Dto.PagedRequestByUserIdDto)">
-            <summary>
-            （所有防火单位）超过1天没有值班记录的单位列表
-            </summary>
-            <param name="input"></param>
             <returns></returns>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.DetectorId">
