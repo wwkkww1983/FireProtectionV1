@@ -381,7 +381,7 @@ namespace FireProtectionV1.BigScreen.Manager
             DataText dataText = new DataText();
             if (":id".Equals(id))
             {
-                dataText.value = "jrt4fd";
+                dataText.value = "JRT4FD";
             }
             else
             {
