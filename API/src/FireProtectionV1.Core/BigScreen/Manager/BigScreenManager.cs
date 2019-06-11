@@ -62,7 +62,8 @@ namespace FireProtectionV1.BigScreen.Manager
                 {
                     id = fireUnit.Id,
                     lng = (double)fireUnit.Lng,
-                    lat = (double)fireUnit.Lat
+                    lat = (double)fireUnit.Lat,
+                    info = fireUnit.Name
                 });
                 jsq++;
                 if ((jsq == 8 && "1".Equals(value)) || (jsq == 19 && "2".Equals(value)) || (jsq == 92 && "3".Equals(value))) break;
@@ -292,7 +293,7 @@ namespace FireProtectionV1.BigScreen.Manager
             DataText dataText = new DataText();
             if (":id".Equals(id))
             {
-                dataText.value = "天树 15667788835<br/>丽都路518号14楼";
+                dataText.value = "郭海 15881199975<br/>丽都路518号14楼";
             }
             else
             {
@@ -360,7 +361,8 @@ namespace FireProtectionV1.BigScreen.Manager
                 {
                     id = hydrant.Id,
                     lng = (double)hydrant.Lng,
-                    lat = (double)hydrant.Lat
+                    lat = (double)hydrant.Lat,
+                    info = hydrant.Sn
                 });
             }
             return Task.FromResult(lstBreathingBubble);
@@ -405,7 +407,7 @@ namespace FireProtectionV1.BigScreen.Manager
             DataText dataText = new DataText();
             if (":id".Equals(id))
             {
-                dataText.value = "jrt4fd";
+                dataText.value = "东荆路8号东林景忆小区后门";
             }
             else
             {
@@ -452,7 +454,7 @@ namespace FireProtectionV1.BigScreen.Manager
             {
                 lstHistogram.Add(new Histogram()
                 {
-                    x = DateTime.Now.AddDays(-i).ToString("yyyy/MM/dd  00:00:00"),
+                    x = DateTime.Now.AddDays(-i).ToString("yyyy/MM/dd 00:00:00"),
                     y = random.Next(120, 150),
                 });
             }

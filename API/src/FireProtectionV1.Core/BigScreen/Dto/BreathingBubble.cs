@@ -14,5 +14,6 @@ namespace FireProtectionV1.BigScreen.Dto
         public double lng { get; set; }
         public int value { get; set; } = 1;
         public int type { get; set; } = 1;
+        public string info { get; set; }
     }
 }
