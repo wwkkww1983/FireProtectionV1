@@ -367,7 +367,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 DateTime nowMonDay1 = now.Date.AddDays(1 - now.Day);
                 var monthAlarmCounts = _alarmToElectricRep.GetAll().Where(p => p.CreationTime >= nowMonDay1.AddMonths(-3))
                 .GroupBy(p=>p.CreationTime.ToString("yyyy年MM月")).Select(p=>new MonthCount() { Month = p.Key, Count = p.Count() });
-                output.MonthAlarmCounts = monthAlarmCounts.ToList();
+                output.MonthAlarmCounts = monthAlarmCounts.OrderBy(p => p.Month).ToList();
                 //最近30天报警次数Top10
                 var unitAlarmCounts30=_alarmToElectricRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-30))
                 .GroupBy(p => p.FireUnitId).Select(p => new { FireUnitId = p.Key, Count = p.Count() }).OrderBy(p=>p.Count);
@@ -559,7 +559,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 DateTime nowMonDay1 = now.Date.AddDays(1 - now.Day);
                 var monthAlarmCounts = _alarmToFireRep.GetAll().Where(p => p.CreationTime >= nowMonDay1.AddMonths(-3))
                 .GroupBy(p => p.CreationTime.ToString("yyyy年MM月")).Select(p => new MonthCount() { Month = p.Key, Count = p.Count() });
-                output.MonthAlarmCounts = monthAlarmCounts.ToList();
+                output.MonthAlarmCounts = monthAlarmCounts.OrderBy(p=>p.Month).ToList();
                 //最近30天报警次数Top10
                 var unitAlarmCounts30 = _alarmToFireRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-30))
                 .GroupBy(p => p.FireUnitId).Select(p => new { FireUnitId = p.Key, Count = p.Count() }).OrderBy(p => p.Count);
