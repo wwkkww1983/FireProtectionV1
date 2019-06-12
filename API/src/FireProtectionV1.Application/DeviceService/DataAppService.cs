@@ -142,7 +142,7 @@ namespace FireProtectionV1.DeviceService
         //        });
         //    }
         //}
-        public void TestAlarmXinYuan()
+         void TestAlarmXinYuan()
         {
             for (int i = 0; i < 20; i++)
             {
@@ -174,7 +174,7 @@ namespace FireProtectionV1.DeviceService
                 });
             }
         }
-        public void TestAlarm()
+         void TestAlarm()
         {
             for (int fireunitid = 5; fireunitid < 20; fireunitid++)
             {
@@ -239,7 +239,31 @@ namespace FireProtectionV1.DeviceService
                 }
             }
         }
-
+         void TestFaultXy()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                _faultManager.AddNewFault(new AddNewFaultInput()
+                {
+                    DetectorGBType = 18,
+                    FaultRemark = "温感失效",
+                    GatewayIdentify = "81.31.0.0.0.11",
+                    Identify = "1.0.0.0",
+                    Origin = "安吉斯"
+                });
+            }
+            for (int i = 0; i < 20; i++)
+            {
+                _faultManager.AddNewFault(new AddNewFaultInput()
+                {
+                    DetectorGBType = 2,
+                    FaultRemark = "通信故障",
+                    GatewayIdentify = "11.0.0.1.200.1",
+                    Identify = "11.0.0.1.200.1",
+                    Origin = "安吉斯"
+                });
+            }
+        }
         //public void TestFault()
         //{
         //    for (int fireunitid = 5; fireunitid < 20; fireunitid++)
@@ -306,7 +330,7 @@ namespace FireProtectionV1.DeviceService
         //        }
         //    }
         //}
-        public void TestPatrolDuty()
+        void TestPatrolDuty()
         {
             for (int fireunitid = 1; fireunitid <= 145; fireunitid++)
             {
