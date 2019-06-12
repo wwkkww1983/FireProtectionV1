@@ -136,71 +136,71 @@ namespace FireProtectionV1.DeviceService
         //        });
         //    }
         //}
-        //public void TestAlarm()
-        //{
-        //    for (int fireunitid = 5; fireunitid < 20; fireunitid++)
-        //    {
-        //        int n = new Random().Next(1, 10);
-        //        for (int i = 0; i < n; i++)
-        //        {
-        //            _alarmManager.AddAlarmElec(new AddDataElecInput()
-        //            {
-        //                Analog = new Random().Next(101, 1999),
-        //                DetectorGBType = 17,
-        //                GatewayIdentify = "66." + fireunitid,
-        //                Identify = fireunitid + ".0.0.1",
-        //                Unit = "A",
-        //                Origin = ""
-        //            },"100A");
-        //        }
-        //        n = new Random().Next(1, 10);
-        //        for(int i = 0; i < n; i++)
-        //        {
-        //            _alarmManager.AddAlarmElec(new AddDataElecInput()
-        //            {
-        //                Analog = new Random().Next(101, 299),
-        //                DetectorGBType = 18,
-        //                GatewayIdentify = "66." + fireunitid,
-        //                Identify = fireunitid + ".0.0.2",
-        //                Unit = "℃",
-        //                Origin = ""
-        //            }, "60℃");
-        //        }
-        //        n = new Random().Next(1, 10);
-        //        for (int i = 0; i < n; i++)
-        //        {
-        //            _alarmManager.AddAlarmFire(new AddAlarmFireInput()
-        //            {
-        //                DetectorGBType = 23,
-        //                GatewayIdentify = "88." + fireunitid,
-        //                Identify = fireunitid + ".2.0.1",
-        //                Origin = ""
-        //            });
-        //        }
-        //        n = new Random().Next(1, 10);
-        //        for (int i = 0; i < n; i++)
-        //        {
-        //            _alarmManager.AddAlarmFire(new AddAlarmFireInput()
-        //            {
-        //                DetectorGBType = 40,
-        //                GatewayIdentify = "88." + fireunitid,
-        //                Identify = fireunitid + ".2.0.2",
-        //                Origin = ""
-        //            });
-        //        }
-        //        n = new Random().Next(1, 10);
-        //        for (int i = 0; i < n; i++)
-        //        {
-        //            _alarmManager.AddAlarmFire(new AddAlarmFireInput()
-        //            {
-        //                DetectorGBType = 69,
-        //                GatewayIdentify = "88." + fireunitid,
-        //                Identify = fireunitid + ".2.0.3",
-        //                Origin = ""
-        //            });
-        //        }
-        //    }
-        //}
+        public void TestAlarm()
+        {
+            for (int fireunitid = 5; fireunitid < 20; fireunitid++)
+            {
+                int n = new Random().Next(1, 10);
+                for (int i = 0; i < n; i++)
+                {
+                    _alarmManager.AddAlarmElec(new AddDataElecInput()
+                    {
+                        Analog = new Random().Next(101, 1999),
+                        DetectorGBType = 17,
+                        GatewayIdentify = "66." + fireunitid,
+                        Identify = fireunitid + ".0.0.1",
+                        Unit = "A",
+                        Origin = ""
+                    }, "100A");
+                }
+                n = new Random().Next(1, 10);
+                for (int i = 0; i < n; i++)
+                {
+                    _alarmManager.AddAlarmElec(new AddDataElecInput()
+                    {
+                        Analog = new Random().Next(101, 299),
+                        DetectorGBType = 18,
+                        GatewayIdentify = "66." + fireunitid,
+                        Identify = fireunitid + ".0.0.2",
+                        Unit = "℃",
+                        Origin = ""
+                    }, "60℃");
+                }
+                n = new Random().Next(1, 10);
+                for (int i = 0; i < n; i++)
+                {
+                    _alarmManager.AddAlarmFire(new AddAlarmFireInput()
+                    {
+                        DetectorGBType = 23,
+                        GatewayIdentify = "88." + fireunitid,
+                        Identify = fireunitid + ".2.0.1",
+                        Origin = ""
+                    });
+                }
+                n = new Random().Next(1, 10);
+                for (int i = 0; i < n; i++)
+                {
+                    _alarmManager.AddAlarmFire(new AddAlarmFireInput()
+                    {
+                        DetectorGBType = 40,
+                        GatewayIdentify = "88." + fireunitid,
+                        Identify = fireunitid + ".2.0.2",
+                        Origin = ""
+                    });
+                }
+                n = new Random().Next(1, 10);
+                for (int i = 0; i < n; i++)
+                {
+                    _alarmManager.AddAlarmFire(new AddAlarmFireInput()
+                    {
+                        DetectorGBType = 69,
+                        GatewayIdentify = "88." + fireunitid,
+                        Identify = fireunitid + ".2.0.3",
+                        Origin = ""
+                    });
+                }
+            }
+        }
 
         //public void TestFault()
         //{

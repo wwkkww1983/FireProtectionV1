@@ -281,6 +281,7 @@ namespace FireProtectionV1.FireWorking.Manager
                         on a.FireUnitId equals b.Id
                         select a;
             }
+            query = query.OrderByDescending(p => p.PendingCount);
             return Task.FromResult<PagedResultDto<FireUnitFaultOuput>>(new PagedResultDto<FireUnitFaultOuput>(
                 query.Count(), query.Skip(input.SkipCount).Take(input.MaxResultCount).ToList()));
         }
