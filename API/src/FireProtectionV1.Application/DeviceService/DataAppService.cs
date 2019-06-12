@@ -15,10 +15,13 @@ namespace FireProtectionV1.DeviceService
         IFireSettingManager _fireSettingManager;
         IDeviceManager _detectorManager;
         IAlarmManager _alarmManager;
+        IFaultManager _faultManager;
         public DataAppService(
+            IFaultManager faultManager,
             IFireSettingManager fireSettingManager,
             IDeviceManager detectorManager,IAlarmManager alarmManager)
         {
+            _faultManager = faultManager;
             _fireSettingManager = fireSettingManager;
             _detectorManager = detectorManager;
             _alarmManager = alarmManager;
@@ -191,6 +194,73 @@ namespace FireProtectionV1.DeviceService
         //            _alarmManager.AddAlarmFire(new AddAlarmFireInput()
         //            {
         //                DetectorGBType = 69,
+        //                GatewayIdentify = "88." + fireunitid,
+        //                Identify = fireunitid + ".2.0.3",
+        //                Origin = ""
+        //            });
+        //        }
+        //    }
+        //}
+
+        //public void TestFault()
+        //{
+        //    for (int fireunitid = 5; fireunitid < 20; fireunitid++)
+        //    {
+        //        int n = new Random().Next(1, 5);
+        //        for (int i = 0; i < n; i++)
+        //        {
+        //            _faultManager.AddNewFault(new AddNewFaultInput()
+        //            {
+        //                DetectorGBType = 17,
+        //                FaultRemark="线路破损",
+        //                GatewayIdentify = "66." + fireunitid,
+        //                Identify = fireunitid + ".0.0.1",
+        //                Origin = ""
+        //            });
+        //        }
+        //        n = new Random().Next(1, 5);
+        //        for (int i = 0; i < n; i++)
+        //        {
+        //            _faultManager.AddNewFault(new AddNewFaultInput()
+        //            {
+        //                DetectorGBType = 18,
+        //                FaultRemark = "温感失效",
+        //                GatewayIdentify = "66." + fireunitid,
+        //                Identify = fireunitid + ".0.0.2",
+        //                Origin = ""
+        //            });
+        //        }
+        //        n = new Random().Next(1, 5);
+        //        for (int i = 0; i < n; i++)
+        //        {
+        //            _faultManager.AddNewFault(new AddNewFaultInput()
+        //            {
+        //                DetectorGBType = 23,
+        //                FaultRemark = "按钮损坏",
+        //                GatewayIdentify = "88." + fireunitid,
+        //                Identify = fireunitid + ".2.0.1",
+        //                Origin = ""
+        //            });
+        //        }
+        //        n = new Random().Next(1, 5);
+        //        for (int i = 0; i < n; i++)
+        //        {
+        //            _faultManager.AddNewFault(new AddNewFaultInput()
+        //            {
+        //                DetectorGBType = 40,
+        //                FaultRemark = "烟感失灵",
+        //                GatewayIdentify = "88." + fireunitid,
+        //                Identify = fireunitid + ".2.0.2",
+        //                Origin = ""
+        //            });
+        //        }
+        //        n = new Random().Next(1, 5);
+        //        for (int i = 0; i < n; i++)
+        //        {
+        //            _faultManager.AddNewFault(new AddNewFaultInput()
+        //            {
+        //                DetectorGBType = 69,
+        //                FaultRemark = "感光异常",
         //                GatewayIdentify = "88." + fireunitid,
         //                Identify = fireunitid + ".2.0.3",
         //                Origin = ""

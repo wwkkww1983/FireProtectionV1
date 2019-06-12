@@ -1005,6 +1005,21 @@
             设备地点
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddNewFaultInput.DetectorGBType">
+            <summary>
+            部件国标类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddNewFaultInput.GatewayIdentify">
+            <summary>
+            网关设备标识
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddNewFaultInput.FaultRemark">
+            <summary>
+            故障描述
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AlarmRecord.Content">
             <summary>
             报警内容
@@ -1579,6 +1594,33 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFaultManager.AddNewFault(FireProtectionV1.FireWorking.Dto.AddNewFaultInput)">
+            <summary>
+            新增故障
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFaultManager.GetFaultDataAll">
+            <summary>
+            查询所有故障
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFaultManager.GetFaultDataMonth(System.Int32,System.Int32)">
+            <summary>
+            查询指定年月故障
+            </summary>
+            <param name="year"></param>
+            <param name="month"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFaultManager.GetPendingFaultFireUnits">
+            <summary>
+            查询待处理故障单位
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IFireWorkingManager.GetFireUnitAlarm(FireProtectionV1.FireWorking.Dto.FireUnitIdInput)">
             <summary>
             防火单位消防数据
@@ -1890,11 +1932,6 @@
         <member name="P:FireProtectionV1.FireWorking.Model.Fault.DetectorId">
             <summary>
             探测器Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.Fault.FaultTitle">
-            <summary>
-            故障标题
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.Fault.FaultRemark">

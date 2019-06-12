@@ -263,14 +263,17 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public Task<PagedResultDto<FireUnitFaultOuput>> GetFireUnitFaultList(GetPagedFireUnitListInput input)
         {
-            var query = _faultRep.GetAll().GroupBy(p => p.FireUnitId).Select(p => new FireUnitFaultOuput()
+            var query = from a in _faultRep.GetAll().GroupBy(p => p.FireUnitId)
+                        join b in _fireUnitRep.GetAll()
+                        on a.Key equals b.Id
+                        select new FireUnitFaultOuput()
             {
-                FireUnitId = p.Key,
-                FaultCount = p.Count(),
-                FireUnitName = _fireUnitRep.GetAll().Where(u => u.Id==p.Key).FirstOrDefault().Name,
-                ProcessedCount = p.Select(p1 => p1.ProcessState == 1).Count(),
-                PendingCount = p.Select(p1 => p1.ProcessState == 0).Count()
-            });
+                FireUnitId = a.Key,
+                FaultCount = a.Count(),
+                FireUnitName = b.Name,
+                ProcessedCount = a.Select(p1 => p1.ProcessState == 1).Count(),
+                PendingCount = a.Select(p1 => p1.ProcessState == 0).Count()
+            };
             if (!string.IsNullOrEmpty(input.Name))
             {
                 query = from a in query
