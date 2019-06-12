@@ -79,11 +79,13 @@ namespace FireProtectionV1.BigScreen.Manager
         {
             List<FlyLine> lstFlyLine = new List<FlyLine>();
             var lstFireUnit = _cacheManager.GetCache("BigScreen").Get("lstFireUnit", () => GetAllFireUnit());
-            foreach (var fireUnit in lstFireUnit)
+            int num = lstFireUnit.Count;
+            if (num > 60) num = 60;
+            for (int i = 0; i < num; i++)
             {
                 lstFlyLine.Add(new FlyLine()
                 {
-                    from = fireUnit.Lng + "," + fireUnit.Lat
+                    from = lstFireUnit[i].Lng + "," + lstFireUnit[i].Lat
                 });
             }
 
@@ -174,7 +176,7 @@ namespace FireProtectionV1.BigScreen.Manager
             lstAlarmElec = lstAlarmElec.OrderByDescending(item => item.CreationTime).ToList();
             _cacheManager.GetCache("BigScreen").Set("lstAlarmElec", lstAlarmElec);
 
-            int cntAlarmElec = lstAlarmElec.Count > 10 ? 10 : lstAlarmElec.Count;   // 最多取10条
+            int cntAlarmElec = lstAlarmElec.Count > 8 ? 8 : lstAlarmElec.Count;   // 最多取8条
             for (int i = 0; i < cntAlarmElec; i++)
             {
                 var alarmElec = lstAlarmElec[i];
