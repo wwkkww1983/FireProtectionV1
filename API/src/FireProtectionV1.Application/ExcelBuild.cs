@@ -23,6 +23,7 @@ namespace FireProtectionV1
                 {
                     _worksheet.Cells[_row, i + 1].Style.Font.Bold = true;
                 }
+                _worksheet.Column(i + 1).AutoFit();
             }
             _row++;
         }

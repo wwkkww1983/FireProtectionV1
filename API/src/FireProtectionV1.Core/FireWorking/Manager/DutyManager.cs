@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FireProtectionV1.FireWorking.Manager
 {
@@ -21,6 +22,16 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             _fireUnitRep = fireUnitRep;
             _dutyRep = dutyRep;
+        }
+        public async Task AddNewDuty(AddNewDutyInput input)
+        {
+            await _dutyRep.InsertAsync(new DataToDuty()
+            {
+                DutyStatus = input.DutyStatus,
+                DutyPicture = input.DutyPicture,
+                FireUnitId = input.FireUnitId,
+                FireUnitUserId = input.FireUnitUserId
+            });
         }
         public IQueryable<DataToDuty> GetDutyDataAll()
         {
