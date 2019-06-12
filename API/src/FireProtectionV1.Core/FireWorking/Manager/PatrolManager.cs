@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FireProtectionV1.FireWorking.Manager
 {
@@ -23,6 +24,14 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             _fireUnitRep = fireUnitRep;
             _patrolRep = patrolRep;
+        }
+        public async Task AddNewPatrol(AddNewPatrolInput input)
+        {
+            await _patrolRep.InsertAsync(new DataToPatrol()
+            {
+                FireUnitId=input.FireUnitId,
+                FireUnitUserId=input.FireUnitUserId
+            });
         }
         public IQueryable<DataToPatrol> GetPatrolDataAll()
         {

@@ -1005,6 +1005,26 @@
             设备地点
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddNewDutyInput.DutyPicture">
+            <summary>
+            值班记录图片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddNewDutyInput.DutyStatus">
+            <summary>
+            记录状态（1、正常；2：绿色故障；3：橙色故障）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddNewDutyInput.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddNewDutyInput.FireUnitUserId">
+            <summary>
+            防火单位用户Id
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AddNewFaultInput.DetectorGBType">
             <summary>
             部件国标类型
@@ -1018,6 +1038,16 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.AddNewFaultInput.FaultRemark">
             <summary>
             故障描述
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddNewPatrolInput.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddNewPatrolInput.FireUnitUserId">
+            <summary>
+            防火单位用户Id
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AlarmRecord.Content">
@@ -1594,6 +1624,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDutyManager.AddNewDuty(FireProtectionV1.FireWorking.Dto.AddNewDutyInput)">
+            <summary>
+            新增值班记录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IFaultManager.AddNewFault(FireProtectionV1.FireWorking.Dto.AddNewFaultInput)">
             <summary>
             新增故障
@@ -1702,6 +1739,13 @@
             <summary>
             （所有防火单位）安全用电监控列表（剩余电流）
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.AddNewPatrol(FireProtectionV1.FireWorking.Dto.AddNewPatrolInput)">
+            <summary>
+            新增巡查记录
+            </summary>
+            <param name="input"></param>
             <returns></returns>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.DetectorId">
