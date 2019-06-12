@@ -271,8 +271,8 @@ namespace FireProtectionV1.FireWorking.Manager
                 FireUnitId = a.Key,
                 FaultCount = a.Count(),
                 FireUnitName = b.Name,
-                ProcessedCount = a.Select(p1 => p1.ProcessState == 1).Count(),
-                PendingCount = a.Select(p1 => p1.ProcessState == 0).Count()
+                ProcessedCount = a.Where(p1 => p1.ProcessState == 1).Count(),
+                PendingCount = a.Where(p1 => p1.ProcessState == 0).Count()
             };
             if (!string.IsNullOrEmpty(input.Name))
             {
