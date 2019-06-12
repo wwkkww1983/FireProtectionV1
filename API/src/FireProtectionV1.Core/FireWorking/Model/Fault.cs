@@ -16,12 +16,12 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         [Required]
         public int DetectorId { get; set; }
-        /// <summary>
-        /// 故障标题
-        /// </summary>
-        [Required]
-        [MaxLength(StringType.Normal)]
-        public string FaultTitle { get; set; }
+        ///// <summary>
+        ///// 故障标题
+        ///// </summary>
+        //[Required]
+        //[MaxLength(StringType.Normal)]
+        //public string FaultTitle { get; set; }
         /// <summary>
         /// 故障描述
         /// </summary>

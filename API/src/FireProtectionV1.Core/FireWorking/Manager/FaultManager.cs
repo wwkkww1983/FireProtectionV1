@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FireProtectionV1.FireWorking.Manager
 {
@@ -13,14 +14,38 @@ namespace FireProtectionV1.FireWorking.Manager
     {
         IRepository<FireUnit> _fireUnitRep;
         IRepository<Fault> _faultRep;
-
+        IDeviceManager _deviceManager;
         public FaultManager(
+            IDeviceManager deviceManager,
             IRepository<FireUnit> fireUnitRep,
             IRepository<Fault> faultRep
             )
         {
+            _deviceManager = deviceManager;
             _fireUnitRep = fireUnitRep;
             _faultRep = faultRep;
+        }
+        public async Task<AddDataOutput> AddNewFault(AddNewFaultInput input)
+        {
+            Detector detector = _deviceManager.GetDetector(input.Identify, input.Origin);
+            if (detector == null)
+            {
+                return new AddDataOutput()
+                {
+                    IsDetectorExit = false
+                };
+            }
+            await _faultRep.InsertAsync(new Fault()
+            {
+                FireUnitId = detector.FireUnitId,
+                DetectorId = detector.Id,
+                FaultRemark=input.FaultRemark,
+                ProcessState=0
+            });
+            return new AddDataOutput()
+            {
+                IsDetectorExit = true
+            };
         }
         public IQueryable<Fault> GetFaultDataAll()
         {

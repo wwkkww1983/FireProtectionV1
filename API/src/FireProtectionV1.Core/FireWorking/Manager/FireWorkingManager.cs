@@ -263,14 +263,17 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public Task<PagedResultDto<FireUnitFaultOuput>> GetFireUnitFaultList(GetPagedFireUnitListInput input)
         {
-            var query = _faultRep.GetAll().GroupBy(p => p.FireUnitId).Select(p => new FireUnitFaultOuput()
+            var query = from a in _faultRep.GetAll().GroupBy(p => p.FireUnitId)
+                        join b in _fireUnitRep.GetAll()
+                        on a.Key equals b.Id
+                        select new FireUnitFaultOuput()
             {
-                FireUnitId = p.Key,
-                FaultCount = p.Count(),
-                FireUnitName = _fireUnitRep.GetAll().Where(u => u.Id==p.Key).FirstOrDefault().Name,
-                ProcessedCount = p.Select(p1 => p1.ProcessState == 1).Count(),
-                PendingCount = p.Select(p1 => p1.ProcessState == 0).Count()
-            });
+                FireUnitId = a.Key,
+                FaultCount = a.Count(),
+                FireUnitName = b.Name,
+                ProcessedCount = a.Where(p1 => p1.ProcessState == 1).Count(),
+                PendingCount = a.Where(p1 => p1.ProcessState == 0).Count()
+            };
             if (!string.IsNullOrEmpty(input.Name))
             {
                 query = from a in query
@@ -278,6 +281,7 @@ namespace FireProtectionV1.FireWorking.Manager
                         on a.FireUnitId equals b.Id
                         select a;
             }
+            query = query.OrderByDescending(p => p.PendingCount);
             return Task.FromResult<PagedResultDto<FireUnitFaultOuput>>(new PagedResultDto<FireUnitFaultOuput>(
                 query.Count(), query.Skip(input.SkipCount).Take(input.MaxResultCount).ToList()));
         }
@@ -367,7 +371,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 DateTime nowMonDay1 = now.Date.AddDays(1 - now.Day);
                 var monthAlarmCounts = _alarmToElectricRep.GetAll().Where(p => p.CreationTime >= nowMonDay1.AddMonths(-3))
                 .GroupBy(p=>p.CreationTime.ToString("yyyy年MM月")).Select(p=>new MonthCount() { Month = p.Key, Count = p.Count() });
-                output.MonthAlarmCounts = monthAlarmCounts.ToList();
+                output.MonthAlarmCounts = monthAlarmCounts.OrderBy(p => p.Month).ToList();
                 //最近30天报警次数Top10
                 var unitAlarmCounts30=_alarmToElectricRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-30))
                 .GroupBy(p => p.FireUnitId).Select(p => new { FireUnitId = p.Key, Count = p.Count() }).OrderBy(p=>p.Count);
@@ -380,7 +384,7 @@ namespace FireProtectionV1.FireWorking.Manager
                                      on a.FireUnitId equals b.FireUnitId
                                      group a by b into g
                                      select new Top10FireUnit() { AlarmCount = g.Key.Count, Name = g.Key.Name, PointCount = g.Count() };
-                output.Top10FireUnits = top10FireUnits.ToList();
+                output.Top10FireUnits = top10FireUnits.OrderByDescending(p=>p.AlarmCount).ToList();
             });
             return output;
         }
@@ -559,7 +563,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 DateTime nowMonDay1 = now.Date.AddDays(1 - now.Day);
                 var monthAlarmCounts = _alarmToFireRep.GetAll().Where(p => p.CreationTime >= nowMonDay1.AddMonths(-3))
                 .GroupBy(p => p.CreationTime.ToString("yyyy年MM月")).Select(p => new MonthCount() { Month = p.Key, Count = p.Count() });
-                output.MonthAlarmCounts = monthAlarmCounts.ToList();
+                output.MonthAlarmCounts = monthAlarmCounts.OrderBy(p=>p.Month).ToList();
                 //最近30天报警次数Top10
                 var unitAlarmCounts30 = _alarmToFireRep.GetAll().Where(p => p.CreationTime >= now.Date.AddDays(-30))
                 .GroupBy(p => p.FireUnitId).Select(p => new { FireUnitId = p.Key, Count = p.Count() }).OrderBy(p => p.Count);
@@ -572,7 +576,7 @@ namespace FireProtectionV1.FireWorking.Manager
                                      on a.FireUnitId equals b.FireUnitId
                                      group a by b into g
                                      select new Top10FireUnit() { AlarmCount = g.Key.Count, Name = g.Key.Name, PointCount = g.Count() };
-                output.Top10FireUnits = top10FireUnits.ToList();
+                output.Top10FireUnits = top10FireUnits.OrderByDescending(p=>p.AlarmCount).ToList();
             });
             return output;
         }
