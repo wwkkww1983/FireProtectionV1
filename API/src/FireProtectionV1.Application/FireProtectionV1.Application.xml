@@ -782,6 +782,11 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.DeviceService.DataAppService.SimulateTodayData">
+            <summary>
+            生成当天模拟数据
+            </summary>
+        </member>
         <member name="M:FireProtectionV1.DeviceService.DeviceAppService.AddDetector(FireProtectionV1.FireWorking.Dto.AddDetectorInput)">
             <summary>
             新增探测器部件
