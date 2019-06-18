@@ -754,6 +754,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.SupervisionAppService.UploadPhotosAsync(FireProtectionV1.SupervisionCore.Dto.AddPhotosInput)">
+            <summary>
+            照片上传(测试用)
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.VersionAppService.Add(FireProtectionV1.VersionCore.Dto.AddSuggestInput)">
             <summary>
             添加建议

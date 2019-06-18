@@ -2,6 +2,7 @@
 using Abp.Domain.Services;
 using FireProtectionV1.SupervisionCore.Dto;
 using FireProtectionV1.SupervisionCore.Model;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -51,5 +52,12 @@ namespace FireProtectionV1.SupervisionCore.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task AddSupervision(AddSupervisionInput input);
+
+        /// <summary>
+        /// 照片上传
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<SuccessOutput> UploadPhotosAsync(AddPhotosInput text);
     }
 }

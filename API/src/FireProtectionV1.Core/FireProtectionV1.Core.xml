@@ -2950,6 +2950,16 @@
             失败原因
             </summary>
         </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.AddPhotosInput.SupervisionID">
+            <summary>
+            监管执法ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.AddPhotosInput.code64">
+            <summary>
+            图片base64
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.SupervisionCore.Dto.AddSupervisionInput.Supervision">
             <summary>
             综合信息
@@ -2958,6 +2968,11 @@
         <member name="P:FireProtectionV1.SupervisionCore.Dto.AddSupervisionInput.SupervisionDetailInputs">
             <summary>
             明细项目信息
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.AddSupervisionInput.code64">
+            <summary>
+            图片base64
             </summary>
         </member>
         <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSingleSupervisionDetailOutput.SupervisionItemName">
@@ -2993,6 +3008,11 @@
         <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSingleSupervisionMainOutput.CreationTime">
             <summary>
             创建时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSingleSupervisionMainOutput.PhotoPath">
+            <summary>
+            照片路径
             </summary>
         </member>
         <member name="P:FireProtectionV1.SupervisionCore.Dto.GetSupervisionExcelOutput.FireUnitName">
@@ -3121,6 +3141,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.SupervisionCore.Manager.ISupervisionManager.UploadPhotosAsync(FireProtectionV1.SupervisionCore.Dto.AddPhotosInput)">
+            <summary>
+            照片上传
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.SupervisionCore.Manager.SupervisionManager.AddSupervision(FireProtectionV1.SupervisionCore.Dto.AddSupervisionInput)">
             <summary>
             添加监管执法记录
@@ -3159,6 +3186,12 @@
         <member name="M:FireProtectionV1.SupervisionCore.Manager.SupervisionManager.GetSupervisionItem">
             <summary>
             获取所有监管执法项目
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.SupervisionCore.Manager.SupervisionManager.UploadPhotosAsync(FireProtectionV1.SupervisionCore.Dto.AddPhotosInput)">
+            <summary>
+            上传图片
             </summary>
             <returns></returns>
         </member>
@@ -3265,6 +3298,26 @@
         <member name="P:FireProtectionV1.SupervisionCore.Model.SupervisionItem.ParentId">
             <summary>
             父级项目Id
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.SupervisionCore.Model.SupervisionPhotos">
+            <summary>
+            取证照片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Model.SupervisionPhotos.SupervisionId">
+            <summary>
+            监督执法记录Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Model.SupervisionPhotos.Path">
+            <summary>
+            照片路径
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.SupervisionCore.Model.SupervisionPhotos.Name">
+            <summary>
+            照片名称
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Dto.DeptChangePassword.Account">

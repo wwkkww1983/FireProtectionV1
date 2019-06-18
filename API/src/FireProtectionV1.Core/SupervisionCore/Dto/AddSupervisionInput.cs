@@ -15,5 +15,9 @@ namespace FireProtectionV1.SupervisionCore.Dto
         /// 明细项目信息
         /// </summary>
         public List<GetSingleSupervisionDetailOutput> SupervisionDetailInputs { get; set; }
+        /// <summary>
+        /// 图片base64
+        /// </summary>
+        public List<string> code64 { get; set; }
     }
 }
