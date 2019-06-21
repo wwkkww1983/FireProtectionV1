@@ -174,7 +174,7 @@ namespace FireProtectionV1.Enterprise.Manager
             {
                 return new SuccessOutput() { Success = false, FailCause="防火单位："+input.Name+".已存在" };
             }
-            await _fireUnitRep.InsertAsync(new FireUnit()
+            await Task.Run(()=> _fireUnitRep.InsertAndGetId(new FireUnit()
             {
                 CreationTime = DateTime.Now,
                 Name = input.Name,
@@ -187,7 +187,7 @@ namespace FireProtectionV1.Enterprise.Manager
                 ContractPhone = input.ContractPhone,
                 InvitationCode = MethodHelper.CreateInvitationCode().Trim(),
                 Address=input.Address
-            });
+            }));
             return new SuccessOutput() { Success = true };
         }
         /// <summary>
