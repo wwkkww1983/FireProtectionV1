@@ -259,7 +259,10 @@ namespace FireProtectionV1.Enterprise.Manager
                 {
                     var safe = await _safeUnitRep.SingleAsync(p => p.Id == f.SafeUnitId);
                     if (safe != null)
+                    {
                         output.SafeUnit = safe.Name;
+                        output.SafeUnitId = safe.Id;
+                    }
                 }
             }
             return output;

@@ -430,6 +430,11 @@
             联系电话
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.SafeUnitId">
+            <summary>
+            维保单位Id
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.SafeUnit">
             <summary>
             维保单位
