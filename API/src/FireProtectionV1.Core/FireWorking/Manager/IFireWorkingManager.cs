@@ -39,7 +39,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="input"></param>
         /// <param name="onlyElecOrTemp"></param>
         /// <returns></returns>
-        Task<PagedResultDto<HighFreqAlarmDetector>> GetFireUnitHighFreqAlarmEle(GetPageByFireUnitIdInput input,string onlyElecOrTemp=null);
+        Task<PagedResultDto<HighFreqAlarmDetector>> GetFireUnitHighFreqAlarmEle(GetPageByFireUnitIdInput input,string onlyElecOrTemp="");
 
         /// <summary>
         /// 火警预警高频报警部件查询

@@ -35,6 +35,10 @@ namespace FireProtectionV1.Enterprise.Dto
         /// </summary>
         public string ContractPhone { get; set; }
         /// <summary>
+        /// 维保单位Id
+        /// </summary>
+        public int SafeUnitId { get; set; }
+        /// <summary>
         /// 维保单位
         /// </summary>
         public string SafeUnit { get; set; }

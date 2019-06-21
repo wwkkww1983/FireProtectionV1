@@ -19,7 +19,7 @@ namespace FireProtectionV1.User.Manager
             _fireDeptUserRep = fireDeptUserRep;
             _fireDeptRep = fireDeptRep;
         }
-        public async Task<DeptUserLoginOutput> UserLogin(DeptUserLoginInput input)
+        public async Task<DeptUserLoginOutput> UserLogin(LoginInput input)
         {
             string md5=MD5Encrypt.Encrypt(input.Password + input.Account, 16);
             DeptUserLoginOutput output = new DeptUserLoginOutput() { Success = true };

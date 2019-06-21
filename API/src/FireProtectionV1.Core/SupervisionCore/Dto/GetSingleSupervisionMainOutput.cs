@@ -15,5 +15,9 @@ namespace FireProtectionV1.SupervisionCore.Dto
         /// 创建时间
         /// </summary>
         public string CreationTime { get; set; }
+        /// <summary>
+        /// 照片路径
+        /// </summary>
+        public List<string> PhotoPath { get; set; }
     }
 }

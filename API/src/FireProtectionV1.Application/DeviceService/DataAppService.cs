@@ -142,104 +142,128 @@ namespace FireProtectionV1.DeviceService
         //        });
         //    }
         //}
-        public void TestAlarmXinYuan()
-        {
-            for (int i = 0; i < 20; i++)
-            {
-                _alarmManager.AddAlarmElec(new AddDataElecInput()
-                {
-                    Analog = new Random().Next(101, 299),
-                    DetectorGBType = 18,
-                    GatewayIdentify = "81.31.0.0.0.11",
-                    Identify = "1.0.0.0",
-                    Unit = "℃",
-                    Origin = "安吉斯"
-                }, "60℃");
-            }
-            for (int i = 0; i < 20; i++)
-            {
-                _alarmManager.AddAlarmFire(new AddAlarmFireInput()
-                {
-                    DetectorGBType = 23,
-                    GatewayIdentify = "11.0.0.1.200.1",
-                    Identify = "3.0.1.0",
-                    Origin = "安吉斯"
-                });
-                _alarmManager.AddAlarmFire(new AddAlarmFireInput()
-                {
-                    DetectorGBType = 2,
-                    GatewayIdentify = "11.0.0.1.200.1",
-                    Identify = "11.0.0.1.200.1",
-                    Origin = "安吉斯"
-                });
-            }
-        }
-        public void TestAlarm()
-        {
-            for (int fireunitid = 5; fireunitid < 20; fireunitid++)
-            {
-                int n = new Random().Next(1, 10);
-                for (int i = 0; i < n; i++)
-                {
-                    _alarmManager.AddAlarmElec(new AddDataElecInput()
-                    {
-                        Analog = new Random().Next(101, 1999),
-                        DetectorGBType = 17,
-                        GatewayIdentify = "66." + fireunitid,
-                        Identify = fireunitid + ".0.0.1",
-                        Unit = "A",
-                        Origin = ""
-                    }, "100A");
-                }
-                n = new Random().Next(1, 10);
-                for (int i = 0; i < n; i++)
-                {
-                    _alarmManager.AddAlarmElec(new AddDataElecInput()
-                    {
-                        Analog = new Random().Next(101, 299),
-                        DetectorGBType = 18,
-                        GatewayIdentify = "66." + fireunitid,
-                        Identify = fireunitid + ".0.0.2",
-                        Unit = "℃",
-                        Origin = ""
-                    }, "60℃");
-                }
-                n = new Random().Next(1, 10);
-                for (int i = 0; i < n; i++)
-                {
-                    _alarmManager.AddAlarmFire(new AddAlarmFireInput()
-                    {
-                        DetectorGBType = 23,
-                        GatewayIdentify = "88." + fireunitid,
-                        Identify = fireunitid + ".2.0.1",
-                        Origin = ""
-                    });
-                }
-                n = new Random().Next(1, 10);
-                for (int i = 0; i < n; i++)
-                {
-                    _alarmManager.AddAlarmFire(new AddAlarmFireInput()
-                    {
-                        DetectorGBType = 40,
-                        GatewayIdentify = "88." + fireunitid,
-                        Identify = fireunitid + ".2.0.2",
-                        Origin = ""
-                    });
-                }
-                n = new Random().Next(1, 10);
-                for (int i = 0; i < n; i++)
-                {
-                    _alarmManager.AddAlarmFire(new AddAlarmFireInput()
-                    {
-                        DetectorGBType = 69,
-                        GatewayIdentify = "88." + fireunitid,
-                        Identify = fireunitid + ".2.0.3",
-                        Origin = ""
-                    });
-                }
-            }
-        }
-
+        // void TestAlarmXinYuan()
+        //{
+        //    for (int i = 0; i < 20; i++)
+        //    {
+        //        _alarmManager.AddAlarmElec(new AddDataElecInput()
+        //        {
+        //            Analog = new Random().Next(101, 299),
+        //            DetectorGBType = 18,
+        //            GatewayIdentify = "81.31.0.0.0.11",
+        //            Identify = "1.0.0.0",
+        //            Unit = "℃",
+        //            Origin = "安吉斯"
+        //        }, "60℃");
+        //    }
+        //    for (int i = 0; i < 20; i++)
+        //    {
+        //        _alarmManager.AddAlarmFire(new AddAlarmFireInput()
+        //        {
+        //            DetectorGBType = 23,
+        //            GatewayIdentify = "11.0.0.1.200.1",
+        //            Identify = "3.0.1.0",
+        //            Origin = "安吉斯"
+        //        });
+        //        _alarmManager.AddAlarmFire(new AddAlarmFireInput()
+        //        {
+        //            DetectorGBType = 2,
+        //            GatewayIdentify = "11.0.0.1.200.1",
+        //            Identify = "11.0.0.1.200.1",
+        //            Origin = "安吉斯"
+        //        });
+        //    }
+        //}
+        // void TestAlarm()
+        //{
+        //    for (int fireunitid = 5; fireunitid < 20; fireunitid++)
+        //    {
+        //        int n = new Random().Next(1, 10);
+        //        for (int i = 0; i < n; i++)
+        //        {
+        //            _alarmManager.AddAlarmElec(new AddDataElecInput()
+        //            {
+        //                Analog = new Random().Next(101, 1999),
+        //                DetectorGBType = 17,
+        //                GatewayIdentify = "66." + fireunitid,
+        //                Identify = fireunitid + ".0.0.1",
+        //                Unit = "A",
+        //                Origin = ""
+        //            }, "100A");
+        //        }
+        //        n = new Random().Next(1, 10);
+        //        for (int i = 0; i < n; i++)
+        //        {
+        //            _alarmManager.AddAlarmElec(new AddDataElecInput()
+        //            {
+        //                Analog = new Random().Next(101, 299),
+        //                DetectorGBType = 18,
+        //                GatewayIdentify = "66." + fireunitid,
+        //                Identify = fireunitid + ".0.0.2",
+        //                Unit = "℃",
+        //                Origin = ""
+        //            }, "60℃");
+        //        }
+        //        n = new Random().Next(1, 10);
+        //        for (int i = 0; i < n; i++)
+        //        {
+        //            _alarmManager.AddAlarmFire(new AddAlarmFireInput()
+        //            {
+        //                DetectorGBType = 23,
+        //                GatewayIdentify = "88." + fireunitid,
+        //                Identify = fireunitid + ".2.0.1",
+        //                Origin = ""
+        //            });
+        //        }
+        //        n = new Random().Next(1, 10);
+        //        for (int i = 0; i < n; i++)
+        //        {
+        //            _alarmManager.AddAlarmFire(new AddAlarmFireInput()
+        //            {
+        //                DetectorGBType = 40,
+        //                GatewayIdentify = "88." + fireunitid,
+        //                Identify = fireunitid + ".2.0.2",
+        //                Origin = ""
+        //            });
+        //        }
+        //        n = new Random().Next(1, 10);
+        //        for (int i = 0; i < n; i++)
+        //        {
+        //            _alarmManager.AddAlarmFire(new AddAlarmFireInput()
+        //            {
+        //                DetectorGBType = 69,
+        //                GatewayIdentify = "88." + fireunitid,
+        //                Identify = fireunitid + ".2.0.3",
+        //                Origin = ""
+        //            });
+        //        }
+        //    }
+        //}
+        // void TestFaultXy()
+        //{
+        //    for (int i = 0; i < 5; i++)
+        //    {
+        //        _faultManager.AddNewFault(new AddNewFaultInput()
+        //        {
+        //            DetectorGBType = 18,
+        //            FaultRemark = "温感失效",
+        //            GatewayIdentify = "81.31.0.0.0.11",
+        //            Identify = "1.0.0.0",
+        //            Origin = "安吉斯"
+        //        });
+        //    }
+        //    for (int i = 0; i < 20; i++)
+        //    {
+        //        _faultManager.AddNewFault(new AddNewFaultInput()
+        //        {
+        //            DetectorGBType = 2,
+        //            FaultRemark = "通信故障",
+        //            GatewayIdentify = "11.0.0.1.200.1",
+        //            Identify = "11.0.0.1.200.1",
+        //            Origin = "安吉斯"
+        //        });
+        //    }
+        //}
         //public void TestFault()
         //{
         //    for (int fireunitid = 5; fireunitid < 20; fireunitid++)
@@ -306,23 +330,55 @@ namespace FireProtectionV1.DeviceService
         //        }
         //    }
         //}
-        public void TestPatrolDuty()
+        //void TestPatrolDuty()
+        //{
+        //    for (int fireunitid = 1; fireunitid <= 145; fireunitid++)
+        //    {
+        //        int n = new Random().Next(1, 10);
+        //        for (int i = 0; i < n; i++)
+        //        {
+        //            _dutyManager.AddNewDuty(new AddNewDutyInput()
+        //            {
+        //                DutyStatus = 1,
+        //                DutyPicture = "",
+        //                FireUnitId = fireunitid,
+        //                FireUnitUserId = 1
+        //            });
+        //        }
+        //         n = new Random().Next(1, 10);
+        //        for (int i = 0; i < n; i++)
+        //        {
+        //            _patrolManager.AddNewPatrol(new AddNewPatrolInput()
+        //            {
+        //                FireUnitId = fireunitid,
+        //                FireUnitUserId = 1
+        //            });
+        //        }
+        //    }
+        //}
+        /// <summary>
+        /// 生成当天模拟数据
+        /// </summary>
+        public void SimulateTodayData()
         {
+            int num= new Random().Next(1, 5);
+            List<int> lstMis = new List<int>();
+            for(int i = 0; i < num; i++)
+            {
+                lstMis.Add(new Random().Next(1, 145));
+            }
             for (int fireunitid = 1; fireunitid <= 145; fireunitid++)
             {
-                int n = new Random().Next(1, 10);
-                for (int i = 0; i < n; i++)
+                if (lstMis.Find(p => p == fireunitid) != 0)
+                    continue;
+                _dutyManager.AddNewDuty(new AddNewDutyInput()
                 {
-                    _dutyManager.AddNewDuty(new AddNewDutyInput()
-                    {
-                        DutyStatus = 1,
-                        DutyPicture = "",
-                        FireUnitId = fireunitid,
-                        FireUnitUserId = 1
-                    });
-                }
-                 n = new Random().Next(1, 10);
-                for (int i = 0; i < n; i++)
+                    DutyStatus = 1,
+                    DutyPicture = "",
+                    FireUnitId = fireunitid,
+                    FireUnitUserId = 1
+                });
+                if (DateTime.Now.DayOfWeek == DayOfWeek.Friday)//周五巡查
                 {
                     _patrolManager.AddNewPatrol(new AddNewPatrolInput()
                     {
@@ -330,6 +386,73 @@ namespace FireProtectionV1.DeviceService
                         FireUnitUserId = 1
                     });
                 }
+                //只有5到20的防火单位id配置了设备
+                if(fireunitid>=5 && fireunitid < 20)
+                {
+                    if(new Random().Next(1, 5) == 1)
+                    {
+                        _alarmManager.AddAlarmElec(new AddDataElecInput()
+                        {
+                            Analog = new Random().Next(101, 1999),
+                            DetectorGBType = 17,
+                            GatewayIdentify = "66." + fireunitid,
+                            Identify = fireunitid + ".0.0.1",
+                            Unit = "A",
+                            Origin = ""
+                        }, "100A");
+                        _alarmManager.AddAlarmElec(new AddDataElecInput()
+                        {
+                            Analog = new Random().Next(101, 299),
+                            DetectorGBType = 18,
+                            GatewayIdentify = "66." + fireunitid,
+                            Identify = fireunitid + ".0.0.2",
+                            Unit = "℃",
+                            Origin = ""
+                        }, "60℃");
+                        _alarmManager.AddAlarmFire(new AddAlarmFireInput()
+                        {
+                            DetectorGBType = 23,
+                            GatewayIdentify = "88." + fireunitid,
+                            Identify = fireunitid + ".2.0.1",
+                            Origin = ""
+                        });
+                        _alarmManager.AddAlarmFire(new AddAlarmFireInput()
+                        {
+                            DetectorGBType = 40,
+                            GatewayIdentify = "88." + fireunitid,
+                            Identify = fireunitid + ".2.0.2",
+                            Origin = ""
+                        });
+                        _alarmManager.AddAlarmFire(new AddAlarmFireInput()
+                        {
+                            DetectorGBType = 69,
+                            GatewayIdentify = "88." + fireunitid,
+                            Identify = fireunitid + ".2.0.3",
+                            Origin = ""
+                        });
+                    }
+                }
+            }
+            //兴源大厦的设备
+            if (new Random().Next(1, 5) == 1)
+            {
+                _faultManager.AddNewFault(new AddNewFaultInput()
+                {
+                    DetectorGBType = 18,
+                    FaultRemark = "温感失效",
+                    GatewayIdentify = "81.31.0.0.0.11",
+                    Identify = "1.0.0.0",
+                    Origin = "安吉斯"
+                });
+                _faultManager.AddNewFault(new AddNewFaultInput()
+                {
+                    DetectorGBType = 2,
+                    FaultRemark = "通信故障",
+                    GatewayIdentify = "11.0.0.1.200.1",
+                    Identify = "11.0.0.1.200.1",
+                    Origin = "安吉斯"
+                });
+
             }
         }
     }

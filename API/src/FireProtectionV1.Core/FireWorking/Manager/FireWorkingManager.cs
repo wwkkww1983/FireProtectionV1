@@ -173,7 +173,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="input"></param>
         /// <param name="onlyElecOrTemp"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<HighFreqAlarmDetector>> GetFireUnitHighFreqAlarmEle(GetPageByFireUnitIdInput input, string onlyElecOrTemp = null)
+        public async Task<PagedResultDto<HighFreqAlarmDetector>> GetFireUnitHighFreqAlarmEle(GetPageByFireUnitIdInput input, string onlyElecOrTemp = "")
         {
             var output = new PagedResultDto<HighFreqAlarmDetector>();
             await Task.Run(() =>

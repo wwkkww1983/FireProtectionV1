@@ -1,4 +1,5 @@
 ﻿using FireProtectionV1.Common.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace FireProtectionV1.AppService
         /// 获取验证码
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         public async Task GetVerifyCode()
         {
             await Task.Run(() =>
