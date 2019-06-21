@@ -27,6 +27,14 @@ namespace FireProtectionV1.AppService
             await _manager.InitData();
         }
         /// <summary>
+        /// 刷新数据
+        /// </summary>
+        /// <returns></returns>
+        public int RefreshData()
+        {
+            return _manager.RefreshData();
+        }
+        /// <summary>
         /// 增加市政消火栓
         /// </summary>
         /// <param name="num"></param>

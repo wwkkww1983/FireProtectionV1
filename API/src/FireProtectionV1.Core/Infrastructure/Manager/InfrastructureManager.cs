@@ -1,5 +1,6 @@
 ﻿using Abp.Domain.Repositories;
 using Abp.Domain.Services;
+using FireProtectionV1.Common.DBContext;
 using FireProtectionV1.Common.Helper;
 using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.HydrantCore.Model;
@@ -31,6 +32,7 @@ namespace FireProtectionV1.Infrastructure.Manager
         IRepository<SupervisionDetail> _supervisionDetailRepository;
         IRepository<SupervisionDetailRemark> _supervisionDetailRemarkRepository;
         IRepository<FireSetting> _settingRepository;
+        ISqlRepository _sqlRepository;
         public InfrastructureManager(
             IRepository<SupervisionItem> supervisionItemRepository,
             IRepository<MiniFireStation> miniFireStationRepository,
@@ -43,7 +45,8 @@ namespace FireProtectionV1.Infrastructure.Manager
             IRepository<Supervision> supervisionRepository,
             IRepository<SupervisionDetail> supervisionDetailRepository,
             IRepository<SupervisionDetailRemark> supervisionDetailRemarkRepository,
-            IRepository<FireSetting> settingRepository
+            IRepository<FireSetting> settingRepository,
+            ISqlRepository sqlRepository
             )
         {
             _supervisionItemRepository = supervisionItemRepository;
@@ -58,6 +61,7 @@ namespace FireProtectionV1.Infrastructure.Manager
             _supervisionDetailRepository = supervisionDetailRepository;
             _supervisionDetailRemarkRepository = supervisionDetailRemarkRepository;
             _settingRepository = settingRepository;
+            _sqlRepository = sqlRepository;
         }
 
         /// <summary>
@@ -1491,6 +1495,58 @@ namespace FireProtectionV1.Infrastructure.Manager
             }
             #endregion
         }
-
+        /// <summary>
+        /// 刷新数据
+        /// </summary>
+        /// <returns></returns>
+        public int RefreshData()
+        {
+            string sql = "select CreationTime from supervision where IsDeleted = 0 order by CreationTime desc limit 1";
+            var dt = _sqlRepository.Query(sql);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                DateTime.TryParse(dt.Rows[0][0].ToString(), out DateTime creationTime);
+                if (creationTime != null)
+                {
+                    int n = (DateTime.Now - creationTime).Days;
+                    if (n > 0)
+                    {
+                        sql = $"update supervision set CreationTime = date_add(CreationTime, interval {n} day)";
+                        _sqlRepository.Execute(sql);
+                    }
+                }
+            }
+            sql = "select CreationTime from streetgridevent where IsDeleted = 0 order by CreationTime desc limit 1";
+            dt = _sqlRepository.Query(sql);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                DateTime.TryParse(dt.Rows[0][0].ToString(), out DateTime creationTime);
+                if (creationTime != null)
+                {
+                    int n = (DateTime.Now - creationTime).Days;
+                    if (n > 0)
+                    {
+                        sql = $"update streetgridevent set CreationTime = date_add(CreationTime, interval {n} day)";
+                        _sqlRepository.Execute(sql);
+                    }
+                }
+            }
+            sql = "select CreationTime from hydrantalarm where IsDeleted = 0 order by CreationTime desc limit 1";
+            dt = _sqlRepository.Query(sql);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                DateTime.TryParse(dt.Rows[0][0].ToString(), out DateTime creationTime);
+                if (creationTime != null)
+                {
+                    int n = (DateTime.Now - creationTime).Days;
+                    if (n > 0)
+                    {
+                        sql = $"update hydrantalarm set CreationTime = date_add(CreationTime, interval {n} day)";
+                        _sqlRepository.Execute(sql);
+                    }
+                }
+            }
+            return 1;
+        }
     }
 }
