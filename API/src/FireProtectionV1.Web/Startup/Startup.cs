@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using FireProtectionV1.Web.SwaggerExt;
 using FireProtectionV1.Common.Enum;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace FireProtectionV1.Web.Startup
 {
@@ -55,6 +57,7 @@ namespace FireProtectionV1.Web.Startup
                     //,Description= "FireDept（消防部门）\r\nFireDeptUser（消防部门用户）\r\nFireUnit（防火单位）\r\nFireUnitUser（防火单位用户）"
                 };
                 options.SwaggerDoc("v1", info);
+                options.OperationFilter<SwaggerFileUploadFilter>();
                 options.DocInclusionPredicate((docName, description) => true);
                 var basePath = Path.GetDirectoryName(typeof(Startup).Assembly.Location);
                 var xmlPath = Path.Combine(basePath, "FireProtectionV1.Application.xml");
@@ -79,10 +82,17 @@ namespace FireProtectionV1.Web.Startup
 
                 options.SwaggerGeneratorOptions.ParameterFilters.AddEnumParameterFilter();
                 options.SwaggerGeneratorOptions.DocumentFilters.AddEnumDocumentFilters(typeof(FireProtectionV1CoreModule).Assembly,typeof(NormalStatus).Assembly);
+                
             });
             //services.AddHttpContextAccessor();
             //Configure Abp and Dependency Injection
             services.AddSession();
+            ///配置文件大小限制
+            //services.Configure<FormOptions>(options =>
+            //{
+            //    options.MultipartBodyLengthLimit = 60000000;
+            //});
+
             //配置跨域处理，允许所有来源：
             services.AddCors(options =>
             options.AddPolicy("自定义",
@@ -131,8 +141,16 @@ namespace FireProtectionV1.Web.Startup
             {
                 options.SwaggerEndpoint(ConfigHelper.Configuration["App:ServerRootAddress"] + "/swagger/v1/swagger.json", "FireProtectionV1 API");
                 options.IndexStream = () => Assembly.GetExecutingAssembly()
-                    .GetManifestResourceStream("FireProtectionV1.Web.wwwroot.swagger.ui.index.html");
+                    .GetManifestResourceStream("FireProtectionV1.Web.wwwroot.swagger.ui.index.html");               
             }); // URL: /swagger
-        }
+
+            //文件地址隐藏
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot/Files")),
+                RequestPath = new PathString("/src")
+            });
+        
+    }
     }
 }

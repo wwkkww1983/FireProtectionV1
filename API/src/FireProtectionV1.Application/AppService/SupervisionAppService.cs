@@ -93,5 +93,15 @@ namespace FireProtectionV1.AppService
         {
             await _manager.AddSupervision(input);
         }
+
+        /// <summary>
+        /// 照片上传(测试用)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task UploadPhotosAsync(AddPhotosInput input)
+        {
+            await _manager.UploadPhotosAsync(input);
+        }
     }
 }

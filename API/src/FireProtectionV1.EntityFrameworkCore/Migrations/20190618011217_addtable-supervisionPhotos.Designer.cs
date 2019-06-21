@@ -3,14 +3,16 @@ using System;
 using FireProtectionV1.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FireProtectionV1.Migrations
 {
     [DbContext(typeof(FireProtectionV1DbContext))]
-    partial class FireProtectionV1DbContextModelSnapshot : ModelSnapshot
+    [Migration("20190618011217_addtable-supervisionPhotos")]
+    partial class addtablesupervisionPhotos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -756,9 +758,9 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<string>("Name");
+                    b.Property<int>("Name");
 
-                    b.Property<string>("Path");
+                    b.Property<int>("Path");
 
                     b.Property<int>("SupervisionId");
 
