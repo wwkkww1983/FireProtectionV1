@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FireProtectionV1.User.Dto
 {
-    public class PcDeptUserLoginInput:DeptUserLoginInput
+    public class PcDeptUserLoginInput:LoginInput
     {
         /// <summary>
         /// 验证码

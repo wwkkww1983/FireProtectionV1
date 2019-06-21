@@ -3282,16 +3282,6 @@
             新密码
             </summary>
         </member>
-        <member name="P:FireProtectionV1.User.Dto.DeptUserLoginInput.Account">
-            <summary>
-            账号(测试:test)
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.User.Dto.DeptUserLoginInput.Password">
-            <summary>
-            密码(测试:123)
-            </summary>
-        </member>
         <member name="P:FireProtectionV1.User.Dto.DeptUserLoginOutput.UserId">
             <summary>
             用户Id
@@ -3325,6 +3315,21 @@
         <member name="P:FireProtectionV1.User.Dto.FireUnitUserInput.Role">
             <summary>
             角色
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.LoginInput.Account">
+            <summary>
+            账号(测试:test)
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.LoginInput.Password">
+            <summary>
+            密码(测试:123)
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.LoginInput.IsPersistent">
+            <summary>
+            是否会话不限时
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Dto.PcDeptUserLoginInput.VerifyCode">

@@ -180,7 +180,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireDeptUserAppService.UserLoginForMobile(FireProtectionV1.User.Dto.DeptUserLoginInput)">
+        <member name="M:FireProtectionV1.AppService.FireDeptUserAppService.UserLoginForMobile(FireProtectionV1.User.Dto.LoginInput)">
             <summary>
             用户登录(移动端)
             </summary>

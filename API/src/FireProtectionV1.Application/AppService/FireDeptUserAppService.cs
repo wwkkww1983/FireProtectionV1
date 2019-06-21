@@ -11,6 +11,7 @@ using FireProtectionV1.User.Manager;
 using FireProtectionV1.User.Dto;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FireProtectionV1.AppService
 {
@@ -49,6 +50,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         public async Task<DeptUserLoginOutput> UserLogin(PcDeptUserLoginInput input)
         {
             //判断验证码
@@ -74,12 +76,12 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<DeptUserLoginOutput> UserLoginForMobile(DeptUserLoginInput input)
+        [AllowAnonymous]
+        public async Task<DeptUserLoginOutput> UserLoginForMobile(LoginInput input)
         {
             return await Login(input);
         }
-
-        private async Task<DeptUserLoginOutput> Login(DeptUserLoginInput input)
+        private async Task<DeptUserLoginOutput> Login(LoginInput input)
         {
             //用户名密码验证
             var output = await _fireDeptUserManager.UserLogin(input);
@@ -92,7 +94,19 @@ namespace FireProtectionV1.AppService
             identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, input.Password));
             //identity.AddClaim(new Claim(ClaimTypes.Role, user.Role));
             var principal = new ClaimsPrincipal(identity);
-            await _httpContext.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            var authProp = new AuthenticationProperties();
+            if (input.IsPersistent)
+                authProp.IsPersistent = true;
+            else
+            {
+                authProp.IsPersistent = false;
+                double expMin = 20;//绝对到期时间30分钟
+                var authorizeExpires = Configuration.ConfigHelper.Configuration["AuthorizeExpires"];
+                if (authorizeExpires != null)
+                    expMin = double.Parse(authorizeExpires);
+                authProp.ExpiresUtc = DateTime.UtcNow.AddMinutes(expMin);
+            }
+            await _httpContext.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProp);
             //验证是否认证成功
             if (!principal.Identity.IsAuthenticated)
             {
