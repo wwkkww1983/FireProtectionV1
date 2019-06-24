@@ -557,6 +557,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.InfrastructureAppService.RefreshData">
+            <summary>
+            刷新数据
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.InfrastructureAppService.AddHydrant(System.Int32)">
             <summary>
             增加市政消火栓

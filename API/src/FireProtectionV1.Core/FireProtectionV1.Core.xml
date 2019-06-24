@@ -430,6 +430,11 @@
             联系电话
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.SafeUnitId">
+            <summary>
+            维保单位Id
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.SafeUnit">
             <summary>
             维保单位
@@ -2369,6 +2374,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.Infrastructure.Manager.IInfrastructureManager.RefreshData">
+            <summary>
+            刷新数据
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.Infrastructure.Manager.IInfrastructureManager.AddHydrant(System.Int32)">
             <summary>
             增加市政消火栓
@@ -2386,6 +2397,12 @@
         <member name="M:FireProtectionV1.Infrastructure.Manager.InfrastructureManager.InitData">
             <summary>
             初始化数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Infrastructure.Manager.InfrastructureManager.RefreshData">
+            <summary>
+            刷新数据
             </summary>
             <returns></returns>
         </member>

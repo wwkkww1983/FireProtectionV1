@@ -15,6 +15,11 @@ namespace FireProtectionV1.Infrastructure.Manager
         /// <returns></returns>
         Task InitData();
         /// <summary>
+        /// 刷新数据
+        /// </summary>
+        /// <returns></returns>
+        int RefreshData();
+        /// <summary>
         /// 增加市政消火栓
         /// </summary>
         /// <param name="num"></param>
