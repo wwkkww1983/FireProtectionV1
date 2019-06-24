@@ -789,7 +789,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.DeviceService.DataAppService.SimulateTodayData">
+        <member name="M:FireProtectionV1.DeviceService.DataAppService.GetSimulateTodayData">
             <summary>
             生成当天模拟数据
             </summary>
