@@ -4,6 +4,35 @@
         <name>FireProtectionV1.Application</name>
     </assembly>
     <members>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.GetAlarmChecks(System.Int32)">
+            <summary>
+            获取指定防火单位警情数据
+            </summary>
+            <param name="FireUnitId">防火单位Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.GetAlarmCheckDetail(System.Int32)">
+            <summary>
+            查询给定checkId的警情详细信息
+            </summary>
+            <param name="CheckId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.CheckAlarmByFormData1(System.Int32,Microsoft.AspNetCore.Http.IFormCollection)">
+            <summary>
+            
+            </summary>
+            <param name="CheckId"></param>
+            <param name="formCollection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.CheckAlarmByFormData(FireProtectionV1.FireWorking.Dto.AlarmCheckInput)">
+            <summary>
+            
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="T:FireProtectionV1.AppService.AppServiceBase">
             <summary>
             Derive your application services from this class.

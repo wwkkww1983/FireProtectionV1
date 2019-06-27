@@ -13,14 +13,17 @@ namespace FireProtectionV1.FireWorking.Manager
     public class AlarmManager:IAlarmManager
     {
         IDeviceManager _deviceManager;
+        IRepository<AlarmCheck> _alarmCheckRep;
         IRepository<AlarmToFire> _alarmToFireRep;
         IRepository<AlarmToElectric> _alarmToElectricRep;
         public AlarmManager(
+            IRepository<AlarmCheck> alarmCheckRep,
             IDeviceManager deviceManager,
             IRepository<AlarmToFire> alarmToFireRep,
             IRepository<AlarmToElectric> alarmToElectricRep
         )
         {
+            _alarmCheckRep = alarmCheckRep;
             _deviceManager = deviceManager;
             _alarmToElectricRep = alarmToElectricRep;
             _alarmToFireRep = alarmToFireRep;
@@ -78,6 +81,52 @@ namespace FireProtectionV1.FireWorking.Manager
             {
                 IsDetectorExit = true
             };
+        }
+        public async Task<List<AlarmCheckOutput>> GetAlarmChecks(int fireunitid)
+        {
+            var elec = from a in _alarmToElectricRep.GetAll().Where(p => p.FireUnitId == fireunitid)
+                       join b in _deviceManager.GetDetectorAll(fireunitid, FireSysType.Electric)
+                       on a.DetectorId equals b.Id
+                       join c in _deviceManager.GetDetectorTypeAll()
+                       on b.DetectorTypeId equals c.Id
+                       join d in _alarmCheckRep.GetAll().Where(p => p.FireUnitId == fireunitid && p.FireSysType == (byte)FireSysType.Electric)
+                       on a.Id equals d.AlarmDataId
+                       select new AlarmCheckOutput()
+                       {
+                           CheckId=d.Id,
+                           Time = a.CreationTime,
+                           Alarm = $"{c.Name} {a.Analog}{a.Unit} 【标准:{a.AlarmLimit}{a.Unit}】",
+                           Location = b.Location,
+                           CheckStateValue = d.CheckState,
+                           CheckStateName = CheckStateTypeNames.GetName((CheckStateType)d.CheckState)
+                       };
+            var fire= from a in _alarmToFireRep.GetAll().Where(p => p.FireUnitId == fireunitid)
+                      join b in _deviceManager.GetDetectorAll(fireunitid, FireSysType.Fire)
+                      on a.DetectorId equals b.Id
+                      join c in _deviceManager.GetDetectorTypeAll()
+                      on b.DetectorTypeId equals c.Id
+                      join d in _alarmCheckRep.GetAll().Where(p => p.FireUnitId == fireunitid && p.FireSysType == (byte)FireSysType.Fire)
+                      on a.Id equals d.AlarmDataId
+                      select new AlarmCheckOutput()
+                      {
+                          CheckId = d.Id,
+                          Time = a.CreationTime,
+                          Alarm = $"{c.Name}",
+                          Location = b.Location,
+                          CheckStateValue = d.CheckState,
+                          CheckStateName = CheckStateTypeNames.GetName((CheckStateType)d.CheckState)
+                      };
+            List<AlarmCheckOutput> all=new List<AlarmCheckOutput>();
+            await Task.Run(() =>
+            {
+                all = elec.ToList().Union(fire.ToList()).OrderByDescending(p => p.Time).ToList();
+            });
+            return all;
+        }
+
+        public async Task<AlarmCheckInput> GetAlarmCheckDetail(int checkId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

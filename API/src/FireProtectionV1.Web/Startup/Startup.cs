@@ -20,6 +20,7 @@ using FireProtectionV1.Web.SwaggerExt;
 using FireProtectionV1.Common.Enum;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http.Features;
+using Newtonsoft.Json.Serialization;
 
 namespace FireProtectionV1.Web.Startup
 {
@@ -42,6 +43,12 @@ namespace FireProtectionV1.Web.Startup
             services.AddMvc(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            }).AddJsonOptions(options =>
+            {
+                //配置tojson格式配置 DefaultContractResolver 为和后台属性名保持一致（即：后台属性名为OrderName，前端js获得属性名也为OrderName）
+                //options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                //修改为CamelCasePropertyNamesContractResolver，为js的驼峰格式，即abp默认格式（即：后台属性名为OrderName，前端js获得属性名为orderName）
+                //options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
             //添加认证Cookie信息
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>

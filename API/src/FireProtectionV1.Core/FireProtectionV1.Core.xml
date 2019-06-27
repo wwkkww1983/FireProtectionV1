@@ -1055,6 +1055,76 @@
             防火单位用户Id
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckInput.CheckId">
+            <summary>
+            警情Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckInput.CheckState">
+            <summary>
+            核实警状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckInput.Content">
+            <summary>
+            检查情况
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckInput.Pictures">
+            <summary>
+            测试图片数组
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckInput.Picture1">
+            <summary>
+            检查图片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckInput.Picture2">
+            <summary>
+            检查图片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckInput.Picture3">
+            <summary>
+            检查图片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckInput.Vioce">
+            <summary>
+            检查语音
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckOutput.CheckId">
+            <summary>
+            警情Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckOutput.Time">
+            <summary>
+            发生火警时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckOutput.Alarm">
+            <summary>
+            警情内容
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckOutput.Location">
+            <summary>
+            火警地点
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckOutput.CheckStateValue">
+            <summary>
+            核警状态值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckOutput.CheckStateName">
+            <summary>
+            核警状态名称
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AlarmRecord.Content">
             <summary>
             报警内容
@@ -1615,6 +1685,20 @@
             <param name="startTime"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IAlarmManager.GetAlarmCheckDetail(System.Int32)">
+            <summary>
+            查询给定checkId的警情详细信息
+            </summary>
+            <param name="checkId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IAlarmManager.GetAlarmChecks(System.Int32)">
+            <summary>
+            查询防火单位警情核警数据
+            </summary>
+            <param name="fireunitid"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.AddDetector(FireProtectionV1.FireWorking.Dto.AddDetectorInput)">
             <summary>
             新增探测器部件
@@ -1627,6 +1711,14 @@
             新增网关设备
             </summary>
             <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetDetectorAll(System.Int32,FireProtectionV1.Common.Enum.FireSysType)">
+            <summary>
+            查询指定防火单位和防火系统的所有探测器
+            </summary>
+            <param name="fireunitid"></param>
+            <param name="fireSysType"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IDutyManager.AddNewDuty(FireProtectionV1.FireWorking.Dto.AddNewDutyInput)">
@@ -1752,6 +1844,41 @@
             </summary>
             <param name="input"></param>
             <returns></returns>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.FireSysType">
+            <summary>
+            报警类型electric:1,fire:2
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.AlarmDataId">
+            <summary>
+            报警Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.CheckState">
+            <summary>
+            核实警状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.Content">
+            <summary>
+            检查情况
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.Picturs">
+            <summary>
+            检查图片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.Vioce">
+            <summary>
+            检查语音
+            </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.DetectorId">
             <summary>

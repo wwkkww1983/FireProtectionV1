@@ -75,9 +75,13 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             return _gatewayRep.GetAll().Where(p => p.Identify.Equals(gatewayIdentify) && p.Origin.Equals(origin)).FirstOrDefault();
         }
+        public IQueryable<Detector> GetDetectorAll(int fireunitid, FireSysType fireSysType)
+        {
+            return _detectorRep.GetAll().Where(p => p.FireSysType == (byte)fireSysType && p.FireUnitId==fireunitid);
+        }
         public IQueryable<Detector> GetDetectorElectricAll()
         {
-            return _detectorRep.GetAll().Where(p=>p.FireSysType==FireSysType.Electric);
+            return _detectorRep.GetAll().Where(p=>p.FireSysType==(byte)FireSysType.Electric);
         }
         public IQueryable<DetectorType> GetDetectorTypeAll()
         {

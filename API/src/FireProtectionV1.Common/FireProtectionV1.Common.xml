@@ -133,6 +133,31 @@
             如果超出Long的范围，则直接用string定义字段类型，不使用此枚举限制
             </summary>
         </member>
+        <member name="F:FireProtectionV1.Common.Enum.CheckStateType.UnCheck">
+            <summary>
+            未处理
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.CheckStateType.False">
+            <summary>
+            误报
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.CheckStateType.Test">
+            <summary>
+            测试
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.CheckStateType.True">
+            <summary>
+            真实报警
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.CheckStateType.Expire">
+            <summary>
+            已过期
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.Common.Enum.FireSysType">
             <summary>
             消防报警系统类型

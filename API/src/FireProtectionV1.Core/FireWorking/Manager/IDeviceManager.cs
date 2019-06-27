@@ -1,4 +1,5 @@
 ﻿using Abp.Domain.Services;
+using FireProtectionV1.Common.Enum;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
 using System;
@@ -29,5 +30,12 @@ namespace FireProtectionV1.FireWorking.Manager
         DetectorType GetDetectorType(byte GBtype);
         IQueryable<Detector> GetDetectorElectricAll();
         IQueryable<DetectorType> GetDetectorTypeAll();
+        /// <summary>
+        /// 查询指定防火单位和防火系统的所有探测器
+        /// </summary>
+        /// <param name="fireunitid"></param>
+        /// <param name="fireSysType"></param>
+        /// <returns></returns>
+        IQueryable<Detector> GetDetectorAll(int fireunitid, FireSysType fireSysType);
     }
 }
