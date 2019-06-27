@@ -359,7 +359,7 @@ namespace FireProtectionV1.DeviceService
         /// <summary>
         /// 生成当天模拟数据
         /// </summary>
-        public void SimulateTodayData()
+        public void GetSimulateTodayData()
         {
             int num= new Random().Next(1, 5);
             List<int> lstMis = new List<int>();

@@ -16,5 +16,40 @@ namespace FireProtectionV1.User.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<int> Add(FireUnitUserInput input);
+
+        /// <summary>
+        /// 用户登录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<FireUnitUserLoginOutput> UserLogin(LoginInput input);
+
+        /// <summary>
+        /// 获取防火单位工作人员
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<GetUnitPeopleOutput>> GetFireUnitPeople(GetUnitPeopleInput input);
+
+        /// <summary>
+        /// 获取工作人员详情
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<GetUnitPeopleOutput> GetUserInfo(GetUnitPeopleInput input);
+
+        /// <summary>
+        /// 编辑工作人员信息
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<SuccessOutput> UpdateUserInfo(GetUnitPeopleOutput input);
+
+        /// <summary>
+        /// 新增工作人员
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<SuccessOutput> AddUser(AddUserInput input);
     }
 }

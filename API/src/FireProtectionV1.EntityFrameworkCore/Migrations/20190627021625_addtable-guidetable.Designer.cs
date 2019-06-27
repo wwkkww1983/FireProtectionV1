@@ -3,14 +3,16 @@ using System;
 using FireProtectionV1.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FireProtectionV1.Migrations
 {
     [DbContext(typeof(FireProtectionV1DbContext))]
-    partial class FireProtectionV1DbContextModelSnapshot : ModelSnapshot
+    [Migration("20190627021625_addtable-guidetable")]
+    partial class addtableguidetable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,34 +165,6 @@ namespace FireProtectionV1.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SafeUnit");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.AlarmCheck", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AlarmDataId");
-
-                    b.Property<byte>("CheckState");
-
-                    b.Property<string>("Content");
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<byte>("FireSysType");
-
-                    b.Property<int>("FireUnitId");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("Picturs");
-
-                    b.Property<string>("Vioce");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AlarmCheck");
                 });
 
             modelBuilder.Entity("FireProtectionV1.FireWorking.Model.AlarmToElectric", b =>

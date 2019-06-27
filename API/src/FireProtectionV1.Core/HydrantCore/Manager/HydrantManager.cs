@@ -298,7 +298,7 @@ namespace FireProtectionV1.HydrantCore.Manager
             var changeType = from a in query
                              select new GetNearAlarmOutput
                              {
-                                 CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                                 CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm"),
                                  HydrantId = a.HydrantId,
                                  Id = a.Id,
                                  IsDeleted = a.IsDeleted,

@@ -51,6 +51,8 @@ namespace FireProtectionV1.EntityFrameworkCore
         public DbSet<HydrantPressure> HydrantPressure { get; set; }
         public DbSet<Suggest> Suggest { get; set; }
         public DbSet<SupervisionPhotos> SupervisionPhotos { get; set; }
+        public DbSet<FireSystem> FireSystem { get; set; }
+        public DbSet<FireUntiSystem> FireUntiSystem { get; set; }
 
         public FireProtectionV1DbContext(DbContextOptions<FireProtectionV1DbContext> options) 
             : base(options)

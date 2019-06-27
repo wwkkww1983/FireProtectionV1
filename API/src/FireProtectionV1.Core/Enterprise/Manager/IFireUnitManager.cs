@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using FireProtectionV1.Enterprise.Model;
 
 namespace FireProtectionV1.Enterprise.Manager
 {
@@ -56,5 +57,40 @@ namespace FireProtectionV1.Enterprise.Manager
         /// </summary>
         /// <returns></returns>
         Task<List<GetFireUnitMapListOutput>> GetMapList();
+
+        /// <summary>
+        /// 防火单位引导设置
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<SuccessOutput> UpdateGuideSet(UpdateFireUnitSetInput input);
+
+        /// <summary>
+        /// 获取消防系统
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<FireSystem>> GetFireSystem();
+
+        /// <summary>
+        /// 获取防火单位消防系统
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<GetFireUnitSystemOutput>> GetFireUnitSystem(GetFireUnitSystemInput input);
+
+        /// <summary>
+        /// 更新防火单位消防系统
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<SuccessOutput> UpdateFireUnitSystem(UpdateFireUnitSystemInput input);
+
+        /// <summary>
+        /// 增加消防系统
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<SuccessOutput> AddFireSystem(AddFireSystemInput input);
     }
 }

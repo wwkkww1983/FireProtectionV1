@@ -36,5 +36,10 @@ namespace FireProtectionV1.User.Model
         /// 状态，默认为已启用
         /// </summary>
         public NormalStatus Status { get; set; } = NormalStatus.Enabled;
+        /// <summary>
+        /// 是否引导
+        /// </summary>
+        [Required]
+        public bool GuideFlage { get; set; }
     }
 }

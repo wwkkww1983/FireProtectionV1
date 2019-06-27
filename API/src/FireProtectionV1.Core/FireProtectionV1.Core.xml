@@ -275,6 +275,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireSystemInput.SystemName">
+            <summary>
+            消防系统名称
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitInput.Name">
             <summary>
             防火单位名称
@@ -445,6 +450,11 @@
             是否关注
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.Patrol">
+            <summary>
+            巡查方式
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput.Name">
             <summary>
             防火单位名称
@@ -523,6 +533,21 @@
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitMapListOutput.Lat">
             <summary>
             纬度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitSystemInput.FireUnitID">
+            <summary>
+            消防单位ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitSystemOutput.FireSystemID">
+            <summary>
+            消防系统ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitSystemOutput.FireSystemName">
+            <summary>
+            消防系统名称
             </summary>
         </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitTypeOutput.TypeId">
@@ -620,6 +645,27 @@
             纬度
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.UpdateFireUnitSetInput.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.UpdateFireUnitSetInput.SafeUnitId">
+            <summary>
+            维保单位Id
+            </summary>
+        </member>
+        <!-- 对于成员“P:FireProtectionV1.Enterprise.Dto.UpdateFireUnitSetInput.Patrol”忽略有格式错误的 XML 注释 -->
+        <member name="P:FireProtectionV1.Enterprise.Dto.UpdateFireUnitSystemInput.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.UpdateFireUnitSystemInput.SystemId">
+            <summary>
+            消防系统Id
+            </summary>
+        </member>
         <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.GetFireUnitListExcel(FireProtectionV1.Enterprise.Dto.GetPagedFireUnitListInput)">
             <summary>
             得到防火单位列表excel数据
@@ -689,6 +735,40 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.UpdateGuideSet(FireProtectionV1.Enterprise.Dto.UpdateFireUnitSetInput)">
+            <summary>
+            防火单位引导设置
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.GetFireSystem">
+            <summary>
+            获取消防系统
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.GetFireUnitSystem(FireProtectionV1.Enterprise.Dto.GetFireUnitSystemInput)">
+            <summary>
+            获取防火单位消防系统
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.UpdateFireUnitSystem(FireProtectionV1.Enterprise.Dto.UpdateFireUnitSystemInput)">
+            <summary>
+            更新防火单位消防系统
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.AddFireSystem(FireProtectionV1.Enterprise.Dto.AddFireSystemInput)">
+            <summary>
+            增加消防系统
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.Add(FireProtectionV1.Enterprise.Dto.AddFireUnitInput)">
             <summary>
             添加防火单位（同时会添加防火单位管理员账号）
@@ -735,6 +815,41 @@
             <summary>
             地图加载所需使用到的防火单位列表数据
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.UpdateGuideSet(FireProtectionV1.Enterprise.Dto.UpdateFireUnitSetInput)">
+            <summary>
+            防火单位引导设置
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.GetFireSystem">
+            <summary>
+            获取消防系统
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.GetFireUnitSystem(FireProtectionV1.Enterprise.Dto.GetFireUnitSystemInput)">
+            <summary>
+            获取防火单位消防系统
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.UpdateFireUnitSystem(FireProtectionV1.Enterprise.Dto.UpdateFireUnitSystemInput)">
+            <summary>
+            更新防火单位消防系统
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.AddFireSystem(FireProtectionV1.Enterprise.Dto.AddFireSystemInput)">
+            <summary>
+            增加消防系统
+            </summary>
+            <param name="input"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.Enterprise.Manager.ISafeUnitManager.GetSelectSafeUnits(FireProtectionV1.Enterprise.Dto.GetSafeUnitInput)">
@@ -850,6 +965,11 @@
             管辖区域ID
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireSystem.SystemName">
+            <summary>
+            消防系统名称
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.Enterprise.Model.FireUnit">
             <summary>
             防火单位
@@ -905,6 +1025,21 @@
             纬度
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnit.Patrol">
+            <summary>
+            巡查方式
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Enterprise.Model.Patrol.NormalPatrol">
+            <summary>
+            普通巡查
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Enterprise.Model.Patrol.ScanPatrol">
+            <summary>
+            扫码巡查
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.Enterprise.Model.FireUnitAttention">
             <summary>
             防火单位
@@ -918,6 +1053,16 @@
         <member name="P:FireProtectionV1.Enterprise.Model.FireUnitAttention.FireDeptUserId">
             <summary>
             消防部门用户Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUntiSystem.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUntiSystem.FireSystemId">
+            <summary>
+            消防系统Id
             </summary>
         </member>
         <member name="P:FireProtectionV1.Enterprise.Model.SafeUnit.Name">
@@ -2501,6 +2646,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.Infrastructure.Manager.IInfrastructureManager.RefreshData">
+            <summary>
+            刷新数据
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.Infrastructure.Manager.IInfrastructureManager.AddHydrant(System.Int32)">
             <summary>
             增加市政消火栓
@@ -2518,6 +2669,12 @@
         <member name="M:FireProtectionV1.Infrastructure.Manager.InfrastructureManager.InitData">
             <summary>
             初始化数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Infrastructure.Manager.InfrastructureManager.RefreshData">
+            <summary>
+            刷新数据
             </summary>
             <returns></returns>
         </member>
@@ -3452,6 +3609,26 @@
             照片名称
             </summary>
         </member>
+        <member name="P:FireProtectionV1.User.Dto.AddUserInput.Account">
+            <summary>
+            账号（手机号）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.AddUserInput.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.AddUserInput.FireUnitInfoID">
+            <summary>
+            部门ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.AddUserInput.Rolelist">
+            <summary>
+            权限
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.User.Dto.DeptChangePassword.Account">
             <summary>
             账号
@@ -3502,6 +3679,61 @@
             角色
             </summary>
         </member>
+        <member name="P:FireProtectionV1.User.Dto.FireUnitUserLoginOutput.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.FireUnitUserLoginOutput.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.FireUnitUserLoginOutput.FireUnitName">
+            <summary>
+            防火单位名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.FireUnitUserLoginOutput.FireUnitID">
+            <summary>
+            防火单位ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.FireUnitUserLoginOutput.Rolelist">
+            <summary>
+            角色
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.FireUnitUserLoginOutput.GuideFlage">
+            <summary>
+            是否引导
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.GetUnitPeopleInput.AccountID">
+            <summary>
+            账号ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.GetUnitPeopleOutput.ID">
+            <summary>
+            账号ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.GetUnitPeopleOutput.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.GetUnitPeopleOutput.Account">
+            <summary>
+            账号（手机号）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.GetUnitPeopleOutput.Rolelist">
+            <summary>
+            角色
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.User.Dto.LoginInput.Account">
             <summary>
             账号(测试:test)
@@ -3529,6 +3761,41 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.User.Manager.FireUnitUserManager.UserLogin(FireProtectionV1.User.Dto.LoginInput)">
+            <summary>
+            用户登录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.FireUnitUserManager.GetFireUnitPeople(FireProtectionV1.User.Dto.GetUnitPeopleInput)">
+            <summary>
+            获取防火单位工作人员
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.FireUnitUserManager.GetUserInfo(FireProtectionV1.User.Dto.GetUnitPeopleInput)">
+            <summary>
+            获取工作人员详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.FireUnitUserManager.UpdateUserInfo(FireProtectionV1.User.Dto.GetUnitPeopleOutput)">
+            <summary>
+            编辑工作人员信息
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.FireUnitUserManager.AddUser(FireProtectionV1.User.Dto.AddUserInput)">
+            <summary>
+            新增工作人员
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.User.Manager.IFireDeptUserManager.ChangePassword(FireProtectionV1.User.Dto.DeptChangePassword)">
             <summary>
             修改密码
@@ -3539,6 +3806,41 @@
         <member name="M:FireProtectionV1.User.Manager.IFireUnitUserManager.Add(FireProtectionV1.User.Dto.FireUnitUserInput)">
             <summary>
             添加防火单位账号
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.IFireUnitUserManager.UserLogin(FireProtectionV1.User.Dto.LoginInput)">
+            <summary>
+            用户登录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.IFireUnitUserManager.GetFireUnitPeople(FireProtectionV1.User.Dto.GetUnitPeopleInput)">
+            <summary>
+            获取防火单位工作人员
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.IFireUnitUserManager.GetUserInfo(FireProtectionV1.User.Dto.GetUnitPeopleInput)">
+            <summary>
+            获取工作人员详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.IFireUnitUserManager.UpdateUserInfo(FireProtectionV1.User.Dto.GetUnitPeopleOutput)">
+            <summary>
+            编辑工作人员信息
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.IFireUnitUserManager.AddUser(FireProtectionV1.User.Dto.AddUserInput)">
+            <summary>
+            新增工作人员
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -3591,6 +3893,11 @@
         <member name="P:FireProtectionV1.User.Model.FireUnitUser.Status">
             <summary>
             状态，默认为已启用
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Model.FireUnitUser.GuideFlage">
+            <summary>
+            是否引导
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Model.FireUnitUserRole.AccountID">

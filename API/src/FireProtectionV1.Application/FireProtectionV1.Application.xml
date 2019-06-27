@@ -4,31 +4,65 @@
         <name>FireProtectionV1.Application</name>
     </assembly>
     <members>
-        <member name="M:FireProtectionV1.AppService.AlarmAppService.GetAlarmChecks(System.Int32)">
+        <member name="M:FireProtectionV1.AppService.AppGuideSet.GetFireUnitPeople(FireProtectionV1.User.Dto.GetUnitPeopleInput)">
             <summary>
-            获取指定防火单位警情数据
+            获取防火单位工作人员
             </summary>
-            <param name="FireUnitId">防火单位Id</param>
+            <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.AlarmAppService.GetAlarmCheckDetail(System.Int32)">
+        <member name="M:FireProtectionV1.AppService.AppGuideSet.GetUserInfo(FireProtectionV1.User.Dto.GetUnitPeopleInput)">
             <summary>
-            查询给定checkId的警情详细信息
+            获取工作人员详情
             </summary>
-            <param name="CheckId"></param>
+            <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.AlarmAppService.CheckAlarmByFormData1(System.Int32,Microsoft.AspNetCore.Http.IFormCollection)">
+        <member name="M:FireProtectionV1.AppService.AppGuideSet.UpdateUserInfo(FireProtectionV1.User.Dto.GetUnitPeopleOutput)">
             <summary>
-            
+            编辑工作人员信息
             </summary>
-            <param name="CheckId"></param>
-            <param name="formCollection"></param>
+            <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.AlarmAppService.CheckAlarmByFormData(FireProtectionV1.FireWorking.Dto.AlarmCheckInput)">
+        <member name="M:FireProtectionV1.AppService.AppGuideSet.AddUser(FireProtectionV1.User.Dto.AddUserInput)">
             <summary>
-            
+            新增工作人员
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AppGuideSet.UpdateGuideSet(FireProtectionV1.Enterprise.Dto.UpdateFireUnitSetInput)">
+            <summary>
+            更新防火单位引导设置
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.AppService.AppGuideSet.GetFireSystem">
+            <summary>
+            获取消防系统
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AppGuideSet.GetFireUnitSystem(FireProtectionV1.Enterprise.Dto.GetFireUnitSystemInput)">
+            <summary>
+            获取防火单位消防系统
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AppGuideSet.UpdateFireUnitSystem(FireProtectionV1.Enterprise.Dto.UpdateFireUnitSystemInput)">
+            <summary>
+            更新防火单位消防系统
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AppGuideSet.AddFireSystem(FireProtectionV1.Enterprise.Dto.AddFireSystemInput)">
+            <summary>
+            增加消防系统
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -493,6 +527,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.UserLogin(FireProtectionV1.User.Dto.LoginInput)">
+            <summary>
+            用户登录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.HttpContextAppService.GetVerifyCode">
             <summary>
             获取验证码
@@ -583,6 +624,12 @@
         <member name="M:FireProtectionV1.AppService.InfrastructureAppService.InitData">
             <summary>
             初始化数据(部署初始化)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.InfrastructureAppService.RefreshData">
+            <summary>
+            刷新数据
             </summary>
             <returns></returns>
         </member>
@@ -818,7 +865,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.DeviceService.DataAppService.SimulateTodayData">
+        <member name="M:FireProtectionV1.DeviceService.DataAppService.GetSimulateTodayData">
             <summary>
             生成当天模拟数据
             </summary>

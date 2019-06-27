@@ -152,10 +152,15 @@ namespace FireProtectionV1.Web.Startup
             }); // URL: /swagger
 
             //文件地址隐藏
+            if (!Directory.Exists(@"App_Data/Files"))//判断是否存在
+            {
+                Directory.CreateDirectory(@"App_Data/Files");//创建新路径
+            }
             app.UseStaticFiles(new StaticFileOptions()
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot/Files")),
-                RequestPath = new PathString("/src")
+
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"App_Data/Files")),
+                RequestPath = new PathString("/Src")
             });
         
     }

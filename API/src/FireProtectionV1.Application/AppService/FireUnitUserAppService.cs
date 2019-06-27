@@ -25,5 +25,17 @@ namespace FireProtectionV1.AppService
         {
             return await _fireUnitAccountManager.Add(input);
         }
+
+        /// <summary>
+        /// 用户登录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<FireUnitUserLoginOutput> UserLogin(LoginInput input)
+        {
+            return await _fireUnitAccountManager.UserLogin(input);
+        }
+
+       
     }
 }
