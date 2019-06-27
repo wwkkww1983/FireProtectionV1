@@ -1,6 +1,7 @@
 ﻿using FireProtectionV1.Common.DBContext;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
@@ -61,5 +62,23 @@ namespace FireProtectionV1.Enterprise.Model
         /// 纬度
         /// </summary>
         public decimal Lat { get; set; }
+        /// <summary>
+        /// 巡查方式
+        /// </summary>
+        public Patrol Patrol { get; set; }
+    }
+
+    public enum Patrol {
+        /// <summary>
+        /// 普通巡查
+        /// </summary>
+        [Description("普通巡查")]
+        NormalPatrol = 1,
+        /// <summary>
+        /// 扫码巡查
+        /// </summary>
+        [Description("扫码巡查")]
+        ScanPatrol = 2,
+
     }
 }

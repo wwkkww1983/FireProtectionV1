@@ -4,6 +4,69 @@
         <name>FireProtectionV1.Application</name>
     </assembly>
     <members>
+        <member name="M:FireProtectionV1.AppService.AppGuideSet.GetFireUnitPeople(FireProtectionV1.User.Dto.GetUnitPeopleInput)">
+            <summary>
+            获取防火单位工作人员
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AppGuideSet.GetUserInfo(FireProtectionV1.User.Dto.GetUnitPeopleInput)">
+            <summary>
+            获取工作人员详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AppGuideSet.UpdateUserInfo(FireProtectionV1.User.Dto.GetUnitPeopleOutput)">
+            <summary>
+            编辑工作人员信息
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AppGuideSet.AddUser(FireProtectionV1.User.Dto.AddUserInput)">
+            <summary>
+            新增工作人员
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AppGuideSet.UpdateGuideSet(FireProtectionV1.Enterprise.Dto.UpdateFireUnitSetInput)">
+            <summary>
+            更新防火单位引导设置
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.AppService.AppGuideSet.GetFireSystem">
+            <summary>
+            获取消防系统
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AppGuideSet.GetFireUnitSystem(FireProtectionV1.Enterprise.Dto.GetFireUnitSystemInput)">
+            <summary>
+            获取防火单位消防系统
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AppGuideSet.UpdateFireUnitSystem(FireProtectionV1.Enterprise.Dto.UpdateFireUnitSystemInput)">
+            <summary>
+            更新防火单位消防系统
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AppGuideSet.AddFireSystem(FireProtectionV1.Enterprise.Dto.AddFireSystemInput)">
+            <summary>
+            增加消防系统
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="T:FireProtectionV1.AppService.AppServiceBase">
             <summary>
             Derive your application services from this class.
@@ -460,6 +523,13 @@
         <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.Add(FireProtectionV1.User.Dto.FireUnitUserInput)">
             <summary>
             添加账号
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.UserLogin(FireProtectionV1.User.Dto.LoginInput)">
+            <summary>
+            用户登录
             </summary>
             <param name="input"></param>
             <returns></returns>

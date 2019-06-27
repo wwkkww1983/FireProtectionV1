@@ -403,28 +403,32 @@ namespace FireProtectionV1.SupervisionCore.Manager
                 foreach (var photo in text.code64)
                 {
                     //获取文件储存路径
-                    string filePath = hostingEnv.WebRootPath;
+                    string filePath = hostingEnv.ContentRootPath;
                     string datetime = GetTimeStamp();
                     string suffix = ".jpg"; //文件的后缀名根据实际情况
                     string name = datetime + suffix;
                     string strPath = "";
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                     {
-                         strPath = filePath + $@"/Files/Pictures/" + name;
+                         strPath = filePath + $@"/App_Data/Files/Photos/Supervision/" ;
                     }
                     else
                     {
-                         strPath = filePath + $@"\Files\Pictures\" + name;
+                         strPath = filePath + $@"\App_Data\Files\Photos\Supervision\";
                     }
-                    
 
+                    if (!Directory.Exists(strPath))//判断是否存在
+                    {                      
+                        Directory.CreateDirectory(strPath);//创建新路径
+                    }
+                    strPath += name; 
                     //获取图片并保存
                     Base64ToImg(photo.Split(',')[1]).Save(strPath);
 
                     var supervisionphotos = new SupervisionPhotos()
                     {
                         SupervisionId = text.SupervisionID,
-                        Path = $@"/Files/Pictures/",
+                        Path = $@"/Src/Photos/Supervision/",
                         Name = name
                     };
                     var id = await _supervisionPhotos.InsertAndGetIdAsync(supervisionphotos);

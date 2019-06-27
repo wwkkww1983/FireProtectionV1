@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FireProtectionV1.Enterprise.Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -46,5 +47,10 @@ namespace FireProtectionV1.Enterprise.Dto
         /// 是否关注
         /// </summary>
         public bool IsAttention { get; set; }
+        /// <summary>
+        /// 巡查方式
+        /// </summary>
+        public Patrol Patrol { get; set; }
+        
     }
 }

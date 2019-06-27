@@ -29,15 +29,20 @@ namespace FireProtectionV1.Enterprise.Manager
         IRepository<FireUnitType> _fireUnitTypeRep;
         IRepository<FireUnit> _fireUnitRep;
         IRepository<FireUnitUser> _fireUnitUserRep;
+        IRepository<FireSystem> _fireSystemRep;
+        IRepository<FireUntiSystem> _fireUnitSystemRep;
         ICacheManager _cacheManager;
         public FireUnitManager(
             IRepository<FireUnitAttention> fireUnitAttentionRep,
             IRepository<SafeUnit> safeUnitR,
             IRepository<Area> areaR,
             IRepository<FireUnitType> fireUnitTypeR,
-            IRepository<FireUnit> fireUnitInfoRepository, IRepository<FireUnitUser> fireUnitAccountRepository,
+            IRepository<FireUnit> fireUnitInfoRepository, 
+            IRepository<FireUnitUser> fireUnitAccountRepository,
             IFireUnitUserManager fireUnitAccountManager,
-            ICacheManager cacheManager
+            ICacheManager cacheManager,
+            IRepository<FireSystem> fireSystemRep,
+            IRepository<FireUntiSystem> fireUnitSystemRep
             )
         {
             _fireUnitAttentionRep = fireUnitAttentionRep;
@@ -47,6 +52,8 @@ namespace FireProtectionV1.Enterprise.Manager
             _fireUnitRep = fireUnitInfoRepository;
             _fireUnitUserRep = fireUnitAccountRepository;
             _cacheManager = cacheManager;
+            _fireSystemRep = fireSystemRep;
+            _fireUnitSystemRep = fireUnitSystemRep;
         }
         public Task<List<GetFireUnitTypeOutput>> GetFireUnitTypes()
         {
@@ -240,6 +247,7 @@ namespace FireProtectionV1.Enterprise.Manager
                 output.Address = f.Address;
                 output.ContractName = f.ContractName;
                 output.ContractPhone = f.ContractPhone;
+                output.Patrol = f.Patrol;
                 var a =await _areaRep.SingleAsync(p => p.Id.Equals(f.AreaId));
                 if(a!=null)
                 {
@@ -332,6 +340,85 @@ namespace FireProtectionV1.Enterprise.Manager
 
             var list = query.ToList();
             return Task.FromResult(list);
+        }
+
+        /// <summary>
+        /// 防火单位引导设置
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> UpdateGuideSet(UpdateFireUnitSetInput input)
+        {
+            var old = _fireUnitRep.GetAll().Where(u => u.Id == input.FireUnitId).FirstOrDefault();
+            old.SafeUnitId = input.SafeUnitId;
+            old.Patrol = input.Patrol;
+
+            await _fireUnitRep.UpdateAsync(old);
+            return new SuccessOutput() { Success = true };
+        }
+
+        /// <summary>
+        /// 获取消防系统
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<FireSystem>> GetFireSystem()
+        {
+            var systemlist = await _fireSystemRep.GetAllListAsync();
+            return systemlist;
+        }
+
+        /// <summary>
+        /// 获取防火单位消防系统
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<List<GetFireUnitSystemOutput>> GetFireUnitSystem(GetFireUnitSystemInput input)
+        {
+            var fireUnitSystemlist =await _fireUnitSystemRep.GetAllListAsync(u => u.FireUnitId == input.FireUnitID);
+            var output = from a in fireUnitSystemlist
+                         join b in _fireSystemRep.GetAll() on a.FireSystemId equals b.Id
+                         select new GetFireUnitSystemOutput
+                         {
+                             FireSystemID = a.FireSystemId,
+                             FireSystemName = b.SystemName,
+                         };
+            return output.ToList();
+        }
+
+        /// <summary>
+        /// 更新防火单位消防系统
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> UpdateFireUnitSystem(UpdateFireUnitSystemInput input)
+        {
+            SuccessOutput output = new SuccessOutput() { Success = true };
+             _fireUnitSystemRep.Delete(u=>u.FireUnitId==input.FireUnitId);
+            foreach(var a in input.SystemId)
+            {
+                FireUntiSystem fireUnitSystem = new FireUntiSystem()
+                {
+                    FireUnitId = input.FireUnitId,
+                    FireSystemId = a,
+                };
+                await _fireUnitSystemRep.InsertAsync(fireUnitSystem);
+            }
+            return output;
+        }
+
+        /// <summary>
+        /// 增加消防系统
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> AddFireSystem(AddFireSystemInput input)
+        {
+            SuccessOutput output = new SuccessOutput() { Success = true };
+            FireSystem fireSystem = new FireSystem() {
+                SystemName=input.SystemName
+            };
+            await _fireSystemRep.InsertAsync(fireSystem);
+            return output;
         }
     }
 }
