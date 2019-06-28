@@ -31,14 +31,21 @@ namespace FireProtectionV1.FireWorking.Model
         /// <summary>
         /// 检查情况
         /// </summary>
+        [MaxLength(300)]
         public string Content { get; set; }
         /// <summary>
-        /// 检查图片
+        /// 检查图片url数组“,”分割
         /// </summary>
-        public string Picturs { get; set; }
+        [MaxLength(300)]
+        public string PicturUrls { get; set; }
         /// <summary>
-        /// 检查语音
+        /// 检查语音url
         /// </summary>
-        public string Vioce { get; set; }
+        [MaxLength(100)]
+        public string VioceUrl { get; set; }
+        /// <summary>
+        /// 工作人员Id
+        /// </summary>
+        public int UserId { get; set; }
     }
 }

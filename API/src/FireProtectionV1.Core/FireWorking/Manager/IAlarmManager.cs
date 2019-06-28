@@ -35,7 +35,8 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="checkId"></param>
         /// <returns></returns>
-        Task<AlarmCheckInput> GetAlarmCheckDetail(int checkId);
+        Task<AlarmCheckDetailOutput> GetAlarmCheckDetail(int checkId);
+        void RepairData();
 
         /// <summary>
         /// 查询防火单位警情核警数据
@@ -43,5 +44,11 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="fireunitid"></param>
         /// <returns></returns>
         Task<List<AlarmCheckOutput>> GetAlarmChecks(int fireunitid);
+        /// <summary>
+        /// 保存核警信息
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        Task CheckAlarm(AlarmCheckDetailDto dto);
     }
 }

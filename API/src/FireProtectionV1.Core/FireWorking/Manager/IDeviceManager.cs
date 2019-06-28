@@ -25,9 +25,11 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         Task AddGateway(AddGatewayInput input);
 
+        Task<Detector> GetDetectorAsync(int id);
         Detector GetDetector(string identify,string origin);
         Gateway GetGateway(string identify, string origin);
         DetectorType GetDetectorType(byte GBtype);
+        Task<DetectorType> GetDetectorTypeAsync(int id);
         IQueryable<Detector> GetDetectorElectricAll();
         IQueryable<DetectorType> GetDetectorTypeAll();
         /// <summary>

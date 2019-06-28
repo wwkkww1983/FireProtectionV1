@@ -13,7 +13,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 发生火警时间
         /// </summary>
-        public DateTime Time { get; set; }
+        public string Time { get; set; }
         /// <summary>
         /// 警情内容
         /// </summary>

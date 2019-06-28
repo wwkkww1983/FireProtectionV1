@@ -63,9 +63,17 @@ namespace FireProtectionV1.FireWorking.Manager
                 Origin=input.Origin
             });
         }
+        public async Task<DetectorType> GetDetectorTypeAsync(int id)
+        {
+            return await _detectorTypeRep.SingleAsync(p => p.Id == id);
+        }
         public DetectorType GetDetectorType(byte GBtype)
         {
             return _detectorTypeRep.GetAll().Where(p => p.GBType == GBtype).FirstOrDefault();
+        }
+        public async Task<Detector> GetDetectorAsync(int id)
+        {
+            return await _detectorRep.SingleAsync(p=>p.Id==id);
         }
         public Detector GetDetector(string identify, string origin)
         {

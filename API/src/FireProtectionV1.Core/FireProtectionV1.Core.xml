@@ -1200,6 +1200,117 @@
             防火单位用户Id
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailDto.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailDto.CheckId">
+            <summary>
+            警情Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailDto.CheckState">
+            <summary>
+            核实警状态(1:误报,2:测试,3:真实火警)
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailDto.Content">
+            <summary>
+            检查情况
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailDto.PictureUrl_1">
+            <summary>
+            检查图片1
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailDto.PictureUrl_2">
+            <summary>
+            检查图片2
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailDto.PictureUrl_3">
+            <summary>
+            检查图片3
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailDto.VioceUrl">
+            <summary>
+            检查语音
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailOutput.CheckId">
+            <summary>
+            警情Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailOutput.Time">
+            <summary>
+            发生火警时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailOutput.Alarm">
+            <summary>
+            警情内容
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailOutput.Location">
+            <summary>
+            火警地点
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailOutput.CheckStateValue">
+            <summary>
+            核警状态值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailOutput.CheckStateName">
+            <summary>
+            核警状态名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailOutput.Content">
+            <summary>
+            检查情况
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailOutput.PictureUrl_1">
+            <summary>
+            检查图片1
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailOutput.PictureUrl_2">
+            <summary>
+            检查图片2
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailOutput.PictureUrl_3">
+            <summary>
+            检查图片3
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailOutput.VioceUrl">
+            <summary>
+            检查语音
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailOutput.UserName">
+            <summary>
+            工作人员姓名
+            </summary>
+        </member>
+        <!-- 对于成员“P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailOutput.UserPhone”忽略有格式错误的 XML 注释 -->
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailOutput.CheckTime">
+            <summary>
+            核警处理时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckInput.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckInput.CheckId">
             <summary>
             警情Id
@@ -1207,17 +1318,12 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckInput.CheckState">
             <summary>
-            核实警状态
+            核实警状态(1:误报,2:测试,3:真实火警)
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckInput.Content">
             <summary>
             检查情况
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckInput.Pictures">
-            <summary>
-            测试图片数组
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckInput.Picture1">
@@ -1705,6 +1811,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.AlarmManager.CheckAlarm(FireProtectionV1.FireWorking.Dto.AlarmCheckDetailDto)">
+            <summary>
+            保存核警信息
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.AddDetector(FireProtectionV1.FireWorking.Dto.AddDetectorInput)">
             <summary>
             新增探测器部件
@@ -1842,6 +1955,13 @@
             查询防火单位警情核警数据
             </summary>
             <param name="fireunitid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IAlarmManager.CheckAlarm(FireProtectionV1.FireWorking.Dto.AlarmCheckDetailDto)">
+            <summary>
+            保存核警信息
+            </summary>
+            <param name="dto"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.AddDetector(FireProtectionV1.FireWorking.Dto.AddDetectorInput)">
@@ -2015,14 +2135,19 @@
             检查情况
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.Picturs">
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.PicturUrls">
             <summary>
-            检查图片
+            检查图片url数组“,”分割
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.Vioce">
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.VioceUrl">
             <summary>
-            检查语音
+            检查语音url
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.UserId">
+            <summary>
+            工作人员Id
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.DetectorId">

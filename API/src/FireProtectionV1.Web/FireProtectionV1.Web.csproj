@@ -17,6 +17,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Update="App_Data\Files\Photos\AlarmCheck\TextFile.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\Files\Voices\AlarmCheck\TextFile.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
