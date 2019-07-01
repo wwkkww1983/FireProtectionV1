@@ -1,7 +1,10 @@
 ﻿using Abp.Domain.Repositories;
+using FireProtectionV1.Common.DBContext;
+using FireProtectionV1.Common.Enum;
 using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
+using FireProtectionV1.User.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +17,28 @@ namespace FireProtectionV1.FireWorking.Manager
     {
         IRepository<FireUnit> _fireUnitRep;
         IRepository<DataToDuty> _dutyRep;
+        IRepository<DataToDutyProblem> _dataToDutyProblemRep;
+        IRepository<FireUnitUser> _fireUnitAccountRepository;
+        IRepository<PhotosPathSave> _dataToDutyPhotosRep;
+        //IRepository<DataToDutyProblemPhotos> _dataToDutyProblemPhotosRep;
 
         public DutyManager(
             IRepository<FireUnit> fireUnitRep,
-            IRepository<DataToDuty> dutyRep
+            IRepository<DataToDuty> dutyRep,
+            IRepository<FireUnitUser> fireUnitAccountRepository,
+            IRepository<DataToDutyProblem> dataToDutyProblemRep,
+            IRepository<PhotosPathSave> dataToDutyPhotosRep
+            //IRepository<DataToDutyProblemPhotos> dataToDutyProblemPhotosRep
+
             )
         {
             _fireUnitRep = fireUnitRep;
             _dutyRep = dutyRep;
+            _fireUnitAccountRepository = fireUnitAccountRepository;
+            _dataToDutyProblemRep = dataToDutyProblemRep;
+            _dataToDutyPhotosRep = dataToDutyPhotosRep;
+            //_dataToDutyProblemPhotosRep = dataToDutyProblemPhotosRep;
+
         }
         public async Task AddNewDuty(AddNewDutyInput input)
         {
@@ -92,5 +109,81 @@ namespace FireProtectionV1.FireWorking.Manager
                         };
             return query;
         }
+
+        /// <summary>
+        /// 获取值班记录列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task<List<GetDataDutyOutput>> GetDutylist(GetDataDutyInput input)
+        {
+            var dutys = _dutyRep.GetAll().Where(u=>u.FireUnitId==input.FireUnitId);
+            var expr = ExprExtension.True<DataToDuty>()
+                .IfAnd(input.DutyStatus != DutyStatusType.alldate, item => item.DutyStatus==(byte)input.DutyStatus);
+            dutys = dutys.Where(expr);
+
+            var fireUnits = _fireUnitAccountRepository.GetAll();
+
+            var output = from a in dutys
+                         join b in fireUnits on a.FireUnitUserId equals b.Id
+                         select new GetDataDutyOutput
+                         {
+                             DutyId = a.Id,
+                             CreationTime = a.CreationTime.ToString("yyyy-MM-dd hh:mm"),
+                             DutyUser = b.Name,
+                             DutyStatus = a.DutyStatus
+                         };
+            return Task.FromResult(output.OrderByDescending(u=>u.CreationTime).ToList());
+        }
+        /// <summary>
+        /// 获取值班记录详情
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task<GetDataDutyInfoOutput> GetDutyInfo(GetDataDutyInfoInput input)
+        {
+            var duty = _dutyRep.FirstOrDefault(u => u.Id == input.DutyId);
+            var problem = _dataToDutyProblemRep.FirstOrDefault(u => u.DutyId == duty.Id);
+            GetDataDutyInfoOutput output = new GetDataDutyInfoOutput();
+            output.DutyId = duty.Id;
+            output.DutyUser = _fireUnitAccountRepository.Single(u => u.Id == duty.FireUnitUserId).Name;
+            //output.DutyPhtosPath = _dataToDutyPhotosRep.GetAll().Where(u => u.DutyId == duty.Id).Select(u => u.PhotosPath).ToList();
+            output.DutyRemark = duty.DutyRemark;
+            if(problem!=null) 
+            {
+                output.ProblemRemarkType = (ProblemType)problem.ProblemRemarkType;
+                output.ProblemRemark = problem.ProblemRemark;
+                //output.ProblemPhtosPath = _dataToDutyProblemPhotosRep.GetAll().Where(u => u.DutyProblemId == problem.Id).Select(u => u.PhotosPath).ToList();
+            }
+            return Task.FromResult(output);
+        }
+        /// <summary>
+        /// 新增值班记录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> AddDutyInfo(AddDataDutyInfoInput input)
+        {
+            SuccessOutput output = new SuccessOutput() { Success = true };
+            DataToDuty dutyInfo = new DataToDuty()
+            {
+                FireUnitUserId = input.FireUnitUserId,
+                DutyRemark = input.DutyRemark,
+            };
+            int dutyId = _dutyRep.InsertAndGetId(dutyInfo);
+
+            if (input.DutyStatus!=1)
+            {
+                DataToDutyProblem problemInfo = new DataToDutyProblem()
+                {
+                    DutyId= dutyId,
+                    ProblemRemarkType=(int)input.ProblemRemarkType
+                };
+
+            }
+
+            return output;
+        }
     }
 }
+ 

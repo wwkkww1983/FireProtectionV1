@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FireProtectionV1.Migrations
 {
     [DbContext(typeof(FireProtectionV1DbContext))]
-    [Migration("20190627021625_addtable-guidetable")]
-    partial class addtableguidetable
+    [Migration("20190701082459_addPhotosPath")]
+    partial class addPhotosPath
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -251,6 +251,8 @@ namespace FireProtectionV1.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
+                    b.Property<string>("DutyRemark");
+
                     b.Property<byte>("DutyStatus");
 
                     b.Property<int>("FireUnitId");
@@ -280,6 +282,8 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<string>("ProblemRemark")
                         .HasMaxLength(200);
+
+                    b.Property<int>("ProblemRemarkType");
 
                     b.Property<string>("ProblemVoice")
                         .HasMaxLength(100);
@@ -319,9 +323,13 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<bool>("IsDeleted");
 
+                    b.Property<string>("PatrolAddress");
+
                     b.Property<int>("PatrolId");
 
                     b.Property<byte>("PatrolStatus");
+
+                    b.Property<byte>("PatrolType");
 
                     b.HasKey("Id");
 
@@ -344,6 +352,8 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<string>("ProblemRemark")
                         .HasMaxLength(500);
+
+                    b.Property<int>("ProblemRemarkType");
 
                     b.Property<string>("ProblemVoice")
                         .HasMaxLength(100);
@@ -457,6 +467,28 @@ namespace FireProtectionV1.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Gateway");
+                });
+
+            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.PhotosPathSave", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("PhotosPath")
+                        .IsRequired();
+
+                    b.Property<int>("TableId");
+
+                    b.Property<string>("TableName")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PhotosPathSave");
                 });
 
             modelBuilder.Entity("FireProtectionV1.HydrantCore.Model.Hydrant", b =>
