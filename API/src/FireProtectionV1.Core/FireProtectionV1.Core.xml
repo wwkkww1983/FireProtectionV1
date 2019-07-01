@@ -2308,7 +2308,7 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.CheckState">
             <summary>
-            核实警状态
+            核警状态
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.FireUnitId">
@@ -2319,11 +2319,6 @@
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.Content">
             <summary>
             检查情况
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.PicturUrls">
-            <summary>
-            检查图片url数组“,”分割
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.VioceUrl">

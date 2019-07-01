@@ -34,11 +34,6 @@ namespace FireProtectionV1.FireWorking.Model
         [MaxLength(300)]
         public string Content { get; set; }
         /// <summary>
-        /// 检查图片url数组“,”分割
-        /// </summary>
-        [MaxLength(300)]
-        public string PicturUrls { get; set; }
-        /// <summary>
         /// 检查语音url
         /// </summary>
         [MaxLength(100)]
