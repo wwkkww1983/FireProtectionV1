@@ -1,7 +1,9 @@
 ﻿using Abp.Domain.Repositories;
+using DeviceServer.Tcp.Protocol;
 using FireProtectionV1.Common.Enum;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
+using FireProtectionV1.SettingCore.Manager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,17 +14,75 @@ namespace FireProtectionV1.FireWorking.Manager
 {
     public class DeviceManager : IDeviceManager
     {
+        IFireSettingManager _fireSettingManager;
         IRepository<DetectorType> _detectorTypeRep;
         IRepository<Gateway> _gatewayRep;
         IRepository<Detector> _detectorRep;
-        public DeviceManager(IRepository<Detector> detectorRep,
+        public DeviceManager(
+            IFireSettingManager fireSettingManager,
+            IRepository<Detector> detectorRep,
              IRepository<DetectorType> detectorTypeRep,
            IRepository<Gateway> gatewayRep)
         {
+            _fireSettingManager = fireSettingManager;
             _detectorTypeRep = detectorTypeRep;
             _detectorRep = detectorRep;
             _gatewayRep = gatewayRep;
         }
+        /// <summary>
+        /// 获取防火单位的终端状态
+        /// </summary>
+        /// <param name="fireUnitId"></param>
+        /// <returns></returns>
+        public async Task<List<EndDeviceStateOutput>> GetFireUnitEndDeviceState(int fireUnitId, int option)
+        {
+            var uitd = (from a in _detectorRep.GetAll().Where(p => p.FireUnitId == fireUnitId && p.DetectorTypeId == GetDetectorType((byte)UnitType.UITD).Id
+                       &&(option==0?true:(option==-1?p.State.Equals("离线"):!p.State.Equals("离线"))))
+                       join b in _detectorTypeRep.GetAll()
+                       on a.DetectorTypeId equals b.Id
+                       select new EndDeviceStateOutput()
+                       {
+                           Name = b.Name,
+                           Location = a.Location,
+                           StateName = a.State,
+                           Analog="-",
+                           Standard="-"
+                       }).ToList();
+            var tem= (from a in _detectorRep.GetAll().Where(p => p.FireUnitId == fireUnitId && p.DetectorTypeId == GetDetectorType((byte)UnitType.ElectricTemperature).Id
+                        && (option == 0 ? true : (option == -1 ? p.State.Equals("离线") : !p.State.Equals("离线"))))
+                    join b in _detectorTypeRep.GetAll()
+                     on a.DetectorTypeId equals b.Id
+                     select new EndDeviceStateOutput()
+                     {
+                         Name = b.Name,
+                         Location = a.Location,
+                         StateName = a.State.Equals("离线")?"离线":"在线",
+                         Analog= a.State.Equals("离线") ? "-":a.State
+                     }).ToList();
+            var setTem = await _fireSettingManager.GetByName("CableTemperature");
+            foreach (var v in tem)
+            {
+                v.Standard = $"<={setTem.MaxValue}℃";
+            }
+            var ele = (from a in _detectorRep.GetAll().Where(p => p.FireUnitId == fireUnitId && p.DetectorTypeId == GetDetectorType((byte)UnitType.ElectricResidual).Id
+                       && (option == 0 ? true : (option == -1 ? p.State.Equals("离线") : !p.State.Equals("离线"))))
+                      join b in _detectorTypeRep.GetAll()
+                      on a.DetectorTypeId equals b.Id
+                      select new EndDeviceStateOutput()
+                      {
+                          Name = b.Name,
+                          Location = a.Location,
+                          StateName = a.State.Equals("离线") ? "离线" : "在线",
+                          Analog = a.State.Equals("离线") ? "-" : a.State
+                      }).ToList();
+            var setEle = await _fireSettingManager.GetByName("ResidualCurrent");
+            foreach (var v in ele)
+            {
+                v.Standard = $"<={setEle.MaxValue}mA";
+            }
+            return uitd.Union(tem).Union(ele).ToList();
+        }
+
         /// <summary>
         /// 新增探测器部件
         /// </summary>

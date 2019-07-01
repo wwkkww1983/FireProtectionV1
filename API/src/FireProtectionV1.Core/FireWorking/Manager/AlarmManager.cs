@@ -146,7 +146,14 @@ namespace FireProtectionV1.FireWorking.Manager
             await Task.Run(() =>
             {
                 all = elec.Union(fire).OrderByDescending(p => p.Time).Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList();
-                //all = elec.ToList().Union(fire.ToList()).OrderByDescending(p => p.Time).ToList();
+                foreach(var v in all)
+                {
+                    if(DateTime.Now-DateTime.Parse(v.Time)>new TimeSpan(1,0,0))
+                    {
+                        v.CheckStateValue = (byte)CheckStateType.Expire;
+                        v.CheckStateName = CheckStateTypeNames.GetName(CheckStateType.Expire);
+                    }
+                }
             });
             return all;
         }
@@ -226,8 +233,11 @@ namespace FireProtectionV1.FireWorking.Manager
                 dto.Alarm = AlarmName(type, alarm);
                 dto.Location = detector.Location;
             }
-            dto.CheckStateValue = alarmCheck.CheckState;
-            dto.CheckStateName = CheckStateTypeNames.GetName((CheckStateType)alarmCheck.CheckState);
+            var checkState = alarmCheck.CheckState;
+            if (alarmCheck.CheckState == (byte)CheckStateType.UnCheck && (DateTime.Now - DateTime.Parse(dto.Time)) > new TimeSpan(1, 0, 0))
+                checkState = (byte)CheckStateType.Expire;
+            dto.CheckStateValue = checkState;
+            dto.CheckStateName = CheckStateTypeNames.GetName((CheckStateType)checkState);
             dto.Content = alarmCheck.Content;
             if (!string.IsNullOrEmpty(alarmCheck.PicturUrls))
             {
