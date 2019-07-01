@@ -43,7 +43,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="fireunitid"></param>
         /// <returns></returns>
-        Task<List<AlarmCheckOutput>> GetAlarmChecks(int fireunitid);
+        Task<List<AlarmCheckOutput>> GetAlarmChecks(int fireunitid, Abp.Application.Services.Dto.PagedResultRequestDto dto);
         /// <summary>
         /// 保存核警信息
         /// </summary>

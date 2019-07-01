@@ -4,11 +4,12 @@
         <name>FireProtectionV1.Application</name>
     </assembly>
     <members>
-        <member name="M:FireProtectionV1.AppService.AlarmAppService.GetAlarmChecks(System.Int32)">
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.GetAlarmChecks(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
             获取指定防火单位警情数据
             </summary>
             <param name="FireUnitId">防火单位Id</param>
+            <param name="dto"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.AlarmAppService.GetAlarmCheckDetail(System.Int32)">
@@ -17,6 +18,11 @@
             </summary>
             <param name="CheckId"></param>
             <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.RepairData">
+            <summary>
+            调试修复数据
+            </summary>
         </member>
         <member name="M:FireProtectionV1.AppService.AlarmAppService.CheckAlarm(FireProtectionV1.FireWorking.Dto.AlarmCheckInput)">
             <summary>

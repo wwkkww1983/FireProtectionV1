@@ -1,4 +1,5 @@
-﻿using FireProtectionV1.FireWorking.Dto;
+﻿using Abp.Application.Services.Dto;
+using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Manager;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -25,10 +26,11 @@ namespace FireProtectionV1.AppService
         /// 获取指定防火单位警情数据
         /// </summary>
         /// <param name="FireUnitId">防火单位Id</param>
+        /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<List<AlarmCheckOutput>> GetAlarmChecks(int FireUnitId)
+        public async Task<List<AlarmCheckOutput>> GetAlarmChecks(int FireUnitId,PagedResultRequestDto dto)
         {
-            return await _alarmManager.GetAlarmChecks(FireUnitId);
+            return await _alarmManager.GetAlarmChecks(FireUnitId, dto);
         }
         /// <summary>
         /// 查询给定checkId的警情详细信息

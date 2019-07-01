@@ -108,7 +108,7 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             return $"{type.Name} {alarmToElectric.Analog}{alarmToElectric.Unit} 【标准:{alarmToElectric.AlarmLimit}】";
         }
-        public async Task<List<AlarmCheckOutput>> GetAlarmChecks(int fireunitid)
+        public async Task<List<AlarmCheckOutput>> GetAlarmChecks(int fireunitid, Abp.Application.Services.Dto.PagedResultRequestDto dto)
         {
             var elec = from a in _alarmToElectricRep.GetAll().Where(p => p.FireUnitId == fireunitid)
                        join b in _deviceManager.GetDetectorAll(fireunitid, FireSysType.Electric)
@@ -145,7 +145,8 @@ namespace FireProtectionV1.FireWorking.Manager
             List<AlarmCheckOutput> all=new List<AlarmCheckOutput>();
             await Task.Run(() =>
             {
-                all = elec.ToList().Union(fire.ToList()).OrderByDescending(p => p.Time).ToList();
+                all = elec.Union(fire).OrderByDescending(p => p.Time).Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList();
+                //all = elec.ToList().Union(fire.ToList()).OrderByDescending(p => p.Time).ToList();
             });
             return all;
         }
