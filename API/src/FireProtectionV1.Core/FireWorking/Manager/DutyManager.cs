@@ -19,16 +19,15 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<DataToDuty> _dutyRep;
         IRepository<DataToDutyProblem> _dataToDutyProblemRep;
         IRepository<FireUnitUser> _fireUnitAccountRepository;
-        IRepository<PhotosPathSave> _dataToDutyPhotosRep;
-        //IRepository<DataToDutyProblemPhotos> _dataToDutyProblemPhotosRep;
+        IRepository<PhotosPathSave> _photosPathSave;
 
         public DutyManager(
             IRepository<FireUnit> fireUnitRep,
             IRepository<DataToDuty> dutyRep,
             IRepository<FireUnitUser> fireUnitAccountRepository,
             IRepository<DataToDutyProblem> dataToDutyProblemRep,
-            IRepository<PhotosPathSave> dataToDutyPhotosRep
-            //IRepository<DataToDutyProblemPhotos> dataToDutyProblemPhotosRep
+            IRepository<PhotosPathSave> dataToDutyPhotosRep,
+            IRepository<PhotosPathSave> photosPathSaveRep
 
             )
         {
@@ -36,8 +35,7 @@ namespace FireProtectionV1.FireWorking.Manager
             _dutyRep = dutyRep;
             _fireUnitAccountRepository = fireUnitAccountRepository;
             _dataToDutyProblemRep = dataToDutyProblemRep;
-            _dataToDutyPhotosRep = dataToDutyPhotosRep;
-            //_dataToDutyProblemPhotosRep = dataToDutyProblemPhotosRep;
+            _photosPathSave = photosPathSaveRep;
 
         }
         public async Task AddNewDuty(AddNewDutyInput input)
@@ -147,13 +145,13 @@ namespace FireProtectionV1.FireWorking.Manager
             GetDataDutyInfoOutput output = new GetDataDutyInfoOutput();
             output.DutyId = duty.Id;
             output.DutyUser = _fireUnitAccountRepository.Single(u => u.Id == duty.FireUnitUserId).Name;
-            //output.DutyPhtosPath = _dataToDutyPhotosRep.GetAll().Where(u => u.DutyId == duty.Id).Select(u => u.PhotosPath).ToList();
+            output.DutyPhtosPath = _photosPathSave.GetAll().Where(u =>u.TableName.Equals("DataToDuty") && u.DataId == duty.Id).Select(u => u.PhotoPath).ToList();
             output.DutyRemark = duty.DutyRemark;
             if(problem!=null) 
             {
                 output.ProblemRemarkType = (ProblemType)problem.ProblemRemarkType;
                 output.ProblemRemark = problem.ProblemRemark;
-                //output.ProblemPhtosPath = _dataToDutyProblemPhotosRep.GetAll().Where(u => u.DutyProblemId == problem.Id).Select(u => u.PhotosPath).ToList();
+                output.ProblemPhtosPath = _photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToDutyProblem") && u.DataId == problem.Id).Select(u => u.PhotoPath).ToList();
             }
             return Task.FromResult(output);
         }

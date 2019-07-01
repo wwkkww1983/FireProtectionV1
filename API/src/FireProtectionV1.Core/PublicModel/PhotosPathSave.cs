@@ -15,16 +15,18 @@ namespace FireProtectionV1.FireWorking.Model
         /// 表名
         /// </summary>
         [Required]
+        [MaxLength(20)]
         public string TableName { get; set; }
         /// <summary>
         /// 数据ID
         /// </summary>
         [Required]
-        public int TableId { get; set; }
+        public int DataId { get; set; }
         /// <summary>
         /// 照片地址
         /// </summary>
         [Required]
-        public string PhotosPath { get; set; }
+        [MaxLength(100)]
+        public string PhotoPath { get; set; }
     }
 }
