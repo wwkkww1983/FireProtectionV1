@@ -3,14 +3,16 @@ using System;
 using FireProtectionV1.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FireProtectionV1.Migrations
 {
     [DbContext(typeof(FireProtectionV1DbContext))]
-    partial class FireProtectionV1DbContextModelSnapshot : ModelSnapshot
+    [Migration("20190701054409_0701.2")]
+    partial class _07012
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -282,8 +284,6 @@ namespace FireProtectionV1.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
-                    b.Property<string>("DutyRemark");
-
                     b.Property<byte>("DutyStatus");
 
                     b.Property<int>("FireUnitId");
@@ -313,8 +313,6 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<string>("ProblemRemark")
                         .HasMaxLength(200);
-
-                    b.Property<int>("ProblemRemarkType");
 
                     b.Property<string>("ProblemVoice")
                         .HasMaxLength(100);
@@ -354,13 +352,9 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<string>("PatrolAddress");
-
                     b.Property<int>("PatrolId");
 
                     b.Property<byte>("PatrolStatus");
-
-                    b.Property<byte>("PatrolType");
 
                     b.HasKey("Id");
 
@@ -383,8 +377,6 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<string>("ProblemRemark")
                         .HasMaxLength(500);
-
-                    b.Property<int>("ProblemRemarkType");
 
                     b.Property<string>("ProblemVoice")
                         .HasMaxLength(100);
@@ -501,30 +493,6 @@ namespace FireProtectionV1.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Gateway");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.PhotosPathSave", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<int>("DataId");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("PhotoPath")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.Property<string>("TableName")
-                        .IsRequired()
-                        .HasMaxLength(20);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PhotosPathSave");
                 });
 
             modelBuilder.Entity("FireProtectionV1.HydrantCore.Model.Hydrant", b =>

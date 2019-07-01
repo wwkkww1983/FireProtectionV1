@@ -45,5 +45,11 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         [MaxLength(50)]
         public string Origin { get; set; }
+
+        /// <summary>
+        /// 探测器状态，在线/离线/当前模拟量值
+        /// </summary>
+        [MaxLength(10)]
+        public string State { get; set; }
     }
 }

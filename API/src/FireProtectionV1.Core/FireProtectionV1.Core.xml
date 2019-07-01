@@ -1436,6 +1436,31 @@
             设备来源(厂家)
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.EndDeviceStateOutput.Name">
+            <summary>
+            终端名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.EndDeviceStateOutput.Location">
+            <summary>
+            终端地点
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.EndDeviceStateOutput.StateName">
+            <summary>
+            终端状态名称 "在线"/"离线"
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.EndDeviceStateOutput.Analog">
+            <summary>
+            当前数值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.EndDeviceStateOutput.Standard">
+            <summary>
+            合格范围
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.FireUnitFaultOuput.FireUnitId">
             <summary>
             防火单位Id
@@ -1923,6 +1948,13 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.GetFireUnitEndDeviceState(System.Int32,System.Int32)">
+            <summary>
+            获取防火单位的终端状态
+            </summary>
+            <param name="fireUnitId"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.AddDetector(FireProtectionV1.FireWorking.Dto.AddDetectorInput)">
             <summary>
             新增探测器部件
@@ -2110,6 +2142,13 @@
             </summary>
             <param name="fireunitid"></param>
             <param name="fireSysType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetFireUnitEndDeviceState(System.Int32,System.Int32)">
+            <summary>
+            获取防火单位的终端状态
+            </summary>
+            <param name="fireUnitId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IDutyManager.AddNewDuty(FireProtectionV1.FireWorking.Dto.AddNewDutyInput)">
@@ -2545,6 +2584,11 @@
         <member name="P:FireProtectionV1.FireWorking.Model.Detector.Origin">
             <summary>
             设备来源(厂家)
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.Detector.State">
+            <summary>
+            探测器状态，在线/离线/当前模拟量值
             </summary>
         </member>
         <member name="T:FireProtectionV1.FireWorking.Model.DetectorType">

@@ -933,6 +933,30 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.DeviceService.DeviceAppService.GetEndDeviceOptions">
+            <summary>
+            获取终端设备筛选选项
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.DeviceAppService.GetFireUnitEndDeviceState(System.Int32,System.Int32)">
+            <summary>
+            获取防火单位的终端状态
+            </summary>
+            <param name="FireUnitId">防火单位Id</param>
+            <param name="Option">筛选选项值</param>
+            <returns></returns>
+        </member>
+        <member name="P:FireProtectionV1.Dto.EndDeviceOptionDto.Value">
+            <summary>
+            终端设备选项值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Dto.EndDeviceOptionDto.Name">
+            <summary>
+            终端设备选项名称
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Dto.GetAreasFaultOutput.FaultCount">
             <summary>
             设施故障累计数量
