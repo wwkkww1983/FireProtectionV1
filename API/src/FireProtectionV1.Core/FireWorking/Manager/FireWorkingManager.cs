@@ -70,7 +70,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 output.ElecHighCount = output.Elec30DayCount == 0 ?
                 0 : alarmElec.GroupBy(p => p.DetectorId).Select(p=>new {DetectorId=p.Key, Count = p.Count() })
                 .Where(p => p.Count > highFreq).Count();
-                var detectsEle = _detectorRep.GetAll().Where(p => p.FireUnitId == input.Id && p.FireSysType == FireSysType.Electric);
+                var detectsEle = _detectorRep.GetAll().Where(p => p.FireUnitId == input.Id && p.FireSysType == (byte)FireSysType.Electric);
                 var typeE = _detectorTypeRep.GetAll().Where(p => p.GBType == (byte)UnitType.ElectricResidual).FirstOrDefault();
                 if(typeE != null)
                     output.ElecECount = detectsEle.Where(p=>p.DetectorTypeId== typeE.Id).Count();
@@ -83,7 +83,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 output.FireHighCount = output.Fire30DayCount == 0 ? 0 :
                 alarmFire.GroupBy(p => p.DetectorId).Select(p => new { DetectorId = p.Key, Count = p.Count() })
                 .Where(p => p.Count > highFreq).Count();
-                var detectsFire = _detectorRep.GetAll().Where(p => p.FireUnitId == input.Id && p.FireSysType == FireSysType.Fire);
+                var detectsFire = _detectorRep.GetAll().Where(p => p.FireUnitId == input.Id && p.FireSysType == (byte)FireSysType.Fire);
                 output.FirePointsCount = detectsFire.Count();
                 //故障数据
                 var faults = _faultRep.GetAll().Where(p => p.FireUnitId == input.Id);
@@ -328,7 +328,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 //var elecFireUnits=_detectorRep.GetAll().Where(p=>p.FireSysType==)
                 //output.JoinFireUnitCount = alarmElec.Count();
                 //联网防火单位类型数量分布
-                var detectElec = from a in _detectorRep.GetAll().Where(p => p.FireSysType == FireSysType.Electric)
+                var detectElec = from a in _detectorRep.GetAll().Where(p => p.FireSysType == (byte)FireSysType.Electric)
                                  join b in _fireUnitRep.GetAll()
                                  on a.FireUnitId equals b.Id
                                  select a;
@@ -358,7 +358,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 output.JoinTypePointCounts = joinTypePointCounts.ToList();
                 //网关离线单位
                 var offlineFireUnits = from a in detectElec
-                                       join c in _gatewayRep.GetAll().Where(p=>p.FireSysType==FireSysType.Electric&&p.Status==Common.Enum.GatewayStatus.Offline)
+                                       join c in _gatewayRep.GetAll().Where(p=>p.FireSysType== (byte)FireSysType.Electric&&p.Status==Common.Enum.GatewayStatus.Offline)
                                        on a.GatewayId equals c.Id
                                        join b in _fireUnitRep.GetAll()
                                        on a.FireUnitId equals b.Id
@@ -416,7 +416,7 @@ namespace FireProtectionV1.FireWorking.Manager
             if (!string.IsNullOrEmpty(input.GetwayStatusValue))
                 status = (GatewayStatus)Enum.Parse(typeof(GatewayStatus), input.GetwayStatusValue);
             var v = from a in alarmFireUnits
-                    join b in _gatewayRep.GetAll().Where(p => p.FireSysType==FireSysType.Fire&&(string.IsNullOrEmpty(input.GetwayStatusValue) ? true : p.Status == status))
+                    join b in _gatewayRep.GetAll().Where(p => p.FireSysType== (byte)FireSysType.Fire&&(string.IsNullOrEmpty(input.GetwayStatusValue) ? true : p.Status == status))
                     on a.FireUnitId equals b.FireUnitId
                     join c in _fireUnitRep.GetAll()
                     on a.FireUnitId equals c.Id
@@ -487,7 +487,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 status = (GatewayStatus)Enum.Parse(typeof(GatewayStatus), input.GetwayStatusValue);
 
             var v = from a in alarmFireUnits
-                    join b in _gatewayRep.GetAll().Where(p => p.FireSysType==FireSysType.Electric&&(string.IsNullOrEmpty(input.GetwayStatusValue) ? true : p.Status == status))
+                    join b in _gatewayRep.GetAll().Where(p => p.FireSysType== (byte)FireSysType.Electric&&(string.IsNullOrEmpty(input.GetwayStatusValue) ? true : p.Status == status))
                     on a.FireUnitId equals b.FireUnitId
                     join c in _fireUnitRep.GetAll()
                     on a.FireUnitId equals c.Id
@@ -519,7 +519,7 @@ namespace FireProtectionV1.FireWorking.Manager
             await Task.Run(() =>
             {
                 //火警预警数据：管控点位数量、网关状态、最近30天报警次数（可查）、高频报警部件数量（可查）
-                var detectFire = from a in _detectorRep.GetAll().Where(p => p.FireSysType == FireSysType.Fire)
+                var detectFire = from a in _detectorRep.GetAll().Where(p => p.FireSysType == (byte)FireSysType.Fire)
                                  join b in _fireUnitRep.GetAll()
                                  on a.FireUnitId equals b.Id
                                  select a;

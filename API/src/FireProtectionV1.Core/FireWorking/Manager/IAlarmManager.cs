@@ -30,5 +30,25 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="startTime"></param>
         /// <returns></returns>
         IQueryable<AlarmToElectric> GetNewElecAlarm(DateTime startTime);
+        /// <summary>
+        /// 查询给定checkId的警情详细信息
+        /// </summary>
+        /// <param name="checkId"></param>
+        /// <returns></returns>
+        Task<AlarmCheckDetailOutput> GetAlarmCheckDetail(int checkId);
+        void RepairData();
+
+        /// <summary>
+        /// 查询防火单位警情核警数据
+        /// </summary>
+        /// <param name="fireunitid"></param>
+        /// <returns></returns>
+        Task<List<AlarmCheckOutput>> GetAlarmChecks(int fireunitid, Abp.Application.Services.Dto.PagedResultRequestDto dto);
+        /// <summary>
+        /// 保存核警信息
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        Task CheckAlarm(AlarmCheckDetailDto dto);
     }
 }
