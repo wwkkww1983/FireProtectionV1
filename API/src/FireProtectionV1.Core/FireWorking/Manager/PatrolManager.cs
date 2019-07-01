@@ -92,5 +92,16 @@ namespace FireProtectionV1.FireWorking.Manager
                         };
             return query;
         }
+
+        /// <summary>
+        /// 获取巡查记录列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        //Task<List<GetDataDutyOutput>> GetPatrollist(GetDataDutyInput input)
+        //{
+
+        //}
+
     }
 }

@@ -22,5 +22,12 @@ namespace FireProtectionV1.FireWorking.Manager
         IQueryable<DataToPatrol> GetPatrolDataDuration(DateTime start, DateTime end);
         IQueryable<FireUnitManualOuput> GetPatrolFireUnitsAll(string filterName = null);
         IQueryable<FireUnitManualOuput> GetNoPatrol7DayFireUnits();
+
+        /// <summary>
+        /// 获取巡查记录列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        //Task<List<GetDataDutyOutput>> GetPatrollist(GetDataDutyInput input);
     }
 }

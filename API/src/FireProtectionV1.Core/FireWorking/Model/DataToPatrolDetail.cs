@@ -25,5 +25,13 @@ namespace FireProtectionV1.FireWorking.Model
         /// 记录状态（1、正常；2：绿色故障；3：橙色故障）
         /// </summary>
         public byte PatrolStatus { get; set; }
+        /// <summary>
+        /// 巡查模式(1.一般巡查；2.扫码巡查)
+        /// </summary>
+        public byte PatrolType { get; set; }
+        /// <summary>
+        /// 巡查地点/编号（一般巡查为地点，扫码巡查为编号）
+        /// </summary>
+        public string PatrolAddress { get; set; }
     }
 }

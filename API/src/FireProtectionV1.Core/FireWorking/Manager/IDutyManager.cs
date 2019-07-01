@@ -22,5 +22,26 @@ namespace FireProtectionV1.FireWorking.Manager
         IQueryable<DataToDuty> GetDutyDataDuration(DateTime start, DateTime end);
         IQueryable<FireUnitManualOuput> GetDutyFireUnitsAll(string filterName = null);
         IQueryable<FireUnitManualOuput> GetNoDuty1DayFireUnits();
+
+        /// <summary>
+        /// 获取值班记录列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<GetDataDutyOutput>> GetDutylist(GetDataDutyInput input);
+
+        /// <summary>
+        /// 获取值班记录详情
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<GetDataDutyInfoOutput> GetDutyInfo(GetDataDutyInfoInput input);
+
+        /// <summary>
+        /// 新增值班记录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<SuccessOutput> AddDutyInfo(AddDataDutyInfoInput input);
     }
 }

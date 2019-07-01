@@ -188,6 +188,36 @@
             异常（表示当前在线但有故障，例如消火栓的水压偏低）
             </summary>
         </member>
+        <member name="F:FireProtectionV1.Common.Enum.ProblemType.text">
+            <summary>
+            文本
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.ProblemType.voice">
+            <summary>
+            语音
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.DutyStatusType.alldate">
+            <summary>
+            所有记录
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.DutyStatusType.noraml">
+            <summary>
+            正常
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.DutyStatusType.Repaired">
+            <summary>
+            绿色故障
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.DutyStatusType.DisRepaired">
+            <summary>
+            橙色故障
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.Common.Helper.MD5Encrypt">
             <summary>
             不可逆加密
