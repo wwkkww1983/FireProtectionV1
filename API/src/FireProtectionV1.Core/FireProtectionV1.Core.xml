@@ -1436,6 +1436,11 @@
             设备来源(厂家)
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.EndDeviceStateOutput.DetectorId">
+            <summary>
+            探测器ID
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.EndDeviceStateOutput.Name">
             <summary>
             终端名称
@@ -1871,6 +1876,26 @@
             防火单位Id
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetRecordAnalogInput.DetectorId">
+            <summary>
+            探测器Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetRecordAnalogInput.Start">
+            <summary>
+            开始时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetRecordAnalogInput.End">
+            <summary>
+            结束时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetRecordAnalogInput.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.HighFreqAlarmDetector.Name">
             <summary>
             报警部件名称
@@ -1924,6 +1949,46 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.PendingFaultOutput.Time">
             <summary>
             故障时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.RecordAnalogOutput.Name">
+            <summary>
+            部件名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.RecordAnalogOutput.Location">
+            <summary>
+            安装地点
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.RecordAnalogOutput.State">
+            <summary>
+            当前状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.RecordAnalogOutput.LastTimeStateChange">
+            <summary>
+            最后状态改变时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.RecordAnalogOutput.Unit">
+            <summary>
+            模拟量单位
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.RecordAnalogOutput.AnalogTimes">
+            <summary>
+            历史模拟量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AnalogTime.Time">
+            <summary>
+            模拟量时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AnalogTime.Value">
+            <summary>
+            模拟量值
             </summary>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.AlarmManager.AddAlarmElec(FireProtectionV1.FireWorking.Dto.AddDataElecInput,System.String)">
@@ -2149,6 +2214,13 @@
             获取防火单位的终端状态
             </summary>
             <param name="fireUnitId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetRecordAnalog(FireProtectionV1.FireWorking.Dto.GetRecordAnalogInput)">
+            <summary>
+            获得防火单位终端历史记录
+            </summary>
+            <param name="input"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IDutyManager.AddNewDuty(FireProtectionV1.FireWorking.Dto.AddNewDutyInput)">
@@ -2659,6 +2731,36 @@
         <member name="P:FireProtectionV1.FireWorking.Model.Gateway.Origin">
             <summary>
             设备来源(厂家)
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.FireWorking.Model.RecordAnalog">
+            <summary>
+            探测器数据记录
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.RecordAnalog.DetectorId">
+            <summary>
+            探测器Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.RecordAnalog.Analog">
+            <summary>
+            模拟量值
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.FireWorking.Model.RecordOnline">
+            <summary>
+            探测器数据记录
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.RecordOnline.DetectorId">
+            <summary>
+            探测器Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.RecordOnline.State">
+            <summary>
+            探测器状态
             </summary>
         </member>
         <member name="T:FireProtectionV1.FireWorking.Model.PhotosPathSave">
