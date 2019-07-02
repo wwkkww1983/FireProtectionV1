@@ -334,6 +334,8 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<bool>("IsDeleted");
 
+                    b.Property<byte>("PatrolStatus");
+
                     b.HasKey("Id");
 
                     b.ToTable("DataToPatrol");
@@ -522,6 +524,42 @@ namespace FireProtectionV1.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PhotosPathSave");
+                });
+
+            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.RecordAnalog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("Analog");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<int>("DetectorId");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RecordAnalog");
+                });
+
+            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.RecordOnline", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<int>("DetectorId");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<byte>("State");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RecordOnline");
                 });
 
             modelBuilder.Entity("FireProtectionV1.HydrantCore.Model.Hydrant", b =>
