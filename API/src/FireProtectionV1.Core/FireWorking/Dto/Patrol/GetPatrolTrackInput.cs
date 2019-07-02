@@ -6,16 +6,17 @@ using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto
 {
-    public class GetDataDutyInput
+    public class GetPatrolTrackInput
     {
+        /// <summary>
+        /// 巡查ID
+        /// </summary>
+        [Required]
+        public int PatrolId { get; set; }
         /// <summary>
         /// 防火单位Id
         /// </summary>
         [Required]
         public int FireUnitId { get; set; }
-        /// <summary>
-        /// 记录状态
-        /// </summary>
-        public DutyStatusType DutyStatus { get; set; }
     }
 }

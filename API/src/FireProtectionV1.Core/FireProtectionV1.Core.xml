@@ -1100,41 +1100,6 @@
             网关设备标识
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput.FireUnitUserId">
-            <summary>
-            防火单位用户Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput.DutyRemark">
-            <summary>
-            值班记录描述
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput.DutyStatus">
-            <summary>
-            记录状态（1、正常；2：绿色故障；3：橙色故障）
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput.DutyPhtosPath">
-            <summary>
-            值班记录图片路径
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput.ProblemRemarkType">
-            <summary>
-            问题描述类型
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput.ProblemRemark">
-            <summary>
-            问题描述(如果类型为文本则存放的文本，类型为语音则存放的语音路径)
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput.ProblemPhtosPath">
-            <summary>
-            现场问题图片路径
-            </summary>
-        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AddDataElecInput.DetectorGBType">
             <summary>
             部件国标类型
@@ -1436,6 +1401,136 @@
             设备来源(厂家)
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput.FireUnitUserId">
+            <summary>
+            防火单位用户Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput.DutyRemark">
+            <summary>
+            值班记录描述
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput.DutyStatus">
+            <summary>
+            记录状态（1、正常；2：绿色故障；3：橙色故障）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput.DutyPicture1">
+            <summary>
+            值班记录图片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput.DutyPicture2">
+            <summary>
+            值班记录图片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput.DutyPicture3">
+            <summary>
+            值班记录图片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput.ProblemRemarkType">
+            <summary>
+            问题描述类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput.ProblemRemark">
+            <summary>
+            问题描述
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput.RemarkVioce">
+            <summary>
+            问题描述语音
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput.ProblemPicture1">
+            <summary>
+            现场问题图片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput.ProblemPicture2">
+            <summary>
+            现场问题图片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput.ProblemPicture3">
+            <summary>
+            现场问题图片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInfoInput.DutyId">
+            <summary>
+            值班记录ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInfoOutput.DutyId">
+            <summary>
+            值班ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInfoOutput.DutyUser">
+            <summary>
+            值班人员
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInfoOutput.DutyRemark">
+            <summary>
+            值班记录描述
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInfoOutput.DutyPhtosPath">
+            <summary>
+            值班记录图片路径
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInfoOutput.ProblemRemarkType">
+            <summary>
+            问题描述类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInfoOutput.ProblemRemark">
+            <summary>
+            问题描述(如果类型为文本则存放的文本，类型为语音则存放的语音路径)
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInfoOutput.ProblemPhtosPath">
+            <summary>
+            现场问题图片路径
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInput.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInput.DutyStatus">
+            <summary>
+            记录状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyOutput.DutyId">
+            <summary>
+            值班ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyOutput.CreationTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyOutput.DutyUser">
+            <summary>
+            值班人员
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyOutput.DutyStatus">
+            <summary>
+            记录状态
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.EndDeviceStateOutput.Name">
             <summary>
             终端名称
@@ -1701,76 +1796,6 @@
             最近30天报警次数Top10
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInfoInput.DutyId">
-            <summary>
-            值班记录ID
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInfoOutput.DutyId">
-            <summary>
-            值班ID
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInfoOutput.DutyUser">
-            <summary>
-            值班人员
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInfoOutput.DutyRemark">
-            <summary>
-            值班记录描述
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInfoOutput.DutyPhtosPath">
-            <summary>
-            值班记录图片路径
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInfoOutput.ProblemRemarkType">
-            <summary>
-            问题描述类型
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInfoOutput.ProblemRemark">
-            <summary>
-            问题描述(如果类型为文本则存放的文本，类型为语音则存放的语音路径)
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInfoOutput.ProblemPhtosPath">
-            <summary>
-            现场问题图片路径
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInput.FireUnitId">
-            <summary>
-            防火单位Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInput.DutyStatus">
-            <summary>
-            记录状态
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyOutput.DutyId">
-            <summary>
-            值班ID
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyOutput.CreationTime">
-            <summary>
-            创建时间
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyOutput.DutyUser">
-            <summary>
-            值班人员
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyOutput.DutyStatus">
-            <summary>
-            记录状态
-            </summary>
-        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.FireUnitName">
             <summary>
             防火单位名称
@@ -1884,6 +1909,96 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.HighFreqAlarmDetector.Count">
             <summary>
             最近30天报警次数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataPatrolInput.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataPatrolInput.PatrolStatus">
+            <summary>
+            记录状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataPatrolOutput.PatrolId">
+            <summary>
+            值班ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataPatrolOutput.CreationTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataPatrolOutput.PatrolUser">
+            <summary>
+            巡查人员
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataPatrolOutput.PatrolStatus">
+            <summary>
+            记录状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTrackInput.PatrolId">
+            <summary>
+            巡查ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTrackInput.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTrackOutput.PatrolId">
+            <summary>
+            巡查ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTrackOutput.PatrolType">
+            <summary>
+            巡查模式(1.一般巡查；2.扫码巡查)
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTrackOutput.CreationTime">
+            <summary>
+            巡查时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTrackOutput.PatrolStatus">
+            <summary>
+            记录状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTrackOutput.FireSystemName">
+            <summary>
+            巡查系统名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTrackOutput.FireSystemCount">
+            <summary>
+            巡查系统数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTrackOutput.PatrolAddress">
+            <summary>
+            巡查地址
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTrackOutput.ProblemRemakeType">
+            <summary>
+            备注类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTrackOutput.RemakeText">
+            <summary>
+            备注文字（如果备注类型为语音则存的语音路径）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTrackOutput.PatrolPhotosPath">
+            <summary>
+            巡查图片
             </summary>
         </member>
         <member name="T:FireProtectionV1.FireWorking.Dto.PendingFaultFireUnitOutput">
@@ -2296,6 +2411,34 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.GetPatrollist(FireProtectionV1.FireWorking.Dto.GetDataPatrolInput)">
+            <summary>
+            获取巡查记录列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.GetPatrolTrackList(FireProtectionV1.FireWorking.Dto.GetPatrolTrackInput)">
+            <summary>
+            获取巡查记录轨迹
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.GetPatrollist(FireProtectionV1.FireWorking.Dto.GetDataPatrolInput)">
+            <summary>
+            获取巡查记录列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.GetPatrolTrackList(FireProtectionV1.FireWorking.Dto.GetPatrolTrackInput)">
+            <summary>
+            获取巡查记录轨迹
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.FireSysType">
             <summary>
             报警类型electric:1,fire:2
@@ -2308,7 +2451,7 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.CheckState">
             <summary>
-            核实警状态
+            核警状态
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.FireUnitId">
@@ -2469,6 +2612,11 @@
         <member name="P:FireProtectionV1.FireWorking.Model.DataToPatrol.FireUnitUserId">
             <summary>
             防火单位用户Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.DataToPatrol.PatrolStatus">
+            <summary>
+            记录状态（1、正常；2：绿色故障；3：橙色故障）//根据detail实时变化
             </summary>
         </member>
         <member name="T:FireProtectionV1.FireWorking.Model.DataToPatrolDetail">

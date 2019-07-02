@@ -22,13 +22,13 @@ namespace FireProtectionV1.Common.Enum
     }
 
     [Export("故障类型")]
-    public enum DutyStatusType
+    public enum ProblemStatusType
     {
         /// <summary>
         /// 所有记录
         /// </summary>
         [Description("所有记录")]
-        alldate = (byte)0,
+        alldate = 0,
         /// <summary>
         /// 正常
         /// </summary>

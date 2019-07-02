@@ -223,22 +223,22 @@
             语音
             </summary>
         </member>
-        <member name="F:FireProtectionV1.Common.Enum.DutyStatusType.alldate">
+        <member name="F:FireProtectionV1.Common.Enum.ProblemStatusType.alldate">
             <summary>
             所有记录
             </summary>
         </member>
-        <member name="F:FireProtectionV1.Common.Enum.DutyStatusType.noraml">
+        <member name="F:FireProtectionV1.Common.Enum.ProblemStatusType.noraml">
             <summary>
             正常
             </summary>
         </member>
-        <member name="F:FireProtectionV1.Common.Enum.DutyStatusType.Repaired">
+        <member name="F:FireProtectionV1.Common.Enum.ProblemStatusType.Repaired">
             <summary>
             绿色故障
             </summary>
         </member>
-        <member name="F:FireProtectionV1.Common.Enum.DutyStatusType.DisRepaired">
+        <member name="F:FireProtectionV1.Common.Enum.ProblemStatusType.DisRepaired">
             <summary>
             橙色故障
             </summary>

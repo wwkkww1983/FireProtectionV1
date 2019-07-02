@@ -21,5 +21,9 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         [Required]
         public int FireUnitUserId { get; set; }
+        /// <summary>
+        /// 记录状态（1、正常；2：绿色故障；3：橙色故障）//根据detail实时变化
+        /// </summary>
+        public byte PatrolStatus { get; set; }
     }
 }

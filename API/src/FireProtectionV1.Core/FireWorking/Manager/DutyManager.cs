@@ -5,6 +5,7 @@ using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
 using FireProtectionV1.User.Model;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,6 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<DataToDuty> dutyRep,
             IRepository<FireUnitUser> fireUnitAccountRepository,
             IRepository<DataToDutyProblem> dataToDutyProblemRep,
-            IRepository<PhotosPathSave> dataToDutyPhotosRep,
             IRepository<PhotosPathSave> photosPathSaveRep
 
             )
@@ -117,7 +117,7 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             var dutys = _dutyRep.GetAll().Where(u=>u.FireUnitId==input.FireUnitId);
             var expr = ExprExtension.True<DataToDuty>()
-                .IfAnd(input.DutyStatus != DutyStatusType.alldate, item => item.DutyStatus==(byte)input.DutyStatus);
+                .IfAnd(input.DutyStatus != ProblemStatusType.alldate, item => item.DutyStatus==(byte)input.DutyStatus);
             dutys = dutys.Where(expr);
 
             var fireUnits = _fireUnitAccountRepository.GetAll();
@@ -129,7 +129,7 @@ namespace FireProtectionV1.FireWorking.Manager
                              DutyId = a.Id,
                              CreationTime = a.CreationTime.ToString("yyyy-MM-dd hh:mm"),
                              DutyUser = b.Name,
-                             DutyStatus = a.DutyStatus
+                             DutyStatus = (ProblemStatusType)a.DutyStatus
                          };
             return Task.FromResult(output.OrderByDescending(u=>u.CreationTime).ToList());
         }
@@ -167,10 +167,14 @@ namespace FireProtectionV1.FireWorking.Manager
             {
                 FireUnitUserId = input.FireUnitUserId,
                 DutyRemark = input.DutyRemark,
+                DutyStatus=(byte)input.DutyStatus
             };
+            List<IFormFile> filelist = new List<IFormFile>();
+            //if(input.DutyPicture1!=null)
+
             int dutyId = _dutyRep.InsertAndGetId(dutyInfo);
 
-            if (input.DutyStatus!=1)
+            if ((int)input.DutyStatus!=1)
             {
                 DataToDutyProblem problemInfo = new DataToDutyProblem()
                 {
@@ -182,6 +186,11 @@ namespace FireProtectionV1.FireWorking.Manager
 
             return output;
         }
+
+        //private async Task<string> SavePhotos(string tableName,IFormFile file,string path)
+        //{
+
+        //}
     }
 }
  
