@@ -295,6 +295,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetFireUnitlSystem(FireProtectionV1.FireWorking.Dto.GetPatrolFireUnitSystemInput)">
+            <summary>
+            获取防火单位消防系统
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="T:FireProtectionV1.AppService.FireDeptUserAppService">
             <summary>
             消防部门用户接口

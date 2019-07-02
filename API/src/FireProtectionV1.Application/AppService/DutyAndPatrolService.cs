@@ -71,7 +71,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<List<GetFireUnitSystemOutput>> GetFireUnitlSystem(GetFireUnitSystemInput input)
+        public async Task<List<GetPatrolFireUnitSystemOutput>> GetFireUnitlSystem(GetPatrolFireUnitSystemInput input)
         {
             return await _patrolManager.GetFireUnitlSystem(input);
         }

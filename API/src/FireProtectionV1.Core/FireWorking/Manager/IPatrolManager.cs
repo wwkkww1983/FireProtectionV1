@@ -42,7 +42,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<List<GetFireUnitSystemOutput>> GetFireUnitlSystem(GetFireUnitSystemInput input);
+        Task<List<GetPatrolFireUnitSystemOutput>> GetFireUnitlSystem(GetPatrolFireUnitSystemInput input);
 
         /// <summary>
         /// 添加巡查记录

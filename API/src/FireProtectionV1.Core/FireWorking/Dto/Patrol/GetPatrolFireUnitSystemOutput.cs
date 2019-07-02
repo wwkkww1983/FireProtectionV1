@@ -6,12 +6,16 @@ using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto
 {
-    public class GetFireUnitSystemInput
+    public class GetPatrolFireUnitSystemOutput
     {
         /// <summary>
-        /// 防火单位Id
+        /// 消防系统ID
         /// </summary>
         [Required]
-        public int FireUnitId { get; set; }
+        public int FireSystemId { get; set; }
+        /// <summary>
+        /// 消防系统名称
+        /// </summary>
+        public string SystemName { get; set; }
     }
 }

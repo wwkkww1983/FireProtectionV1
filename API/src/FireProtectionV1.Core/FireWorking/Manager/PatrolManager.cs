@@ -176,12 +176,12 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<List<GetFireUnitSystemOutput>> GetFireUnitlSystem(GetFireUnitSystemInput input)
+        public Task<List<GetPatrolFireUnitSystemOutput>> GetFireUnitlSystem(GetPatrolFireUnitSystemInput input)
         {
             var output = from a in _fireUnitSystemRep.GetAll()
                          join b in _fireSystemRep.GetAll() on a.FireUnitId equals b.Id
                          where a.FireUnitId == input.FireUnitId
-                         select new GetFireUnitSystemOutput
+                         select new GetPatrolFireUnitSystemOutput
                          {
                              FireSystemId = b.Id,
                              SystemName = b.SystemName
