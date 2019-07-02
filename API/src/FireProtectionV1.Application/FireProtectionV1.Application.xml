@@ -274,6 +274,20 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetPatrollist(FireProtectionV1.FireWorking.Dto.GetDataPatrolInput)">
+            <summary>
+            获取巡查记录列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetPatrolTrackList(FireProtectionV1.FireWorking.Dto.GetPatrolTrackInput)">
+            <summary>
+            获取巡查记录轨迹
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="T:FireProtectionV1.AppService.FireDeptUserAppService">
             <summary>
             消防部门用户接口

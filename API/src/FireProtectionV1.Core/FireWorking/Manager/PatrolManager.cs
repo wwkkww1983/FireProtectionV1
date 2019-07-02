@@ -1,7 +1,10 @@
 ﻿using Abp.Domain.Repositories;
+using FireProtectionV1.Common.DBContext;
+using FireProtectionV1.Common.Enum;
 using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
+using FireProtectionV1.User.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,15 +18,36 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<FireUnit> _fireUnitRep;
         //IRepository<DataToDuty> _dutyRep;
         IRepository<DataToPatrol> _patrolRep;
+        IRepository<DataToPatrolDetail> _patrolDetailRep;
+        IRepository<DataToPatrolDetailProblem> _patrolDetailProblem;
+        IRepository<FireUnitUser> _fireUnitAccountRepository;
+        IRepository<FireSystem> _fireSystemRep;
+        IRepository<FireUntiSystem> _fireUnitSystemRep;
+        IRepository<DataToPatrolDetailFireSystem> _patrolDetailFireSystem;
+        IRepository<PhotosPathSave> _photosPathSave;
 
         public PatrolManager(
             IRepository<FireUnit> fireUnitRep,
             //IRepository<DataToDuty> dutyRep,
-            IRepository<DataToPatrol> patrolRep
+            IRepository<DataToPatrol> patrolRep,
+            IRepository<DataToPatrolDetail> patrolDetailRep,
+            IRepository<FireUnitUser> fireUnitAccountRepository,
+            IRepository<FireSystem> fireSystemRep,
+            IRepository<FireUntiSystem> fireUnitSystemRep,
+            IRepository<DataToPatrolDetailFireSystem> patrolDetailFireSystemRep,
+            IRepository<DataToPatrolDetailProblem> patrolDetailProblemRep,
+            IRepository<PhotosPathSave> photosPathSaveRep
             )
         {
             _fireUnitRep = fireUnitRep;
             _patrolRep = patrolRep;
+            _fireUnitAccountRepository = fireUnitAccountRepository;
+            _patrolDetailRep = patrolDetailRep;
+            _fireSystemRep = fireSystemRep;
+            _fireUnitSystemRep = fireUnitSystemRep;
+            _patrolDetailFireSystem = patrolDetailFireSystemRep;
+            _patrolDetailProblem = patrolDetailProblemRep;
+            _photosPathSave = photosPathSaveRep;
         }
         public async Task AddNewPatrol(AddNewPatrolInput input)
         {
@@ -98,10 +122,53 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        //Task<List<GetDataDutyOutput>> GetPatrollist(GetDataDutyInput input)
-        //{
+        public async Task<List<GetDataPatrolOutput>> GetPatrollist(GetDataPatrolInput input)
+        {
+            var dutys = _patrolRep.GetAll().Where(u => u.FireUnitId == input.FireUnitId);
+            var expr = ExprExtension.True<DataToPatrol>()
+                .IfAnd(input.PatrolStatus != ProblemStatusType.alldate, item => item.PatrolStatus == (byte)input.PatrolStatus);
+            dutys = dutys.Where(expr);
 
-        //}
+            var fireUnits = await _fireUnitAccountRepository.GetAllListAsync();
 
+            var output = from a in dutys
+                         join b in fireUnits on a.FireUnitUserId equals b.Id
+                         select new GetDataPatrolOutput
+                         {
+                             PatrolId = a.Id,
+                             CreationTime = a.CreationTime.ToString("yyyy-MM-dd hh:mm"),
+                             PatrolUser = b.Name,
+                             PatrolStatus = (ProblemStatusType)a.PatrolStatus
+                         };
+            return output.OrderByDescending(u => u.CreationTime).ToList();
+        }
+
+        /// <summary>
+        /// 获取巡查记录轨迹
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task<List<GetPatrolTrackOutput>> GetPatrolTrackList(GetPatrolTrackInput input)
+        {
+            var detaillist = _patrolDetailRep.GetAll().Where(u=>u.PatrolId==input.PatrolId);
+
+
+            var output = from a in detaillist
+                         join b in _patrolDetailProblem.GetAll() on a.Id equals b.PatrolDetailId
+                         select new GetPatrolTrackOutput
+                         {
+                             PatrolId = a.PatrolId,
+                             PatrolType = a.PatrolType,
+                             CreationTime = a.CreationTime.ToString("yyyy-mm-dd hh:MM"),
+                             PatrolStatus = (ProblemStatusType)a.PatrolStatus,
+                             FireSystemName = _fireSystemRep.FirstOrDefault(u => u.Id == _patrolDetailFireSystem.FirstOrDefault(z => z.PatrolDetailId == a.PatrolId).Id).SystemName,
+                             FireSystemCount = _patrolDetailFireSystem.GetAll().Where(u => u.PatrolDetailId == a.PatrolId).Count(),
+                             PatrolAddress=a.PatrolAddress,
+                             ProblemRemakeType=(ProblemType)b.ProblemRemarkType,
+                             RemakeText=b.ProblemRemark,
+                             PatrolPhotosPath= _photosPathSave.GetAll().Where(u=>u.TableName.Equals("DataToPatrolDetail")).Select(u=>u.PhotoPath).ToList()
+                         };
+            return Task.FromResult(output.ToList());
+        }
     }
 }

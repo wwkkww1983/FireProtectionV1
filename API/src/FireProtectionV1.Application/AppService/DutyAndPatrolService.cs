@@ -10,10 +10,12 @@ namespace FireProtectionV1.AppService
     public class DutyAndPatrolService : AppServiceBase
     {
         IDutyManager _dutyManager;
+        IPatrolManager _patrolManager;
 
-        public DutyAndPatrolService(IDutyManager dutyManager)
+        public DutyAndPatrolService(IDutyManager dutyManager, IPatrolManager patrolManager)
         {
             _dutyManager = dutyManager;
+            _patrolManager = patrolManager;
         }
         /// <summary>
         /// 获取值班记录列表
@@ -33,6 +35,26 @@ namespace FireProtectionV1.AppService
         public async Task<GetDataDutyInfoOutput> GetDutyInfo(GetDataDutyInfoInput input)
         {
             return await _dutyManager.GetDutyInfo(input);
+        }
+
+        /// <summary>
+        /// 获取巡查记录列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<List<GetDataPatrolOutput>> GetPatrollist(GetDataPatrolInput input)
+        {
+            return await _patrolManager.GetPatrollist(input);
+        }
+
+        /// <summary>
+        /// 获取巡查记录轨迹
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<List<GetPatrolTrackOutput>> GetPatrolTrackList(GetPatrolTrackInput input)
+        {
+            return await _patrolManager.GetPatrolTrackList(input);
         }
     }
 }
