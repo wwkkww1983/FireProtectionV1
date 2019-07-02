@@ -45,5 +45,12 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="fireUnitId"></param>
         /// <returns></returns>
         Task<List<EndDeviceStateOutput>> GetFireUnitEndDeviceState(int fireUnitId, int option);
+        Task AddRecordAnalog(AddDataElecInput input);
+        /// <summary>
+        /// 获得防火单位终端历史记录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<RecordAnalogOutput> GetRecordAnalog(GetRecordAnalogInput input);
     }
 }

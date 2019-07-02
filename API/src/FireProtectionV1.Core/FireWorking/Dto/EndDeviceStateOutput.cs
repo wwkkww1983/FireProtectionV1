@@ -7,6 +7,10 @@ namespace FireProtectionV1.FireWorking.Dto
     public class EndDeviceStateOutput
     {
         /// <summary>
+        /// 探测器ID
+        /// </summary>
+        public int DetectorId { get; set; }
+        /// <summary>
         /// 终端名称
         /// </summary>
         public string Name { get; set; }

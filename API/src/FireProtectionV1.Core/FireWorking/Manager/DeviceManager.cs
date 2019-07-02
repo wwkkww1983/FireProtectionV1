@@ -14,20 +14,27 @@ namespace FireProtectionV1.FireWorking.Manager
 {
     public class DeviceManager : IDeviceManager
     {
+        IRepository<RecordAnalog> _recordAnalogRep;
         IFireSettingManager _fireSettingManager;
         IRepository<DetectorType> _detectorTypeRep;
         IRepository<Gateway> _gatewayRep;
         IRepository<Detector> _detectorRep;
         public DeviceManager(
+            IRepository<RecordAnalog> recordAnalogRep,
             IFireSettingManager fireSettingManager,
             IRepository<Detector> detectorRep,
              IRepository<DetectorType> detectorTypeRep,
            IRepository<Gateway> gatewayRep)
         {
+            _recordAnalogRep = recordAnalogRep;
             _fireSettingManager = fireSettingManager;
             _detectorTypeRep = detectorTypeRep;
             _detectorRep = detectorRep;
             _gatewayRep = gatewayRep;
+        }
+        public async Task<RecordAnalogOutput> GetRecordAnalog(GetRecordAnalogInput input)
+        {
+            throw new NotImplementedException();
         }
         /// <summary>
         /// 获取防火单位的终端状态
@@ -42,6 +49,7 @@ namespace FireProtectionV1.FireWorking.Manager
                        on a.DetectorTypeId equals b.Id
                        select new EndDeviceStateOutput()
                        {
+                           DetectorId=a.Id,
                            Name = b.Name,
                            Location = a.Location,
                            StateName = a.State,
@@ -54,6 +62,7 @@ namespace FireProtectionV1.FireWorking.Manager
                      on a.DetectorTypeId equals b.Id
                      select new EndDeviceStateOutput()
                      {
+                         DetectorId = a.Id,
                          Name = b.Name,
                          Location = a.Location,
                          StateName = a.State.Equals("离线")?"离线":"在线",
@@ -70,6 +79,7 @@ namespace FireProtectionV1.FireWorking.Manager
                       on a.DetectorTypeId equals b.Id
                       select new EndDeviceStateOutput()
                       {
+                          DetectorId = a.Id,
                           Name = b.Name,
                           Location = a.Location,
                           StateName = a.State.Equals("离线") ? "离线" : "在线",
@@ -154,6 +164,16 @@ namespace FireProtectionV1.FireWorking.Manager
         public IQueryable<DetectorType> GetDetectorTypeAll()
         {
             return _detectorTypeRep.GetAll();
+        }
+
+        public async Task AddRecordAnalog(AddDataElecInput input)
+        {
+            var detector = GetDetector(input.Identify, input.Origin);
+            await _recordAnalogRep.InsertAsync(new RecordAnalog()
+            {
+                Analog = input.Analog,
+                DetectorId = detector.Id
+            });
         }
     }
 }
