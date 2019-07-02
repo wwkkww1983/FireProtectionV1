@@ -13,12 +13,14 @@ namespace FireProtectionV1.FireWorking.Manager
 {
     public class AlarmManager:IAlarmManager
     {
+        IRepository<PhotosPathSave> _photosPathSaveRep;
         IFireUnitUserManager _fireUnitUserManager;
         IDeviceManager _deviceManager;
         IRepository<AlarmCheck> _alarmCheckRep;
         IRepository<AlarmToFire> _alarmToFireRep;
         IRepository<AlarmToElectric> _alarmToElectricRep;
         public AlarmManager(
+            IRepository<PhotosPathSave> photosPathSaveRep,
             IFireUnitUserManager fireUnitUserManager,
             IRepository<AlarmCheck> alarmCheckRep,
             IDeviceManager deviceManager,
@@ -26,6 +28,7 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<AlarmToElectric> alarmToElectricRep
         )
         {
+            _photosPathSaveRep = photosPathSaveRep;
             _fireUnitUserManager = fireUnitUserManager;
             _alarmCheckRep = alarmCheckRep;
             _deviceManager = deviceManager;
@@ -170,11 +173,32 @@ namespace FireProtectionV1.FireWorking.Manager
             alarmCheck.CheckState = dto.CheckState;
             alarmCheck.Content = dto.Content;
             if (dto.PictureUrl_1 != null)
-                alarmCheck.PicturUrls= dto.PictureUrl_1;
+                await _photosPathSaveRep.InsertAsync(new PhotosPathSave()
+                {
+                    DataId = alarmCheck.Id,
+                    TableName = "AlarmCheck",
+                    PhotoPath = dto.PictureUrl_1
+                });
             if (dto.PictureUrl_2 != null)
-                alarmCheck.PicturUrls = string.IsNullOrEmpty(alarmCheck.PicturUrls) ? "" : "," + dto.PictureUrl_2;
+                await _photosPathSaveRep.InsertAsync(new PhotosPathSave()
+                {
+                    DataId = alarmCheck.Id,
+                    TableName = "AlarmCheck",
+                    PhotoPath = dto.PictureUrl_2
+                });
             if (dto.PictureUrl_3 != null)
-                alarmCheck.PicturUrls = string.IsNullOrEmpty(alarmCheck.PicturUrls) ? "" : "," + dto.PictureUrl_3;
+                await _photosPathSaveRep.InsertAsync(new PhotosPathSave()
+                {
+                    DataId = alarmCheck.Id,
+                    TableName = "AlarmCheck",
+                    PhotoPath = dto.PictureUrl_3
+                });
+
+            //    alarmCheck.PicturUrls= dto.PictureUrl_1;
+            //if (dto.PictureUrl_2 != null)
+            //    alarmCheck.PicturUrls = string.IsNullOrEmpty(alarmCheck.PicturUrls) ? "" : "," + dto.PictureUrl_2;
+            //if (dto.PictureUrl_3 != null)
+            //    alarmCheck.PicturUrls = string.IsNullOrEmpty(alarmCheck.PicturUrls) ? "" : "," + dto.PictureUrl_3;
             alarmCheck.VioceUrl = dto.VioceUrl;
             await _alarmCheckRep.UpdateAsync(alarmCheck);
         }
@@ -239,16 +263,23 @@ namespace FireProtectionV1.FireWorking.Manager
             dto.CheckStateValue = checkState;
             dto.CheckStateName = CheckStateTypeNames.GetName((CheckStateType)checkState);
             dto.Content = alarmCheck.Content;
-            if (!string.IsNullOrEmpty(alarmCheck.PicturUrls))
-            {
-                string[] ss = alarmCheck.PicturUrls.Split(',');
-                if (ss.Count() > 0)
-                    dto.PictureUrl_1 = ss[0];
-                if (ss.Count() > 1)
-                    dto.PictureUrl_2 = ss[1];
-                if (ss.Count() > 2)
-                    dto.PictureUrl_3 = ss[2];
-            }
+            var photos = _photosPathSaveRep.GetAll().Where(p => p.TableName.Equals("AlarmCheck") && p.DataId == alarmCheck.Id).Select(p => p.PhotoPath).ToList();
+            if (photos.Count() > 0)
+                dto.PictureUrl_1 = photos[0];
+            if (photos.Count() > 1)
+                dto.PictureUrl_2 = photos[1];
+            if (photos.Count() > 2)
+                dto.PictureUrl_3 = photos[2];
+            //if (!string.IsNullOrEmpty(alarmCheck.PicturUrls))
+            //{
+            //    string[] ss = alarmCheck.PicturUrls.Split(',');
+            //    if (ss.Count() > 0)
+            //        dto.PictureUrl_1 = ss[0];
+            //    if (ss.Count() > 1)
+            //        dto.PictureUrl_2 = ss[1];
+            //    if (ss.Count() > 2)
+            //        dto.PictureUrl_3 = ss[2];
+            //}
             dto.VioceUrl = alarmCheck.VioceUrl;
             try
             {

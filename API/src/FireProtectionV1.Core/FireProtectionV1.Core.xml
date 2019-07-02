@@ -2464,11 +2464,6 @@
             检查情况
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.PicturUrls">
-            <summary>
-            检查图片url数组“,”分割
-            </summary>
-        </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.VioceUrl">
             <summary>
             检查语音url
