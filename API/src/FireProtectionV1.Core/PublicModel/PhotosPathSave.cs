@@ -26,7 +26,7 @@ namespace FireProtectionV1.FireWorking.Model
         /// 照片地址
         /// </summary>
         [Required]
-        [MaxLength(100)]
+        [MaxLength(200)]
         public string PhotoPath { get; set; }
     }
 }

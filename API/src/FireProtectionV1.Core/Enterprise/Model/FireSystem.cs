@@ -12,7 +12,7 @@ namespace FireProtectionV1.Enterprise.Model
         /// 消防系统名称
         /// </summary>
         [Required]
-        [MaxLength(StringType.Normal)]
+        [MaxLength(100)]
         public string SystemName { get; set; }
     }
 }

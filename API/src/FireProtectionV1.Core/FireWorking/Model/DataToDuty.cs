@@ -14,7 +14,6 @@ namespace FireProtectionV1.FireWorking.Model
         /// <summary>
         /// 值班记录图片
         /// </summary>
-        [Required]
         [MaxLength(100)]
         public string DutyPicture { get; set; }
         /// <summary>

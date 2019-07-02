@@ -274,6 +274,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.AddDutyInfo(FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput)">
+            <summary>
+            新增值班记录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetPatrollist(FireProtectionV1.FireWorking.Dto.GetDataPatrolInput)">
             <summary>
             获取巡查记录列表
@@ -284,6 +291,13 @@
         <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetPatrolTrackList(FireProtectionV1.FireWorking.Dto.GetPatrolTrackInput)">
             <summary>
             获取巡查记录轨迹
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetFireUnitlSystem(FireProtectionV1.FireWorking.Dto.GetPatrolFireUnitSystemInput)">
+            <summary>
+            获取防火单位消防系统
             </summary>
             <param name="input"></param>
             <returns></returns>

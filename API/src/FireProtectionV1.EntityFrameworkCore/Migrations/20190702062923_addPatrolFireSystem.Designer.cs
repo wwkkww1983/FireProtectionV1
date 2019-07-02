@@ -3,14 +3,16 @@ using System;
 using FireProtectionV1.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FireProtectionV1.Migrations
 {
     [DbContext(typeof(FireProtectionV1DbContext))]
-    partial class FireProtectionV1DbContextModelSnapshot : ModelSnapshot
+    [Migration("20190702062923_addPatrolFireSystem")]
+    partial class addPatrolFireSystem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -541,42 +543,6 @@ namespace FireProtectionV1.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PhotosPathSave");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.RecordAnalog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<double>("Analog");
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<int>("DetectorId");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RecordAnalog");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.RecordOnline", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<int>("DetectorId");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<byte>("State");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RecordOnline");
                 });
 
             modelBuilder.Entity("FireProtectionV1.HydrantCore.Model.Hydrant", b =>

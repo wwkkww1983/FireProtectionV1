@@ -22,9 +22,9 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<DataToPatrolDetailProblem> _patrolDetailProblem;
         IRepository<FireUnitUser> _fireUnitAccountRepository;
         IRepository<FireSystem> _fireSystemRep;
-        IRepository<FireUntiSystem> _fireUnitSystemRep;
-        IRepository<DataToPatrolDetailFireSystem> _patrolDetailFireSystem;
+        IRepository<FireUntiSystem> _fireUnitSystemRep;        
         IRepository<PhotosPathSave> _photosPathSave;
+        IRepository<DataToPatrolDetailFireSystem> _patrolDetailFireSystem;
 
         public PatrolManager(
             IRepository<FireUnit> fireUnitRep,
@@ -33,10 +33,10 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<DataToPatrolDetail> patrolDetailRep,
             IRepository<FireUnitUser> fireUnitAccountRepository,
             IRepository<FireSystem> fireSystemRep,
-            IRepository<FireUntiSystem> fireUnitSystemRep,
-            IRepository<DataToPatrolDetailFireSystem> patrolDetailFireSystemRep,
+            IRepository<FireUntiSystem> fireUnitSystemRep,           
             IRepository<DataToPatrolDetailProblem> patrolDetailProblemRep,
-            IRepository<PhotosPathSave> photosPathSaveRep
+            IRepository<PhotosPathSave> photosPathSaveRep,
+            IRepository<DataToPatrolDetailFireSystem> patrolDetailFireSystemRep
             )
         {
             _fireUnitRep = fireUnitRep;
@@ -170,5 +170,49 @@ namespace FireProtectionV1.FireWorking.Manager
                          };
             return Task.FromResult(output.ToList());
         }
+
+        /// <summary>
+        /// 获取防火单位消防系统
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task<List<GetPatrolFireUnitSystemOutput>> GetFireUnitlSystem(GetPatrolFireUnitSystemInput input)
+        {
+            var output = from a in _fireUnitSystemRep.GetAll()
+                         join b in _fireSystemRep.GetAll() on a.FireUnitId equals b.Id
+                         where a.FireUnitId == input.FireUnitId
+                         select new GetPatrolFireUnitSystemOutput
+                         {
+                             FireSystemId = b.Id,
+                             SystemName = b.SystemName
+                         };
+            return Task.FromResult(output.ToList());
+        }
+
+        /// <summary>
+        /// 添加巡查记录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> AddPatrolTrack(AddPatrolInput input)
+        {
+            SuccessOutput output = new SuccessOutput { Success = true };
+            DataToPatrol patrol = new DataToPatrol()
+            {
+                FireUnitId = input.FireUnitId,
+                FireUnitUserId = input.UserId
+            };
+            if (input.TrackList.Where(u => u.ProblemStatus == ProblemStatusType.DisRepaired).Count() > 0)
+                patrol.PatrolStatus = (byte)ProblemStatusType.DisRepaired;
+            else if (input.TrackList.Where(u => u.ProblemStatus == ProblemStatusType.Repaired).Count() > 0)
+                patrol.PatrolStatus = (byte)ProblemStatusType.Repaired;
+            else
+                patrol.PatrolStatus = (byte)ProblemStatusType.noraml;
+            int patrolId = await _patrolRep.InsertAndGetIdAsync(patrol);
+
+            return output;
+        }
+
+
     }
 }

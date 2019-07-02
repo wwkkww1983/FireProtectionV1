@@ -36,5 +36,19 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<List<GetPatrolTrackOutput>> GetPatrolTrackList(GetPatrolTrackInput input);
+
+        /// <summary>
+        /// 获取防火单位消防系统
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<GetPatrolFireUnitSystemOutput>> GetFireUnitlSystem(GetPatrolFireUnitSystemInput input);
+
+        /// <summary>
+        /// 添加巡查记录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<SuccessOutput> AddPatrolTrack(AddPatrolInput input);
     }
 }

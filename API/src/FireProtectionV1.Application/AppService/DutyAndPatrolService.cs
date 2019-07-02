@@ -1,5 +1,6 @@
 ﻿using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Manager;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,7 +12,7 @@ namespace FireProtectionV1.AppService
     {
         IDutyManager _dutyManager;
         IPatrolManager _patrolManager;
-
+        
         public DutyAndPatrolService(IDutyManager dutyManager, IPatrolManager patrolManager)
         {
             _dutyManager = dutyManager;
@@ -36,6 +37,15 @@ namespace FireProtectionV1.AppService
         {
             return await _dutyManager.GetDutyInfo(input);
         }
+        /// <summary>
+        /// 新增值班记录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> AddDutyInfo([FromForm]AddDataDutyInfoInput input)
+        {
+            return await _dutyManager.AddDutyInfo(input);
+        }
 
         /// <summary>
         /// 获取巡查记录列表
@@ -55,6 +65,15 @@ namespace FireProtectionV1.AppService
         public async Task<List<GetPatrolTrackOutput>> GetPatrolTrackList(GetPatrolTrackInput input)
         {
             return await _patrolManager.GetPatrolTrackList(input);
+        }
+        /// <summary>
+        /// 获取防火单位消防系统
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<List<GetPatrolFireUnitSystemOutput>> GetFireUnitlSystem(GetPatrolFireUnitSystemInput input)
+        {
+            return await _patrolManager.GetFireUnitlSystem(input);
         }
     }
 }
