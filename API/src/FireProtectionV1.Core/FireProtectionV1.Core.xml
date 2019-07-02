@@ -1401,6 +1401,11 @@
             设备来源(厂家)
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput.FireUnitUserId">
             <summary>
             防火单位用户Id
@@ -2591,7 +2596,7 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.DataToDutyProblem.ProblemRemarkType">
             <summary>
-            问题描述类型(0文本类型，1语音类型)
+            问题描述类型(1文本类型，2语音类型)
             </summary>
         </member>
         <member name="T:FireProtectionV1.FireWorking.Model.DataToPatrol">

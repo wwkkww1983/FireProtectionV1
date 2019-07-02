@@ -54,6 +54,8 @@ namespace FireProtectionV1.EntityFrameworkCore
         public DbSet<FireSystem> FireSystem { get; set; }
         public DbSet<FireUntiSystem> FireUntiSystem { get; set; }
         public DbSet<PhotosPathSave> PhotosPathSave { get; set; }
+        public DbSet<DataToPatrolDetailFireSystem> DataToPatrolDetailFireSystem { get; set; }
+        
 
         public FireProtectionV1DbContext(DbContextOptions<FireProtectionV1DbContext> options) 
             : base(options)

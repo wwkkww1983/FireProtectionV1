@@ -10,6 +10,11 @@ namespace FireProtectionV1.FireWorking.Dto
     public class AddDataDutyInfoInput
     {
         /// <summary>
+        /// 防火单位Id
+        /// </summary>
+        [Required]
+        public int FireUnitId { get; set; }
+        /// <summary>
         /// 防火单位用户Id
         /// </summary>
         [Required]

@@ -27,7 +27,7 @@ namespace FireProtectionV1.Common.Enum
         /// <summary>
         /// 所有记录
         /// </summary>
-        [Description("所有记录")]
+        [Description("未指定")]
         alldate = 0,
         /// <summary>
         /// 正常

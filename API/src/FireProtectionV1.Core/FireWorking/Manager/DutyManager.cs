@@ -5,9 +5,11 @@ using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
 using FireProtectionV1.User.Model;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,14 +23,15 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<DataToDutyProblem> _dataToDutyProblemRep;
         IRepository<FireUnitUser> _fireUnitAccountRepository;
         IRepository<PhotosPathSave> _photosPathSave;
+        private IHostingEnvironment _hostingEnv;
 
         public DutyManager(
             IRepository<FireUnit> fireUnitRep,
             IRepository<DataToDuty> dutyRep,
             IRepository<FireUnitUser> fireUnitAccountRepository,
             IRepository<DataToDutyProblem> dataToDutyProblemRep,
-            IRepository<PhotosPathSave> photosPathSaveRep
-
+            IRepository<PhotosPathSave> photosPathSaveRep,
+            IHostingEnvironment env
             )
         {
             _fireUnitRep = fireUnitRep;
@@ -36,7 +39,7 @@ namespace FireProtectionV1.FireWorking.Manager
             _fireUnitAccountRepository = fireUnitAccountRepository;
             _dataToDutyProblemRep = dataToDutyProblemRep;
             _photosPathSave = photosPathSaveRep;
-
+            _hostingEnv = env;
         }
         public async Task AddNewDuty(AddNewDutyInput input)
         {
@@ -163,34 +166,96 @@ namespace FireProtectionV1.FireWorking.Manager
         public async Task<SuccessOutput> AddDutyInfo(AddDataDutyInfoInput input)
         {
             SuccessOutput output = new SuccessOutput() { Success = true };
-            DataToDuty dutyInfo = new DataToDuty()
-            {
-                FireUnitUserId = input.FireUnitUserId,
-                DutyRemark = input.DutyRemark,
-                DutyStatus=(byte)input.DutyStatus
-            };
-            List<IFormFile> filelist = new List<IFormFile>();
-            //if(input.DutyPicture1!=null)
 
-            int dutyId = _dutyRep.InsertAndGetId(dutyInfo);
-
-            if ((int)input.DutyStatus!=1)
+            try
             {
-                DataToDutyProblem problemInfo = new DataToDutyProblem()
+                byte a = (byte)input.DutyStatus;
+                DataToDuty dutyInfo = new DataToDuty()
                 {
-                    DutyId= dutyId,
-                    ProblemRemarkType=(int)input.ProblemRemarkType
+                    FireUnitId=input.FireUnitId,
+                    FireUnitUserId = input.FireUnitUserId,
+                    DutyRemark = input.DutyRemark,
+                    DutyStatus = (byte)input.DutyStatus
                 };
+                int dutyId = _dutyRep.InsertAndGetId(dutyInfo);
 
+                string tableName = "DataToDuty";
+                string path = _hostingEnv.ContentRootPath + $@"/App_Data/Files/Photos/DataToDuty/";
+                if (input.DutyPicture1 != null)
+                    SavePhotosPath(tableName, dutyId, await SaveFiles(input.DutyPicture1, path));
+                if (input.DutyPicture2 != null)
+                    SavePhotosPath(tableName, dutyId, await SaveFiles(input.DutyPicture2, path));
+                if (input.DutyPicture3 != null)
+                    SavePhotosPath(tableName, dutyId, await SaveFiles(input.DutyPicture3, path));
+
+                if ((int)input.DutyStatus != 1)
+                {
+                    DataToDutyProblem problemInfo = new DataToDutyProblem()
+                    {
+                        DutyId = dutyId,
+                        ProblemRemarkType = (int)input.ProblemRemarkType
+                    };
+                    string problempath = _hostingEnv.ContentRootPath+ $@"/App_Data/Files/Voices/DataToDuty/";
+                    string problemtableName = "DataToDutyProblem";
+                    if ((int)input.ProblemRemarkType == 1)
+                    {
+                        problemInfo.ProblemRemark = input.ProblemRemark;
+                    }
+                    else if ((int)input.ProblemRemarkType == 2 && input.RemarkVioce != null)
+                    {
+                        problemInfo.ProblemRemark = await SaveFiles(input.RemarkVioce, problempath);
+                    }
+                    int problemId = _dataToDutyProblemRep.InsertAndGetId(problemInfo);
+                    if (input.ProblemPicture1 != null)
+                         SavePhotosPath(problemtableName, problemId, await SaveFiles(input.ProblemPicture1, path));
+                    if (input.ProblemPicture2 != null)
+                         SavePhotosPath(problemtableName, problemId, await SaveFiles(input.ProblemPicture2, path));
+                    if (input.ProblemPicture3 != null)
+                         SavePhotosPath(problemtableName, problemId, await SaveFiles(input.ProblemPicture3, path));
+                }
+
+                return output;
             }
-
-            return output;
+            catch(Exception e)
+            {
+                output.Success = false;
+                output.FailCause = e.Message;
+                return output;
+            }
+           
         }
 
-        //private async Task<string> SavePhotos(string tableName,IFormFile file,string path)
-        //{
+        private  void SavePhotosPath(string tablename, int dataId,string fileName)
+        {
+            string photopath = "/Src/Photos/DataToDuty/" + fileName;
+            PhotosPathSave photo = new PhotosPathSave()
+            {
+                TableName=tablename,
+                DataId=dataId,
+                PhotoPath=photopath
+            };
+             _photosPathSave.InsertAsync(photo);
+        }
+        private async Task<string> SaveFiles(IFormFile file, string path)
+        {
+            if (!Directory.Exists(path))//判断是否存在
+            {
+                Directory.CreateDirectory(path);//创建新路径
+            }
+            string fileName = file.FileName;
+            using (var stream = System.IO.File.Create(path + fileName))
+            {
+                await file.CopyToAsync(stream);
+            }
+            return fileName;
+        }
 
-        //}
+        //获取当前时间段额时间戳
+        public string GetTimeStamp()
+        {
+            TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return Convert.ToInt64(ts.TotalMilliseconds).ToString();
+        }
     }
 }
  
