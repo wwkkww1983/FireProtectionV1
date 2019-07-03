@@ -14,25 +14,66 @@ namespace FireProtectionV1.FireWorking.Manager
 {
     public class DeviceManager : IDeviceManager
     {
+        IRepository<RecordOnline> _recordOnlineRep;
         IRepository<RecordAnalog> _recordAnalogRep;
         IFireSettingManager _fireSettingManager;
         IRepository<DetectorType> _detectorTypeRep;
         IRepository<Gateway> _gatewayRep;
         IRepository<Detector> _detectorRep;
         public DeviceManager(
+            IRepository<RecordOnline> recordOnlineRep,
             IRepository<RecordAnalog> recordAnalogRep,
             IFireSettingManager fireSettingManager,
             IRepository<Detector> detectorRep,
              IRepository<DetectorType> detectorTypeRep,
            IRepository<Gateway> gatewayRep)
         {
+            _recordOnlineRep = recordOnlineRep;
             _recordAnalogRep = recordAnalogRep;
             _fireSettingManager = fireSettingManager;
             _detectorTypeRep = detectorTypeRep;
             _detectorRep = detectorRep;
             _gatewayRep = gatewayRep;
         }
-        public async Task<RecordAnalogOutput> GetRecordAnalog(GetRecordAnalogInput input)
+        /// <summary>
+        /// 非模拟量探测器历史记录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<RecordUnAnalogOutput> GetRecordUnAnalog(GetRecordDetectorInput input)
+        {
+            var output = new RecordUnAnalogOutput();
+            var detector =await _detectorRep.SingleAsync(p => p.Id == input.DetectorId);
+            var detectorType = await _detectorTypeRep.SingleAsync(p => p.Id == detector.DetectorTypeId);
+            output.Name = detectorType.Name;
+            output.Location = detector.Location;
+            var state=_recordOnlineRep.GetAll().Where(p => p.DetectorId == input.DetectorId).OrderByDescending(p => p.CreationTime).FirstOrDefault();
+            if(state!=null)
+            {
+                output.State = GatewayStatusNames.GetName((GatewayStatus)state.State);
+                output.LastTimeStateChange = state.CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
+            }
+            var onlines = _recordOnlineRep.GetAll().Where(p => p.DetectorId == input.DetectorId&&p.State==(sbyte)GatewayStatus.Offline && p.CreationTime >= input.Start && p.CreationTime <= input.End)
+            .GroupBy(p => p.CreationTime.ToString("yyyy-MM-dd")).Select(p => new
+            {
+                Time = p.Key,
+                Count = p.Count()
+            });
+            //报警包括UITD和下属部件的报警
+            //var onlines = _f.GetAll().Where(p => p.DetectorId == input.DetectorId &&p. && p.CreationTime >= input.Start && p.CreationTime <= input.End)
+            //.GroupBy(p => p.CreationTime.ToString("yyyy-MM-dd")).Select(p => new
+            //{
+            //    Time = p.Key,
+            //    Count = p.Count()
+            //});
+            return output;
+        }
+        /// <summary>
+        /// 模拟量探测器历史记录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<RecordAnalogOutput> GetRecordAnalog(GetRecordDetectorInput input)
         {
             throw new NotImplementedException();
         }
@@ -44,12 +85,13 @@ namespace FireProtectionV1.FireWorking.Manager
         public async Task<List<EndDeviceStateOutput>> GetFireUnitEndDeviceState(int fireUnitId, int option)
         {
             var uitd = (from a in _detectorRep.GetAll().Where(p => p.FireUnitId == fireUnitId && p.DetectorTypeId == GetDetectorType((byte)UnitType.UITD).Id
-                       &&(option==0?true:(option==-1?p.State.Equals("离线"):!p.State.Equals("离线"))))
-                       join b in _detectorTypeRep.GetAll()
-                       on a.DetectorTypeId equals b.Id
-                       select new EndDeviceStateOutput()
-                       {
-                           DetectorId=a.Id,
+                       && (option == 0 ? true : (option == -1 ? p.State.Equals("离线") : !p.State.Equals("离线"))))
+                        join b in _detectorTypeRep.GetAll()
+                        on a.DetectorTypeId equals b.Id
+                        select new EndDeviceStateOutput()
+                        {
+                            DetectorId = a.Id,
+                            IsAnalog = false,
                            Name = b.Name,
                            Location = a.Location,
                            StateName = a.State,
@@ -62,6 +104,7 @@ namespace FireProtectionV1.FireWorking.Manager
                      on a.DetectorTypeId equals b.Id
                      select new EndDeviceStateOutput()
                      {
+                         IsAnalog=true,
                          DetectorId = a.Id,
                          Name = b.Name,
                          Location = a.Location,
@@ -79,6 +122,7 @@ namespace FireProtectionV1.FireWorking.Manager
                       on a.DetectorTypeId equals b.Id
                       select new EndDeviceStateOutput()
                       {
+                          IsAnalog = true,
                           DetectorId = a.Id,
                           Name = b.Name,
                           Location = a.Location,

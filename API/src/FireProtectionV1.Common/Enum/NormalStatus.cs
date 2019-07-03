@@ -51,4 +51,18 @@ namespace FireProtectionV1.Common.Enum
         [Description("异常（表示当前在线但有故障，例如消火栓的水压偏低）")]
         Unusual = -2
     }
+    public class GatewayStatusNames{
+        static public string GetName(GatewayStatus status)
+        {
+            if (status == GatewayStatus.UnKnow)
+                return "未指定";
+            if (status == GatewayStatus.Online)
+                return "在线";
+            if (status == GatewayStatus.Offline)
+                return "离线";
+            if (status == GatewayStatus.Unusual)
+                return "异常";
+            return "";
+        }
+    }
 }

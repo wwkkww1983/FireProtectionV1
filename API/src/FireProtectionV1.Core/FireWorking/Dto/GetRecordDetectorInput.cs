@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto
 {
-    public class GetRecordAnalogInput
+    public class GetRecordDetectorInput
     {
         /// <summary>
         /// 探测器Id
@@ -25,7 +25,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         [Required]
         public int FireUnitId { get; set; }
-        public GetRecordAnalogInput()
+        public GetRecordDetectorInput()
         {
             End = DateTime.Now;
             Start = End.AddHours(-1);

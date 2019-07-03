@@ -1541,6 +1541,11 @@
             探测器ID
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.EndDeviceStateOutput.IsAnalog">
+            <summary>
+            探测器是否模拟量类型
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.EndDeviceStateOutput.Name">
             <summary>
             终端名称
@@ -1906,22 +1911,22 @@
             防火单位Id
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetRecordAnalogInput.DetectorId">
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetRecordDetectorInput.DetectorId">
             <summary>
             探测器Id
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetRecordAnalogInput.Start">
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetRecordDetectorInput.Start">
             <summary>
             开始时间
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetRecordAnalogInput.End">
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetRecordDetectorInput.End">
             <summary>
             结束时间
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetRecordAnalogInput.FireUnitId">
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetRecordDetectorInput.FireUnitId">
             <summary>
             防火单位Id
             </summary>
@@ -2181,6 +2186,51 @@
             模拟量值
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.RecordUnAnalogOutput.Name">
+            <summary>
+            部件名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.RecordUnAnalogOutput.Location">
+            <summary>
+            安装地点
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.RecordUnAnalogOutput.State">
+            <summary>
+            当前状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.RecordUnAnalogOutput.LastTimeStateChange">
+            <summary>
+            最后状态改变时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.RecordUnAnalogOutput.UnAnalogTimes">
+            <summary>
+            历史模拟量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.UnAnalogTime.Time">
+            <summary>
+            时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.UnAnalogTime.OfflineCount">
+            <summary>
+            离线次数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.UnAnalogTime.AlarmCount">
+            <summary>
+            报警次数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.UnAnalogTime.FaultCount">
+            <summary>
+            故障次数
+            </summary>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.AlarmManager.AddAlarmElec(FireProtectionV1.FireWorking.Dto.AddDataElecInput,System.String)">
             <summary>
             新增安全用电报警
@@ -2201,6 +2251,20 @@
             保存核警信息
             </summary>
             <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.GetRecordUnAnalog(FireProtectionV1.FireWorking.Dto.GetRecordDetectorInput)">
+            <summary>
+            非模拟量探测器历史记录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.GetRecordAnalog(FireProtectionV1.FireWorking.Dto.GetRecordDetectorInput)">
+            <summary>
+            模拟量探测器历史记录
+            </summary>
+            <param name="input"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.GetFireUnitEndDeviceState(System.Int32,System.Int32)">
@@ -2406,7 +2470,7 @@
             <param name="fireUnitId"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetRecordAnalog(FireProtectionV1.FireWorking.Dto.GetRecordAnalogInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetRecordAnalog(FireProtectionV1.FireWorking.Dto.GetRecordDetectorInput)">
             <summary>
             获得防火单位终端历史记录
             </summary>

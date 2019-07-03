@@ -51,6 +51,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<RecordAnalogOutput> GetRecordAnalog(GetRecordAnalogInput input);
+        Task<RecordAnalogOutput> GetRecordAnalog(GetRecordDetectorInput input);
+        Task<RecordUnAnalogOutput> GetRecordUnAnalog(GetRecordDetectorInput input);
     }
 }

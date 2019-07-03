@@ -39,7 +39,7 @@ namespace FireProtectionV1.DeviceService
         /// <returns></returns>
         public async Task<AddDataOutput> AddDataElecT(AddDataElecInput input)
         {
-            await _deviceManager.AddRecordAnalog(input);
+            //await _deviceManager.AddRecordAnalog(input);
             var setting =await _fireSettingManager.GetByName("CableTemperature");
             Console.WriteLine($"{DateTime.Now} 收到模拟量值 AddDataElecT Analog:{input.Analog}{input.Unit} 部件地址：{input.Identify} 网关地址：{input.GatewayIdentify}");
             if (input.Analog >= setting.MaxValue)
@@ -56,7 +56,7 @@ namespace FireProtectionV1.DeviceService
         /// <returns></returns>
         public async Task<AddDataOutput> AddDataElecE(AddDataElecInput input)
         {
-            await _deviceManager.AddRecordAnalog(input);
+            //await _deviceManager.AddRecordAnalog(input);
             var setting = await _fireSettingManager.GetByName("ResidualCurrent");
             Console.WriteLine($"{DateTime.Now} 收到模拟量值 AddDataElecE Analog:{input.Analog}{input.Unit} 部件地址：{input.Identify} 网关地址：{input.GatewayIdentify}");
             if (input.Analog >= setting.MaxValue)

@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 
 namespace FireProtectionV1.Web.Startup
 {
@@ -11,7 +13,9 @@ namespace FireProtectionV1.Web.Startup
 #if DEBUG
                 .UseUrls("http://*:5000")
 #else
-                .UseUrls("http://*:5080")
+                .UseConfiguration(new ConfigurationBuilder()
+                   .Add(new JsonConfigurationSource { Path = "appsettings.json", ReloadOnChange = true })
+                   .Build())
 #endif
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())

@@ -11,6 +11,10 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public int DetectorId { get; set; }
         /// <summary>
+        /// 探测器是否模拟量类型
+        /// </summary>
+        public bool IsAnalog { get; set; }
+        /// <summary>
         /// 终端名称
         /// </summary>
         public string Name { get; set; }

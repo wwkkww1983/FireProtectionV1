@@ -975,9 +975,16 @@
             <param name="Option">筛选选项值</param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.DeviceService.DeviceAppService.GetRecordAnalog(FireProtectionV1.FireWorking.Dto.GetRecordAnalogInput)">
+        <member name="M:FireProtectionV1.DeviceService.DeviceAppService.GetRecordAnalog(FireProtectionV1.FireWorking.Dto.GetRecordDetectorInput)">
             <summary>
-            获得防火单位终端历史记录
+            获得防火单位模拟量终端历史记录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.DeviceAppService.GetRecordUnAnalog(FireProtectionV1.FireWorking.Dto.GetRecordDetectorInput)">
+            <summary>
+            获得防火单位非模拟量终端历史记录
             </summary>
             <param name="input"></param>
             <returns></returns>
