@@ -73,5 +73,12 @@ namespace FireProtectionV1.FireWorking.Manager
                        PendingCount = a.PendingCount
                    };
         }
+        public IQueryable<Fault> GetFaults(IQueryable<Detector> detectors, DateTime start, DateTime end)
+        {
+            return from a in detectors
+                   join b in _faultRep.GetAll().Where(p => p.CreationTime >= start && p.CreationTime <= end)
+                   on a.Id equals b.DetectorId
+                   select b;
+        }
     }
 }

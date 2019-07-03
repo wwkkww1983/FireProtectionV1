@@ -14,6 +14,8 @@ namespace FireProtectionV1.FireWorking.Manager
 {
     public class DeviceManager : IDeviceManager
     {
+        IFaultManager _faultManager;
+        IAlarmManager _alarmManager;
         IRepository<RecordOnline> _recordOnlineRep;
         IRepository<RecordAnalog> _recordAnalogRep;
         IFireSettingManager _fireSettingManager;
@@ -21,6 +23,8 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<Gateway> _gatewayRep;
         IRepository<Detector> _detectorRep;
         public DeviceManager(
+            IFaultManager faultManager,
+            IAlarmManager alarmManager,
             IRepository<RecordOnline> recordOnlineRep,
             IRepository<RecordAnalog> recordAnalogRep,
             IFireSettingManager fireSettingManager,
@@ -28,6 +32,8 @@ namespace FireProtectionV1.FireWorking.Manager
              IRepository<DetectorType> detectorTypeRep,
            IRepository<Gateway> gatewayRep)
         {
+            _faultManager = faultManager;
+            _alarmManager = alarmManager;
             _recordOnlineRep = recordOnlineRep;
             _recordAnalogRep = recordAnalogRep;
             _fireSettingManager = fireSettingManager;
@@ -53,19 +59,58 @@ namespace FireProtectionV1.FireWorking.Manager
                 output.State = GatewayStatusNames.GetName((GatewayStatus)state.State);
                 output.LastTimeStateChange = state.CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
             }
-            var onlines = _recordOnlineRep.GetAll().Where(p => p.DetectorId == input.DetectorId&&p.State==(sbyte)GatewayStatus.Offline && p.CreationTime >= input.Start && p.CreationTime <= input.End)
-            .GroupBy(p => p.CreationTime.ToString("yyyy-MM-dd")).Select(p => new
+            List<string> dates = new List<string>();
+            for(DateTime dt= input.Start; dt <= input.End; dt.AddDays(1))
             {
-                Time = p.Key,
-                Count = p.Count()
-            });
+                dates.Add(dt.ToString("yyyy-MM-dd"));
+            }
+            var onlines = from a in dates
+                          join b in _recordOnlineRep.GetAll().Where(p => p.DetectorId == input.DetectorId && p.State == (sbyte)GatewayStatus.Offline && p.CreationTime >= input.Start && p.CreationTime <= input.End)
+                          .GroupBy(p => p.CreationTime.ToString("yyyy-MM-dd"))
+                          on a equals b.Key into u
+                          from c in u.DefaultIfEmpty()
+                          select new
+                          {
+                              Time = a,
+                              Count = c == null ? 0 : c.Count()
+                          };
+            var gatawayDetector = _detectorRep.Single(p => p.Id == input.DetectorId);
+            var gatway = _gatewayRep.Single(p => p.Identify == gatawayDetector.Identify && p.Origin == gatawayDetector.Origin);
+            IQueryable<Detector> detectors = _detectorRep.GetAll().Where(p => p.GatewayId == gatway.Id);
             //报警包括UITD和下属部件的报警
-            //var onlines = _f.GetAll().Where(p => p.DetectorId == input.DetectorId &&p. && p.CreationTime >= input.Start && p.CreationTime <= input.End)
-            //.GroupBy(p => p.CreationTime.ToString("yyyy-MM-dd")).Select(p => new
-            //{
-            //    Time = p.Key,
-            //    Count = p.Count()
-            //});
+            var alarms = from a in dates
+                         join b in _alarmManager.GetAlarms(detectors, input.Start, input.End)
+                         .GroupBy(p => p.CreationTime.ToString("yyyy-MM-dd"))
+                         on a equals b.Key into u
+                         from c in u.DefaultIfEmpty()
+                         select new
+                         {
+                             Time = a,
+                             Count = c == null ? 0 : c.Count()
+                         };
+            var faults = from a in dates
+                         join b in _faultManager.GetFaults(detectors, input.Start, input.End)
+                         .GroupBy(p => p.CreationTime.ToString("yyyy-MM-dd"))
+                         on a equals b.Key into u
+                         from c in u.DefaultIfEmpty()
+                         select new
+                         {
+                             Time = a,
+                             Count = c == null ? 0 : c.Count()
+                         };
+
+            output.UnAnalogTimes = (from a in onlines
+                                    join b in alarms
+                                    on a.Time equals b.Time
+                                    join c in faults
+                                    on b.Time equals c.Time
+                                    select new UnAnalogTime()
+                                    {
+                                        Time = a.Time,
+                                        OfflineCount = a.Count,
+                                        AlarmCount = b.Count,
+                                        FaultCount = c.Count
+                                    }).ToList();
             return output;
         }
         /// <summary>
@@ -75,7 +120,20 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public async Task<RecordAnalogOutput> GetRecordAnalog(GetRecordDetectorInput input)
         {
-            throw new NotImplementedException();
+            var output = new RecordAnalogOutput();
+            var detector = await _detectorRep.SingleAsync(p => p.Id == input.DetectorId);
+            var detectorType = await _detectorTypeRep.SingleAsync(p => p.Id == detector.DetectorTypeId);
+            output.Name = detectorType.Name;
+            output.Location = detector.Location;
+            var state = _recordOnlineRep.GetAll().Where(p => p.DetectorId == input.DetectorId).OrderByDescending(p => p.CreationTime).FirstOrDefault();
+            if (state != null)
+            {
+                output.State = GatewayStatusNames.GetName((GatewayStatus)state.State);
+                output.LastTimeStateChange = state.CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
+            }
+            output.AnalogTimes = _recordAnalogRep.GetAll().Where(p => p.DetectorId == input.DetectorId).OrderByDescending(p => p.CreationTime).Take(10).Select(p =>
+                   new AnalogTime() { Time = p.CreationTime.ToString("yyyy-MM-dd HH:mm"), Value = p.Analog }).ToList();
+            return output;
         }
         /// <summary>
         /// 获取防火单位的终端状态

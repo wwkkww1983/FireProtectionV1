@@ -35,6 +35,13 @@ namespace FireProtectionV1.FireWorking.Manager
             _alarmToElectricRep = alarmToElectricRep;
             _alarmToFireRep = alarmToFireRep;
         }
+        public IQueryable<AlarmToFire> GetAlarms(IQueryable<Detector> detectors, DateTime start, DateTime end)
+        {
+            return from a in detectors
+                   join b in _alarmToFireRep.GetAll().Where(p => p.CreationTime >= start && p.CreationTime <= end)
+                   on a.Id equals b.DetectorId
+                   select b;
+        }
         public IQueryable< AlarmToElectric> GetNewElecAlarm(DateTime startTime)
         {
             return _alarmToElectricRep.GetAll().Where(p => p.CreationTime > startTime);

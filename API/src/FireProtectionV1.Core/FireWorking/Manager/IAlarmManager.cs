@@ -50,5 +50,6 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="dto"></param>
         /// <returns></returns>
         Task CheckAlarm(AlarmCheckDetailDto dto);
+        IQueryable<AlarmToFire> GetAlarms(IQueryable<Detector> detectors, DateTime start, DateTime end);
     }
 }

@@ -39,6 +39,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="fireSysType"></param>
         /// <returns></returns>
         IQueryable<Detector> GetDetectorAll(int fireunitid, FireSysType fireSysType);
+
         /// <summary>
         /// 获取防火单位的终端状态
         /// </summary>
