@@ -50,5 +50,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<SuccessOutput> AddPatrolTrack(AddPatrolInput input);
+
+
     }
 }

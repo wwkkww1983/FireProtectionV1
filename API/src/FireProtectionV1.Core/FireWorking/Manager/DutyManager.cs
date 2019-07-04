@@ -23,6 +23,7 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<DataToDutyProblem> _dataToDutyProblemRep;
         IRepository<FireUnitUser> _fireUnitAccountRepository;
         IRepository<PhotosPathSave> _photosPathSave;
+        IRepository<BreakDown> _breakDownRep;
         private IHostingEnvironment _hostingEnv;
 
         public DutyManager(
@@ -31,6 +32,7 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<FireUnitUser> fireUnitAccountRepository,
             IRepository<DataToDutyProblem> dataToDutyProblemRep,
             IRepository<PhotosPathSave> photosPathSaveRep,
+            IRepository<BreakDown> breakDownRep,
             IHostingEnvironment env
             )
         {
@@ -39,6 +41,7 @@ namespace FireProtectionV1.FireWorking.Manager
             _fireUnitAccountRepository = fireUnitAccountRepository;
             _dataToDutyProblemRep = dataToDutyProblemRep;
             _photosPathSave = photosPathSaveRep;
+            _breakDownRep = breakDownRep;
             _hostingEnv = env;
         }
         public async Task AddNewDuty(AddNewDutyInput input)
@@ -212,6 +215,26 @@ namespace FireProtectionV1.FireWorking.Manager
                          SavePhotosPath(problemtableName, problemId, await SaveFiles(input.ProblemPicture2, path));
                     if (input.ProblemPicture3 != null)
                          SavePhotosPath(problemtableName, problemId, await SaveFiles(input.ProblemPicture3, path));
+
+                    //每发现一个问题向故障设施插入一条数据
+                    BreakDown breakdown = new BreakDown()
+                    {
+                        FireUnitId = input.FireUnitId,
+                        UserId = input.FireUnitUserId,
+                        Source = (byte)SourceType.Duty,
+                        DataId = problemId
+                    };
+                    if (input.DutyStatus == ProblemStatusType.Repaired)
+                    {
+                        breakdown.HandleStatus = (byte)HandleStatus.Resolved;
+                        breakdown.SolutionTime = DateTime.Now;
+                        breakdown.SolutionWay = 1;
+                    }
+                    else
+                    {
+                        breakdown.HandleStatus = (byte)HandleStatus.UuResolve;
+                    }
+                    await _breakDownRep.InsertAsync(breakdown);
                 }
 
                 return output;

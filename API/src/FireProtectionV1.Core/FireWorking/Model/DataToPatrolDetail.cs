@@ -22,7 +22,7 @@ namespace FireProtectionV1.FireWorking.Model
         [MaxLength(20)]
         public string DeviceSn { get; set; }
         /// <summary>
-        /// 记录状态（1、正常；2：绿色故障；3：橙色故障）
+        /// 记录状态（1：正常；2：绿色故障；3：橙色故障）
         /// </summary>
         public byte PatrolStatus { get; set; }
         /// <summary>

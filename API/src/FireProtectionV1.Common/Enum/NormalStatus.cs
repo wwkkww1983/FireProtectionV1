@@ -51,4 +51,55 @@ namespace FireProtectionV1.Common.Enum
         [Description("异常（表示当前在线但有故障，例如消火栓的水压偏低）")]
         Unusual = -2
     }
+    /// <summary>
+    /// 故障来源
+    /// </summary>
+    [Export("故障来源")]
+    public enum SourceType
+    {
+        /// <summary>
+        /// 未指定
+        /// </summary>
+        [Description("未指定")]
+        UnKnow = 0,
+        /// <summary>
+        /// 值班
+        /// </summary>
+        [Description("值班")]
+        Duty = 1,
+        /// <summary>
+        /// 巡查
+        /// </summary>
+        [Description("巡查")]
+        Patrol = 2,
+        /// <summary>
+        /// 已停用
+        /// </summary>
+        [Description("物联终端")]
+        Terminal = 3
+    }
+
+    /// <summary>
+    /// 处理状态
+    /// </summary>
+    [Export("处理状态")]
+    public enum HandleStatus
+    {
+
+        /// <summary>
+        /// 未处理
+        /// </summary>
+        [Description("未处理")]
+        UuResolve = 1,
+        /// <summary>
+        /// 处理中
+        /// </summary>
+        [Description("处理中")]
+        Resolving = 2,
+        /// <summary>
+        /// 已解决
+        /// </summary>
+        [Description("已解决")]
+        Resolved = 3
+    }
 }

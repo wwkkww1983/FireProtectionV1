@@ -36,9 +36,9 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public string PatrolAddress { get; set; }
         /// <summary>
-        /// 备注类型
+        /// 备注类型(1.文本  2.语音)
         /// </summary>
-        public ProblemType ProblemRemakeType { get; set; }
+        public int ProblemRemakeType { get; set; }
         /// <summary>
         /// 备注文字（如果备注类型为语音则存的语音路径）
         /// </summary>

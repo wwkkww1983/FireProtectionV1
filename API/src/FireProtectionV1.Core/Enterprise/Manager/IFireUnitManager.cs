@@ -92,5 +92,19 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<SuccessOutput> AddFireSystem(AddFireSystemInput input);
+
+        /// <summary>
+        /// 绑定设施编码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<SuccessOutput> AddEquipmentNo(AddEquipmentNoInput input);
+
+        /// <summary>
+        /// 扫码获取信息
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<GetEquipmentNoInfoOutput> GetEquipmentNoInfo(GetEquipmentNoInfoInput input);
     }
 }

@@ -5,8 +5,11 @@ using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
 using FireProtectionV1.User.Model;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +28,8 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<FireUntiSystem> _fireUnitSystemRep;        
         IRepository<PhotosPathSave> _photosPathSave;
         IRepository<DataToPatrolDetailFireSystem> _patrolDetailFireSystem;
+        IRepository<BreakDown> _breakDownRep;
+        private IHostingEnvironment _hostingEnv;
 
         public PatrolManager(
             IRepository<FireUnit> fireUnitRep,
@@ -36,7 +41,9 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<FireUntiSystem> fireUnitSystemRep,           
             IRepository<DataToPatrolDetailProblem> patrolDetailProblemRep,
             IRepository<PhotosPathSave> photosPathSaveRep,
-            IRepository<DataToPatrolDetailFireSystem> patrolDetailFireSystemRep
+            IRepository<DataToPatrolDetailFireSystem> patrolDetailFireSystemRep,
+            IRepository<BreakDown> breakDownRep,
+            IHostingEnvironment env
             )
         {
             _fireUnitRep = fireUnitRep;
@@ -48,6 +55,8 @@ namespace FireProtectionV1.FireWorking.Manager
             _patrolDetailFireSystem = patrolDetailFireSystemRep;
             _patrolDetailProblem = patrolDetailProblemRep;
             _photosPathSave = photosPathSaveRep;
+            _breakDownRep = breakDownRep;
+            _hostingEnv = env;
         }
         public async Task AddNewPatrol(AddNewPatrolInput input)
         {
@@ -154,19 +163,23 @@ namespace FireProtectionV1.FireWorking.Manager
 
 
             var output = from a in detaillist
-                         join b in _patrolDetailProblem.GetAll() on a.Id equals b.PatrolDetailId
+                         join  b in _patrolDetailProblem.GetAll() on a.Id equals b.PatrolDetailId into JoinedEmpDept
+                         from dept in JoinedEmpDept.DefaultIfEmpty() 
                          select new GetPatrolTrackOutput
                          {
                              PatrolId = a.PatrolId,
                              PatrolType = a.PatrolType,
                              CreationTime = a.CreationTime.ToString("yyyy-mm-dd hh:MM"),
                              PatrolStatus = (ProblemStatusType)a.PatrolStatus,
-                             FireSystemName = _fireSystemRep.FirstOrDefault(u => u.Id == _patrolDetailFireSystem.FirstOrDefault(z => z.PatrolDetailId == a.PatrolId).Id).SystemName,
-                             FireSystemCount = _patrolDetailFireSystem.GetAll().Where(u => u.PatrolDetailId == a.PatrolId).Count(),
-                             PatrolAddress=a.PatrolAddress,
-                             ProblemRemakeType=(ProblemType)b.ProblemRemarkType,
-                             RemakeText=b.ProblemRemark,
-                             PatrolPhotosPath= _photosPathSave.GetAll().Where(u=>u.TableName.Equals("DataToPatrolDetail")).Select(u=>u.PhotoPath).ToList()
+                             FireSystemName = (from c in _patrolDetailFireSystem.GetAll()
+                                               join d in _fireSystemRep.GetAll() on c.FireSystemID equals d.Id
+                                               where c.Id == a.Id
+                                               select d.SystemName).FirstOrDefault(),
+                             FireSystemCount = _patrolDetailFireSystem.GetAll().Where(u => u.PatrolDetailId == a.Id).Count(),
+                             PatrolAddress =a.PatrolAddress,
+                             ProblemRemakeType = dept==null?0:dept.ProblemRemarkType,
+                             RemakeText = dept.ProblemRemark,
+                             PatrolPhotosPath = _photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToPatrolDetail")).Select(u => u.PhotoPath).ToList()
                          };
             return Task.FromResult(output.ToList());
         }
@@ -179,7 +192,7 @@ namespace FireProtectionV1.FireWorking.Manager
         public Task<List<GetPatrolFireUnitSystemOutput>> GetFireUnitlSystem(GetPatrolFireUnitSystemInput input)
         {
             var output = from a in _fireUnitSystemRep.GetAll()
-                         join b in _fireSystemRep.GetAll() on a.FireUnitId equals b.Id
+                         join b in _fireSystemRep.GetAll() on a.FireSystemId equals b.Id
                          where a.FireUnitId == input.FireUnitId
                          select new GetPatrolFireUnitSystemOutput
                          {
@@ -197,22 +210,127 @@ namespace FireProtectionV1.FireWorking.Manager
         public async Task<SuccessOutput> AddPatrolTrack(AddPatrolInput input)
         {
             SuccessOutput output = new SuccessOutput { Success = true };
-            DataToPatrol patrol = new DataToPatrol()
+            //List<AddPatrolTrackInput> TrackList = new List<AddPatrolTrackInput>();
+            //TrackList.Add(input.TrackList);
+            try
             {
-                FireUnitId = input.FireUnitId,
-                FireUnitUserId = input.UserId
+                DataToPatrol patrol = new DataToPatrol()
+                {
+                    FireUnitId = input.FireUnitId,
+                    FireUnitUserId = input.UserId
+                };
+                if (input.TrackList.Where(u => u.ProblemStatus == ProblemStatusType.DisRepaired).Count() > 0)
+                    patrol.PatrolStatus = (byte)ProblemStatusType.DisRepaired;
+                else if (input.TrackList.Where(u => u.ProblemStatus == ProblemStatusType.Repaired).Count() > 0)
+                    patrol.PatrolStatus = (byte)ProblemStatusType.Repaired;
+                else
+                    patrol.PatrolStatus = (byte)ProblemStatusType.noraml;
+                int patrolId = await _patrolRep.InsertAndGetIdAsync(patrol);
+
+
+                string voicepath = _hostingEnv.ContentRootPath + $@"/App_Data/Files/Voices/DataToPatrol/";
+                string problemtableName = "DataToPatrolDetail";
+                string photopath = _hostingEnv.ContentRootPath + $@"/App_Data/Files/Photos/DataToPatrol/";
+                foreach (var track in input.TrackList)
+                {
+                    DataToPatrolDetail detail = new DataToPatrolDetail()
+                    {
+                        PatrolId = patrolId,
+                        PatrolAddress = track.PatrolAddress,
+                        PatrolStatus = (byte)track.ProblemStatus
+                    };
+                    int detailId = await _patrolDetailRep.InsertAndGetIdAsync(detail);
+                    foreach(var a in track.SystemId)
+                    {
+                        DataToPatrolDetailFireSystem patrolsystem = new DataToPatrolDetailFireSystem()
+                        {
+                            PatrolDetailId = detailId,
+                            FireSystemID = a
+                        };
+                        await _patrolDetailFireSystem.InsertAsync(patrolsystem);
+                    }
+                    ;
+                    
+
+                    if (detail.PatrolStatus != (byte)ProblemStatusType.noraml&&detail.PatrolStatus != (byte)ProblemStatusType.alldate)
+                    {
+                        DataToPatrolDetailProblem problem = new DataToPatrolDetailProblem()
+                        {
+                            PatrolDetailId = detailId,
+                            ProblemRemarkType = (int)track.ProblemRemarkType
+                        };
+                        if ((int)track.ProblemRemarkType == 1)
+                        {
+                            problem.ProblemRemark = track.ProblemRemark;
+                        }
+                        else if ((int)track.ProblemRemarkType == 2 && track.RemarkVioce != null)
+                        {
+                            problem.ProblemRemark = await SaveFiles(track.RemarkVioce, voicepath);
+                        }
+                        int problemId = _patrolDetailProblem.InsertAndGetId(problem);
+                        if (track.LivePicture1 != null)
+                            SavePhotosPath(problemtableName, problemId, await SaveFiles(track.LivePicture1, photopath));
+                        if (track.LivePicture2 != null)
+                            SavePhotosPath(problemtableName, problemId, await SaveFiles(track.LivePicture2, photopath));
+                        if (track.LivePicture3 != null)
+                            SavePhotosPath(problemtableName, problemId, await SaveFiles(track.LivePicture3, photopath));
+
+                       //每发现一个问题向故障设施插入一条数据
+                        BreakDown breakdown = new BreakDown()
+                        {
+                            FireUnitId = input.FireUnitId,
+                            UserId = input.UserId,
+                            Source = (byte)SourceType.Patrol,
+                            DataId = problemId
+                        };
+                        if(detail.PatrolStatus == (byte)ProblemStatusType.Repaired)
+                        {
+                            breakdown.HandleStatus = (byte)HandleStatus.Resolved;
+                            breakdown.SolutionTime = DateTime.Now;
+                            breakdown.SolutionWay = 1;
+                        }
+                        else
+                        {
+                            breakdown.HandleStatus = (byte)HandleStatus.UuResolve;
+                        }
+                        await _breakDownRep.InsertAsync(breakdown);
+                    }
+                }
+                return output;
+            }
+            catch(Exception e)
+            {
+                output.Success = false;
+                output.FailCause = e.Message;
+                return output;
+            }
+}
+
+
+        private void SavePhotosPath(string tablename, int dataId, string fileName)
+        {
+            string photopath = "/Src/Photos/DataToPatrol/" + fileName;
+            PhotosPathSave photo = new PhotosPathSave()
+            {
+                TableName = tablename,
+                DataId = dataId,
+                PhotoPath = photopath
             };
-            if (input.TrackList.Where(u => u.ProblemStatus == ProblemStatusType.DisRepaired).Count() > 0)
-                patrol.PatrolStatus = (byte)ProblemStatusType.DisRepaired;
-            else if (input.TrackList.Where(u => u.ProblemStatus == ProblemStatusType.Repaired).Count() > 0)
-                patrol.PatrolStatus = (byte)ProblemStatusType.Repaired;
-            else
-                patrol.PatrolStatus = (byte)ProblemStatusType.noraml;
-            int patrolId = await _patrolRep.InsertAndGetIdAsync(patrol);
-
-            return output;
+            _photosPathSave.InsertAsync(photo);
         }
-
+        private async Task<string> SaveFiles(IFormFile file, string path)
+        {
+            if (!Directory.Exists(path))//判断是否存在
+            {
+                Directory.CreateDirectory(path);//创建新路径
+            }
+            string fileName = file.FileName;
+            using (var stream = System.IO.File.Create(path + fileName))
+            {
+                await file.CopyToAsync(stream);
+            }
+            return fileName;
+        }
 
     }
 }

@@ -6,12 +6,12 @@ using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto
 {
-    public class GetPatrolTrackInput
+    public class GetBreakDownInfoInput
     {
         /// <summary>
-        /// 巡查ID
+        /// 故障ID
         /// </summary>
         [Required]
-        public int PatrolId { get; set; }
+        public int BreakDownId { get; set; }
     }
 }
