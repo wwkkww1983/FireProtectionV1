@@ -73,7 +73,7 @@ namespace FireProtectionV1.Common.Enum
         [Description("巡查")]
         Patrol = 2,
         /// <summary>
-        /// 已停用
+        /// 物联终端
         /// </summary>
         [Description("物联终端")]
         Terminal = 3

@@ -963,6 +963,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.DeviceService.DataAppService.AddOnlineGateway(FireProtectionV1.FireWorking.Dto.AddOnlineGatewayInput)">
+            <summary>
+            新增 网关在线离线事件
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.DeviceService.DataAppService.AddDataElecT(FireProtectionV1.FireWorking.Dto.AddDataElecInput)">
             <summary>
             新增安全用电数据温度(超限判断后新增报警)

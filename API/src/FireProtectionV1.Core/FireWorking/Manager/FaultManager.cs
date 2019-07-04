@@ -12,15 +12,18 @@ namespace FireProtectionV1.FireWorking.Manager
 {
     public class FaultManager: IFaultManager
     {
+        IRepository<BreakDown> _repBreakDown;
         IRepository<FireUnit> _fireUnitRep;
         IRepository<Fault> _faultRep;
         IDeviceManager _deviceManager;
         public FaultManager(
+            IRepository<BreakDown> repBreakDown,
             IDeviceManager deviceManager,
             IRepository<FireUnit> fireUnitRep,
             IRepository<Fault> faultRep
             )
         {
+            _repBreakDown = repBreakDown;
             _deviceManager = deviceManager;
             _fireUnitRep = fireUnitRep;
             _faultRep = faultRep;
@@ -35,12 +38,20 @@ namespace FireProtectionV1.FireWorking.Manager
                     IsDetectorExit = false
                 };
             }
-            await _faultRep.InsertAsync(new Fault()
+            var id= _faultRep.InsertAndGetId(new Fault()
             {
                 FireUnitId = detector.FireUnitId,
                 DetectorId = detector.Id,
                 FaultRemark=input.FaultRemark,
-                ProcessState=0
+                ProcessState=(byte)Common.Enum.HandleStatus.UuResolve
+            });
+            await _repBreakDown.InsertAsync(new BreakDown()
+            {
+                DataId = id,
+                FireUnitId = detector.FireUnitId,
+                HandleStatus = (byte)Common.Enum.HandleStatus.UuResolve,
+                Remark = input.FaultRemark,
+                Source = (byte)Common.Enum.SourceType.Terminal
             });
             return new AddDataOutput()
             {

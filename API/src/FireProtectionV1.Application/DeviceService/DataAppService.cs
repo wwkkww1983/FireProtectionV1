@@ -32,10 +32,15 @@ namespace FireProtectionV1.DeviceService
             _deviceManager = deviceManager;
             _alarmManager = alarmManager;
         }
-        public async Task<AddDataOutput> AddOnlineDetector(AddOnlineDetectorInput input)
-        {
-            return await _deviceManager.AddOnlineDetector(input);
-        }
+        //public async Task<AddDataOutput> AddOnlineDetector(AddOnlineDetectorInput input)
+        //{
+        //    return await _deviceManager.AddOnlineDetector(input);
+        //}
+        /// <summary>
+        /// 新增 网关在线离线事件
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task AddOnlineGateway(AddOnlineGatewayInput input)
         {
             await _deviceManager.AddOnlineGateway(input);
