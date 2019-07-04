@@ -17,7 +17,6 @@ namespace FireProtectionV1.FireWorking.Model
         /// <summary>
         /// 记录人员ID
         /// </summary>
-        [Required]
         public int UserId { get; set; }
         /// <summary>
         /// 故障来源（1.值班 2.巡查 3.物联终端）
