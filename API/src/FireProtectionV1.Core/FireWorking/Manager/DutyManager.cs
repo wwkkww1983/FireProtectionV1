@@ -128,8 +128,9 @@ namespace FireProtectionV1.FireWorking.Manager
 
             var fireUnits = _fireUnitAccountRepository.GetAll();
 
-            var output = from a in dutys
+            var list = from a in dutys
                          join b in fireUnits on a.FireUnitUserId equals b.Id
+                         orderby a.CreationTime descending
                          select new GetDataDutyOutput
                          {
                              DutyId = a.Id,
@@ -137,7 +138,8 @@ namespace FireProtectionV1.FireWorking.Manager
                              DutyUser = b.Name,
                              DutyStatus = (ProblemStatusType)a.DutyStatus
                          };
-            return Task.FromResult(output.OrderByDescending(u=>u.CreationTime).ToList());
+            var output = list.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+            return Task.FromResult(output);
         }
         /// <summary>
         /// 获取值班记录详情

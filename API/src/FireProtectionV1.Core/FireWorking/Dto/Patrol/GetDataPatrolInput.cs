@@ -1,4 +1,5 @@
-﻿using FireProtectionV1.Common.Enum;
+﻿using Abp.Application.Services.Dto;
+using FireProtectionV1.Common.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto
 {
-    public class GetDataPatrolInput
+    public class GetDataPatrolInput : PagedResultRequestDto
     {
         /// <summary>
         /// 防火单位Id

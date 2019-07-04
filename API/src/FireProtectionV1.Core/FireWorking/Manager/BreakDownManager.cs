@@ -127,7 +127,6 @@ namespace FireProtectionV1.FireWorking.Manager
             if (breakdown.Source == 3)
             {
                 var fault = _Fault.FirstOrDefault(u => u.Id == breakdown.DataId);
-                var photospath = _photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToPatrolDetailProblem") && u.DataId == fault.Id).Select(u => u.PhotoPath).ToList();
                 output.ProblemRemakeType = 1;
                 output.RemakeText = fault.FaultRemark;
             }

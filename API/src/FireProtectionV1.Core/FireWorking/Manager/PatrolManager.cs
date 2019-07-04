@@ -140,8 +140,9 @@ namespace FireProtectionV1.FireWorking.Manager
 
             var fireUnits = await _fireUnitAccountRepository.GetAllListAsync();
 
-            var output = from a in dutys
+            var list = from a in dutys
                          join b in fireUnits on a.FireUnitUserId equals b.Id
+                         orderby a.CreationTime descending
                          select new GetDataPatrolOutput
                          {
                              PatrolId = a.Id,
@@ -149,7 +150,8 @@ namespace FireProtectionV1.FireWorking.Manager
                              PatrolUser = b.Name,
                              PatrolStatus = (ProblemStatusType)a.PatrolStatus
                          };
-            return output.OrderByDescending(u => u.CreationTime).ToList();
+            var output = list.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+            return output;
         }
 
         /// <summary>
