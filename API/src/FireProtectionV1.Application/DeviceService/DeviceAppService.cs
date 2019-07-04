@@ -78,13 +78,28 @@ namespace FireProtectionV1.DeviceService
             return await _deviceManager.GetFireUnitEndDeviceState(FireUnitId, Option);
         }
         /// <summary>
-        /// 获得防火单位终端历史记录
+        /// 获得防火单位模拟量终端历史记录
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<RecordAnalogOutput> GetRecordAnalog(GetRecordAnalogInput input)
+        public async Task<RecordAnalogOutput> GetRecordAnalog(GetRecordDetectorInput input)
         {
             return await _deviceManager.GetRecordAnalog(input);
+        }
+        /// <summary>
+        /// 获得防火单位非模拟量终端历史记录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<RecordUnAnalogOutput> GetRecordUnAnalog(GetRecordDetectorInput input)
+        {
+            return await _deviceManager.GetRecordUnAnalog(new GetRecordDetectorInput()
+            {
+                DetectorId=input.DetectorId,
+                FireUnitId=input.FireUnitId,
+                End=DateTime.Now.Date.AddSeconds(-1),
+                Start=DateTime.Now.Date.AddDays(-7)
+            });
         }
     }
 }

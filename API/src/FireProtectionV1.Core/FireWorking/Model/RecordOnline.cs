@@ -20,6 +20,6 @@ namespace FireProtectionV1.FireWorking.Model
         /// 探测器状态
         /// </summary>
         [Required]
-        public byte State { get; set; }
+        public sbyte State { get; set; }
     }
 }
