@@ -31,6 +31,7 @@ namespace FireProtectionV1.Enterprise.Manager
         IRepository<FireUnitUser> _fireUnitUserRep;
         IRepository<FireSystem> _fireSystemRep;
         IRepository<FireUntiSystem> _fireUnitSystemRep;
+        IRepository<EquipmentNo> _equipmentNoRep;
         ICacheManager _cacheManager;
         public FireUnitManager(
             IRepository<FireUnitAttention> fireUnitAttentionRep,
@@ -42,7 +43,8 @@ namespace FireProtectionV1.Enterprise.Manager
             IFireUnitUserManager fireUnitAccountManager,
             ICacheManager cacheManager,
             IRepository<FireSystem> fireSystemRep,
-            IRepository<FireUntiSystem> fireUnitSystemRep
+            IRepository<FireUntiSystem> fireUnitSystemRep,
+            IRepository<EquipmentNo> equipmentNoRep
             )
         {
             _fireUnitAttentionRep = fireUnitAttentionRep;
@@ -54,6 +56,7 @@ namespace FireProtectionV1.Enterprise.Manager
             _cacheManager = cacheManager;
             _fireSystemRep = fireSystemRep;
             _fireUnitSystemRep = fireUnitSystemRep;
+            _equipmentNoRep = equipmentNoRep;
         }
         public Task<List<GetFireUnitTypeOutput>> GetFireUnitTypes()
         {
@@ -419,6 +422,43 @@ namespace FireProtectionV1.Enterprise.Manager
             };
             await _fireSystemRep.InsertAsync(fireSystem);
             return output;
+        }
+
+        /// <summary>
+        /// 绑定设施编码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> AddEquipmentNo(AddEquipmentNoInput input)
+        {
+            SuccessOutput output = new SuccessOutput() { Success = true };
+            EquipmentNo equip = new EquipmentNo()
+            {
+                EquiNo = input.EquiNo,
+                Address=input.Address,
+                FireSystemId=input.FireSystemId            
+            };
+            await _equipmentNoRep.InsertAsync(equip);
+            return output;
+        }
+
+        /// <summary>
+        /// 扫码获取信息
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task<GetEquipmentNoInfoOutput> GetEquipmentNoInfo(GetEquipmentNoInfoInput input)
+        {
+            var equipno = _equipmentNoRep.FirstOrDefault(u=>u.EquiNo==input.EquiNo);
+            if (equipno == null)
+                return null;
+            var firesystem = _fireSystemRep.FirstOrDefault(u=>u.Id==equipno.FireSystemId);
+            GetEquipmentNoInfoOutput output = new GetEquipmentNoInfoOutput()
+            {
+                Address = equipno.Address,
+                FireSystemName = firesystem.SystemName
+            };
+            return Task.FromResult(output);
         }
     }
 }

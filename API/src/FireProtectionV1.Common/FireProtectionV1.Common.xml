@@ -213,6 +213,56 @@
             异常（表示当前在线但有故障，例如消火栓的水压偏低）
             </summary>
         </member>
+        <member name="T:FireProtectionV1.Common.Enum.SourceType">
+            <summary>
+            故障来源
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.SourceType.UnKnow">
+            <summary>
+            未指定
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.SourceType.Duty">
+            <summary>
+            值班
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.SourceType.Patrol">
+            <summary>
+            巡查
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.SourceType.Terminal">
+            <summary>
+            已停用
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.Common.Enum.HandleStatus">
+            <summary>
+            处理状态
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.HandleStatus.UuResolve">
+            <summary>
+            未处理
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.HandleStatus.Resolving">
+            <summary>
+            处理中
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.HandleStatus.Resolved">
+            <summary>
+            已解决
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.ProblemType.unselect">
+            <summary>
+            未指定
+            </summary>
+        </member>
         <member name="F:FireProtectionV1.Common.Enum.ProblemType.text">
             <summary>
             文本

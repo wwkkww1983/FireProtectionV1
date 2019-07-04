@@ -10,6 +10,11 @@ namespace FireProtectionV1.Common.Enum
     public enum ProblemType
     {
         /// <summary>
+        /// 未指定
+        /// </summary>
+        [Description("未指定")]
+        unselect = 0,
+        /// <summary>
         /// 文本
         /// </summary>
         [Description("文本")]

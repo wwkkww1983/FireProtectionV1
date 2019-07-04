@@ -23,6 +23,7 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<DataToDutyProblem> _dataToDutyProblemRep;
         IRepository<FireUnitUser> _fireUnitAccountRepository;
         IRepository<PhotosPathSave> _photosPathSave;
+        IRepository<BreakDown> _breakDownRep;
         private IHostingEnvironment _hostingEnv;
 
         public DutyManager(
@@ -31,6 +32,7 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<FireUnitUser> fireUnitAccountRepository,
             IRepository<DataToDutyProblem> dataToDutyProblemRep,
             IRepository<PhotosPathSave> photosPathSaveRep,
+            IRepository<BreakDown> breakDownRep,
             IHostingEnvironment env
             )
         {
@@ -39,6 +41,7 @@ namespace FireProtectionV1.FireWorking.Manager
             _fireUnitAccountRepository = fireUnitAccountRepository;
             _dataToDutyProblemRep = dataToDutyProblemRep;
             _photosPathSave = photosPathSaveRep;
+            _breakDownRep = breakDownRep;
             _hostingEnv = env;
         }
         public async Task AddNewDuty(AddNewDutyInput input)
@@ -125,8 +128,9 @@ namespace FireProtectionV1.FireWorking.Manager
 
             var fireUnits = _fireUnitAccountRepository.GetAll();
 
-            var output = from a in dutys
+            var list = from a in dutys
                          join b in fireUnits on a.FireUnitUserId equals b.Id
+                         orderby a.CreationTime descending
                          select new GetDataDutyOutput
                          {
                              DutyId = a.Id,
@@ -134,7 +138,8 @@ namespace FireProtectionV1.FireWorking.Manager
                              DutyUser = b.Name,
                              DutyStatus = (ProblemStatusType)a.DutyStatus
                          };
-            return Task.FromResult(output.OrderByDescending(u=>u.CreationTime).ToList());
+            var output = list.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+            return Task.FromResult(output);
         }
         /// <summary>
         /// 获取值班记录详情
@@ -212,6 +217,26 @@ namespace FireProtectionV1.FireWorking.Manager
                          SavePhotosPath(problemtableName, problemId, await SaveFiles(input.ProblemPicture2, path));
                     if (input.ProblemPicture3 != null)
                          SavePhotosPath(problemtableName, problemId, await SaveFiles(input.ProblemPicture3, path));
+
+                    //每发现一个问题向故障设施插入一条数据
+                    BreakDown breakdown = new BreakDown()
+                    {
+                        FireUnitId = input.FireUnitId,
+                        UserId = input.FireUnitUserId,
+                        Source = (byte)SourceType.Duty,
+                        DataId = problemId
+                    };
+                    if (input.DutyStatus == ProblemStatusType.Repaired)
+                    {
+                        breakdown.HandleStatus = (byte)HandleStatus.Resolved;
+                        breakdown.SolutionTime = DateTime.Now;
+                        breakdown.SolutionWay = 1;
+                    }
+                    else
+                    {
+                        breakdown.HandleStatus = (byte)HandleStatus.UuResolve;
+                    }
+                    await _breakDownRep.InsertAsync(breakdown);
                 }
 
                 return output;

@@ -75,5 +75,15 @@ namespace FireProtectionV1.AppService
         {
             return await _patrolManager.GetFireUnitlSystem(input);
         }
+        /// <summary>
+        /// 添加巡查记录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> AddPatrolTrack(AddPatrolInput input)
+        {
+            return await _patrolManager.AddPatrolTrack(input);
+        }
+
     }
 }

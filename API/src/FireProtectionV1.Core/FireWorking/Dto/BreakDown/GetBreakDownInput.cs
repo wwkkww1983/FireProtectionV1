@@ -1,5 +1,4 @@
-﻿using Abp.Application.Services.Dto;
-using FireProtectionV1.Common.Enum;
+﻿using FireProtectionV1.Common.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +6,7 @@ using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto
 {
-    public class GetDataPatrolInput : PagedResultRequestDto
+    public class GetBreakDownInput
     {
         /// <summary>
         /// 防火单位Id
@@ -15,8 +14,14 @@ namespace FireProtectionV1.FireWorking.Dto
         [Required]
         public int FireUnitId { get; set; }
         /// <summary>
-        /// 记录状态
+        /// 故障来源
         /// </summary>
-        public ProblemStatusType PatrolStatus { get; set; }
+        [Required]
+        public SourceType Source { get; set; }
+        /// <summary>
+        /// 处理状态
+        /// </summary>
+        [Required]
+        public HandleStatus HandleStatus { get; set; }
     }
 }
