@@ -102,4 +102,20 @@ namespace FireProtectionV1.Common.Enum
         [Description("已解决")]
         Resolved = 3
     }
+
+    public class GatewayStatusNames
+    {
+        static public string GetName(GatewayStatus status)
+        {
+            if (status == GatewayStatus.UnKnow)
+                return "未指定";
+            if (status == GatewayStatus.Online)
+                return "在线";
+            if (status == GatewayStatus.Offline)
+                return "离线";
+            if (status == GatewayStatus.Unusual)
+                return "异常";
+            return "";
+        }
+    }
 }
