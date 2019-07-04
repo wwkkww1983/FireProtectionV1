@@ -268,14 +268,52 @@ namespace FireProtectionV1.FireWorking.Manager
             return _detectorTypeRep.GetAll();
         }
 
-        public async Task AddRecordAnalog(AddDataElecInput input)
+        public async Task<AddDataOutput> AddRecordAnalog(AddDataElecInput input)
         {
             var detector = GetDetector(input.Identify, input.Origin);
+            if (detector == null)
+            {
+                return new AddDataOutput()
+                {
+                    IsDetectorExit = false
+                };
+            }
             await _recordAnalogRep.InsertAsync(new RecordAnalog()
             {
                 Analog = input.Analog,
                 DetectorId = detector.Id
             });
+            return new AddDataOutput() { IsDetectorExit = true };
+        }
+        public async Task<AddDataOutput> AddOnlineDetector(AddOnlineDetectorInput input)
+        {
+            var detector = GetDetector(input.Identify, input.Origin);
+            if (detector == null)
+            {
+                return new AddDataOutput()
+                {
+                    IsDetectorExit = false
+                };
+            }
+            await _recordOnlineRep.InsertAsync(new RecordOnline()
+            {
+                State=(sbyte)(input.IsOnline?GatewayStatus.Online:GatewayStatus.Offline),
+                DetectorId = detector.Id
+            });
+            return new AddDataOutput() { IsDetectorExit = true };
+        }
+        public async Task AddOnlineGateway(AddOnlineGatewayInput input)
+        {
+            var gateway = GetGateway(input.Identify, input.Origin);
+            var detectors = _detectorRep.GetAll().Where(p => p.GatewayId == gateway.Id);
+            foreach(var v in detectors)
+            {
+                await _recordOnlineRep.InsertAsync(new RecordOnline()
+                {
+                    State = (sbyte)(input.IsOnline ? GatewayStatus.Online : GatewayStatus.Offline),
+                    DetectorId = v.Id
+                });
+            }
         }
     }
 }
