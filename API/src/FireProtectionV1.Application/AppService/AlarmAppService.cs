@@ -29,7 +29,7 @@ namespace FireProtectionV1.AppService
         /// <param name="FireUnitId">防火单位Id</param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<List<AlarmCheckOutput>> GetAlarmChecks([Required]int FireUnitId,PagedResultRequestDto dto)
+        public async Task<PagedResultDto<AlarmCheckOutput>> GetAlarmChecks([Required]int FireUnitId,PagedResultRequestDto dto)
         {
             return await _alarmManager.GetAlarmChecks(FireUnitId, dto);
         }
