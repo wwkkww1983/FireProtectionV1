@@ -1,4 +1,5 @@
-﻿using Abp.Domain.Repositories;
+﻿using Abp.Application.Services.Dto;
+using Abp.Domain.Repositories;
 using DeviceServer.Tcp.Protocol;
 using FireProtectionV1.Common.Enum;
 using FireProtectionV1.FireWorking.Dto;
@@ -146,7 +147,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="fireUnitId"></param>
         /// <returns></returns>
-        public async Task<List<EndDeviceStateOutput>> GetFireUnitEndDeviceState(int fireUnitId, int option)
+        public async Task<PagedResultDto<EndDeviceStateOutput>> GetFireUnitEndDeviceState(int fireUnitId, int option, PagedResultRequestDto dto)
         {
             var uitd = (from a in _detectorRep.GetAll().Where(p => p.FireUnitId == fireUnitId && p.DetectorTypeId == GetDetectorType((byte)UnitType.UITD).Id
                        && (option == 0 ? true : (option == -1 ? p.State.Equals("离线") : !p.State.Equals("离线"))))
@@ -198,7 +199,12 @@ namespace FireProtectionV1.FireWorking.Manager
             {
                 v.Standard = $"<={setEle.MaxValue}mA";
             }
-            return uitd.Union(tem).Union(ele).ToList();
+            var lst= uitd.Union(tem).Union(ele).ToList();
+            return new PagedResultDto<EndDeviceStateOutput>()
+            {
+                TotalCount = lst.Count,
+                Items = lst.Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList()
+            };
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using FireProtectionV1.AppService;
+﻿using Abp.Application.Services.Dto;
+using FireProtectionV1.AppService;
 using FireProtectionV1.Dto;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Manager;
@@ -72,10 +73,11 @@ namespace FireProtectionV1.DeviceService
         /// </summary>
         /// <param name="FireUnitId">防火单位Id</param>
         /// <param name="Option">筛选选项值</param>
+        /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<List<EndDeviceStateOutput>> GetFireUnitEndDeviceState([Required]int FireUnitId,int Option)
+        public async Task<PagedResultDto<EndDeviceStateOutput>> GetFireUnitEndDeviceState([Required]int FireUnitId,int Option,PagedResultRequestDto dto)
         {
-            return await _deviceManager.GetFireUnitEndDeviceState(FireUnitId, Option);
+            return await _deviceManager.GetFireUnitEndDeviceState(FireUnitId, Option,dto);
         }
         /// <summary>
         /// 获得防火单位模拟量终端历史记录
