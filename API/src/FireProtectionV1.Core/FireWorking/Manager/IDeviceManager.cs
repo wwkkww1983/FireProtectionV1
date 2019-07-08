@@ -32,6 +32,8 @@ namespace FireProtectionV1.FireWorking.Manager
         Task<DetectorType> GetDetectorTypeAsync(int id);
         IQueryable<Detector> GetDetectorElectricAll();
         IQueryable<DetectorType> GetDetectorTypeAll();
+        Task<AddDataOutput> AddOnlineDetector(AddOnlineDetectorInput input);
+
         /// <summary>
         /// 查询指定防火单位和防火系统的所有探测器
         /// </summary>
@@ -39,6 +41,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="fireSysType"></param>
         /// <returns></returns>
         IQueryable<Detector> GetDetectorAll(int fireunitid, FireSysType fireSysType);
+        Task AddOnlineGateway(AddOnlineGatewayInput input);
 
         /// <summary>
         /// 获取防火单位的终端状态
@@ -46,7 +49,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="fireUnitId"></param>
         /// <returns></returns>
         Task<List<EndDeviceStateOutput>> GetFireUnitEndDeviceState(int fireUnitId, int option);
-        Task AddRecordAnalog(AddDataElecInput input);
+        Task<AddDataOutput> AddRecordAnalog(AddDataElecInput input);
         /// <summary>
         /// 获得防火单位终端历史记录
         /// </summary>

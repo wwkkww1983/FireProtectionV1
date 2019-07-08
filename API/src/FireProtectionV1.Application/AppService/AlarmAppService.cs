@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace FireProtectionV1.AppService
         /// <param name="FireUnitId">防火单位Id</param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<List<AlarmCheckOutput>> GetAlarmChecks(int FireUnitId,PagedResultRequestDto dto)
+        public async Task<PagedResultDto<AlarmCheckOutput>> GetAlarmChecks([Required]int FireUnitId,PagedResultRequestDto dto)
         {
             return await _alarmManager.GetAlarmChecks(FireUnitId, dto);
         }
@@ -37,7 +38,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="CheckId"></param>
         /// <returns></returns>
-        public async Task<AlarmCheckDetailOutput> GetAlarmCheckDetail(int CheckId)
+        public async Task<AlarmCheckDetailOutput> GetAlarmCheckDetail([Required]int CheckId)
         {
             return await _alarmManager.GetAlarmCheckDetail(CheckId);
         }

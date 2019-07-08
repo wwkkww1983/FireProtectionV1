@@ -235,7 +235,7 @@
         </member>
         <member name="F:FireProtectionV1.Common.Enum.SourceType.Terminal">
             <summary>
-            已停用
+            物联终端
             </summary>
         </member>
         <member name="T:FireProtectionV1.Common.Enum.HandleStatus">

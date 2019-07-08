@@ -14,8 +14,8 @@ namespace FireProtectionV1.FireWorking.Manager
 {
     public class DeviceManager : IDeviceManager
     {
-        IFaultManager _faultManager;
-        IAlarmManager _alarmManager;
+        IRepository<Fault> _faultRep;
+        IRepository<AlarmToFire> _alarmToFireRep;
         IRepository<RecordOnline> _recordOnlineRep;
         IRepository<RecordAnalog> _recordAnalogRep;
         IFireSettingManager _fireSettingManager;
@@ -23,8 +23,8 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<Gateway> _gatewayRep;
         IRepository<Detector> _detectorRep;
         public DeviceManager(
-            IFaultManager faultManager,
-            IAlarmManager alarmManager,
+            IRepository<Fault> faultRep,
+            IRepository<AlarmToFire> alarmToFireRep,
             IRepository<RecordOnline> recordOnlineRep,
             IRepository<RecordAnalog> recordAnalogRep,
             IFireSettingManager fireSettingManager,
@@ -32,8 +32,8 @@ namespace FireProtectionV1.FireWorking.Manager
              IRepository<DetectorType> detectorTypeRep,
            IRepository<Gateway> gatewayRep)
         {
-            _faultManager = faultManager;
-            _alarmManager = alarmManager;
+            _faultRep = faultRep;
+            _alarmToFireRep = alarmToFireRep;
             _recordOnlineRep = recordOnlineRep;
             _recordAnalogRep = recordAnalogRep;
             _fireSettingManager = fireSettingManager;
@@ -78,9 +78,12 @@ namespace FireProtectionV1.FireWorking.Manager
             var gatway = _gatewayRep.Single(p => p.Identify == gatawayDetector.Identify && p.Origin == gatawayDetector.Origin);
             IQueryable<Detector> detectors = _detectorRep.GetAll().Where(p => p.GatewayId == gatway.Id);
             //报警包括UITD和下属部件的报警
+            var alarmTofires = from a in detectors
+                         join b in _alarmToFireRep.GetAll().Where(p => p.CreationTime >= input.Start && p.CreationTime <= input.End)
+                         on a.Id equals b.DetectorId
+                         select b;
             var alarms = from a in dates
-                         join b in _alarmManager.GetAlarms(detectors, input.Start, input.End)
-                         .GroupBy(p => p.CreationTime.ToString("yyyy-MM-dd"))
+                         join b in alarmTofires.GroupBy(p => p.CreationTime.ToString("yyyy-MM-dd"))
                          on a equals b.Key into u
                          from c in u.DefaultIfEmpty()
                          select new
@@ -88,9 +91,12 @@ namespace FireProtectionV1.FireWorking.Manager
                              Time = a,
                              Count = c == null ? 0 : c.Count()
                          };
+            var faultdatas= from a in detectors
+                            join b in _faultRep.GetAll().Where(p => p.CreationTime >= input.Start && p.CreationTime <= input.End)
+                            on a.Id equals b.DetectorId
+                            select b;
             var faults = from a in dates
-                         join b in _faultManager.GetFaults(detectors, input.Start, input.End)
-                         .GroupBy(p => p.CreationTime.ToString("yyyy-MM-dd"))
+                         join b in faultdatas.GroupBy(p => p.CreationTime.ToString("yyyy-MM-dd"))
                          on a equals b.Key into u
                          from c in u.DefaultIfEmpty()
                          select new
@@ -268,14 +274,54 @@ namespace FireProtectionV1.FireWorking.Manager
             return _detectorTypeRep.GetAll();
         }
 
-        public async Task AddRecordAnalog(AddDataElecInput input)
+        public async Task<AddDataOutput> AddRecordAnalog(AddDataElecInput input)
         {
             var detector = GetDetector(input.Identify, input.Origin);
+            if (detector == null)
+            {
+                return new AddDataOutput()
+                {
+                    IsDetectorExit = false
+                };
+            }
             await _recordAnalogRep.InsertAsync(new RecordAnalog()
             {
                 Analog = input.Analog,
                 DetectorId = detector.Id
             });
+            return new AddDataOutput() { IsDetectorExit = true };
+        }
+        public async Task<AddDataOutput> AddOnlineDetector(AddOnlineDetectorInput input)
+        {
+            var detector = GetDetector(input.Identify, input.Origin);
+            if (detector == null)
+            {
+                return new AddDataOutput()
+                {
+                    IsDetectorExit = false
+                };
+            }
+            await _recordOnlineRep.InsertAsync(new RecordOnline()
+            {
+                State=(sbyte)(input.IsOnline?GatewayStatus.Online:GatewayStatus.Offline),
+                DetectorId = detector.Id
+            });
+            return new AddDataOutput() { IsDetectorExit = true };
+        }
+        public async Task AddOnlineGateway(AddOnlineGatewayInput input)
+        {
+            var gateway = GetGateway(input.Identify, input.Origin);
+            var detectors = _detectorRep.GetAll().Where(p => p.GatewayId == gateway.Id);
+            foreach(var v in detectors)
+            {
+                await _recordOnlineRep.InsertAsync(new RecordOnline()
+                {
+                    State = (sbyte)(input.IsOnline ? GatewayStatus.Online : GatewayStatus.Offline),
+                    DetectorId = v.Id
+                });
+                v.State = input.IsOnline ? "在线":"离线";
+                await _detectorRep.UpdateAsync(v);
+            }
         }
     }
 }

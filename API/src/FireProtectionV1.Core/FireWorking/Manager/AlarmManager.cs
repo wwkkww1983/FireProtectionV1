@@ -1,4 +1,5 @@
-﻿using Abp.Domain.Repositories;
+﻿using Abp.Application.Services.Dto;
+using Abp.Domain.Repositories;
 using FireProtectionV1.Common.Enum;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
@@ -118,7 +119,7 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             return $"{type.Name} {alarmToElectric.Analog}{alarmToElectric.Unit} 【标准:{alarmToElectric.AlarmLimit}】";
         }
-        public async Task<List<AlarmCheckOutput>> GetAlarmChecks(int fireunitid, Abp.Application.Services.Dto.PagedResultRequestDto dto)
+        public async Task<PagedResultDto<AlarmCheckOutput>> GetAlarmChecks(int fireunitid, Abp.Application.Services.Dto.PagedResultRequestDto dto)
         {
             var elec = from a in _alarmToElectricRep.GetAll().Where(p => p.FireUnitId == fireunitid)
                        join b in _deviceManager.GetDetectorAll(fireunitid, FireSysType.Electric)
@@ -152,11 +153,14 @@ namespace FireProtectionV1.FireWorking.Manager
                           CheckStateValue = d.CheckState,
                           CheckStateName = CheckStateTypeNames.GetName((CheckStateType)d.CheckState)
                       };
-            List<AlarmCheckOutput> all=new List<AlarmCheckOutput>();
+            List<AlarmCheckOutput> res=new List<AlarmCheckOutput>();
+            int total = 0;
             await Task.Run(() =>
             {
-                all = elec.Union(fire).OrderByDescending(p => p.Time).Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList();
-                foreach(var v in all)
+                var all = elec.Union(fire).OrderByDescending(p => p.Time);
+                total = all.Count();
+                res = all.Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList();
+                foreach(var v in res)
                 {
                     if(DateTime.Now-DateTime.Parse(v.Time)>new TimeSpan(1,0,0))
                     {
@@ -165,7 +169,7 @@ namespace FireProtectionV1.FireWorking.Manager
                     }
                 }
             });
-            return all;
+            return new PagedResultDto<AlarmCheckOutput>(total, res);
         }
         /// <summary>
         /// 保存核警信息

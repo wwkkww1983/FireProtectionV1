@@ -1,4 +1,5 @@
-﻿using Abp.Domain.Services;
+﻿using Abp.Application.Services.Dto;
+using Abp.Domain.Services;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
 using System;
@@ -43,7 +44,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="fireunitid"></param>
         /// <returns></returns>
-        Task<List<AlarmCheckOutput>> GetAlarmChecks(int fireunitid, Abp.Application.Services.Dto.PagedResultRequestDto dto);
+        Task<PagedResultDto<AlarmCheckOutput>> GetAlarmChecks(int fireunitid, Abp.Application.Services.Dto.PagedResultRequestDto dto);
         /// <summary>
         /// 保存核警信息
         /// </summary>

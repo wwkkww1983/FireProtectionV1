@@ -32,6 +32,19 @@ namespace FireProtectionV1.DeviceService
             _deviceManager = deviceManager;
             _alarmManager = alarmManager;
         }
+        //public async Task<AddDataOutput> AddOnlineDetector(AddOnlineDetectorInput input)
+        //{
+        //    return await _deviceManager.AddOnlineDetector(input);
+        //}
+        /// <summary>
+        /// 新增 网关在线离线事件
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task AddOnlineGateway(AddOnlineGatewayInput input)
+        {
+            await _deviceManager.AddOnlineGateway(input);
+        }
         /// <summary>
         /// 新增安全用电数据温度(超限判断后新增报警)
         /// </summary>
@@ -39,7 +52,9 @@ namespace FireProtectionV1.DeviceService
         /// <returns></returns>
         public async Task<AddDataOutput> AddDataElecT(AddDataElecInput input)
         {
-            await _deviceManager.AddRecordAnalog(input);
+            var v = await _deviceManager.AddRecordAnalog(input);
+            if (v.IsDetectorExit == false)
+                return v;
             var setting =await _fireSettingManager.GetByName("CableTemperature");
             Console.WriteLine($"{DateTime.Now} 收到模拟量值 AddDataElecT Analog:{input.Analog}{input.Unit} 部件地址：{input.Identify} 网关地址：{input.GatewayIdentify}");
             if (input.Analog >= setting.MaxValue)
@@ -56,7 +71,9 @@ namespace FireProtectionV1.DeviceService
         /// <returns></returns>
         public async Task<AddDataOutput> AddDataElecE(AddDataElecInput input)
         {
-            await _deviceManager.AddRecordAnalog(input);
+            var v=await _deviceManager.AddRecordAnalog(input);
+            if (v.IsDetectorExit == false)
+                return v;
             var setting = await _fireSettingManager.GetByName("ResidualCurrent");
             Console.WriteLine($"{DateTime.Now} 收到模拟量值 AddDataElecE Analog:{input.Analog}{input.Unit} 部件地址：{input.Identify} 网关地址：{input.GatewayIdentify}");
             if (input.Analog >= setting.MaxValue)
