@@ -131,7 +131,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<List<GetDataPatrolOutput>> GetPatrollist(GetDataPatrolInput input)
+        public async Task<GetDataPatrolPagingOutput> GetPatrollist(GetDataPatrolInput input)
         {
             var dutys = _patrolRep.GetAll().Where(u => u.FireUnitId == input.FireUnitId);
             var expr = ExprExtension.True<DataToPatrol>()
@@ -150,7 +150,11 @@ namespace FireProtectionV1.FireWorking.Manager
                              PatrolUser = b.Name,
                              PatrolStatus = (ProblemStatusType)a.PatrolStatus
                          };
-            var output = list.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+            GetDataPatrolPagingOutput output = new GetDataPatrolPagingOutput()
+            {
+                TotalCount = list.Count(),
+                PatrolList = list.Skip(input.SkipCount).Take(input.MaxResultCount).ToList()
+            };
             return output;
         }
 

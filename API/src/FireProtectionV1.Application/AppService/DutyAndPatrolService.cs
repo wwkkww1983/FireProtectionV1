@@ -23,7 +23,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<List<GetDataDutyOutput>> GetDutylist(GetDataDutyInput input)
+        public async Task<GetDataDutyPagingOutput> GetDutylist(GetDataDutyInput input)
         {
             return await _dutyManager.GetDutylist(input);
         }
@@ -79,7 +79,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<List<GetDataPatrolOutput>> GetPatrollist(GetDataPatrolInput input)
+        public async Task<GetDataPatrolPagingOutput> GetPatrollist(GetDataPatrolInput input)
         {
             return await _patrolManager.GetPatrollist(input);
         }

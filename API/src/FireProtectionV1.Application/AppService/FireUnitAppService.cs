@@ -57,7 +57,7 @@ namespace FireProtectionV1.AppService
         /// <returns></returns>
         public async Task<SuccessOutput> InvitatVerify(InvitatVerifyInput input)
         {
-            return await _fireUnitManager.InvitatVerify(input)
+            return await _fireUnitManager.InvitatVerify(input);
         }
         /// <summary>
         /// 获取网关状态类型

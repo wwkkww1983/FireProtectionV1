@@ -119,26 +119,30 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<List<GetDataDutyOutput>> GetDutylist(GetDataDutyInput input)
+        public Task<GetDataDutyPagingOutput> GetDutylist(GetDataDutyInput input)
         {
-            var dutys = _dutyRep.GetAll().Where(u=>u.FireUnitId==input.FireUnitId);
+            var dutys = _dutyRep.GetAll().Where(u => u.FireUnitId == input.FireUnitId);
             var expr = ExprExtension.True<DataToDuty>()
-                .IfAnd(input.DutyStatus != ProblemStatusType.alldate, item => item.DutyStatus==(byte)input.DutyStatus);
+                .IfAnd(input.DutyStatus != ProblemStatusType.alldate, item => item.DutyStatus == (byte)input.DutyStatus);
             dutys = dutys.Where(expr);
 
             var fireUnits = _fireUnitAccountRepository.GetAll();
 
             var list = from a in dutys
-                         join b in fireUnits on a.FireUnitUserId equals b.Id
-                         orderby a.CreationTime descending
-                         select new GetDataDutyOutput
-                         {
-                             DutyId = a.Id,
-                             CreationTime = a.CreationTime.ToString("yyyy-MM-dd hh:mm"),
-                             DutyUser = b.Name,
-                             DutyStatus = (ProblemStatusType)a.DutyStatus
-                         };
-            var output = list.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+                       join b in fireUnits on a.FireUnitUserId equals b.Id
+                       orderby a.CreationTime descending
+                       select new GetDataDutyOutput
+                       {
+                           DutyId = a.Id,
+                           CreationTime = a.CreationTime.ToString("yyyy-MM-dd hh:mm"),
+                           DutyUser = b.Name,
+                           DutyStatus = (ProblemStatusType)a.DutyStatus
+                       };
+            GetDataDutyPagingOutput output = new GetDataDutyPagingOutput()
+            {
+                TotalCount = list.Count(),
+                DutyList = list.Skip(input.SkipCount).Take(input.MaxResultCount).ToList()
+            };
             return Task.FromResult(output);
         }
         /// <summary>
