@@ -1851,6 +1851,16 @@
             记录状态
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyPagingOutput.TotalCount">
+            <summary>
+            总数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyPagingOutput.DutyList">
+            <summary>
+            页面数据
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyTotalInput.FireUnitId">
             <summary>
             防火单位Id
@@ -2419,6 +2429,16 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.GetDataPatrolOutput.PatrolStatus">
             <summary>
             记录状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataPatrolPagingOutput.TotalCount">
+            <summary>
+            总数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataPatrolPagingOutput.PatrolList">
+            <summary>
+            页面数据
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetDataPatrolTotalInput.FireUnitId">
@@ -5159,12 +5179,12 @@
         </member>
         <member name="P:FireProtectionV1.User.Dto.LoginInput.Account">
             <summary>
-            账号(测试:test)
+            账号(测试:123)
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Dto.LoginInput.Password">
             <summary>
-            密码(测试:123)
+            密码(测试:666666)
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Dto.LoginInput.IsPersistent">

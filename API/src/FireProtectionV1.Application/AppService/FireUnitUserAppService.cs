@@ -34,10 +34,10 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<int> Add(FireUnitUserInput input)
-        {
-            return await _fireUnitAccountManager.Add(input);
-        }
+        //public async Task<int> Add(FireUnitUserInput input)
+        //{
+        //    return await _fireUnitAccountManager.Add(input);
+        //}
 
         /// <summary>
         /// 用户登录(移动端)

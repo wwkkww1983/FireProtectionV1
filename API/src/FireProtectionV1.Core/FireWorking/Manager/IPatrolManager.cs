@@ -28,7 +28,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<List<GetDataPatrolOutput>> GetPatrollist(GetDataPatrolInput input);
+        Task<GetDataPatrolPagingOutput> GetPatrollist(GetDataPatrolInput input);
 
         /// <summary>
         /// 获取巡查记录轨迹

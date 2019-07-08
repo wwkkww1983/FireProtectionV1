@@ -28,7 +28,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<List<GetDataDutyOutput>> GetDutylist(GetDataDutyInput input);
+        Task<GetDataDutyPagingOutput> GetDutylist(GetDataDutyInput input);
 
         /// <summary>
         /// 获取值班记录详情
