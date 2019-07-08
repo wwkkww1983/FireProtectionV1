@@ -79,12 +79,13 @@ namespace FireProtectionV1.Enterprise.Manager
         {
             var fireunit=_fireUnitRep.GetAll().Where(p => p.Name.Equals(input.FireUnitName)).FirstOrDefault();
             SuccessOutput output= new SuccessOutput() { Success = true };
-            await Task.Run(() =>
+            output=await Task.Run<SuccessOutput>(() =>
             {
                 if (fireunit == null)
-                    output= new SuccessOutput() { Success = false, FailCause = "不存在此防火单位" };
+                    return new SuccessOutput() { Success = false, FailCause = "不存在此防火单位" };
                 if (!fireunit.InvitationCode.Equals(input.InvitatCode))
-                    output = new SuccessOutput() { Success = false, FailCause = "邀请码不正确" };
+                    return new SuccessOutput() { Success = false, FailCause = "邀请码不正确" };
+                return new SuccessOutput() { Success = true };
             });
             return output;
         }

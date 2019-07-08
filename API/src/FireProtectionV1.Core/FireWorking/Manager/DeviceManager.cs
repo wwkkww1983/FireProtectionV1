@@ -284,6 +284,8 @@ namespace FireProtectionV1.FireWorking.Manager
                     IsDetectorExit = false
                 };
             }
+            detector.State = $"{input.Analog}{input.Unit}";
+            await _detectorRep.UpdateAsync(detector);
             await _recordAnalogRep.InsertAsync(new RecordAnalog()
             {
                 Analog = input.Analog,
