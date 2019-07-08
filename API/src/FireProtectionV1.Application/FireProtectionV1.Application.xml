@@ -4,6 +4,41 @@
         <name>FireProtectionV1.Application</name>
     </assembly>
     <members>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.GetAlarmChecks(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取指定防火单位警情数据
+            </summary>
+            <param name="FireUnitId">防火单位Id</param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.GetAlarmCheckDetail(System.Int32)">
+            <summary>
+            查询给定checkId的警情详细信息
+            </summary>
+            <param name="CheckId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.RepairData">
+            <summary>
+            调试修复数据
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.CheckAlarm(FireProtectionV1.FireWorking.Dto.AlarmCheckInput)">
+            <summary>
+            核警某一条警情[FromForm]
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.SaveFile(Microsoft.AspNetCore.Http.IFormFile,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="formFile"></param>
+            <param name="path"></param>
+            <returns>new filename</returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.AppGuideSet.GetFireUnitPeople(FireProtectionV1.User.Dto.GetUnitPeopleInput)">
             <summary>
             获取防火单位工作人员
@@ -63,6 +98,20 @@
         <member name="M:FireProtectionV1.AppService.AppGuideSet.AddFireSystem(FireProtectionV1.Enterprise.Dto.AddFireSystemInput)">
             <summary>
             增加消防系统
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AppGuideSet.AddEquipmentNo(FireProtectionV1.Enterprise.Dto.AddEquipmentNoInput)">
+            <summary>
+            绑定设施编码
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AppGuideSet.GetEquipmentNoInfo(FireProtectionV1.Enterprise.Dto.GetEquipmentNoInfoInput)">
+            <summary>
+            扫码获取信息
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -191,6 +240,34 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.BreakDownService.GetBreakDownlist(FireProtectionV1.FireWorking.Dto.GetBreakDownInput)">
+            <summary>
+            获取设施故障列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.BreakDownService.GetBreakDownInfo(FireProtectionV1.FireWorking.Dto.GetBreakDownInfoInput)">
+            <summary>
+            获取设施故障详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.BreakDownService.UpdateBreakDownInfo(FireProtectionV1.FireWorking.Dto.UpdateBreakDownInfoInput)">
+            <summary>
+            更新设施故障详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.BreakDownService.GetBreakDownTotal(FireProtectionV1.FireWorking.Dto.GetBreakDownTotalInput)">
+            <summary>
+            获取设施故障处理情况
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.DataReportAppService.GetDataMinotor">
             <summary>
             数据监控页
@@ -223,6 +300,97 @@
             设施故障数据分析
             </summary>
             <param name="UserId">用户Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetDutylist(FireProtectionV1.FireWorking.Dto.GetDataDutyInput)">
+            <summary>
+            获取值班记录列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetDutyInfo(FireProtectionV1.FireWorking.Dto.GetDataDutyInfoInput)">
+            <summary>
+            获取值班记录详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.AddDutyInfo(FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput)">
+            <summary>
+            新增值班记录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetDutylistForWeb(FireProtectionV1.FireWorking.Dto.GetDataDutyForWebInput)">
+            <summary>
+            Web获取值班记录列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetDutyTotal(FireProtectionV1.FireWorking.Dto.GetDataDutyTotalInput)">
+            <summary>
+            Web获取值班记录统计
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetDutyInfoForWeb(FireProtectionV1.FireWorking.Dto.GetDataDutyInfoForWebInput)">
+            <summary>
+            Web获取值班记录详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetPatrollist(FireProtectionV1.FireWorking.Dto.GetDataPatrolInput)">
+            <summary>
+            获取巡查记录列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetPatrolTrackList(FireProtectionV1.FireWorking.Dto.GetPatrolTrackInput)">
+            <summary>
+            获取巡查记录轨迹
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetFireUnitlSystem(FireProtectionV1.FireWorking.Dto.GetPatrolFireUnitSystemInput)">
+            <summary>
+            获取防火单位消防系统
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.AddPatrolTrack(FireProtectionV1.FireWorking.Dto.AddPatrolInput)">
+            <summary>
+            添加巡查记录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetPatrollistForWeb(FireProtectionV1.FireWorking.Dto.GetDataPatrolForWebInput)">
+            <summary>
+            Web获取巡查记录列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetPatrolTotal(FireProtectionV1.FireWorking.Dto.GetDataPatrolTotalInput)">
+            <summary>
+            Web获取巡查记录统计
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetPatrolInfoForWeb(FireProtectionV1.FireWorking.Dto.GetPatrolInfoForWebInput)">
+            <summary>
+            Web获取巡查记录详情
+            </summary>
+            <param name="input"></param>
             <returns></returns>
         </member>
         <member name="T:FireProtectionV1.AppService.FireDeptUserAppService">
@@ -290,6 +458,20 @@
             <summary>
             防火单位服务
             </summary>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.QueryFireUnitLikeName(System.String)">
+            <summary>
+            查询防火单位名称(模糊查询)
+            </summary>
+            <param name="MatchName">匹配名</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.InvitatVerify(FireProtectionV1.Enterprise.Dto.InvitatVerifyInput)">
+            <summary>
+            邀请码验证
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetGatewayStatusTypes">
             <summary>
@@ -527,9 +709,23 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.UserLogin(FireProtectionV1.User.Dto.LoginInput)">
+        <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.UserLoginForMobile(FireProtectionV1.User.Dto.LoginInput)">
             <summary>
-            用户登录
+            用户登录(移动端)
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.UserLogin(FireProtectionV1.User.Dto.PcDeptUserLoginInput)">
+            <summary>
+            用户登录(PC端)
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.UserRegist(FireProtectionV1.User.Dto.UserRegistInput)">
+            <summary>
+            用户注册
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -844,6 +1040,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.DeviceService.DataAppService.AddOnlineGateway(FireProtectionV1.FireWorking.Dto.AddOnlineGatewayInput)">
+            <summary>
+            新增 网关在线离线事件
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.DeviceService.DataAppService.AddDataElecT(FireProtectionV1.FireWorking.Dto.AddDataElecInput)">
             <summary>
             新增安全用电数据温度(超限判断后新增报警)
@@ -883,6 +1086,44 @@
             </summary>
             <param name="input"></param>
             <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.DeviceAppService.GetEndDeviceOptions">
+            <summary>
+            获取终端设备筛选选项
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.DeviceAppService.GetFireUnitEndDeviceState(System.Int32,System.Int32)">
+            <summary>
+            获取防火单位的终端状态
+            </summary>
+            <param name="FireUnitId">防火单位Id</param>
+            <param name="Option">筛选选项值</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.DeviceAppService.GetRecordAnalog(FireProtectionV1.FireWorking.Dto.GetRecordDetectorInput)">
+            <summary>
+            获得防火单位模拟量终端历史记录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.DeviceAppService.GetRecordUnAnalog(FireProtectionV1.FireWorking.Dto.GetRecordDetectorInput)">
+            <summary>
+            获得防火单位非模拟量终端历史记录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="P:FireProtectionV1.Dto.EndDeviceOptionDto.Value">
+            <summary>
+            终端设备选项值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Dto.EndDeviceOptionDto.Name">
+            <summary>
+            终端设备选项名称
+            </summary>
         </member>
         <member name="P:FireProtectionV1.Dto.GetAreasFaultOutput.FaultCount">
             <summary>

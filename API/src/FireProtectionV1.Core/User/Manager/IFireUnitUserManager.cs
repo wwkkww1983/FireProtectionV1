@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.Domain.Services;
+using FireProtectionV1.Enterprise.Dto;
 using FireProtectionV1.User.Dto;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,7 @@ namespace FireProtectionV1.User.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<GetUnitPeopleOutput> GetUserInfo(GetUnitPeopleInput input);
+        Task<SuccessOutput> UserRegist(UserRegistInput input);
 
         /// <summary>
         /// 编辑工作人员信息

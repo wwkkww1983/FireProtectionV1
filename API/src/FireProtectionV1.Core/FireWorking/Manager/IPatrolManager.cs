@@ -22,5 +22,53 @@ namespace FireProtectionV1.FireWorking.Manager
         IQueryable<DataToPatrol> GetPatrolDataDuration(DateTime start, DateTime end);
         IQueryable<FireUnitManualOuput> GetPatrolFireUnitsAll(string filterName = null);
         IQueryable<FireUnitManualOuput> GetNoPatrol7DayFireUnits();
+
+        /// <summary>
+        /// 获取巡查记录列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<GetDataPatrolOutput>> GetPatrollist(GetDataPatrolInput input);
+
+        /// <summary>
+        /// 获取巡查记录轨迹
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<GetPatrolTrackOutput>> GetPatrolTrackList(GetPatrolTrackInput input);
+
+        /// <summary>
+        /// 获取防火单位消防系统
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<GetPatrolFireUnitSystemOutput>> GetFireUnitlSystem(GetPatrolFireUnitSystemInput input);
+
+        /// <summary>
+        /// 添加巡查记录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<SuccessOutput> AddPatrolTrack(AddPatrolInput input);
+
+        /// <summary>
+        /// Web获取巡查记录列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<GetDataPatrolForWebOutput>> GetPatrollistForWeb(GetDataPatrolForWebInput input);
+
+        /// <summary>
+        /// Web获取巡查记录统计
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<GetDataPatrolTotalOutput> GetPatrolTotal(GetDataPatrolTotalInput input);
+        /// <summary>
+        /// Web获取巡查记录详情
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<GetPatrolInfoForWebOutput> GetPatrolInfoForWeb(GetPatrolInfoForWebInput input);
     }
 }

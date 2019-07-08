@@ -15,7 +15,7 @@ namespace FireProtectionV1.DeviceService
         IPatrolManager _patrolManager;
         IDutyManager _dutyManager;
         IFireSettingManager _fireSettingManager;
-        IDeviceManager _detectorManager;
+        IDeviceManager _deviceManager;
         IAlarmManager _alarmManager;
         IFaultManager _faultManager;
         public DataAppService(
@@ -23,14 +23,27 @@ namespace FireProtectionV1.DeviceService
             IDutyManager dutyManager,
             IFaultManager faultManager,
             IFireSettingManager fireSettingManager,
-            IDeviceManager detectorManager,IAlarmManager alarmManager)
+            IDeviceManager deviceManager,IAlarmManager alarmManager)
         {
             _patrolManager = patrolManager;
             _dutyManager = dutyManager;
             _faultManager = faultManager;
             _fireSettingManager = fireSettingManager;
-            _detectorManager = detectorManager;
+            _deviceManager = deviceManager;
             _alarmManager = alarmManager;
+        }
+        //public async Task<AddDataOutput> AddOnlineDetector(AddOnlineDetectorInput input)
+        //{
+        //    return await _deviceManager.AddOnlineDetector(input);
+        //}
+        /// <summary>
+        /// 新增 网关在线离线事件
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task AddOnlineGateway(AddOnlineGatewayInput input)
+        {
+            await _deviceManager.AddOnlineGateway(input);
         }
         /// <summary>
         /// 新增安全用电数据温度(超限判断后新增报警)
@@ -39,6 +52,9 @@ namespace FireProtectionV1.DeviceService
         /// <returns></returns>
         public async Task<AddDataOutput> AddDataElecT(AddDataElecInput input)
         {
+            var v = await _deviceManager.AddRecordAnalog(input);
+            if (v.IsDetectorExit == false)
+                return v;
             var setting =await _fireSettingManager.GetByName("CableTemperature");
             Console.WriteLine($"{DateTime.Now} 收到模拟量值 AddDataElecT Analog:{input.Analog}{input.Unit} 部件地址：{input.Identify} 网关地址：{input.GatewayIdentify}");
             if (input.Analog >= setting.MaxValue)
@@ -55,6 +71,9 @@ namespace FireProtectionV1.DeviceService
         /// <returns></returns>
         public async Task<AddDataOutput> AddDataElecE(AddDataElecInput input)
         {
+            var v=await _deviceManager.AddRecordAnalog(input);
+            if (v.IsDetectorExit == false)
+                return v;
             var setting = await _fireSettingManager.GetByName("ResidualCurrent");
             Console.WriteLine($"{DateTime.Now} 收到模拟量值 AddDataElecE Analog:{input.Analog}{input.Unit} 部件地址：{input.Identify} 网关地址：{input.GatewayIdentify}");
             if (input.Analog >= setting.MaxValue)
@@ -78,7 +97,7 @@ namespace FireProtectionV1.DeviceService
         //{
         //    for(int fireunitid=5; fireunitid<20; fireunitid++)
         //    {
-        //        _detectorManager.AddGateway(new AddGatewayInput()
+        //        _deviceManager.AddGateway(new AddGatewayInput()
         //        {
         //            FireSysType = 1,
         //            FireUnitId = fireunitid,
@@ -86,7 +105,7 @@ namespace FireProtectionV1.DeviceService
         //            Location = "",
         //            Origin = ""
         //        });
-        //        _detectorManager.AddGateway(new AddGatewayInput()
+        //        _deviceManager.AddGateway(new AddGatewayInput()
         //        {
         //            FireSysType = 2,
         //            FireUnitId = fireunitid,
@@ -100,7 +119,7 @@ namespace FireProtectionV1.DeviceService
         //{
         //    for (int fireunitid = 5; fireunitid < 20; fireunitid++)
         //    {
-        //        _detectorManager.AddDetector(new AddDetectorInput()
+        //        _deviceManager.AddDetector(new AddDetectorInput()
         //        {
         //            DetectorGBType = 17,
         //            GatewayIdentify = "66." + fireunitid,
@@ -108,7 +127,7 @@ namespace FireProtectionV1.DeviceService
         //            Location = $"{new Random().Next(1, 3)}楼配电室",
         //            Origin = ""
         //        });
-        //        _detectorManager.AddDetector(new AddDetectorInput()
+        //        _deviceManager.AddDetector(new AddDetectorInput()
         //        {
         //            DetectorGBType = 18,
         //            GatewayIdentify = "66." + fireunitid,
@@ -116,7 +135,7 @@ namespace FireProtectionV1.DeviceService
         //            Location = $"{new Random().Next(1, 3)}楼配电室",
         //            Origin = ""
         //        });
-        //        _detectorManager.AddDetector(new AddDetectorInput()
+        //        _deviceManager.AddDetector(new AddDetectorInput()
         //        {
         //            DetectorGBType = 23,
         //            GatewayIdentify = "88." + fireunitid,
@@ -124,7 +143,7 @@ namespace FireProtectionV1.DeviceService
         //            Location = $"{new Random().Next(1, 3)}楼{new Random().Next(1, 20)}号",
         //            Origin = ""
         //        });
-        //        _detectorManager.AddDetector(new AddDetectorInput()
+        //        _deviceManager.AddDetector(new AddDetectorInput()
         //        {
         //            DetectorGBType = 40,
         //            GatewayIdentify = "88." + fireunitid,
@@ -132,7 +151,7 @@ namespace FireProtectionV1.DeviceService
         //            Location = $"{new Random().Next(1, 3)}楼{new Random().Next(1, 20)}号",
         //            Origin = ""
         //        });
-        //        _detectorManager.AddDetector(new AddDetectorInput()
+        //        _deviceManager.AddDetector(new AddDetectorInput()
         //        {
         //            DetectorGBType = 69,
         //            GatewayIdentify = "88." + fireunitid,

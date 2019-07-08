@@ -31,7 +31,24 @@ namespace FireProtectionV1.User.Manager
             _fireUnitRepository = fireUnitRepository;
             _SqlRepository = sqlRepository;
         }
-
+        public async Task<SuccessOutput> UserRegist(UserRegistInput input)
+        {
+            var fireunit =await _fireUnitRepository.SingleAsync(p => p.Name.Equals(input.FireUnitName) && p.InvitationCode.Equals(input.InvitatCode));
+            var user=_fireUnitAccountRepository.GetAll().Where(p => p.Account.Equals(input.Phone)).FirstOrDefault();
+            if (user != null)
+                return new SuccessOutput() { Success = false, FailCause = "手机号已被注册" };
+            string md5 = MD5Encrypt.Encrypt(input.Password + input.Phone, 16);
+            await _fireUnitAccountRepository.InsertAsync(new FireUnitUser()
+            {
+                Account = input.Phone,
+                Name = input.UserName,
+                Status = Common.Enum.NormalStatus.Enabled,
+                FireUnitInfoID = fireunit.Id,
+                GuideFlage = false,
+                Password = md5
+            });
+            return new SuccessOutput() { Success = true };
+        }
         /// <summary>
         /// 添加防火单位账号
         /// </summary>

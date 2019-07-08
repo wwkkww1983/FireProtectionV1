@@ -40,6 +40,9 @@ namespace FireProtectionV1.Enterprise.Manager
         Task<List<GetFireUnitExcelOutput>> GetFireUnitListExcel(GetPagedFireUnitListInput input);
         Task<PagedResultDto<GetFireUnitListOutput>> GetFireUnitList(GetPagedFireUnitListInput input);
         Task<PagedResultDto<GetFireUnitListForMobileOutput>> GetFireUnitListForMobile(GetPagedFireUnitListInput input);
+        Task<SuccessOutput> InvitatVerify(InvitatVerifyInput input);
+        Task<List<FireUnitNameOutput>> QueryFireUnitLikeName(string matchName);
+
         /// <summary>
         /// 消防部门用户关注防火单位
         /// </summary>
@@ -92,5 +95,19 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<SuccessOutput> AddFireSystem(AddFireSystemInput input);
+
+        /// <summary>
+        /// 绑定设施编码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<SuccessOutput> AddEquipmentNo(AddEquipmentNoInput input);
+
+        /// <summary>
+        /// 扫码获取信息
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<GetEquipmentNoInfoOutput> GetEquipmentNoInfo(GetEquipmentNoInfoInput input);
     }
 }

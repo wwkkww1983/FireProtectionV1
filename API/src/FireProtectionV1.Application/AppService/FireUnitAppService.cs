@@ -42,6 +42,24 @@ namespace FireProtectionV1.AppService
             _fireWorkingManager = fireWorkingManager;
         }
         /// <summary>
+        /// 查询防火单位名称(模糊查询)
+        /// </summary>
+        /// <param name="MatchName">匹配名</param>
+        /// <returns></returns>
+        public async Task<List<FireUnitNameOutput>> QueryFireUnitLikeName(string MatchName)
+        {
+            return await _fireUnitManager.QueryFireUnitLikeName(MatchName);
+        }
+        /// <summary>
+        /// 邀请码验证
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> InvitatVerify(InvitatVerifyInput input)
+        {
+            return await _fireUnitManager.InvitatVerify(input)
+        }
+        /// <summary>
         /// 获取网关状态类型
         /// </summary>
         /// <returns></returns>

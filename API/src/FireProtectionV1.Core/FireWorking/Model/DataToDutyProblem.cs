@@ -31,5 +31,10 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         [MaxLength(200)]
         public string ProblemRemark { get; set; }
+        /// <summary>
+        /// 问题描述类型(1文本类型，2语音类型)
+        /// </summary>
+        [Required]
+        public int ProblemRemarkType { get; set; }
     }
 }

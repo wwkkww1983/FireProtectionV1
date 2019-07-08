@@ -14,7 +14,6 @@ namespace FireProtectionV1.FireWorking.Model
         /// <summary>
         /// 值班记录图片
         /// </summary>
-        [Required]
         [MaxLength(100)]
         public string DutyPicture { get; set; }
         /// <summary>
@@ -32,5 +31,9 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         [Required]
         public int FireUnitUserId { get; set; }
+        /// <summary>
+        /// 值班记录描述
+        /// </summary>
+        public string DutyRemark { get; set; }
     }
 }

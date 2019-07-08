@@ -133,6 +133,31 @@
             如果超出Long的范围，则直接用string定义字段类型，不使用此枚举限制
             </summary>
         </member>
+        <member name="F:FireProtectionV1.Common.Enum.CheckStateType.UnCheck">
+            <summary>
+            未处理
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.CheckStateType.False">
+            <summary>
+            误报
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.CheckStateType.Test">
+            <summary>
+            测试
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.CheckStateType.True">
+            <summary>
+            真实报警
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.CheckStateType.Expire">
+            <summary>
+            已过期
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.Common.Enum.FireSysType">
             <summary>
             消防报警系统类型
@@ -186,6 +211,86 @@
         <member name="F:FireProtectionV1.Common.Enum.GatewayStatus.Unusual">
             <summary>
             异常（表示当前在线但有故障，例如消火栓的水压偏低）
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.Common.Enum.SourceType">
+            <summary>
+            故障来源
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.SourceType.UnKnow">
+            <summary>
+            未指定
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.SourceType.Duty">
+            <summary>
+            值班
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.SourceType.Patrol">
+            <summary>
+            巡查
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.SourceType.Terminal">
+            <summary>
+            物联终端
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.Common.Enum.HandleStatus">
+            <summary>
+            处理状态
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.HandleStatus.UuResolve">
+            <summary>
+            未处理
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.HandleStatus.Resolving">
+            <summary>
+            处理中
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.HandleStatus.Resolved">
+            <summary>
+            已解决
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.ProblemType.unselect">
+            <summary>
+            未指定
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.ProblemType.text">
+            <summary>
+            文本
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.ProblemType.voice">
+            <summary>
+            语音
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.ProblemStatusType.alldate">
+            <summary>
+            所有记录
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.ProblemStatusType.noraml">
+            <summary>
+            正常
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.ProblemStatusType.Repaired">
+            <summary>
+            绿色故障(已现场解决)
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.ProblemStatusType.DisRepaired">
+            <summary>
+            橙色故障(未现场解决)
             </summary>
         </member>
         <member name="T:FireProtectionV1.Common.Helper.MD5Encrypt">

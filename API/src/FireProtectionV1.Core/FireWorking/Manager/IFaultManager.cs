@@ -34,5 +34,6 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <returns></returns>
         IQueryable<PendingFaultFireUnitOutput> GetPendingFaultFireUnits();
+        IQueryable<Fault> GetFaults(IQueryable<Detector> detectors, DateTime start, DateTime end);
     }
 }
