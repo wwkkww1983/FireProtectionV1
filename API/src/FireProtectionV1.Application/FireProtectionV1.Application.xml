@@ -261,6 +261,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.BreakDownService.GetBreakDownTotal(FireProtectionV1.FireWorking.Dto.GetBreakDownTotalInput)">
+            <summary>
+            获取设施故障处理情况
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.DataReportAppService.GetDataMinotor">
             <summary>
             数据监控页
@@ -316,6 +323,27 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetDutylistForWeb(FireProtectionV1.FireWorking.Dto.GetDataDutyForWebInput)">
+            <summary>
+            Web获取值班记录列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetDutyTotal(FireProtectionV1.FireWorking.Dto.GetDataDutyTotalInput)">
+            <summary>
+            Web获取值班记录统计
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetDutyInfoForWeb(FireProtectionV1.FireWorking.Dto.GetDataDutyInfoForWebInput)">
+            <summary>
+            Web获取值班记录详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetPatrollist(FireProtectionV1.FireWorking.Dto.GetDataPatrolInput)">
             <summary>
             获取巡查记录列表
@@ -340,6 +368,27 @@
         <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.AddPatrolTrack(FireProtectionV1.FireWorking.Dto.AddPatrolInput)">
             <summary>
             添加巡查记录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetPatrollistForWeb(FireProtectionV1.FireWorking.Dto.GetDataPatrolForWebInput)">
+            <summary>
+            Web获取巡查记录列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetPatrolTotal(FireProtectionV1.FireWorking.Dto.GetDataPatrolTotalInput)">
+            <summary>
+            Web获取巡查记录统计
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetPatrolInfoForWeb(FireProtectionV1.FireWorking.Dto.GetPatrolInfoForWebInput)">
+            <summary>
+            Web获取巡查记录详情
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -646,9 +695,16 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.UserLogin(FireProtectionV1.User.Dto.LoginInput)">
+        <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.UserLoginForMobile(FireProtectionV1.User.Dto.LoginInput)">
             <summary>
-            用户登录
+            用户登录(移动端)
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.UserLogin(FireProtectionV1.User.Dto.PcDeptUserLoginInput)">
+            <summary>
+            用户登录(PC端)
             </summary>
             <param name="input"></param>
             <returns></returns>

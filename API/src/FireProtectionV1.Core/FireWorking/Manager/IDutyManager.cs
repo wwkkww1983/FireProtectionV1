@@ -43,5 +43,26 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<SuccessOutput> AddDutyInfo(AddDataDutyInfoInput input);
+
+
+        /// <summary>
+        /// Web获取值班记录列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<GetDataDutyForWebOutput>> GetDutylistForWeb (GetDataDutyForWebInput input);
+
+        /// <summary>
+        /// Web获取值班记录统计
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<GetDataDutyTotalOutput> GetDutyTotal(GetDataDutyTotalInput input);
+        /// <summary>
+        /// Web获取值班记录详情
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<GetDutyInfoForWebOutput>> GetDutyInfoForWeb(GetDataDutyInfoForWebInput input);
     }
 }

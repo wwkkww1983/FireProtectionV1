@@ -155,6 +155,8 @@ namespace FireProtectionV1.FireWorking.Manager
             output.DutyUser = _fireUnitAccountRepository.Single(u => u.Id == duty.FireUnitUserId).Name;
             output.DutyPhtosPath = _photosPathSave.GetAll().Where(u =>u.TableName.Equals("DataToDuty") && u.DataId == duty.Id).Select(u => u.PhotoPath).ToList();
             output.DutyRemark = duty.DutyRemark;
+            output.DutyStatus = (ProblemStatusType)duty.DutyStatus;
+
             if(problem!=null) 
             {
                 output.ProblemRemarkType = (ProblemType)problem.ProblemRemarkType;
@@ -280,6 +282,66 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
             return Convert.ToInt64(ts.TotalMilliseconds).ToString();
+        }
+
+        /// <summary>
+        /// Web获取值班记录列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task<List<GetDataDutyForWebOutput>> GetDutylistForWeb(GetDataDutyForWebInput input)
+        {
+            var list = _dutyRep.GetAll().Where(u=>u.FireUnitId==input.FireUnitId&&u.CreationTime.Month==input.Moth.Month);
+            var output = from a in list
+                         orderby a.CreationTime
+                         select new GetDataDutyForWebOutput
+                         {
+                             DutyId = a.Id,
+                             CreationTime = a.CreationTime.ToString("yyyy-MM-dd"),
+                             DutyStatus = a.DutyStatus
+                         };
+            return Task.FromResult(output.ToList());
+        }
+
+        /// <summary>
+        /// Web获取值班记录统计
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task<GetDataDutyTotalOutput> GetDutyTotal(GetDataDutyTotalInput input)
+        {
+            var list = _dutyRep.GetAll();
+            GetDataDutyTotalOutput output = new GetDataDutyTotalOutput()
+            {
+                DutyCount = list.Count(),
+                ProplemCount = list.Where(u => u.DutyStatus != (byte)ProblemStatusType.noraml).Count(),
+                LiveSolutionCount = list.Where(u => u.DutyStatus != (byte)ProblemStatusType.Repaired).Count()
+            };
+            return Task.FromResult(output);
+        }
+
+        /// <summary>
+        /// Web获取值班记录详情
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task<List<GetDutyInfoForWebOutput>> GetDutyInfoForWeb(GetDataDutyInfoForWebInput input)
+        {
+            var list = _dutyRep.GetAll().Where(u => u.FireUnitId == input.FireUnitId && u.CreationTime.Date == input.date.Date);
+            var userlist = _fireUnitAccountRepository.GetAll();
+            var photoslist = _photosPathSave.GetAll();
+            var output = from a in list
+                         join b in userlist on a.FireUnitUserId equals b.Id
+                         select new GetDutyInfoForWebOutput
+                         {
+                             DutyId = a.Id,
+                             CreationTime = a.CreationTime.ToString("yyyy-MM-dd hh:mm"),
+                             DutyUser = b.Name,
+                             DutyStatus = (ProblemStatusType)a.DutyStatus,
+                             DutyRemark = a.DutyRemark,
+                             DutyPhtosPath = photoslist.Where(u => u.TableName == "DataToDuty" && u.DataId == a.Id).Select(u => u.PhotoPath).ToList()
+                         };
+            return Task.FromResult(output.ToList());
         }
     }
 }

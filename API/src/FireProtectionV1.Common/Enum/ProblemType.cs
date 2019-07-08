@@ -40,14 +40,14 @@ namespace FireProtectionV1.Common.Enum
         [Description("正常")]
         noraml = 1,
         /// <summary>
-        /// 绿色故障
+        /// 绿色故障(已现场解决)
         /// </summary>
-        [Description("绿色故障")]
+        [Description("绿色故障(已现场解决)")]
         Repaired = 2,
         /// <summary>
-        /// 橙色故障
+        /// 橙色故障(未现场解决)
         /// </summary>
-        [Description("橙色故障")]
+        [Description("橙色故障(未现场解决)")]
         DisRepaired = 3
     }
 }

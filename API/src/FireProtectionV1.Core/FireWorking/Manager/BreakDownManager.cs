@@ -21,14 +21,12 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<DataToDutyProblem> _dataToDutyProblemRep;
         IRepository<PhotosPathSave> _photosPathSave;
         IRepository<SafeUnit> _safeUnit;
-        IDeviceManager _deviceManager;
         IRepository<DataToPatrolDetailProblem> _patrolDetailProblem;
         IRepository<Fault> _Fault;
         IRepository<DataToDuty> _dutyRep;
         IRepository<DataToPatrol> _patrolRep;
         IRepository<DataToPatrolDetail> _patrolDetailRep;
         public BreakDownManager(
-            IDeviceManager deviceManager,
             IRepository<FireUnit> fireUnitRep,
             IRepository<BreakDown> breakDownRep,
             IRepository<DataToDutyProblem> dataToDutyProblemRep,
@@ -42,7 +40,6 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<Fault> Fault
             )
         {
-            _deviceManager = deviceManager;
             _fireUnitRep = fireUnitRep;
             _breakDownRep = breakDownRep;
             _dataToDutyProblemRep = dataToDutyProblemRep;
@@ -151,35 +148,35 @@ namespace FireProtectionV1.FireWorking.Manager
                 if (input.HandleStatus == HandleStatus.Resolved)
                 {
                     breakdown.SolutionTime = DateTime.Now;
-                    //更新值班
-                    if (breakdown.Source == 1)
-                    {
-                        var dutyproblem = _dataToDutyProblemRep.Single(u => u.Id == breakdown.DataId);
-                        var duty = _dutyRep.Single(u => u.Id == dutyproblem.DutyId);
-                        duty.DutyStatus = (byte)ProblemStatusType.Repaired;
-                        await _dutyRep.UpdateAsync(duty);
-                    }
-                    //更新巡查
-                    if (breakdown.Source == 2)
-                    {
-                        var patroldetailproblem = _patrolDetailProblem.Single(u => u.Id == breakdown.DataId);
-                        var patroldetail = _patrolDetailRep.Single(u => u.Id == patroldetailproblem.PatrolDetailId);
-                        patroldetail.PatrolStatus = (byte)ProblemStatusType.Repaired;
-                        _patrolDetailRep.InsertOrUpdateAndGetId(patroldetail);
-                        if (_patrolDetailRep.GetAll().Where(u => u.PatrolId == patroldetail.PatrolId && u.PatrolStatus == (byte)ProblemStatusType.Repaired && u.Id != patroldetail.Id).Count() == 0)
-                        {
-                            var patrol = _patrolRep.Single(u => u.Id == patroldetail.PatrolId);
-                            patrol.PatrolStatus = (byte)ProblemStatusType.Repaired;
-                            _patrolRep.Update(patrol);
-                        }
-                    }
-                    //物联终端来源
-                    if (breakdown.Source == 3)
-                    {
-                        var fault = _Fault.FirstOrDefault(u => u.Id == breakdown.DataId);
-                        fault.ProcessState = 1;
-                        _Fault.Update(fault);
-                    }
+                    ////更新值班
+                    //if (breakdown.Source == 1)
+                    //{
+                    //    var dutyproblem = _dataToDutyProblemRep.Single(u => u.Id == breakdown.DataId);
+                    //    var duty = _dutyRep.Single(u => u.Id == dutyproblem.DutyId);
+                    //    duty.DutyStatus = (byte)ProblemStatusType.Repaired;
+                    //    await _dutyRep.UpdateAsync(duty);
+                    //}
+                    ////更新巡查
+                    //if (breakdown.Source == 2)
+                    //{
+                    //    var patroldetailproblem = _patrolDetailProblem.Single(u => u.Id == breakdown.DataId);
+                    //    var patroldetail = _patrolDetailRep.Single(u => u.Id == patroldetailproblem.PatrolDetailId);
+                    //    patroldetail.PatrolStatus = (byte)ProblemStatusType.Repaired;
+                    //    _patrolDetailRep.InsertOrUpdateAndGetId(patroldetail);
+                    //    if (_patrolDetailRep.GetAll().Where(u => u.PatrolId == patroldetail.PatrolId && u.PatrolStatus == (byte)ProblemStatusType.Repaired && u.Id != patroldetail.Id).Count() == 0)
+                    //    {
+                    //        var patrol = _patrolRep.Single(u => u.Id == patroldetail.PatrolId);
+                    //        patrol.PatrolStatus = (byte)ProblemStatusType.Repaired;
+                    //        _patrolRep.Update(patrol);
+                    //    }
+                    //}
+                    ////物联终端来源
+                    //if (breakdown.Source == 3)
+                    //{
+                    //    var fault = _Fault.FirstOrDefault(u => u.Id == breakdown.DataId);
+                    //    fault.ProcessState = 1;
+                    //    _Fault.Update(fault);
+                    //}
 
 
                 }
@@ -191,6 +188,26 @@ namespace FireProtectionV1.FireWorking.Manager
                 return output;
             }
 
+        }
+
+        /// <summary>
+        /// 获取设施故障处理情况
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task<GetBreakDownTotalOutput> GetBreakDownTotal(GetBreakDownTotalInput input)
+        {
+            var breakdownlist = _breakDownRep.GetAll().Where(u => u.FireUnitId == input.FireUnitId);
+            GetBreakDownTotalOutput output = new GetBreakDownTotalOutput();
+            output.DutyCount = breakdownlist.Where(u => u.Source == (byte)SourceType.Duty).Count();
+            output.PatrolCount = breakdownlist.Where(u => u.Source == (byte)SourceType.Patrol).Count();
+            output.TerminalCount = breakdownlist.Where(u => u.Source == (byte)SourceType.Terminal).Count();
+
+            output.UuResolveCount= breakdownlist.Where(u => u.Source == (byte)HandleStatus.UuResolve).Count();
+            output.ResolvingCount = breakdownlist.Where(u => u.Source == (byte)HandleStatus.Resolving).Count();
+            output.ResolvedCount = breakdownlist.Where(u => u.Source == (byte)HandleStatus.Resolved).Count();
+
+            return Task.FromResult(output);
         }
     }
 }

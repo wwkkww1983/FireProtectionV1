@@ -285,12 +285,12 @@
         </member>
         <member name="F:FireProtectionV1.Common.Enum.ProblemStatusType.Repaired">
             <summary>
-            绿色故障
+            绿色故障(已现场解决)
             </summary>
         </member>
         <member name="F:FireProtectionV1.Common.Enum.ProblemStatusType.DisRepaired">
             <summary>
-            橙色故障
+            橙色故障(未现场解决)
             </summary>
         </member>
         <member name="T:FireProtectionV1.Common.Helper.MD5Encrypt">

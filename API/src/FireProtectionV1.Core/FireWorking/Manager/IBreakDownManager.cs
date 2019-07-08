@@ -31,6 +31,11 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<SuccessOutput> UpdateBreakDownInfo(UpdateBreakDownInfoInput input);
-
+        /// <summary>
+        /// 获取设施故障处理情况
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<GetBreakDownTotalOutput> GetBreakDownTotal(GetBreakDownTotalInput input);
     }
 }

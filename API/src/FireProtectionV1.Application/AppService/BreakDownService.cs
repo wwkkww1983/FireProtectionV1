@@ -43,5 +43,14 @@ namespace FireProtectionV1.AppService
         {
             return await _breakDownManager.UpdateBreakDownInfo(input);
         }
+        /// <summary>
+        /// 获取设施故障处理情况
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<GetBreakDownTotalOutput> GetBreakDownTotal(GetBreakDownTotalInput input)
+        {
+            return await _breakDownManager.GetBreakDownTotal(input);
+        }
     }
 }

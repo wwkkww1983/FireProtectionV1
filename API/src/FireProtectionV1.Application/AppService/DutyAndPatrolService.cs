@@ -46,6 +46,33 @@ namespace FireProtectionV1.AppService
         {
             return await _dutyManager.AddDutyInfo(input);
         }
+        /// <summary>
+        /// Web获取值班记录列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<List<GetDataDutyForWebOutput>> GetDutylistForWeb(GetDataDutyForWebInput input)
+        {
+            return await _dutyManager.GetDutylistForWeb(input);
+        }
+        /// <summary>
+        /// Web获取值班记录统计
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<GetDataDutyTotalOutput> GetDutyTotal(GetDataDutyTotalInput input)
+        {
+            return await _dutyManager.GetDutyTotal(input);
+        }
+        /// <summary>
+        /// Web获取值班记录详情
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<List<GetDutyInfoForWebOutput>> GetDutyInfoForWeb(GetDataDutyInfoForWebInput input)
+        {
+            return await _dutyManager.GetDutyInfoForWeb(input);
+        }
 
         /// <summary>
         /// 获取巡查记录列表
@@ -83,6 +110,33 @@ namespace FireProtectionV1.AppService
         public async Task<SuccessOutput> AddPatrolTrack(AddPatrolInput input)
         {
             return await _patrolManager.AddPatrolTrack(input);
+        }
+        /// <summary>
+        /// Web获取巡查记录列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<List<GetDataPatrolForWebOutput>> GetPatrollistForWeb(GetDataPatrolForWebInput input)
+        {
+            return await _patrolManager.GetPatrollistForWeb(input);
+        }
+        /// <summary>
+        /// Web获取巡查记录统计
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<GetDataPatrolTotalOutput> GetPatrolTotal(GetDataPatrolTotalInput input)
+        {
+            return await _patrolManager.GetPatrolTotal(input);
+        }
+        /// <summary>
+        /// Web获取巡查记录详情
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<GetPatrolInfoForWebOutput> GetPatrolInfoForWeb(GetPatrolInfoForWebInput input)
+        {
+            return await _patrolManager.GetPatrolInfoForWeb(input);
         }
 
     }
