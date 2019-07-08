@@ -709,13 +709,6 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.Add(FireProtectionV1.User.Dto.FireUnitUserInput)">
-            <summary>
-            添加账号
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
         <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.UserLoginForMobile(FireProtectionV1.User.Dto.LoginInput)">
             <summary>
             用户登录(移动端)

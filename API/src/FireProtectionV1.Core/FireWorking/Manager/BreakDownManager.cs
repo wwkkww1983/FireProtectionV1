@@ -203,9 +203,9 @@ namespace FireProtectionV1.FireWorking.Manager
             output.PatrolCount = breakdownlist.Where(u => u.Source == (byte)SourceType.Patrol).Count();
             output.TerminalCount = breakdownlist.Where(u => u.Source == (byte)SourceType.Terminal).Count();
 
-            output.UuResolveCount= breakdownlist.Where(u => u.Source == (byte)HandleStatus.UuResolve).Count();
-            output.ResolvingCount = breakdownlist.Where(u => u.Source == (byte)HandleStatus.Resolving).Count();
-            output.ResolvedCount = breakdownlist.Where(u => u.Source == (byte)HandleStatus.Resolved).Count();
+            output.UuResolveCount= breakdownlist.Where(u => u.HandleStatus == (byte)HandleStatus.UuResolve).Count();
+            output.ResolvingCount = breakdownlist.Where(u => u.HandleStatus == (byte)HandleStatus.Resolving).Count();
+            output.ResolvedCount = breakdownlist.Where(u => u.HandleStatus == (byte)HandleStatus.Resolved).Count();
 
             return Task.FromResult(output);
         }
