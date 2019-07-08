@@ -1086,12 +1086,13 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.DeviceService.DeviceAppService.GetFireUnitEndDeviceState(System.Int32,System.Int32)">
+        <member name="M:FireProtectionV1.DeviceService.DeviceAppService.GetFireUnitEndDeviceState(System.Int32,System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
             获取防火单位的终端状态
             </summary>
             <param name="FireUnitId">防火单位Id</param>
             <param name="Option">筛选选项值</param>
+            <param name="dto"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.DeviceService.DeviceAppService.GetRecordAnalog(FireProtectionV1.FireWorking.Dto.GetRecordDetectorInput)">

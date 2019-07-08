@@ -1,4 +1,5 @@
-﻿using Abp.Domain.Services;
+﻿using Abp.Application.Services.Dto;
+using Abp.Domain.Services;
 using FireProtectionV1.Common.Enum;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
@@ -48,7 +49,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="fireUnitId"></param>
         /// <returns></returns>
-        Task<List<EndDeviceStateOutput>> GetFireUnitEndDeviceState(int fireUnitId, int option);
+        Task<PagedResultDto<EndDeviceStateOutput>> GetFireUnitEndDeviceState(int fireUnitId, int option, PagedResultRequestDto dto);
         Task<AddDataOutput> AddRecordAnalog(AddDataElecInput input);
         /// <summary>
         /// 获得防火单位终端历史记录
