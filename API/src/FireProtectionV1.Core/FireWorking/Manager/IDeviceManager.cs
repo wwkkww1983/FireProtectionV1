@@ -58,5 +58,6 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         Task<RecordAnalogOutput> GetRecordAnalog(GetRecordDetectorInput input);
         Task<RecordUnAnalogOutput> GetRecordUnAnalog(GetRecordDetectorInput input);
+        Task<PagedResultDto<GatewayStatusOutput>> GetFireUnitGatewaysStatus(int fireSysType, int fireUnitId, PagedResultRequestDto dto);
     }
 }

@@ -213,6 +213,11 @@
             异常（表示当前在线但有故障，例如消火栓的水压偏低）
             </summary>
         </member>
+        <member name="F:FireProtectionV1.Common.Enum.GatewayStatus.PartOffline">
+            <summary>
+            部分离线
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.Common.Enum.SourceType">
             <summary>
             故障来源

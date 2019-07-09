@@ -415,8 +415,23 @@ namespace FireProtectionV1.FireWorking.Manager
             GatewayStatus status = GatewayStatus.Unusual;
             if (!string.IsNullOrEmpty(input.GetwayStatusValue))
                 status = (GatewayStatus)Enum.Parse(typeof(GatewayStatus), input.GetwayStatusValue);
+            var states = (from a in alarmFireUnits
+                          join b in _gatewayRep.GetAll().Where(p => p.FireSysType == (byte)FireSysType.Fire)
+                          on a.FireUnitId equals b.FireUnitId
+                          group b by a.FireUnitId into g
+                          select new
+                          {
+                              FireUnitId = g.Key,
+                              CountOnline = g.Count(p => p.Status == GatewayStatus.Online),
+                              Count = g.Count()
+                          }).ToList().Select(p => new
+                          {
+                              p.FireUnitId,
+                              Status = p.Count == p.CountOnline ? GatewayStatus.Online : (p.CountOnline == 0 ? GatewayStatus.Offline
+                         : GatewayStatus.PartOffline)
+                          });
             var v = from a in alarmFireUnits
-                    join b in _gatewayRep.GetAll().Where(p => p.FireSysType== (byte)FireSysType.Fire&&(string.IsNullOrEmpty(input.GetwayStatusValue) ? true : p.Status == status))
+                    join b in states.Where(p => (string.IsNullOrEmpty(input.GetwayStatusValue) ? true : p.Status == status))
                     on a.FireUnitId equals b.FireUnitId
                     join c in _fireUnitRep.GetAll()
                     on a.FireUnitId equals c.Id
@@ -433,7 +448,7 @@ namespace FireProtectionV1.FireWorking.Manager
                         AlarmCount = a.AlarmCount,
                         HighFreqCount = a.FreqCount,
                         StatusValue = b.Status,
-                        StatusName = b.Status == Common.Enum.GatewayStatus.Online ? "在线" : "离线"
+                        StatusName = GatewayStatusNames.GetName(b.Status)
                     };
             return Task.FromResult<PagedResultDto<GetAreas30DayFireAlarmOutput>>(new PagedResultDto<GetAreas30DayFireAlarmOutput>
                  (v.Count(), v.Skip(input.SkipCount).Take(input.MaxResultCount).ToList()));
@@ -485,9 +500,24 @@ namespace FireProtectionV1.FireWorking.Manager
             GatewayStatus status = GatewayStatus.Unusual;
             if (!string.IsNullOrEmpty(input.GetwayStatusValue))
                 status = (GatewayStatus)Enum.Parse(typeof(GatewayStatus), input.GetwayStatusValue);
+            var states = (from a in alarmFireUnits
+                          join b in _gatewayRep.GetAll().Where(p => p.FireSysType == (byte)FireSysType.Electric)
+                          on a.FireUnitId equals b.FireUnitId
+                          group b by a.FireUnitId into g
+                          select new
+                          {
+                              FireUnitId = g.Key,
+                              CountOnline = g.Count(p => p.Status == GatewayStatus.Online),
+                              Count = g.Count()
+                          }).ToList().Select(p => new
+                          {
+                              p.FireUnitId,
+                              Status = p.Count == p.CountOnline ? GatewayStatus.Online : (p.CountOnline == 0 ? GatewayStatus.Offline
+                         : GatewayStatus.PartOffline)
+                          });
 
             var v = from a in alarmFireUnits
-                    join b in _gatewayRep.GetAll().Where(p => p.FireSysType== (byte)FireSysType.Electric&&(string.IsNullOrEmpty(input.GetwayStatusValue) ? true : p.Status == status))
+                    join b in states.Where(p => (string.IsNullOrEmpty(input.GetwayStatusValue) ? true : p.Status == status))
                     on a.FireUnitId equals b.FireUnitId
                     join c in _fireUnitRep.GetAll()
                     on a.FireUnitId equals c.Id
@@ -503,7 +533,7 @@ namespace FireProtectionV1.FireWorking.Manager
                         AlarmCount = a.AlarmCount,
                         HighFreqCount = a.FreqCount,
                         StatusValue = b.Status,
-                        StatusName = b.Status == Common.Enum.GatewayStatus.Online ? "在线" : "离线"
+                        StatusName = GatewayStatusNames.GetName(b.Status)
                     };
             return Task.FromResult<PagedResultDto<GetAreas30DayFireAlarmOutput>>(new PagedResultDto<GetAreas30DayFireAlarmOutput>
                  (v.Count(), v.Skip(input.SkipCount).Take(input.MaxResultCount).ToList()));

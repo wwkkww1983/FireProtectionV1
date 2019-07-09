@@ -49,7 +49,12 @@ namespace FireProtectionV1.Common.Enum
         /// 异常（表示当前在线但有故障，例如消火栓的水压偏低）
         /// </summary>
         [Description("异常（表示当前在线但有故障，例如消火栓的水压偏低）")]
-        Unusual = -2
+        Unusual = -2,
+        /// <summary>
+        /// 部分离线
+        /// </summary>
+        [Description("部分离线")]
+        PartOffline = -3
     }
     /// <summary>
     /// 故障来源
@@ -115,6 +120,8 @@ namespace FireProtectionV1.Common.Enum
                 return "离线";
             if (status == GatewayStatus.Unusual)
                 return "异常";
+            if (status == GatewayStatus.PartOffline)
+                return "部分离线";
             return "";
         }
     }
