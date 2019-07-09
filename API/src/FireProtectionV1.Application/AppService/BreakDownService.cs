@@ -21,7 +21,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<List<GetBreakDownOutput>> GetBreakDownlist(GetBreakDownInput input)
+        public async Task<GetBreakDownPagingOutput> GetBreakDownlist(GetBreakDownInput input)
         {
             return await _breakDownManager.GetBreakDownlist(input);
         }
