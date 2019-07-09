@@ -17,7 +17,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<List<GetBreakDownOutput>> GetBreakDownlist(GetBreakDownInput input);
+        Task<GetBreakDownPagingOutput> GetBreakDownlist(GetBreakDownInput input);
 
         /// <summary>
         /// 获取设施故障详情

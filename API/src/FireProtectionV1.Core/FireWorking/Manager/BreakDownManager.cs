@@ -58,7 +58,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<List<GetBreakDownOutput>> GetBreakDownlist(GetBreakDownInput input)
+        public Task<GetBreakDownPagingOutput> GetBreakDownlist(GetBreakDownInput input)
         {
             var breakdownlist = _breakDownRep.GetAll().Where(u => u.FireUnitId == input.FireUnitId&&u.HandleStatus==1);
             var userlist = _fireUnitAccountRepository.GetAll();
@@ -67,7 +67,7 @@ namespace FireProtectionV1.FireWorking.Manager
             var expr = ExprExtension.True<BreakDown>()
                 .IfAnd(input.Source != SourceType.UnKnow, item => item.Source == (byte)input.Source);
             breakdownlist = breakdownlist.Where(expr);
-            var output = from a in breakdownlist
+            var list = from a in breakdownlist
                          join b in userlist on a.UserId equals b.Id
                          orderby a.CreationTime
                          select new GetBreakDownOutput
@@ -78,7 +78,12 @@ namespace FireProtectionV1.FireWorking.Manager
                              Phone = b.Account,
                              CreationTime = a.CreationTime.ToString("yyyy-MM-dd hh:mm")
                          };
-            return Task.FromResult(output.ToList());
+            GetBreakDownPagingOutput output = new GetBreakDownPagingOutput()
+            {
+                TotalCount = list.Count(),
+                BreakDownList = list.Skip(input.SkipCount).Take(input.MaxResultCount).ToList()
+            };
+            return Task.FromResult(output);
         }
 
         /// <summary>
