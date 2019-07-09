@@ -47,7 +47,7 @@ namespace FireProtectionV1.AppService
             return await _dutyManager.AddDutyInfo(input);
         }
         /// <summary>
-        /// Web获取值班记录列表
+        /// Web获取日期控件信息
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -112,7 +112,7 @@ namespace FireProtectionV1.AppService
             return await _patrolManager.AddPatrolTrack(input);
         }
         /// <summary>
-        /// Web获取巡查记录列表
+        /// Web获取日历控件信息
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -130,7 +130,7 @@ namespace FireProtectionV1.AppService
             return await _patrolManager.GetPatrolTotal(input);
         }
         /// <summary>
-        /// Web获取巡查记录详情
+        /// Web获取巡查记录轨迹
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>

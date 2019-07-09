@@ -60,7 +60,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public Task<GetBreakDownPagingOutput> GetBreakDownlist(GetBreakDownInput input)
         {
-            var breakdownlist = _breakDownRep.GetAll().Where(u => u.FireUnitId == input.FireUnitId&&u.HandleStatus==1);
+            var breakdownlist = _breakDownRep.GetAll().Where(u => u.FireUnitId == input.FireUnitId&&u.HandleStatus==(byte)input.HandleStatus);
             var userlist = _fireUnitAccountRepository.GetAll();
             //值班故障
             var dutys = _breakDownRep.GetAll().Where(u => u.FireUnitId == input.FireUnitId);
