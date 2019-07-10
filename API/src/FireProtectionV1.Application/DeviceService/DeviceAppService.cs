@@ -110,7 +110,7 @@ namespace FireProtectionV1.DeviceService
         /// <param name="FireUnitId">防火单位Id</param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<GatewayStatusOutput>> GetFireUnitGatewaysStatus(int FireSysType, int FireUnitId, PagedResultRequestDto dto)
+        public async Task<PagedResultDto<GatewayStatusOutput>> GetFireUnitGatewaysStatus([Required]int FireSysType, [Required]int FireUnitId, PagedResultRequestDto dto)
         {
             return await _deviceManager.GetFireUnitGatewaysStatus(FireSysType,FireUnitId, dto);
         }

@@ -495,6 +495,16 @@
             巡查方式
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.Lng">
+            <summary>
+            经度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.Lat">
+            <summary>
+            纬度
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput.Name">
             <summary>
             防火单位名称
@@ -2226,6 +2236,26 @@
             电缆温度探测器数量
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.ElecFirstAlarmTime">
+            <summary>
+            （安全用电）第一次火警时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.ElecAlarmCount">
+            <summary>
+            （安全用电）火警总数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.ElecAlarmCheckCount">
+            <summary>
+            （安全用电）已核警数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.ElecLastAlarmTime">
+            <summary>
+            （安全用电）最后一次火警时间
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.Elec30DayCount">
             <summary>
             （安全用电）最近30天报警次数
@@ -2241,6 +2271,26 @@
             （火警预警）物联网数据终端数量
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.FireFirstAlarmTime">
+            <summary>
+            （火警预警）第一次火警时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.FireAlarmCount">
+            <summary>
+            （火警预警）火警总数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.FireAlarmCheckCount">
+            <summary>
+            （火警预警）已核警数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.FireLastAlarmTime">
+            <summary>
+            （火警预警）最后一次火警时间
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.Fire30DayCount">
             <summary>
             （火警预警）最近30天报警次数
@@ -2249,6 +2299,11 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.FireHighCount">
             <summary>
             （火警预警）高频报警部件数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.FirstFaultTime">
+            <summary>
+            第一次故障时间
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.FaultCount">
@@ -2266,6 +2321,16 @@
             待处理故障数量
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.FirstPatrolTime">
+            <summary>
+            第一次巡查时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.PatrolCount">
+            <summary>
+            巡查数量
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.PatrolLastTime">
             <summary>
             最近巡检提交时间
@@ -2274,6 +2339,16 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.Patrol30DayCount">
             <summary>
             巡查记录最近30天数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.FirstDutyTime">
+            <summary>
+            第一次值班时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.DutyCount">
+            <summary>
+            值班数量
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.DutyLastTime">
@@ -2781,11 +2856,12 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.GetFireUnitGatewaysStatus(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.GetFireUnitGatewaysStatus(System.Int32,System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
             查询防火单位网关状态列表
             </summary>
-            <param name="FireUnitId"></param>
+            <param name="fireSysType"></param>
+            <param name="fireUnitId"></param>
             <param name="dto"></param>
             <returns></returns>
         </member>
@@ -2984,7 +3060,7 @@
             <param name="checkId"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IAlarmManager.GetAlarmChecks(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.IAlarmManager.GetAlarmChecks(System.Int32,System.Collections.Generic.List{System.String},Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
             查询防火单位警情核警数据
             </summary>

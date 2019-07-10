@@ -282,6 +282,8 @@ namespace FireProtectionV1.Enterprise.Manager
                 output.ContractName = f.ContractName;
                 output.ContractPhone = f.ContractPhone;
                 output.Patrol = f.Patrol;
+                output.Lat = f.Lat;
+                output.Lng = f.Lng;
                 var a =await _areaRep.SingleAsync(p => p.Id.Equals(f.AreaId));
                 if(a!=null)
                 {
@@ -299,7 +301,7 @@ namespace FireProtectionV1.Enterprise.Manager
                     output.Type = type.Name;
                 if (f.SafeUnitId != 0)
                 {
-                    var safe = await _safeUnitRep.SingleAsync(p => p.Id == f.SafeUnitId);
+                    var safe = await _safeUnitRep.FirstOrDefaultAsync(p => p.Id == f.SafeUnitId);
                     if (safe != null)
                     {
                         output.SafeUnit = safe.Name;

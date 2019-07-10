@@ -10,7 +10,6 @@ namespace FireProtectionV1.Enterprise.Dto
         ///// <summary>
         ///// 消防部门用户Id
         ///// </summary>
-        [Required]
         public int UserId { get; set; }
         /// <summary>
         /// 防火单位Id

@@ -45,7 +45,7 @@ namespace FireProtectionV1.FireWorking.Manager
         }
         public IQueryable< AlarmToElectric> GetNewElecAlarm(DateTime startTime)
         {
-            return _alarmToElectricRep.GetAll().Where(p => p.CreationTime > startTime);
+            return _alarmToElectricRep.GetAll().Where(p => p.CreationTime > startTime&&p.CreationTime<=DateTime.Now);
         }
         /// <summary>
         /// 新增安全用电报警
@@ -119,7 +119,7 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             return $"{type.Name} {alarmToElectric.Analog}{alarmToElectric.Unit} 【标准:{alarmToElectric.AlarmLimit}】";
         }
-        public async Task<PagedResultDto<AlarmCheckOutput>> GetAlarmChecks(int fireunitid, Abp.Application.Services.Dto.PagedResultRequestDto dto)
+        public async Task<PagedResultDto<AlarmCheckOutput>> GetAlarmChecks(int fireunitid, List<string> filter, Abp.Application.Services.Dto.PagedResultRequestDto dto)
         {
             var elec = from a in _alarmToElectricRep.GetAll().Where(p => p.FireUnitId == fireunitid)
                        join b in _deviceManager.GetDetectorAll(fireunitid, FireSysType.Electric)
@@ -158,9 +158,7 @@ namespace FireProtectionV1.FireWorking.Manager
             await Task.Run(() =>
             {
                 var all = elec.Union(fire).OrderByDescending(p => p.Time);
-                total = all.Count();
-                res = all.Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList();
-                foreach(var v in res)
+                foreach(var v in all)
                 {
                     if(DateTime.Now-DateTime.Parse(v.Time)>new TimeSpan(1,0,0))
                     {
@@ -168,6 +166,23 @@ namespace FireProtectionV1.FireWorking.Manager
                         v.CheckStateName = CheckStateTypeNames.GetName(CheckStateType.Expire);
                     }
                 }
+                var resall = all.ToList();
+                if (filter != null && filter.Count > 0)
+                {
+                    for(int i = 0; i < filter.Count; i++)
+                    {
+                        if (filter[i].Equals("未核警")){
+                            filter[i] = "核警";
+                            break;
+                        }
+                    }
+                    resall = (from a in filter
+                              join b in resall
+                              on a equals b.CheckStateName
+                              select b).ToList();
+                }
+                total = resall.Count();
+                res = resall.Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList();
             });
             return new PagedResultDto<AlarmCheckOutput>(total, res);
         }

@@ -4,11 +4,12 @@
         <name>FireProtectionV1.Application</name>
     </assembly>
     <members>
-        <member name="M:FireProtectionV1.AppService.AlarmAppService.GetAlarmChecks(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.GetAlarmChecks(System.Int32,System.String,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
             获取指定防火单位警情数据
             </summary>
             <param name="FireUnitId">防火单位Id</param>
+            <param name="Filter">筛选项'未核警,误报,测试,真实火警,已过期,全部</param>
             <param name="dto"></param>
             <returns></returns>
         </member>
@@ -325,7 +326,7 @@
         </member>
         <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetDutylistForWeb(FireProtectionV1.FireWorking.Dto.GetDataDutyForWebInput)">
             <summary>
-            Web获取值班记录列表
+            Web获取日期控件信息
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -374,7 +375,7 @@
         </member>
         <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetPatrollistForWeb(FireProtectionV1.FireWorking.Dto.GetDataPatrolForWebInput)">
             <summary>
-            Web获取巡查记录列表
+            Web获取日历控件信息
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -388,7 +389,7 @@
         </member>
         <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetPatrolInfoForWeb(FireProtectionV1.FireWorking.Dto.GetPatrolInfoForWebInput)">
             <summary>
-            Web获取巡查记录详情
+            Web获取巡查记录轨迹
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -458,6 +459,13 @@
             <summary>
             防火单位服务
             </summary>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitReportData(System.Int32)">
+            <summary>
+            得到防火单位报表数据
+            </summary>
+            <param name="FireUnitId">防火单位Id</param>
+            <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.FireUnitAppService.QueryFireUnitLikeName(System.String)">
             <summary>
@@ -1109,10 +1117,11 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.DeviceService.DeviceAppService.GetFireUnitGatewaysStatus(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
+        <member name="M:FireProtectionV1.DeviceService.DeviceAppService.GetFireUnitGatewaysStatus(System.Int32,System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
             查询防火单位网关状态列表
             </summary>
+            <param name="FireSysType">1:安全用电，2:火灾报警</param>
             <param name="FireUnitId">防火单位Id</param>
             <param name="dto"></param>
             <returns></returns>
@@ -1125,6 +1134,41 @@
         <member name="P:FireProtectionV1.Dto.EndDeviceOptionDto.Name">
             <summary>
             终端设备选项名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Dto.FireUnitReportDataOutput.Area">
+            <summary>
+            防火单位区域
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Dto.FireUnitReportDataOutput.Address">
+            <summary>
+            防火单位地址
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Dto.FireUnitReportDataOutput.Type">
+            <summary>
+            防火单位类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Dto.FireUnitReportDataOutput.ContractName">
+            <summary>
+            联系人
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Dto.FireUnitReportDataOutput.SafeUnit">
+            <summary>
+            维保单位
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Dto.FireUnitReportDataOutput.NearMinistation">
+            <summary>
+            最近消防站
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Dto.FireUnitReportDataOutput.MinistationCount">
+            <summary>
+            消防栓数量
             </summary>
         </member>
         <member name="P:FireProtectionV1.Dto.GetAreasFaultOutput.FaultCount">

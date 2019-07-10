@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Http;
 using System.Web;
 using FireProtectionV1.Common.Enum;
 using System.Linq;
+using FireProtectionV1.MiniFireStationCore.Manager;
+using FireProtectionV1.Dto;
 
 namespace FireProtectionV1.AppService
 {
@@ -20,6 +22,7 @@ namespace FireProtectionV1.AppService
     /// </summary>
     public class FireUnitAppService : HttpContextAppService
     {
+        IMiniFireStationManager _miniFireStationManager;
         IFireUnitManager _fireUnitManager;
         IFireWorkingManager _fireWorkingManager;
         IPatrolManager _patrolManager;
@@ -27,6 +30,7 @@ namespace FireProtectionV1.AppService
         IDeviceManager _deviceManager;
 
         public FireUnitAppService(
+            IMiniFireStationManager miniFireStationManager,
             IDeviceManager deviceManager,
             IDutyManager dutyManager,
             IPatrolManager patrolManager,
@@ -35,11 +39,66 @@ namespace FireProtectionV1.AppService
             IFireWorkingManager fireWorkingManager)
             :base(httpContext)
         {
+            _miniFireStationManager = miniFireStationManager;
             _deviceManager = deviceManager;
             _dutyManager = dutyManager;
             _patrolManager = patrolManager;
             _fireUnitManager = fireUnitInfoManager;
             _fireWorkingManager = fireWorkingManager;
+        }
+        /// <summary>
+        /// 得到防火单位报表数据
+        /// </summary>
+        /// <param name="FireUnitId">防火单位Id</param>
+        /// <returns></returns>
+        public async Task<FireUnitReportDataOutput> GetFireUnitReportData(int FireUnitId)
+        {
+            var f = await _fireUnitManager.GetFireUnitInfo(new GetFireUnitInfoInput() { Id = FireUnitId });
+            var a= await _fireWorkingManager.GetFireUnitAlarm(new FireUnitIdInput() { Id = FireUnitId }); ;
+            FireUnitReportDataOutput output = new FireUnitReportDataOutput()
+            {
+                Address = f.Address,
+                Area = f.Area,
+                DutyCount = a.DutyCount,
+                Duty30DayCount = a.Duty30DayCount,
+                ContractName = f.ContractName,
+                DutyLastTime = a.DutyLastTime,
+                Elec30DayCount = a.Elec30DayCount,
+                ElecAlarmCheckCount = a.ElecAlarmCheckCount,
+                ElecAlarmCount = a.ElecAlarmCount,
+                ElecECount = a.ElecECount,
+                ElecFirstAlarmTime = a.ElecFirstAlarmTime,
+                ElecHighCount = a.ElecHighCount,
+                ElecLastAlarmTime = a.ElecLastAlarmTime,
+                FaultPendingCount = a.FaultPendingCount,
+                ElecTCount = a.ElecTCount,
+                FaultCount = a.FaultCount,
+                FaultProcessedCount = a.FaultProcessedCount,
+                Fire30DayCount = a.Fire30DayCount,
+                FireAlarmCheckCount = a.FireAlarmCheckCount,
+                FireAlarmCount = a.FireAlarmCount,
+                FireFirstAlarmTime = a.FireFirstAlarmTime,
+                FireHighCount = a.FireHighCount,
+                FireLastAlarmTime = a.FireLastAlarmTime,
+                FirePointsCount = a.FirePointsCount,
+                FireUnitName = f.Name,
+                FirstDutyTime = a.FirstDutyTime,
+                FirstFaultTime = a.FirstFaultTime,
+                FirstPatrolTime = a.FirstPatrolTime,
+                Patrol30DayCount = a.Patrol30DayCount,
+                PatrolCount = a.PatrolCount,
+                PatrolLastTime = a.PatrolLastTime,
+                SafeUnit = f.SafeUnit,
+                Type = f.Type
+            };
+            var minis=await _miniFireStationManager.GetNearbyStation(f.Lng, f.Lat);
+            if (minis.Count() > 0)
+            {
+                var mini = minis.OrderBy(p => p.Distance).FirstOrDefault();
+                output.NearMinistation = $"{mini.Name} {mini.Distance.ToString("0")}";
+            }
+            output.MinistationCount = minis.Count();
+            return output;
         }
         /// <summary>
         /// 查询防火单位名称(模糊查询)

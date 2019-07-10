@@ -18,6 +18,7 @@ namespace FireProtectionV1.FireWorking.Manager
 {
     public class FireWorkingManager:IFireWorkingManager
     {
+        IRepository<AlarmCheck> _alarmCheckRep;
         IRepository<FireUnitType> _fireUnitTypeRep;
         IRepository<FireUnit> _fireUnitRep;
         IRepository<DataToDuty> _dutyRep;
@@ -29,6 +30,7 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<AlarmToFire> _alarmToFireRep;
         IRepository<AlarmToElectric> _alarmToElectricRep;
         public FireWorkingManager(
+            IRepository<AlarmCheck> alarmCheckRep,
             IRepository<FireUnitType> fireUnitTypeRep,
             IRepository<FireUnit> fireUnitRep,
             IRepository<DataToDuty> dutyRep,
@@ -40,6 +42,7 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<AlarmToFire> alarmToFireR,
             IRepository<AlarmToElectric> alarmToElectricR)
         {
+            _alarmCheckRep = alarmCheckRep;
             _fireUnitTypeRep = fireUnitTypeRep;
             _fireUnitRep = fireUnitRep;
             _dutyRep = dutyRep;
@@ -66,6 +69,12 @@ namespace FireProtectionV1.FireWorking.Manager
                 output.FireUnitName = fireunit.Name;
                 //安全用电数据：管控点位数量、网关状态、最近30天报警次数（可查）、高频报警部件数量（可查）
                 var alarmElec = _alarmToElectricRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30));
+                var alarmElecAll = _alarmToElectricRep.GetAll().Where(p => p.FireUnitId == input.Id).OrderBy(p => p.CreationTime);
+                if (alarmElecAll.Count() > 0)
+                    output.ElecFirstAlarmTime = alarmElecAll.First().CreationTime.ToString("yyyy-MM-dd");
+                output.ElecAlarmCount = alarmElecAll.Count();
+                output.ElecAlarmCheckCount= _alarmCheckRep.GetAll().Where(p => p.FireUnitId == input.Id && p.FireSysType == (byte)FireSysType.Electric && p.CheckState != (byte)CheckStateType.UnCheck).Count();
+                output.ElecLastAlarmTime = alarmElecAll.Max(p => p.CreationTime).ToString("yyyy-MM-dd HH:mm");
                 output.Elec30DayCount = alarmElec.Count();
                 output.ElecHighCount = output.Elec30DayCount == 0 ?
                 0 : alarmElec.GroupBy(p => p.DetectorId).Select(p=>new {DetectorId=p.Key, Count = p.Count() })
@@ -79,6 +88,12 @@ namespace FireProtectionV1.FireWorking.Manager
                     output.ElecTCount = detectsEle.Where(p => p.DetectorTypeId == typeT.Id).Count();
                 //火警预警数据：管控点位数量、网关状态、最近30天报警次数（可查）、高频报警部件数量（可查）；
                 var alarmFire = _alarmToFireRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30));
+                var alarmFireAll = _alarmToFireRep.GetAll().Where(p => p.FireUnitId == input.Id).OrderBy(p => p.CreationTime);
+                if (alarmFireAll.Count() > 0)
+                    output.FireFirstAlarmTime = alarmFireAll.First().CreationTime.ToString("yyyy-MM-dd");
+                output.FireAlarmCount = alarmFireAll.Count();
+                output.FireAlarmCheckCount = _alarmCheckRep.GetAll().Where(p => p.FireUnitId == input.Id && p.FireSysType == (byte)FireSysType.Fire && p.CheckState != (byte)CheckStateType.UnCheck).Count();
+                output.FireLastAlarmTime = alarmFireAll.Max(p => p.CreationTime).ToString("yyyy-MM-dd HH:mm");
                 output.Fire30DayCount = alarmFire.Count();
                 output.FireHighCount = output.Fire30DayCount == 0 ? 0 :
                 alarmFire.GroupBy(p => p.DetectorId).Select(p => new { DetectorId = p.Key, Count = p.Count() })
@@ -90,13 +105,17 @@ namespace FireProtectionV1.FireWorking.Manager
                 output.FaultCount = faults.Count();
                 output.FaultPendingCount = faults.Where(p => p.ProcessState == 0).Count();
                 output.FaultProcessedCount = output.FaultCount - output.FaultPendingCount;
+                //巡查记录：最近提交时间、最近30天提交记录数量
                 var lastPatrol = _patrolRep.GetAll().Where(p => p.FireUnitId == input.Id).OrderByDescending(p => p.CreationTime).FirstOrDefault();
                 output.PatrolLastTime = lastPatrol == null ? "" : lastPatrol.CreationTime.ToString("yyyy-MM-dd HH:mm");
-                //巡查记录：最近提交时间、最近30天提交记录数量
                 output.Patrol30DayCount = _patrolRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30)).Count();
+                output.PatrolCount = _patrolRep.GetAll().Where(p => p.FireUnitId == input.Id).Count();
+                output.FirstPatrolTime = _patrolRep.GetAll().Where(p => p.FireUnitId == input.Id).Min(p => p.CreationTime).ToString("yyyy-MM-dd");
+                //值班记录：最近提交时间、最近30天提交记录数量
                 var lastDuty = _dutyRep.GetAll().Where(p => p.FireUnitId == input.Id).OrderByDescending(p => p.CreationTime).FirstOrDefault();
                 output.DutyLastTime = lastDuty == null ? "" : lastDuty.CreationTime.ToString("yyyy-MM-dd HH:mm");
-                //值班记录：最近提交时间、最近30天提交记录数量
+                output.DutyCount = _dutyRep.GetAll().Where(p => p.FireUnitId == input.Id).Count();
+                output.FirstDutyTime = _dutyRep.GetAll().Where(p => p.FireUnitId == input.Id).Min(p => p.CreationTime).ToString("yyyy-MM-dd");
                 output.Duty30DayCount = _dutyRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30)).Count();
             });
             return output;

@@ -51,6 +51,14 @@ namespace FireProtectionV1.Enterprise.Dto
         /// 巡查方式
         /// </summary>
         public Patrol Patrol { get; set; }
-        
+        /// <summary>
+        /// 经度
+        /// </summary>
+        public decimal Lng { get; set; }
+        /// <summary>
+        /// 纬度
+        /// </summary>
+        public decimal Lat { get; set; }
+
     }
 }

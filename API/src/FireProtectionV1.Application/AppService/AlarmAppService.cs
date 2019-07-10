@@ -27,11 +27,22 @@ namespace FireProtectionV1.AppService
         /// 获取指定防火单位警情数据
         /// </summary>
         /// <param name="FireUnitId">防火单位Id</param>
+        /// <param name="Filter">筛选项'未核警,误报,测试,真实火警,已过期,全部</param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<AlarmCheckOutput>> GetAlarmChecks([Required]int FireUnitId,PagedResultRequestDto dto)
+        public async Task<PagedResultDto<AlarmCheckOutput>> GetAlarmChecks([Required]int FireUnitId,string Filter,PagedResultRequestDto dto)
         {
-            return await _alarmManager.GetAlarmChecks(FireUnitId, dto);
+            List<string> fs = new List<string>();
+            if(Filter!=null)
+            {
+                var ff = Filter.Split(',');
+                foreach(var v in ff)
+                {
+                    fs.Add(v);
+                }
+
+            }
+            return await _alarmManager.GetAlarmChecks(FireUnitId, fs, dto);
         }
         /// <summary>
         /// 查询给定checkId的警情详细信息
