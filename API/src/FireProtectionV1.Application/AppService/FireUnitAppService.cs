@@ -69,6 +69,7 @@ namespace FireProtectionV1.AppService
             lst.Add(new GatewayStatusTypeOutput() { GatewayStatusValue = "", GatewayStatusName = "全部" });
             lst.Add(new GatewayStatusTypeOutput(){ GatewayStatusValue = GatewayStatus.Offline.ToString(), GatewayStatusName = "离线" });
             lst.Add(new GatewayStatusTypeOutput() { GatewayStatusValue = GatewayStatus.Online.ToString(), GatewayStatusName = "在线" });
+            lst.Add(new GatewayStatusTypeOutput() { GatewayStatusValue = GatewayStatus.PartOffline.ToString(), GatewayStatusName = "部分离线" });
             lst.Add(new GatewayStatusTypeOutput() { GatewayStatusValue = GatewayStatus.Unusual.ToString(), GatewayStatusName = "异常" });
             return Task.FromResult< List<GatewayStatusTypeOutput>>(lst);
         }

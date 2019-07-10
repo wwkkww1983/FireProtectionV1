@@ -43,6 +43,30 @@ namespace FireProtectionV1.FireWorking.Manager
             _gatewayRep = gatewayRep;
         }
         /// <summary>
+        /// 查询防火单位网关状态列表
+        /// </summary>
+        /// <param name="fireSysType"></param>
+        /// <param name="fireUnitId"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<GatewayStatusOutput>> GetFireUnitGatewaysStatus(int fireSysType, int fireUnitId, PagedResultRequestDto dto)
+        {
+            var status = _gatewayRep.GetAll().Where(p =>p.FireSysType== fireSysType && p.FireUnitId == fireUnitId).Select(p => new GatewayStatusOutput()
+            {
+                Gateway = p.Identify,
+                Location = p.Location,
+                Status = GatewayStatusNames.GetName(p.Status)
+            });
+            return await Task.Run<PagedResultDto<GatewayStatusOutput>>(() =>
+            {
+                return new PagedResultDto<GatewayStatusOutput>()
+                {
+                    TotalCount = status.Count(),
+                    Items = status.Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList()
+                };
+            });
+        }
+        /// <summary>
         /// 非模拟量探测器历史记录
         /// </summary>
         /// <param name="input"></param>

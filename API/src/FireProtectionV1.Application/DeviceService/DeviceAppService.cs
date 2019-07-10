@@ -103,5 +103,17 @@ namespace FireProtectionV1.DeviceService
                 Start=DateTime.Now.Date.AddDays(-7)
             });
         }
+        /// <summary>
+        /// 查询防火单位网关状态列表
+        /// </summary>
+        /// <param name="FireSysType">1:安全用电，2:火灾报警</param>
+        /// <param name="FireUnitId">防火单位Id</param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<GatewayStatusOutput>> GetFireUnitGatewaysStatus(int FireSysType, int FireUnitId, PagedResultRequestDto dto)
+        {
+            return await _deviceManager.GetFireUnitGatewaysStatus(FireSysType,FireUnitId, dto);
+        }
+
     }
 }
