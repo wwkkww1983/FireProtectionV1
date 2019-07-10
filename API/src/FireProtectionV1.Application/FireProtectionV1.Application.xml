@@ -325,7 +325,7 @@
         </member>
         <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetDutylistForWeb(FireProtectionV1.FireWorking.Dto.GetDataDutyForWebInput)">
             <summary>
-            Web获取值班记录列表
+            Web获取日期控件信息
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -374,7 +374,7 @@
         </member>
         <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetPatrollistForWeb(FireProtectionV1.FireWorking.Dto.GetDataPatrolForWebInput)">
             <summary>
-            Web获取巡查记录列表
+            Web获取日历控件信息
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -388,7 +388,7 @@
         </member>
         <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetPatrolInfoForWeb(FireProtectionV1.FireWorking.Dto.GetPatrolInfoForWebInput)">
             <summary>
-            Web获取巡查记录详情
+            Web获取巡查记录轨迹
             </summary>
             <param name="input"></param>
             <returns></returns>
