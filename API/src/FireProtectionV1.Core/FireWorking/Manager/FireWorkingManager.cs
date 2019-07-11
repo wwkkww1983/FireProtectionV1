@@ -71,10 +71,13 @@ namespace FireProtectionV1.FireWorking.Manager
                 var alarmElec = _alarmToElectricRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30));
                 var alarmElecAll = _alarmToElectricRep.GetAll().Where(p => p.FireUnitId == input.Id).OrderBy(p => p.CreationTime);
                 if (alarmElecAll.Count() > 0)
+                {
                     output.ElecFirstAlarmTime = alarmElecAll.First().CreationTime.ToString("yyyy-MM-dd");
+                    output.ElecLastAlarmTime = alarmElecAll.Max(p => p.CreationTime).ToString("yyyy-MM-dd HH:mm");
+
+                }
                 output.ElecAlarmCount = alarmElecAll.Count();
                 output.ElecAlarmCheckCount= _alarmCheckRep.GetAll().Where(p => p.FireUnitId == input.Id && p.FireSysType == (byte)FireSysType.Electric && p.CheckState != (byte)CheckStateType.UnCheck).Count();
-                output.ElecLastAlarmTime = alarmElecAll.Max(p => p.CreationTime).ToString("yyyy-MM-dd HH:mm");
                 output.Elec30DayCount = alarmElec.Count();
                 output.ElecHighCount = output.Elec30DayCount == 0 ?
                 0 : alarmElec.GroupBy(p => p.DetectorId).Select(p=>new {DetectorId=p.Key, Count = p.Count() })
@@ -90,10 +93,12 @@ namespace FireProtectionV1.FireWorking.Manager
                 var alarmFire = _alarmToFireRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30));
                 var alarmFireAll = _alarmToFireRep.GetAll().Where(p => p.FireUnitId == input.Id).OrderBy(p => p.CreationTime);
                 if (alarmFireAll.Count() > 0)
+                {
                     output.FireFirstAlarmTime = alarmFireAll.First().CreationTime.ToString("yyyy-MM-dd");
+                    output.FireLastAlarmTime = alarmFireAll.Max(p => p.CreationTime).ToString("yyyy-MM-dd HH:mm");
+                }
                 output.FireAlarmCount = alarmFireAll.Count();
                 output.FireAlarmCheckCount = _alarmCheckRep.GetAll().Where(p => p.FireUnitId == input.Id && p.FireSysType == (byte)FireSysType.Fire && p.CheckState != (byte)CheckStateType.UnCheck).Count();
-                output.FireLastAlarmTime = alarmFireAll.Max(p => p.CreationTime).ToString("yyyy-MM-dd HH:mm");
                 output.Fire30DayCount = alarmFire.Count();
                 output.FireHighCount = output.Fire30DayCount == 0 ? 0 :
                 alarmFire.GroupBy(p => p.DetectorId).Select(p => new { DetectorId = p.Key, Count = p.Count() })
@@ -110,12 +115,14 @@ namespace FireProtectionV1.FireWorking.Manager
                 output.PatrolLastTime = lastPatrol == null ? "" : lastPatrol.CreationTime.ToString("yyyy-MM-dd HH:mm");
                 output.Patrol30DayCount = _patrolRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30)).Count();
                 output.PatrolCount = _patrolRep.GetAll().Where(p => p.FireUnitId == input.Id).Count();
-                output.FirstPatrolTime = _patrolRep.GetAll().Where(p => p.FireUnitId == input.Id).Min(p => p.CreationTime).ToString("yyyy-MM-dd");
+                if(output.PatrolCount>0)
+                    output.FirstPatrolTime = _patrolRep.GetAll().Where(p => p.FireUnitId == input.Id).Min(p => p.CreationTime).ToString("yyyy-MM-dd");
                 //值班记录：最近提交时间、最近30天提交记录数量
                 var lastDuty = _dutyRep.GetAll().Where(p => p.FireUnitId == input.Id).OrderByDescending(p => p.CreationTime).FirstOrDefault();
                 output.DutyLastTime = lastDuty == null ? "" : lastDuty.CreationTime.ToString("yyyy-MM-dd HH:mm");
                 output.DutyCount = _dutyRep.GetAll().Where(p => p.FireUnitId == input.Id).Count();
-                output.FirstDutyTime = _dutyRep.GetAll().Where(p => p.FireUnitId == input.Id).Min(p => p.CreationTime).ToString("yyyy-MM-dd");
+                if (output.DutyCount>0)
+                    output.FirstDutyTime = _dutyRep.GetAll().Where(p => p.FireUnitId == input.Id).Min(p => p.CreationTime).ToString("yyyy-MM-dd");
                 output.Duty30DayCount = _dutyRep.GetAll().Where(p => p.FireUnitId == input.Id && p.CreationTime >= DateTime.Now.Date.AddDays(-30)).Count();
             });
             return output;
