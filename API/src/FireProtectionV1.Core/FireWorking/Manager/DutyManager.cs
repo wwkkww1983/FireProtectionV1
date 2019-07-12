@@ -273,7 +273,7 @@ namespace FireProtectionV1.FireWorking.Manager
             {
                 Directory.CreateDirectory(path);//创建新路径
             }
-            string fileName = file.FileName;
+            string fileName = GetTimeStamp() + Path.GetExtension(file.FileName);
             using (var stream = System.IO.File.Create(path + fileName))
             {
                 await file.CopyToAsync(stream);

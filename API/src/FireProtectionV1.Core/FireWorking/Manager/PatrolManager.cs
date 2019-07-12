@@ -330,14 +330,19 @@ namespace FireProtectionV1.FireWorking.Manager
             {
                 Directory.CreateDirectory(path);//创建新路径
             }
-            string fileName = file.FileName;
+            string fileName = GetTimeStamp()+ Path.GetExtension(file.FileName);
             using (var stream = System.IO.File.Create(path + fileName))
             {
                 await file.CopyToAsync(stream);
             }
             return fileName;
         }
-
+        //获取当前时间段额时间戳
+        public string GetTimeStamp()
+        {
+            TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return Convert.ToInt64(ts.TotalMilliseconds).ToString();
+        }
         /// <summary>
         /// Web获取巡查记录列表
         /// </summary>
