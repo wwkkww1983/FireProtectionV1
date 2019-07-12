@@ -49,7 +49,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="fireUnitId"></param>
         /// <returns></returns>
-        Task<PagedResultDto<EndDeviceStateOutput>> GetFireUnitEndDeviceState(int fireUnitId, int option, PagedResultRequestDto dto);
+        Task<PagedResultDeviceDto<EndDeviceStateOutput>> GetFireUnitEndDeviceState(int fireUnitId, int option, PagedResultRequestDto dto);
         Task<AddDataOutput> AddRecordAnalog(AddDataElecInput input);
         /// <summary>
         /// 获得防火单位终端历史记录
