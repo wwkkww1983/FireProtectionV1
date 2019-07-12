@@ -1156,6 +1156,11 @@
             联系人
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Dto.FireUnitReportDataOutput.ContractPhone">
+            <summary>
+            联系电话
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Dto.FireUnitReportDataOutput.SafeUnit">
             <summary>
             维保单位

@@ -85,7 +85,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 output.LastTimeStateChange = state.CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
             }
             List<string> dates = new List<string>();
-            for(DateTime dt= input.Start; dt <= input.End; dt.AddDays(1))
+            for(DateTime dt= input.Start; dt <= input.End; dt=dt.AddDays(1))
             {
                 dates.Add(dt.ToString("yyyy-MM-dd"));
             }
@@ -129,7 +129,8 @@ namespace FireProtectionV1.FireWorking.Manager
                              Time = a,
                              Count = c == null ? 0 : c.Count()
                          };
-
+            int m = faults.Count();
+            int m2 = alarms.Count();
             output.UnAnalogTimes = (from a in onlines
                                     join b in alarms
                                     on a.Time equals b.Time
