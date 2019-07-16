@@ -62,6 +62,7 @@ namespace FireProtectionV1.AppService
                 DutyCount = a.DutyCount,
                 Duty30DayCount = a.Duty30DayCount,
                 ContractName = f.ContractName,
+                ContractPhone=f.ContractPhone,
                 DutyLastTime = a.DutyLastTime,
                 Elec30DayCount = a.Elec30DayCount,
                 ElecAlarmCheckCount = a.ElecAlarmCheckCount,

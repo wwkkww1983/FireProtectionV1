@@ -85,7 +85,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 output.LastTimeStateChange = state.CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
             }
             List<string> dates = new List<string>();
-            for(DateTime dt= input.Start; dt <= input.End; dt.AddDays(1))
+            for(DateTime dt= input.Start; dt <= input.End; dt=dt.AddDays(1))
             {
                 dates.Add(dt.ToString("yyyy-MM-dd"));
             }
@@ -129,7 +129,8 @@ namespace FireProtectionV1.FireWorking.Manager
                              Time = a,
                              Count = c == null ? 0 : c.Count()
                          };
-
+            int m = faults.Count();
+            int m2 = alarms.Count();
             output.UnAnalogTimes = (from a in onlines
                                     join b in alarms
                                     on a.Time equals b.Time
@@ -171,7 +172,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="fireUnitId"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<EndDeviceStateOutput>> GetFireUnitEndDeviceState(int fireUnitId, int option, PagedResultRequestDto dto)
+        public async Task<PagedResultDeviceDto<EndDeviceStateOutput>> GetFireUnitEndDeviceState(int fireUnitId, int option, PagedResultRequestDto dto)
         {
             var uitd = (from a in _detectorRep.GetAll().Where(p => p.FireUnitId == fireUnitId && p.DetectorTypeId == GetDetectorType((byte)UnitType.UITD).Id
                        && (option == 0 ? true : (option == -1 ? p.State.Equals("离线") : !p.State.Equals("离线"))))
@@ -224,8 +225,9 @@ namespace FireProtectionV1.FireWorking.Manager
                 v.Standard = $"<={setEle.MaxValue}mA";
             }
             var lst= uitd.Union(tem).Union(ele).ToList();
-            return new PagedResultDto<EndDeviceStateOutput>()
+            return new PagedResultDeviceDto<EndDeviceStateOutput>()
             {
+                OfflineCount = lst.Count(p => p.StateName.Equals("离线")),
                 TotalCount = lst.Count,
                 Items = lst.Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList()
             };

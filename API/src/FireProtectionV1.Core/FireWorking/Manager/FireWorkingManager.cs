@@ -107,6 +107,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 output.FirePointsCount = detectsFire.Count();
                 //故障数据
                 var faults = _faultRep.GetAll().Where(p => p.FireUnitId == input.Id);
+                output.FirstFaultTime = faults.Min(p => p.CreationTime).ToString("yyyy-MM-dd");
                 output.FaultCount = faults.Count();
                 output.FaultPendingCount = faults.Where(p => p.ProcessState == 0).Count();
                 output.FaultProcessedCount = output.FaultCount - output.FaultPendingCount;

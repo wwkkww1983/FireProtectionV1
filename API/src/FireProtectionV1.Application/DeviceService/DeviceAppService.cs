@@ -75,7 +75,7 @@ namespace FireProtectionV1.DeviceService
         /// <param name="Option">筛选选项值</param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<EndDeviceStateOutput>> GetFireUnitEndDeviceState([Required]int FireUnitId,int Option,PagedResultRequestDto dto)
+        public async Task<PagedResultDeviceDto<EndDeviceStateOutput>> GetFireUnitEndDeviceState([Required]int FireUnitId,int Option,PagedResultRequestDto dto)
         {
             return await _deviceManager.GetFireUnitEndDeviceState(FireUnitId, Option,dto);
         }
