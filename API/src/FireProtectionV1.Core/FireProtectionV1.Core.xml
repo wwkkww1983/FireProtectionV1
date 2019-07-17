@@ -1621,6 +1621,11 @@
             发现时间
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetBreakDownOutput.SolutionTime">
+            <summary>
+            处理时间
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetBreakDownPagingOutput.TotalCount">
             <summary>
             总数
@@ -3524,7 +3529,7 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.BreakDown.SolutionTime">
             <summary>
-            解决时间
+            处理时间
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.BreakDown.SolutionWay">

@@ -34,7 +34,7 @@ namespace FireProtectionV1.FireWorking.Model
         [Required]
         public int DataId { get; set; }
         /// <summary>
-        /// 解决时间
+        /// 处理时间
         /// </summary>
         public DateTime SolutionTime { get; set; }
         /// <summary>

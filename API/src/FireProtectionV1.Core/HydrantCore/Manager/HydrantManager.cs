@@ -307,7 +307,7 @@ namespace FireProtectionV1.HydrantCore.Manager
             var list = changeType.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
             var tCount = query.Count();
 
-            return Task.FromResult(new PagedResultDto<GetNearAlarmOutput>(tCount, list));
+            return Task.FromResult(new PagedResultDto<GetNearAlarmOutput>(tCount, list)); 
         }
 
         /// <summary>
