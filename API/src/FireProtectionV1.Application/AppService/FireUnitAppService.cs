@@ -47,6 +47,24 @@ namespace FireProtectionV1.AppService
             _fireWorkingManager = fireWorkingManager;
         }
         /// <summary>
+        /// 获取防火单位消防预案
+        /// </summary>
+        /// <param name="FireUnitId">防火单位Id</param>
+        /// <returns></returns>
+        public async Task<string> GetFirePlan(int FireUnitId)
+        {
+            return await _fireUnitManager.GetFirePlan(FireUnitId);
+        }
+        /// <summary>
+        /// 保存消防预案
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> SaveFirePlan(FirePlanInput input)
+        {
+            return await _fireUnitManager.SaveFirePlan( input);
+        }
+        /// <summary>
         /// 得到防火单位报表数据
         /// </summary>
         /// <param name="FireUnitId">防火单位Id</param>
