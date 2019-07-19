@@ -83,8 +83,8 @@ namespace FireProtectionV1.AppService
                 dto.PictureUrl_2 = "/src/Photos/AlarmCheck/" + await SaveFile(input.Picture2, pathPhoto);
             if (input.Picture3 != null)
                 dto.PictureUrl_3 = "/src/Photos/AlarmCheck/" + await SaveFile(input.Picture3, pathPhoto);
-            if (input.Vioce != null)
-                dto.VioceUrl = "/src/Voices/AlarmCheck/" + await SaveFile(input.Vioce, pathVoice);
+            if (input.Voice != null)
+                dto.VioceUrl = "/src/Voices/AlarmCheck/" + await SaveFile(input.Voice, pathVoice);
             await _alarmManager.CheckAlarm(dto);
             return new SuccessOutput() { Success = true };
         }

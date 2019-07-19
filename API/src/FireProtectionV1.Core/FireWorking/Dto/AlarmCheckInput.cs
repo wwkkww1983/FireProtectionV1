@@ -42,7 +42,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 检查语音
         /// </summary>
-        public IFormFile Vioce { get; set; }
+        public IFormFile Voice { get; set; }
         ///// <summary>
         ///// 测试图片数组
         ///// </summary>

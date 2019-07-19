@@ -23,6 +23,7 @@ namespace FireProtectionV1.Enterprise.Manager
 {
     public class FireUnitManager : DomainService, IFireUnitManager
     {
+        IRepository<FireUnitPlan> _repFireUnitPlan;
         IRepository<FireUnitAttention> _fireUnitAttentionRep;
         IRepository<SafeUnit> _safeUnitRep;
         IRepository<Area> _areaRep;
@@ -34,6 +35,7 @@ namespace FireProtectionV1.Enterprise.Manager
         IRepository<EquipmentNo> _equipmentNoRep;
         ICacheManager _cacheManager;
         public FireUnitManager(
+            IRepository<FireUnitPlan> repFireUnitPlan,
             IRepository<FireUnitAttention> fireUnitAttentionRep,
             IRepository<SafeUnit> safeUnitR,
             IRepository<Area> areaR,
@@ -47,6 +49,7 @@ namespace FireProtectionV1.Enterprise.Manager
             IRepository<EquipmentNo> equipmentNoRep
             )
         {
+            _repFireUnitPlan = repFireUnitPlan;
             _fireUnitAttentionRep = fireUnitAttentionRep;
             _safeUnitRep = safeUnitR;
             _areaRep = areaR;
@@ -57,6 +60,31 @@ namespace FireProtectionV1.Enterprise.Manager
             _fireSystemRep = fireSystemRep;
             _fireUnitSystemRep = fireUnitSystemRep;
             _equipmentNoRep = equipmentNoRep;
+        }
+        public async Task<SuccessOutput> SaveFirePlan(FirePlanInput input)
+        {
+            var plan = await _repFireUnitPlan.FirstOrDefaultAsync(p => p.FireUnitId == input.FireUnitId);
+            if (plan != null)
+            {
+                plan.FirePlan = input.Plan;
+                await _repFireUnitPlan.UpdateAsync(plan);
+            }
+            else
+            {
+                await _repFireUnitPlan.InsertAsync(new FireUnitPlan()
+                {
+                    FireUnitId = input.FireUnitId,
+                    FirePlan = input.Plan
+                });
+            }
+            return new SuccessOutput() { Success = true };
+        }
+        public async Task<string> GetFirePlan(int FireUnitId)
+        {
+            var plan =await _repFireUnitPlan.FirstOrDefaultAsync(p => p.FireUnitId == FireUnitId);
+            if (plan != null)
+                return plan.FirePlan;
+            return null;
         }
         public async Task<List<FireUnitNameOutput>> QueryFireUnitLikeName(string MatchName)
         {
