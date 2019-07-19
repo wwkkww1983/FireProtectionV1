@@ -375,6 +375,16 @@
             防火单位Id
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.FirePlanInput.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.FirePlanInput.Plan">
+            <summary>
+            消防预案
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.FireUnitNameOutput.FireUnitId">
             <summary>
             防火单位Id
@@ -1170,6 +1180,21 @@
             消防部门用户Id
             </summary>
         </member>
+        <member name="T:FireProtectionV1.Enterprise.Model.FireUnitPlan">
+            <summary>
+            防火单位预案
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitPlan.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitPlan.FirePlan">
+            <summary>
+            消防预案
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Model.FireUntiSystem.FireUnitId">
             <summary>
             防火单位Id
@@ -1471,7 +1496,7 @@
             检查图片
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckInput.Vioce">
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckInput.Voice">
             <summary>
             检查语音
             </summary>
@@ -4125,6 +4150,11 @@
         <member name="P:FireProtectionV1.HydrantCore.Dto.UpdateHydrantAlarmInput.ProblemRemark">
             <summary>
             情况说明
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.UpdateHydrantAlarmInput.VoiceFile">
+            <summary>
+            音频文件
             </summary>
         </member>
         <member name="P:FireProtectionV1.HydrantCore.Dto.UpdateHydrantAlarmInput.Picture1">

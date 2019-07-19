@@ -147,7 +147,6 @@ namespace FireProtectionV1.HydrantCore.Manager
                 SaveFilesHelper saveFilesHelper = new SaveFilesHelper(_photosPathSave);
                 var alarm = await _hydrantAlarmRepository.SingleAsync(u => u.Id == input.AlarmId);
                 alarm.HandleStatus = (byte)input.HandleStatus;
-                alarm.ProblemRemark = input.ProblemRemark;
                 alarm.ProblemRemarkType = (byte)input.ProblemRemarkType;
                 alarm.SoultionTime = DateTime.Now;
                 alarm.HandleUser = input.UserName;
@@ -160,6 +159,17 @@ namespace FireProtectionV1.HydrantCore.Manager
                     saveFilesHelper.SavePhotosPath(tableName, input.AlarmId, await saveFilesHelper.SaveFiles(input.Picture2, path));
                 if (input.Picture3 != null)
                     saveFilesHelper.SavePhotosPath(tableName, input.AlarmId, await saveFilesHelper.SaveFiles(input.Picture3, path));
+
+                string voicepath = _hostingEnv.ContentRootPath + $@"/App_Data/Files/Voices/HydrantAlarm/";
+                if ((int)input.ProblemRemarkType == 1)
+                {
+                    alarm.ProblemRemark = alarm.ProblemRemark;
+                }
+                else if ((int)input.ProblemRemarkType == 2 && input.VoiceFile != null)
+                {
+                    alarm.ProblemRemark = "/Src/Voices/DataToDuty/" + await saveFilesHelper.SaveFiles(input.VoiceFile, voicepath);
+                }
+
                 await _hydrantAlarmRepository.UpdateAsync(alarm);
                 return output;
             }

@@ -116,5 +116,23 @@ namespace FireProtectionV1.AppService
             return output;
         }
 
+
+        /// <summary>
+        /// 注销用户
+        /// </summary>
+        /// <returns></returns>
+        public async Task<SuccessOutput> UserLogout()
+        {
+            var output = new SuccessOutput();
+            if (!_httpContext.HttpContext.User.Identity.IsAuthenticated)
+            {
+                output.Success = false;
+                output.FailCause = "未认证";
+                return output;
+            }
+            await _httpContext.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            output.Success = true;
+            return output;
+        }
     }
 }

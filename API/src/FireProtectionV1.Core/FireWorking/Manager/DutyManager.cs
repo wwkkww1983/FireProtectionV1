@@ -214,7 +214,7 @@ namespace FireProtectionV1.FireWorking.Manager
                     }
                     else if ((int)input.ProblemRemarkType == 2 && input.RemarkVioce != null)
                     {
-                        problemInfo.ProblemRemark = await SaveFiles(input.RemarkVioce, problempath);
+                        problemInfo.ProblemRemark = "/Src/Voices/DataToDuty/" + await SaveFiles(input.RemarkVioce, problempath);
                     }
                     int problemId = _dataToDutyProblemRep.InsertAndGetId(problemInfo);
                     if (input.ProblemPicture1 != null)

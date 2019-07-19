@@ -30,6 +30,10 @@ namespace FireProtectionV1.HydrantCore.Dto
         /// </summary>
         public string ProblemRemark { get; set; }
         /// <summary>
+        /// 音频文件
+        /// </summary>
+        public IFormFile VoiceFile { get; set; }
+        /// <summary>
         /// 现场照片
         /// </summary>
         public IFormFile Picture1 { get; set; }
