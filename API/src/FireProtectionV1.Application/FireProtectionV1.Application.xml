@@ -813,6 +813,76 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.HydrantAlarmAppService.GetUserHydrant(FireProtectionV1.HydrantCore.Dto.GetUserHydrantInput)">
+            <summary>
+            获取消火栓列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.AppService.HydrantAlarmAppService.GetHydrantAlarmlistForMobile(FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmListInput)">
+            <summary>
+            获取消火栓报警列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.AppService.HydrantAlarmAppService.GetHydrantAlarmInfo(FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoInput)">
+            <summary>
+            获取警情处理详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.AppService.HydrantAlarmAppService.UpdtateHydrantAlarm(FireProtectionV1.HydrantCore.Dto.UpdateHydrantAlarmInput)">
+            <summary>
+            警情处理
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.AppService.HydrantUserAppService.UserRegist(FireProtectionV1.User.Dto.GetHydrantUserRegistInput)">
+            <summary>
+            用户注册
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.HydrantUserAppService.UserLoginForMobile(FireProtectionV1.User.Dto.LoginInput)">
+            <summary>
+            用户登录(移动端)
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.HydrantUserAppService.ChangePassword(FireProtectionV1.User.Dto.DeptChangePassword)">
+            <summary>
+            修改密码
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.HydrantUserAppService.GetUserArea(FireProtectionV1.User.Dto.GetUserAreaInput)">
+            <summary>
+            获取已有管辖区
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.HydrantUserAppService.GetArea(FireProtectionV1.User.Dto.GetUserAreaInput)">
+            <summary>
+            获取未拥有管辖区
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.HydrantUserAppService.PutUserArea(FireProtectionV1.User.Dto.PutUserAreaInput)">
+            <summary>
+            修改用户管辖区
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="T:FireProtectionV1.AppService.InfrastructureAppService">
             <summary>
             数据字典初始化

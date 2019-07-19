@@ -20,5 +20,13 @@ namespace FireProtectionV1.HydrantCore.Dto
         /// 地址
         /// </summary>
         public string Address { get; set; }
+        /// <summary>
+        /// 经度
+        /// </summary>
+        public decimal Lng { get; set; }
+        /// <summary>
+        /// 纬度
+        /// </summary>
+        public decimal Lat { get; set; }
     }
 }
