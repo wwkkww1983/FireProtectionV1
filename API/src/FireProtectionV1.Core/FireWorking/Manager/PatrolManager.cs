@@ -428,6 +428,16 @@ namespace FireProtectionV1.FireWorking.Manager
                          };
             return Task.FromResult(output.FirstOrDefault());
         }
-
+        /// <summary>
+        /// 新增时获取巡查记录类别
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task<GetPatrolTypeOutput> GetPatrolType(GetPatrolFireUnitSystemInput input)
+        {
+            GetPatrolTypeOutput output = new GetPatrolTypeOutput();
+            output.PatrolType = (Patrol)_fireUnitRep.FirstOrDefault(u=>u.Id==input.FireUnitId).Patrol;
+            return Task.FromResult(output);
+        }
     }
 }

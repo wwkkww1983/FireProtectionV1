@@ -70,5 +70,11 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<GetPatrolInfoForWebOutput> GetPatrolInfoForWeb(GetPatrolInfoForWebInput input);
+        /// <summary>
+        /// 新增时获取巡查记录类别
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<GetPatrolTypeOutput> GetPatrolType(GetPatrolFireUnitSystemInput input);
     }
 }

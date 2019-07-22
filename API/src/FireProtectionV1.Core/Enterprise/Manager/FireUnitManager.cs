@@ -18,6 +18,7 @@ using FireProtectionV1.Infrastructure.Model;
 using FireProtectionV1.User.Manager;
 using FireProtectionV1.User.Model;
 using FireProtectionV1.Common.Helper;
+using FireProtectionV1.Common.Enum;
 
 namespace FireProtectionV1.Enterprise.Manager
 {
@@ -309,7 +310,7 @@ namespace FireProtectionV1.Enterprise.Manager
                 output.Address = f.Address;
                 output.ContractName = f.ContractName;
                 output.ContractPhone = f.ContractPhone;
-                output.Patrol = f.Patrol;
+                output.Patrol = (Patrol)f.Patrol;
                 output.Lat = f.Lat;
                 output.Lng = f.Lng;
                 var a =await _areaRep.SingleAsync(p => p.Id.Equals(f.AreaId));
@@ -415,7 +416,7 @@ namespace FireProtectionV1.Enterprise.Manager
         {
             var old = _fireUnitRep.GetAll().Where(u => u.Id == input.FireUnitId).FirstOrDefault();
             old.SafeUnitId = input.SafeUnitId;
-            old.Patrol = input.Patrol;
+            old.Patrol = (int)input.Patrol;
 
             await _fireUnitRep.UpdateAsync(old);
             return new SuccessOutput() { Success = true };

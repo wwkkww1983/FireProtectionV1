@@ -138,6 +138,14 @@ namespace FireProtectionV1.AppService
         {
             return await _patrolManager.GetPatrolInfoForWeb(input);
         }
-
+        /// <summary>
+        /// 新增时获取巡查记录类别
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<GetPatrolTypeOutput> GetPatrolType(GetPatrolFireUnitSystemInput input)
+        {
+            return await _patrolManager.GetPatrolType(input);
+        }
     }
 }
