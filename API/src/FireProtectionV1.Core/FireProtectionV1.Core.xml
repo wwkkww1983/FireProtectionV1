@@ -665,6 +665,11 @@
             用户Id
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.QueryFireUnitLikeNameInput.MatchName">
+            <summary>
+            防火单位名称(模糊查询)
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.UpdateFireUnitInput.Id">
             <summary>
             防火单位Id

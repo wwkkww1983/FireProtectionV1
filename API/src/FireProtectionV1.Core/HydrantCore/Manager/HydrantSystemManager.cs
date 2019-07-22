@@ -162,7 +162,7 @@ namespace FireProtectionV1.HydrantCore.Manager
 
                 string voicepath = _hostingEnv.ContentRootPath + $@"/App_Data/Files/Voices/HydrantAlarm/";
                 if ((int)input.ProblemRemarkType == 1)
-                {
+                { 
                     alarm.ProblemRemark = alarm.ProblemRemark;
                 }
                 else if ((int)input.ProblemRemarkType == 2 && input.VoiceFile != null)
@@ -171,7 +171,7 @@ namespace FireProtectionV1.HydrantCore.Manager
                 }
 
                 await _hydrantAlarmRepository.UpdateAsync(alarm);
-                return output;
+                return output; 
             }
             catch (Exception e)
             {

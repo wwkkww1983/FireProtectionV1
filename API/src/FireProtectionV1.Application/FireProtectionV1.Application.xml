@@ -481,7 +481,7 @@
             <param name="FireUnitId">防火单位Id</param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireUnitAppService.QueryFireUnitLikeName(System.String)">
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.QueryFireUnitLikeName(FireProtectionV1.Enterprise.Dto.QueryFireUnitLikeNameInput)">
             <summary>
             查询防火单位名称(模糊查询)
             </summary>

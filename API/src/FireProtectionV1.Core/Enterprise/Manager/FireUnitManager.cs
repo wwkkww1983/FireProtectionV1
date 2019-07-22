@@ -86,11 +86,11 @@ namespace FireProtectionV1.Enterprise.Manager
                 return plan.FirePlan;
             return null;
         }
-        public async Task<List<FireUnitNameOutput>> QueryFireUnitLikeName(string MatchName)
+        public async Task<List<FireUnitNameOutput>> QueryFireUnitLikeName(QueryFireUnitLikeNameInput input)
         {
             List<FireUnitNameOutput> output = await Task.Run(() =>
             {
-                return _fireUnitRep.GetAll().Where(p => p.Name.Contains(MatchName)).Take(10).Select(p => new FireUnitNameOutput()
+                return _fireUnitRep.GetAll().Where(p => p.Name.Contains(input.MatchName)).Take(10).Select(p => new FireUnitNameOutput()
                 {
                     FireUnitId = p.Id,
                     FireUnitName = p.Name
