@@ -17,7 +17,7 @@ namespace FireProtectionV1.FireWorking.Model
         [Required]
         public int FireUnitId { get; set; }
         /// <summary>
-        /// 防火单位用户Id
+        /// 防火单位巡查人员Id
         /// </summary>
         [Required]
         public int FireUnitUserId { get; set; }

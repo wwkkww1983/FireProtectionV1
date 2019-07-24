@@ -2461,14 +2461,24 @@
             防火单位Id
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolOutput.PatrolId">
+            <summary>
+            巡查ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackInput.PatrolId">
+            <summary>
+            巡查ID
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackInput.PatrolAddress">
             <summary>
             巡查地点
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackInput.SystemId">
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackInput.SystemIdList">
             <summary>
-            巡查系统
+            巡查系统(ID用逗号隔开)
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackInput.ProblemStatus">
@@ -3367,6 +3377,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.AddPatrolTrackDetail(FireProtectionV1.FireWorking.Dto.AddPatrolTrackInput)">
+            <summary>
+            添加巡查记录轨迹
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.GetPatrollistForWeb(FireProtectionV1.FireWorking.Dto.GetDataPatrolForWebInput)">
             <summary>
             Web获取巡查记录列表
@@ -3419,6 +3436,13 @@
         <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.AddPatrolTrack(FireProtectionV1.FireWorking.Dto.AddPatrolInput)">
             <summary>
             添加巡查记录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.AddPatrolTrackDetail(FireProtectionV1.FireWorking.Dto.AddPatrolTrackInput)">
+            <summary>
+            添加巡查记录轨迹
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -3658,7 +3682,7 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.DataToPatrol.FireUnitUserId">
             <summary>
-            防火单位用户Id
+            防火单位巡查人员Id
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.DataToPatrol.PatrolStatus">
