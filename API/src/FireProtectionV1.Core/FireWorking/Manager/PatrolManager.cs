@@ -169,8 +169,8 @@ namespace FireProtectionV1.FireWorking.Manager
 
 
             var output = from a in detaillist
-                         join  b in _patrolDetailProblem.GetAll() on a.Id equals b.PatrolDetailId into JoinedEmpDept
-                         from dept in JoinedEmpDept.DefaultIfEmpty() 
+                         join b in _patrolDetailProblem.GetAll() on a.Id equals b.PatrolDetailId into JoinedEmpDept
+                         from dept in JoinedEmpDept.DefaultIfEmpty()
                          select new GetPatrolTrackOutput
                          {
                              PatrolId = a.PatrolId,
@@ -182,10 +182,13 @@ namespace FireProtectionV1.FireWorking.Manager
                                                where c.Id == a.Id
                                                select d.SystemName).FirstOrDefault(),
                              FireSystemCount = _patrolDetailFireSystem.GetAll().Where(u => u.PatrolDetailId == a.Id).Count(),
-                             PatrolAddress =a.PatrolAddress,
-                             ProblemRemakeType = dept==null?0:dept.ProblemRemarkType,
+                             PatrolAddress = a.PatrolAddress,
+                             ProblemRemakeType = dept == null ? 0 : dept.ProblemRemarkType,
                              RemakeText = dept.ProblemRemark,
-                             PatrolPhotosPath = _photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToPatrolDetail")&&u.DataId== dept.Id).Select(u => u.PhotoPath).ToList()
+                             PatrolPhotosPath = (from x in _photosPathSave.GetAll()
+                                                where x.TableName== "DataToPatrolDetail" &&x.DataId==a.Id
+                                                 select x.PhotoPath).ToList()
+                             //_photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToPatrolDetail") && u.DataId == dept.Id).DefaultIfEmpty().Select(u => u.PhotoPath).ToList()
                          };
             return Task.FromResult(output.ToList());
         }
@@ -260,9 +263,17 @@ namespace FireProtectionV1.FireWorking.Manager
                     };
                     await _patrolDetailFireSystem.InsertAsync(patrolsystem);
 
-                }
-                    ;
-                //存储文件路径
+                };
+
+                //存储照片
+                if (input.LivePicture1 != null)
+                    SavePhotosPath(problemtableName, detailId, await SaveFiles(input.LivePicture1, photopath));
+                if (input.LivePicture2 != null)
+                    SavePhotosPath(problemtableName, detailId, await SaveFiles(input.LivePicture2, photopath));
+                if (input.LivePicture3 != null)
+                    SavePhotosPath(problemtableName, detailId, await SaveFiles(input.LivePicture3, photopath));
+
+                //发现问题处理
                 if (detail.PatrolStatus != (byte)ProblemStatusType.noraml && detail.PatrolStatus != (byte)ProblemStatusType.alldate)
                 {
                     DataToPatrolDetailProblem problem = new DataToPatrolDetailProblem()
@@ -279,12 +290,7 @@ namespace FireProtectionV1.FireWorking.Manager
                         problem.ProblemRemark = "/Src/Voices/DataToDuty/" + await SaveFiles(input.RemarkVioce, voicepath);
                     }
                     int problemId = _patrolDetailProblem.InsertAndGetId(problem);
-                    if (input.LivePicture1 != null)
-                        SavePhotosPath(problemtableName, problemId, await SaveFiles(input.LivePicture1, photopath));
-                    if (input.LivePicture2 != null)
-                        SavePhotosPath(problemtableName, problemId, await SaveFiles(input.LivePicture2, photopath));
-                    if (input.LivePicture3 != null)
-                        SavePhotosPath(problemtableName, problemId, await SaveFiles(input.LivePicture3, photopath));
+                   
 
                     //如果发生故障更改巡查最终结果的显示
                     var tracklist = _patrolDetailRep.GetAll().Where(u => u.PatrolId == input.PatrolId);

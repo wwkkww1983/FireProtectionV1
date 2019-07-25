@@ -125,7 +125,7 @@ namespace FireProtectionV1.FireWorking.Manager
             if (breakdown.Source == 2)
             {
                 var patroldetailproblem = _patrolDetailProblem.FirstOrDefault(u => u.Id == breakdown.DataId);
-                var photospath = _photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToPatrolDetailProblem") && u.DataId == patroldetailproblem.Id).Select(u => u.PhotoPath).ToList();
+                var photospath = _photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToPatrolDetail") && u.DataId == patroldetailproblem.PatrolDetailId).Select(u => u.PhotoPath).ToList();
                 output.ProblemRemakeType = (byte)patroldetailproblem.ProblemRemarkType;
                 output.RemakeText = patroldetailproblem.ProblemRemark;
                 output.PatrolPhotosPath = photospath;
