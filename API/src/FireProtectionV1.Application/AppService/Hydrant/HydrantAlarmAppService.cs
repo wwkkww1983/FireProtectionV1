@@ -62,6 +62,15 @@ namespace FireProtectionV1.AppService
         {
             return await _hydrantSystemManager.UpdtateHydrantAlarm(input);
         }
+        /// <summary>
+        /// 全部标为已读
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns> 
+        public async Task<SuccessOutput> UpdtateAlarmAlreadyRead(GetUserHydrantInput input)
+        {
+            return await _hydrantSystemManager.UpdtateAlarmAlreadyRead(input);
+        }
     }
 
 }

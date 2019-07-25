@@ -39,5 +39,11 @@ namespace FireProtectionV1.HydrantCore.Manager
         /// <param name="input"></param>
         /// <returns></returns> 
         Task<SuccessOutput> UpdtateHydrantAlarm(UpdateHydrantAlarmInput input);
+        /// <summary>
+        /// 全部标为已读
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns> 
+        Task<SuccessOutput> UpdtateAlarmAlreadyRead(GetUserHydrantInput input);
     }
 }

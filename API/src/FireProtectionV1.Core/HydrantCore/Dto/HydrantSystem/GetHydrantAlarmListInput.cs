@@ -19,6 +19,10 @@ namespace FireProtectionV1.HydrantCore.Dto
         /// </summary>
         [Required]
         public HandleStatus HandleStatus { get; set; }
+        /// <summary>
+        /// 是否只显示未读信息
+        /// </summary>
+        public bool OnlyUnRead { get; set; }
     }
     
 }

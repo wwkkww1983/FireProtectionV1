@@ -84,7 +84,11 @@ namespace FireProtectionV1.HydrantCore.Manager
         /// <returns></returns> 
         public Task<GetHydrantAlarmPagingOutput> GetHydrantAlarmlistForMobile(GetHydrantAlarmListInput input)
         {
-            var list = (from a in _hydrantAlarmRepository.GetAll()
+            var alarmlist = _hydrantAlarmRepository.GetAll();
+            var expr = ExprExtension.True<HydrantAlarm>()
+                .IfAnd(input.OnlyUnRead==true, item => item.ReadFlag==false);
+            alarmlist = alarmlist.Where(expr);
+            var list = (from a in alarmlist
                         join b in _hydrantRepository.GetAll() on a.HydrantId equals b.Id
                         join c in _hydrantUserArea.GetAll().Where(u => u.AccountID == input.UserID) on b.AreaId equals c.AreaID
                         where a.HandleStatus == (byte)input.HandleStatus
@@ -103,6 +107,26 @@ namespace FireProtectionV1.HydrantCore.Manager
             };
             return Task.FromResult(output);
 
+        }
+        /// <summary>
+        /// 全部标为已读
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns> 
+        public async Task<SuccessOutput> UpdtateAlarmAlreadyRead(GetUserHydrantInput input)
+        {
+            SuccessOutput output = new SuccessOutput() { Success = true };
+               var list = from a in _hydrantAlarmRepository.GetAll()
+                        join b in _hydrantRepository.GetAll() on a.HydrantId equals b.Id
+                        join c in _hydrantUserArea.GetAll().Where(u => u.AccountID == input.UserID) on b.AreaId equals c.AreaID
+                        where a.ReadFlag == false
+                        select a;
+            foreach(var a in list)
+            {
+                a.ReadFlag = true;
+                await _hydrantAlarmRepository.UpdateAsync(a);
+            }
+            return output;
         }
         /// <summary>
         /// 获取警情处理详情

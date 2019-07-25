@@ -4105,6 +4105,11 @@
             处理状态
             </summary>
         </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmListInput.OnlyUnRead">
+            <summary>
+            是否只显示未读信息
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmOutput.AlarmId">
             <summary>
             警情ID
@@ -4295,6 +4300,13 @@
             <param name="input"></param>
             <returns></returns> 
         </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.HydrantSystemManager.UpdtateAlarmAlreadyRead(FireProtectionV1.HydrantCore.Dto.GetUserHydrantInput)">
+            <summary>
+            全部标为已读
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
         <member name="M:FireProtectionV1.HydrantCore.Manager.HydrantSystemManager.GetHydrantAlarmInfo(FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoInput)">
             <summary>
             获取警情处理详情
@@ -4404,6 +4416,13 @@
         <member name="M:FireProtectionV1.HydrantCore.Manager.IHydrantSystemManager.UpdtateHydrantAlarm(FireProtectionV1.HydrantCore.Dto.UpdateHydrantAlarmInput)">
             <summary>
             警情处理
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.IHydrantSystemManager.UpdtateAlarmAlreadyRead(FireProtectionV1.HydrantCore.Dto.GetUserHydrantInput)">
+            <summary>
+            全部标为已读
             </summary>
             <param name="input"></param>
             <returns></returns> 

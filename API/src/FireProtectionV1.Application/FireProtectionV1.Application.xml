@@ -875,6 +875,13 @@
             <param name="input"></param>
             <returns></returns> 
         </member>
+        <member name="M:FireProtectionV1.AppService.HydrantAlarmAppService.UpdtateAlarmAlreadyRead(FireProtectionV1.HydrantCore.Dto.GetUserHydrantInput)">
+            <summary>
+            全部标为已读
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
         <member name="M:FireProtectionV1.AppService.HydrantUserAppService.UserRegist(FireProtectionV1.User.Dto.GetHydrantUserRegistInput)">
             <summary>
             用户注册
