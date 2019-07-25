@@ -180,12 +180,8 @@ namespace FireProtectionV1.User.Manager
             {
                 foreach (var a in input.arealist)
                 {
-                    HydrantUserArea area = new HydrantUserArea()
-                    {
-                        AccountID = input.UserID,
-                        AreaID = a.AreaID
-                    };
-                    await _hydrantUserArea.DeleteAsync(area);
+                    string str = $@"DELETE FROM hydrantuserarea WHERE AccountID={input.UserID} AND AreaID={a.AreaID}";
+                    _SqlRepository.Query(str);
                 }
                 output.Success = true;
             }
