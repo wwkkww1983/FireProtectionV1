@@ -124,9 +124,9 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="MatchName">匹配名</param>
         /// <returns></returns>
-        public async Task<List<FireUnitNameOutput>> QueryFireUnitLikeName(string MatchName)
+        public async Task<List<FireUnitNameOutput>> QueryFireUnitLikeName(QueryFireUnitLikeNameInput input)
         {
-            return await _fireUnitManager.QueryFireUnitLikeName(MatchName);
+            return await _fireUnitManager.QueryFireUnitLikeName(input);
         }
         /// <summary>
         /// 邀请码验证

@@ -665,6 +665,11 @@
             用户Id
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.QueryFireUnitLikeNameInput.MatchName">
+            <summary>
+            防火单位名称(模糊查询)
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.UpdateFireUnitInput.Id">
             <summary>
             防火单位Id
@@ -1155,16 +1160,6 @@
             巡查方式
             </summary>
         </member>
-        <member name="F:FireProtectionV1.Enterprise.Model.Patrol.NormalPatrol">
-            <summary>
-            普通巡查
-            </summary>
-        </member>
-        <member name="F:FireProtectionV1.Enterprise.Model.Patrol.ScanPatrol">
-            <summary>
-            扫码巡查
-            </summary>
-        </member>
         <member name="T:FireProtectionV1.Enterprise.Model.FireUnitAttention">
             <summary>
             防火单位
@@ -1178,6 +1173,21 @@
         <member name="P:FireProtectionV1.Enterprise.Model.FireUnitAttention.FireDeptUserId">
             <summary>
             消防部门用户Id
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.Enterprise.Model.FireUnitPlan">
+            <summary>
+            防火单位预案
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitPlan.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitPlan.FirePlan">
+            <summary>
+            消防预案
             </summary>
         </member>
         <member name="T:FireProtectionV1.Enterprise.Model.FireUnitPlan">
@@ -2466,14 +2476,24 @@
             防火单位Id
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolOutput.PatrolId">
+            <summary>
+            巡查ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackInput.PatrolId">
+            <summary>
+            巡查ID
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackInput.PatrolAddress">
             <summary>
             巡查地点
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackInput.SystemId">
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackInput.SystemIdList">
             <summary>
-            巡查系统
+            巡查系统(ID用逗号隔开)
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackInput.ProblemStatus">
@@ -2714,6 +2734,11 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTrackOutput.PatrolPhotosPath">
             <summary>
             巡查图片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTypeOutput.PatrolType">
+            <summary>
+            防火单位Id
             </summary>
         </member>
         <member name="T:FireProtectionV1.FireWorking.Dto.PendingFaultFireUnitOutput">
@@ -3367,6 +3392,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.AddPatrolTrackDetail(FireProtectionV1.FireWorking.Dto.AddPatrolTrackInput)">
+            <summary>
+            添加巡查记录轨迹
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.GetPatrollistForWeb(FireProtectionV1.FireWorking.Dto.GetDataPatrolForWebInput)">
             <summary>
             Web获取巡查记录列表
@@ -3384,6 +3416,13 @@
         <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.GetPatrolInfoForWeb(FireProtectionV1.FireWorking.Dto.GetPatrolInfoForWebInput)">
             <summary>
             Web获取巡查记录详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.GetPatrolType(FireProtectionV1.FireWorking.Dto.GetPatrolFireUnitSystemInput)">
+            <summary>
+            新增时获取巡查记录类别
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -3416,6 +3455,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.AddPatrolTrackDetail(FireProtectionV1.FireWorking.Dto.AddPatrolTrackInput)">
+            <summary>
+            添加巡查记录轨迹
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.GetPatrollistForWeb(FireProtectionV1.FireWorking.Dto.GetDataPatrolForWebInput)">
             <summary>
             Web获取巡查记录列表
@@ -3433,6 +3479,13 @@
         <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.GetPatrolInfoForWeb(FireProtectionV1.FireWorking.Dto.GetPatrolInfoForWebInput)">
             <summary>
             Web获取巡查记录详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.GetPatrolType(FireProtectionV1.FireWorking.Dto.GetPatrolFireUnitSystemInput)">
+            <summary>
+            新增时获取巡查记录类别
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -3644,7 +3697,7 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.DataToPatrol.FireUnitUserId">
             <summary>
-            防火单位用户Id
+            防火单位巡查人员Id
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.DataToPatrol.PatrolStatus">
@@ -3912,6 +3965,16 @@
             地址
             </summary>
         </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.AddHydrantInput.Lng">
+            <summary>
+            经度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.AddHydrantInput.Lat">
+            <summary>
+            纬度
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.HydrantCore.Dto.DeletHydrantInput.Id">
             <summary>
             ID
@@ -3980,6 +4043,191 @@
         <member name="P:FireProtectionV1.HydrantCore.Dto.HydrantDetailOutput.Pressure">
             <summary>
             水压数值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoInput.AlarmID">
+            <summary>
+            警情ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoOutput.AlarmID">
+            <summary>
+            警情ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoOutput.Sn">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoOutput.Adress">
+            <summary>
+            地址
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoOutput.Title">
+            <summary>
+            警情
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoOutput.SolutionTime">
+            <summary>
+            处理时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoOutput.HandleUser">
+            <summary>
+            处理人员
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoOutput.Phone">
+            <summary>
+            处理人员电话
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoOutput.ProblemRemarkType">
+            <summary>
+            问题描述类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoOutput.ProblemRemark">
+            <summary>
+            问题描述(如果类型为文本则存放的文本，类型为语音则存放的语音路径)
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoOutput.PhtosPath">
+            <summary>
+            现场照片路径
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoOutput.Lng">
+            <summary>
+            经度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoOutput.Lat">
+            <summary>
+            纬度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmListInput.UserID">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmListInput.HandleStatus">
+            <summary>
+            处理状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmListInput.OnlyUnRead">
+            <summary>
+            是否只显示未读信息
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmOutput.AlarmId">
+            <summary>
+            警情ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmOutput.CreateTime">
+            <summary>
+            报警时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmOutput.Address">
+            <summary>
+            消火栓地点
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmOutput.Title">
+            <summary>
+            报警事件标题
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmOutput.ReadFlag">
+            <summary>
+            是否已读
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmPagingOutput.TotalCount">
+            <summary>
+            总数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmPagingOutput.AlarmList">
+            <summary>
+            页面数据
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetUserHydrantInput.UserID">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetUserHydrantListOutput.ID">
+            <summary>
+            ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetUserHydrantListOutput.Sn">
+            <summary>
+            设施编号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetUserHydrantListOutput.Address">
+            <summary>
+            地址
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetUserHydrantListOutput.Status">
+            <summary>
+            网关状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.UpdateHydrantAlarmInput.AlarmId">
+            <summary>
+            警情ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.UpdateHydrantAlarmInput.UserName">
+            <summary>
+            处理人员名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.UpdateHydrantAlarmInput.HandleStatus">
+            <summary>
+            是否已解决
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.UpdateHydrantAlarmInput.ProblemRemarkType">
+            <summary>
+            情况说明类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.UpdateHydrantAlarmInput.ProblemRemark">
+            <summary>
+            情况说明
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.UpdateHydrantAlarmInput.VoiceFile">
+            <summary>
+            音频文件
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.UpdateHydrantAlarmInput.Picture1">
+            <summary>
+            现场照片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.UpdateHydrantAlarmInput.Picture2">
+            <summary>
+            现场照片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.UpdateHydrantAlarmInput.Picture3">
+            <summary>
+            现场照片
             </summary>
         </member>
         <member name="M:FireProtectionV1.HydrantCore.Manager.HydrantManager.Add(FireProtectionV1.HydrantCore.Dto.AddHydrantInput)">
@@ -4053,6 +4301,41 @@
             <param name="lat">纬度，例如30.633145</param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.HydrantSystemManager.GetUserHydrant(FireProtectionV1.HydrantCore.Dto.GetUserHydrantInput)">
+            <summary>
+            获取消火栓列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.HydrantSystemManager.GetHydrantAlarmlistForMobile(FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmListInput)">
+            <summary>
+            获取警情处理列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.HydrantSystemManager.UpdtateAlarmAlreadyRead(FireProtectionV1.HydrantCore.Dto.GetUserHydrantInput)">
+            <summary>
+            全部标为已读
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.HydrantSystemManager.GetHydrantAlarmInfo(FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoInput)">
+            <summary>
+            获取警情处理详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.HydrantSystemManager.UpdtateHydrantAlarm(FireProtectionV1.HydrantCore.Dto.UpdateHydrantAlarmInput)">
+            <summary>
+            警情处理
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
         <member name="M:FireProtectionV1.HydrantCore.Manager.IHydrantManager.Add(FireProtectionV1.HydrantCore.Dto.AddHydrantInput)">
             <summary>
             添加
@@ -4124,6 +4407,41 @@
             <param name="lat">纬度，例如30.633145</param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.IHydrantSystemManager.GetUserHydrant(FireProtectionV1.HydrantCore.Dto.GetUserHydrantInput)">
+            <summary>
+            获取消火栓列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.IHydrantSystemManager.GetHydrantAlarmlistForMobile(FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmListInput)">
+            <summary>
+            获取消火栓报警列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.IHydrantSystemManager.GetHydrantAlarmInfo(FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoInput)">
+            <summary>
+            获取警情处理详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.IHydrantSystemManager.UpdtateHydrantAlarm(FireProtectionV1.HydrantCore.Dto.UpdateHydrantAlarmInput)">
+            <summary>
+            警情处理
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.IHydrantSystemManager.UpdtateAlarmAlreadyRead(FireProtectionV1.HydrantCore.Dto.GetUserHydrantInput)">
+            <summary>
+            全部标为已读
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
         <member name="T:FireProtectionV1.HydrantCore.Model.Hydrant">
             <summary>
             市政消火栓网关
@@ -4167,6 +4485,36 @@
         <member name="P:FireProtectionV1.HydrantCore.Model.HydrantAlarm.Title">
             <summary>
             报警事件标题
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.HydrantAlarm.ReadFlag">
+            <summary>
+            是否已读
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.HydrantAlarm.HandleStatus">
+            <summary>
+            处理情况
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.HydrantAlarm.ProblemRemarkType">
+            <summary>
+            问题描述类型(1文本类型，2语音类型)
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.HydrantAlarm.ProblemRemark">
+            <summary>
+            问题描述
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.HydrantAlarm.HandleUser">
+            <summary>
+            处理人姓名
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.HydrantAlarm.SoultionTime">
+            <summary>
+            处理时间
             </summary>
         </member>
         <member name="T:FireProtectionV1.HydrantCore.Model.HydrantPressure">
@@ -5321,6 +5669,81 @@
             角色
             </summary>
         </member>
+        <member name="P:FireProtectionV1.User.Dto.GetHydrantUserRegistInput.UserName">
+            <summary>
+            用户姓名
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.GetHydrantUserRegistInput.Phone">
+            <summary>
+            电话号码
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.GetHydrantUserRegistInput.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.GetHyrantAreaOutput.AreaID">
+            <summary>
+            区域ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.GetHyrantAreaOutput.AreaName">
+            <summary>
+            区域名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.GetUserAreaInput.UserID">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.PutHydrantUserLoginOutput.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.PutHydrantUserLoginOutput.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.PutHydrantUserLoginOutput.Account">
+            <summary>
+            账号（手机号）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.PutHydrantUserLoginOutput.GuideFlage">
+            <summary>
+            是否引导
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.PutUserAreaInput.UserID">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.PutUserAreaInput.Operation">
+            <summary>
+            操作（0新增/1删除）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.PutUserAreaInput.arealist">
+            <summary>
+            操作（0新增/1删除）
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.User.Dto.Operation.add">
+            <summary>
+            新增
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.User.Dto.Operation.delete">
+            <summary>
+            删除
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.User.Dto.LoginInput.Account">
             <summary>
             账号(测试:123)
@@ -5408,6 +5831,48 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.User.Manager.HydrantUserManager.UserRegist(FireProtectionV1.User.Dto.GetHydrantUserRegistInput)">
+            <summary>
+            用户注册
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.HydrantUserManager.UserLogin(FireProtectionV1.User.Dto.LoginInput)">
+            <summary>
+            用户登录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.HydrantUserManager.ChangePassword(FireProtectionV1.User.Dto.DeptChangePassword)">
+            <summary>
+            修改密码
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.HydrantUserManager.GetUserArea(FireProtectionV1.User.Dto.GetUserAreaInput)">
+            <summary>
+            获取已有管辖区
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.HydrantUserManager.GetArea(FireProtectionV1.User.Dto.GetUserAreaInput)">
+            <summary>
+            获取未拥有管辖区
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.HydrantUserManager.PutUserArea(FireProtectionV1.User.Dto.PutUserAreaInput)">
+            <summary>
+            修改用户管辖区
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.User.Manager.IFireDeptUserManager.ChangePassword(FireProtectionV1.User.Dto.DeptChangePassword)">
             <summary>
             修改密码
@@ -5453,6 +5918,48 @@
         <member name="M:FireProtectionV1.User.Manager.IFireUnitUserManager.AddUser(FireProtectionV1.User.Dto.AddUserInput)">
             <summary>
             新增工作人员
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.IHydrantUserManager.UserRegist(FireProtectionV1.User.Dto.GetHydrantUserRegistInput)">
+            <summary>
+            添加消火栓管理账号
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.IHydrantUserManager.UserLogin(FireProtectionV1.User.Dto.LoginInput)">
+            <summary>
+            用户登录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.IHydrantUserManager.ChangePassword(FireProtectionV1.User.Dto.DeptChangePassword)">
+            <summary>
+            修改密码
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.IHydrantUserManager.GetUserArea(FireProtectionV1.User.Dto.GetUserAreaInput)">
+            <summary>
+            获取已有管辖区
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.IHydrantUserManager.GetArea(FireProtectionV1.User.Dto.GetUserAreaInput)">
+            <summary>
+            获取未拥有管辖区
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.IHydrantUserManager.PutUserArea(FireProtectionV1.User.Dto.PutUserAreaInput)">
+            <summary>
+            修改用户管辖区
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -5535,6 +6042,36 @@
         <member name="F:FireProtectionV1.User.Model.FireUnitRole.FireUnitPatrol">
             <summary>
             防火单位巡查员
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Model.HydrantUser.Account">
+            <summary>
+            账号（手机号）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Model.HydrantUser.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Model.HydrantUser.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Model.HydrantUser.GuideFlage">
+            <summary>
+            是否引导
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Model.HydrantUserArea.AccountID">
+            <summary>
+            账号ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Model.HydrantUserArea.AreaID">
+            <summary>
+            区域ID
             </summary>
         </member>
         <member name="M:FireProtectionV1.VersionCore.Manager.IVersionManager.Add(FireProtectionV1.VersionCore.Dto.AddSuggestInput)">

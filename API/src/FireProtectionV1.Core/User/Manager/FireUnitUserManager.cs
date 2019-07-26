@@ -92,7 +92,7 @@ namespace FireProtectionV1.User.Manager
             {
                 output.UserId = v.Id;
                 output.Name = v.Name;
-                output.GuideFlage = false;
+                output.GuideFlage = true;
                 var rolllist = _fireUnitAccountRoleRepository.GetAll();
                 output.Rolelist = (from a in rolllist
                                    where a.AccountID == v.Id
@@ -100,11 +100,14 @@ namespace FireProtectionV1.User.Manager
 
                 if(output.Rolelist.Contains(FireUnitRole.FireUnitManager))
                 {
-                    var guideCount = _fireUnitAccountRepository.GetAll().Where(u => u.FireUnitInfoID == v.FireUnitInfoID && u.GuideFlage == true).Count();
+                    var guideCount = _fireUnitAccountRepository.GetAll().Where(u => u.FireUnitInfoID == v.FireUnitInfoID && u.GuideFlage == false).Count();
                     if(guideCount>0)
                     {
-                        output.GuideFlage = true;
+                        output.GuideFlage = false;
+                        v.GuideFlage = false;
+                        await _fireUnitAccountRepository.UpdateAsync(v);
                     }
+                    
                 }
 
                 var fireunit = await _fireUnitRepository.FirstOrDefaultAsync(p => p.Id == v.FireUnitInfoID);

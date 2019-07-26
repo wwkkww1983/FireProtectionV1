@@ -7,17 +7,12 @@ using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto
 {
-    public class AddPatrolInput
+    public class AddPatrolOutput
     {
         /// <summary>
-        /// 值班人员ID
+        /// 巡查ID
         /// </summary>
         [Required]
-        public int UserId { get; set; }
-        /// <summary>
-        /// 防火单位Id
-        /// </summary>
-        [Required]
-        public int FireUnitId { get; set; }
+        public int PatrolId { get; set; }
     }
 }

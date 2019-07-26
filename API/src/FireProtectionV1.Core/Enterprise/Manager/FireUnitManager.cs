@@ -18,6 +18,7 @@ using FireProtectionV1.Infrastructure.Model;
 using FireProtectionV1.User.Manager;
 using FireProtectionV1.User.Model;
 using FireProtectionV1.Common.Helper;
+using FireProtectionV1.Common.Enum;
 
 namespace FireProtectionV1.Enterprise.Manager
 {
@@ -86,11 +87,11 @@ namespace FireProtectionV1.Enterprise.Manager
                 return plan.FirePlan;
             return null;
         }
-        public async Task<List<FireUnitNameOutput>> QueryFireUnitLikeName(string MatchName)
+        public async Task<List<FireUnitNameOutput>> QueryFireUnitLikeName(QueryFireUnitLikeNameInput input)
         {
             List<FireUnitNameOutput> output = await Task.Run(() =>
             {
-                return _fireUnitRep.GetAll().Where(p => p.Name.Contains(MatchName)).Take(10).Select(p => new FireUnitNameOutput()
+                return _fireUnitRep.GetAll().Where(p => p.Name.Contains(input.MatchName)).Take(10).Select(p => new FireUnitNameOutput()
                 {
                     FireUnitId = p.Id,
                     FireUnitName = p.Name
@@ -309,7 +310,7 @@ namespace FireProtectionV1.Enterprise.Manager
                 output.Address = f.Address;
                 output.ContractName = f.ContractName;
                 output.ContractPhone = f.ContractPhone;
-                output.Patrol = f.Patrol;
+                output.Patrol = (Patrol)f.Patrol;
                 output.Lat = f.Lat;
                 output.Lng = f.Lng;
                 var a =await _areaRep.SingleAsync(p => p.Id.Equals(f.AreaId));
@@ -415,7 +416,7 @@ namespace FireProtectionV1.Enterprise.Manager
         {
             var old = _fireUnitRep.GetAll().Where(u => u.Id == input.FireUnitId).FirstOrDefault();
             old.SafeUnitId = input.SafeUnitId;
-            old.Patrol = input.Patrol;
+            old.Patrol = (int)input.Patrol;
 
             await _fireUnitRep.UpdateAsync(old);
             return new SuccessOutput() { Success = true };

@@ -49,7 +49,13 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<SuccessOutput> AddPatrolTrack(AddPatrolInput input);
+        Task<AddPatrolOutput> AddPatrolTrack(AddPatrolInput input);
+        /// <summary>
+        /// 添加巡查记录轨迹
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<SuccessOutput> AddPatrolTrackDetail(AddPatrolTrackInput input);
 
         /// <summary>
         /// Web获取巡查记录列表
@@ -70,5 +76,11 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<GetPatrolInfoForWebOutput> GetPatrolInfoForWeb(GetPatrolInfoForWebInput input);
+        /// <summary>
+        /// 新增时获取巡查记录类别
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<GetPatrolTypeOutput> GetPatrolType(GetPatrolFireUnitSystemInput input);
     }
 }

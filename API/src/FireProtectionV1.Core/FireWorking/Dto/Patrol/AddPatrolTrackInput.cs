@@ -10,15 +10,20 @@ namespace FireProtectionV1.FireWorking.Dto
     public class AddPatrolTrackInput
     {
         /// <summary>
+        /// 巡查ID
+        /// </summary>
+        [Required]
+        public int PatrolId { get; set; }
+        /// <summary>
         /// 巡查地点
         /// </summary>
         [Required]
         public string PatrolAddress { get; set; }       
         /// <summary>
-        /// 巡查系统
+        /// 巡查系统(ID用逗号隔开)
         /// </summary>
         [Required]
-        public List<int> SystemId { get; set; }
+        public string SystemIdList { get; set; }
         /// <summary>
         /// 巡查结果
         /// </summary>

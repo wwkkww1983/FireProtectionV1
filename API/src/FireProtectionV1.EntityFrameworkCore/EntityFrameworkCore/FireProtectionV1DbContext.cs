@@ -60,6 +60,8 @@ namespace FireProtectionV1.EntityFrameworkCore
         public DbSet<DataToPatrolDetailFireSystem> DataToPatrolDetailFireSystem { get; set; }
         public DbSet<EquipmentNo> EquipmentNo { get; set; }
         public DbSet<BreakDown> BreakDown { get; set; }
+        public DbSet<HydrantUser> HydrantUser { get; set; }
+        public DbSet<HydrantUserArea> HydrantUserArea { get; set; }
 
         public FireProtectionV1DbContext(DbContextOptions<FireProtectionV1DbContext> options) 
             : base(options)

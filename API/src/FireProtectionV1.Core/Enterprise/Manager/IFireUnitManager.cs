@@ -41,7 +41,7 @@ namespace FireProtectionV1.Enterprise.Manager
         Task<PagedResultDto<GetFireUnitListOutput>> GetFireUnitList(GetPagedFireUnitListInput input);
         Task<PagedResultDto<GetFireUnitListForMobileOutput>> GetFireUnitListForMobile(GetPagedFireUnitListInput input);
         Task<SuccessOutput> InvitatVerify(InvitatVerifyInput input);
-        Task<List<FireUnitNameOutput>> QueryFireUnitLikeName(string matchName);
+        Task<List<FireUnitNameOutput>> QueryFireUnitLikeName(QueryFireUnitLikeNameInput input);
 
         /// <summary>
         /// 消防部门用户关注防火单位

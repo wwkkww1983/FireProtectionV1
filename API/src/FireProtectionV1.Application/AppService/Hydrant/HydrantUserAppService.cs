@@ -12,71 +12,38 @@ using System.Threading.Tasks;
 
 namespace FireProtectionV1.AppService
 {
-    public class FireUnitUserAppService : HttpContextAppService
+    public class HydrantUserAppService : HttpContextAppService
     {
-        IFireUnitUserManager _fireUnitAccountManager;
+        IHydrantUserManager _hydrantUserManager;
 
-        public FireUnitUserAppService(IFireUnitUserManager fireUnitAccountManager, IHttpContextAccessor httpContext) : base(httpContext)
+        public HydrantUserAppService(IHydrantUserManager hydrantUserManager, IHttpContextAccessor httpContext) : base(httpContext)
         {
-            _fireUnitAccountManager = fireUnitAccountManager;
+            _hydrantUserManager = hydrantUserManager;
         }
         /// <summary>
         /// 用户注册
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<SuccessOutput> UserRegist(UserRegistInput input)
+        public async Task<SuccessOutput> UserRegist(GetHydrantUserRegistInput input)
         {
-            return await _fireUnitAccountManager.UserRegist(input);
+            return await _hydrantUserManager.UserRegist(input);
         }
-        /// <summary>
-        /// 添加账号
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        //public async Task<int> Add(FireUnitUserInput input)
-        //{
-        //    return await _fireUnitAccountManager.Add(input);
-        //}
-
         /// <summary>
         /// 用户登录(移动端)
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         [AllowAnonymous]
-        public async Task<FireUnitUserLoginOutput> UserLoginForMobile(LoginInput input)
+        public async Task<PutHydrantUserLoginOutput> UserLoginForMobile(LoginInput input)
         {
             return await Login(input);
         }
 
-        /// <summary>
-        /// 用户登录(PC端)
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        [AllowAnonymous]
-        public async Task<FireUnitUserLoginOutput> UserLogin(PcDeptUserLoginInput input)
-        {
-            //判断验证码
-            if (string.IsNullOrEmpty(input.VerifyCode))
-            {
-                return new FireUnitUserLoginOutput() { Success = false, FailCause = "请输入验证码" };
-            }
-            byte[] verifyValue;
-            _httpContext.HttpContext.Session.TryGetValue("VerifyCode", out verifyValue);
-            if (null == verifyValue)
-                return new FireUnitUserLoginOutput() { Success = false, FailCause = "验证码错误" };
-            string verifyCode = Encoding.Default.GetString(verifyValue);
-            if (!verifyCode.Equals(input.VerifyCode))
-                return new FireUnitUserLoginOutput() { Success = false, FailCause = "验证码错误" };
-            //登录判断
-            return await Login(input);
-        }
-        private async Task<FireUnitUserLoginOutput> Login(LoginInput input)
+        private async Task<PutHydrantUserLoginOutput> Login(LoginInput input)
         {
             //用户名密码验证
-            var output = await _fireUnitAccountManager.UserLogin(input);
+            var output = await _hydrantUserManager.UserLogin(input);
             if (!output.Success)
                 return output;
             //用户认证
@@ -116,6 +83,45 @@ namespace FireProtectionV1.AppService
             return output;
         }
 
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> ChangePassword(DeptChangePassword input)
+        {
+            return await _hydrantUserManager.ChangePassword(input);
+        }
+
+        /// <summary>
+        /// 获取已有管辖区
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<List<GetHyrantAreaOutput>> GetUserArea(GetUserAreaInput input)
+        {
+            return await _hydrantUserManager.GetUserArea(input);
+        }
+
+        /// <summary>
+        /// 获取未拥有管辖区
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<List<GetHyrantAreaOutput>> GetArea(GetUserAreaInput input)
+        {
+            return await _hydrantUserManager.GetArea(input);
+        }
+
+        /// <summary>
+        /// 修改用户管辖区
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> PutUserArea(PutUserAreaInput input)
+        {
+            return await _hydrantUserManager.PutUserArea(input);
+        }
 
         /// <summary>
         /// 注销用户
@@ -135,4 +141,5 @@ namespace FireProtectionV1.AppService
             return output;
         }
     }
+
 }
