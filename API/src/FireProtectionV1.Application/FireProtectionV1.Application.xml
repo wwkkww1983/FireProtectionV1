@@ -460,6 +460,20 @@
             防火单位服务
             </summary>
         </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFirePlan(System.Int32)">
+            <summary>
+            获取防火单位消防预案
+            </summary>
+            <param name="FireUnitId">防火单位Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.SaveFirePlan(FireProtectionV1.Enterprise.Dto.FirePlanInput)">
+            <summary>
+            保存消防预案
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitReportData(System.Int32)">
             <summary>
             得到防火单位报表数据

@@ -157,8 +157,8 @@ namespace FireProtectionV1.FireWorking.Manager
             int total = 0;
             await Task.Run(() =>
             {
-                var all = elec.Union(fire).OrderByDescending(p => p.Time);
-                foreach(var v in all)
+                var resall = elec.Union(fire).OrderByDescending(p => p.Time).ToList();
+                foreach(var v in resall)
                 {
                     if(DateTime.Now-DateTime.Parse(v.Time)>new TimeSpan(1,0,0))
                     {
@@ -166,7 +166,7 @@ namespace FireProtectionV1.FireWorking.Manager
                         v.CheckStateName = CheckStateTypeNames.GetName(CheckStateType.Expire);
                     }
                 }
-                var resall = all.ToList();
+                //var resall = all.ToList();
                 if (filter != null && filter.Count > 0)
                 {
                     for(int i = 0; i < filter.Count; i++)
