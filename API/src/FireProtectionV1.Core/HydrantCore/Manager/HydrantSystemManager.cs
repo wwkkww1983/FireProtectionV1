@@ -359,6 +359,23 @@ namespace FireProtectionV1.HydrantCore.Manager
             }
             return Task.FromResult(output);
         }
+        /// <summary>
+        /// 新增报警信息（测试用）
+        /// </summary>
+        /// <returns></returns> 
+        public Task<SuccessOutput> AddAlarmInfo(AddAlarm input)
+        {
+            HydrantAlarm alarm = new HydrantAlarm()
+            {
+
+                HydrantId = input.HydrantId,
+                Title = input.Title,
+                HandleStatus=1
+            };
+            _hydrantAlarmRepository.Insert(alarm);
+            SuccessOutput output = new SuccessOutput() { Success = true };
+            return Task.FromResult(output);
+        }
     }
 
        

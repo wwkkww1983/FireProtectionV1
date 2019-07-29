@@ -119,6 +119,15 @@ namespace FireProtectionV1.AppService
         {
             return await _hydrantSystemManager.UpdateHyrantSet(input);
         }
+
+        /// <summary>
+        /// 新增报警信息（测试用）
+        /// </summary>
+        /// <returns></returns> 
+        public async Task<SuccessOutput> AddAlarmInfo(AddAlarm input)
+        {
+            return await _hydrantSystemManager.AddAlarmInfo(input);
+        }
     }
 
 }

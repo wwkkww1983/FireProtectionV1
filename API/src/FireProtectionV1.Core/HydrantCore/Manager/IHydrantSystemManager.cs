@@ -74,5 +74,10 @@ namespace FireProtectionV1.HydrantCore.Manager
         /// </summary>
         /// <returns></returns> 
         Task<SuccessOutput> UpdateHyrantSet(GetHydrantSetOutput input);
+        /// <summary>
+        /// 新增报警信息（测试用）
+        /// </summary>
+        /// <returns></returns> 
+        Task<SuccessOutput> AddAlarmInfo(AddAlarm input);
     }
 }

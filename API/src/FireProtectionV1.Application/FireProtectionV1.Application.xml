@@ -916,6 +916,12 @@
             <param name="input"></param>
             <returns></returns> 
         </member>
+        <member name="M:FireProtectionV1.AppService.HydrantAlarmAppService.AddAlarmInfo(FireProtectionV1.HydrantCore.Dto.AddAlarm)">
+            <summary>
+            新增报警信息（测试用）
+            </summary>
+            <returns></returns> 
+        </member>
         <member name="M:FireProtectionV1.AppService.HydrantUserAppService.UserRegist(FireProtectionV1.User.Dto.GetHydrantUserRegistInput)">
             <summary>
             用户注册
