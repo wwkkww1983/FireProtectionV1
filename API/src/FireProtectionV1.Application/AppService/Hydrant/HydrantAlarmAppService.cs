@@ -109,10 +109,11 @@ namespace FireProtectionV1.AppService
         {
             return await _hydrantSystemManager.GetHyrantSet();
         }
+
         /// <summary>
         /// 更新消火栓设置
         /// </summary>
-        //// <param name="input"></param>
+        /// <param name="input"></param>
         /// <returns></returns> 
         public async Task<SuccessOutput> UpdateHyrantSet(GetHydrantSetOutput input)
         {

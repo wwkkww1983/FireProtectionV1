@@ -910,6 +910,10 @@
             <returns></returns> 
         </member>
         <member name="M:FireProtectionV1.AppService.HydrantAlarmAppService.UpdateHyrantSet(FireProtectionV1.HydrantCore.Dto.GetHydrantSetOutput)">
+            <summary>
+            更新消火栓设置
+            </summary>
+            <param name="input"></param>
             <returns></returns> 
         </member>
         <member name="M:FireProtectionV1.AppService.HydrantUserAppService.UserRegist(FireProtectionV1.User.Dto.GetHydrantUserRegistInput)">
