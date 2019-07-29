@@ -24,6 +24,10 @@ namespace FireProtectionV1.HydrantCore.Dto
         /// </summary>
         public string Title { get; set; }
         /// <summary>
+        /// 处理状态
+        /// </summary>
+        public HandleStatus HandleStatus { get; set; }
+        /// <summary>
         /// 处理时间
         /// </summary>
         public string SolutionTime { get; set; }

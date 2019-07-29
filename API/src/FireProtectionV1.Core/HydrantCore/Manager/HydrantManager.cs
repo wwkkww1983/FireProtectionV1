@@ -89,7 +89,8 @@ namespace FireProtectionV1.HydrantCore.Manager
                             Pressure = hydrantPressures.Where(p => p.HydrantId.Equals(a.Id)).Count()==0?0:hydrantPressures.OrderByDescending(p => p.CreationTime).First(p => p.HydrantId.Equals(a.Id)).Pressure,
                             Status=a.Status,
                             Lng=a.Lng,
-                            Lat=a.Lat
+                            Lat=a.Lat,
+                            DumpEnergy=System.Decimal.Round(a.DumpEnergy, 2)
                         };
 
             var result = query.SingleOrDefault();

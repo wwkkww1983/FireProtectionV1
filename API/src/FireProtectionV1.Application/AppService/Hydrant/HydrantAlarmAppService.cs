@@ -71,6 +71,53 @@ namespace FireProtectionV1.AppService
         {
             return await _hydrantSystemManager.UpdtateAlarmAlreadyRead(input);
         }
+
+
+        /// <summary>
+        /// 获取区域消火栓列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns> 
+        public async Task<GetAreaHydrantListOutput> GetAreaHydrant(GetAreaHydrantInput input)
+        {
+            return await _hydrantSystemManager.GetAreaHydrant(input);
+        }
+        /// <summary>
+        /// 获区域取消火栓报警列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns> 
+        public async Task<GetAreaHydrantAlarmOutput> GetAreaHydrantAlarmlist(GetAreaHydrantInput input)
+        {
+            return await _hydrantSystemManager.GetAreaHydrantAlarmlist(input);
+        }
+        /// <summary>
+        /// 获区域管理人列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns> 
+        public async Task<GetAreaUserListOutput> GetAreaUserlist(GetAreaHydrantInput input)
+        {
+            return await _hydrantSystemManager.GetAreaUserlist(input);
+        }
+
+        /// <summary>
+        /// 获区消火栓设置
+        /// </summary>
+        /// <returns></returns> 
+        public async Task<GetHydrantSetOutput> GetHyrantSet()
+        {
+            return await _hydrantSystemManager.GetHyrantSet();
+        }
+        /// <summary>
+        /// 更新消火栓设置
+        /// </summary>
+        //// <param name="input"></param>
+        /// <returns></returns> 
+        public async Task<SuccessOutput> UpdateHyrantSet(GetHydrantSetOutput input)
+        {
+            return await _hydrantSystemManager.UpdateHyrantSet(input);
+        }
     }
 
 }

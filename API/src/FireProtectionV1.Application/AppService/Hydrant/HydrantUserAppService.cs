@@ -39,7 +39,29 @@ namespace FireProtectionV1.AppService
         {
             return await Login(input);
         }
-
+        /// <summary>
+        /// 用户登录(PC端)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        public async Task<PutHydrantUserLoginOutput> UserLogin(PcDeptUserLoginInput input)
+        {
+            //判断验证码
+            if (string.IsNullOrEmpty(input.VerifyCode))
+            {
+                return new PutHydrantUserLoginOutput() { Success = false, FailCause = "请输入验证码" };
+            }
+            byte[] verifyValue;
+            _httpContext.HttpContext.Session.TryGetValue("VerifyCode", out verifyValue);
+            if (null == verifyValue)
+                return new PutHydrantUserLoginOutput() { Success = false, FailCause = "验证码错误" };
+            string verifyCode = Encoding.Default.GetString(verifyValue);
+            if (!verifyCode.Equals(input.VerifyCode))
+                return new PutHydrantUserLoginOutput() { Success = false, FailCause = "验证码错误" };
+            //登录判断
+            return await Login(input);
+        }
         private async Task<PutHydrantUserLoginOutput> Login(LoginInput input)
         {
             //用户名密码验证
@@ -102,7 +124,15 @@ namespace FireProtectionV1.AppService
         {
             return await _hydrantUserManager.GetUserArea(input);
         }
-
+        /// <summary>
+        /// 获取已有管辖区ForPC
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<GetHyrantAreaForPCOutput> GetUserAreaForPC(GetUserAreaInput input)
+        {
+            return await _hydrantUserManager.GetUserAreaForPC(input);
+        }
         /// <summary>
         /// 获取未拥有管辖区
         /// </summary>

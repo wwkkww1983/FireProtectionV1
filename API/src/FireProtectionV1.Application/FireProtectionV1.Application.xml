@@ -882,6 +882,36 @@
             <param name="input"></param>
             <returns></returns> 
         </member>
+        <member name="M:FireProtectionV1.AppService.HydrantAlarmAppService.GetAreaHydrant(FireProtectionV1.HydrantCore.Dto.GetAreaHydrantInput)">
+            <summary>
+            获取区域消火栓列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.AppService.HydrantAlarmAppService.GetAreaHydrantAlarmlist(FireProtectionV1.HydrantCore.Dto.GetAreaHydrantInput)">
+            <summary>
+            获区域取消火栓报警列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.AppService.HydrantAlarmAppService.GetAreaUserlist(FireProtectionV1.HydrantCore.Dto.GetAreaHydrantInput)">
+            <summary>
+            获区域管理人列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.AppService.HydrantAlarmAppService.GetHyrantSet">
+            <summary>
+            获区消火栓设置
+            </summary>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.AppService.HydrantAlarmAppService.UpdateHyrantSet(FireProtectionV1.HydrantCore.Dto.GetHydrantSetOutput)">
+            <returns></returns> 
+        </member>
         <member name="M:FireProtectionV1.AppService.HydrantUserAppService.UserRegist(FireProtectionV1.User.Dto.GetHydrantUserRegistInput)">
             <summary>
             用户注册
@@ -896,6 +926,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.HydrantUserAppService.UserLogin(FireProtectionV1.User.Dto.PcDeptUserLoginInput)">
+            <summary>
+            用户登录(PC端)
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.HydrantUserAppService.ChangePassword(FireProtectionV1.User.Dto.DeptChangePassword)">
             <summary>
             修改密码
@@ -906,6 +943,13 @@
         <member name="M:FireProtectionV1.AppService.HydrantUserAppService.GetUserArea(FireProtectionV1.User.Dto.GetUserAreaInput)">
             <summary>
             获取已有管辖区
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.HydrantUserAppService.GetUserAreaForPC(FireProtectionV1.User.Dto.GetUserAreaInput)">
+            <summary>
+            获取已有管辖区ForPC
             </summary>
             <param name="input"></param>
             <returns></returns>

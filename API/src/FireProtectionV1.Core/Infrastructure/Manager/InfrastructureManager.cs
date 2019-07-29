@@ -1493,6 +1493,16 @@ namespace FireProtectionV1.Infrastructure.Manager
                     MaxValue = 10000
                 });
             }
+            // 市政消火栓电量
+            setting = setlist.Where(item => "HydrantDumpEnergy".Equals(item.Name)).Count();
+            if (setting == 0)
+            {
+                await _settingRepository.InsertAsync(new FireSetting()
+                {
+                    Name = "HydrantDumpEnergy",
+                    MinValue = 30
+                });
+            }
             #endregion
         }
         /// <summary>

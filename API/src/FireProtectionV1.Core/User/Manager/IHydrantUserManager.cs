@@ -40,6 +40,13 @@ namespace FireProtectionV1.User.Manager
         Task<List<GetHyrantAreaOutput>> GetUserArea(GetUserAreaInput input);
 
         /// <summary>
+        /// 获取已有管辖区ForPC
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<GetHyrantAreaForPCOutput> GetUserAreaForPC(GetUserAreaInput input);
+
+        /// <summary>
         /// 获取未拥有管辖区
         /// </summary>
         /// <param name="input"></param>

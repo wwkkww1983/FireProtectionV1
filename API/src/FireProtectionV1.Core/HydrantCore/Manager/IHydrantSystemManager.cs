@@ -19,7 +19,7 @@ namespace FireProtectionV1.HydrantCore.Manager
         Task< List<GetUserHydrantListOutput>> GetUserHydrant(GetUserHydrantInput input);
 
         /// <summary>
-        /// 获取消火栓报警列表
+        /// 获取用户消火栓报警列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns> 
@@ -27,7 +27,7 @@ namespace FireProtectionV1.HydrantCore.Manager
 
 
         /// <summary>
-        /// 获取警情处理详情
+        /// 获取用户警情处理详情
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns> 
@@ -45,5 +45,34 @@ namespace FireProtectionV1.HydrantCore.Manager
         /// <param name="input"></param>
         /// <returns></returns> 
         Task<SuccessOutput> UpdtateAlarmAlreadyRead(GetUserHydrantInput input);
+
+        /// <summary>
+        /// 获取区域消火栓列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns> 
+        Task<GetAreaHydrantListOutput> GetAreaHydrant(GetAreaHydrantInput input);
+        /// <summary>
+        /// 获区域取消火栓报警列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns> 
+        Task<GetAreaHydrantAlarmOutput> GetAreaHydrantAlarmlist(GetAreaHydrantInput input);
+        /// <summary>
+        /// 获区域管理人列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns> 
+        Task<GetAreaUserListOutput> GetAreaUserlist(GetAreaHydrantInput input);
+        /// <summary>
+        /// 获区消火栓设置
+        /// </summary>
+        /// <returns></returns> 
+        Task<GetHydrantSetOutput> GetHyrantSet();
+        /// <summary>
+        /// 更新消火栓设置
+        /// </summary>
+        /// <returns></returns> 
+        Task<SuccessOutput> UpdateHyrantSet(GetHydrantSetOutput input);
     }
 }

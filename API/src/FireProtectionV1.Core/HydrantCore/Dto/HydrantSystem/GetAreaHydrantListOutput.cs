@@ -1,31 +1,25 @@
-﻿using FireProtectionV1.Common.DBContext;
-using FireProtectionV1.Common.Enum;
+﻿using FireProtectionV1.Common.Enum;
+using FireProtectionV1.HydrantCore.Model;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace FireProtectionV1.HydrantCore.Model
+namespace FireProtectionV1.HydrantCore.Dto
 {
-    /// <summary>
-    /// 市政消火栓网关
-    /// </summary>
-    public class Hydrant : EntityBase
+    public class GetAreaHydrant
     {
+        /// <summary>
+        /// ID
+        /// </summary>
+        public int ID { get; set; }
         /// <summary>
         /// 设施编号
         /// </summary>
-        [Required]
         public string Sn { get; set; }
         /// <summary>
-        /// 所属区域（街道）
+        /// 区域
         /// </summary>
-        public int AreaId { get; set; }
-        /// <summary>
-        /// 地址
-        /// </summary>
-        public string Address { get; set; }
+        public string Area { get; set; }
         /// <summary>
         /// 经度
         /// </summary>
@@ -41,7 +35,18 @@ namespace FireProtectionV1.HydrantCore.Model
         /// <summary>
         /// 剩余电量
         /// </summary>
-        [DefaultValue(0)]
         public decimal DumpEnergy { get; set; }
     }
+    public class GetAreaHydrantListOutput
+    {
+        /// <summary>
+        /// 总数
+        /// </summary>
+        public int TotalCount { get; set; }
+        /// <summary>
+        /// 页面数据
+        /// </summary>
+        public List<GetAreaHydrant> GetAreaHydrantList { get; set; }
+    }
 }
+

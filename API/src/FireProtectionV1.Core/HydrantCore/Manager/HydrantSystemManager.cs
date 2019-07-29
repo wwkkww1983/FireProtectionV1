@@ -31,6 +31,7 @@ namespace FireProtectionV1.HydrantCore.Manager
         IRepository<FireSetting> _settingRepository;
         IRepository<PhotosPathSave> _photosPathSave;
         ISqlRepository _SqlRepository;
+        IRepository<FireSetting> _fireSettingRepository;
         private IHostingEnvironment _hostingEnv;
 
         public HydrantSystemManager(
@@ -43,6 +44,7 @@ namespace FireProtectionV1.HydrantCore.Manager
             IRepository<PhotosPathSave> photosPathSaveRep,
             IHostingEnvironment env,
             IRepository<HydrantUser> hydrantUserRepository,
+            IRepository<FireSetting> fireSettingRepository,
             ISqlRepository sqlRepository)
         {
             _hydrantRepository = hydrantRepository;
@@ -54,6 +56,7 @@ namespace FireProtectionV1.HydrantCore.Manager
             _photosPathSave = photosPathSaveRep;
             _SqlRepository = sqlRepository;
             _hydrantUserRepository = hydrantUserRepository;
+            _fireSettingRepository = fireSettingRepository;
             _hostingEnv = env;
         }
 
@@ -77,6 +80,40 @@ namespace FireProtectionV1.HydrantCore.Manager
                          };
             return Task.FromResult(output.ToList());
         }
+        /// <summary>
+        /// 获取区域消火栓列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns> 
+        public Task<GetAreaHydrantListOutput> GetAreaHydrant(GetAreaHydrantInput input)
+        {
+            var hyrantlist = _hydrantRepository.GetAll();
+            var expr = ExprExtension.True<Hydrant>()
+                .IfAnd(input.AreaID != 32949, item => item.AreaId == input.AreaID);
+            hyrantlist = hyrantlist.Where(expr);
+
+           
+            var list = from a in hyrantlist
+                         join b in _areaRepository.GetAll() on a.AreaId equals b.Id
+                         orderby a.Status
+                         select new GetAreaHydrant
+                         {
+                             ID = a.Id,
+                             Area = b.Name,
+                             Sn = a.Sn,
+                             Status = a.Status,
+                             Lng = a.Lng,
+                             Lat = a.Lat,
+                             DumpEnergy = System.Decimal.Round(a.DumpEnergy, 2)
+                         };
+            GetAreaHydrantListOutput output = new GetAreaHydrantListOutput()
+            {
+                TotalCount = list.Count(),
+                GetAreaHydrantList = list.Skip(input.SkipCount).Take(input.MaxResultCount).ToList()
+            };
+            return Task.FromResult(output);
+        }
+
         /// <summary>
         /// 获取警情处理列表
         /// </summary>
@@ -107,6 +144,64 @@ namespace FireProtectionV1.HydrantCore.Manager
             };
             return Task.FromResult(output);
 
+        }
+
+        /// <summary>
+        /// 获区域取消火栓报警列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns> 
+        public Task<GetAreaHydrantAlarmOutput> GetAreaHydrantAlarmlist(GetAreaHydrantInput input)
+        {
+            var hyrantlist = _hydrantRepository.GetAll();
+            var expr = ExprExtension.True<Hydrant>()
+                .IfAnd(input.AreaID != 32949, item => item.AreaId == input.AreaID);
+            hyrantlist = hyrantlist.Where(expr);
+
+            var list = (from a in _hydrantAlarmRepository.GetAll()
+                        join b in hyrantlist on a.HydrantId equals b.Id
+                        join c in _areaRepository.GetAll() on b.AreaId equals c.Id
+                        select new GetAreaHydrantAlarm
+                        {
+                            AlarmId = a.Id,
+                            CreateTime = a.CreationTime.ToString("yyyy-MM-dd hh:mm"),
+                            Area = c.Name,
+                            Title = a.Title,
+                            HandleStatus = (HandleStatus)a.HandleStatus
+                        }).OrderBy(u => u.HandleStatus).ThenByDescending(u => u.CreateTime);
+            GetAreaHydrantAlarmOutput output = new GetAreaHydrantAlarmOutput()
+            {
+                TotalCount = list.Count(),
+                AlarmList = list.Skip(input.SkipCount).Take(input.MaxResultCount).ToList()
+            };
+            return Task.FromResult(output);
+        }
+
+        /// <summary>
+        /// 获区域管理人列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns> 
+        public Task<GetAreaUserListOutput> GetAreaUserlist(GetAreaHydrantInput input)
+        {
+            var userlist = _hydrantUserArea.GetAll();
+            var expr = ExprExtension.True<HydrantUserArea>()
+                .IfAnd(input.AreaID != 32949, item => item.AreaID == input.AreaID);
+            userlist = userlist.Where(expr);
+
+            var list = from a in userlist
+                       join b in _hydrantUserRepository.GetAll() on a.AccountID equals b.Id
+                       select new GetAreaUser
+                       {
+                           Name = b.Name,
+                           Phone = b.Account
+                       };
+            GetAreaUserListOutput output = new GetAreaUserListOutput()
+            {
+                TotalCount = list.Count(),
+                Userlist = list.Skip(input.SkipCount).Take(input.MaxResultCount).ToList()
+            };
+            return Task.FromResult(output);
         }
         /// <summary>
         /// 全部标为已读
@@ -142,6 +237,7 @@ namespace FireProtectionV1.HydrantCore.Manager
             output.AlarmID = alarm.Id;
             output.Title = alarm.Title;
             output.SolutionTime = alarm.SoultionTime.ToString("yyyy-MM-dd hh:mm");
+            output.HandleStatus = (HandleStatus)alarm.HandleStatus;
             output.HandleUser = alarm.HandleUser;
             output.ProblemRemarkType = (ProblemType)alarm.ProblemRemarkType;
             output.ProblemRemark = alarm.ProblemRemark;
@@ -206,6 +302,63 @@ namespace FireProtectionV1.HydrantCore.Manager
 
         }
 
+        /// <summary>
+        /// 获区消火栓设置
+        /// </summary>
+        /// <returns></returns> 
+        public Task<GetHydrantSetOutput> GetHyrantSet()
+        {
+            var list = _fireSettingRepository.GetAll();
+            var pressureset = _fireSettingRepository.FirstOrDefault(u => u.Name == "HydrantPressure");
+            var energyset = _fireSettingRepository.FirstOrDefault(u => u.Name == "HydrantDumpEnergy");
+            GetHydrantSetOutput output = new GetHydrantSetOutput();
+            output.PressureMin = pressureset==null?0: pressureset.MinValue;
+            output.PressureMax = pressureset == null ? 0 : pressureset.MaxValue;
+            output.DumpEnergy= energyset == null ? 0 : pressureset.MinValue;
+
+            return Task.FromResult(output);
+        }
+        /// <summary>
+        /// 更新消火栓设置
+        /// </summary>
+        /// <returns></returns> 
+        public Task<SuccessOutput> UpdateHyrantSet(GetHydrantSetOutput input)
+        {
+            SuccessOutput output = new SuccessOutput() { Success = true };
+            //更新水压设置
+            var pressuresetting = _fireSettingRepository.FirstOrDefault(item => "HydrantPressure".Equals(item.Name));
+            if (pressuresetting == null)
+            {
+                _fireSettingRepository.Insert(new FireSetting()
+                {
+                    Name = "HydrantDumpEnergy",
+                    MinValue = input.PressureMin,
+                    MaxValue=input.PressureMax
+                });
+            }
+            else
+            {
+                pressuresetting.MinValue = input.DumpEnergy;
+                pressuresetting.MaxValue = input.PressureMax;
+                _fireSettingRepository.Update(pressuresetting);
+            }
+            //更新电量设置
+            var energysetting = _fireSettingRepository.FirstOrDefault(item => "HydrantDumpEnergy".Equals(item.Name));
+            if (energysetting == null)
+            {
+                 _fireSettingRepository.Insert(new FireSetting()
+                {
+                    Name = "HydrantDumpEnergy",
+                    MinValue = input.DumpEnergy
+                });
+            }
+            else
+            {
+                energysetting.MinValue = input.DumpEnergy;
+                _fireSettingRepository.Update(energysetting);
+            }
+            return Task.FromResult(output);
+        }
     }
 
        

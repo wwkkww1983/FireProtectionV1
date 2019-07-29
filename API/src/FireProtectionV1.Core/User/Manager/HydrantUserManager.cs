@@ -134,6 +134,32 @@ namespace FireProtectionV1.User.Manager
         }
 
         /// <summary>
+        /// 获取已有管辖区ForPC
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task<GetHyrantAreaForPCOutput> GetUserAreaForPC(GetUserAreaInput input)
+        {
+            var userArealist = _hydrantUserArea.GetAll().Where(u => u.AccountID == input.UserID);
+            var user = _hydrantUserRepository.Single(u => u.Id == input.UserID);
+            var arealist = _area.GetAll().Where(u => u.ParentId == 32949);
+            var list = (from a in userArealist
+                          join b in arealist on a.AreaID equals b.Id
+                          select new GetHyrantAreaOutput
+                          {
+                              AreaID = b.Id,
+                              AreaName = b.Name
+                          }).ToList();
+            GetHyrantAreaForPCOutput output = new GetHyrantAreaForPCOutput
+            {
+                AreaID = 32949,
+                AreaName = "成都市成华区",
+                sonlist = list
+            };
+            return Task.FromResult(output);
+        }
+
+        /// <summary>
         /// 获取未拥有管辖区
         /// </summary>
         /// <param name="input"></param>

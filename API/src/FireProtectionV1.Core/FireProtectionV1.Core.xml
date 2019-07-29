@@ -1190,21 +1190,6 @@
             消防预案
             </summary>
         </member>
-        <member name="T:FireProtectionV1.Enterprise.Model.FireUnitPlan">
-            <summary>
-            防火单位预案
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitPlan.FireUnitId">
-            <summary>
-            防火单位Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitPlan.FirePlan">
-            <summary>
-            消防预案
-            </summary>
-        </member>
         <member name="P:FireProtectionV1.Enterprise.Model.FireUntiSystem.FireUnitId">
             <summary>
             防火单位Id
@@ -4045,6 +4030,111 @@
             水压数值
             </summary>
         </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetAreaHydrantAlarm.AlarmId">
+            <summary>
+            警情ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetAreaHydrantAlarm.Area">
+            <summary>
+            区域
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetAreaHydrantAlarm.CreateTime">
+            <summary>
+            报警时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetAreaHydrantAlarm.Title">
+            <summary>
+            报警事件标题
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetAreaHydrantAlarm.HandleStatus">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetAreaHydrantAlarmOutput.TotalCount">
+            <summary>
+            总数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetAreaHydrantAlarmOutput.AlarmList">
+            <summary>
+            页面数据
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetAreaHydrantInput.AreaID">
+            <summary>
+            区域ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetAreaHydrant.ID">
+            <summary>
+            ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetAreaHydrant.Sn">
+            <summary>
+            设施编号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetAreaHydrant.Area">
+            <summary>
+            区域
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetAreaHydrant.Lng">
+            <summary>
+            经度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetAreaHydrant.Lat">
+            <summary>
+            纬度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetAreaHydrant.Status">
+            <summary>
+            网关状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetAreaHydrant.DumpEnergy">
+            <summary>
+            剩余电量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetAreaHydrantListOutput.TotalCount">
+            <summary>
+            总数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetAreaHydrantListOutput.GetAreaHydrantList">
+            <summary>
+            页面数据
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetAreaUser.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetAreaUser.Phone">
+            <summary>
+            电话
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetAreaUserListOutput.TotalCount">
+            <summary>
+            总数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetAreaUserListOutput.Userlist">
+            <summary>
+            页面数据
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoInput.AlarmID">
             <summary>
             警情ID
@@ -4068,6 +4158,11 @@
         <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoOutput.Title">
             <summary>
             警情
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoOutput.HandleStatus">
+            <summary>
+            处理状态
             </summary>
         </member>
         <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoOutput.SolutionTime">
@@ -4158,6 +4253,21 @@
         <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmPagingOutput.AlarmList">
             <summary>
             页面数据
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantSetOutput.PressureMin">
+            <summary>
+            水压最小值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantSetOutput.PressureMax">
+            <summary>
+            水压最大值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantSetOutput.DumpEnergy">
+            <summary>
+            电池电量报警阀值
             </summary>
         </member>
         <member name="P:FireProtectionV1.HydrantCore.Dto.GetUserHydrantInput.UserID">
@@ -4308,9 +4418,30 @@
             <param name="input"></param>
             <returns></returns> 
         </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.HydrantSystemManager.GetAreaHydrant(FireProtectionV1.HydrantCore.Dto.GetAreaHydrantInput)">
+            <summary>
+            获取区域消火栓列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
         <member name="M:FireProtectionV1.HydrantCore.Manager.HydrantSystemManager.GetHydrantAlarmlistForMobile(FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmListInput)">
             <summary>
             获取警情处理列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.HydrantSystemManager.GetAreaHydrantAlarmlist(FireProtectionV1.HydrantCore.Dto.GetAreaHydrantInput)">
+            <summary>
+            获区域取消火栓报警列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.HydrantSystemManager.GetAreaUserlist(FireProtectionV1.HydrantCore.Dto.GetAreaHydrantInput)">
+            <summary>
+            获区域管理人列表
             </summary>
             <param name="input"></param>
             <returns></returns> 
@@ -4334,6 +4465,18 @@
             警情处理
             </summary>
             <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.HydrantSystemManager.GetHyrantSet">
+            <summary>
+            获区消火栓设置
+            </summary>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.HydrantSystemManager.UpdateHyrantSet(FireProtectionV1.HydrantCore.Dto.GetHydrantSetOutput)">
+            <summary>
+            更新消火栓设置
+            </summary>
             <returns></returns> 
         </member>
         <member name="M:FireProtectionV1.HydrantCore.Manager.IHydrantManager.Add(FireProtectionV1.HydrantCore.Dto.AddHydrantInput)">
@@ -4416,14 +4559,14 @@
         </member>
         <member name="M:FireProtectionV1.HydrantCore.Manager.IHydrantSystemManager.GetHydrantAlarmlistForMobile(FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmListInput)">
             <summary>
-            获取消火栓报警列表
+            获取用户消火栓报警列表
             </summary>
             <param name="input"></param>
             <returns></returns> 
         </member>
         <member name="M:FireProtectionV1.HydrantCore.Manager.IHydrantSystemManager.GetHydrantAlarmInfo(FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoInput)">
             <summary>
-            获取警情处理详情
+            获取用户警情处理详情
             </summary>
             <param name="input"></param>
             <returns></returns> 
@@ -4440,6 +4583,39 @@
             全部标为已读
             </summary>
             <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.IHydrantSystemManager.GetAreaHydrant(FireProtectionV1.HydrantCore.Dto.GetAreaHydrantInput)">
+            <summary>
+            获取区域消火栓列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.IHydrantSystemManager.GetAreaHydrantAlarmlist(FireProtectionV1.HydrantCore.Dto.GetAreaHydrantInput)">
+            <summary>
+            获区域取消火栓报警列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.IHydrantSystemManager.GetAreaUserlist(FireProtectionV1.HydrantCore.Dto.GetAreaHydrantInput)">
+            <summary>
+            获区域管理人列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.IHydrantSystemManager.GetHyrantSet">
+            <summary>
+            获区消火栓设置
+            </summary>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.HydrantCore.Manager.IHydrantSystemManager.UpdateHyrantSet(FireProtectionV1.HydrantCore.Dto.GetHydrantSetOutput)">
+            <summary>
+            更新消火栓设置
+            </summary>
             <returns></returns> 
         </member>
         <member name="T:FireProtectionV1.HydrantCore.Model.Hydrant">
@@ -4475,6 +4651,11 @@
         <member name="P:FireProtectionV1.HydrantCore.Model.Hydrant.Status">
             <summary>
             网关状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.Hydrant.DumpEnergy">
+            <summary>
+            剩余电量
             </summary>
         </member>
         <member name="P:FireProtectionV1.HydrantCore.Model.HydrantAlarm.HydrantId">
@@ -5684,6 +5865,21 @@
             密码
             </summary>
         </member>
+        <member name="P:FireProtectionV1.User.Dto.GetHyrantAreaForPCOutput.AreaID">
+            <summary>
+            父级区域ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.GetHyrantAreaForPCOutput.AreaName">
+            <summary>
+            父级区域名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.GetHyrantAreaForPCOutput.sonlist">
+            <summary>
+            子级区域列表
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.User.Dto.GetHyrantAreaOutput.AreaID">
             <summary>
             区域ID
@@ -5859,6 +6055,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.User.Manager.HydrantUserManager.GetUserAreaForPC(FireProtectionV1.User.Dto.GetUserAreaInput)">
+            <summary>
+            获取已有管辖区ForPC
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.User.Manager.HydrantUserManager.GetArea(FireProtectionV1.User.Dto.GetUserAreaInput)">
             <summary>
             获取未拥有管辖区
@@ -5946,6 +6149,13 @@
         <member name="M:FireProtectionV1.User.Manager.IHydrantUserManager.GetUserArea(FireProtectionV1.User.Dto.GetUserAreaInput)">
             <summary>
             获取已有管辖区
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.IHydrantUserManager.GetUserAreaForPC(FireProtectionV1.User.Dto.GetUserAreaInput)">
+            <summary>
+            获取已有管辖区ForPC
             </summary>
             <param name="input"></param>
             <returns></returns>
