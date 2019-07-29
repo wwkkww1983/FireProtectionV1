@@ -30,6 +30,10 @@ namespace FireProtectionV1.HydrantCore.Dto
         /// <summary>
         /// 处理时间
         /// </summary>
+        public string CreationTime { get; set; }
+        /// <summary>
+        /// 处理时间
+        /// </summary>
         public string SolutionTime { get; set; }
         /// <summary>
         /// 处理人员

@@ -236,6 +236,7 @@ namespace FireProtectionV1.HydrantCore.Manager
             GetHydrantAlarmInfoOutput output = new GetHydrantAlarmInfoOutput();
             output.AlarmID = alarm.Id;
             output.Title = alarm.Title;
+            output.CreationTime = alarm.CreationTime.ToString("yyyy-MM-dd hh:mm");
             output.SolutionTime = alarm.SoultionTime.ToString("yyyy-MM-dd hh:mm");
             output.HandleStatus = (HandleStatus)alarm.HandleStatus;
             output.HandleUser = alarm.HandleUser;

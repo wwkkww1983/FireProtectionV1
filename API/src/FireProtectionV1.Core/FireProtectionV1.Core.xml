@@ -4175,6 +4175,11 @@
             处理状态
             </summary>
         </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoOutput.CreationTime">
+            <summary>
+            处理时间
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoOutput.SolutionTime">
             <summary>
             处理时间
