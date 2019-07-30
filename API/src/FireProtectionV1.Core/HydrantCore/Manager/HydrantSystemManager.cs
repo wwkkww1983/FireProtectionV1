@@ -78,6 +78,8 @@ namespace FireProtectionV1.HydrantCore.Manager
                              Address = c.Address,
                              Status = c.Status
                          };
+            if (input.MatchName != null)
+                output = output.Where(u => u.Sn.Contains(input.MatchName));
             return Task.FromResult(output.ToList());
         }
         /// <summary>

@@ -79,5 +79,6 @@ namespace FireProtectionV1.HydrantCore.Manager
         /// </summary>
         /// <returns></returns> 
         Task<SuccessOutput> AddAlarmInfo(AddAlarm input);
+
     }
 }
