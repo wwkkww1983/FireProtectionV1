@@ -16,7 +16,7 @@ namespace FireProtectionV1.HydrantCore.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns> 
-        Task< List<GetUserHydrantListOutput>> GetUserHydrant(GetUserHydrantInput input);
+        Task<GetUserHydrantListOutput> GetUserHydrant(GetUserHydrantInput input);
 
         /// <summary>
         /// 获取用户消火栓报警列表

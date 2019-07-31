@@ -65,22 +65,27 @@ namespace FireProtectionV1.HydrantCore.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns> 
-        public Task<List<GetUserHydrantListOutput>> GetUserHydrant(GetUserHydrantInput input)
+        public Task<GetUserHydrantListOutput> GetUserHydrant(GetUserHydrantInput input)
         {
             var userArealist = _hydrantUserArea.GetAll().Where(u => u.AccountID == input.UserID);
-            var output = from a in _areaRepository.GetAll()
+            var list = from a in _areaRepository.GetAll()
                          join b in userArealist on a.Id equals b.AreaID
                          join c in _hydrantRepository.GetAll() on b.AreaID equals c.AreaId
-                         select new GetUserHydrantListOutput
+                         select new GetUserHydrant
                          {
                              ID = c.Id,
                              Sn = c.Sn,
                              Address = c.Address,
                              Status = c.Status
                          };
-            if (input.MatchName != null)
-                output = output.Where(u => u.Sn.Contains(input.MatchName));
-            return Task.FromResult(output.ToList());
+            if(input.MatchName!=null)
+                list = list.Where(u=>u.Sn.Contains(input.MatchName));
+            GetUserHydrantListOutput output = new GetUserHydrantListOutput()
+            {
+                TotalCount = list.Count(),
+                Hydrantlist = list.Skip(input.SkipCount).Take(input.MaxResultCount).ToList()
+            };
+            return Task.FromResult(output);
         }
         /// <summary>
         /// 获取区域消火栓列表

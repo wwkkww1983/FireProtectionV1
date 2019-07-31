@@ -6,7 +6,7 @@ using System.Text;
 
 namespace FireProtectionV1.HydrantCore.Dto
 {
-    public class GetUserHydrantListOutput 
+    public class GetUserHydrant
     {
         /// <summary>
         /// ID
@@ -24,6 +24,17 @@ namespace FireProtectionV1.HydrantCore.Dto
         /// 网关状态
         /// </summary>
         public GatewayStatus Status { get; set; }
+    }
+    public class GetUserHydrantListOutput
+    {
+        /// <summary>
+        /// 总数
+        /// </summary>
+        public int TotalCount { get; set; }
+        /// <summary>
+        /// 页面数据
+        /// </summary>
+        public List<GetUserHydrant> Hydrantlist { get; set; }
     }
 }
 

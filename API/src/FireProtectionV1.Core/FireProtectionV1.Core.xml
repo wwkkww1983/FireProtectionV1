@@ -4295,24 +4295,34 @@
             消火栓名称(模糊查询)
             </summary>
         </member>
-        <member name="P:FireProtectionV1.HydrantCore.Dto.GetUserHydrantListOutput.ID">
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetUserHydrant.ID">
             <summary>
             ID
             </summary>
         </member>
-        <member name="P:FireProtectionV1.HydrantCore.Dto.GetUserHydrantListOutput.Sn">
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetUserHydrant.Sn">
             <summary>
             设施编号
             </summary>
         </member>
-        <member name="P:FireProtectionV1.HydrantCore.Dto.GetUserHydrantListOutput.Address">
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetUserHydrant.Address">
             <summary>
             地址
             </summary>
         </member>
-        <member name="P:FireProtectionV1.HydrantCore.Dto.GetUserHydrantListOutput.Status">
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetUserHydrant.Status">
             <summary>
             网关状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetUserHydrantListOutput.TotalCount">
+            <summary>
+            总数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetUserHydrantListOutput.Hydrantlist">
+            <summary>
+            页面数据
             </summary>
         </member>
         <member name="P:FireProtectionV1.HydrantCore.Dto.QueryHyrantNameInput.MatchName">

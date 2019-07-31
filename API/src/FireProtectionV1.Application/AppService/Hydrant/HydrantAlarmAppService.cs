@@ -28,7 +28,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns> 
-        public async Task<List<GetUserHydrantListOutput>> GetUserHydrant(GetUserHydrantInput input)
+        public async Task<GetUserHydrantListOutput> GetUserHydrant(GetUserHydrantInput input)
         {
             return await _hydrantSystemManager.GetUserHydrant(input);
         }
