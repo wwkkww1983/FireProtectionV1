@@ -71,6 +71,7 @@ namespace FireProtectionV1.HydrantCore.Manager
             var list = from a in _areaRepository.GetAll()
                          join b in userArealist on a.Id equals b.AreaID
                          join c in _hydrantRepository.GetAll() on b.AreaID equals c.AreaId
+                         orderby c.CreationTime descending
                          select new GetUserHydrant
                          {
                              ID = c.Id,
