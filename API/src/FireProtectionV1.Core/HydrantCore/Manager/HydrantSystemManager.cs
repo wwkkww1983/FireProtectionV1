@@ -256,7 +256,11 @@ namespace FireProtectionV1.HydrantCore.Manager
             output.Lat = hyrant.Lat;
             output.Phone = user==null?null:user.Account;
             output.PhtosPath = _photosPathSave.GetAll().Where(u => u.TableName.Equals("HydrantAlarm") && u.DataId == alarm.Id).Select(u => u.PhotoPath).ToList();
-
+            if(alarm.ReadFlag==false)
+            {
+                alarm.ReadFlag = true;
+                _hydrantAlarmRepository.Update(alarm);
+            }
             return output;
         }
     
