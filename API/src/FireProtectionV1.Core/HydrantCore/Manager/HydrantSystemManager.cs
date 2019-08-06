@@ -300,7 +300,7 @@ namespace FireProtectionV1.HydrantCore.Manager
                 }
                 else if ((int)input.ProblemRemarkType == 2 && input.VoiceFile != null)
                 {
-                    alarm.ProblemRemark = "/Src/Voices/DataToDuty/" + await saveFilesHelper.SaveFiles(input.VoiceFile, voicepath);
+                    alarm.ProblemRemark = "/Src/Voices/HydrantAlarm/" + await saveFilesHelper.SaveFiles(input.VoiceFile, voicepath);
                 }
 
                 await _hydrantAlarmRepository.UpdateAsync(alarm);
