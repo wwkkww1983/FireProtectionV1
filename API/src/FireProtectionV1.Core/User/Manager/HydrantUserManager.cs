@@ -125,11 +125,6 @@ namespace FireProtectionV1.User.Manager
                               AreaID = b.Id,
                               AreaName = b.Name
                           }).ToList();
-            if(user.GuideFlage==false)
-            {
-                user.GuideFlage = true;
-                _hydrantUserRepository.Update(user);
-            }
             return Task.FromResult(output);
         }
 
@@ -210,6 +205,12 @@ namespace FireProtectionV1.User.Manager
                     _SqlRepository.Query(str);
                 }
                 output.Success = true;
+            }
+            var user = _hydrantUserRepository.Single(u => u.Id == input.UserID);
+            if (user.GuideFlage == true)
+            {
+                user.GuideFlage = false;
+                _hydrantUserRepository.Update(user);
             }
             return output;
         }

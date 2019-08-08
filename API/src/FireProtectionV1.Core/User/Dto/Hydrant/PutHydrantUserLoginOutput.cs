@@ -20,7 +20,7 @@ namespace FireProtectionV1.User.Dto
         /// </summary>
         public string Account { get; set; }
         /// <summary>
-        /// 是否引导
+        /// 是否需要引导（true需要引导false不需要）
         /// </summary>
         public bool GuideFlage { get; set; }
     }
