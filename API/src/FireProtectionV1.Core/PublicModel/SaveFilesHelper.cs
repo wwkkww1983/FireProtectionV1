@@ -16,7 +16,10 @@ namespace FireProtectionV1.Common.Helper
         {
             _photosPathSave = photosPathSaveRep;
         }
-
+        public SaveFilesHelper()
+        {
+            
+        }
 
         public void SavePhotosPath(string tablename, int dataId, string fileName)
         {
@@ -48,6 +51,20 @@ namespace FireProtectionV1.Common.Helper
         {
             TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
             return Convert.ToInt64(ts.TotalMilliseconds).ToString();
+        }
+        //存放App
+        public async Task<string> SaveApp(IFormFile file, string path,string versionNo)
+        {
+            if (!Directory.Exists(path))//判断是否存在
+            {
+                Directory.CreateDirectory(path);//创建新路径
+            }
+            string fileName = Path.GetFileNameWithoutExtension(file.FileName)+"_V"+versionNo + Path.GetExtension(file.FileName);
+            using (var stream = System.IO.File.Create(path + fileName))
+            {
+                await file.CopyToAsync(stream);
+            }
+            return fileName;
         }
     }
 }

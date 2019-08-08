@@ -1,5 +1,6 @@
 ﻿using FireProtectionV1.VersionCore.Dto;
 using FireProtectionV1.VersionCore.Manager;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,6 +25,23 @@ namespace FireProtectionV1.AppService
         public async Task<int> Add(AddSuggestInput input)
         {
             return await _manager.Add(input);
+        }
+        /// <summary>
+        /// 上传APP   
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> PutApp([FromForm]AddAppInput input)
+        {
+            return await _manager.PutApp(input);
+        }
+        /// <summary>
+        /// 下载APP
+        /// </summary>
+        /// <returns></returns>
+        public async Task<GetAppOutput> GetApp(AppType appType)
+        {
+            return await _manager.GetApp(appType);
         }
     }
 }

@@ -4255,6 +4255,11 @@
             报警事件标题
             </summary>
         </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmOutput.SoultionTime">
+            <summary>
+            处理时间
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmOutput.ReadFlag">
             <summary>
             是否已读
@@ -5959,7 +5964,7 @@
         </member>
         <member name="P:FireProtectionV1.User.Dto.PutHydrantUserLoginOutput.GuideFlage">
             <summary>
-            是否引导
+            是否需要引导（true需要引导false不需要）
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Dto.PutUserAreaInput.UserID">
@@ -6331,11 +6336,69 @@
             区域ID
             </summary>
         </member>
+        <member name="P:FireProtectionV1.VersionCore.Dto.AddAppInput.AppType">
+            <summary>
+            App类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.VersionCore.Dto.AddAppInput.VersionNo">
+            <summary>
+            版本号(v1.0)
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.VersionCore.Dto.AddAppInput.App">
+            <summary>
+            app
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.VersionCore.Dto.AppType.监管部门">
+            <summary>
+            监管部门
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.VersionCore.Dto.AppType.消火栓管理">
+            <summary>
+            普通巡查
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.VersionCore.Dto.AppType.防火单位管理">
+            <summary>
+            扫码巡查
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.VersionCore.Dto.GetAppOutput.AppType">
+            <summary>
+            App类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.VersionCore.Dto.GetAppOutput.VersionNo">
+            <summary>
+            版本号(v1.0)
+            </summary>        
+        </member>
+        <member name="P:FireProtectionV1.VersionCore.Dto.GetAppOutput.Apppath">
+            <summary>
+            app
+            </summary>
+        </member>
         <member name="M:FireProtectionV1.VersionCore.Manager.IVersionManager.Add(FireProtectionV1.VersionCore.Dto.AddSuggestInput)">
             <summary>
             添加建议
             </summary>
             <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.VersionCore.Manager.IVersionManager.PutApp(FireProtectionV1.VersionCore.Dto.AddAppInput)">
+            <summary>
+            上传APP   
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.VersionCore.Manager.IVersionManager.GetApp(FireProtectionV1.VersionCore.Dto.AppType)">
+            <summary>
+            下载APP
+            </summary>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.VersionCore.Manager.VersionManager.Add(FireProtectionV1.VersionCore.Dto.AddSuggestInput)">
@@ -6344,6 +6407,34 @@
             </summary>
             <param name="input"></param>
             <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.VersionCore.Manager.VersionManager.PutApp(FireProtectionV1.VersionCore.Dto.AddAppInput)">
+            <summary>
+            上传APP   
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.VersionCore.Manager.VersionManager.GetApp(FireProtectionV1.VersionCore.Dto.AppType)">
+            <summary>
+            下载APP
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:FireProtectionV1.VersionCore.Model.AppVersion.AppType">
+            <summary>
+            App类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.VersionCore.Model.AppVersion.AppPath">
+            <summary>
+            App路径
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.VersionCore.Model.AppVersion.VersionNo">
+            <summary>
+            版本号(v1.0)
+            </summary>
         </member>
         <member name="P:FireProtectionV1.VersionCore.Model.Suggest.suggest">
             <summary>

@@ -116,7 +116,7 @@ namespace FireProtectionV1.User.Manager
         public Task<List<GetHyrantAreaOutput>> GetUserArea(GetUserAreaInput input)
         {
             var userArealist = _hydrantUserArea.GetAll().Where(u=>u.AccountID==input.UserID);
-            var user = _hydrantUserRepository.Single(u=>u.Id==input.UserID);
+            //var user = _hydrantUserRepository.Single(u=>u.Id==input.UserID);
             var arealist = _area.GetAll().Where(u => u.ParentId == 32949);
             var output = (from a in userArealist
                           join b in arealist on a.AreaID equals b.Id
@@ -136,7 +136,7 @@ namespace FireProtectionV1.User.Manager
         public Task<GetHyrantAreaForPCOutput> GetUserAreaForPC(GetUserAreaInput input)
         {
             var userArealist = _hydrantUserArea.GetAll().Where(u => u.AccountID == input.UserID);
-            var user = _hydrantUserRepository.Single(u => u.Id == input.UserID);
+            //var user = _hydrantUserRepository.Single(u => u.Id == input.UserID);
             var arealist = _area.GetAll().Where(u => u.ParentId == 32949);
             var list = (from a in userArealist
                           join b in arealist on a.AreaID equals b.Id

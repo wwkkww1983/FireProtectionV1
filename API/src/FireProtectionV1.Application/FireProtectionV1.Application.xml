@@ -1212,6 +1212,19 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.VersionAppService.PutApp(FireProtectionV1.VersionCore.Dto.AddAppInput)">
+            <summary>
+            上传APP   
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.VersionAppService.GetApp(FireProtectionV1.VersionCore.Dto.AppType)">
+            <summary>
+            下载APP
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.DeviceService.DataAppService.AddOnlineGateway(FireProtectionV1.FireWorking.Dto.AddOnlineGatewayInput)">
             <summary>
             新增 网关在线离线事件

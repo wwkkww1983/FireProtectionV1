@@ -25,6 +25,10 @@ namespace FireProtectionV1.HydrantCore.Dto
         /// </summary>
         public string Title { get; set; }
         /// <summary>
+        /// 处理时间
+        /// </summary>
+        public string SoultionTime { get; set; }
+        /// <summary>
         /// 是否已读
         /// </summary>
         public bool ReadFlag { get; set; }

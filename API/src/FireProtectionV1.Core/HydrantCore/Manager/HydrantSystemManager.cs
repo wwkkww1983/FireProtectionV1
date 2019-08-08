@@ -143,8 +143,11 @@ namespace FireProtectionV1.HydrantCore.Manager
                             CreateTime = a.CreationTime.ToString("yyyy-MM-dd hh:mm"),
                             Address = b.Address,
                             Title = a.Title,
-                            ReadFlag = a.ReadFlag
+                            ReadFlag = a.ReadFlag,
+                            SoultionTime=a.SoultionTime.ToString("yyyy-MM-dd hh:mm")
                         }).OrderBy(u => u.ReadFlag).ThenByDescending(u => u.CreateTime);
+            if(input.HandleStatus==HandleStatus.Resolving||input.HandleStatus==HandleStatus.Resolved)
+                list=list.OrderBy(u => u.SoultionTime);
             GetHydrantAlarmPagingOutput output = new GetHydrantAlarmPagingOutput()
             {
                 TotalCount = list.Count(),
