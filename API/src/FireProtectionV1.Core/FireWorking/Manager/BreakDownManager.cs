@@ -69,15 +69,20 @@ namespace FireProtectionV1.FireWorking.Manager
             breakdownlist = breakdownlist.Where(expr);
             var list = from a in breakdownlist
                          join b in userlist on a.UserId equals b.Id
-                         orderby a.CreationTime
+                         orderby a.CreationTime 
                          select new GetBreakDownOutput
                          {
                              BreakDownId=a.Id,
                              Source = a.Source,
                              UserName = b.Name,
                              Phone = b.Account,
-                             CreationTime = a.CreationTime.ToString("yyyy-MM-dd hh:mm")
+                             CreationTime = a.CreationTime.ToString("yyyy-MM-dd hh:mm"),
+                             SolutionTime = a.SolutionTime.ToString("yyyy-MM-dd hh:mm")
                          };
+            if (input.HandleStatus == HandleStatus.Resolving || input.HandleStatus == HandleStatus.Resolved)
+            {
+                list=list.OrderByDescending(u => u.SolutionTime);
+            }
             GetBreakDownPagingOutput output = new GetBreakDownPagingOutput()
             {
                 TotalCount = list.Count(),
@@ -120,7 +125,7 @@ namespace FireProtectionV1.FireWorking.Manager
             if (breakdown.Source == 2)
             {
                 var patroldetailproblem = _patrolDetailProblem.FirstOrDefault(u => u.Id == breakdown.DataId);
-                var photospath = _photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToPatrolDetailProblem") && u.DataId == patroldetailproblem.Id).Select(u => u.PhotoPath).ToList();
+                var photospath = _photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToPatrolDetail") && u.DataId == patroldetailproblem.PatrolDetailId).Select(u => u.PhotoPath).ToList();
                 output.ProblemRemakeType = (byte)patroldetailproblem.ProblemRemarkType;
                 output.RemakeText = patroldetailproblem.ProblemRemark;
                 output.PatrolPhotosPath = photospath;
@@ -150,7 +155,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 breakdown.SolutionWay = input.SolutionWay;
                 breakdown.Remark = input.Remark;
 
-                if (input.HandleStatus == HandleStatus.Resolved)
+                if (input.HandleStatus != HandleStatus.UuResolve)
                 {
                     breakdown.SolutionTime = DateTime.Now;
                     ////更新值班

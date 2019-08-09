@@ -65,20 +65,6 @@ namespace FireProtectionV1.Enterprise.Model
         /// <summary>
         /// 巡查方式
         /// </summary>
-        public Patrol Patrol { get; set; }
-    }
-
-    public enum Patrol {
-        /// <summary>
-        /// 普通巡查
-        /// </summary>
-        [Description("普通巡查")]
-        NormalPatrol = 1,
-        /// <summary>
-        /// 扫码巡查
-        /// </summary>
-        [Description("扫码巡查")]
-        ScanPatrol = 2,
-
+        public int Patrol { get; set; }
     }
 }

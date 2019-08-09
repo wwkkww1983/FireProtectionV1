@@ -56,10 +56,10 @@ namespace FireProtectionV1.DeviceService
             if (v.IsDetectorExit == false)
                 return v;
             var setting =await _fireSettingManager.GetByName("CableTemperature");
-            Console.WriteLine($"{DateTime.Now} 收到模拟量值 AddDataElecT Analog:{input.Analog}{input.Unit} 部件地址：{input.Identify} 网关地址：{input.GatewayIdentify}");
+            //Console.WriteLine($"{DateTime.Now} 收到模拟量值 AddDataElecT Analog:{input.Analog}{input.Unit} 部件地址：{input.Identify} 网关地址：{input.GatewayIdentify}");
             if (input.Analog >= setting.MaxValue)
             {
-                Console.WriteLine($"{DateTime.Now} 触发报警 Analog:{input.Analog}{input.Unit} 报警限值:{setting.MaxValue} 部件地址：{input.Identify} 网关地址：{input.GatewayIdentify}");
+                //Console.WriteLine($"{DateTime.Now} 触发报警 Analog:{input.Analog}{input.Unit} 报警限值:{setting.MaxValue} 部件地址：{input.Identify} 网关地址：{input.GatewayIdentify}");
                 return await _alarmManager.AddAlarmElec(input,$"{setting.MaxValue}{input.Unit}");
             }
             return await Task.FromResult<AddDataOutput>(new AddDataOutput() { IsDetectorExit = true });
@@ -75,10 +75,10 @@ namespace FireProtectionV1.DeviceService
             if (v.IsDetectorExit == false)
                 return v;
             var setting = await _fireSettingManager.GetByName("ResidualCurrent");
-            Console.WriteLine($"{DateTime.Now} 收到模拟量值 AddDataElecE Analog:{input.Analog}{input.Unit} 部件地址：{input.Identify} 网关地址：{input.GatewayIdentify}");
+            //Console.WriteLine($"{DateTime.Now} 收到模拟量值 AddDataElecE Analog:{input.Analog}{input.Unit} 部件地址：{input.Identify} 网关地址：{input.GatewayIdentify}");
             if (input.Analog >= setting.MaxValue)
             {
-                Console.WriteLine($"{DateTime.Now} 触发报警 Analog:{input.Analog}{input.Unit} 报警限值:{setting.MaxValue} 部件地址：{input.Identify} 网关地址：{input.GatewayIdentify}");
+                //Console.WriteLine($"{DateTime.Now} 触发报警 Analog:{input.Analog}{input.Unit} 报警限值:{setting.MaxValue} 部件地址：{input.Identify} 网关地址：{input.GatewayIdentify}");
                 return await _alarmManager.AddAlarmElec(input, $"{setting.MaxValue}{input.Unit}");
             }
             return await Task.FromResult<AddDataOutput>(new AddDataOutput() { IsDetectorExit = true });
@@ -90,7 +90,7 @@ namespace FireProtectionV1.DeviceService
         /// <returns></returns>
         public async Task<AddDataOutput> AddAlarmFire(AddAlarmFireInput input)
         {
-            Console.WriteLine($"{DateTime.Now} 收到报警 AddAlarmFire 部件类型:{input.DetectorGBType.ToString()} 部件地址：{input.Identify} 网关地址：{input.GatewayIdentify}");
+            //Console.WriteLine($"{DateTime.Now} 收到报警 AddAlarmFire 部件类型:{input.DetectorGBType.ToString()} 部件地址：{input.Identify} 网关地址：{input.GatewayIdentify}");
             return await _alarmManager.AddAlarmFire(input);
         }
         //public void Test()

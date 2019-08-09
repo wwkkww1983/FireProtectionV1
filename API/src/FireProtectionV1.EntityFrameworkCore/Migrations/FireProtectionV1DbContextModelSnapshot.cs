@@ -142,6 +142,24 @@ namespace FireProtectionV1.Migrations
                     b.ToTable("FireUnitAttention");
                 });
 
+            modelBuilder.Entity("FireProtectionV1.Enterprise.Model.FireUnitPlan", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<string>("FirePlan");
+
+                    b.Property<int>("FireUnitId");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FireUnitPlan");
+                });
+
             modelBuilder.Entity("FireProtectionV1.Enterprise.Model.FireUntiSystem", b =>
                 {
                     b.Property<int>("Id")
@@ -627,7 +645,7 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<byte>("State");
+                    b.Property<sbyte>("State");
 
                     b.HasKey("Id");
 
@@ -644,6 +662,8 @@ namespace FireProtectionV1.Migrations
                     b.Property<int>("AreaId");
 
                     b.Property<DateTime>("CreationTime");
+
+                    b.Property<decimal>("DumpEnergy");
 
                     b.Property<bool>("IsDeleted");
 
@@ -670,9 +690,22 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<DateTime>("CreationTime");
 
+                    b.Property<byte>("HandleStatus");
+
+                    b.Property<string>("HandleUser");
+
                     b.Property<int>("HydrantId");
 
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("ProblemRemark")
+                        .HasMaxLength(200);
+
+                    b.Property<byte>("ProblemRemarkType");
+
+                    b.Property<bool>("ReadFlag");
+
+                    b.Property<DateTime>("SoultionTime");
 
                     b.Property<string>("Title");
 
@@ -1058,6 +1091,72 @@ namespace FireProtectionV1.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FireUnitUserRole");
+                });
+
+            modelBuilder.Entity("FireProtectionV1.User.Model.HydrantUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Account")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<bool>("GuideFlage");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HydrantUser");
+                });
+
+            modelBuilder.Entity("FireProtectionV1.User.Model.HydrantUserArea", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AccountID");
+
+                    b.Property<int>("AreaID");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HydrantUserArea");
+                });
+
+            modelBuilder.Entity("FireProtectionV1.VersionCore.Model.AppVersion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AppPath");
+
+                    b.Property<byte>("AppType");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("VersionNo");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppVersion");
                 });
 
             modelBuilder.Entity("FireProtectionV1.VersionCore.Model.Suggest", b =>

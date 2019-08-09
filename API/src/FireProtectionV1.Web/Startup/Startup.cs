@@ -160,6 +160,7 @@ namespace FireProtectionV1.Web.Startup
             {
 
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"App_Data/Files")),
+                ServeUnknownFileTypes = true,
                 RequestPath = new PathString("/Src")
             });
         

@@ -107,9 +107,18 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<SuccessOutput> AddPatrolTrack(AddPatrolInput input)
+        public async Task<AddPatrolOutput> AddPatrolTrack(AddPatrolInput input)
         {
             return await _patrolManager.AddPatrolTrack(input);
+        }
+        /// <summary>
+        /// 添加巡查记录轨迹
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> AddPatrolTrackDetail([FromForm]AddPatrolTrackInput input)
+        {
+            return await _patrolManager.AddPatrolTrackDetail(input);
         }
         /// <summary>
         /// Web获取日历控件信息
@@ -138,6 +147,14 @@ namespace FireProtectionV1.AppService
         {
             return await _patrolManager.GetPatrolInfoForWeb(input);
         }
-
+        /// <summary>
+        /// 新增时获取巡查记录类别
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<GetPatrolTypeOutput> GetPatrolType(GetPatrolFireUnitSystemInput input)
+        {
+            return await _patrolManager.GetPatrolType(input);
+        }
     }
 }

@@ -2,6 +2,7 @@
 using FireProtectionV1.Common.Enum;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
@@ -37,5 +38,10 @@ namespace FireProtectionV1.HydrantCore.Model
         /// 网关状态
         /// </summary>
         public GatewayStatus Status { get; set; }
+        /// <summary>
+        /// 剩余电量
+        /// </summary>
+        [DefaultValue(0)]
+        public decimal DumpEnergy { get; set; }
     }
 }

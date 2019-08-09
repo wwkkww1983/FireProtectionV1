@@ -173,6 +173,21 @@
             火警预警
             </summary>
         </member>
+        <member name="F:FireProtectionV1.Common.Enum.Patrol.UnSet">
+            <summary>
+            普通巡查
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.Patrol.NormalPatrol">
+            <summary>
+            普通巡查
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.Patrol.ScanPatrol">
+            <summary>
+            扫码巡查
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.Common.Enum.NormalStatus">
             <summary>
             常用的状态枚举

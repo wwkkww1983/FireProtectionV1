@@ -1,4 +1,5 @@
-﻿using FireProtectionV1.Enterprise.Model;
+﻿using FireProtectionV1.Common.Enum;
+using FireProtectionV1.Enterprise.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;

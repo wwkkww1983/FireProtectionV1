@@ -41,7 +41,7 @@ namespace FireProtectionV1.Enterprise.Manager
         Task<PagedResultDto<GetFireUnitListOutput>> GetFireUnitList(GetPagedFireUnitListInput input);
         Task<PagedResultDto<GetFireUnitListForMobileOutput>> GetFireUnitListForMobile(GetPagedFireUnitListInput input);
         Task<SuccessOutput> InvitatVerify(InvitatVerifyInput input);
-        Task<List<FireUnitNameOutput>> QueryFireUnitLikeName(string matchName);
+        Task<List<FireUnitNameOutput>> QueryFireUnitLikeName(QueryFireUnitLikeNameInput input);
 
         /// <summary>
         /// 消防部门用户关注防火单位
@@ -49,12 +49,16 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<SuccessOutput> AttentionFireUnit(DeptUserAttentionFireUnitInput input);
+        Task<string> GetFirePlan(int fireUnitId);
+
         /// <summary>
         /// 消防部门用户取消关注防火单位
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         Task<SuccessOutput> AttentionFireUnitCancel(DeptUserAttentionFireUnitInput input);
+        Task<SuccessOutput> SaveFirePlan(FirePlanInput input);
+
         /// <summary>
         /// 地图加载所需使用到的防火单位列表数据
         /// </summary>

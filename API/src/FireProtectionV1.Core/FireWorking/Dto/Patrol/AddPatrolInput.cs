@@ -19,7 +19,5 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         [Required]
         public int FireUnitId { get; set; }
-
-        public List<AddPatrolTrackInput> TrackList { get; set; }
     }
 }
