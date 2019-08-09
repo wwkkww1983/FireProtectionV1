@@ -147,7 +147,7 @@ namespace FireProtectionV1.HydrantCore.Manager
                             SoultionTime=a.SoultionTime.ToString("yyyy-MM-dd hh:mm")
                         }).OrderBy(u => u.ReadFlag).ThenByDescending(u => u.CreateTime);
             if(input.HandleStatus==HandleStatus.Resolving||input.HandleStatus==HandleStatus.Resolved)
-                list=list.OrderBy(u => u.SoultionTime);
+                list=list.OrderByDescending(u => u.SoultionTime);
             GetHydrantAlarmPagingOutput output = new GetHydrantAlarmPagingOutput()
             {
                 TotalCount = list.Count(),

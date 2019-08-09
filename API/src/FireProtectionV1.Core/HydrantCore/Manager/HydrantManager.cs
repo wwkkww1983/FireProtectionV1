@@ -3,6 +3,7 @@ using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using Abp.Domain.Services;
 using FireProtectionV1.Common.DBContext;
+using FireProtectionV1.Common.Enum;
 using FireProtectionV1.Common.Helper;
 using FireProtectionV1.HydrantCore.Dto;
 using FireProtectionV1.HydrantCore.Model;
@@ -51,6 +52,7 @@ namespace FireProtectionV1.HydrantCore.Manager
             Valid.Exception(_hydrantRepository.Count(m => input.Sn.Equals(m.Sn)) > 0, "保存失败：设施编号已存在");
 
             var entity = input.MapTo<Hydrant>();
+            entity.Status = GatewayStatus.Online;
             return await _hydrantRepository.InsertAndGetIdAsync(entity);
         }
 
