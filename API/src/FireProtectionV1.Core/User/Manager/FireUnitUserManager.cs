@@ -6,6 +6,7 @@ using FireProtectionV1.Common.Helper;
 using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.User.Dto;
 using FireProtectionV1.User.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -215,6 +216,27 @@ namespace FireProtectionV1.User.Manager
                 };
                 await _fireUnitAccountRoleRepository.InsertAsync(role);
             }
+            return output;
+        }
+
+        /// <summary>
+        /// 删除工作人员
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> DeleteUser(DeleteUserInput input)
+        {
+            SuccessOutput output = new SuccessOutput() { Success = true };
+            try {
+                
+                await _fireUnitAccountRepository.DeleteAsync(u => u.Id == input.UserId);
+            }
+            catch(Exception e)
+            {
+                output.FailCause = e.Message;
+                output.Success = false;
+            }
+            
             return output;
         }
     }
