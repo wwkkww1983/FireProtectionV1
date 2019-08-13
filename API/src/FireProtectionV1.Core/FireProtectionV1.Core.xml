@@ -5797,6 +5797,11 @@
             权限
             </summary>
         </member>
+        <member name="P:FireProtectionV1.User.Dto.DeleteUserInput.UserId">
+            <summary>
+            用户ID
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.User.Dto.DeptChangePassword.Account">
             <summary>
             账号
@@ -6079,6 +6084,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.User.Manager.FireUnitUserManager.DeleteUser(FireProtectionV1.User.Dto.DeleteUserInput)">
+            <summary>
+            删除工作人员
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.User.Manager.HydrantUserManager.UserRegist(FireProtectionV1.User.Dto.GetHydrantUserRegistInput)">
             <summary>
             用户注册
@@ -6173,6 +6185,13 @@
         <member name="M:FireProtectionV1.User.Manager.IFireUnitUserManager.AddUser(FireProtectionV1.User.Dto.AddUserInput)">
             <summary>
             新增工作人员
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.IFireUnitUserManager.DeleteUser(FireProtectionV1.User.Dto.DeleteUserInput)">
+            <summary>
+            删除工作人员
             </summary>
             <param name="input"></param>
             <returns></returns>
