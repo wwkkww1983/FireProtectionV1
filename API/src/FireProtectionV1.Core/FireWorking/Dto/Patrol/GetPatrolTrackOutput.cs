@@ -12,6 +12,10 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public int PatrolId { get; set; }
         /// <summary>
+        /// 轨迹ID
+        /// </summary>
+        public int TrackId { get; set; }
+        /// <summary>
         /// 巡查模式(1.一般巡查；2.扫码巡查)
         /// </summary>
         public byte PatrolType { get; set; }
