@@ -372,7 +372,7 @@ namespace FireProtectionV1.FireWorking.Manager
         public Task<List<GetDataPatrolForWebOutput>> GetPatrollistForWeb(GetDataPatrolForWebInput input)
         {
             var list = _patrolRep.GetAll().Where(u => u.FireUnitId == input.FireUnitId && u.CreationTime.Month == input.Moth.Month);
-            var output = from a in list
+            var list2 = from a in list
                          orderby a.CreationTime
                          select new GetDataPatrolForWebOutput
                          {
@@ -380,6 +380,7 @@ namespace FireProtectionV1.FireWorking.Manager
                              CreationTime = a.CreationTime.ToString("yyyy-MM-dd"),
                              PatrolStatus = a.PatrolStatus
                          };
+            var output = list2.GroupBy(u => u.CreationTime).Select(u => u.OrderByDescending(a => a.PatrolStatus).First());
             return Task.FromResult(output.ToList());
         }
 
