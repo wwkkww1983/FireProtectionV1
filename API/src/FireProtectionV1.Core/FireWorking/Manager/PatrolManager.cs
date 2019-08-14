@@ -287,7 +287,7 @@ namespace FireProtectionV1.FireWorking.Manager
                     }
                     else if ((int)input.ProblemRemarkType == 2 && input.RemarkVioce != null)
                     {
-                        problem.ProblemRemark = "/Src/Voices/DataToDuty/" + await SaveFiles(input.RemarkVioce, voicepath);
+                        problem.ProblemRemark = "/Src/Voices/DataToPatrol/" + await SaveFiles(input.RemarkVioce, voicepath);
                     }
                     int problemId = _patrolDetailProblem.InsertAndGetId(problem);
                    
