@@ -151,7 +151,7 @@ namespace FireProtectionV1.Web.Startup
                     .GetManifestResourceStream("FireProtectionV1.Web.wwwroot.swagger.ui.index.html");               
             }); // URL: /swagger
 
-            //文件地址隐藏
+            //文件地址隐藏 
             if (!Directory.Exists(@"App_Data/Files"))//判断是否存在
             {
                 Directory.CreateDirectory(@"App_Data/Files");//创建新路径

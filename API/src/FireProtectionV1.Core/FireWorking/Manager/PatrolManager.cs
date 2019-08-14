@@ -435,7 +435,7 @@ namespace FireProtectionV1.FireWorking.Manager
                                               PatrolId = d.PatrolId,
                                               TrackId=d.Id,
                                               PatrolType = d.PatrolType,
-                                              CreationTime = d.CreationTime.ToString("yyyy-mm-dd hh:MM"),
+                                              CreationTime = d.CreationTime.ToString("yyyy-MM-dd hh:mm"),
                                               PatrolStatus = (ProblemStatusType)a.PatrolStatus,
                                               FireSystemName = (from e in _patrolDetailFireSystem.GetAll()
                                                                 join f in _fireSystemRep.GetAll() on e.FireSystemID equals f.Id
