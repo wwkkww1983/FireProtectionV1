@@ -60,5 +60,12 @@ namespace FireProtectionV1.User.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<SuccessOutput> DeleteUser(DeleteUserInput input);
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<SuccessOutput> ChangePassword(DeptChangePassword input);
     }
 }

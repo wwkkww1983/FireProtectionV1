@@ -134,5 +134,15 @@ namespace FireProtectionV1.AppService
             output.Success = true;
             return output;
         }
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> ChangePassword(DeptChangePassword input)
+        {
+            return await _fireUnitAccountManager.ChangePassword(input);
+        }
     }
 }

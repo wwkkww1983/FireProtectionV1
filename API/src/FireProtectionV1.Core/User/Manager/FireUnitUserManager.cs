@@ -93,6 +93,7 @@ namespace FireProtectionV1.User.Manager
             {
                 output.UserId = v.Id;
                 output.Name = v.Name;
+                output.Account = v.Account;
                 output.GuideFlage = true;
                 var rolllist = _fireUnitAccountRoleRepository.GetAll();
                 output.Rolelist = (from a in rolllist
@@ -237,6 +238,26 @@ namespace FireProtectionV1.User.Manager
                 output.Success = false;
             }
             
+            return output;
+        }
+
+        public async Task<SuccessOutput> ChangePassword(DeptChangePassword input)
+        {
+            string md5 = MD5Encrypt.Encrypt(input.OldPassword + input.Account, 16);
+            SuccessOutput output = new SuccessOutput() { Success = true };
+            var v = await _fireUnitAccountRepository.FirstOrDefaultAsync(p => p.Account.Equals(input.Account) && p.Password.Equals(md5));
+            if (v == null)
+            {
+                output.Success = false;
+                output.FailCause = "当前密码不正确";
+            }
+            else
+            {
+                string newMd5 = MD5Encrypt.Encrypt(input.NewPassword + input.Account, 16);
+                v.Password = newMd5;
+                var x = await _fireUnitAccountRepository.UpdateAsync(v);
+                output.Success = true;
+            }
             return output;
         }
     }
