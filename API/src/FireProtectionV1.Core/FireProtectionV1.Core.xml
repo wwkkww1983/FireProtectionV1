@@ -2676,6 +2676,11 @@
             巡查ID
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTrackOutput.TrackId">
+            <summary>
+            轨迹ID
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTrackOutput.PatrolType">
             <summary>
             巡查模式(1.一般巡查；2.扫码巡查)
@@ -5797,6 +5802,11 @@
             权限
             </summary>
         </member>
+        <member name="P:FireProtectionV1.User.Dto.DeleteUserInput.UserId">
+            <summary>
+            用户ID
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.User.Dto.DeptChangePassword.Account">
             <summary>
             账号
@@ -5850,6 +5860,11 @@
         <member name="P:FireProtectionV1.User.Dto.FireUnitUserLoginOutput.UserId">
             <summary>
             用户Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.FireUnitUserLoginOutput.Account">
+            <summary>
+            账号
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Dto.FireUnitUserLoginOutput.Name">
@@ -6079,6 +6094,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.User.Manager.FireUnitUserManager.DeleteUser(FireProtectionV1.User.Dto.DeleteUserInput)">
+            <summary>
+            删除工作人员
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.User.Manager.HydrantUserManager.UserRegist(FireProtectionV1.User.Dto.GetHydrantUserRegistInput)">
             <summary>
             用户注册
@@ -6173,6 +6195,20 @@
         <member name="M:FireProtectionV1.User.Manager.IFireUnitUserManager.AddUser(FireProtectionV1.User.Dto.AddUserInput)">
             <summary>
             新增工作人员
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.IFireUnitUserManager.DeleteUser(FireProtectionV1.User.Dto.DeleteUserInput)">
+            <summary>
+            删除工作人员
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.IFireUnitUserManager.ChangePassword(FireProtectionV1.User.Dto.DeptChangePassword)">
+            <summary>
+            修改密码
             </summary>
             <param name="input"></param>
             <returns></returns>

@@ -59,6 +59,17 @@ namespace FireProtectionV1.AppService
         {
             return await _fireUnitAccountManager.AddUser(input);
         }
+
+        /// <summary>
+        /// 删除工作人员
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> DeleteUser(DeleteUserInput input)
+        {
+            return await _fireUnitAccountManager.DeleteUser(input);
+        }
+
         /// <summary>
         /// 更新防火单位引导设置
         /// </summary>

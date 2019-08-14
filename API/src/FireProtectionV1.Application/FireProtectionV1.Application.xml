@@ -68,6 +68,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.AppGuideSet.DeleteUser(FireProtectionV1.User.Dto.DeleteUserInput)">
+            <summary>
+            删除工作人员
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.AppGuideSet.UpdateGuideSet(FireProtectionV1.Enterprise.Dto.UpdateFireUnitSetInput)">
             <summary>
             更新防火单位引导设置
@@ -763,6 +770,13 @@
             <summary>
             注销用户
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.ChangePassword(FireProtectionV1.User.Dto.DeptChangePassword)">
+            <summary>
+            修改密码
+            </summary>
+            <param name="input"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.HttpContextAppService.GetVerifyCode">

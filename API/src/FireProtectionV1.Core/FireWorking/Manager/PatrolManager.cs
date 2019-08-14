@@ -433,6 +433,7 @@ namespace FireProtectionV1.FireWorking.Manager
                                           select new GetPatrolTrackOutput
                                           {
                                               PatrolId = d.PatrolId,
+                                              TrackId=d.Id,
                                               PatrolType = d.PatrolType,
                                               CreationTime = d.CreationTime.ToString("yyyy-mm-dd hh:MM"),
                                               PatrolStatus = (ProblemStatusType)a.PatrolStatus,
@@ -444,7 +445,7 @@ namespace FireProtectionV1.FireWorking.Manager
                                               PatrolAddress = d.PatrolAddress,
                                               ProblemRemakeType = dept == null ? 0 : dept.ProblemRemarkType,
                                               RemakeText = dept.ProblemRemark,
-                                              PatrolPhotosPath = _photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToPatrolDetail")).Select(u => u.PhotoPath).ToList()
+                                              PatrolPhotosPath = _photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToPatrolDetail")&&u.DataId== d.Id).Select(u => u.PhotoPath).ToList()
                                           }).ToList()
                          };
             return Task.FromResult(output.FirstOrDefault());
