@@ -78,13 +78,13 @@ namespace FireProtectionV1.AppService
             dto.Content = input.Content;
             dto.UserId = input.UserId;
             if (input.Picture1 != null)
-                dto.PictureUrl_1 = "/src/Photos/AlarmCheck/" + await SaveFile(input.Picture1, pathPhoto);
+                dto.PictureUrl_1 = "/Src/Photos/AlarmCheck/" + await SaveFile(input.Picture1, pathPhoto);
             if (input.Picture2 != null)
-                dto.PictureUrl_2 = "/src/Photos/AlarmCheck/" + await SaveFile(input.Picture2, pathPhoto);
+                dto.PictureUrl_2 = "/Src/Photos/AlarmCheck/" + await SaveFile(input.Picture2, pathPhoto);
             if (input.Picture3 != null)
-                dto.PictureUrl_3 = "/src/Photos/AlarmCheck/" + await SaveFile(input.Picture3, pathPhoto);
+                dto.PictureUrl_3 = "/Src/Photos/AlarmCheck/" + await SaveFile(input.Picture3, pathPhoto);
             if (input.Voice != null)
-                dto.VioceUrl = "/src/Voices/AlarmCheck/" + await SaveFile(input.Voice, pathVoice);
+                dto.VioceUrl = "/Src/Voices/AlarmCheck/" + await SaveFile(input.Voice, pathVoice);
             await _alarmManager.CheckAlarm(dto);
             return new SuccessOutput() { Success = true };
         }
