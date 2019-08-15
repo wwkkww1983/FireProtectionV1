@@ -462,5 +462,22 @@ namespace FireProtectionV1.FireWorking.Manager
             output.PatrolType = (Patrol)_fireUnitRep.FirstOrDefault(u=>u.Id==input.FireUnitId).Patrol;
             return Task.FromResult(output);
         }
+
+        /// <summary>
+        /// 新增时查询今日是否已添加
+        /// </summary>
+        /// <returns></returns>
+        public async Task<SuccessOutput> GetAddAllow()
+        {
+            SuccessOutput output = new SuccessOutput() { Success=true};
+            var date = DateTime.Now.Date;
+            var count = _patrolRep.GetAll().Where(u => u.CreationTime.Date == date).Count();
+            if(count>=1)
+            {
+                output.Success = false;
+                output.FailCause = "今日已添加过记录";
+            }
+            return output;
+        }
     }
 }

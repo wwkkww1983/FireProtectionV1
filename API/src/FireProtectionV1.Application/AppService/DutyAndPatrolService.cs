@@ -156,5 +156,13 @@ namespace FireProtectionV1.AppService
         {
             return await _patrolManager.GetPatrolType(input);
         }
+        /// <summary>
+        /// 新增时查询今日是否已添加
+        /// </summary>
+        /// <returns></returns>
+        public async Task<SuccessOutput> GetAddAllow()
+        {
+            return await _patrolManager.GetAddAllow();
+        }
     }
 }
