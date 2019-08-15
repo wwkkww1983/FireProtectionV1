@@ -3417,6 +3417,12 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.GetAddAllow">
+            <summary>
+            新增时查询今日是否已添加
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.GetPatrollist(FireProtectionV1.FireWorking.Dto.GetDataPatrolInput)">
             <summary>
             获取巡查记录列表
@@ -3478,6 +3484,12 @@
             新增时获取巡查记录类别
             </summary>
             <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.GetAddAllow">
+            <summary>
+            新增时查询今日是否已添加
+            </summary>
             <returns></returns>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.FireSysType">

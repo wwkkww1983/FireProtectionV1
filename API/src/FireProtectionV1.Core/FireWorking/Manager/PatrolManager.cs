@@ -287,7 +287,7 @@ namespace FireProtectionV1.FireWorking.Manager
                     }
                     else if ((int)input.ProblemRemarkType == 2 && input.RemarkVioce != null)
                     {
-                        problem.ProblemRemark = "/Src/Voices/DataToDuty/" + await SaveFiles(input.RemarkVioce, voicepath);
+                        problem.ProblemRemark = "/Src/Voices/DataToPatrol/" + await SaveFiles(input.RemarkVioce, voicepath);
                     }
                     int problemId = _patrolDetailProblem.InsertAndGetId(problem);
                    
@@ -372,7 +372,7 @@ namespace FireProtectionV1.FireWorking.Manager
         public Task<List<GetDataPatrolForWebOutput>> GetPatrollistForWeb(GetDataPatrolForWebInput input)
         {
             var list = _patrolRep.GetAll().Where(u => u.FireUnitId == input.FireUnitId && u.CreationTime.Month == input.Moth.Month);
-            var output = from a in list
+            var list2 = from a in list
                          orderby a.CreationTime
                          select new GetDataPatrolForWebOutput
                          {
@@ -380,6 +380,7 @@ namespace FireProtectionV1.FireWorking.Manager
                              CreationTime = a.CreationTime.ToString("yyyy-MM-dd"),
                              PatrolStatus = a.PatrolStatus
                          };
+            var output = list2.GroupBy(u => u.CreationTime).Select(u => u.OrderByDescending(a => a.PatrolStatus).First());
             return Task.FromResult(output.ToList());
         }
 
@@ -435,7 +436,7 @@ namespace FireProtectionV1.FireWorking.Manager
                                               PatrolId = d.PatrolId,
                                               TrackId=d.Id,
                                               PatrolType = d.PatrolType,
-                                              CreationTime = d.CreationTime.ToString("yyyy-mm-dd hh:MM"),
+                                              CreationTime = d.CreationTime.ToString("yyyy-MM-dd hh:mm"),
                                               PatrolStatus = (ProblemStatusType)a.PatrolStatus,
                                               FireSystemName = (from e in _patrolDetailFireSystem.GetAll()
                                                                 join f in _fireSystemRep.GetAll() on e.FireSystemID equals f.Id
@@ -460,6 +461,23 @@ namespace FireProtectionV1.FireWorking.Manager
             GetPatrolTypeOutput output = new GetPatrolTypeOutput();
             output.PatrolType = (Patrol)_fireUnitRep.FirstOrDefault(u=>u.Id==input.FireUnitId).Patrol;
             return Task.FromResult(output);
+        }
+
+        /// <summary>
+        /// 新增时查询今日是否已添加
+        /// </summary>
+        /// <returns></returns>
+        public async Task<SuccessOutput> GetAddAllow()
+        {
+            SuccessOutput output = new SuccessOutput() { Success=true};
+            var date = DateTime.Now.Date;
+            var count = _patrolRep.GetAll().Where(u => u.CreationTime.Date == date).Count();
+            if(count>=1)
+            {
+                output.Success = false;
+                output.FailCause = "今日已添加过记录";
+            }
+            return output;
         }
     }
 }

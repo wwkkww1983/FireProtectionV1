@@ -415,6 +415,12 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetAddAllow">
+            <summary>
+            新增时查询今日是否已添加
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:FireProtectionV1.AppService.FireDeptUserAppService">
             <summary>
             消防部门用户接口
