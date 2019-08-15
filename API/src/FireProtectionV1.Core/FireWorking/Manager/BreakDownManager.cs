@@ -69,7 +69,7 @@ namespace FireProtectionV1.FireWorking.Manager
             breakdownlist = breakdownlist.Where(expr);
             var list = from a in breakdownlist
                          join b in userlist on a.UserId equals b.Id
-                         orderby a.CreationTime 
+                         orderby a.CreationTime descending
                          select new GetBreakDownOutput
                          {
                              BreakDownId=a.Id,
