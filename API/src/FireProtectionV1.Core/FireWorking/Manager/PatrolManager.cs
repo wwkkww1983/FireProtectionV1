@@ -146,7 +146,7 @@ namespace FireProtectionV1.FireWorking.Manager
                          select new GetDataPatrolOutput
                          {
                              PatrolId = a.Id,
-                             CreationTime = a.CreationTime.ToString("yyyy-MM-dd hh:mm"),
+                             CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm"),
                              PatrolUser = b.Name,
                              PatrolStatus = (ProblemStatusType)a.PatrolStatus
                          };
@@ -175,7 +175,7 @@ namespace FireProtectionV1.FireWorking.Manager
                          {
                              PatrolId = a.PatrolId,
                              PatrolType = a.PatrolType,
-                             CreationTime = a.CreationTime.ToString("yyyy-mm-dd hh:MM"),
+                             CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm"),
                              PatrolStatus = (ProblemStatusType)a.PatrolStatus,
                              FireSystemName = (from c in _patrolDetailFireSystem.GetAll()
                                                join d in _fireSystemRep.GetAll() on c.FireSystemID equals d.Id
@@ -421,7 +421,7 @@ namespace FireProtectionV1.FireWorking.Manager
                          select new GetPatrolInfoForWebOutput
                          {
                              PatrolId = a.Id,
-                             CreationTime = a.CreationTime.ToString("yyyy-MM-dd hh:mm"),
+                             CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm"),
                              PatrolUser = b.Name,
                              PatrolType = (int)c.Patrol == 1 ? "一般巡查" : "扫码巡查",
                              TrackCount = detaillist.Where(u => u.PatrolId == a.Id).Count(),
@@ -436,7 +436,7 @@ namespace FireProtectionV1.FireWorking.Manager
                                               PatrolId = d.PatrolId,
                                               TrackId=d.Id,
                                               PatrolType = d.PatrolType,
-                                              CreationTime = d.CreationTime.ToString("yyyy-MM-dd hh:mm"),
+                                              CreationTime = d.CreationTime.ToString("yyyy-MM-dd HH:mm"),
                                               PatrolStatus = (ProblemStatusType)a.PatrolStatus,
                                               FireSystemName = (from e in _patrolDetailFireSystem.GetAll()
                                                                 join f in _fireSystemRep.GetAll() on e.FireSystemID equals f.Id

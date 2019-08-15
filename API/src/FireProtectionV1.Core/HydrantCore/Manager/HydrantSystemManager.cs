@@ -140,11 +140,11 @@ namespace FireProtectionV1.HydrantCore.Manager
                         select new GetHydrantAlarmOutput
                         {
                             AlarmId = a.Id,
-                            CreateTime = a.CreationTime.ToString("yyyy-MM-dd hh:mm"),
+                            CreateTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm"),
                             Address = b.Address,
                             Title = a.Title,
                             ReadFlag = a.ReadFlag,
-                            SoultionTime=a.SoultionTime.ToString("yyyy-MM-dd hh:mm")
+                            SoultionTime=a.SoultionTime.ToString("yyyy-MM-dd HH:mm")
                         }).OrderBy(u => u.ReadFlag).ThenByDescending(u => u.CreateTime);
             if(input.HandleStatus==HandleStatus.Resolving||input.HandleStatus==HandleStatus.Resolved)
                 list=list.OrderByDescending(u => u.SoultionTime);
@@ -175,7 +175,7 @@ namespace FireProtectionV1.HydrantCore.Manager
                         select new GetAreaHydrantAlarm
                         {
                             AlarmId = a.Id,
-                            CreateTime = a.CreationTime.ToString("yyyy-MM-dd hh:mm"),
+                            CreateTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm"),
                             Area = c.Name,
                             Title = a.Title,
                             HandleStatus = (HandleStatus)a.HandleStatus
@@ -247,8 +247,8 @@ namespace FireProtectionV1.HydrantCore.Manager
             GetHydrantAlarmInfoOutput output = new GetHydrantAlarmInfoOutput();
             output.AlarmID = alarm.Id;
             output.Title = alarm.Title;
-            output.CreationTime = alarm.CreationTime.ToString("yyyy-MM-dd hh:mm");
-            output.SolutionTime = alarm.SoultionTime.ToString("yyyy-MM-dd hh:mm");
+            output.CreationTime = alarm.CreationTime.ToString("yyyy-MM-dd HH:mm");
+            output.SolutionTime = alarm.SoultionTime.ToString("yyyy-MM-dd HH:mm");
             output.HandleStatus = (HandleStatus)alarm.HandleStatus;
             output.HandleUser = alarm.HandleUser;
             output.ProblemRemarkType = (ProblemType)alarm.ProblemRemarkType;

@@ -76,8 +76,8 @@ namespace FireProtectionV1.FireWorking.Manager
                              Source = a.Source,
                              UserName = b.Name,
                              Phone = b.Account,
-                             CreationTime = a.CreationTime.ToString("yyyy-MM-dd hh:mm"),
-                             SolutionTime = a.SolutionTime.ToString("yyyy-MM-dd hh:mm")
+                             CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm"),
+                             SolutionTime = a.SolutionTime.ToString("yyyy-MM-dd HH:mm")
                          };
             if (input.HandleStatus == HandleStatus.Resolving || input.HandleStatus == HandleStatus.Resolved)
             {
@@ -107,10 +107,10 @@ namespace FireProtectionV1.FireWorking.Manager
                 Source = breakdown.Source,
                 UserName = user.Name,
                 Phone = user.Account,
-                CreationTime = breakdown.CreationTime.ToString("yyyy-MM-dd hh:mm"),
+                CreationTime = breakdown.CreationTime.ToString("yyyy-MM-dd HH:mm"),
                 SolutionWay=breakdown.SolutionWay,
                 Remark=breakdown.Remark,
-                SolutionTime=breakdown.SolutionTime.ToString("yyyy-MM-dd hh:mm")
+                SolutionTime=breakdown.SolutionTime.ToString("yyyy-MM-dd HH:mm")
             };
             //值班来源
             if (breakdown.Source==1)
