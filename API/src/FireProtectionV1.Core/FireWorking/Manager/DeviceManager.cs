@@ -164,7 +164,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 output.LastTimeStateChange = state.CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
             }
             output.AnalogTimes = _recordAnalogRep.GetAll().Where(p => p.DetectorId == input.DetectorId).OrderByDescending(p => p.CreationTime).Take(10).Select(p =>
-                   new AnalogTime() { Time = p.CreationTime.ToString("yyyy-MM-dd HH:mm"), Value = p.Analog }).ToList();
+                   new AnalogTime() { Time = p.CreationTime.ToString("HH:mm:ss"), Value = p.Analog }).ToList();
             return output;
         }
         /// <summary>
