@@ -426,7 +426,7 @@ namespace FireProtectionV1.FireWorking.Manager
                              PatrolType = (int)c.Patrol == 1 ? "一般巡查" : "扫码巡查",
                              TrackCount = detaillist.Where(u => u.PatrolId == a.Id).Count(),
                              ProblemCount = detaillist.Where(u => u.PatrolId == a.Id && u.PatrolStatus != (byte)ProblemStatusType.noraml).Count(),
-                             ResolvedConut = detaillist.Where(u => u.PatrolId == a.Id && u.PatrolStatus != (byte)ProblemStatusType.Repaired).Count(),
+                             ResolvedConut = detaillist.Where(u => u.PatrolId == a.Id && u.PatrolStatus != (byte)ProblemStatusType.DisRepaired).Count(),
                              TrackList = (from d in detaillist
                                           join e in _patrolDetailProblem.GetAll() on d.Id equals e.PatrolDetailId into JoinedEmpDept
                                           from dept in JoinedEmpDept.DefaultIfEmpty()
