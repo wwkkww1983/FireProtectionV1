@@ -46,7 +46,7 @@ namespace DeviceServer.Tcp.Protocol.Datas
                 if (_data[7] == (byte)AnalogType.Temperature)
                     v= "℃";
                 else if (_data[7] == (byte)AnalogType.ResidualAjs)
-                    v= "A";
+                    v= "mA";
                 return v;
             } }
         public DataUploadAnalog(List<byte> list) : base(list)

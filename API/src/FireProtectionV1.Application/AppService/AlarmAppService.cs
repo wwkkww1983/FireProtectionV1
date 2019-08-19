@@ -85,6 +85,9 @@ namespace FireProtectionV1.AppService
                 dto.PictureUrl_3 = "/Src/Photos/AlarmCheck/" + await SaveFile(input.Picture3, pathPhoto);
             if (input.Voice != null)
                 dto.VioceUrl = "/Src/Voices/AlarmCheck/" + await SaveFile(input.Voice, pathVoice);
+            dto.NotifyWorker = input.NotifyWorker;
+            dto.NotifyMiniaturefire = input.NotifyMiniaturefire;
+            dto.Notify119 = input.Notify119;
             await _alarmManager.CheckAlarm(dto);
             return new SuccessOutput() { Success = true };
         }

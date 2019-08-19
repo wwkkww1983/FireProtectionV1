@@ -1390,6 +1390,21 @@
             检查语音
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailDto.NotifyWorker">
+            <summary>
+            通知工作人员
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailDto.NotifyMiniaturefire">
+            <summary>
+            通知微型消防站
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailDto.Notify119">
+            <summary>
+            通知119
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailOutput.CheckId">
             <summary>
             警情Id
@@ -1443,6 +1458,21 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailOutput.VioceUrl">
             <summary>
             检查语音
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailOutput.NotifyWorker">
+            <summary>
+            通知工作人员
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailOutput.NotifyMiniaturefire">
+            <summary>
+            通知微型消防站
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailOutput.Notify119">
+            <summary>
+            通知119
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailOutput.UserName">
@@ -1989,6 +2019,11 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.EndDeviceStateOutput.Standard">
             <summary>
             合格范围
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.EndDeviceStateOutput.IsOverRange">
+            <summary>
+            是否超限
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.FireUnitFaultOuput.FireUnitId">
@@ -3525,6 +3560,21 @@
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.UserId">
             <summary>
             工作人员Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.NotifyWorker">
+            <summary>
+            通知工作人员
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.NotifyMiniaturefire">
+            <summary>
+            通知微型消防站
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.Notify119">
+            <summary>
+            通知119
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.DetectorId">

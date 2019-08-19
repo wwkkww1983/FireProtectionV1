@@ -42,5 +42,17 @@ namespace FireProtectionV1.FireWorking.Model
         /// 工作人员Id
         /// </summary>
         public int UserId { get; set; }
+        /// <summary>
+        /// 通知工作人员
+        /// </summary>
+        public byte NotifyWorker { get; set; }
+        /// <summary>
+        /// 通知微型消防站
+        /// </summary>
+        public byte NotifyMiniaturefire { get; set; }
+        /// <summary>
+        /// 通知119
+        /// </summary>
+        public byte Notify119 { get; set; }
     }
 }

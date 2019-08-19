@@ -224,7 +224,7 @@ namespace FireProtectionV1.FireWorking.Manager
             var setEle = await _fireSettingManager.GetByName("ResidualCurrent");
             foreach (var v in ele)
             {
-                v.Standard = $"<={setEle.MaxValue}A";
+                v.Standard = $"<={setEle.MaxValue}mA";
                 double an;
                 v.IsOverRange = double.TryParse(v.Analog, out an) ? an> setEle.MaxValue : false;
             }
