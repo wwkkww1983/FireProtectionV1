@@ -222,7 +222,7 @@ namespace FireProtectionV1.FireWorking.Manager
             var setEle = await _fireSettingManager.GetByName("ResidualCurrent");
             foreach (var v in ele)
             {
-                v.Standard = $"<={setEle.MaxValue}mA";
+                v.Standard = $"<={setEle.MaxValue}A";
             }
             var lst= uitd.Union(tem).Union(ele).ToList();
             return new PagedResultDeviceDto<EndDeviceStateOutput>()
