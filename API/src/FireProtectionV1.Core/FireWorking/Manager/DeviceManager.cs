@@ -205,6 +205,8 @@ namespace FireProtectionV1.FireWorking.Manager
             foreach (var v in tem)
             {
                 v.Standard = $"<={setTem.MaxValue}℃";
+                double an;
+                v.IsOverRange = double.TryParse(v.Analog, out an) ? an > setTem.MaxValue : false;
             }
             var ele = (from a in _detectorRep.GetAll().Where(p => p.FireUnitId == fireUnitId && p.DetectorTypeId == GetDetectorType((byte)UnitType.ElectricResidual).Id
                        && (option == 0 ? true : (option == -1 ? p.State.Equals("离线") : !p.State.Equals("离线"))))
@@ -223,6 +225,8 @@ namespace FireProtectionV1.FireWorking.Manager
             foreach (var v in ele)
             {
                 v.Standard = $"<={setEle.MaxValue}A";
+                double an;
+                v.IsOverRange = double.TryParse(v.Analog, out an) ? an> setEle.MaxValue : false;
             }
             var lst= uitd.Union(tem).Union(ele).ToList();
             return new PagedResultDeviceDto<EndDeviceStateOutput>()

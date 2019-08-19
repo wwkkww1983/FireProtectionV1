@@ -34,5 +34,9 @@ namespace FireProtectionV1.FireWorking.Dto
         /// 合格范围
         /// </summary>
         public string Standard { get; set; }
+        /// <summary>
+        /// 是否超限
+        /// </summary>
+        public bool IsOverRange { get; set; }
     }
 }
