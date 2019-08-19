@@ -134,7 +134,7 @@ namespace FireProtectionV1.FireWorking.Manager
                        select new GetDataDutyOutput
                        {
                            DutyId = a.Id,
-                           CreationTime = a.CreationTime.ToString("yyyy-MM-dd hh:mm"),
+                           CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm"),
                            DutyUser = b.Name,
                            DutyStatus = (ProblemStatusType)a.DutyStatus
                        };
@@ -340,7 +340,7 @@ namespace FireProtectionV1.FireWorking.Manager
                          select new GetDutyInfoForWebOutput
                          {
                              DutyId = a.Id,
-                             CreationTime = a.CreationTime.ToString("yyyy-MM-dd hh:mm"),
+                             CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm"),
                              DutyUser = b.Name,
                              DutyStatus = (ProblemStatusType)a.DutyStatus,
                              DutyRemark = a.DutyRemark,
