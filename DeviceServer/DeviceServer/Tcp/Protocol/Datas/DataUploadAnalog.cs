@@ -17,7 +17,7 @@ namespace DeviceServer.Tcp.Protocol.Datas
         /// <summary>
         /// 部件地址字符串
         /// </summary>
-        public string UnitAddressString { get { return $"{_data[3]}.{_data[4]}.{_data[5]}.{_data[6]}"; } }
+        public string UnitAddressString { get { return $"{_data[6]}.{_data[5]}.{_data[4]}.{_data[3]}"; } }
         /// <summary>
         /// 模拟量值
         /// </summary>

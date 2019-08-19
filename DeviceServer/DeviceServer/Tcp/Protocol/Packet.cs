@@ -13,7 +13,7 @@ namespace DeviceServer.Tcp.Protocol
         public List<byte> Version { get { return _lst.GetRange(4, 2); } }
         public List<byte> TimePack { get { return _lst.GetRange(6, 6); } }
         public List<byte> SrcAddress { get { return _lst.GetRange(12, 6); } }
-        public string SrcAddressString { get { return $"{_lst[12]}.{_lst[13]}.{_lst[14]}.{_lst[15]}.{_lst[16]}.{_lst[17]}"; } }
+        public string SrcAddressString { get { return $"{_lst[17]}.{_lst[16]}.{_lst[15]}.{_lst[14]}.{_lst[13]}.{_lst[12]}"; } }
         public List<byte> DstAddress { get { return _lst.GetRange(18, 6); } }
         //byte[] Head     = new byte[2];
         //byte[] Sn       = new byte[2];
