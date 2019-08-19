@@ -39,7 +39,7 @@ namespace FireProtectionV1.User.Manager
             if (user != null)
                 return new SuccessOutput() { Success = false, FailCause = "手机号已被注册" };
             string md5 = MD5Encrypt.Encrypt(input.Password + input.Phone, 16);
-            await _fireUnitAccountRepository.InsertAsync(new FireUnitUser()
+            int id=await _fireUnitAccountRepository.InsertAndGetIdAsync(new FireUnitUser()
             {
                 Account = input.Phone,
                 Name = input.UserName,
@@ -48,6 +48,12 @@ namespace FireProtectionV1.User.Manager
                 GuideFlage = false,
                 Password = md5
             });
+            FireUnitUserRole role = new FireUnitUserRole()
+            {
+                AccountID = id,
+                Role = FireUnitRole.FireUnitManager
+            };
+            await _fireUnitAccountRoleRepository.InsertAsync(role);
             return new SuccessOutput() { Success = true };
         }
         /// <summary>
@@ -134,6 +140,7 @@ namespace FireProtectionV1.User.Manager
 
             var unitpeople = from a in unitpeoplelist
                              where a.FireUnitInfoID == loginman.FireUnitInfoID
+                             orderby a.CreationTime descending
                              select new GetUnitPeopleOutput
                              {
                                  ID = a.Id,

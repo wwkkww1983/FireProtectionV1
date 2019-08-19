@@ -442,7 +442,7 @@ namespace FireProtectionV1.FireWorking.Manager
                                                                 join f in _fireSystemRep.GetAll() on e.FireSystemID equals f.Id
                                                                 where e.Id == d.Id
                                                                 select f.SystemName).FirstOrDefault(),
-                                              FireSystemCount = _patrolDetailFireSystem.GetAll().Where(u => u.PatrolDetailId == a.Id).Count(),
+                                              FireSystemCount = _patrolDetailFireSystem.GetAll().Where(u => u.PatrolDetailId == d.Id).Count(),
                                               PatrolAddress = d.PatrolAddress,
                                               ProblemRemakeType = dept == null ? 0 : dept.ProblemRemarkType,
                                               RemakeText = dept.ProblemRemark,
