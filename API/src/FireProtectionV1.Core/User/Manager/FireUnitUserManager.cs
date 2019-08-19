@@ -206,6 +206,9 @@ namespace FireProtectionV1.User.Manager
         public async Task<SuccessOutput> AddUser(AddUserInput input)
         {
             SuccessOutput output = new SuccessOutput() { Success = true };
+            var haveuser = _fireUnitAccountRepository.GetAll().Where(p => p.Account.Equals(input.Account)).FirstOrDefault();
+            if (haveuser != null)
+                return new SuccessOutput() { Success = false, FailCause = "手机号已被注册" };
             FireUnitUser user = new FireUnitUser()
             {
                 Name = input.Name,
