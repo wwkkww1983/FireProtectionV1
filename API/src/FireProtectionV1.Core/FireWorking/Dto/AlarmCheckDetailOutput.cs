@@ -51,6 +51,18 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public string VioceUrl { get; set; }
         /// <summary>
+        /// 通知工作人员
+        /// </summary>
+        public bool NotifyWorker { get; set; }
+        /// <summary>
+        /// 通知微型消防站
+        /// </summary>
+        public bool NotifyMiniaturefire { get; set; }
+        /// <summary>
+        /// 通知119
+        /// </summary>
+        public bool Notify119 { get; set; }
+        /// <summary>
         /// 工作人员姓名
         /// </summary>
         public string UserName { get; set; }

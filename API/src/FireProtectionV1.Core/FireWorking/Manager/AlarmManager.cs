@@ -226,6 +226,9 @@ namespace FireProtectionV1.FireWorking.Manager
             //if (dto.PictureUrl_3 != null)
             //    alarmCheck.PicturUrls = string.IsNullOrEmpty(alarmCheck.PicturUrls) ? "" : "," + dto.PictureUrl_3;
             alarmCheck.VioceUrl = dto.VioceUrl;
+            alarmCheck.NotifyWorker = dto.NotifyWorker ? (byte)1 : (byte)0;
+            alarmCheck.NotifyMiniaturefire = dto.NotifyMiniaturefire ? (byte)1 : (byte)0;
+            alarmCheck.Notify119 = dto.Notify119 ? (byte)1 : (byte)0;
             await _alarmCheckRep.UpdateAsync(alarmCheck);
         }
         public void RepairData()
@@ -307,6 +310,9 @@ namespace FireProtectionV1.FireWorking.Manager
             //        dto.PictureUrl_3 = ss[2];
             //}
             dto.VioceUrl = alarmCheck.VioceUrl;
+            dto.NotifyWorker = alarmCheck.NotifyWorker != 0;
+            dto.NotifyMiniaturefire = alarmCheck.NotifyMiniaturefire != 0;
+            dto.Notify119 = alarmCheck.Notify119 != 0;
             try
             {
                 var user = await _fireUnitUserManager.GetUserInfo(new User.Dto.GetUnitPeopleInput() { AccountID = alarmCheck.UserId });
