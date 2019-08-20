@@ -117,6 +117,20 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.AppGuideSet.UpdateEquipmentNoInfo(FireProtectionV1.Enterprise.Dto.UpdateEquipmentNoInfoInput)">
+            <summary>
+            修改设施编码信息
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AppGuideSet.GetEquipmentNoList(FireProtectionV1.Enterprise.Dto.GetEquipmentNoListInput)">
+            <summary>
+            获取绑定设施编码列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.AppGuideSet.GetEquipmentNoInfo(FireProtectionV1.Enterprise.Dto.GetEquipmentNoInfoInput)">
             <summary>
             扫码获取信息

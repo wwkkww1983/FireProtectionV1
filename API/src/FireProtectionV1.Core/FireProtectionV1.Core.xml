@@ -410,6 +410,41 @@
             消防系统
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetEquipmentNoListInput.EquiNo">
+            <summary>
+            设施编码
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetEquipmentNoListOutput.TotalCount">
+            <summary>
+            总数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetEquipmentNoListOutput.EquipmentNoList">
+            <summary>
+            页面数据
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetEquipmentNoList.ID">
+            <summary>
+            ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetEquipmentNoList.EquiNo">
+            <summary>
+            设施编码
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetEquipmentNoList.Address">
+            <summary>
+            具体地址
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetEquipmentNoList.FireSystemName">
+            <summary>
+            消防系统
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitExcelOutput.Name">
             <summary>
             防火单位名称
@@ -670,6 +705,41 @@
             防火单位名称(模糊查询)
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.UpdateEquipmentNoInfoInput.Opreation">
+            <summary>
+            操作
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.UpdateEquipmentNoInfoInput.ID">
+            <summary>
+            ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.UpdateEquipmentNoInfoInput.EquiNo">
+            <summary>
+            设施编码
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.UpdateEquipmentNoInfoInput.Address">
+            <summary>
+            具体地址
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.UpdateEquipmentNoInfoInput.FireSystemId">
+            <summary>
+            消防系统ID
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Enterprise.Dto.opreationType.delete">
+            <summary>
+            所有记录
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Enterprise.Dto.opreationType.update">
+            <summary>
+            正常
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.UpdateFireUnitInput.Id">
             <summary>
             防火单位Id
@@ -851,6 +921,20 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.GetEquipmentNoList(FireProtectionV1.Enterprise.Dto.GetEquipmentNoListInput)">
+            <summary>
+            获取绑定设施编码列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.UpdateEquipmentNoInfo(FireProtectionV1.Enterprise.Dto.UpdateEquipmentNoInfoInput)">
+            <summary>
+            修改设施编码信息
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.AddEquipmentNo(FireProtectionV1.Enterprise.Dto.AddEquipmentNoInput)">
             <summary>
             绑定设施编码
@@ -944,6 +1028,20 @@
         <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.AddFireSystem(FireProtectionV1.Enterprise.Dto.AddFireSystemInput)">
             <summary>
             增加消防系统
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.GetEquipmentNoList(FireProtectionV1.Enterprise.Dto.GetEquipmentNoListInput)">
+            <summary>
+            获取绑定设施编码列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.UpdateEquipmentNoInfo(FireProtectionV1.Enterprise.Dto.UpdateEquipmentNoInfoInput)">
+            <summary>
+            修改设施编码信息
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -1989,6 +2087,11 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.EndDeviceStateOutput.Standard">
             <summary>
             合格范围
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.EndDeviceStateOutput.IsOverRange">
+            <summary>
+            是否超限
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.FireUnitFaultOuput.FireUnitId">

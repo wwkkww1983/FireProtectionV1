@@ -129,6 +129,24 @@ namespace FireProtectionV1.AppService
             return await _fireUnitManager.AddEquipmentNo(input);
         }
         /// <summary>
+        /// 修改设施编码信息
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> UpdateEquipmentNoInfo(UpdateEquipmentNoInfoInput input)
+        {
+            return await _fireUnitManager.UpdateEquipmentNoInfo(input);
+        }
+        /// <summary>
+        /// 获取绑定设施编码列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<GetEquipmentNoListOutput> GetEquipmentNoList(GetEquipmentNoListInput input)
+        {
+            return await _fireUnitManager.GetEquipmentNoList(input);
+        }
+        /// <summary>
         /// 扫码获取信息
         /// </summary>
         /// <param name="input"></param>

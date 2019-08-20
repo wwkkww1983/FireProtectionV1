@@ -487,6 +487,61 @@ namespace FireProtectionV1.Enterprise.Manager
         }
 
         /// <summary>
+        /// 获取绑定设施编码列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<GetEquipmentNoListOutput> GetEquipmentNoList(GetEquipmentNoListInput input)
+        {
+
+            var equipmentlist = _equipmentNoRep.GetAll();
+            var expr = ExprExtension.True<EquipmentNo>()
+                .IfAnd(input.EquiNo != null, item => item.EquiNo.Contains(input.EquiNo));
+            equipmentlist = equipmentlist.Where(expr);
+
+            var list = from a in equipmentlist
+                       join b in _fireSystemRep.GetAll() on a.FireSystemId equals b.Id
+                       orderby a.CreationTime descending
+                       select new GetEquipmentNoList
+                       {
+                           Address = a.Address,
+                           ID = a.Id,
+                           EquiNo = a.EquiNo,
+                           FireSystemName = b.SystemName
+                       };
+
+            GetEquipmentNoListOutput output = new GetEquipmentNoListOutput()
+            {
+                TotalCount = list.Count(),
+                EquipmentNoList = list.Skip(input.SkipCount).Take(input.MaxResultCount).ToList()
+            };           
+            return output;
+        }
+
+        /// <summary>
+        /// 修改设施编码信息
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> UpdateEquipmentNoInfo(UpdateEquipmentNoInfoInput input)
+        {
+            SuccessOutput output = new SuccessOutput() { Success = true };
+            var eqno = _equipmentNoRep.Single(u=>u.Id==input.ID);
+            if (input.Opreation==opreationType.delete)
+            {
+                await _equipmentNoRep.DeleteAsync(eqno);
+            }
+            else
+            {
+                eqno.Address = input.Address;
+                eqno.EquiNo = input.EquiNo;
+                eqno.FireSystemId = input.FireSystemId;
+                await _equipmentNoRep.UpdateAsync(eqno);
+            }
+            return output;
+        }
+        
+        /// <summary>
         /// 绑定设施编码
         /// </summary>
         /// <param name="input"></param>
