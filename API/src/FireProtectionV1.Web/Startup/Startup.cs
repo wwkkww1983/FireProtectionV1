@@ -21,6 +21,7 @@ using FireProtectionV1.Common.Enum;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http.Features;
 using Newtonsoft.Json.Serialization;
+using UEditor.Core;
 
 namespace FireProtectionV1.Web.Startup
 {
@@ -39,7 +40,7 @@ namespace FireProtectionV1.Web.Startup
             {
                 DbContextOptionsConfigurer.Configure(options.DbContextOptions, options.ConnectionString);
             });
-
+            services.AddUEditorService("ueditor.json");
             services.AddMvc(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
@@ -128,7 +129,16 @@ namespace FireProtectionV1.Web.Startup
             {
                 app.UseExceptionHandler("/Error");
             }
-
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                   Path.Combine(Directory.GetCurrentDirectory(), "upload")),
+                RequestPath = "/upload",
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=36000");
+                }
+            });
             app.UseStaticFiles();
             app.UseSession();
             //验证中间件
