@@ -1239,6 +1239,11 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.UEditorAppService.Upload">
+            <summary>
+            UEditor上传图片接口
+            </summary>
+        </member>
         <member name="M:FireProtectionV1.AppService.VersionAppService.Add(FireProtectionV1.VersionCore.Dto.AddSuggestInput)">
             <summary>
             添加建议
