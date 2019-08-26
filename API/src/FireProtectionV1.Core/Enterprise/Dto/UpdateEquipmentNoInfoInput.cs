@@ -32,12 +32,12 @@ namespace FireProtectionV1.Enterprise.Dto
     public enum opreationType
     {
         /// <summary>
-        /// 所有记录
+        /// 删除
         /// </summary>
         [Description("删除")]
         delete = 0,
         /// <summary>
-        /// 正常
+        /// 更新
         /// </summary>
         [Description("更新")]
         update = 1,
