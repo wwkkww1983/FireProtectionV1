@@ -732,12 +732,12 @@
         </member>
         <member name="F:FireProtectionV1.Enterprise.Dto.opreationType.delete">
             <summary>
-            所有记录
+            删除
             </summary>
         </member>
         <member name="F:FireProtectionV1.Enterprise.Dto.opreationType.update">
             <summary>
-            正常
+            更新
             </summary>
         </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.UpdateFireUnitInput.Id">
