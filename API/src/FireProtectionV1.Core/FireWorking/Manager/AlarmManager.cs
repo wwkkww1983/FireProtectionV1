@@ -160,7 +160,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 var resall = elec.Union(fire).OrderByDescending(p => p.Time).ToList();
                 foreach(var v in resall)
                 {
-                    if(DateTime.Now-DateTime.Parse(v.Time)>new TimeSpan(1,0,0))
+                    if(v.CheckStateValue==(byte)CheckStateType.UnCheck && DateTime.Now-DateTime.Parse(v.Time)>new TimeSpan(1,0,0))
                     {
                         v.CheckStateValue = (byte)CheckStateType.Expire;
                         v.CheckStateName = CheckStateTypeNames.GetName(CheckStateType.Expire);
