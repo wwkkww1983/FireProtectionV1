@@ -4,6 +4,9 @@ using System.Text;
 
 namespace DeviceServer.Tcp
 {
+    /// <summary>
+    /// 工具类
+    /// </summary>
     public class Method
     {
         /// <summary>

@@ -123,9 +123,9 @@ namespace DeviceServer.Tcp
                 try
                 {
                     readlen = _client.Client.Receive(byteRead);
-                    //string s = byteRead[0].ToString("X2") + " ";
-                    //TestAjsDeviceServer.Log(s);
-                    //Console.Write(s);
+                    string s = byteRead[0].ToString("X2") + " ";
+                    TestAjsDeviceServer.Log(byteRead[0]);
+                    Console.Write(s);
                 }catch(SocketException e)
                 {
                     if(e.SocketErrorCode== SocketError.TimedOut)

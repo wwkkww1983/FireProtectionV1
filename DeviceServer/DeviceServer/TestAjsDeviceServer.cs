@@ -25,13 +25,18 @@ namespace DeviceServer
             FireApi.HttpPost("/api/services/app/Data/AddAlarmFire", v);
 
         }
-        static internal void Log(string s)
+        static byte[] bts = new byte[2];
+        static internal void Log(byte b)
         {
-
             using (StreamWriter sw = new StreamWriter("c:/rec_" + DateTime.Now.ToString("yyMMdd"),true))
             {
+                if (bts[0] == 0x40 && bts[1] == 0x40)
+                    sw.WriteLine();
+                string s = b.ToString("X2") + " ";
                 sw.Write(s);
             }
+            bts[0] = bts[1];
+            bts[1] = b;
         }
     }
 }

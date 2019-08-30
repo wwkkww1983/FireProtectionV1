@@ -36,9 +36,9 @@ namespace DeviceServer
                 lock (_lock)
                 {
                     List<string> keys = new List<string>();
-                    foreach(var v in _lastTimeIdentifys)
+                    foreach (var v in _lastTimeIdentifys)
                     {
-                        if(DateTime.Now-v.Value>new TimeSpan(0,1,0))
+                        if (DateTime.Now - v.Value > new TimeSpan(0, 1, 0))
                         {
                             FireApi.HttpPost("/api/services/app/Data/AddOnlineGateway", new AddOnlineGatewayInput()
                             {
@@ -64,7 +64,7 @@ namespace DeviceServer
                             //    });
                         }
                     }
-                    foreach(var key in keys)
+                    foreach (var key in keys)
                     {
                         _lastTimeIdentifys.Remove(key);
                     }
@@ -76,13 +76,13 @@ namespace DeviceServer
         {
             _transfer = transfer;
         }
-        internal void OnData(Session session,Packet pack)
+        internal void OnData(Session session, Packet pack)
         {
             OnlineGateway(pack.SrcAddressString);
             //转发
             _transfer?.Send(pack.SrcAddressString, pack.Data.ToArray(), session);
             //解析
-            if (pack.Cmd==Cmd.Send)
+            if (pack.Cmd == Cmd.Send)
             {
                 DataPacket dp = new DataPacket(pack.DataUnit);
                 //if (!Enum.IsDefined(typeof(DataType), pack.DataUnit[0]))
@@ -103,7 +103,7 @@ namespace DeviceServer
                                 Unit = data.AnalogUnit
                             };
                             Console.WriteLine($"{DateTime.Now} 收到模拟量 Analog：{data.Analog}{data.AnalogUnit} 部件地址：{data.UnitAddressString} 网关地址：{pack.SrcAddressString}");
-                            if (data.AnalogType==AnalogType.Temperature)
+                            if (data.AnalogType == AnalogType.Temperature)
                                 CheckDetectorExitToPost("/api/services/app/Data/AddDataElecT", param);
                             else if (data.AnalogType == AnalogType.ResidualAjs)
                                 CheckDetectorExitToPost("/api/services/app/Data/AddDataElecE", param);
@@ -134,9 +134,9 @@ namespace DeviceServer
                         break;
                     case DataType.UploadUnitState:
                         {
-                            DataUnitState data= (DataUnitState)dp.Datas[0];
+                            DataUnitState data = (DataUnitState)dp.Datas[0];
                             if (data.Alarm()
-                                &&data.UnitType!=(byte)UnitType.ElectricTemperature
+                                && data.UnitType != (byte)UnitType.ElectricTemperature
                                 && data.UnitType != (byte)UnitType.ElectricResidual)
                             {
                                 //报警
@@ -152,7 +152,8 @@ namespace DeviceServer
                         }
                         break;
                 }
-            }else if (pack.Cmd == Cmd.Ajs08)
+            }
+            else if (pack.Cmd == Cmd.Ajs08)
             {
                 //同步时间
                 session.SendPacket(pack, Cmd.Control, DataType.SyncUITDTime, new List<DataObject>() { new DataSyncTime() });
@@ -180,6 +181,10 @@ namespace DeviceServer
         //    }
         //}
 
+        /// <summary>
+        /// 新增 网关在线离线事件
+        /// </summary>
+        /// <param name="srcAddressString"></param>
         private void OnlineGateway(string srcAddressString)
         {
             lock (_lock)
@@ -188,9 +193,9 @@ namespace DeviceServer
                 {
                     CheckDetectorExitToPost("/api/services/app/Data/AddOnlineGateway", new AddOnlineGatewayInput()
                     {
-                        Identify =srcAddressString,
-                        IsOnline=true,
-                        Origin="安吉斯"
+                        Identify = srcAddressString,
+                        IsOnline = true,
+                        Origin = "安吉斯"
                     });
                 }
                 _lastTimeIdentifys[srcAddressString] = DateTime.Now;
@@ -208,7 +213,7 @@ namespace DeviceServer
             var IsDetectorExit = jobj["isDetectorExit"].ToString();
             if (IsDetectorExit.Equals("False"))
             {
-                var p=JObject.Parse(postData);
+                var p = JObject.Parse(postData);
                 var paramadd = new AddDetectorInput
                 {
                     DetectorGBType = byte.Parse(p["DetectorGBType"].ToString()),
