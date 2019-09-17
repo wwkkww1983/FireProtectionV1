@@ -6487,11 +6487,6 @@
             状态，默认为已启用
             </summary>
         </member>
-        <member name="P:FireProtectionV1.User.Model.FireUnitUser.GuideFlage">
-            <summary>
-            是否引导
-            </summary>
-        </member>
         <member name="P:FireProtectionV1.User.Model.FireUnitUserRole.AccountID">
             <summary>
             账号ID

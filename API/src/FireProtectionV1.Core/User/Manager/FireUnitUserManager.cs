@@ -19,14 +19,17 @@ namespace FireProtectionV1.User.Manager
         IRepository<FireUnitUserRole> _fireUnitAccountRoleRepository;
         IRepository<FireUnit> _fireUnitRepository;
         ISqlRepository _SqlRepository;
+        IRepository<FireUntiSystem> _fireUnitSystemRep;
 
         public FireUnitUserManager(
+            IRepository<FireUntiSystem> fireUnitSystemRep,
             IRepository<FireUnitUser> fireUnitAccountRepository,
             IRepository<FireUnitUserRole> fireUnitAccountRoleRepository,
             IRepository<FireUnit> fireUnitRepository,
             ISqlRepository sqlRepository
             )
         {
+            _fireUnitSystemRep = fireUnitSystemRep;
             _fireUnitAccountRepository = fireUnitAccountRepository;
             _fireUnitAccountRoleRepository = fireUnitAccountRoleRepository;
             _fireUnitRepository = fireUnitRepository;
@@ -45,7 +48,6 @@ namespace FireProtectionV1.User.Manager
                 Name = input.UserName,
                 Status = Common.Enum.NormalStatus.Enabled,
                 FireUnitInfoID = fireunit.Id,
-                GuideFlage = false,
                 Password = md5
             });
             FireUnitUserRole role = new FireUnitUserRole()
@@ -100,23 +102,11 @@ namespace FireProtectionV1.User.Manager
                 output.UserId = v.Id;
                 output.Name = v.Name;
                 output.Account = v.Account;
-                output.GuideFlage = true;
+                output.GuideFlage = false;
                 var rolllist = _fireUnitAccountRoleRepository.GetAll();
                 output.Rolelist = (from a in rolllist
                                    where a.AccountID == v.Id
                                    select a.Role).ToList();
-
-                if(output.Rolelist.Contains(FireUnitRole.FireUnitManager))
-                {
-                    var guideCount = _fireUnitAccountRepository.GetAll().Where(u => u.FireUnitInfoID == v.FireUnitInfoID && u.GuideFlage == false).Count();
-                    if(guideCount>0)
-                    {
-                        output.GuideFlage = false;
-                        v.GuideFlage = false;
-                        await _fireUnitAccountRepository.UpdateAsync(v);
-                    }
-                    
-                }
 
                 var fireunit = await _fireUnitRepository.FirstOrDefaultAsync(p => p.Id == v.FireUnitInfoID);
                 if (fireunit != null)
@@ -124,6 +114,16 @@ namespace FireProtectionV1.User.Manager
                     output.FireUnitName = fireunit.Name;
                     output.FireUnitID = fireunit.Id;
                 }
+                if (output.Rolelist.Contains(FireUnitRole.FireUnitManager))
+                {
+                    output.GuideFlage = fireunit.Patrol == 0;
+                    //因为引导是分步调用API，这里判断是否引导完成，也加条件判断
+                    if (!output.GuideFlage)
+                    {
+                        output.GuideFlage = 0 == _fireUnitSystemRep.GetAll().Where(u => u.FireUnitId == v.FireUnitInfoID).Count();
+                    }
+                }
+
             }
             return output;
         }
@@ -215,7 +215,6 @@ namespace FireProtectionV1.User.Manager
                 Account=input.Account,
                 FireUnitInfoID = input.FireUnitInfoID,
                 Password = MD5Encrypt.Encrypt("666666" + input.Account, 16),
-                GuideFlage=true
             };
             var userid = _fireUnitAccountRepository.InsertAndGetId(user);
             foreach(var roleid in input.Rolelist)
