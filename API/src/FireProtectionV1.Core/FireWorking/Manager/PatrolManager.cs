@@ -470,11 +470,11 @@ namespace FireProtectionV1.FireWorking.Manager
         /// 新增时查询今日是否已添加
         /// </summary>
         /// <returns></returns>
-        public async Task<SuccessOutput> GetAddAllow()
+        public async Task<SuccessOutput> GetAddAllow(int FireUnitId)
         {
             SuccessOutput output = new SuccessOutput() { Success=true};
             var date = DateTime.Now.Date;
-            var count = _patrolRep.GetAll().Where(u => u.CreationTime.Date == date).Count();
+            var count = _patrolRep.GetAll().Where(u => u.CreationTime.Date == date&&u.FireUnitId==FireUnitId).Count();
             if(count>=1)
             {
                 output.Success = false;

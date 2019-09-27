@@ -429,10 +429,11 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetAddAllow">
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetAddAllow(System.Int32)">
             <summary>
             新增时查询今日是否已添加
             </summary>
+            <param name="FireUnitId">防火单位ID</param>
             <returns></returns>
         </member>
         <member name="T:FireProtectionV1.AppService.FireDeptUserAppService">

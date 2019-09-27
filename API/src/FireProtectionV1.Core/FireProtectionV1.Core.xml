@@ -3570,7 +3570,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.GetAddAllow">
+        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.GetAddAllow(System.Int32)">
             <summary>
             新增时查询今日是否已添加
             </summary>
@@ -3639,7 +3639,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.GetAddAllow">
+        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.GetAddAllow(System.Int32)">
             <summary>
             新增时查询今日是否已添加
             </summary>
