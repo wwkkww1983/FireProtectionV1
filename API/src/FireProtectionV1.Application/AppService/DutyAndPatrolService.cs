@@ -159,10 +159,11 @@ namespace FireProtectionV1.AppService
         /// <summary>
         /// 新增时查询今日是否已添加
         /// </summary>
+        /// <param name="FireUnitId">防火单位ID</param>
         /// <returns></returns>
-        public async Task<SuccessOutput> GetAddAllow()
+        public async Task<SuccessOutput> GetAddAllow(int FireUnitId)
         {
-            return await _patrolManager.GetAddAllow();
+            return await _patrolManager.GetAddAllow(FireUnitId);
         }
     }
 }

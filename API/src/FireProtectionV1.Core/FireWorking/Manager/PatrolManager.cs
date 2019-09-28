@@ -168,7 +168,7 @@ namespace FireProtectionV1.FireWorking.Manager
             var detaillist = _patrolDetailRep.GetAll().Where(u=>u.PatrolId==input.PatrolId);
 
 
-            var output = from a in detaillist
+            var outp = from a in detaillist
                          join b in _patrolDetailProblem.GetAll() on a.Id equals b.PatrolDetailId into JoinedEmpDept
                          from dept in JoinedEmpDept.DefaultIfEmpty()
                          select new GetPatrolTrackOutput
@@ -177,10 +177,9 @@ namespace FireProtectionV1.FireWorking.Manager
                              PatrolType = a.PatrolType,
                              CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm"),
                              PatrolStatus = (ProblemStatusType)a.PatrolStatus,
-                             FireSystemName = (from c in _patrolDetailFireSystem.GetAll()
-                                               join d in _fireSystemRep.GetAll() on c.FireSystemID equals d.Id
-                                               where c.Id == a.Id
-                                               select d.SystemName).FirstOrDefault(),
+                             FireSystemNames = (from c in _patrolDetailFireSystem.GetAll().Where(u => u.PatrolDetailId == a.Id)
+                                                join d in _fireSystemRep.GetAll() on c.FireSystemID equals d.Id
+                                               select d.SystemName).ToList(),
                              FireSystemCount = _patrolDetailFireSystem.GetAll().Where(u => u.PatrolDetailId == a.Id).Count(),
                              PatrolAddress = a.PatrolAddress,
                              ProblemRemakeType = dept == null ? 0 : dept.ProblemRemarkType,
@@ -190,6 +189,11 @@ namespace FireProtectionV1.FireWorking.Manager
                                                  select x.PhotoPath).ToList()
                              //_photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToPatrolDetail") && u.DataId == dept.Id).DefaultIfEmpty().Select(u => u.PhotoPath).ToList()
                          };
+            var output = outp.ToList();
+            foreach (var o in output)
+            {
+                o.FireSystemName = o.FireSystemNames.Count() > 0 ? o.FireSystemNames[0] : "";
+            }
             return Task.FromResult(output.ToList());
         }
 
@@ -426,7 +430,7 @@ namespace FireProtectionV1.FireWorking.Manager
                              PatrolType = (int)c.Patrol == 1 ? "一般巡查" : "扫码巡查",
                              TrackCount = detaillist.Where(u => u.PatrolId == a.Id).Count(),
                              ProblemCount = detaillist.Where(u => u.PatrolId == a.Id && u.PatrolStatus != (byte)ProblemStatusType.noraml).Count(),
-                             ResolvedConut = detaillist.Where(u => u.PatrolId == a.Id && u.PatrolStatus != (byte)ProblemStatusType.DisRepaired).Count(),
+                             ResolvedConut = detaillist.Where(u => u.PatrolId == a.Id && u.PatrolStatus == (byte)ProblemStatusType.Repaired).Count(),
                              TrackList = (from d in detaillist
                                           join e in _patrolDetailProblem.GetAll() on d.Id equals e.PatrolDetailId into JoinedEmpDept
                                           from dept in JoinedEmpDept.DefaultIfEmpty()
@@ -437,10 +441,9 @@ namespace FireProtectionV1.FireWorking.Manager
                                               TrackId=d.Id,
                                               PatrolType = d.PatrolType,
                                               CreationTime = d.CreationTime.ToString("yyyy-MM-dd HH:mm"),
-                                              PatrolStatus = (ProblemStatusType)a.PatrolStatus,
-                                              FireSystemName = (from e in _patrolDetailFireSystem.GetAll()
+                                              PatrolStatus = (ProblemStatusType)d.PatrolStatus,
+                                              FireSystemName = (from e in _patrolDetailFireSystem.GetAll().Where(u => u.PatrolDetailId == d.Id)
                                                                 join f in _fireSystemRep.GetAll() on e.FireSystemID equals f.Id
-                                                                where e.Id == d.Id
                                                                 select f.SystemName).FirstOrDefault(),
                                               FireSystemCount = _patrolDetailFireSystem.GetAll().Where(u => u.PatrolDetailId == d.Id).Count(),
                                               PatrolAddress = d.PatrolAddress,
@@ -467,11 +470,11 @@ namespace FireProtectionV1.FireWorking.Manager
         /// 新增时查询今日是否已添加
         /// </summary>
         /// <returns></returns>
-        public async Task<SuccessOutput> GetAddAllow()
+        public async Task<SuccessOutput> GetAddAllow(int FireUnitId)
         {
             SuccessOutput output = new SuccessOutput() { Success=true};
             var date = DateTime.Now.Date;
-            var count = _patrolRep.GetAll().Where(u => u.CreationTime.Date == date).Count();
+            var count = _patrolRep.GetAll().Where(u => u.CreationTime.Date == date&&u.FireUnitId==FireUnitId).Count();
             if(count>=1)
             {
                 output.Success = false;

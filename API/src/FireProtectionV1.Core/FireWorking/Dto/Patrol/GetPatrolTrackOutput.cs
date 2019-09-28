@@ -32,6 +32,10 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public string FireSystemName { get; set; }
         /// <summary>
+        /// 巡查系统名称
+        /// </summary>
+        public List<string> FireSystemNames { get; set; }
+        /// <summary>
         /// 巡查系统数量
         /// </summary>
         public int FireSystemCount { get; set; }

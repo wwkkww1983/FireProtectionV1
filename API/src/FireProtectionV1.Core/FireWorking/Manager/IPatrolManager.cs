@@ -87,6 +87,6 @@ namespace FireProtectionV1.FireWorking.Manager
         /// 新增时查询今日是否已添加
         /// </summary>
         /// <returns></returns>
-        Task<SuccessOutput> GetAddAllow();
+        Task<SuccessOutput> GetAddAllow(int FireUnitId);
     }
 }
