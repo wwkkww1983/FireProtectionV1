@@ -155,7 +155,7 @@ namespace FireProtectionV1.BigScreen.Manager
             else
             {
                 Random random = new Random();
-                if (random.Next(0, 20) == 19)    // 二十分之一的机会
+                if (random.Next(0, 100) == 19)    // 百分之一的机会
                 {
                     int alarmTypeEnum = random.Next(0, 10);  // 十分之一的机会是电缆温度，十分之九的机会是剩余电流
                     var lstFireUnit = _cacheManager.GetCache("BigScreen").Get("lstFireUnit", () => GetAllFireUnit());
