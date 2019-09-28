@@ -214,13 +214,13 @@ namespace FireProtectionV1.BigScreen.Manager
                     totalWarning.value = 19;
                     break;
                 case "2019-01":
-                    totalWarning.value = 92;
+                    totalWarning.value = 52;
                     break;
                 case "2019-04":
-                    totalWarning.value = 116;
+                    totalWarning.value = 66;
                     break;
                 default:
-                    totalWarning.value = 116;
+                    totalWarning.value = 36;
                     break;
             }
             lstNumberCard.Add(totalWarning);
@@ -239,19 +239,19 @@ namespace FireProtectionV1.BigScreen.Manager
             switch (value)
             {
                 case "2018-01":
-                    totalWarning.value = 689;
+                    totalWarning.value = 189;
                     break;
                 case "2018-03":
-                    totalWarning.value = 1964;
+                    totalWarning.value = 364;
                     break;
                 case "2019-01":
-                    totalWarning.value = 3310;
+                    totalWarning.value = 810;
                     break;
                 case "2019-04":
-                    totalWarning.value = 2187;
+                    totalWarning.value = 781;
                     break;
                 default:
-                    totalWarning.value = 2633;
+                    totalWarning.value = 633;
                     break;
             }
             lstNumberCard.Add(totalWarning);
