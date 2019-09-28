@@ -473,7 +473,7 @@ namespace FireProtectionV1.BigScreen.Manager
         public Task<List<Histogram>> GetHydrantAreaHistogram()
         {
             List<Histogram> lstHistogram = new List<Histogram>();
-            string sql = "SELECT AreaId, b.Name, COUNT(1) AS cnt FROM hydrant a INNER JOIN AREA b ON a.`AreaId` = b.`Id` WHERE lng > 0 GROUP BY AreaId ORDER BY cnt DESC LIMIT 10";
+            string sql = "SELECT AreaId, b.Name, COUNT(1) AS cnt FROM hydrant a INNER JOIN AREA b ON a.`AreaId` = b.`Id` WHERE a.IsDeleted = 0 and a.lng > 0 GROUP BY a.AreaId ORDER BY cnt DESC LIMIT 10";
             var dataTable = _sqlRepository.Query(sql);
             foreach (DataRow row in dataTable.Rows)
             {
