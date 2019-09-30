@@ -55,6 +55,7 @@ namespace FireProtectionV1.HydrantCore.Dto
         /// 现场照片路径
         /// </summary>
         public List<string> PhtosPath { get; set; }
+        public List<string> PhotosBase64 { get; set; }
         /// <summary>
         /// 经度
         /// </summary>

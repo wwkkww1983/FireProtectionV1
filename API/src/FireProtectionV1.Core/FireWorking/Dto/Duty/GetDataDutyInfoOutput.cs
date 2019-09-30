@@ -27,6 +27,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// 值班记录图片路径
         /// </summary>
         public List<string> DutyPhtosPath { get; set; }
+        public List<string> PhotosBase64Duty { get; set; }
         /// <summary>
         /// 问题描述类型
         /// </summary>
@@ -39,5 +40,9 @@ namespace FireProtectionV1.FireWorking.Dto
         /// 现场问题图片路径
         /// </summary>
         public List<string> ProblemPhtosPath { get; set; }
+        /// <summary>
+        /// 现场问题图片缩略图
+        /// </summary>
+        public List<string> PhotosBase64 { get; set; }
     }
 }

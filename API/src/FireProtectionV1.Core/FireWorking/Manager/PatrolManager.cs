@@ -1,6 +1,7 @@
 ﻿using Abp.Domain.Repositories;
 using FireProtectionV1.Common.DBContext;
 using FireProtectionV1.Common.Enum;
+using FireProtectionV1.Common.Helper;
 using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
@@ -190,6 +191,14 @@ namespace FireProtectionV1.FireWorking.Manager
                              //_photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToPatrolDetail") && u.DataId == dept.Id).DefaultIfEmpty().Select(u => u.PhotoPath).ToList()
                          };
             var output = outp.ToList();
+            foreach(var o in output)
+            {
+                o.PhotosBase64 = new List<string>();
+                foreach (var f in o.PatrolPhotosPath)
+                {
+                    o.PhotosBase64.Add(ImageHelper.ThumbImg(_hostingEnv.ContentRootPath + f.Replace("Src", "App_Data/Files")));
+                }
+            }
             foreach (var o in output)
             {
                 o.FireSystemName = o.FireSystemNames.Count() > 0 ? o.FireSystemNames[0] : "";

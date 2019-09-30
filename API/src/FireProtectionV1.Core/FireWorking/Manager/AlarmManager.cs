@@ -1,9 +1,11 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
 using FireProtectionV1.Common.Enum;
+using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
 using FireProtectionV1.User.Manager;
+using GovFire;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +22,9 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<AlarmCheck> _alarmCheckRep;
         IRepository<AlarmToFire> _alarmToFireRep;
         IRepository<AlarmToElectric> _alarmToElectricRep;
+        IRepository<FireUnit> _repFireUnit;
         public AlarmManager(
+            IRepository<FireUnit> repFireUnit,
             IRepository<PhotosPathSave> photosPathSaveRep,
             IFireUnitUserManager fireUnitUserManager,
             IRepository<AlarmCheck> alarmCheckRep,
@@ -29,6 +33,7 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<AlarmToElectric> alarmToElectricRep
         )
         {
+            _repFireUnit = repFireUnit;
             _photosPathSaveRep = photosPathSaveRep;
             _fireUnitUserManager = fireUnitUserManager;
             _alarmCheckRep = alarmCheckRep;
@@ -70,6 +75,36 @@ namespace FireProtectionV1.FireWorking.Manager
                 AlarmLimit=alarmLimit,
                 Unit=input.Unit
             });
+            var detectorType = _deviceManager.GetDetectorType(input.DetectorGBType);
+            var fireunit = await _repFireUnit.FirstOrDefaultAsync(detector.FireUnitId);
+            var alarmDto = new GovFire.Dto.AlarmDto()
+            {
+                additionalinfo = $"当前值{input.Analog}{input.Unit}警戒值{alarmLimit}",
+                alarmtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                devicelocation = detector.Location,
+                devicesn = detector.Identify,
+                devicetype = detectorType == null ? "" : detectorType.Name,
+                firecompany = fireunit == null ? "" : fireunit.Name,
+                lat = fireunit == null ? "" : fireunit.Lat.ToString(),
+                lon = fireunit == null ? "" : fireunit.Lng.ToString()
+            };
+            var dataid=DataApi.UpdateAlarm(alarmDto);
+            if (!string.IsNullOrEmpty(dataid))
+            {
+                DataApi.UpdateEvent(new GovFire.Dto.EventDto()
+                {
+                    id = id.ToString(),
+                    state = "0",
+                    createtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                    donetime = "",
+                    eventcontent = $"{alarmDto.devicelocation},{alarmDto.devicesn},{alarmDto.devicetype}发生预警",
+                    eventtype = "电气火灾系统报警数据",
+                    firecompany = alarmDto.firecompany,
+                    lat = alarmDto.lat,
+                    lon = alarmDto.lon,
+                    fireUnitId=dataid
+                });
+            }
             await _alarmCheckRep.InsertAsync(new AlarmCheck()
             {
                 AlarmDataId = id,
@@ -99,6 +134,37 @@ namespace FireProtectionV1.FireWorking.Manager
                 FireUnitId= detector.FireUnitId,
                 DetectorId= detector.Id
             });
+            var detectorType = _deviceManager.GetDetectorType(input.DetectorGBType);
+            var fireunit =await _repFireUnit.FirstOrDefaultAsync(detector.FireUnitId);
+            var alarmDto = new GovFire.Dto.AlarmDto()
+            {
+                additionalinfo = "",
+                alarmtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                devicelocation = detector.Location,
+                devicesn = detector.Identify,
+                devicetype = detectorType == null ? "" : detectorType.Name,
+                firecompany = fireunit == null ? "" : fireunit.Name,
+                lat = fireunit == null ? "" : fireunit.Lat.ToString(),
+                lon = fireunit == null ? "" : fireunit.Lng.ToString()
+            };
+            DataApi.UpdateAlarm(alarmDto);
+            var dataid = DataApi.UpdateAlarm(alarmDto);
+            if (!string.IsNullOrEmpty(dataid))
+            {
+                DataApi.UpdateEvent(new GovFire.Dto.EventDto()
+                {
+                    id = id.ToString(),
+                    state = "0",
+                    createtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                    donetime = "",
+                    eventcontent = $"{alarmDto.devicelocation},{alarmDto.devicesn},{alarmDto.devicetype}发生预警",
+                    eventtype = "消防火警系统报警数据",
+                    firecompany = alarmDto.firecompany,
+                    lat = alarmDto.lat,
+                    lon = alarmDto.lon,
+                    fireUnitId = dataid
+                });
+            }
             await _alarmCheckRep.InsertAsync(new AlarmCheck()
             {
                 AlarmDataId = id,
