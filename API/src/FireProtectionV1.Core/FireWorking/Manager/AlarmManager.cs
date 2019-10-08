@@ -134,7 +134,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 FireUnitId= detector.FireUnitId,
                 DetectorId= detector.Id
             });
-            var detectorType = _deviceManager.GetDetectorType(input.DetectorGBType);
+            var detectorType =await _deviceManager.GetDetectorTypeAsync(detector.DetectorTypeId);
             var fireunit =await _repFireUnit.FirstOrDefaultAsync(detector.FireUnitId);
             var alarmDto = new GovFire.Dto.AlarmDto()
             {
