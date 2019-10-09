@@ -147,7 +147,6 @@ namespace FireProtectionV1.FireWorking.Manager
                 lat = fireunit == null ? "" : fireunit.Lat.ToString(),
                 lon = fireunit == null ? "" : fireunit.Lng.ToString()
             };
-            DataApi.UpdateAlarm(alarmDto);
             var dataid = DataApi.UpdateAlarm(alarmDto);
             if (!string.IsNullOrEmpty(dataid))
             {

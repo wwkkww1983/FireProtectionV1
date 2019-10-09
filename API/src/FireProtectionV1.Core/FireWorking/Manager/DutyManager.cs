@@ -6,6 +6,7 @@ using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
 using FireProtectionV1.User.Model;
+using GovFire;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -254,7 +255,21 @@ namespace FireProtectionV1.FireWorking.Manager
                     {
                         breakdown.HandleStatus = (byte)HandleStatus.UuResolve;
                     }
-                    await _breakDownRep.InsertAsync(breakdown);
+                    var id = await _breakDownRep.InsertAndGetIdAsync(breakdown);
+                    var fireunit = await _fireUnitRep.FirstOrDefaultAsync(p => p.Id == input.FireUnitId);
+                    DataApi.UpdateEvent(new GovFire.Dto.EventDto()
+                    {
+                        id = id.ToString(),
+                        state = "0",
+                        createtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                        donetime = "",
+                        eventcontent = problemInfo.ProblemRemarkType == 1 ? problemInfo.ProblemRemark : "",
+                        eventtype = "值班故障",
+                        firecompany = fireunit == null ? "" : fireunit.Name,
+                        lat = fireunit == null ? "" : fireunit.Lat.ToString(),
+                        lon = fireunit == null ? "" : fireunit.Lng.ToString(),
+                        fireUnitId = ""
+                    });
                 }
 
                 return output;

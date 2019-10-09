@@ -255,7 +255,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 DetectorTypeId = type.Id,
                 FireSysType = gateway.FireSysType,
                 Identify = input.Identify,
-                Location =input.Location,
+                Location =string.IsNullOrEmpty(input.Location)?gateway.Location: input.Location,
                 GatewayId= gateway.Id,
                 FireUnitId=gateway.FireUnitId,
                 Origin=input.Origin
