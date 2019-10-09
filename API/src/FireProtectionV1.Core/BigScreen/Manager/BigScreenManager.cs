@@ -160,16 +160,19 @@ namespace FireProtectionV1.BigScreen.Manager
                     int alarmTypeEnum = random.Next(0, 10);  // 十分之一的机会是电缆温度，十分之九的机会是剩余电流
                     var lstFireUnit = _cacheManager.GetCache("BigScreen").Get("lstFireUnit", () => GetAllFireUnit());
                     int key = random.Next(0, lstFireUnit.Count);
-                    lstAlarmElec.Insert(0, new AlarmElec()
+                    if (!lstFireUnit[key].Name.Contains("兴源大厦"))
                     {
-                        CreationTime = DateTime.Now,
-                        FireUnitName = lstFireUnit[key].Name,
-                        ContractName = lstFireUnit[key].ContractName,
-                        ContractPhone = lstFireUnit[key].ContractPhone,
-                        Address = lstFireUnit[key].Address,
-                        AlarmType = alarmTypeEnum.Equals(0) ? "电缆温度探测器" : "剩余电流探测器",
-                        AlarmValue = alarmTypeEnum.Equals(0) ? random.Next(102, 150) + "℃" : random.Next(300, 500) + "mA"
-                    });
+                        lstAlarmElec.Insert(0, new AlarmElec()
+                        {
+                            CreationTime = DateTime.Now,
+                            FireUnitName = lstFireUnit[key].Name,
+                            ContractName = lstFireUnit[key].ContractName,
+                            ContractPhone = lstFireUnit[key].ContractPhone,
+                            Address = lstFireUnit[key].Address,
+                            AlarmType = alarmTypeEnum.Equals(0) ? "电缆温度探测器" : "剩余电流探测器",
+                            AlarmValue = alarmTypeEnum.Equals(0) ? random.Next(102, 150) + "℃" : random.Next(300, 500) + "mA"
+                        });
+                    }
                 }
             }
             lstAlarmElec.RemoveAll(item => item.CreationTime.AddHours(1) < DateTime.Now);
