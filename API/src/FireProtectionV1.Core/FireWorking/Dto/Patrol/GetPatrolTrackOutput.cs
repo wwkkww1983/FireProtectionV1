@@ -55,5 +55,6 @@ namespace FireProtectionV1.FireWorking.Dto
         /// 巡查图片
         /// </summary>
         public List<string> PatrolPhotosPath { get; set; }
+        public List<string> PhotosBase64 { get; set; }
     }
 }

@@ -1,10 +1,12 @@
 ﻿using Abp.Domain.Repositories;
 using FireProtectionV1.Common.DBContext;
 using FireProtectionV1.Common.Enum;
+using FireProtectionV1.Common.Helper;
 using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
 using FireProtectionV1.User.Model;
+using Microsoft.AspNetCore.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +17,7 @@ namespace FireProtectionV1.FireWorking.Manager
 {
     public class BreakDownManager : IBreakDownManager
     {
+        IHostingEnvironment _hostingEnv;
         IRepository<FireUnit> _fireUnitRep;
         IRepository<BreakDown> _breakDownRep;
         IRepository<FireUnitUser> _fireUnitAccountRepository;
@@ -27,6 +30,7 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<DataToPatrol> _patrolRep;
         IRepository<DataToPatrolDetail> _patrolDetailRep;
         public BreakDownManager(
+            IHostingEnvironment hostingEnv,
             IRepository<FireUnit> fireUnitRep,
             IRepository<BreakDown> breakDownRep,
             IRepository<DataToDutyProblem> dataToDutyProblemRep,
@@ -40,6 +44,7 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<Fault> Fault
             )
         {
+            _hostingEnv = hostingEnv;
             _fireUnitRep = fireUnitRep;
             _breakDownRep = breakDownRep;
             _dataToDutyProblemRep = dataToDutyProblemRep;
@@ -136,6 +141,11 @@ namespace FireProtectionV1.FireWorking.Manager
                 var fault = _Fault.FirstOrDefault(u => u.Id == breakdown.DataId);
                 output.ProblemRemakeType = 1;
                 output.RemakeText = fault.FaultRemark;
+            }
+            output.PhotosBase64 = new List<string>();
+            foreach(var f in output.PatrolPhotosPath)
+            {
+                output.PhotosBase64.Add(ImageHelper.ThumbImg(_hostingEnv.ContentRootPath + f.Replace("Src", "App_Data/Files")));
             }
             return output;
         }

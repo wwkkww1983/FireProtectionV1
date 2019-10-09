@@ -40,6 +40,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// 巡查图片
         /// </summary>
         public List<string> PatrolPhotosPath { get; set; }
+        public List<string> PhotosBase64 { get; set; }
         /// <summary>
         /// 问题处理途径（1.自行处理 2.维保叫修）
         /// </summary>

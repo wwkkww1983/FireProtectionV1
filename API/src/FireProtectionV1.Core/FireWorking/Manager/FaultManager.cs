@@ -2,6 +2,7 @@
 using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
+using GovFire;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +54,21 @@ namespace FireProtectionV1.FireWorking.Manager
                 Remark = input.FaultRemark,
                 Source = (byte)Common.Enum.SourceType.Terminal
             });
+            //var detectorType = _deviceManager.GetDetectorType(input.DetectorGBType);
+            //var fireunit = await _repFireUnit.FirstOrDefaultAsync(detector.FireUnitId);
+            //DataApi.UpdateEvent(new GovFire.Dto.EventDto()
+            //{
+            //    id = "123456789",
+            //    state = "0",
+            //    createtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+            //    donetime = "",
+            //    eventcontent = "线路损坏",
+            //    eventtype = "有源部件故障监测",
+            //    firecompany = "未来中心",
+            //    lat = "30.656422",
+            //    lon = "104.102073"
+            //});
+
             return new AddDataOutput()
             {
                 IsDetectorExit = true

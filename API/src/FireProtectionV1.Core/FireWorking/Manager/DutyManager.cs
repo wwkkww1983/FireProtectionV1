@@ -1,6 +1,7 @@
 ﻿using Abp.Domain.Repositories;
 using FireProtectionV1.Common.DBContext;
 using FireProtectionV1.Common.Enum;
+using FireProtectionV1.Common.Helper;
 using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
@@ -158,6 +159,11 @@ namespace FireProtectionV1.FireWorking.Manager
             output.DutyId = duty.Id;
             output.DutyUser = _fireUnitAccountRepository.Single(u => u.Id == duty.FireUnitUserId).Name;
             output.DutyPhtosPath = _photosPathSave.GetAll().Where(u =>u.TableName.Equals("DataToDuty") && u.DataId == duty.Id).Select(u => u.PhotoPath).ToList();
+            output.PhotosBase64Duty = new List<string>();
+            foreach (var f in output.DutyPhtosPath)
+            {
+                output.PhotosBase64Duty.Add(ImageHelper.ThumbImg(_hostingEnv.ContentRootPath + f.Replace("Src", "App_Data/Files")));
+            }
             output.DutyRemark = duty.DutyRemark;
             output.DutyStatus = (ProblemStatusType)duty.DutyStatus;
 
@@ -165,7 +171,13 @@ namespace FireProtectionV1.FireWorking.Manager
             {
                 output.ProblemRemarkType = (ProblemType)problem.ProblemRemarkType;
                 output.ProblemRemark = problem.ProblemRemark;
-                output.ProblemPhtosPath = _photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToDutyProblem") && u.DataId == problem.Id).Select(u => u.PhotoPath).ToList();
+                var lst= _photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToDutyProblem") && u.DataId == problem.Id).Select(u => u.PhotoPath).ToList();
+                output.ProblemPhtosPath = lst;
+                output.PhotosBase64 = new List<string>();
+                foreach (var f in lst)
+                {
+                    output.PhotosBase64.Add(ImageHelper.ThumbImg(_hostingEnv.ContentRootPath+f.Replace("Src","App_Data/Files")));
+                }
             }
             return Task.FromResult(output);
         }
