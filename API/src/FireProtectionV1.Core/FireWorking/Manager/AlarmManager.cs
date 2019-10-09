@@ -16,6 +16,7 @@ namespace FireProtectionV1.FireWorking.Manager
 {
     public class AlarmManager:IAlarmManager
     {
+        IRepository<Detector> _repDetector;
         IRepository<PhotosPathSave> _photosPathSaveRep;
         IFireUnitUserManager _fireUnitUserManager;
         IDeviceManager _deviceManager;
@@ -24,6 +25,7 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<AlarmToElectric> _alarmToElectricRep;
         IRepository<FireUnit> _repFireUnit;
         public AlarmManager(
+            IRepository<Detector> repDetector,
             IRepository<FireUnit> repFireUnit,
             IRepository<PhotosPathSave> photosPathSaveRep,
             IFireUnitUserManager fireUnitUserManager,
@@ -33,6 +35,7 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<AlarmToElectric> alarmToElectricRep
         )
         {
+            _repDetector = repDetector;
             _repFireUnit = repFireUnit;
             _photosPathSaveRep = photosPathSaveRep;
             _fireUnitUserManager = fireUnitUserManager;
@@ -122,12 +125,27 @@ namespace FireProtectionV1.FireWorking.Manager
         public async Task<AddDataOutput> AddAlarmFire(AddAlarmFireInput input)
         {
             Detector detector = _deviceManager.GetDetector(input.Identify,input.Origin);
+            Console.WriteLine($"GatewayIdentify:{ input.GatewayIdentify} Origin:{input.Origin}");
             if (detector == null)
             {
-                return new AddDataOutput()
+                var gateway = _deviceManager.GetGateway(input.GatewayIdentify, input.Origin);
+                if (gateway == null)
+                    return new AddDataOutput()//改步骤，临时这样返回原有参数
+                    {
+                        IsDetectorExit = false
+                    };
+                var type = _deviceManager.GetDetectorType(input.DetectorGBType);
+                detector = new Detector()
                 {
-                    IsDetectorExit = false
+                    DetectorTypeId = type == null ? 25 : type.Id,
+                    FireSysType = gateway.FireSysType,
+                    Identify = input.Identify,
+                    Location = gateway.Location,
+                    GatewayId = gateway.Id,
+                    FireUnitId = gateway.FireUnitId,
+                    Origin = input.Origin
                 };
+                detector.Id = _repDetector.InsertAndGetId(detector);
             }
             int id= _alarmToFireRep.InsertAndGetId(new AlarmToFire()
             {

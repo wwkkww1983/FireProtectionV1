@@ -97,12 +97,22 @@ namespace FireProtectionV1.DeviceService
         /// <summary>
         /// 新增火灾监控设备报警
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="detectorGBType"></param>
+        /// <param name="gatewayIdentify"></param>
+        /// <param name="identify"></param>
+        /// <param name="origin"></param>
         /// <returns></returns>
-        public async Task<AddDataOutput> AddAlarmFireFromForm([FromForm]AddAlarmFireInput input)
+        [HttpGet]
+        public async Task<AddDataOutput> AddAlarmFireFromGet(byte detectorGBType,string gatewayIdentify, string identify,string origin)
         {
             //Console.WriteLine($"{DateTime.Now} 收到报警 AddAlarmFire 部件类型:{input.DetectorGBType.ToString()} 部件地址：{input.Identify} 网关地址：{input.GatewayIdentify}");
-            return await _alarmManager.AddAlarmFire(input);
+
+            return await _alarmManager.AddAlarmFire(new AddAlarmFireInput() {
+                DetectorGBType=detectorGBType,
+                GatewayIdentify=gatewayIdentify,
+                Identify=identify,
+                Origin=origin
+            });
         }
         //public void Test()
         //{

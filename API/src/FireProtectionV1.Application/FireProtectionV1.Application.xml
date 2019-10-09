@@ -1293,6 +1293,16 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.DeviceService.DataAppService.AddAlarmFireFromGet(System.Byte,System.String,System.String,System.String)">
+            <summary>
+            新增火灾监控设备报警
+            </summary>
+            <param name="detectorGBType"></param>
+            <param name="GatewayIdentify"></param>
+            <param name="identify"></param>
+            <param name="origin"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.DeviceService.DataAppService.GetSimulateTodayData">
             <summary>
             生成当天模拟数据
