@@ -47,4 +47,27 @@ namespace FireProtectionV1.FireWorking.Model
         [MaxLength(200)]
         public string Remark { get; set; }
     }
+    public class BreakDownWords
+    {
+        static public string GetHandleStatus(byte state)
+        {
+            if (state == 1)
+                return "未处理";
+            if (state == 2)
+                return "处理中";
+            if (state == 3)
+                return "已解决";
+            return "未知";
+        }
+        static public string GetSource(byte source)
+        {
+            if (source == 1)
+                return "值班故障";
+            if (source == 2)
+                return "巡查故障";
+            if (source == 3)
+                return "物联终端故障";
+            return "未知";
+        }
+    }
 }

@@ -24,10 +24,10 @@ namespace GovFire
             }
             return "";
         }
-        static public void UpdateEvent(EventDto dto)
+        static public string UpdateEvent(EventDto dto)
         {
             string s = $"fireUnitId={dto.fireUnitId}&id={dto.id}&firecompany={dto.firecompany}&eventtype={dto.eventtype}&eventcontent={dto.eventcontent}&createtime={dto.createtime}&donetime={dto.donetime}&state={dto.state}&lat={dto.lat}&lon={dto.lon}";
-            GovRequst.HttpPost("/ioc/fire/saveOrUpdateAffire", s);
+            return GovRequst.HttpPost("/ioc/fire/saveOrUpdateAffire", s);
         }
     }
 }

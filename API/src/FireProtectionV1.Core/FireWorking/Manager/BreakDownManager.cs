@@ -202,19 +202,20 @@ namespace FireProtectionV1.FireWorking.Manager
 
                 }
                 await _breakDownRep.UpdateAsync(breakdown);
-                //DataApi.UpdateEvent(new GovFire.Dto.EventDto()
-                //{
-                //    id = breakdown.Id.ToString(),
-                //    state = "1",
-                //    createtime = breakdown.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                //    donetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                //    eventcontent = problemInfo.ProblemRemarkType == 1 ? problemInfo.ProblemRemark : "",
-                //    eventtype = "值班故障",
-                //    firecompany = fireunit == null ? "" : fireunit.Name,
-                //    lat = fireunit == null ? "" : fireunit.Lat.ToString(),
-                //    lon = fireunit == null ? "" : fireunit.Lng.ToString(),
-                //    fireUnitId = ""
-                //});
+                var fireunit =await _fireUnitRep.FirstOrDefaultAsync(p => p.Id == breakdown.FireUnitId);
+                DataApi.UpdateEvent(new GovFire.Dto.EventDto()
+                {
+                    id = breakdown.Id.ToString(),
+                    state = breakdown.HandleStatus == 3 ? "1" : "0",
+                    createtime = breakdown.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                    donetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                    eventcontent = breakdown.Remark,
+                    eventtype = BreakDownWords.GetSource(breakdown.Source),
+                    firecompany = fireunit==null?"": fireunit.Name,
+                    lat = fireunit == null ? "" : fireunit.Lat.ToString(),
+                    lon = fireunit == null ? "" : fireunit.Lng.ToString(),
+                    fireUnitId = ""
+                });
 
                 return output;
             } catch (Exception e) {

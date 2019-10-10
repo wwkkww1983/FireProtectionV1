@@ -260,11 +260,11 @@ namespace FireProtectionV1.FireWorking.Manager
                     DataApi.UpdateEvent(new GovFire.Dto.EventDto()
                     {
                         id = id.ToString(),
-                        state = "0",
+                        state = breakdown.HandleStatus == 3 ? "1" : "0",
                         createtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                         donetime = "",
                         eventcontent = problemInfo.ProblemRemarkType == 1 ? problemInfo.ProblemRemark : "",
-                        eventtype = "值班故障",
+                        eventtype = BreakDownWords.GetSource(breakdown.Source),
                         firecompany = fireunit == null ? "" : fireunit.Name,
                         lat = fireunit == null ? "" : fireunit.Lat.ToString(),
                         lon = fireunit == null ? "" : fireunit.Lng.ToString(),

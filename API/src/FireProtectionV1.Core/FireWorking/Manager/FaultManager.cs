@@ -46,25 +46,26 @@ namespace FireProtectionV1.FireWorking.Manager
                 FaultRemark=input.FaultRemark,
                 ProcessState=(byte)Common.Enum.HandleStatus.UuResolve
             });
-            var breakdownId=await _repBreakDown.InsertAndGetIdAsync(new BreakDown()
+            var breakdown = new BreakDown()
             {
                 DataId = id,
                 FireUnitId = detector.FireUnitId,
                 HandleStatus = (byte)Common.Enum.HandleStatus.UuResolve,
                 Remark = input.FaultRemark,
                 Source = (byte)Common.Enum.SourceType.Terminal
-            });
+            };
+            var breakdownId=await _repBreakDown.InsertAndGetIdAsync(breakdown);
             var detectorType = await _deviceManager.GetDetectorTypeAsync(detector.DetectorTypeId);
             var detectorTypeName = detectorType == null ? "" : detectorType.Name;
             var fireunit = await _fireUnitRep.FirstOrDefaultAsync(p => p.Id == detector.FireUnitId);
             DataApi.UpdateEvent(new GovFire.Dto.EventDto()
             {
                 id = breakdownId.ToString(),
-                state = "0",
+                state = breakdown.HandleStatus == 3 ? "1" : "0",
                 createtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                 donetime = "",
                 eventcontent = $"{input.FaultRemark},{detector.Identify},{detectorTypeName}",
-                eventtype = "物联终端故障",
+                eventtype = BreakDownWords.GetSource(breakdown.Source),
                 firecompany = fireunit == null ? "" : fireunit.Name,
                 lat = fireunit == null ? "" : fireunit.Lat.ToString(),
                 lon = fireunit == null ? "" : fireunit.Lng.ToString(),

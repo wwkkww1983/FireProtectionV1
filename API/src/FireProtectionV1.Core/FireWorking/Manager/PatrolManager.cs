@@ -340,11 +340,11 @@ namespace FireProtectionV1.FireWorking.Manager
                     DataApi.UpdateEvent(new GovFire.Dto.EventDto()
                     {
                         id = id.ToString(),
-                        state = "0",
+                        state = breakdown.HandleStatus==3?"1":"0",
                         createtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                         donetime = "",
                         eventcontent = problem.ProblemRemarkType==1? problem.ProblemRemark:"",
-                        eventtype = "巡查故障",
+                        eventtype = BreakDownWords.GetSource(breakdown.Source),
                         firecompany = fireunit==null?"":fireunit.Name,
                         lat = fireunit == null ? "" : fireunit.Lat.ToString(),
                         lon = fireunit == null ? "" : fireunit.Lng.ToString(),

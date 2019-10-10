@@ -313,6 +313,21 @@ namespace FireProtectionV1.FireWorking.Manager
             alarmCheck.NotifyMiniaturefire = dto.NotifyMiniaturefire ? (byte)1 : (byte)0;
             alarmCheck.Notify119 = dto.Notify119 ? (byte)1 : (byte)0;
             await _alarmCheckRep.UpdateAsync(alarmCheck);
+            var fireunit = await _repFireUnit.FirstOrDefaultAsync(p => p.Id == alarmCheck.FireUnitId);
+            DataApi.UpdateEvent(new GovFire.Dto.EventDto()
+            {
+                id = alarmCheck.AlarmDataId.ToString(),
+                state = "1",
+                createtime = alarmCheck.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                donetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                eventcontent = alarmCheck.Content,
+                eventtype = "消防火警系统报警数据",
+                firecompany = fireunit==null?"":fireunit.Name,
+                lat = fireunit == null ? "" : fireunit.Lat.ToString(),
+                lon = fireunit == null ? "" : fireunit.Lng.ToString(),
+                fireUnitId = ""
+            });
+
         }
         public void RepairData()
         {
