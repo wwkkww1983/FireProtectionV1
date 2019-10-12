@@ -447,6 +447,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.FireDeptUserAppService.GetVerifyCode">
+            <summary>
+            获取验证码
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.FireDeptUserAppService.UserLogin(FireProtectionV1.User.Dto.PcDeptUserLoginInput)">
             <summary>
             用户登录(PC端)
@@ -766,6 +772,12 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.GetVerifyCode">
+            <summary>
+            获取验证码
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.UserRegist(FireProtectionV1.User.Dto.UserRegistInput)">
             <summary>
             用户注册
@@ -800,9 +812,15 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.HttpContextAppService.GetVerifyCode">
+        <member name="M:FireProtectionV1.AppService.HttpContextAppService.GetBaseVerifyCode">
             <summary>
             获取验证码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.HttpContextAppService.Logout">
+            <summary>
+            注销用户
             </summary>
             <returns></returns>
         </member>
@@ -1103,6 +1121,19 @@
             维保单位
             </summary>
         </member>
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.UserRegist(FireProtectionV1.User.Dto.SafeUnitUserRegistInput)">
+            <summary>
+            用户注册
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.UserLogout">
+            <summary>
+            注销用户
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.SafeUnitAppService.GetSelectSafeUnits(FireProtectionV1.Enterprise.Dto.GetSafeUnitInput)">
             <summary>
             选择查询维保单位
@@ -1298,7 +1329,7 @@
             新增火灾监控设备报警
             </summary>
             <param name="detectorGBType"></param>
-            <param name="GatewayIdentify"></param>
+            <param name="gatewayIdentify"></param>
             <param name="identify"></param>
             <param name="origin"></param>
             <returns></returns>

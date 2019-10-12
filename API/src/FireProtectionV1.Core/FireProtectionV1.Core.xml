@@ -6194,12 +6194,12 @@
         </member>
         <member name="P:FireProtectionV1.User.Dto.LoginInput.Account">
             <summary>
-            账号(测试:123)
+            账号
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Dto.LoginInput.Password">
             <summary>
-            密码(测试:666666)
+            密码
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Dto.LoginInput.IsPersistent">
@@ -6210,6 +6210,51 @@
         <member name="P:FireProtectionV1.User.Dto.PcDeptUserLoginInput.VerifyCode">
             <summary>
             验证码
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.SafeUnitUserRegistInput.SafeUnitName">
+            <summary>
+            维保单位名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.SafeUnitUserRegistInput.UserName">
+            <summary>
+            用户姓名
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.SafeUnitUserRegistInput.Phone">
+            <summary>
+            电话号码
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.SafeUnitUserRegistInput.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.SafeUnitUserRegistInput.InvitatCode">
+            <summary>
+            邀请码
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.SafeUserLoginOutput.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.SafeUserLoginOutput.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.SafeUserLoginOutput.SafeUnitName">
+            <summary>
+            维保单位名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.SafeUserLoginOutput.SafeUnitID">
+            <summary>
+            维保单位ID
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Dto.UserRegistInput.FireUnitName">
@@ -6550,6 +6595,46 @@
         <member name="P:FireProtectionV1.User.Model.HydrantUserArea.AreaID">
             <summary>
             区域ID
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.User.Model.SafeUnitUser">
+            <summary>
+            维保单位用户
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Model.SafeUnitUser.Account">
+            <summary>
+            账号（手机号）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Model.SafeUnitUser.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Model.SafeUnitUser.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Model.SafeUnitUser.SafeUnitId">
+            <summary>
+            维保单位ID
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.User.Model.SafeUnitUserFireUnit">
+            <summary>
+            维保单位用户关联防火单位
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Model.SafeUnitUserFireUnit.SafeUnitUserId">
+            <summary>
+            维保人员ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Model.SafeUnitUserFireUnit.FireUnitId">
+            <summary>
+            防火单位ID
             </summary>
         </member>
         <member name="P:FireProtectionV1.VersionCore.Dto.AddAppInput.AppType">

@@ -8,12 +8,12 @@ namespace FireProtectionV1.User.Dto
     public class LoginInput
     {
         /// <summary>
-        /// 账号(测试:123)
+        /// 账号
         /// </summary>
         [Required]
         public string Account { get; set; }
         /// <summary>
-        /// 密码(测试:666666)
+        /// 密码
         /// </summary>
         [Required]
         public string Password { get; set; }

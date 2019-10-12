@@ -2,6 +2,7 @@
 using FireProtectionV1.Enterprise.Dto;
 using FireProtectionV1.Enterprise.Manager;
 using FireProtectionV1.Enterprise.Model;
+using FireProtectionV1.User.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -18,11 +19,42 @@ namespace FireProtectionV1.AppService
     /// </summary>
     public class SafeUnitAppService : HttpContextAppService
     {
-        ISafeUnitManager _manager;
+        
+        ISafeUnitManager _safeUnitManager;
 
         public SafeUnitAppService(ISafeUnitManager manager, IHttpContextAccessor httpContext) : base(httpContext)
         {
-            _manager = manager;
+            _safeUnitManager = manager;
+        }
+        /// <summary>
+        /// 用户注册
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> UserRegist(SafeUnitUserRegistInput input)
+        {
+            return await _safeUnitManager.UserRegist(input);
+        }
+        public async Task<SafeUserLoginOutput> UserLogin(LoginInput input)
+        {
+            //用户名密码验证
+            var output = await _safeUnitManager.UserLogin(input);
+            if (!output.Success)
+                return output;
+            if (!await Authentication(input.Account, output.Name, input.Password, input.IsPersistent))
+            {
+                output.Success = false;
+                output.FailCause = "认证失败";
+            }
+            return output;
+        }
+        /// <summary>
+        /// 注销用户
+        /// </summary>
+        /// <returns></returns>
+        public async Task<SuccessOutput> UserLogout()
+        {
+            return await Logout();
         }
         /// <summary>
         /// 选择查询维保单位
@@ -31,9 +63,12 @@ namespace FireProtectionV1.AppService
         /// <returns></returns>
         public async Task<List<GetSafeUnitOutput>> GetSelectSafeUnits(GetSafeUnitInput input)
         {
-            return await _manager.GetSelectSafeUnits(input);
+            return await _safeUnitManager.GetSelectSafeUnits(input);
         }
-
+        public async Task<SafeEventOutput> GetSafeUnitUserEvent(int UserId)
+        {
+            return await _safeUnitManager.GetSafeUnitUserEvent(UserId);
+        }
         /// <summary>
         /// 新增
         /// </summary>
@@ -41,7 +76,7 @@ namespace FireProtectionV1.AppService
         /// <returns></returns>
         public async Task<int> Add(AddSafeUnitInput input)
         {
-            return await _manager.Add(input);
+            return await _safeUnitManager.Add(input);
         }
 
         /// <summary>
@@ -52,7 +87,7 @@ namespace FireProtectionV1.AppService
         [HttpPost]
         public async Task Update(UpdateSafeUnitInput input)
         {
-            await _manager.Update(input);
+            await _safeUnitManager.Update(input);
         }
 
         /// <summary>
@@ -63,7 +98,7 @@ namespace FireProtectionV1.AppService
         [HttpPost]
         public async Task<SuccessOutput> Delete(DeletFireUnitInput input)
         {
-            return await _manager.Delete(input);
+            return await _safeUnitManager.Delete(input);
         }
 
         /// <summary>
@@ -73,7 +108,7 @@ namespace FireProtectionV1.AppService
         /// <returns></returns>
         public async Task<SafeUnit> GetById(int id)
         {
-            return await _manager.GetById(id);
+            return await _safeUnitManager.GetById(id);
         }
 
         /// <summary>
@@ -83,7 +118,7 @@ namespace FireProtectionV1.AppService
         /// <returns></returns>
         public async Task<PagedResultDto<SafeUnit>> GetList(GetSafeUnitListInput input)
         {
-            return await _manager.GetList(input);
+            return await _safeUnitManager.GetList(input);
         }
         /// <summary>
         /// 消防维保EXCEL导出
@@ -92,7 +127,7 @@ namespace FireProtectionV1.AppService
         /// <returns></returns>
         public async Task GetSafeUnitsExcel(GetSafeUnitListInput input)
         {
-            var lst = await _manager.GetSafeUnitsExcel(input);
+            var lst = await _safeUnitManager.GetSafeUnitsExcel(input);
             using (ExcelBuild excel = new ExcelBuild())
             {
                 var sheet = excel.BuildWorkSheet("消防维保");

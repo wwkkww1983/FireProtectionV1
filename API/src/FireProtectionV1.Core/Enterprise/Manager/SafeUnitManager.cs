@@ -6,6 +6,8 @@ using FireProtectionV1.Common.DBContext;
 using FireProtectionV1.Common.Helper;
 using FireProtectionV1.Enterprise.Dto;
 using FireProtectionV1.Enterprise.Model;
+using FireProtectionV1.User.Dto;
+using FireProtectionV1.User.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +18,62 @@ namespace FireProtectionV1.Enterprise.Manager
 {
     public class SafeUnitManager : DomainService, ISafeUnitManager
     {
+        IRepository<SafeUnitUserFireUnit> _repSafeUnitUserFireUnit;
         IRepository<SafeUnit> _safeUnitRepository;
+        IRepository<SafeUnitUser> _repSafeUnitUser;
 
-        public SafeUnitManager(IRepository<SafeUnit> safeUnitRepository)
+        public SafeUnitManager(IRepository<SafeUnit> safeUnitRepository,
+            IRepository<SafeUnitUser> repSafeUnitUser,
+            IRepository<SafeUnitUserFireUnit> repSafeUnitUserFireUnit)
         {
             _safeUnitRepository = safeUnitRepository;
+            _repSafeUnitUser = repSafeUnitUser;
+            _repSafeUnitUserFireUnit = repSafeUnitUserFireUnit;
+        }
+        public async Task<SuccessOutput> UserRegist(SafeUnitUserRegistInput input)
+        {
+            var safeunits = _safeUnitRepository.GetAll().Where(p => p.InvitationCode.Equals(input.InvitatCode));
+            if(safeunits.Count() == 0)
+                return new SuccessOutput() { Success = false, FailCause = "邀请码不正确" };
+            var safeUnit = safeunits.Where(p=>p.Name.Equals(input.SafeUnitName)).FirstOrDefault();
+            if(safeUnit==null)
+                return new SuccessOutput() { Success = false, FailCause = "维保单位名称不正确" };
+            var user = await _repSafeUnitUser.FirstOrDefaultAsync(p => p.Account.Equals(input.Phone));
+            if (user != null)
+                return new SuccessOutput() { Success = false, FailCause = "手机号已被注册" };
+            string md5 = MD5Encrypt.Encrypt(input.Password + input.Phone, 16);
+            await _repSafeUnitUser.InsertAsync(new SafeUnitUser()
+            {
+                Account = input.Phone,
+                Name = input.UserName,
+                SafeUnitId= safeUnit.Id,
+                Password = md5
+            });
+            return new SuccessOutput() { Success = true };
+        }
+        public async Task<SafeUserLoginOutput> UserLogin(LoginInput input)
+        {
+            string md5 = MD5Encrypt.Encrypt(input.Password + input.Account, 16);
+            SafeUserLoginOutput output = new SafeUserLoginOutput() { Success = true };
+            var v = await _repSafeUnitUser.FirstOrDefaultAsync(p => p.Account.Equals(input.Account) && p.Password.Equals(md5));
+            if (v == null)
+            {
+                output.Success = false;
+                output.FailCause = "账号或密码不正确";
+            }
+            else
+            {
+                output.UserId = v.Id;
+                output.Name = v.Name;
+
+                var safeunit = await _safeUnitRepository.FirstOrDefaultAsync(p => p.Id == v.SafeUnitId);
+                if (safeunit != null)
+                {
+                    output.SafeUnitName = safeunit.Name;
+                    output.SafeUnitID = safeunit.Id;
+                }
+            }
+            return output;
         }
         /// <summary>
         /// 选择查询维保单位
@@ -36,6 +89,11 @@ namespace FireProtectionV1.Enterprise.Manager
                     SafeUnitName = p.Name
                 }).Take(10);
             return Task.FromResult<List<GetSafeUnitOutput>>(query.ToList());
+        }
+        public async Task<SafeEventOutput> GetSafeUnitUserEvent(int UserId)
+        {
+            throw new NotImplementedException();
+            _repSafeUnitUserFireUnit.GetAll().Where(p => p.SafeUnitUserId == UserId).Select(p => p.FireUnitId);
         }
         /// <summary>
         /// 新增

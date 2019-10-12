@@ -21,6 +21,15 @@ namespace FireProtectionV1.AppService
             _fireUnitAccountManager = fireUnitAccountManager;
         }
         /// <summary>
+        /// 获取验证码
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        public async Task GetVerifyCode()
+        {
+            await GetBaseVerifyCode();
+        }
+        /// <summary>
         /// 用户注册
         /// </summary>
         /// <param name="input"></param>
@@ -79,60 +88,20 @@ namespace FireProtectionV1.AppService
             var output = await _fireUnitAccountManager.UserLogin(input);
             if (!output.Success)
                 return output;
-            //用户认证
-            var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-            identity.AddClaim(new Claim(ClaimTypes.Sid, input.Account));
-            identity.AddClaim(new Claim(ClaimTypes.Name, output.Name));
-            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, input.Password));
-            //identity.AddClaim(new Claim(ClaimTypes.Role, user.Role));
-            var principal = new ClaimsPrincipal(identity);
-            var authProp = new AuthenticationProperties();
-            if (input.IsPersistent)
-                authProp.IsPersistent = true;
-            else
-            {
-                authProp.IsPersistent = false;
-                double expMin = 20;//绝对到期时间30分钟
-                var authorizeExpires = Configuration.ConfigHelper.Configuration["AuthorizeExpires"];
-                if (authorizeExpires != null)
-                    expMin = double.Parse(authorizeExpires);
-                authProp.ExpiresUtc = DateTime.UtcNow.AddMinutes(expMin);
-            }
-            await _httpContext.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProp);
-            //验证是否认证成功
-            if (!principal.Identity.IsAuthenticated)
+            if (!await Authentication(input.Account, output.Name, input.Password, input.IsPersistent))
             {
                 output.Success = false;
                 output.FailCause = "认证失败";
             }
-
-            //var ci = new ClaimsIdentity(); 
-            //ci.AddClaim(new Claim(ClaimTypes.NameIdentifier, input.Account));
-            ////ci.AddClaim(new Claim("Account", input.Account));
-            ////ci.AddClaim(new Claim("Password", input.Password));
-            //var accessToken = CreateAccessToken(CreateJwtClaims(ci));
-            ////output.Token = "test";
-            //output.Token = accessToken;
             return output;
         }
-
-
         /// <summary>
         /// 注销用户
         /// </summary>
         /// <returns></returns>
         public async Task<SuccessOutput> UserLogout()
         {
-            var output = new SuccessOutput();
-            if (!_httpContext.HttpContext.User.Identity.IsAuthenticated)
-            {
-                output.Success = false;
-                output.FailCause = "未认证";
-                return output;
-            }
-            await _httpContext.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            output.Success = true;
-            return output;
+            return await Logout();
         }
 
         /// <summary>

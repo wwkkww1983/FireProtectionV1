@@ -2,6 +2,7 @@
 using Abp.Domain.Services;
 using FireProtectionV1.Enterprise.Dto;
 using FireProtectionV1.Enterprise.Model;
+using FireProtectionV1.User.Dto;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -31,6 +32,8 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <param name="input"></param>
         /// <returns></returns> 
         Task<int> Add(AddSafeUnitInput input);
+        Task<SuccessOutput> UserRegist(SafeUnitUserRegistInput input);
+        Task<SafeUserLoginOutput> UserLogin(LoginInput input);
 
         /// <summary>
         /// 修改
@@ -59,5 +62,6 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<PagedResultDto<SafeUnit>> GetList(GetSafeUnitListInput input);
+        Task<SafeEventOutput> GetSafeUnitUserEvent(int userId);
     }
 }
