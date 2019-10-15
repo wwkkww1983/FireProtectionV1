@@ -55,6 +55,7 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <param name="id"></param>
         /// <returns></returns>
         Task<SafeUnit> GetById(int id);
+        Task<SuccessOutput> ChangePassword(ChangeUserPassword input);
 
         /// <summary>
         /// 分页列表

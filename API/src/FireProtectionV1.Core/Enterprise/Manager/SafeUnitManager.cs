@@ -83,6 +83,25 @@ namespace FireProtectionV1.Enterprise.Manager
             }
             return output;
         }
+        public async Task<SuccessOutput> ChangePassword(ChangeUserPassword input)
+        {
+            string md5 = MD5Encrypt.Encrypt(input.OldPassword + input.Account, 16);
+            SuccessOutput output = new SuccessOutput() { Success = true };
+            var v = await _repSafeUnitUser.FirstOrDefaultAsync(p => p.Account.Equals(input.Account) && p.Password.Equals(md5));
+            if (v == null)
+            {
+                output.Success = false;
+                output.FailCause = "当前密码不正确";
+            }
+            else
+            {
+                string newMd5 = MD5Encrypt.Encrypt(input.NewPassword + input.Account, 16);
+                v.Password = newMd5;
+                var x = await _repSafeUnitUser.UpdateAsync(v);
+                output.Success = true;
+            }
+            return output;
+        }
         /// <summary>
         /// 选择查询维保单位
         /// </summary>

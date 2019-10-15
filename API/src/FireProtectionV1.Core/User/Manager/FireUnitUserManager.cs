@@ -250,7 +250,7 @@ namespace FireProtectionV1.User.Manager
             return output;
         }
 
-        public async Task<SuccessOutput> ChangePassword(DeptChangePassword input)
+        public async Task<SuccessOutput> ChangePassword(ChangeUserPassword input)
         {
             string md5 = MD5Encrypt.Encrypt(input.OldPassword + input.Account, 16);
             SuccessOutput output = new SuccessOutput() { Success = true };

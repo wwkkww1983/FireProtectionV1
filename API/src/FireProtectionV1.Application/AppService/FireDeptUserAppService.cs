@@ -154,7 +154,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<SuccessOutput> ChangePassword(DeptChangePassword input)
+        public async Task<SuccessOutput> ChangePassword(ChangeUserPassword input)
         {
             return await _fireDeptUserManager.ChangePassword(input);
         }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FireProtectionV1.User.Dto
 {
-    public class DeptChangePassword
+    public class ChangeUserPassword
     {
         /// <summary>
         /// 账号

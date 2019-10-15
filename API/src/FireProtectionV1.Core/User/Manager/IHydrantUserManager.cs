@@ -30,7 +30,7 @@ namespace FireProtectionV1.User.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<SuccessOutput> ChangePassword(DeptChangePassword input);
+        Task<SuccessOutput> ChangePassword(ChangeUserPassword input);
 
         /// <summary>
         /// 获取已有管辖区
