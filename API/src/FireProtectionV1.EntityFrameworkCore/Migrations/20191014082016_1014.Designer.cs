@@ -3,14 +3,16 @@ using System;
 using FireProtectionV1.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FireProtectionV1.Migrations
 {
     [DbContext(typeof(FireProtectionV1DbContext))]
-    partial class FireProtectionV1DbContextModelSnapshot : ModelSnapshot
+    [Migration("20191014082016_1014")]
+    partial class _1014
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -325,11 +327,6 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<int>("DataId");
 
-                    b.Property<string>("DoUserFrom")
-                        .HasMaxLength(20);
-
-                    b.Property<int>("DoUserId");
-
                     b.Property<int>("FireUnitId");
 
                     b.Property<byte>("HandleStatus");
@@ -344,9 +341,6 @@ namespace FireProtectionV1.Migrations
                     b.Property<byte>("SolutionWay");
 
                     b.Property<byte>("Source");
-
-                    b.Property<string>("UserFrom")
-                        .HasMaxLength(20);
 
                     b.Property<int>("UserId");
 

@@ -19,6 +19,20 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         public int UserId { get; set; }
         /// <summary>
+        /// 记录人员类型：FireUnitUser,SafeUnitUser
+        /// </summary>
+        [MaxLength(20)]
+        public string UserFrom { get; set; }
+        /// <summary>
+        /// 处理人员Id
+        /// </summary>
+        public int DoUserId { get; set; }
+        /// <summary>
+        /// 处理人员类型：FireUnitUser,SafeUnitUser
+        /// </summary>
+        [MaxLength(20)]
+        public string DoUserFrom { get; set; }
+        /// <summary>
         /// 故障来源（1.值班 2.巡查 3.物联终端）
         /// </summary>
         [Required]

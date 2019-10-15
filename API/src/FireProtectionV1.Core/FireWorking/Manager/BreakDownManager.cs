@@ -19,6 +19,7 @@ namespace FireProtectionV1.FireWorking.Manager
     public class BreakDownManager : IBreakDownManager
     {
         IHostingEnvironment _hostingEnv;
+        IRepository<SafeUnitUser> _repSafeUnitUser;
         IRepository<FireUnit> _fireUnitRep;
         IRepository<BreakDown> _breakDownRep;
         IRepository<FireUnitUser> _fireUnitAccountRepository;
@@ -31,6 +32,7 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<DataToPatrol> _patrolRep;
         IRepository<DataToPatrolDetail> _patrolDetailRep;
         public BreakDownManager(
+            IRepository<SafeUnitUser> repSafeUnitUser,
             IHostingEnvironment hostingEnv,
             IRepository<FireUnit> fireUnitRep,
             IRepository<BreakDown> breakDownRep,
@@ -45,6 +47,7 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<Fault> Fault
             )
         {
+            _repSafeUnitUser = repSafeUnitUser;
             _hostingEnv = hostingEnv;
             _fireUnitRep = fireUnitRep;
             _breakDownRep = breakDownRep;
@@ -73,18 +76,38 @@ namespace FireProtectionV1.FireWorking.Manager
             var expr = ExprExtension.True<BreakDown>()
                 .IfAnd(input.Source != SourceType.UnKnow, item => item.Source == (byte)input.Source);
             breakdownlist = breakdownlist.Where(expr);
-            var list = from a in breakdownlist
-                         join b in userlist on a.UserId equals b.Id
-                         orderby a.CreationTime descending
-                         select new GetBreakDownOutput
-                         {
-                             BreakDownId=a.Id,
-                             Source = a.Source,
-                             UserName = b.Name,
-                             Phone = b.Account,
-                             CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm"),
-                             SolutionTime = a.SolutionTime.ToString("yyyy-MM-dd HH:mm")
-                         };
+            var lst = breakdownlist.Select(a=> new
+            {
+                A=a,
+                B = new GetBreakDownOutput
+                {
+                    BreakDownId = a.Id,
+                    Source = a.Source,
+                    CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm"),
+                    SolutionTime = a.SolutionTime.ToString("yyyy-MM-dd HH:mm")
+                }
+            }).ToList();
+            foreach(var v in lst)
+            {
+                if (v.A.UserFrom.Equals("FireUnitUser"))
+                {
+                    var user = _fireUnitAccountRepository.FirstOrDefault(p => p.Id == v.A.UserId);
+                    if (user != null)
+                    {
+                        v.B.UserName = user.Name;
+                        v.B.Phone = user.Account;
+                    }
+                }else if (v.A.UserFrom.Equals("SafeUnitUser"))
+                {
+                    var user = _repSafeUnitUser.FirstOrDefault(p => p.Id == v.A.UserId);
+                    if (user != null)
+                    {
+                        v.B.UserName = user.Name;
+                        v.B.Phone = user.Account;
+                    }
+                }
+            }
+            var list = lst.Select(p => p.B);
             if (input.HandleStatus == HandleStatus.Resolving || input.HandleStatus == HandleStatus.Resolved)
             {
                 list=list.OrderByDescending(u => u.SolutionTime);

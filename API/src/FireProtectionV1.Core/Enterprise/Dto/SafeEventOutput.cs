@@ -10,7 +10,7 @@ namespace FireProtectionV1.Enterprise.Dto
     }
     public class FireUnitSafe
     {
-        public string FireUnitId { get; set; }
+        public int FireUnitId { get; set; }
         public string FireUnitName { get; set; }
         public bool HaveSafeEvent { get; set; }
     }

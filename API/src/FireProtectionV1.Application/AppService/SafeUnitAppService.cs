@@ -65,9 +65,43 @@ namespace FireProtectionV1.AppService
         {
             return await _safeUnitManager.GetSelectSafeUnits(input);
         }
+        /// <summary>
+        /// 查询维保单位下的所以防火单位名称和Id
+        /// </summary>
+        /// <param name="SafeUnitId">维保单位id</param>
+        /// <returns></returns>
+        public async Task<List<UnitNameAndIdDto>> GetAllFireUnitOfSafe(int SafeUnitId)
+        {
+            return await _safeUnitManager.GetAllFireUnitOfSafe(SafeUnitId);
+        }
+        /// <summary>
+        /// 查询维保事务
+        /// </summary>
+        /// <param name="UserId">维保人员Id</param>
+        /// <returns></returns>
         public async Task<SafeEventOutput> GetSafeUnitUserEvent(int UserId)
         {
             return await _safeUnitManager.GetSafeUnitUserEvent(UserId);
+        }
+        /// <summary>
+        /// 新增维保人员要维保的防火单位
+        /// </summary>
+        /// <param name="FireUnitId">防火单位Id</param>
+        /// <param name="SafeUserId">维保人员id</param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> AddSafeUserFireUnit(int SafeUserId,int FireUnitId)
+        {
+            return await _safeUnitManager.AddSafeUserFireUnit(SafeUserId,FireUnitId);
+        }
+        /// <summary>
+        /// 删除维保人员要维保的防火单位
+        /// </summary>
+        /// <param name="FireUnitId">防火单位Id</param>
+        /// <param name="SafeUserId">维保人员id</param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> DelSafeUserFireUnit(int SafeUserId, int FireUnitId)
+        {
+            return await _safeUnitManager.DelSafeUserFireUnit(SafeUserId, FireUnitId);
         }
         /// <summary>
         /// 新增

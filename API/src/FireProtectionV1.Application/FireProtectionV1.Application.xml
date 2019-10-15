@@ -1141,6 +1141,36 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.GetAllFireUnitOfSafe(System.Int32)">
+            <summary>
+            查询维保单位下的所以防火单位名称和Id
+            </summary>
+            <param name="SafeUnitId">维保单位id</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.GetSafeUnitUserEvent(System.Int32)">
+            <summary>
+            查询维保事务
+            </summary>
+            <param name="UserId">维保人员Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.AddSafeUserFireUnit(System.Int32,System.Int32)">
+            <summary>
+            新增维保人员要维保的防火单位
+            </summary>
+            <param name="FireUnitId">防火单位Id</param>
+            <param name="SafeUserId">维保人员id</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.DelSafeUserFireUnit(System.Int32,System.Int32)">
+            <summary>
+            删除维保人员要维保的防火单位
+            </summary>
+            <param name="FireUnitId">防火单位Id</param>
+            <param name="SafeUserId">维保人员id</param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.SafeUnitAppService.Add(FireProtectionV1.Enterprise.Dto.AddSafeUnitInput)">
             <summary>
             新增

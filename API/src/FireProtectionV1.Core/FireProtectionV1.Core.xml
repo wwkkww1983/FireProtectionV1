@@ -705,6 +705,16 @@
             防火单位名称(模糊查询)
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.UnitNameAndIdDto.UnitId">
+            <summary>
+            单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.UnitNameAndIdDto.Name">
+            <summary>
+            单位名称
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.UpdateEquipmentNoInfoInput.Opreation">
             <summary>
             操作
@@ -3768,6 +3778,21 @@
         <member name="P:FireProtectionV1.FireWorking.Model.BreakDown.UserId">
             <summary>
             记录人员ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.BreakDown.UserFrom">
+            <summary>
+            记录人员类型：FireUnitUser,SafeUnitUser
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.BreakDown.DoUserId">
+            <summary>
+            处理人员Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.BreakDown.DoUserFrom">
+            <summary>
+            处理人员类型：FireUnitUser,SafeUnitUser
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.BreakDown.Source">

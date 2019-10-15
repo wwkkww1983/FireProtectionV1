@@ -242,6 +242,7 @@ namespace FireProtectionV1.FireWorking.Manager
                     {
                         FireUnitId = input.FireUnitId,
                         UserId = input.FireUnitUserId,
+                        UserFrom = "FireUnitUser",
                         Source = (byte)SourceType.Duty,
                         DataId = problemId
                     };

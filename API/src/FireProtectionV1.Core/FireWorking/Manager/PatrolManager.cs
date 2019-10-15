@@ -322,6 +322,7 @@ namespace FireProtectionV1.FireWorking.Manager
                     {
                         FireUnitId = patrol.FireUnitId,
                         UserId = patrol.FireUnitUserId,
+                        UserFrom="FireUnitUser",
                         Source = (byte)SourceType.Patrol,
                         DataId = problemId
                     };

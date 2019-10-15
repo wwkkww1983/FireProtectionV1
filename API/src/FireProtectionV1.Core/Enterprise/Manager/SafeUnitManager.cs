@@ -6,6 +6,7 @@ using FireProtectionV1.Common.DBContext;
 using FireProtectionV1.Common.Helper;
 using FireProtectionV1.Enterprise.Dto;
 using FireProtectionV1.Enterprise.Model;
+using FireProtectionV1.FireWorking.Model;
 using FireProtectionV1.User.Dto;
 using FireProtectionV1.User.Model;
 using System;
@@ -18,14 +19,21 @@ namespace FireProtectionV1.Enterprise.Manager
 {
     public class SafeUnitManager : DomainService, ISafeUnitManager
     {
+        IRepository<FireUnit> _repFireUnit;
+        IRepository<BreakDown> _repBreakDown;
         IRepository<SafeUnitUserFireUnit> _repSafeUnitUserFireUnit;
         IRepository<SafeUnit> _safeUnitRepository;
         IRepository<SafeUnitUser> _repSafeUnitUser;
 
-        public SafeUnitManager(IRepository<SafeUnit> safeUnitRepository,
+        public SafeUnitManager(
+            IRepository<FireUnit> repFireUnit,
+            IRepository<SafeUnit> safeUnitRepository,
             IRepository<SafeUnitUser> repSafeUnitUser,
+            IRepository<BreakDown> repBreakDown,
             IRepository<SafeUnitUserFireUnit> repSafeUnitUserFireUnit)
         {
+            _repFireUnit = repFireUnit;
+            _repBreakDown = repBreakDown;
             _safeUnitRepository = safeUnitRepository;
             _repSafeUnitUser = repSafeUnitUser;
             _repSafeUnitUserFireUnit = repSafeUnitUserFireUnit;
@@ -90,10 +98,47 @@ namespace FireProtectionV1.Enterprise.Manager
                 }).Take(10);
             return Task.FromResult<List<GetSafeUnitOutput>>(query.ToList());
         }
+        public async Task<List<UnitNameAndIdDto>> GetAllFireUnitOfSafe(int SafeUnitId)
+        {
+            return await Task.Run(()=> _repFireUnit.GetAll().Where(p => p.SafeUnitId == SafeUnitId).Select(p => new UnitNameAndIdDto()
+            {
+                Name = p.Name,
+                UnitId = p.Id
+            }).ToList());
+        }
         public async Task<SafeEventOutput> GetSafeUnitUserEvent(int UserId)
         {
-            throw new NotImplementedException();
-            _repSafeUnitUserFireUnit.GetAll().Where(p => p.SafeUnitUserId == UserId).Select(p => p.FireUnitId);
+            var fireUnitSafes = from a in _repSafeUnitUserFireUnit.GetAll().Where(p => p.SafeUnitUserId == UserId)
+                                join b in _repFireUnit.GetAll()
+                                on a.FireUnitId equals b.Id
+                                join c in _repBreakDown.GetAll().Where(p => p.HandleStatus != 3).GroupBy(p => p.FireUnitId)
+                                on b.Id equals c.Key into b2
+                                from d in b2.DefaultIfEmpty()
+                                select new FireUnitSafe()
+                                {
+                                    FireUnitId = b.Id,
+                                    FireUnitName = b.Name,
+                                    HaveSafeEvent = d != null
+                                };
+            SafeEventOutput output = new SafeEventOutput();
+            await Task.Run(()=> output.FireUnits = fireUnitSafes.ToList());
+            return output;
+        }
+        public async Task<SuccessOutput> AddSafeUserFireUnit(int SafeUserId, int FireUnitId)
+        {
+            await _repSafeUnitUserFireUnit.InsertAsync(new SafeUnitUserFireUnit()
+            {
+                SafeUnitUserId = SafeUserId,
+                FireUnitId = FireUnitId
+            });
+            return new SuccessOutput() { Success = true };
+        }
+        public async Task<SuccessOutput> DelSafeUserFireUnit(int SafeUserId, int FireUnitId)
+        {
+            var e =await _repSafeUnitUserFireUnit.FirstOrDefaultAsync(p => p.SafeUnitUserId == SafeUserId && p.FireUnitId == FireUnitId);
+            if(e!=null)
+                await _repSafeUnitUserFireUnit.DeleteAsync(e);
+            return new SuccessOutput() { Success = true };
         }
         /// <summary>
         /// 新增
