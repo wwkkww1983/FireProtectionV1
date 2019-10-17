@@ -83,6 +83,25 @@ namespace FireProtectionV1.Enterprise.Manager
             }
             return output;
         }
+        /// <summary>
+        /// 邀请码验证 
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> InvitatVerify(InvitatVerifyDto input)
+        {
+            var fireunit = _safeUnitRepository.GetAll().Where(p => p.Name.Equals(input.UnitName)).FirstOrDefault();
+            SuccessOutput output = new SuccessOutput() { Success = true };
+            output = await Task.Run<SuccessOutput>(() =>
+            {
+                if (fireunit == null)
+                    return new SuccessOutput() { Success = false, FailCause = "不存在此防火单位" };
+                if (!fireunit.InvitationCode.Equals(input.InvitatCode))
+                    return new SuccessOutput() { Success = false, FailCause = "邀请码不正确" };
+                return new SuccessOutput() { Success = true };
+            });
+            return output;
+        }
         public async Task<SuccessOutput> ChangePassword(ChangeUserPassword input)
         {
             string md5 = MD5Encrypt.Encrypt(input.OldPassword + input.Account, 16);
@@ -117,15 +136,22 @@ namespace FireProtectionV1.Enterprise.Manager
                 }).Take(10);
             return Task.FromResult<List<GetSafeUnitOutput>>(query.ToList());
         }
-        public async Task<List<UnitNameAndIdDto>> GetAllFireUnitOfSafe(int SafeUnitId)
+        public async Task<PagedResultDto<UnitNameAndIdDto>> GetAllFireUnitOfSafe(int SafeUnitId, PagedResultRequestDto page)
         {
-            return await Task.Run(()=> _repFireUnit.GetAll().Where(p => p.SafeUnitId == SafeUnitId).Select(p => new UnitNameAndIdDto()
-            {
-                Name = p.Name,
-                UnitId = p.Id
-            }).ToList());
+            var output = new PagedResultDto<UnitNameAndIdDto>();
+             await Task.Run(()=>
+             {
+                 var query = _repFireUnit.GetAll().Where(p => p.SafeUnitId == SafeUnitId).Select(p => new UnitNameAndIdDto()
+                 {
+                     Name = p.Name,
+                     UnitId = p.Id
+                 });
+                 output.Items = query.Skip(page.SkipCount).Take(page.MaxResultCount).ToList();
+                 output.TotalCount = query.Count();
+             });
+            return output;
         }
-        public async Task<SafeEventOutput> GetSafeUnitUserEvent(int UserId)
+        public async Task<PagedResultDto<FireUnitSafe>> GetSafeUnitUserEvent(int UserId, PagedResultRequestDto page)
         {
             var fireUnitSafes = from a in _repSafeUnitUserFireUnit.GetAll().Where(p => p.SafeUnitUserId == UserId)
                                 join b in _repFireUnit.GetAll()
@@ -139,8 +165,12 @@ namespace FireProtectionV1.Enterprise.Manager
                                     FireUnitName = b.Name,
                                     HaveSafeEvent = d != null
                                 };
-            SafeEventOutput output = new SafeEventOutput();
-            await Task.Run(()=> output.FireUnits = fireUnitSafes.ToList());
+            var output = new PagedResultDto<FireUnitSafe>();
+            await Task.Run(() =>
+            {
+                output.Items = fireUnitSafes.Skip(page.SkipCount).Take(page.MaxResultCount).ToList();
+                output.TotalCount = fireUnitSafes.Count();
+            });
             return output;
         }
         public async Task<SuccessOutput> AddSafeUserFireUnit(int SafeUserId, int FireUnitId)

@@ -89,6 +89,8 @@ namespace FireProtectionV1.FireWorking.Manager
             }).ToList();
             foreach(var v in lst)
             {
+                if (v.A.UserFrom == null)
+                    continue;
                 if (v.A.UserFrom.Equals("FireUnitUser"))
                 {
                     var user = _fireUnitAccountRepository.FirstOrDefault(p => p.Id == v.A.UserId);

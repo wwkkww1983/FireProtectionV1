@@ -467,7 +467,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireDeptUserAppService.ChangePassword(FireProtectionV1.User.Dto.DeptChangePassword)">
+        <member name="M:FireProtectionV1.AppService.FireDeptUserAppService.ChangePassword(FireProtectionV1.User.Dto.ChangeUserPassword)">
             <summary>
             修改密码
             </summary>
@@ -805,7 +805,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.ChangePassword(FireProtectionV1.User.Dto.DeptChangePassword)">
+        <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.ChangePassword(FireProtectionV1.User.Dto.ChangeUserPassword)">
             <summary>
             修改密码
             </summary>
@@ -996,7 +996,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.HydrantUserAppService.ChangePassword(FireProtectionV1.User.Dto.DeptChangePassword)">
+        <member name="M:FireProtectionV1.AppService.HydrantUserAppService.ChangePassword(FireProtectionV1.User.Dto.ChangeUserPassword)">
             <summary>
             修改密码
             </summary>
@@ -1128,6 +1128,27 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.UserLogin(FireProtectionV1.User.Dto.LoginInput)">
+            <summary>
+            维保用户登录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.InvitatVerify(FireProtectionV1.Enterprise.Dto.InvitatVerifyDto)">
+            <summary>
+            邀请码验证 
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.ChangePassword(FireProtectionV1.User.Dto.ChangeUserPassword)">
+            <summary>
+            维保人员修改账户密码
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.SafeUnitAppService.UserLogout">
             <summary>
             注销用户
@@ -1141,18 +1162,20 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.GetAllFireUnitOfSafe(System.Int32)">
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.GetAllFireUnitOfSafe(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
             查询维保单位下的所以防火单位名称和Id
             </summary>
             <param name="SafeUnitId">维保单位id</param>
+            <param name="page"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.GetSafeUnitUserEvent(System.Int32)">
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.GetSafeUnitUserEvent(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
             查询维保事务
             </summary>
             <param name="UserId">维保人员Id</param>
+            <param name="page"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.SafeUnitAppService.AddSafeUserFireUnit(System.Int32,System.Int32)">

@@ -56,6 +56,7 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <returns></returns>
         Task<SafeUnit> GetById(int id);
         Task<SuccessOutput> ChangePassword(ChangeUserPassword input);
+        Task<SuccessOutput> InvitatVerify(InvitatVerifyDto input);
 
         /// <summary>
         /// 分页列表
@@ -63,8 +64,8 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<PagedResultDto<SafeUnit>> GetList(GetSafeUnitListInput input);
-        Task<SafeEventOutput> GetSafeUnitUserEvent(int userId);
-        Task<List<UnitNameAndIdDto>> GetAllFireUnitOfSafe(int safeUnitId);
+        Task<PagedResultDto<FireUnitSafe>> GetSafeUnitUserEvent(int userId, PagedResultRequestDto page);
+        Task<PagedResultDto<UnitNameAndIdDto>> GetAllFireUnitOfSafe(int safeUnitId, PagedResultRequestDto page);
         Task<SuccessOutput> AddSafeUserFireUnit(int SafeUserId, int FireUnitId);
         Task<SuccessOutput> DelSafeUserFireUnit(int SafeUserId, int FireUnitId);
     }

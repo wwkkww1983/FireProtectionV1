@@ -685,6 +685,16 @@
             维保单位名称
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.InvitatVerifyDto.UnitName">
+            <summary>
+            单位名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.InvitatVerifyDto.InvitatCode">
+            <summary>
+            邀请码
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.InvitatVerifyInput.FireUnitName">
             <summary>
             防火单位名称
@@ -1115,6 +1125,13 @@
         <member name="M:FireProtectionV1.Enterprise.Manager.ISafeUnitManager.GetList(FireProtectionV1.Enterprise.Dto.GetSafeUnitListInput)">
             <summary>
             分页列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.SafeUnitManager.InvitatVerify(FireProtectionV1.Enterprise.Dto.InvitatVerifyDto)">
+            <summary>
+            邀请码验证 
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -6012,24 +6029,24 @@
             权限
             </summary>
         </member>
-        <member name="P:FireProtectionV1.User.Dto.DeleteUserInput.UserId">
-            <summary>
-            用户ID
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.User.Dto.DeptChangePassword.Account">
+        <member name="P:FireProtectionV1.User.Dto.ChangeUserPassword.Account">
             <summary>
             账号
             </summary>
         </member>
-        <member name="P:FireProtectionV1.User.Dto.DeptChangePassword.OldPassword">
+        <member name="P:FireProtectionV1.User.Dto.ChangeUserPassword.OldPassword">
             <summary>
             原始密码
             </summary>
         </member>
-        <member name="P:FireProtectionV1.User.Dto.DeptChangePassword.NewPassword">
+        <member name="P:FireProtectionV1.User.Dto.ChangeUserPassword.NewPassword">
             <summary>
             新密码
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.DeleteUserInput.UserId">
+            <summary>
+            用户ID
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Dto.DeptUserLoginOutput.UserId">
@@ -6370,7 +6387,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.User.Manager.HydrantUserManager.ChangePassword(FireProtectionV1.User.Dto.DeptChangePassword)">
+        <member name="M:FireProtectionV1.User.Manager.HydrantUserManager.ChangePassword(FireProtectionV1.User.Dto.ChangeUserPassword)">
             <summary>
             修改密码
             </summary>
@@ -6405,7 +6422,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.User.Manager.IFireDeptUserManager.ChangePassword(FireProtectionV1.User.Dto.DeptChangePassword)">
+        <member name="M:FireProtectionV1.User.Manager.IFireDeptUserManager.ChangePassword(FireProtectionV1.User.Dto.ChangeUserPassword)">
             <summary>
             修改密码
             </summary>
@@ -6461,7 +6478,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.User.Manager.IFireUnitUserManager.ChangePassword(FireProtectionV1.User.Dto.DeptChangePassword)">
+        <member name="M:FireProtectionV1.User.Manager.IFireUnitUserManager.ChangePassword(FireProtectionV1.User.Dto.ChangeUserPassword)">
             <summary>
             修改密码
             </summary>
@@ -6482,7 +6499,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.User.Manager.IHydrantUserManager.ChangePassword(FireProtectionV1.User.Dto.DeptChangePassword)">
+        <member name="M:FireProtectionV1.User.Manager.IHydrantUserManager.ChangePassword(FireProtectionV1.User.Dto.ChangeUserPassword)">
             <summary>
             修改密码
             </summary>

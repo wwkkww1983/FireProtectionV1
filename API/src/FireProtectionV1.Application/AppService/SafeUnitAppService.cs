@@ -35,6 +35,11 @@ namespace FireProtectionV1.AppService
         {
             return await _safeUnitManager.UserRegist(input);
         }
+        /// <summary>
+        /// 维保用户登录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<SafeUserLoginOutput> UserLogin(LoginInput input)
         {
             //用户名密码验证
@@ -47,6 +52,15 @@ namespace FireProtectionV1.AppService
                 output.FailCause = "认证失败";
             }
             return output;
+        }
+        /// <summary>
+        /// 邀请码验证 
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> InvitatVerify(InvitatVerifyDto input)
+        {
+            return await _safeUnitManager.InvitatVerify(input);
         }
         /// <summary>
         /// 维保人员修改账户密码
@@ -78,19 +92,21 @@ namespace FireProtectionV1.AppService
         /// 查询维保单位下的所以防火单位名称和Id
         /// </summary>
         /// <param name="SafeUnitId">维保单位id</param>
+        /// <param name="page"></param>
         /// <returns></returns>
-        public async Task<List<UnitNameAndIdDto>> GetAllFireUnitOfSafe(int SafeUnitId)
+        public async Task<PagedResultDto<UnitNameAndIdDto>> GetAllFireUnitOfSafe(int SafeUnitId, PagedResultRequestDto page)
         {
-            return await _safeUnitManager.GetAllFireUnitOfSafe(SafeUnitId);
+            return await _safeUnitManager.GetAllFireUnitOfSafe(SafeUnitId, page);
         }
         /// <summary>
         /// 查询维保事务
         /// </summary>
         /// <param name="UserId">维保人员Id</param>
+        /// <param name="page"></param>
         /// <returns></returns>
-        public async Task<SafeEventOutput> GetSafeUnitUserEvent(int UserId)
+        public async Task<PagedResultDto<FireUnitSafe>> GetSafeUnitUserEvent(int UserId, PagedResultRequestDto page)
         {
-            return await _safeUnitManager.GetSafeUnitUserEvent(UserId);
+            return await _safeUnitManager.GetSafeUnitUserEvent(UserId, page);
         }
         /// <summary>
         /// 新增维保人员要维保的防火单位
