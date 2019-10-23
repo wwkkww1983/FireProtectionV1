@@ -13,6 +13,10 @@ namespace FireProtectionV1.Enterprise.Model
     public class EquipmentNo : EntityBase
     {
         /// <summary>
+        /// 防火单位Id
+        /// </summary>
+        public int FireUnitId { get; set; }
+        /// <summary>
         /// 设施编码
         /// </summary>
         [Required]

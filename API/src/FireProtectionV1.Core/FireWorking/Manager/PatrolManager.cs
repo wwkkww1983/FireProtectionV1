@@ -2,6 +2,7 @@
 using FireProtectionV1.Common.DBContext;
 using FireProtectionV1.Common.Enum;
 using FireProtectionV1.Common.Helper;
+using FireProtectionV1.Configuration;
 using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
@@ -498,6 +499,8 @@ namespace FireProtectionV1.FireWorking.Manager
         public async Task<SuccessOutput> GetAddAllow(int FireUnitId)
         {
             SuccessOutput output = new SuccessOutput() { Success=true};
+            if (bool.Parse(ConfigHelper.Configuration["Debug"]))
+                return output;
             var date = DateTime.Now.Date;
             var count = _patrolRep.GetAll().Where(u => u.CreationTime.Date == date&&u.FireUnitId==FireUnitId).Count();
             if(count>=1)

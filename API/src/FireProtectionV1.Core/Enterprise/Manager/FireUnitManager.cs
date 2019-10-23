@@ -494,7 +494,7 @@ namespace FireProtectionV1.Enterprise.Manager
         public async Task<GetEquipmentNoListOutput> GetEquipmentNoList(GetEquipmentNoListInput input)
         {
 
-            var equipmentlist = _equipmentNoRep.GetAll();
+            var equipmentlist = _equipmentNoRep.GetAll().Where(p=>p.FireUnitId==input.FireUnitId);
             var expr = ExprExtension.True<EquipmentNo>()
                 .IfAnd(input.EquiNo != null, item => item.EquiNo.Contains(input.EquiNo));
             equipmentlist = equipmentlist.Where(expr);

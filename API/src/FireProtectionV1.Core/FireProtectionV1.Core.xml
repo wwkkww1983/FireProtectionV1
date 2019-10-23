@@ -415,6 +415,11 @@
             设施编码
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetEquipmentNoListInput.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetEquipmentNoListOutput.TotalCount">
             <summary>
             总数
@@ -1188,6 +1193,11 @@
         <member name="T:FireProtectionV1.Enterprise.Model.EquipmentNo">
             <summary>
             设施编码
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.EquipmentNo.FireUnitId">
+            <summary>
+            防火单位Id
             </summary>
         </member>
         <member name="P:FireProtectionV1.Enterprise.Model.EquipmentNo.EquiNo">

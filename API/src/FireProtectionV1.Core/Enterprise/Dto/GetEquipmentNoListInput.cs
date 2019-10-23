@@ -13,5 +13,10 @@ namespace FireProtectionV1.Enterprise.Dto
         /// 设施编码
         /// </summary>
         public string EquiNo { get; set; }
+        /// <summary>
+        /// 防火单位Id
+        /// </summary>
+        [Required]
+        public int FireUnitId { get; set; }
     }
 }

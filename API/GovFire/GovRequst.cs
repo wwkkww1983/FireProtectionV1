@@ -24,6 +24,8 @@ namespace GovFire
           /// <returns></returns>
         static public string HttpPost(string urlapi, string param = null )
         {
+            if (!bool.Parse(ConfigHelper.Configuration["govfireRun"]))
+                return "";
             //string postData = JsonConvert.SerializeObject(param);
             string postData = param;
 #if DEBUG
