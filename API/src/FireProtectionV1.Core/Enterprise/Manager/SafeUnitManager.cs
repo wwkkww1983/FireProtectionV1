@@ -173,20 +173,23 @@ namespace FireProtectionV1.Enterprise.Manager
             });
             return output;
         }
-        public async Task<SuccessOutput> AddSafeUserFireUnit(int SafeUserId, int FireUnitId)
+        public async Task<SuccessOutput> AddSafeUserFireUnit(SafeUserFireUnitDto dto)
         {
+            var data = await _repSafeUnitUserFireUnit.FirstOrDefaultAsync(p => p.SafeUnitUserId == dto.SafeUserId && p.FireUnitId == dto.FireUnitId);
+            if (data != null)
+                return new SuccessOutput() { Success = false, FailCause = "已添加了防火单位" };
             await _repSafeUnitUserFireUnit.InsertAsync(new SafeUnitUserFireUnit()
             {
-                SafeUnitUserId = SafeUserId,
-                FireUnitId = FireUnitId
+                SafeUnitUserId = dto.SafeUserId,
+                FireUnitId = dto.FireUnitId
             });
             return new SuccessOutput() { Success = true };
         }
-        public async Task<SuccessOutput> DelSafeUserFireUnit(int SafeUserId, int FireUnitId)
+        public async Task<SuccessOutput> DelSafeUserFireUnit(SafeUserFireUnitDto dto)
         {
-            var e =await _repSafeUnitUserFireUnit.FirstOrDefaultAsync(p => p.SafeUnitUserId == SafeUserId && p.FireUnitId == FireUnitId);
-            if(e!=null)
-                await _repSafeUnitUserFireUnit.DeleteAsync(e);
+            //var e =await _repSafeUnitUserFireUnit.FirstOrDefaultAsync(p => p.SafeUnitUserId == SafeUserId && p.FireUnitId == FireUnitId);
+            //if(e!=null)
+                await _repSafeUnitUserFireUnit.DeleteAsync(p=>p.SafeUnitUserId==dto.SafeUserId&&p.FireUnitId==dto.FireUnitId );
             return new SuccessOutput() { Success = true };
         }
         /// <summary>

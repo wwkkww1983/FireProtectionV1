@@ -111,22 +111,20 @@ namespace FireProtectionV1.AppService
         /// <summary>
         /// 新增维保人员要维保的防火单位
         /// </summary>
-        /// <param name="FireUnitId">防火单位Id</param>
-        /// <param name="SafeUserId">维保人员id</param>
+        /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<SuccessOutput> AddSafeUserFireUnit(int SafeUserId,int FireUnitId)
+        public async Task<SuccessOutput> AddSafeUserFireUnit(SafeUserFireUnitDto dto)
         {
-            return await _safeUnitManager.AddSafeUserFireUnit(SafeUserId,FireUnitId);
+            return await _safeUnitManager.AddSafeUserFireUnit(dto);
         }
         /// <summary>
         /// 删除维保人员要维保的防火单位
         /// </summary>
-        /// <param name="FireUnitId">防火单位Id</param>
-        /// <param name="SafeUserId">维保人员id</param>
+        /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<SuccessOutput> DelSafeUserFireUnit(int SafeUserId, int FireUnitId)
+        public async Task<SuccessOutput> DelSafeUserFireUnit(SafeUserFireUnitDto dto)
         {
-            return await _safeUnitManager.DelSafeUserFireUnit(SafeUserId, FireUnitId);
+            return await _safeUnitManager.DelSafeUserFireUnit(dto);
         }
         /// <summary>
         /// 新增

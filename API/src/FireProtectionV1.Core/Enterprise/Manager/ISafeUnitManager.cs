@@ -66,7 +66,7 @@ namespace FireProtectionV1.Enterprise.Manager
         Task<PagedResultDto<SafeUnit>> GetList(GetSafeUnitListInput input);
         Task<PagedResultDto<FireUnitSafe>> GetSafeUnitUserEvent(int userId, PagedResultRequestDto page);
         Task<PagedResultDto<UnitNameAndIdDto>> GetAllFireUnitOfSafe(int safeUnitId, PagedResultRequestDto page);
-        Task<SuccessOutput> AddSafeUserFireUnit(int SafeUserId, int FireUnitId);
-        Task<SuccessOutput> DelSafeUserFireUnit(int SafeUserId, int FireUnitId);
+        Task<SuccessOutput> AddSafeUserFireUnit(SafeUserFireUnitDto dto);
+        Task<SuccessOutput> DelSafeUserFireUnit(SafeUserFireUnitDto dto);
     }
 }

@@ -720,6 +720,16 @@
             防火单位名称(模糊查询)
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.SafeUserFireUnitDto.SafeUserId">
+            <summary>
+            维保人员Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.SafeUserFireUnitDto.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.UnitNameAndIdDto.UnitId">
             <summary>
             单位Id
