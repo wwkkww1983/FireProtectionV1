@@ -495,9 +495,9 @@ namespace FireProtectionV1.Enterprise.Manager
         {
 
             var equipmentlist = _equipmentNoRep.GetAll().Where(p=>p.FireUnitId==input.FireUnitId);
-            var expr = ExprExtension.True<EquipmentNo>()
-                .IfAnd(input.EquiNo != null, item => item.EquiNo.Contains(input.EquiNo));
-            equipmentlist = equipmentlist.Where(expr);
+            //var expr = ExprExtension.True<EquipmentNo>()
+            //    .IfAnd(input.EquiNo != null, item => item.EquiNo.Contains(input.EquiNo));
+            //equipmentlist = equipmentlist.Where(expr);
 
             var list = from a in equipmentlist
                        join b in _fireSystemRep.GetAll() on a.FireSystemId equals b.Id
@@ -507,7 +507,8 @@ namespace FireProtectionV1.Enterprise.Manager
                            Address = a.Address,
                            ID = a.Id,
                            EquiNo = a.EquiNo,
-                           FireSystemName = b.SystemName
+                           FireSystemName = b.SystemName,
+                           FireSystemId=b.Id
                        };
 
             GetEquipmentNoListOutput output = new GetEquipmentNoListOutput()
@@ -551,11 +552,23 @@ namespace FireProtectionV1.Enterprise.Manager
             SuccessOutput output = new SuccessOutput() { Success = true };
             EquipmentNo equip = new EquipmentNo()
             {
+                FireUnitId=input.FireUnitId,
                 EquiNo = input.EquiNo,
                 Address=input.Address,
                 FireSystemId=input.FireSystemId            
             };
             await _equipmentNoRep.InsertAsync(equip);
+            return output;
+        }
+        /// <summary>
+        /// 删除设施
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> DelEquipmentNo(DelEquipmentNoInput input)
+        {
+            SuccessOutput output = new SuccessOutput() { Success = true };
+            await _equipmentNoRep.DeleteAsync(input.EquipmentNoId);
             return output;
         }
 

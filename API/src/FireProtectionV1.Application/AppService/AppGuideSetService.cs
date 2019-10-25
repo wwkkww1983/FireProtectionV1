@@ -128,6 +128,15 @@ namespace FireProtectionV1.AppService
         {
             return await _fireUnitManager.AddEquipmentNo(input);
         }
+        ///// <summary>
+        ///// 删除设施
+        ///// </summary>
+        ///// <param name="input"></param>
+        ///// <returns></returns>
+        //public async Task<SuccessOutput> DelEquipmentNo(DelEquipmentNoInput input)
+        //{
+        //    return await _fireUnitManager.DelEquipmentNo(input);
+        //}
         /// <summary>
         /// 修改设施编码信息
         /// </summary>

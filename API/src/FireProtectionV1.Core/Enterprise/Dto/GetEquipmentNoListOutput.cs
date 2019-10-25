@@ -37,5 +37,9 @@ namespace FireProtectionV1.Enterprise.Dto
         /// 消防系统
         /// </summary>
         public string FireSystemName { get; set; }
+        /// <summary>
+        /// 消防系统ID
+        /// </summary>
+        public int FireSystemId { get; set; }
     }
 }

@@ -127,5 +127,6 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<GetEquipmentNoInfoOutput> GetEquipmentNoInfo(GetEquipmentNoInfoInput input);
+        Task<SuccessOutput> DelEquipmentNo(DelEquipmentNoInput input);
     }
 }

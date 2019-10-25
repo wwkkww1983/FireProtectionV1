@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FireProtectionV1.Common.DBContext;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -29,6 +30,7 @@ namespace FireProtectionV1.Enterprise.Dto
         /// </summary>
         public int FireSystemId { get; set; }
     }
+    [Export("设施修改操作")]
     public enum opreationType
     {
         /// <summary>
