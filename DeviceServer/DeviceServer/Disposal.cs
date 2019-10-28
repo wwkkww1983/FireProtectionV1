@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using TsjWebApi;
 
 namespace DeviceServer
 {
@@ -40,7 +41,7 @@ namespace DeviceServer
                     {
                         if (DateTime.Now - v.Value > new TimeSpan(0, 1, 0))
                         {
-                            FireApi.HttpPost("/api/services/app/Data/AddOnlineGateway", new AddOnlineGatewayInput()
+                            FireApi.HttpPost(Config.Url("/api/services/app/Data/AddOnlineGateway"), new AddOnlineGatewayInput()
                             {
                                 Identify = v.Key,
                                 Origin = "安吉斯",
@@ -205,7 +206,7 @@ namespace DeviceServer
 
         private void CheckDetectorExitToPost(string urlapi, DeviceBaseInput param)
         {
-            string res = FireApi.HttpPost(urlapi, param);
+            string res = FireApi.HttpPost(Config.Url(urlapi), param);
             string postData = JsonConvert.SerializeObject(param);
             if (string.IsNullOrEmpty(res))
                 return;
@@ -221,8 +222,8 @@ namespace DeviceServer
                     GatewayIdentify = p["GatewayIdentify"].ToString(),
                     Location = "",
                 };
-                FireApi.HttpPost("/api/services/app/Device/AddDetector", paramadd);
-                FireApi.HttpPost(urlapi, param);
+                FireApi.HttpPost(Config.Url("/api/services/app/Device/AddDetector") , paramadd);
+                FireApi.HttpPost(Config.Url(urlapi), param);
             }
         }
     }

@@ -16,5 +16,13 @@ namespace DeviceServer
             .Add(new JsonConfigurationSource { Path = "config.json", ReloadOnChange = true })
             .Build();
         }
+        static public string Url(string urlapi)
+        {
+#if DEBUG
+            return "http://47.98.179.238:5080" + urlapi;
+#else
+            return Config.Configuration["FireApi:UrlBase"]+urlapi;
+#endif
+        }
     }
 }

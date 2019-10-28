@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AjsDeviceServer", "DeviceServer\AjsDeviceServer.csproj", "{B1885C2F-6020-4572-A980-DEF260376C46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TsjDeviceServer", "TsjDeviceServer\TsjDeviceServer.csproj", "{5B4DF375-EC1C-4215-AF9B-105EA2869AEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TsjWebApi", "TsjWebApi\TsjWebApi.csproj", "{A9E84B00-EC2D-41F0-9C4F-97D96857C83F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{B1885C2F-6020-4572-A980-DEF260376C46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1885C2F-6020-4572-A980-DEF260376C46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1885C2F-6020-4572-A980-DEF260376C46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B4DF375-EC1C-4215-AF9B-105EA2869AEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B4DF375-EC1C-4215-AF9B-105EA2869AEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B4DF375-EC1C-4215-AF9B-105EA2869AEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B4DF375-EC1C-4215-AF9B-105EA2869AEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9E84B00-EC2D-41F0-9C4F-97D96857C83F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9E84B00-EC2D-41F0-9C4F-97D96857C83F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9E84B00-EC2D-41F0-9C4F-97D96857C83F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9E84B00-EC2D-41F0-9C4F-97D96857C83F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

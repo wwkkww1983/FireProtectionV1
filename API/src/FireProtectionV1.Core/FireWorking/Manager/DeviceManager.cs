@@ -231,7 +231,7 @@ namespace FireProtectionV1.FireWorking.Manager
             var lst= uitd.Union(tem).Union(ele).ToList();
             return new PagedResultDeviceDto<EndDeviceStateOutput>()
             {
-                OfflineCount = lst.Count(p => p.StateName.Equals("离线")),
+                OfflineCount = lst.Count(p => string.IsNullOrEmpty( p.StateName)||p.StateName.Equals("离线")),
                 TotalCount = lst.Count,
                 Items = lst.Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList()
             };

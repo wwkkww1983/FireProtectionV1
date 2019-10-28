@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using TsjWebApi;
 
 namespace DeviceServer
 {
@@ -22,7 +23,7 @@ namespace DeviceServer
             //formData.Add(new KeyValuePair<string, string>("DetectorGBType", UnitType.UITD.ToString()));
             //formData.Add(new KeyValuePair<string, string>("Identify", "11.0.0.1.200.1"));
             //formData.Add(new KeyValuePair<string, string>("GatewayIdentify", "11.0.0.1.200.1"));
-            FireApi.HttpPost("/api/services/app/Data/AddAlarmFire", v);
+            FireApi.HttpPost(Config.Url("/api/services/app/Data/AddAlarmFire"), v);
 
         }
         static byte[] bts = new byte[2];

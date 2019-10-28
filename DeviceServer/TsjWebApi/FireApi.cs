@@ -9,28 +9,22 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeviceServer
+namespace TsjWebApi
 {
-    class FireApi
+    public class FireApi
     { 
           /// <summary>
           /// 异步请求post（键值对形式,可等待的）
           /// </summary>
-          /// <param name="uri">网络基址("http://localhost:59315")</param>
           /// <param name="url">网络的地址("/api/UMeng")</param>
           /// <param name="formData">键值对List<KeyValuePair<string, string>> formData = new List<KeyValuePair<string, string>>();formData.Add(new KeyValuePair<string, string>("userid", "29122"));formData.Add(new KeyValuePair<string, string>("umengids", "29122"));</param>
           /// <param name="charset">编码格式</param>
           /// <param name="mediaType">头媒体类型</param>
           /// <returns></returns>
-        static public string HttpPost(string urlapi, DeviceBaseInput param = null )
+        static public string HttpPost(string url, DeviceBaseInput param = null )
         {
             param.Origin = Origin.Anjisi;
             string postData = JsonConvert.SerializeObject(param);
-#if DEBUG
-            string url = "http://47.98.179.238:5080"+urlapi;
-#else
-            string url = Config.Configuration["FireApi:UrlBase"]+urlapi;
-#endif
             //定义request并设置request的路径
             WebRequest request = WebRequest.Create(url);
             request.Method = "post";
@@ -65,7 +59,7 @@ namespace DeviceServer
                 }
             }
             catch (Exception e) {
-                Console.WriteLine(DateTime.Now + $"HttpPost请求失败 urlapi:{urlapi} postData:{postData}");
+                Console.WriteLine(DateTime.Now + $"HttpPost请求失败 url:{url} postData:{postData}");
                     }
             return "";
             //定义response字符流
