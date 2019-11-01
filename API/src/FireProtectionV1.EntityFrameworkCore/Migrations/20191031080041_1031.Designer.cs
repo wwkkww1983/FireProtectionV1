@@ -3,14 +3,16 @@ using System;
 using FireProtectionV1.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FireProtectionV1.Migrations
 {
     [DbContext(typeof(FireProtectionV1DbContext))]
-    partial class FireProtectionV1DbContextModelSnapshot : ModelSnapshot
+    [Migration("20191031080041_1031")]
+    partial class _1031
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,7 +117,7 @@ namespace FireProtectionV1.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<byte>("Patrol");
+                    b.Property<int>("Patrol");
 
                     b.Property<int>("SafeUnitId");
 
@@ -240,7 +242,7 @@ namespace FireProtectionV1.Migrations
                     b.Property<string>("VioceUrl")
                         .HasMaxLength(100);
 
-                    b.Property<int>("VoiceLength");
+                    b.Property<ushort>("VoiceLength");
 
                     b.HasKey("Id");
 
@@ -400,7 +402,7 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<int>("ProblemRemarkType");
 
-                    b.Property<int>("VoiceLength");
+                    b.Property<ushort>("VoiceLength");
 
                     b.HasKey("Id");
 
@@ -486,7 +488,7 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<byte>("ProblemRemarkType");
 
-                    b.Property<int>("VoiceLength");
+                    b.Property<ushort>("VoiceLength");
 
                     b.HasKey("Id");
 
@@ -719,7 +721,7 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<string>("Title");
 
-                    b.Property<int>("VoiceLength");
+                    b.Property<ushort>("VoiceLength");
 
                     b.HasKey("Id");
 

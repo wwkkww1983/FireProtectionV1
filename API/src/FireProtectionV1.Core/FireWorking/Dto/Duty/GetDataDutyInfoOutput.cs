@@ -37,6 +37,10 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public string ProblemRemark { get; set; }
         /// <summary>
+        /// 语音长度
+        /// </summary>
+        public int VoiceLength { get; set; }
+        /// <summary>
         /// 现场问题图片路径
         /// </summary>
         public List<string> ProblemPhtosPath { get; set; }

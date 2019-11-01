@@ -39,6 +39,10 @@ namespace FireProtectionV1.FireWorking.Model
         [MaxLength(100)]
         public string VioceUrl { get; set; }
         /// <summary>
+        /// 语音长度
+        /// </summary>
+        public int VoiceLength { get; set; }
+        /// <summary>
         /// 工作人员Id
         /// </summary>
         public int UserId { get; set; }

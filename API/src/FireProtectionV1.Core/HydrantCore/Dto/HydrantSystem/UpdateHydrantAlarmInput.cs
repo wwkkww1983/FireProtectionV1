@@ -34,6 +34,11 @@ namespace FireProtectionV1.HydrantCore.Dto
         /// </summary>
         public IFormFile VoiceFile { get; set; }
         /// <summary>
+        /// 语音长度
+        /// </summary>
+        public UInt16 VoiceLength { get; set; }
+
+        /// <summary>
         /// 现场照片
         /// </summary>
         public IFormFile Picture1 { get; set; }

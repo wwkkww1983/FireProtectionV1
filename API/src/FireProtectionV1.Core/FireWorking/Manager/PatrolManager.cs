@@ -169,30 +169,36 @@ namespace FireProtectionV1.FireWorking.Manager
         public Task<List<GetPatrolTrackOutput>> GetPatrolTrackList(GetPatrolTrackInput input)
         {
             var detaillist = _patrolDetailRep.GetAll().Where(u=>u.PatrolId==input.PatrolId);
-
-
-            var outp = from a in detaillist
-                         join b in _patrolDetailProblem.GetAll() on a.Id equals b.PatrolDetailId into JoinedEmpDept
-                         from dept in JoinedEmpDept.DefaultIfEmpty()
-                         select new GetPatrolTrackOutput
-                         {
-                             PatrolId = a.PatrolId,
-                             PatrolType = a.PatrolType,
-                             CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm"),
-                             PatrolStatus = (ProblemStatusType)a.PatrolStatus,
-                             FireSystemNames = (from c in _patrolDetailFireSystem.GetAll().Where(u => u.PatrolDetailId == a.Id)
-                                                join d in _fireSystemRep.GetAll() on c.FireSystemID equals d.Id
-                                               select d.SystemName).ToList(),
-                             FireSystemCount = _patrolDetailFireSystem.GetAll().Where(u => u.PatrolDetailId == a.Id).Count(),
-                             PatrolAddress = a.PatrolAddress,
-                             ProblemRemakeType = dept == null ? 0 : dept.ProblemRemarkType,
-                             RemakeText = dept.ProblemRemark,
-                             PatrolPhotosPath = (from x in _photosPathSave.GetAll()
-                                                where x.TableName== "DataToPatrolDetail" &&x.DataId==a.Id
-                                                 select x.PhotoPath).ToList()
-                             //_photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToPatrolDetail") && u.DataId == dept.Id).DefaultIfEmpty().Select(u => u.PhotoPath).ToList()
-                         };
-            var output = outp.ToList();
+            List<GetPatrolTrackOutput> output;
+            try
+            {
+                var outp = from a in detaillist
+                           join b in _patrolDetailProblem.GetAll() on a.Id equals b.PatrolDetailId into JoinedEmpDept
+                           from dept in JoinedEmpDept.DefaultIfEmpty()
+                           select new GetPatrolTrackOutput
+                           {
+                               PatrolId = a.PatrolId,
+                               PatrolType = a.PatrolType,
+                               CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm"),
+                               PatrolStatus = (ProblemStatusType)a.PatrolStatus,
+                               FireSystemNames = (from c in _patrolDetailFireSystem.GetAll().Where(u => u.PatrolDetailId == a.Id)
+                                                  join d in _fireSystemRep.GetAll() on c.FireSystemID equals d.Id
+                                                  select d.SystemName).ToList(),
+                               FireSystemCount = _patrolDetailFireSystem.GetAll().Where(u => u.PatrolDetailId == a.Id).Count(),
+                               PatrolAddress = a.PatrolAddress,
+                               ProblemRemakeType = dept == null ? 0 : dept.ProblemRemarkType,
+                               RemakeText = dept == null ? "" : dept.ProblemRemark,
+                               VoiceLength = dept == null ? 0: dept.VoiceLength,
+                               PatrolPhotosPath = (from x in _photosPathSave.GetAll()
+                                                   where x.TableName == "DataToPatrolDetail" && x.DataId == a.Id
+                                                   select x.PhotoPath).ToList()
+                               //_photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToPatrolDetail") && u.DataId == dept.Id).DefaultIfEmpty().Select(u => u.PhotoPath).ToList()
+                           };
+                 output = outp.ToList();
+            }catch(Exception e)
+            {
+                throw e;
+            }
             foreach(var o in output)
             {
                 o.PhotosBase64 = new List<string>();
@@ -260,25 +266,33 @@ namespace FireProtectionV1.FireWorking.Manager
                 string voicepath = _hostingEnv.ContentRootPath + $@"/App_Data/Files/Voices/DataToPatrol/";
                 string problemtableName = "DataToPatrolDetail";
                 string photopath = _hostingEnv.ContentRootPath + $@"/App_Data/Files/Photos/DataToPatrol/";
-
                 DataToPatrolDetail detail = new DataToPatrolDetail()
                 {
                     PatrolId = input.PatrolId,
                     PatrolAddress = input.PatrolAddress,
                     PatrolStatus = (byte)input.ProblemStatus
                 };
-                int detailId = await _patrolDetailRep.InsertAndGetIdAsync(detail);
-                String[] systemlist = input.SystemIdList.Split(",");
-                foreach (var a in systemlist)
+                var pat = await _patrolRep.FirstOrDefaultAsync(p => p.Id == input.PatrolId);
+                if (pat != null)
                 {
-                    DataToPatrolDetailFireSystem patrolsystem = new DataToPatrolDetailFireSystem()
+                    var fireunit = await _fireUnitRep.FirstOrDefaultAsync(p => p.Id == pat.FireUnitId);
+                    if (fireunit != null)
+                        detail.PatrolType = fireunit.Patrol;
+                }
+                int detailId = await _patrolDetailRep.InsertAndGetIdAsync(detail);
+                if(!string.IsNullOrEmpty(input.SystemIdList))
+                {
+                    String[] systemlist = input.SystemIdList.Split(",");
+                    foreach (var a in systemlist)
                     {
-                        PatrolDetailId = detailId,
-                        FireSystemID = int.Parse(a)
+                        DataToPatrolDetailFireSystem patrolsystem = new DataToPatrolDetailFireSystem()
+                        {
+                            PatrolDetailId = detailId,
+                            FireSystemID = int.Parse(a)
+                        };
+                        await _patrolDetailFireSystem.InsertAsync(patrolsystem);
                     };
-                    await _patrolDetailFireSystem.InsertAsync(patrolsystem);
-
-                };
+                }
 
                 //存储照片
                 if (input.LivePicture1 != null)
@@ -294,7 +308,7 @@ namespace FireProtectionV1.FireWorking.Manager
                     DataToPatrolDetailProblem problem = new DataToPatrolDetailProblem()
                     {
                         PatrolDetailId = detailId,
-                        ProblemRemarkType = (int)input.ProblemRemarkType
+                        ProblemRemarkType = (byte)input.ProblemRemarkType
                     };
                     if ((int)input.ProblemRemarkType == 1)
                     {
@@ -303,6 +317,7 @@ namespace FireProtectionV1.FireWorking.Manager
                     else if ((int)input.ProblemRemarkType == 2 && input.RemarkVioce != null)
                     {
                         problem.ProblemRemark = "/Src/Voices/DataToPatrol/" + await SaveFiles(input.RemarkVioce, voicepath);
+                        problem.VoiceLength = input.VoiceLength;
                     }
                     int problemId = _patrolDetailProblem.InsertAndGetId(problem);
                    
@@ -453,7 +468,7 @@ namespace FireProtectionV1.FireWorking.Manager
                              PatrolId = a.Id,
                              CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm"),
                              PatrolUser = b.Name,
-                             PatrolType = (int)c.Patrol == 1 ? "一般巡查" : "扫码巡查",
+                             PatrolType = (byte)c.Patrol == 1 ? "一般巡查" : "扫码巡查",
                              TrackCount = detaillist.Where(u => u.PatrolId == a.Id).Count(),
                              ProblemCount = detaillist.Where(u => u.PatrolId == a.Id && u.PatrolStatus != (byte)ProblemStatusType.noraml).Count(),
                              ResolvedConut = detaillist.Where(u => u.PatrolId == a.Id && u.PatrolStatus == (byte)ProblemStatusType.Repaired).Count(),
@@ -475,6 +490,7 @@ namespace FireProtectionV1.FireWorking.Manager
                                               PatrolAddress = d.PatrolAddress,
                                               ProblemRemakeType = dept == null ? 0 : dept.ProblemRemarkType,
                                               RemakeText = dept.ProblemRemark,
+                                              VoiceLength=dept.VoiceLength,
                                               PatrolPhotosPath = _photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToPatrolDetail")&&u.DataId== d.Id).Select(u => u.PhotoPath).ToList()
                                           }).ToList()
                          };

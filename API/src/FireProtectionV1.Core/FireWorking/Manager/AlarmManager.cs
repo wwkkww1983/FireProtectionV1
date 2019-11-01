@@ -309,6 +309,7 @@ namespace FireProtectionV1.FireWorking.Manager
             //if (dto.PictureUrl_3 != null)
             //    alarmCheck.PicturUrls = string.IsNullOrEmpty(alarmCheck.PicturUrls) ? "" : "," + dto.PictureUrl_3;
             alarmCheck.VioceUrl = dto.VioceUrl;
+            alarmCheck.VoiceLength = dto.VoiceLength;
             alarmCheck.NotifyWorker = dto.NotifyWorker ? (byte)1 : (byte)0;
             alarmCheck.NotifyMiniaturefire = dto.NotifyMiniaturefire ? (byte)1 : (byte)0;
             alarmCheck.Notify119 = dto.Notify119 ? (byte)1 : (byte)0;
@@ -408,6 +409,7 @@ namespace FireProtectionV1.FireWorking.Manager
             //        dto.PictureUrl_3 = ss[2];
             //}
             dto.VioceUrl = alarmCheck.VioceUrl;
+            dto.VoiceLength = alarmCheck.VoiceLength;
             dto.NotifyWorker = alarmCheck.NotifyWorker != 0;
             dto.NotifyMiniaturefire = alarmCheck.NotifyMiniaturefire != 0;
             dto.Notify119 = alarmCheck.Notify119 != 0;

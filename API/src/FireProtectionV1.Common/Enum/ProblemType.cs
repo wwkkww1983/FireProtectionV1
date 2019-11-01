@@ -7,7 +7,7 @@ using System.Text;
 namespace FireProtectionV1.Common.Enum
 {
     [Export("问题描述类型")]
-    public enum ProblemType
+    public enum ProblemType:byte
     {
         /// <summary>
         /// 未指定

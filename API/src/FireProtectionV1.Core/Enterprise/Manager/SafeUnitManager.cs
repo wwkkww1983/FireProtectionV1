@@ -177,7 +177,7 @@ namespace FireProtectionV1.Enterprise.Manager
         {
             var data = await _repSafeUnitUserFireUnit.FirstOrDefaultAsync(p => p.SafeUnitUserId == dto.SafeUserId && p.FireUnitId == dto.FireUnitId);
             if (data != null)
-                return new SuccessOutput() { Success = false, FailCause = "已添加了防火单位" };
+                return new SuccessOutput() { Success = false, FailCause = "已关联了防火单位" };
             await _repSafeUnitUserFireUnit.InsertAsync(new SafeUnitUserFireUnit()
             {
                 SafeUnitUserId = dto.SafeUserId,

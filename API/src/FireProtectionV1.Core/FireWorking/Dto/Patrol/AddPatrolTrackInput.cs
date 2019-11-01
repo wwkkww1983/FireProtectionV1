@@ -22,7 +22,6 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 巡查系统(ID用逗号隔开)
         /// </summary>
-        [Required]
         public string SystemIdList { get; set; }
         /// <summary>
         /// 巡查结果
@@ -53,7 +52,10 @@ namespace FireProtectionV1.FireWorking.Dto
         /// 问题描述语音
         /// </summary>
         public IFormFile RemarkVioce { get; set; }
-
+        /// <summary>
+        /// 语音长度
+        /// </summary>
+        public UInt16 VoiceLength { get; set; }
 
     }
 }

@@ -150,6 +150,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 var photospath = _photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToDutyProblem") && u.DataId == dutyproblem.Id).Select(u=>u.PhotoPath).ToList();
                 output.ProblemRemakeType = (byte)dutyproblem.ProblemRemarkType;
                 output.RemakeText = dutyproblem.ProblemRemark;
+                output.VoiceLength = dutyproblem.VoiceLength;
                 output.PatrolPhotosPath = photospath;
             }
             //巡查来源
@@ -159,6 +160,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 var photospath = _photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToPatrolDetail") && u.DataId == patroldetailproblem.PatrolDetailId).Select(u => u.PhotoPath).ToList();
                 output.ProblemRemakeType = (byte)patroldetailproblem.ProblemRemarkType;
                 output.RemakeText = patroldetailproblem.ProblemRemark;
+                output.VoiceLength = patroldetailproblem.VoiceLength;
                 output.PatrolPhotosPath = photospath;
             }
             //物联终端来源

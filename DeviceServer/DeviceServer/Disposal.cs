@@ -1,4 +1,5 @@
-﻿using DeviceServer.Tcp;
+﻿using Common;
+using DeviceServer.Tcp;
 using DeviceServer.Tcp.Protocol;
 using DeviceServer.Tcp.Protocol.Datas;
 using FireProtectionV1.FireWorking.Dto;

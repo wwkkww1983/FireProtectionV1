@@ -52,6 +52,10 @@ namespace FireProtectionV1.HydrantCore.Dto
         /// </summary>
         public string ProblemRemark { get; set; }
         /// <summary>
+        /// 语音长度
+        /// </summary>
+        public int VoiceLength { get; set; }
+        /// <summary>
         /// 现场照片路径
         /// </summary>
         public List<string> PhtosPath { get; set; }

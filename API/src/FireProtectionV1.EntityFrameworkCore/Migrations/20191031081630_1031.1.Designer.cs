@@ -3,14 +3,16 @@ using System;
 using FireProtectionV1.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FireProtectionV1.Migrations
 {
     [DbContext(typeof(FireProtectionV1DbContext))]
-    partial class FireProtectionV1DbContextModelSnapshot : ModelSnapshot
+    [Migration("20191031081630_1031.1")]
+    partial class _10311
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -240,7 +242,7 @@ namespace FireProtectionV1.Migrations
                     b.Property<string>("VioceUrl")
                         .HasMaxLength(100);
 
-                    b.Property<int>("VoiceLength");
+                    b.Property<ushort>("VoiceLength");
 
                     b.HasKey("Id");
 
@@ -400,7 +402,7 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<int>("ProblemRemarkType");
 
-                    b.Property<int>("VoiceLength");
+                    b.Property<ushort>("VoiceLength");
 
                     b.HasKey("Id");
 
@@ -486,7 +488,7 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<byte>("ProblemRemarkType");
 
-                    b.Property<int>("VoiceLength");
+                    b.Property<ushort>("VoiceLength");
 
                     b.HasKey("Id");
 
@@ -719,7 +721,7 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<string>("Title");
 
-                    b.Property<int>("VoiceLength");
+                    b.Property<ushort>("VoiceLength");
 
                     b.HasKey("Id");
 

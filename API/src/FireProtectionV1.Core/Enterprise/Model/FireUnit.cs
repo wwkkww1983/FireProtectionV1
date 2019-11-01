@@ -65,6 +65,6 @@ namespace FireProtectionV1.Enterprise.Model
         /// <summary>
         /// 巡查方式
         /// </summary>
-        public int Patrol { get; set; }
+        public byte Patrol { get; set; }
     }
 }

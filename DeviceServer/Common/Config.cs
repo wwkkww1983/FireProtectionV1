@@ -4,9 +4,9 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 
-namespace DeviceServer
+namespace Common
 {
-    class Config
+    public class Config
     {
         public static IConfiguration Configuration { get; set; }
         static Config()

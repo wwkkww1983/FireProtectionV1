@@ -1,4 +1,7 @@
-﻿using System;
+﻿using MQTTnet;
+using MQTTnet.Client;
+using System;
+using System.Threading.Tasks;
 
 namespace TsjDeviceServer
 {
@@ -6,7 +9,8 @@ namespace TsjDeviceServer
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Task.WaitAll( ClientTest.RunAsync());
+            while(!Console.ReadLine().Equals("exit"));
         }
     }
 }

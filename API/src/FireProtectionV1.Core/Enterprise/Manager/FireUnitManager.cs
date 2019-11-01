@@ -416,7 +416,7 @@ namespace FireProtectionV1.Enterprise.Manager
         {
             var old = _fireUnitRep.GetAll().Where(u => u.Id == input.FireUnitId).FirstOrDefault();
             old.SafeUnitId = input.SafeUnitId;
-            old.Patrol = (int)input.Patrol;
+            old.Patrol = (byte)input.Patrol;
 
             await _fireUnitRep.UpdateAsync(old);
             return new SuccessOutput() { Success = true };

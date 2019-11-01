@@ -172,6 +172,8 @@ namespace FireProtectionV1.FireWorking.Manager
             {
                 output.ProblemRemarkType = (ProblemType)problem.ProblemRemarkType;
                 output.ProblemRemark = problem.ProblemRemark;
+                output.VoiceLength = problem.VoiceLength;
+
                 var lst= _photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToDutyProblem") && u.DataId == problem.Id).Select(u => u.PhotoPath).ToList();
                 output.ProblemPhtosPath = lst;
                 output.PhotosBase64 = new List<string>();
@@ -224,10 +226,12 @@ namespace FireProtectionV1.FireWorking.Manager
                     if ((int)input.ProblemRemarkType == 1)
                     {
                         problemInfo.ProblemRemark = input.ProblemRemark;
+                        problemInfo.VoiceLength = input.VoiceLength;
                     }
                     else if ((int)input.ProblemRemarkType == 2 && input.RemarkVioce != null)
                     {
                         problemInfo.ProblemRemark = "/Src/Voices/DataToDuty/" + await SaveFiles(input.RemarkVioce, problempath);
+                        problemInfo.VoiceLength = input.VoiceLength;
                     }
                     int problemId = _dataToDutyProblemRep.InsertAndGetId(problemInfo);
                     if (input.ProblemPicture1 != null)

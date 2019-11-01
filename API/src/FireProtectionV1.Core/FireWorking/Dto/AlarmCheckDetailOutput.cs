@@ -51,6 +51,10 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public string VioceUrl { get; set; }
         /// <summary>
+        /// 语音长度
+        /// </summary>
+        public int VoiceLength { get; set; }
+        /// <summary>
         /// 通知工作人员
         /// </summary>
         public bool NotifyWorker { get; set; }

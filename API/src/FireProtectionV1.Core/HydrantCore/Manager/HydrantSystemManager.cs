@@ -253,6 +253,7 @@ namespace FireProtectionV1.HydrantCore.Manager
             output.HandleUser = alarm.HandleUser;
             output.ProblemRemarkType = (ProblemType)alarm.ProblemRemarkType;
             output.ProblemRemark = alarm.ProblemRemark;
+            output.VoiceLength = alarm.VoiceLength;
             output.Sn = hyrant.Sn;
             output.Adress = hyrant.Address;
             output.Lng = hyrant.Lng;
@@ -309,6 +310,7 @@ namespace FireProtectionV1.HydrantCore.Manager
                 else if ((int)input.ProblemRemarkType == 2 && input.VoiceFile != null)
                 {
                     alarm.ProblemRemark = "/Src/Voices/HydrantAlarm/" + await saveFilesHelper.SaveFiles(input.VoiceFile, voicepath);
+                    alarm.VoiceLength = input.VoiceLength;
                 }
 
                 await _hydrantAlarmRepository.UpdateAsync(alarm);

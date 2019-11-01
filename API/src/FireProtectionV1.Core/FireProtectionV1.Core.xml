@@ -1557,6 +1557,11 @@
             检查语音
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailDto.VoiceLength">
+            <summary>
+            语音长度
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailDto.NotifyWorker">
             <summary>
             通知工作人员
@@ -1627,6 +1632,11 @@
             检查语音
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailOutput.VoiceLength">
+            <summary>
+            语音长度
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckDetailOutput.NotifyWorker">
             <summary>
             通知工作人员
@@ -1691,6 +1701,11 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckInput.Voice">
             <summary>
             检查语音
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckInput.VoiceLength">
+            <summary>
+            语音长度
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckInput.NotifyWorker">
@@ -1791,6 +1806,11 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.GetBreakDownInfoOutput.RemakeText">
             <summary>
             问题描述（如果备注类型为语音则存的语音路径）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetBreakDownInfoOutput.VoiceLength">
+            <summary>
+            语音长度
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetBreakDownInfoOutput.PatrolPhotosPath">
@@ -1983,6 +2003,11 @@
             问题描述语音
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput.VoiceLength">
+            <summary>
+            语音长度
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput.ProblemPicture1">
             <summary>
             现场问题图片
@@ -2071,6 +2096,11 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInfoOutput.ProblemRemark">
             <summary>
             问题描述(如果类型为文本则存放的文本，类型为语音则存放的语音路径)
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInfoOutput.VoiceLength">
+            <summary>
+            语音长度
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInfoOutput.ProblemPhtosPath">
@@ -2738,6 +2768,11 @@
             问题描述语音
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackInput.VoiceLength">
+            <summary>
+            语音长度
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetDataPatrolForWebInput.FireUnitId">
             <summary>
             防火单位Id
@@ -2946,6 +2981,11 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTrackOutput.RemakeText">
             <summary>
             备注文字（如果备注类型为语音则存的语音路径）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTrackOutput.VoiceLength">
+            <summary>
+            语音长度
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTrackOutput.PatrolPhotosPath">
@@ -3749,6 +3789,11 @@
             检查语音url
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.VoiceLength">
+            <summary>
+            语音长度
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.UserId">
             <summary>
             工作人员Id
@@ -3924,19 +3969,14 @@
             值班记录Id
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.DataToDutyProblem.ProblemVoice">
-            <summary>
-            问题语音
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.DataToDutyProblem.ProblemPicture">
-            <summary>
-            问题图片
-            </summary>
-        </member>
         <member name="P:FireProtectionV1.FireWorking.Model.DataToDutyProblem.ProblemRemark">
             <summary>
             问题描述
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.DataToDutyProblem.VoiceLength">
+            <summary>
+            语音长度
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.DataToDutyProblem.ProblemRemarkType">
@@ -4019,19 +4059,14 @@
             巡查记录详情Id
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.DataToPatrolDetailProblem.ProblemVoice">
-            <summary>
-            问题语音
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.DataToPatrolDetailProblem.ProblemPicture">
-            <summary>
-            问题图片
-            </summary>
-        </member>
         <member name="P:FireProtectionV1.FireWorking.Model.DataToPatrolDetailProblem.ProblemRemark">
             <summary>
             问题描述
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.DataToPatrolDetailProblem.VoiceLength">
+            <summary>
+            语音长度
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.DataToPatrolDetailProblem.ProblemRemarkType">
@@ -4479,6 +4514,11 @@
             问题描述(如果类型为文本则存放的文本，类型为语音则存放的语音路径)
             </summary>
         </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoOutput.VoiceLength">
+            <summary>
+            语音长度
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.HydrantCore.Dto.GetHydrantAlarmInfoOutput.PhtosPath">
             <summary>
             现场照片路径
@@ -4637,6 +4677,11 @@
         <member name="P:FireProtectionV1.HydrantCore.Dto.UpdateHydrantAlarmInput.VoiceFile">
             <summary>
             音频文件
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Dto.UpdateHydrantAlarmInput.VoiceLength">
+            <summary>
+            语音长度
             </summary>
         </member>
         <member name="P:FireProtectionV1.HydrantCore.Dto.UpdateHydrantAlarmInput.Picture1">
@@ -5012,6 +5057,11 @@
         <member name="P:FireProtectionV1.HydrantCore.Model.HydrantAlarm.ProblemRemark">
             <summary>
             问题描述
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.HydrantCore.Model.HydrantAlarm.VoiceLength">
+            <summary>
+            语音长度
             </summary>
         </member>
         <member name="P:FireProtectionV1.HydrantCore.Model.HydrantAlarm.HandleUser">

@@ -1,0 +1,19 @@
+{
+  "exclude": [
+    "**/bin",
+    "**/bower_components",
+    "**/jspm_packages",
+    "**/node_modules",
+    "**/obj",
+    "**/platforms"
+  ],
+  "MQTT": {
+    "ServerIP": "127.0.0.1",
+    "ServerPort": 1883,
+    "Username": "admin",
+    "Password": "admin"
+  },
+  "FireApi": {
+    "UrlBase": "http://127.0.0.1:5080"
+  }
+}

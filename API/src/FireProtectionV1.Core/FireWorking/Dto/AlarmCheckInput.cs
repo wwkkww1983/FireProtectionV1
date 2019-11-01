@@ -44,6 +44,10 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public IFormFile Voice { get; set; }
         /// <summary>
+        /// 语音长度
+        /// </summary>
+        public UInt16 VoiceLength { get; set; }
+        /// <summary>
         /// 通知工作人员
         /// </summary>
         public bool NotifyWorker { get; set; }

@@ -37,6 +37,10 @@ namespace FireProtectionV1.HydrantCore.Model
         [MaxLength(200)]
         public string ProblemRemark { get; set; }
         /// <summary>
+        /// 语音长度
+        /// </summary>
+        public int VoiceLength { get; set; }
+        /// <summary>
         /// 处理人姓名
         /// </summary>
         public string HandleUser { get; set; }

@@ -54,6 +54,10 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public IFormFile RemarkVioce { get; set; }
         /// <summary>
+        /// 语音长度
+        /// </summary>
+        public UInt16 VoiceLength { get; set; }
+        /// <summary>
         /// 现场问题图片
         /// </summary>
         public IFormFile ProblemPicture1 { get; set; }

@@ -52,6 +52,10 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public string RemakeText { get; set; }
         /// <summary>
+        /// 语音长度
+        /// </summary>
+        public int VoiceLength { get; set; }
+        /// <summary>
         /// 巡查图片
         /// </summary>
         public List<string> PatrolPhotosPath { get; set; }
