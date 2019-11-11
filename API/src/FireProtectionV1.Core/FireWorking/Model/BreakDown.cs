@@ -38,7 +38,7 @@ namespace FireProtectionV1.FireWorking.Model
         [Required]
         public byte Source { get; set; }
         /// <summary>
-        /// 处理状态（1.未处理 2.处理中 3.已解决）
+        /// 处理状态（1待处理,2处理中,3已解决,4自行处理,5维保叫修处理中,6维保叫修已处理）
         /// </summary>
         [Required]
         public byte HandleStatus { get; set; }
@@ -60,6 +60,10 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         [MaxLength(200)]
         public string Remark { get; set; }
+        /// <summary>
+        /// 派单时间
+        /// </summary>
+        public DateTime DispatchTime { get; set; }
     }
     public class BreakDownWords
     {

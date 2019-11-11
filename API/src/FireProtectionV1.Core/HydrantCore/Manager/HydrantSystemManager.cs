@@ -261,7 +261,7 @@ namespace FireProtectionV1.HydrantCore.Manager
             output.Phone = user==null?null:user.Account;
             output.PhtosPath = _photosPathSave.GetAll().Where(u => u.TableName.Equals("HydrantAlarm") && u.DataId == alarm.Id).Select(u => u.PhotoPath).ToList();
             output.PhotosBase64 = new List<string>();
-            foreach(var f in output.PhotosBase64)
+            foreach(var f in output.PhtosPath)
             {
                 output.PhotosBase64.Add(ImageHelper.ThumbImg(_hostingEnv.ContentRootPath + f.Replace("Src", "App_Data/Files")));
             }

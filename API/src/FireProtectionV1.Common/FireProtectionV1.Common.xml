@@ -278,6 +278,21 @@
             已解决
             </summary>
         </member>
+        <member name="F:FireProtectionV1.Common.Enum.HandleStatus.SelfHandle">
+            <summary>
+            自行处理
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.HandleStatus.SafeResolving">
+            <summary>
+            维保叫修处理中
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.HandleStatus.SafeResolved">
+            <summary>
+            维保叫修已处理
+            </summary>
+        </member>
         <member name="F:FireProtectionV1.Common.Enum.ProblemType.unselect">
             <summary>
             未指定

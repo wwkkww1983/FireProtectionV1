@@ -147,48 +147,58 @@ namespace FireProtectionV1.FireWorking.Manager
                 };
                 detector.Id = _repDetector.InsertAndGetId(detector);
             }
-            int id= _alarmToFireRep.InsertAndGetId(new AlarmToFire()
+            DateTime now = DateTime.Now;
+            var his = await _alarmToFireRep.FirstOrDefaultAsync(p => p.DetectorId == detector.Id && p.FireUnitId == detector.FireUnitId&&p.CreationTime> now.AddMinutes(-1));
+            if (his == null)
             {
-                FireUnitId= detector.FireUnitId,
-                DetectorId= detector.Id
-            });
-            var detectorType =await _deviceManager.GetDetectorTypeAsync(detector.DetectorTypeId);
-            var fireunit =await _repFireUnit.FirstOrDefaultAsync(detector.FireUnitId);
-            var alarmDto = new GovFire.Dto.AlarmDto()
-            {
-                additionalinfo = "",
-                alarmtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                devicelocation = detector.Location,
-                devicesn = detector.Identify,
-                devicetype = detectorType == null ? "" : detectorType.Name,
-                firecompany = fireunit == null ? "" : fireunit.Name,
-                lat = fireunit == null ? "" : fireunit.Lat.ToString(),
-                lon = fireunit == null ? "" : fireunit.Lng.ToString()
-            };
-            var dataid = DataApi.UpdateAlarm(alarmDto);
-            if (!string.IsNullOrEmpty(dataid))
-            {
-                DataApi.UpdateEvent(new GovFire.Dto.EventDto()
+                int id = _alarmToFireRep.InsertAndGetId(new AlarmToFire()
                 {
-                    id = id.ToString(),
-                    state = "0",
-                    createtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                    donetime = "",
-                    eventcontent = $"{alarmDto.devicelocation},{alarmDto.devicesn},{alarmDto.devicetype}发生预警",
-                    eventtype = "消防火警系统报警数据",
-                    firecompany = alarmDto.firecompany,
-                    lat = alarmDto.lat,
-                    lon = alarmDto.lon,
-                    fireUnitId = dataid
+                    FireUnitId = detector.FireUnitId,
+                    DetectorId = detector.Id
+                });
+                var detectorType = await _deviceManager.GetDetectorTypeAsync(detector.DetectorTypeId);
+                var fireunit = await _repFireUnit.FirstOrDefaultAsync(detector.FireUnitId);
+                var alarmDto = new GovFire.Dto.AlarmDto()
+                {
+                    additionalinfo = "",
+                    alarmtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                    devicelocation = detector.Location,
+                    devicesn = detector.Identify,
+                    devicetype = detectorType == null ? "" : detectorType.Name,
+                    firecompany = fireunit == null ? "" : fireunit.Name,
+                    lat = fireunit == null ? "" : fireunit.Lat.ToString(),
+                    lon = fireunit == null ? "" : fireunit.Lng.ToString()
+                };
+                var dataid = DataApi.UpdateAlarm(alarmDto);
+                if (!string.IsNullOrEmpty(dataid))
+                {
+                    DataApi.UpdateEvent(new GovFire.Dto.EventDto()
+                    {
+                        id = id.ToString(),
+                        state = "0",
+                        createtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                        donetime = "",
+                        eventcontent = $"{alarmDto.devicelocation},{alarmDto.devicesn},{alarmDto.devicetype}发生预警",
+                        eventtype = "消防火警系统报警数据",
+                        firecompany = alarmDto.firecompany,
+                        lat = alarmDto.lat,
+                        lon = alarmDto.lon,
+                        fireUnitId = dataid
+                    });
+                }
+                await _alarmCheckRep.InsertAsync(new AlarmCheck()
+                {
+                    AlarmDataId = id,
+                    FireSysType = detector.FireSysType,
+                    FireUnitId = detector.FireUnitId,
+                    CheckState = (byte)CheckStateType.UnCheck
                 });
             }
-            await _alarmCheckRep.InsertAsync(new AlarmCheck()
+            else
             {
-                AlarmDataId = id,
-                FireSysType = detector.FireSysType,
-                FireUnitId = detector.FireUnitId,
-                CheckState = (byte)CheckStateType.UnCheck
-            });
+                his.CreationTime = now;
+                await _alarmToFireRep.UpdateAsync(his);
+            }
             return new AddDataOutput()
             {
                 IsDetectorExit = true

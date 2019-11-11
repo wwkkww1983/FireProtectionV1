@@ -42,7 +42,11 @@ namespace TsjDeviceServer
                 {
                     Console.WriteLine("### CONNECTED WITH SERVER ###");
 
-                    await _client.SubscribeAsync(new TopicFilterBuilder().WithTopic("#").Build());
+                    //await _client.SubscribeAsync(new TopicFilterBuilder().WithTopic("#").Build());
+                    foreach(var topic in Protocol.SubTopics)
+                    {
+                        await _client.SubscribeAsync(new TopicFilterBuilder().WithTopic(topic).Build());
+                    }
 
                     Console.WriteLine("### SUBSCRIBED ###");
                 });

@@ -73,9 +73,27 @@ namespace FireProtectionV1.FireWorking.Manager
             var userlist = _fireUnitAccountRepository.GetAll();
             //值班故障
             var dutys = _breakDownRep.GetAll().Where(u => u.FireUnitId == input.FireUnitId);
-            var expr = ExprExtension.True<BreakDown>()
+            //处理维保叫修页面，还有问题来源的选项
+            if (input.HandleStatus == HandleStatus.SafeResolved&& input.HandleStatus == HandleStatus.SafeResolving)
+            {
+                breakdownlist = breakdownlist.Where(p => p.HandleStatus == (byte)input.HandleStatus);
+                if(input.HandleStatus == HandleStatus.SafeResolving)
+                    breakdownlist= breakdownlist.OrderByDescending(p=>p.DispatchTime);
+                else if (input.HandleStatus == HandleStatus.SafeResolved)
+                    breakdownlist = breakdownlist.OrderByDescending(p => p.SolutionTime);
+            }
+            else
+            {
+                var expr = ExprExtension.True<BreakDown>()
                 .IfAnd(input.Source != SourceType.UnKnow, item => item.Source == (byte)input.Source);
-            breakdownlist = breakdownlist.Where(expr);
+                breakdownlist = breakdownlist.Where(expr);
+                if (input.HandleStatus == HandleStatus.SelfHandle)
+                    breakdownlist = breakdownlist.OrderByDescending(p => p.DispatchTime);
+                else if (input.HandleStatus == HandleStatus.UuResolve)
+                    breakdownlist = breakdownlist.OrderByDescending(p => p.CreationTime);
+                else if (input.HandleStatus == HandleStatus.Resolved)
+                    breakdownlist = breakdownlist.OrderByDescending(p => p.SolutionTime);
+            }
             var lst = breakdownlist.Select(a=> new
             {
                 A=a,
@@ -84,7 +102,8 @@ namespace FireProtectionV1.FireWorking.Manager
                     BreakDownId = a.Id,
                     Source = a.Source,
                     CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm"),
-                    SolutionTime = a.SolutionTime.ToString("yyyy-MM-dd HH:mm")
+                    SolutionTime = a.SolutionTime.ToString("yyyy-MM-dd HH:mm"),
+                    DispatchTime=a.DispatchTime.ToString("yyyy-MM-dd HH:mm")
                 }
             }).ToList();
             foreach(var v in lst)
@@ -110,10 +129,6 @@ namespace FireProtectionV1.FireWorking.Manager
                 }
             }
             var list = lst.Select(p => p.B);
-            if (input.HandleStatus == HandleStatus.Resolving || input.HandleStatus == HandleStatus.Resolved)
-            {
-                list=list.OrderByDescending(u => u.SolutionTime);
-            }
             GetBreakDownPagingOutput output = new GetBreakDownPagingOutput()
             {
                 TotalCount = list.Count(),

@@ -1775,7 +1775,7 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetBreakDownInfoOutput.HandleStatus">
             <summary>
-            处理状态（1.未处理 2.处理中 3.已解决）
+            处理状态（1待处理,2处理中,3已解决,4自行处理,5维保叫修处理中,6维保叫修已处理）
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetBreakDownInfoOutput.Source">
@@ -1845,7 +1845,7 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetBreakDownInput.HandleStatus">
             <summary>
-            处理状态
+            处理状态(1待处理,2处理中,3已解决,4自行处理,5维保叫修处理中,6维保叫修已处理)
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetBreakDownOutput.BreakDownId">
@@ -1876,6 +1876,11 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.GetBreakDownOutput.SolutionTime">
             <summary>
             处理时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetBreakDownOutput.DispatchTime">
+            <summary>
+            派单时间
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetBreakDownPagingOutput.TotalCount">
@@ -3906,7 +3911,7 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.BreakDown.HandleStatus">
             <summary>
-            处理状态（1.未处理 2.处理中 3.已解决）
+            处理状态（1待处理,2处理中,3已解决,4自行处理,5维保叫修处理中,6维保叫修已处理）
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.BreakDown.DataId">
@@ -3927,6 +3932,11 @@
         <member name="P:FireProtectionV1.FireWorking.Model.BreakDown.Remark">
             <summary>
             备注
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.BreakDown.DispatchTime">
+            <summary>
+            派单时间
             </summary>
         </member>
         <member name="T:FireProtectionV1.FireWorking.Model.DataToDuty">

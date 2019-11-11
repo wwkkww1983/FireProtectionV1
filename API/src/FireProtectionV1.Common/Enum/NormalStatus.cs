@@ -83,14 +83,12 @@ namespace FireProtectionV1.Common.Enum
         [Description("物联终端")]
         Terminal = 3
     }
-
     /// <summary>
     /// 处理状态
     /// </summary>
     [Export("处理状态")]
     public enum HandleStatus
     {
-
         /// <summary>
         /// 未处理
         /// </summary>
@@ -105,7 +103,22 @@ namespace FireProtectionV1.Common.Enum
         /// 已解决
         /// </summary>
         [Description("已解决")]
-        Resolved = 3
+        Resolved = 3,
+        /// <summary>
+        /// 自行处理
+        /// </summary>
+        [Description("自行处理")]
+        SelfHandle = 4,
+        /// <summary>
+        /// 维保叫修处理中
+        /// </summary>
+        [Description("维保叫修处理中")]
+        SafeResolving = 5,
+        /// <summary>
+        /// 维保叫修已处理
+        /// </summary>
+        [Description("维保叫修已处理")]
+        SafeResolved = 6
     }
 
     public class GatewayStatusNames
