@@ -10,6 +10,10 @@ namespace FireProtectionV1.FireWorking.Dto
     public class GetBreakDownInput : PagedResultRequestDto
     {
         /// <summary>
+        /// 是否维保单位请求数据
+        /// </summary>
+        public bool IsRequstBySafe { get; set; }
+        /// <summary>
         /// 防火单位Id
         /// </summary>
         [Required]

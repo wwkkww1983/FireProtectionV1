@@ -36,5 +36,9 @@ namespace FireProtectionV1.FireWorking.Dto
         /// 派单时间
         /// </summary>
         public string DispatchTime { get; set; }
+        /// <summary>
+        /// 维保处理完成时间
+        /// </summary>
+        public string SafeCompleteTime { get; set; }
     }
 }

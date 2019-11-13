@@ -394,6 +394,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.AddPatrolTrackDetailAll(FireProtectionV1.FireWorking.Dto.AddPatrolTrackAllInput)">
+            <summary>
+            添加巡查记录轨迹(所有)
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.AddPatrolTrackDetail(FireProtectionV1.FireWorking.Dto.AddPatrolTrackInput)">
             <summary>
             添加巡查记录轨迹

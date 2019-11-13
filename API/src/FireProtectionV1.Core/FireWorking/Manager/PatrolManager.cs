@@ -21,6 +21,7 @@ namespace FireProtectionV1.FireWorking.Manager
 {
     public class PatrolManager:IPatrolManager
     {
+        IRepository<EquipmentNo> _repEquipmentNo;
         IRepository<FireUnit> _fireUnitRep;
         //IRepository<DataToDuty> _dutyRep;
         IRepository<DataToPatrol> _patrolRep;
@@ -35,6 +36,7 @@ namespace FireProtectionV1.FireWorking.Manager
         private IHostingEnvironment _hostingEnv;
 
         public PatrolManager(
+            IRepository<EquipmentNo> repEquipmentNo,
             IRepository<FireUnit> fireUnitRep,
             //IRepository<DataToDuty> dutyRep,
             IRepository<DataToPatrol> patrolRep,
@@ -49,6 +51,7 @@ namespace FireProtectionV1.FireWorking.Manager
             IHostingEnvironment env
             )
         {
+            _repEquipmentNo = repEquipmentNo;
             _fireUnitRep = fireUnitRep;
             _patrolRep = patrolRep;
             _fireUnitAccountRepository = fireUnitAccountRepository;
@@ -252,6 +255,80 @@ namespace FireProtectionV1.FireWorking.Manager
 
         }
         /// <summary>
+        /// 添加巡查记录轨迹(所有)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> AddPatrolTrackDetailAll(AddPatrolTrackAllInput input)
+        {
+            //Console.WriteLine($"PatrolId = {input.PatrolId}");
+            //if(input.ProblemRemarkType!=null)
+            //for(int i=0;i< input.ProblemRemarkType.Count();i++)
+            //    Console.WriteLine($"ProblemRemarkType[{i}] = {input.ProblemRemarkType[i]}");
+            //if (input.SystemIdList != null)
+            //    for (int i = 0; i < input.SystemIdList.Count(); i++)
+            //    Console.WriteLine($"SystemIdList[{i}] = {input.SystemIdList[i]}");
+            //if (input.DeviceSn != null)
+            //    for (int i = 0; i < input.DeviceSn.Count(); i++)
+            //    Console.WriteLine($"DeviceSn[{i}] = {input.DeviceSn[i]}");
+            //if (input.ProblemStatus != null)
+            //    for (int i = 0; i < input.ProblemStatus.Count(); i++)
+            //    Console.WriteLine($"ProblemStatus[{i}] = {input.ProblemStatus[i]}");
+            //if (input.LivePicture1 != null)
+            //    for (int i = 0; i < input.LivePicture1.Count(); i++)
+            //    Console.WriteLine($"LivePicture1[{i}] = {input.LivePicture1[i] == null}");
+            //if (input.LivePicture2 != null)
+            //    for (int i = 0; i < input.LivePicture2.Count(); i++)
+            //    Console.WriteLine($"LivePicture2[{i}] = {input.LivePicture2[i] == null}");
+            //if (input.LivePicture3 != null)
+            //    for (int i = 0; i < input.LivePicture3.Count(); i++)
+            //    Console.WriteLine($"LivePicture3[{i}] = {input.LivePicture3[i] == null}");
+            //if (input.PatrolAddress != null)
+            //    for (int i = 0; i < input.PatrolAddress.Count(); i++)
+            //    Console.WriteLine($"PatrolAddress[{i}] = {input.PatrolAddress[i]}");
+            //if (input.ProblemRemark != null)
+            //    for (int i = 0; i < input.ProblemRemark.Count(); i++)
+            //    Console.WriteLine($"ProblemRemark[{i}] = {input.ProblemRemark[i]}");
+            //if (input.RemarkVioce != null)
+            //    for (int i = 0; i < input.RemarkVioce.Count(); i++)
+            //    Console.WriteLine($"RemarkVioce[{i}] = {input.RemarkVioce[i]==null}");
+            //if (input.VoiceLength != null)
+            //    for (int i = 0; i < input.VoiceLength.Count(); i++)
+            //    Console.WriteLine($"VoiceLength[{i}] = {input.VoiceLength[i]}");
+            var count = input.ProblemStatus.Count();
+            for (int i = 0; i < count; i++)
+            {
+                var track = new AddPatrolTrackInput();
+                track.PatrolId = input.PatrolId;
+                if (input.SystemIdList != null && input.SystemIdList.Count() >i)
+                    track.SystemIdList = input.SystemIdList[i];
+                if (input.DeviceSn != null && input.DeviceSn.Count() == count)
+                    track.DeviceSn = input.DeviceSn[i];
+                if (input.ProblemStatus != null && input.ProblemStatus.Count() > i)
+                    track.ProblemStatus = input.ProblemStatus[i];
+                if (input.LivePicture1 != null && input.LivePicture1.Count() > i)
+                    track.LivePicture1 = input.LivePicture1[i];
+                if (input.LivePicture2 != null && input.LivePicture2.Count() > i)
+                    track.LivePicture2 = input.LivePicture2[i];
+                if (input.LivePicture3 != null && input.LivePicture3.Count() > i)
+                    track.LivePicture3 = input.LivePicture3[i];
+                if (input.PatrolAddress != null && input.PatrolAddress.Count() > i)
+                    track.PatrolAddress = input.PatrolAddress[i];
+                if (input.ProblemRemark != null && input.ProblemRemark.Count() > i)
+                    track.ProblemRemark = input.ProblemRemark[i];
+                if (input.ProblemRemarkType != null && input.ProblemRemarkType.Count() > i)
+                    track.ProblemRemarkType = input.ProblemRemarkType[i];
+                if (input.RemarkVioce != null && input.RemarkVioce.Count() > i)
+                    track.RemarkVioce = input.RemarkVioce[i];
+                if (input.VoiceLength != null && input.VoiceLength.Count() > i)
+                    track.VoiceLength = input.VoiceLength[i];
+                var res = await AddPatrolTrackDetail(track);
+                if (!res.Success)
+                    return res;
+            }
+            return new SuccessOutput() { Success = true };
+        }
+        /// <summary>
         /// 添加巡查记录轨迹
         /// </summary>
         /// <param name="input"></param>
@@ -266,11 +343,22 @@ namespace FireProtectionV1.FireWorking.Manager
                 string voicepath = _hostingEnv.ContentRootPath + $@"/App_Data/Files/Voices/DataToPatrol/";
                 string problemtableName = "DataToPatrolDetail";
                 string photopath = _hostingEnv.ContentRootPath + $@"/App_Data/Files/Photos/DataToPatrol/";
+                var patrolAddress = input.PatrolAddress;
+                if(string.IsNullOrEmpty(patrolAddress))
+                {
+                    if (!string.IsNullOrEmpty(input.DeviceSn))
+                    {
+                        var equip = await _repEquipmentNo.FirstOrDefaultAsync(p => p.EquiNo.Equals(input.DeviceSn));
+                        if (equip != null)
+                            patrolAddress = equip.Address;
+                    }
+                }
                 DataToPatrolDetail detail = new DataToPatrolDetail()
                 {
                     PatrolId = input.PatrolId,
-                    PatrolAddress = input.PatrolAddress,
-                    PatrolStatus = (byte)input.ProblemStatus
+                    PatrolAddress = patrolAddress,
+                    PatrolStatus = (byte)input.ProblemStatus,
+                    DeviceSn=input.DeviceSn
                 };
                 var pat = await _patrolRep.FirstOrDefaultAsync(p => p.Id == input.PatrolId);
                 if (pat != null)

@@ -1833,6 +1833,11 @@
             解决时间
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetBreakDownInput.IsRequstBySafe">
+            <summary>
+            是否维保单位请求数据
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetBreakDownInput.FireUnitId">
             <summary>
             防火单位Id
@@ -1881,6 +1886,11 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.GetBreakDownOutput.DispatchTime">
             <summary>
             派单时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetBreakDownOutput.SafeCompleteTime">
+            <summary>
+            维保处理完成时间
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetBreakDownPagingOutput.TotalCount">
@@ -2723,9 +2733,129 @@
             巡查ID
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackAllInput.PatrolId">
+            <summary>
+            巡查ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackAllInput.DeviceSn">
+            <summary>
+            消防设施编号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackAllInput.PatrolAddress">
+            <summary>
+            巡查地点
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackAllInput.SystemIdList">
+            <summary>
+            巡查系统(ID用逗号隔开)
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackAllInput.ProblemStatus">
+            <summary>
+            巡查结果
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackAllInput.LivePicture1">
+            <summary>
+            现场照片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackAllInput.LivePicture2">
+            <summary>
+            现场照片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackAllInput.LivePicture3">
+            <summary>
+            现场照片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackAllInput.ProblemRemarkType">
+            <summary>
+            问题描述类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackAllInput.ProblemRemark">
+            <summary>
+            问题描述
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackAllInput.RemarkVioce">
+            <summary>
+            问题描述语音
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackAllInput.VoiceLength">
+            <summary>
+            语音长度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackOne.DeviceSn">
+            <summary>
+            消防设施编号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackOne.PatrolAddress">
+            <summary>
+            巡查地点
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackOne.SystemIdList">
+            <summary>
+            巡查系统(ID用逗号隔开)
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackOne.ProblemStatus">
+            <summary>
+            巡查结果
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackOne.LivePicture1">
+            <summary>
+            现场照片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackOne.LivePicture2">
+            <summary>
+            现场照片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackOne.LivePicture3">
+            <summary>
+            现场照片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackOne.ProblemRemarkType">
+            <summary>
+            问题描述类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackOne.ProblemRemark">
+            <summary>
+            问题描述
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackOne.RemarkVioce">
+            <summary>
+            问题描述语音
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackOne.VoiceLength">
+            <summary>
+            语音长度
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackInput.PatrolId">
             <summary>
             巡查ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackInput.DeviceSn">
+            <summary>
+            消防设施编号
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolTrackInput.PatrolAddress">
@@ -3654,6 +3784,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.AddPatrolTrackDetailAll(FireProtectionV1.FireWorking.Dto.AddPatrolTrackAllInput)">
+            <summary>
+            添加巡查记录轨迹
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.AddPatrolTrackDetail(FireProtectionV1.FireWorking.Dto.AddPatrolTrackInput)">
             <summary>
             添加巡查记录轨迹
@@ -3719,6 +3856,13 @@
         <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.AddPatrolTrack(FireProtectionV1.FireWorking.Dto.AddPatrolInput)">
             <summary>
             添加巡查记录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.AddPatrolTrackDetailAll(FireProtectionV1.FireWorking.Dto.AddPatrolTrackAllInput)">
+            <summary>
+            添加巡查记录轨迹(所有)
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -3921,7 +4065,7 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.BreakDown.SolutionTime">
             <summary>
-            处理时间
+            解决时间
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.BreakDown.SolutionWay">
@@ -3937,6 +4081,11 @@
         <member name="P:FireProtectionV1.FireWorking.Model.BreakDown.DispatchTime">
             <summary>
             派单时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.BreakDown.SafeCompleteTime">
+            <summary>
+            维保处理完成时间
             </summary>
         </member>
         <member name="T:FireProtectionV1.FireWorking.Model.DataToDuty">

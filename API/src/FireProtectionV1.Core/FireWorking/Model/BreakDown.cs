@@ -48,7 +48,7 @@ namespace FireProtectionV1.FireWorking.Model
         [Required]
         public int DataId { get; set; }
         /// <summary>
-        /// 处理时间
+        /// 解决时间
         /// </summary>
         public DateTime SolutionTime { get; set; }
         /// <summary>
@@ -64,6 +64,10 @@ namespace FireProtectionV1.FireWorking.Model
         /// 派单时间
         /// </summary>
         public DateTime DispatchTime { get; set; }
+        /// <summary>
+        /// 维保处理完成时间
+        /// </summary>
+        public DateTime SafeCompleteTime { get; set; }
     }
     public class BreakDownWords
     {

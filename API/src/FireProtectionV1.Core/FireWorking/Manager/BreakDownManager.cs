@@ -74,13 +74,13 @@ namespace FireProtectionV1.FireWorking.Manager
             //值班故障
             var dutys = _breakDownRep.GetAll().Where(u => u.FireUnitId == input.FireUnitId);
             //处理维保叫修页面，还有问题来源的选项
-            if (input.HandleStatus == HandleStatus.SafeResolved&& input.HandleStatus == HandleStatus.SafeResolving)
+            if (input.HandleStatus == HandleStatus.SafeResolved || input.HandleStatus == HandleStatus.SafeResolving)
             {
                 breakdownlist = breakdownlist.Where(p => p.HandleStatus == (byte)input.HandleStatus);
                 if(input.HandleStatus == HandleStatus.SafeResolving)
                     breakdownlist= breakdownlist.OrderByDescending(p=>p.DispatchTime);
                 else if (input.HandleStatus == HandleStatus.SafeResolved)
-                    breakdownlist = breakdownlist.OrderByDescending(p => p.SolutionTime);
+                    breakdownlist = breakdownlist.OrderByDescending(p => p.SafeCompleteTime);
             }
             else
             {
@@ -92,7 +92,11 @@ namespace FireProtectionV1.FireWorking.Manager
                 else if (input.HandleStatus == HandleStatus.UuResolve)
                     breakdownlist = breakdownlist.OrderByDescending(p => p.CreationTime);
                 else if (input.HandleStatus == HandleStatus.Resolved)
+                {
+                    if (input.IsRequstBySafe)
+                        breakdownlist = breakdownlist.Where(p => p.SolutionWay == 2);
                     breakdownlist = breakdownlist.OrderByDescending(p => p.SolutionTime);
+                }
             }
             var lst = breakdownlist.Select(a=> new
             {
@@ -103,7 +107,8 @@ namespace FireProtectionV1.FireWorking.Manager
                     Source = a.Source,
                     CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm"),
                     SolutionTime = a.SolutionTime.ToString("yyyy-MM-dd HH:mm"),
-                    DispatchTime=a.DispatchTime.ToString("yyyy-MM-dd HH:mm")
+                    DispatchTime=a.DispatchTime.ToString("yyyy-MM-dd HH:mm"),
+                    SafeCompleteTime=a.SafeCompleteTime.ToString("yyyy-MM-dd HH:mm")
                 }
             }).ToList();
             foreach(var v in lst)
@@ -204,13 +209,38 @@ namespace FireProtectionV1.FireWorking.Manager
             SuccessOutput output = new SuccessOutput() { Success = true };
             try {
                 var breakdown = await _breakDownRep.SingleAsync(u => u.Id == input.BreakDownId);
-                breakdown.HandleStatus = (byte)input.HandleStatus;
-                breakdown.SolutionWay = input.SolutionWay;
+                DateTime now = DateTime.Now;
+                //防火单位页面提交
+                if (input.HandleStatus == HandleStatus.Resolving)
+                {
+                    breakdown.SolutionWay = input.SolutionWay;
+                    breakdown.DispatchTime = now;
+                    if (input.SolutionWay == 1)
+                        breakdown.HandleStatus = (byte)HandleStatus.SelfHandle;
+                    else if (input.SolutionWay == 2)
+                        breakdown.HandleStatus = (byte)HandleStatus.SafeResolving;
+                }else if(input.HandleStatus == HandleStatus.Resolved)
+                {
+                    breakdown.SolutionWay = input.SolutionWay;
+                    breakdown.SolutionTime = now;
+                    breakdown.HandleStatus = (byte)input.HandleStatus;
+                }
+                //维保单位页面提交
+                else if (input.HandleStatus == HandleStatus.SafeResolving)
+                {
+                    breakdown.HandleStatus = (byte)input.HandleStatus;
+                }
+                else if (input.HandleStatus == HandleStatus.SafeResolved)
+                {
+                    breakdown.HandleStatus = (byte)input.HandleStatus;
+                    breakdown.SafeCompleteTime = now;
+                }
+
                 breakdown.Remark = input.Remark;
 
-                if (input.HandleStatus != HandleStatus.UuResolve)
-                {
-                    breakdown.SolutionTime = DateTime.Now;
+                //if (input.HandleStatus != HandleStatus.UuResolve)
+                //{
+                //    breakdown.SolutionTime = DateTime.Now;
                     ////更新值班
                     //if (breakdown.Source == 1)
                     //{
@@ -242,7 +272,7 @@ namespace FireProtectionV1.FireWorking.Manager
                     //}
 
 
-                }
+                //}
                 await _breakDownRep.UpdateAsync(breakdown);
                 var fireunit =await _fireUnitRep.FirstOrDefaultAsync(p => p.Id == breakdown.FireUnitId);
                 DataApi.UpdateEvent(new GovFire.Dto.EventDto()
