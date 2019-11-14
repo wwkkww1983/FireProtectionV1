@@ -181,6 +181,7 @@ namespace FireProtectionV1.FireWorking.Manager
                            select new GetPatrolTrackOutput
                            {
                                PatrolId = a.PatrolId,
+                               TrackId= a.Id,
                                PatrolType = a.PatrolType,
                                CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm"),
                                PatrolStatus = (ProblemStatusType)a.PatrolStatus,
@@ -214,7 +215,7 @@ namespace FireProtectionV1.FireWorking.Manager
             {
                 o.FireSystemName = o.FireSystemNames.Count() > 0 ? o.FireSystemNames[0] : "";
             }
-            return Task.FromResult(output.ToList());
+            return Task.FromResult(output.OrderByDescending(p=>p.TrackId).ToList());
         }
 
         /// <summary>
@@ -262,47 +263,48 @@ namespace FireProtectionV1.FireWorking.Manager
         public async Task<SuccessOutput> AddPatrolTrackDetailAll(AddPatrolTrackAllInput input)
         {
             //Console.WriteLine($"PatrolId = {input.PatrolId}");
-            //if(input.ProblemRemarkType!=null)
-            //for(int i=0;i< input.ProblemRemarkType.Count();i++)
-            //    Console.WriteLine($"ProblemRemarkType[{i}] = {input.ProblemRemarkType[i]}");
+            //if (input.ProblemRemarkType != null)
+            //    for (int i = 0; i < input.ProblemRemarkType.Count(); i++)
+            //        Console.WriteLine($"ProblemRemarkType[{i}] = {input.ProblemRemarkType[i]}");
             //if (input.SystemIdList != null)
             //    for (int i = 0; i < input.SystemIdList.Count(); i++)
-            //    Console.WriteLine($"SystemIdList[{i}] = {input.SystemIdList[i]}");
+            //        Console.WriteLine($"SystemIdList[{i}] = {input.SystemIdList[i]}");
             //if (input.DeviceSn != null)
             //    for (int i = 0; i < input.DeviceSn.Count(); i++)
-            //    Console.WriteLine($"DeviceSn[{i}] = {input.DeviceSn[i]}");
+            //        Console.WriteLine($"DeviceSn[{i}] = {input.DeviceSn[i]}");
             //if (input.ProblemStatus != null)
             //    for (int i = 0; i < input.ProblemStatus.Count(); i++)
-            //    Console.WriteLine($"ProblemStatus[{i}] = {input.ProblemStatus[i]}");
+            //        Console.WriteLine($"ProblemStatus[{i}] = {input.ProblemStatus[i]}");
             //if (input.LivePicture1 != null)
             //    for (int i = 0; i < input.LivePicture1.Count(); i++)
-            //    Console.WriteLine($"LivePicture1[{i}] = {input.LivePicture1[i] == null}");
+            //        Console.WriteLine($"LivePicture1[{i}] = {input.LivePicture1[i] == null}");
             //if (input.LivePicture2 != null)
             //    for (int i = 0; i < input.LivePicture2.Count(); i++)
-            //    Console.WriteLine($"LivePicture2[{i}] = {input.LivePicture2[i] == null}");
+            //        Console.WriteLine($"LivePicture2[{i}] = {input.LivePicture2[i] == null}");
             //if (input.LivePicture3 != null)
             //    for (int i = 0; i < input.LivePicture3.Count(); i++)
-            //    Console.WriteLine($"LivePicture3[{i}] = {input.LivePicture3[i] == null}");
+            //        Console.WriteLine($"LivePicture3[{i}] = {input.LivePicture3[i] == null}");
             //if (input.PatrolAddress != null)
             //    for (int i = 0; i < input.PatrolAddress.Count(); i++)
-            //    Console.WriteLine($"PatrolAddress[{i}] = {input.PatrolAddress[i]}");
+            //        Console.WriteLine($"PatrolAddress[{i}] = {input.PatrolAddress[i]}");
             //if (input.ProblemRemark != null)
             //    for (int i = 0; i < input.ProblemRemark.Count(); i++)
-            //    Console.WriteLine($"ProblemRemark[{i}] = {input.ProblemRemark[i]}");
+            //        Console.WriteLine($"ProblemRemark[{i}] = {input.ProblemRemark[i]}");
             //if (input.RemarkVioce != null)
             //    for (int i = 0; i < input.RemarkVioce.Count(); i++)
-            //    Console.WriteLine($"RemarkVioce[{i}] = {input.RemarkVioce[i]==null}");
+            //        Console.WriteLine($"RemarkVioce[{i}] = {input.RemarkVioce[i] == null}");
             //if (input.VoiceLength != null)
             //    for (int i = 0; i < input.VoiceLength.Count(); i++)
-            //    Console.WriteLine($"VoiceLength[{i}] = {input.VoiceLength[i]}");
+            //        Console.WriteLine($"VoiceLength[{i}] = {input.VoiceLength[i]}");
             var count = input.ProblemStatus.Count();
+            List<int> trackDetailIds = new List<int>();
             for (int i = 0; i < count; i++)
             {
                 var track = new AddPatrolTrackInput();
                 track.PatrolId = input.PatrolId;
                 if (input.SystemIdList != null && input.SystemIdList.Count() >i)
                     track.SystemIdList = input.SystemIdList[i];
-                if (input.DeviceSn != null && input.DeviceSn.Count() == count)
+                if (input.DeviceSn != null && input.DeviceSn.Count() > i)
                     track.DeviceSn = input.DeviceSn[i];
                 if (input.ProblemStatus != null && input.ProblemStatus.Count() > i)
                     track.ProblemStatus = input.ProblemStatus[i];
@@ -322,11 +324,162 @@ namespace FireProtectionV1.FireWorking.Manager
                     track.RemarkVioce = input.RemarkVioce[i];
                 if (input.VoiceLength != null && input.VoiceLength.Count() > i)
                     track.VoiceLength = input.VoiceLength[i];
-                var res = await AddPatrolTrackDetail(track);
-                if (!res.Success)
-                    return res;
+                var res = await AddPatrolTrackDetail0(track);
+                if (res.DetailId != 0)
+                    trackDetailIds.Add(res.DetailId);
+                else
+                {
+                    foreach (var v in trackDetailIds)
+                        await FaulAddPatrolTrack(v);
+                    return new SuccessOutput() { Success = false,FailCause= res.Err };
+                }
             }
             return new SuccessOutput() { Success = true };
+        }
+        public async Task<AddTrackDetailRes> AddPatrolTrackDetail0(AddPatrolTrackInput input)
+        {
+            int detailId = 0;
+            try
+            {
+                string voicepath = _hostingEnv.ContentRootPath + $@"/App_Data/Files/Voices/DataToPatrol/";
+                string problemtableName = "DataToPatrolDetail";
+                string photopath = _hostingEnv.ContentRootPath + $@"/App_Data/Files/Photos/DataToPatrol/";
+                var patrolAddress = input.PatrolAddress;
+                if (string.IsNullOrEmpty(patrolAddress))
+                {
+                    if (!string.IsNullOrEmpty(input.DeviceSn))
+                    {
+                        var equip = await _repEquipmentNo.FirstOrDefaultAsync(p => p.EquiNo.Equals(input.DeviceSn));
+                        if (equip != null)
+                            patrolAddress = equip.Address;
+                    }
+                }
+                DataToPatrolDetail detail = new DataToPatrolDetail()
+                {
+                    PatrolId = input.PatrolId,
+                    PatrolAddress = patrolAddress,
+                    PatrolStatus = (byte)input.ProblemStatus,
+                    DeviceSn = input.DeviceSn
+                };
+                var pat = await _patrolRep.FirstOrDefaultAsync(p => p.Id == input.PatrolId);
+                if (pat != null)
+                {
+                    var fireunit = await _fireUnitRep.FirstOrDefaultAsync(p => p.Id == pat.FireUnitId);
+                    if (fireunit != null)
+                        detail.PatrolType = fireunit.Patrol;
+                }
+                detailId = await _patrolDetailRep.InsertAndGetIdAsync(detail);
+                if (!string.IsNullOrEmpty(input.SystemIdList))
+                {
+                    String[] systemlist = input.SystemIdList.Split(",");
+                    foreach (var a in systemlist)
+                    {
+                        DataToPatrolDetailFireSystem patrolsystem = new DataToPatrolDetailFireSystem()
+                        {
+                            PatrolDetailId = detailId,
+                            FireSystemID = int.Parse(a)
+                        };
+                        await _patrolDetailFireSystem.InsertAsync(patrolsystem);
+                    };
+                }
+                Console.WriteLine($"input.LivePicture1.Name {input.LivePicture1.FileName}");
+                Console.WriteLine($"input.LivePicture2.Name {input.LivePicture2.FileName}");
+                Console.WriteLine($"input.LivePicture3.Name {input.LivePicture3.FileName}");
+                //存储照片
+                if (input.LivePicture1 != null && !input.LivePicture1.FileName.Equals("empty.txt"))
+                    SavePhotosPath(problemtableName, detailId, await SaveFiles(input.LivePicture1, photopath));
+                if (input.LivePicture2 != null && !input.LivePicture2.FileName.Equals("empty.txt"))
+                    SavePhotosPath(problemtableName, detailId, await SaveFiles(input.LivePicture2, photopath));
+                if (input.LivePicture3 != null && !input.LivePicture3.FileName.Equals("empty.txt"))
+                    SavePhotosPath(problemtableName, detailId, await SaveFiles(input.LivePicture3, photopath));
+
+                //发现问题处理
+                if (detail.PatrolStatus != (byte)ProblemStatusType.noraml && detail.PatrolStatus != (byte)ProblemStatusType.alldate)
+                {
+                    DataToPatrolDetailProblem problem = new DataToPatrolDetailProblem()
+                    {
+                        PatrolDetailId = detailId,
+                        ProblemRemarkType = (byte)input.ProblemRemarkType
+                    };
+                    if ((int)input.ProblemRemarkType == 1)
+                    {
+                        problem.ProblemRemark = input.ProblemRemark;
+                    }
+                    else if ((int)input.ProblemRemarkType == 2 && input.RemarkVioce != null)
+                    {
+                        if (!input.RemarkVioce.FileName.Equals("empty.txt"))
+                            problem.ProblemRemark = "/Src/Voices/DataToPatrol/" + await SaveFiles(input.RemarkVioce, voicepath);
+                        problem.VoiceLength = input.VoiceLength;
+                    }
+                    int problemId = _patrolDetailProblem.InsertAndGetId(problem);
+
+
+                    //如果发生故障更改巡查最终结果的显示
+                    var tracklist = _patrolDetailRep.GetAll().Where(u => u.PatrolId == input.PatrolId);
+                    var patrol = _patrolRep.Single(u => u.Id == input.PatrolId);
+                    if (tracklist.Where(u => u.PatrolStatus == (byte)ProblemStatusType.DisRepaired).Count() > 0)
+                        patrol.PatrolStatus = (byte)ProblemStatusType.DisRepaired;
+                    else if (tracklist.Where(u => u.PatrolStatus == (byte)ProblemStatusType.Repaired).Count() > 0)
+                        patrol.PatrolStatus = (byte)ProblemStatusType.Repaired;
+                    else
+                        patrol.PatrolStatus = (byte)ProblemStatusType.noraml;
+
+
+                    //每发现一个问题向故障设施插入一条数据
+                    BreakDown breakdown = new BreakDown()
+                    {
+                        FireUnitId = patrol.FireUnitId,
+                        UserId = patrol.FireUnitUserId,
+                        UserFrom = "FireUnitUser",
+                        Source = (byte)SourceType.Patrol,
+                        DataId = problemId
+                    };
+                    if (detail.PatrolStatus == (byte)ProblemStatusType.Repaired)
+                    {
+                        breakdown.HandleStatus = (byte)HandleStatus.Resolved;
+                        breakdown.SolutionTime = DateTime.Now;
+                        breakdown.SolutionWay = 1;
+                    }
+                    else
+                    {
+                        breakdown.HandleStatus = (byte)HandleStatus.UuResolve;
+                    }
+                    var id = await _breakDownRep.InsertAndGetIdAsync(breakdown);
+                    var fireunit = await _fireUnitRep.FirstOrDefaultAsync(p => p.Id == patrol.FireUnitId);
+                    DataApi.UpdateEvent(new GovFire.Dto.EventDto()
+                    {
+                        id = id.ToString(),
+                        state = breakdown.HandleStatus == 3 ? "1" : "0",
+                        createtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                        donetime = "",
+                        eventcontent = problem.ProblemRemarkType == 1 ? problem.ProblemRemark : "",
+                        eventtype = BreakDownWords.GetSource(breakdown.Source),
+                        firecompany = fireunit == null ? "" : fireunit.Name,
+                        lat = fireunit == null ? "" : fireunit.Lat.ToString(),
+                        lon = fireunit == null ? "" : fireunit.Lng.ToString(),
+                        fireUnitId = ""
+                    });
+
+                }
+                return new AddTrackDetailRes() { DetailId=detailId};
+            }
+            catch (Exception e)
+            {
+                if (detailId != 0)
+                    await FaulAddPatrolTrack(detailId);
+                return new AddTrackDetailRes() { DetailId = detailId,Err=e.Message };
+            }
+        }
+        /// <summary>
+        /// 删除添加轨迹失败的执行
+        /// </summary>
+        /// <param name="detailId"></param>
+        /// <returns></returns>
+        private async Task FaulAddPatrolTrack(int detailId)
+        {
+            await _patrolDetailRep.DeleteAsync(detailId);
+            await _patrolDetailProblem.DeleteAsync(p => p.PatrolDetailId == detailId);
+            await _photosPathSave.DeleteAsync(p => p.TableName.Equals("DataToPatrolDetail") && p.DataId == detailId);
         }
         /// <summary>
         /// 添加巡查记录轨迹
@@ -381,13 +534,15 @@ namespace FireProtectionV1.FireWorking.Manager
                         await _patrolDetailFireSystem.InsertAsync(patrolsystem);
                     };
                 }
-
+                Console.WriteLine($"input.LivePicture1.Name {input.LivePicture1.FileName}");
+                Console.WriteLine($"input.LivePicture2.Name {input.LivePicture2.FileName}");
+                Console.WriteLine($"input.LivePicture3.Name {input.LivePicture3.FileName}");
                 //存储照片
-                if (input.LivePicture1 != null)
+                if (input.LivePicture1 != null&&!input.LivePicture1.FileName.Equals("empty.txt"))
                     SavePhotosPath(problemtableName, detailId, await SaveFiles(input.LivePicture1, photopath));
-                if (input.LivePicture2 != null)
+                if (input.LivePicture2 != null && !input.LivePicture2.FileName.Equals("empty.txt"))
                     SavePhotosPath(problemtableName, detailId, await SaveFiles(input.LivePicture2, photopath));
-                if (input.LivePicture3 != null)
+                if (input.LivePicture3 != null && !input.LivePicture3.FileName.Equals("empty.txt"))
                     SavePhotosPath(problemtableName, detailId, await SaveFiles(input.LivePicture3, photopath));
 
                 //发现问题处理
@@ -404,7 +559,8 @@ namespace FireProtectionV1.FireWorking.Manager
                     }
                     else if ((int)input.ProblemRemarkType == 2 && input.RemarkVioce != null)
                     {
-                        problem.ProblemRemark = "/Src/Voices/DataToPatrol/" + await SaveFiles(input.RemarkVioce, voicepath);
+                        if(!input.RemarkVioce.FileName.Equals("empty.txt"))
+                            problem.ProblemRemark = "/Src/Voices/DataToPatrol/" + await SaveFiles(input.RemarkVioce, voicepath);
                         problem.VoiceLength = input.VoiceLength;
                     }
                     int problemId = _patrolDetailProblem.InsertAndGetId(problem);
