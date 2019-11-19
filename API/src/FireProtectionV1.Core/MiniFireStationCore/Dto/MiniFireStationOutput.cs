@@ -1,20 +1,25 @@
-﻿using FireProtectionV1.MiniFireStationCore.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace FireProtectionV1.MiniFireStationCore.Dto
 {
-    public class AddMiniFireStationInput
+    public class MiniFireStationOutput
     {
+        /// <summary>
+        /// 微型消防站Id
+        /// </summary>
+        public int Id { get; set; }
         /// <summary>
         /// 站点名称
         /// </summary>
-        [Required]
         public string Name { get; set; }
         /// <summary>
-        /// 所属单位
+        /// 所属防火单位Id
+        /// </summary>
+        public int FireUnitId { get; set; }
+        /// <summary>
+        /// 所属防火单位名称
         /// </summary>
         public string FireUnitName { get; set; }
         /// <summary>
@@ -40,12 +45,10 @@ namespace FireProtectionV1.MiniFireStationCore.Dto
         /// <summary>
         /// 经度
         /// </summary>
-        [Required]
         public decimal Lng { get; set; }
         /// <summary>
         /// 纬度
         /// </summary>
-        [Required]
         public decimal Lat { get; set; }
     }
 }

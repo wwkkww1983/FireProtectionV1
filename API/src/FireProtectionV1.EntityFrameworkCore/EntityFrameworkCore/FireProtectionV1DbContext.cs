@@ -15,6 +15,11 @@ namespace FireProtectionV1.EntityFrameworkCore
 {
     public class FireProtectionV1DbContext : AbpDbContext
     {
+        public DbSet<MiniFireActionType> MiniFireActionType { get; set; }
+        public DbSet<MiniFireAction> MiniFireAction { get; set; }
+        public DbSet<MiniFireEquipment> MiniFireEquipment { get; set; }
+        public DbSet<MiniFireEquipmentDefine> MiniFireEquipmentDefine { get; set; }
+        public DbSet<MiniFireStationJobUser> MiniFireStationJobUser { get; set; }
         public DbSet<FireUnitPlan> FireUnitPlan { get; set; }
         public DbSet<RecordAnalog> RecordAnalog { get; set; }
         public DbSet<RecordOnline> RecordOnline { get; set; }

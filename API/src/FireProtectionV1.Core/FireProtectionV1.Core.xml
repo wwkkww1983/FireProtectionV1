@@ -3867,6 +3867,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.FaulAddPatrolTrack(System.Int32)">
+            <summary>
+            删除添加轨迹失败的执行
+            </summary>
+            <param name="detailId"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.AddPatrolTrackDetail(FireProtectionV1.FireWorking.Dto.AddPatrolTrackInput)">
             <summary>
             添加巡查记录轨迹
@@ -5374,6 +5381,11 @@
             站点名称
             </summary>
         </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireStationInput.FireUnitName">
+            <summary>
+            所属单位
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireStationInput.Level">
             <summary>
             站点等级
@@ -5414,6 +5426,36 @@
             迷你消防站ID
             </summary>
         </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.GetMiniFireEquipmentDefineOutput.Type">
+            <summary>
+            类别
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.GetMiniFireEquipmentDefineOutput.Equipment">
+            <summary>
+            设施名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireEquipmentNameOutput.EquipmentId">
+            <summary>
+            设施ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireEquipmentNameOutput.Name">
+            <summary>
+            设施名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.GetMiniFireJobUserInput.MiniFireStationId">
+            <summary>
+            微型消防站ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.GetMiniFireListBaseInput.MiniFireStationId">
+            <summary>
+            微型消防站ID
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.MiniFireStationCore.Dto.GetMiniFireStationListInput.Name">
             <summary>
             微型消防站名称
@@ -5422,6 +5464,226 @@
         <member name="P:FireProtectionV1.MiniFireStationCore.Dto.GetNearbyStationOutput.Distance">
             <summary>
             距离（米）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireActionDto.MiniFireActionId">
+            <summary>
+            活动ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireActionDto.Date">
+            <summary>
+            活动日期(格式：yyyy-MM-dd)
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireActionDto.Address">
+            <summary>
+            地址
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireActionDto.Type">
+            <summary>
+            活动类别
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireActionDetailDto.Content">
+            <summary>
+            活动内容
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireActionDetailDto.Problem">
+            <summary>
+            活动问题
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireActionAddDto.MiniFireStationId">
+            <summary>
+            微型消防站ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireActionAddDto.Address">
+            <summary>
+            地址
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireActionAddDto.Type">
+            <summary>
+            活动类别
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireActionAddDto.Content">
+            <summary>
+            活动内容
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireActionAddDto.Problem">
+            <summary>
+            活动问题
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireEquipmentDto.MiniFireEquipmentId">
+            <summary>
+            微型消防设施ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireEquipmentDto.Type">
+            <summary>
+            微型消防器材列表
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireEquipmentDto.Name">
+            <summary>
+            微型消防器材名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireEquipmentDto.Count">
+            <summary>
+            数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireEquipmentDto.MiniFireStationId">
+            <summary>
+            微型消防站ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireEquipmentDto.Type">
+            <summary>
+            微型消防器材列表
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireEquipmentDto.Name">
+            <summary>
+            微型消防器材名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireEquipmentDto.Count">
+            <summary>
+            数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireJobUserDto.JobUserId">
+            <summary>
+            微型消防站人员ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireJobUserDto.ContactName">
+            <summary>
+            联系人
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireJobUserDto.ContactPhone">
+            <summary>
+            联系电话
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireJobUserDto.Job">
+            <summary>
+            职位
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireJobUserDetailDto.JobUserId">
+            <summary>
+            微型消防站人员ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireJobUserDetailDto.ContactName">
+            <summary>
+            联系人
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireJobUserDetailDto.ContactPhone">
+            <summary>
+            联系电话
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireJobUserDetailDto.Job">
+            <summary>
+            职位
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireJobUserDetailDto.PhotoBase64">
+            <summary>
+            照片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireJobUserDto.MiniFireStationId">
+            <summary>
+            微型消防站ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireJobUserDto.ContactName">
+            <summary>
+            联系人
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireJobUserDto.ContactPhone">
+            <summary>
+            联系电话
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireJobUserDto.Job">
+            <summary>
+            职位
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireJobUserDto.PhotoBase64">
+            <summary>
+            照片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireStationOutput.Id">
+            <summary>
+            微型消防站Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireStationOutput.Name">
+            <summary>
+            站点名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireStationOutput.FireUnitId">
+            <summary>
+            所属防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireStationOutput.FireUnitName">
+            <summary>
+            所属防火单位名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireStationOutput.Level">
+            <summary>
+            站点等级
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireStationOutput.ContactName">
+            <summary>
+            联系人
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireStationOutput.ContactPhone">
+            <summary>
+            联系电话
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireStationOutput.PersonNum">
+            <summary>
+            人员配备数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireStationOutput.Address">
+            <summary>
+            地址
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireStationOutput.Lng">
+            <summary>
+            经度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireStationOutput.Lat">
+            <summary>
+            纬度
             </summary>
         </member>
         <member name="M:FireProtectionV1.MiniFireStationCore.Manager.IMiniFireStationManager.Add(FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireStationInput)">
@@ -5524,9 +5786,79 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireAction.MiniFireStationId">
+            <summary>
+            微型消防站Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireAction.Address">
+            <summary>
+            地址
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireAction.MiniFireActionTypeId">
+            <summary>
+            活动类别ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireAction.Content">
+            <summary>
+            活动内容
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireAction.Problem">
+            <summary>
+            活动问题
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireActionType.Type">
+            <summary>
+            活动类别
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireActionUserAttend.MiniFireActionId">
+            <summary>
+            微型消防站ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireActionUserAttend.JobUserId">
+            <summary>
+            人员ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireEquipment.MiniFireStationId">
+            <summary>
+            微型消防站Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireEquipment.DefineId">
+            <summary>
+            微型消防站设施定义Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireEquipment.Count">
+            <summary>
+            数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireEquipmentDefine.Type">
+            <summary>
+            微型消防器材类别
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireEquipmentDefine.Name">
+            <summary>
+            微型消防器材名称
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireStation.Name">
             <summary>
             站点名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireStation.FireUnitId">
+            <summary>
+            所属防火单位Id
             </summary>
         </member>
         <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireStation.Level">
@@ -5542,6 +5874,11 @@
         <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireStation.ContactPhone">
             <summary>
             联系电话
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireStation.StationUserId">
+            <summary>
+            微型消防站站长人员ID
             </summary>
         </member>
         <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireStation.PersonNum">
@@ -5562,6 +5899,31 @@
         <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireStation.Lat">
             <summary>
             纬度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireStationJobUser.MiniFireStationId">
+            <summary>
+            微型消防站ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireStationJobUser.ContactName">
+            <summary>
+            联系人
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireStationJobUser.ContactPhone">
+            <summary>
+            联系电话
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireStationJobUser.Job">
+            <summary>
+            职位
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireStationJobUser.HeadPhotoBase64">
+            <summary>
+            头像
             </summary>
         </member>
         <member name="P:FireProtectionV1.SettingCore.Dto.FireSettingInput.Name">

@@ -24,6 +24,13 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task Update(UpdateMiniFireStationInput input);
+        Task<SuccessOutput> AddJobUser(AddMiniFireJobUserDto input);
+        Task<PagedResultDto<MiniFireEquipmentDto>> GetMiniFireEquipmentList(GetMiniFireListBaseInput input);
+        Task<PagedResultDto<MiniFireActionDto>> GetActionList(GetMiniFireListBaseInput input);
+        Task<List<string>> GetMiniFireEquipmentTypes();
+        Task<SuccessOutput> AddMiniFireAction(MiniFireActionAddDto input);
+        Task<List<MiniFireEquipmentNameOutput>> GetMiniFireEquipmentsByType(string type);
+        Task<SuccessOutput> DeleteMiniFireAction(int miniFireActionId);
 
         /// <summary>
         /// 删除
@@ -31,20 +38,30 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
         /// <param name="id"></param>
         /// <returns></returns>
         Task<SuccessOutput> Delete(DeletMiniFireStationInput input);
+        Task<SuccessOutput> DeleteJobUser(int jobUserId);
+        Task<SuccessOutput> UpdateMiniFireAction(MiniFireActionDetailDto input);
+        Task<PagedResultDto<MiniFireJobUserDto>> GetMiniFireJobUser(GetMiniFireJobUserInput input);
+        Task<SuccessOutput> UpdateJobUser(MiniFireJobUserDetailDto input);
+        Task<MiniFireActionDetailDto> GetMiniFireAction(int miniFireActionId);
 
         /// <summary>
         /// 获取单个实体信息
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<MiniFireStation> GetById(int id);
+        Task<MiniFireStationOutput> GetById(int id);
 
         /// <summary>
         /// 分页列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<PagedResultDto<MiniFireStation>> GetList(GetMiniFireStationListInput input);
+        Task<PagedResultDto<MiniFireStationOutput>> GetList(GetMiniFireStationListInput input);
+        Task<SuccessOutput> AddMiniFireEquipment(AddMiniFireEquipmentDto input);
+        Task<MiniFireJobUserDetailDto> GetJobUserDetail(int jobUserId);
+        Task<SuccessOutput> UpdateMiniFireEquipment(MiniFireEquipmentDto input);
+        Task<SuccessOutput> DeleteMiniFireEquipment(int miniFireEquipmentId);
+        Task<MiniFireEquipmentDto> GetMiniFireEquipment(int miniFireEquipmentId);
 
         /// <summary>
         /// 微型消防站Excel导出

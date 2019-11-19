@@ -3,14 +3,16 @@ using System;
 using FireProtectionV1.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FireProtectionV1.Migrations
 {
     [DbContext(typeof(FireProtectionV1DbContext))]
-    partial class FireProtectionV1DbContextModelSnapshot : ModelSnapshot
+    [Migration("20191119030117_1119.2")]
+    partial class _11192
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -801,10 +803,7 @@ namespace FireProtectionV1.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Address")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Content");
+                    b.Property<string>("Address");
 
                     b.Property<DateTime>("CreationTime");
 
@@ -813,8 +812,6 @@ namespace FireProtectionV1.Migrations
                     b.Property<int>("MiniFireActionTypeId");
 
                     b.Property<int>("MiniFireStationId");
-
-                    b.Property<string>("Problem");
 
                     b.HasKey("Id");
 
@@ -841,8 +838,6 @@ namespace FireProtectionV1.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Count");
 
                     b.Property<DateTime>("CreationTime");
 

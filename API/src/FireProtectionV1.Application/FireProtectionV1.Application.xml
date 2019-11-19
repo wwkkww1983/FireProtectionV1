@@ -1073,6 +1073,124 @@
             微型消防站
             </summary>
         </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.AddMiniFireAction(FireProtectionV1.MiniFireStationCore.Dto.MiniFireActionAddDto)">
+            <summary>
+            新增微型消防站活动
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.DeleteMiniFireAction(System.Int32)">
+            <summary>
+            删除指定ID的活动
+            </summary>
+            <param name="MiniFireActionId">微型消防站活动ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.UpdateMiniFireAction(FireProtectionV1.MiniFireStationCore.Dto.MiniFireActionDetailDto)">
+            <summary>
+            修改微型消防站活动详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.GetMiniFireAction(System.Int32)">
+            <summary>
+            获取微型消防站指定活动ID详情
+            </summary>
+            <param name="MiniFireActionId">活动ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.GetActionList(FireProtectionV1.MiniFireStationCore.Dto.GetMiniFireListBaseInput)">
+            <summary>
+            获取微型消防站活动列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.GetMiniFireEquipmentTypes">
+            <summary>
+            获取微型消防站设施类别
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.GetMiniFireEquipmentsByType(System.String)">
+            <summary>
+            获取微型消防站设施类别下属设施
+            </summary>
+            <param name="Type">微型消防站设施类别</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.GetMiniFireEquipment(System.Int32)">
+            <summary>
+            获取指定ID 的微型消防站设施详情
+            </summary>
+            <param name="MiniFireEquipmentId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.GetMiniFireEquipmentList(FireProtectionV1.MiniFireStationCore.Dto.GetMiniFireListBaseInput)">
+            <summary>
+            获取指定微型消防站ID的消防设施列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.AddMiniFireEquipment(FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireEquipmentDto)">
+            <summary>
+            新增微型消防站设施
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.UpdateMiniFireEquipment(FireProtectionV1.MiniFireStationCore.Dto.MiniFireEquipmentDto)">
+            <summary>
+            修改微型消防站设施信息
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.DeleteMiniFireEquipment(System.Int32)">
+            <summary>
+            删除微型消防站设施
+            </summary>
+            <param name="MiniFireEquipmentId">设施ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.GetJobUserDetail(System.Int32)">
+            <summary>
+            获取微型消防站人员详情
+            </summary>
+            <param name="JobUserId">微型消防站人员ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.DeleteJobUser(System.Int32)">
+            <summary>
+            删除指定微型消防站人员
+            </summary>
+            <param name="JobUserId">微型消防站人员ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.UpdateJobUser(FireProtectionV1.MiniFireStationCore.Dto.MiniFireJobUserDetailDto)">
+            <summary>
+            修改指定微型消防站人员
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.AddJobUser(FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireJobUserDto)">
+            <summary>
+            添加指定微型消防站人员
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.GetMiniFireJobUser(FireProtectionV1.MiniFireStationCore.Dto.GetMiniFireJobUserInput)">
+            <summary>
+            获取指定ID的微型消防站人员列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.Add(FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireStationInput)">
             <summary>
             新增
@@ -1091,7 +1209,7 @@
             <summary>
             获取单个微型消防站信息
             </summary>
-            <param name="id"></param>
+            <param name="id">微型消防站ID</param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.GetList(FireProtectionV1.MiniFireStationCore.Dto.GetMiniFireStationListInput)">

@@ -12,6 +12,7 @@ using FireProtectionV1.User.Dto;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using FireProtectionV1.Common.Helper;
 
 namespace FireProtectionV1.AppService
 {
@@ -140,14 +141,12 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        //public async Task<UserRegistOutput> UserRegist(UserRegistInput input)
+        //public string UserRegist(UserRegistInput input)
         //{
-        //    return await _fireDeptUserManager.UserRegist(input);
+        //    string md5 = MD5Encrypt.Encrypt(input.Password + input.UserName, 16);
+        //    return md5;
         //}
-        //public async Task Test()
-        //{
-        //    await Task.Delay(1);
-        //}
+
 
         /// <summary>
         /// 修改密码

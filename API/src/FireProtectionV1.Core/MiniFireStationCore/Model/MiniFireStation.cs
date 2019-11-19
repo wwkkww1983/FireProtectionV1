@@ -12,7 +12,12 @@ namespace FireProtectionV1.MiniFireStationCore.Model
         /// 站点名称
         /// </summary>
         [Required]
+        [MaxLength(20)]
         public string Name { get; set; }
+        /// <summary>
+        /// 所属防火单位Id
+        /// </summary>
+        public int FireUnitId { get; set; }
         /// <summary>
         /// 站点等级
         /// </summary>
@@ -20,11 +25,17 @@ namespace FireProtectionV1.MiniFireStationCore.Model
         /// <summary>
         /// 联系人
         /// </summary>
+        [MaxLength(20)]
         public string ContactName { get; set; }
         /// <summary>
         /// 联系电话
         /// </summary>
+        [MaxLength(11)]
         public string ContactPhone { get; set; }
+        /// <summary>
+        /// 微型消防站站长人员ID
+        /// </summary>
+        public int StationUserId { get; set; }
         /// <summary>
         /// 人员配备数量
         /// </summary>
@@ -32,6 +43,7 @@ namespace FireProtectionV1.MiniFireStationCore.Model
         /// <summary>
         /// 地址
         /// </summary>
+        [MaxLength(50)]
         public string Address { get; set; }
         /// <summary>
         /// 经度

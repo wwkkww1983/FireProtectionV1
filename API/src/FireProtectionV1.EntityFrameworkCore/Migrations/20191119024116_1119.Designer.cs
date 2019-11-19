@@ -3,14 +3,16 @@ using System;
 using FireProtectionV1.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FireProtectionV1.Migrations
 {
     [DbContext(typeof(FireProtectionV1DbContext))]
-    partial class FireProtectionV1DbContextModelSnapshot : ModelSnapshot
+    [Migration("20191119024116_1119")]
+    partial class _1119
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -796,53 +798,10 @@ namespace FireProtectionV1.Migrations
                     b.ToTable("FireUnitType");
                 });
 
-            modelBuilder.Entity("FireProtectionV1.MiniFireStationCore.Model.MiniFireAction", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Address")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Content");
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<int>("MiniFireActionTypeId");
-
-                    b.Property<int>("MiniFireStationId");
-
-                    b.Property<string>("Problem");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MiniFireAction");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.MiniFireStationCore.Model.MiniFireActionType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("Type");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MiniFireActionType");
-                });
-
             modelBuilder.Entity("FireProtectionV1.MiniFireStationCore.Model.MiniFireEquipment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Count");
 
                     b.Property<DateTime>("CreationTime");
 
