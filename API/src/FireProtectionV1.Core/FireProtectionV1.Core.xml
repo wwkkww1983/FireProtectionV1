@@ -5496,6 +5496,11 @@
             活动问题
             </summary>
         </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireActionDetailDto.AttendUser">
+            <summary>
+            参与人员
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireActionAddDto.MiniFireStationId">
             <summary>
             微型消防站ID
@@ -5516,9 +5521,19 @@
             活动内容
             </summary>
         </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireActionAddDto.AttendUser">
+            <summary>
+            参与人员
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireActionAddDto.Problem">
             <summary>
             活动问题
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireActionAddDto.Date">
+            <summary>
+            活动日期(格式：yyyy-MM-dd)
             </summary>
         </member>
         <member name="P:FireProtectionV1.MiniFireStationCore.Dto.MiniFireEquipmentDto.MiniFireEquipmentId">
@@ -5811,19 +5826,14 @@
             活动问题
             </summary>
         </member>
+        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireAction.AttendUser">
+            <summary>
+            参与人员
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireActionType.Type">
             <summary>
             活动类别
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireActionUserAttend.MiniFireActionId">
-            <summary>
-            微型消防站ID
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireActionUserAttend.JobUserId">
-            <summary>
-            人员ID
             </summary>
         </member>
         <member name="P:FireProtectionV1.MiniFireStationCore.Model.MiniFireEquipment.MiniFireStationId">
@@ -6675,6 +6685,11 @@
         <member name="P:FireProtectionV1.User.Dto.DeptUserLoginOutput.DeptName">
             <summary>
             部门名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.DeptUserLoginOutput.IsMiniFireUser">
+            <summary>
+            是否微型消防站人员ID
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Dto.FireUnitUserInput.Account">

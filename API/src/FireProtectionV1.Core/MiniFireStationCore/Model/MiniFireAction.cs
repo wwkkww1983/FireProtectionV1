@@ -29,5 +29,9 @@ namespace FireProtectionV1.MiniFireStationCore.Model
         /// 活动问题
         /// </summary>
         public string Problem { get; set; }
+        /// <summary>
+        /// 参与人员
+        /// </summary>
+        public string AttendUser { get; set; }
     }
 }

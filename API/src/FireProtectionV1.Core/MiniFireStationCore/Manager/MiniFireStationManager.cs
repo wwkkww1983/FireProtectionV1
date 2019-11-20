@@ -54,13 +54,15 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
                 return new SuccessOutput() { Success = false, FailCause = "活动类别不存在" };
             try
             {
-                await _repMiniFireAction.InsertAsync(new MiniFireAction()
+                var actionid=await _repMiniFireAction.InsertAndGetIdAsync(new MiniFireAction()
                 {
                     MiniFireStationId = input.MiniFireStationId,
                     Address = input.Address,
                     MiniFireActionTypeId = type.Id,
                     Content=input.Content,
-                    Problem=input.Problem
+                    CreationTime=DateTime.Parse(input.Date),
+                    Problem=input.Problem,
+                    AttendUser=input.AttendUser
                 });
             }catch(Exception e)
             {
@@ -88,6 +90,7 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
             action.CreationTime = DateTime.Parse(input.Date);
             action.Content = input.Content;
             action.Problem = input.Problem;
+            action.AttendUser = input.AttendUser;
             await _repMiniFireAction.UpdateAsync(action);
             return new SuccessOutput() { Success = true };
         }
@@ -95,15 +98,17 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
         {
             var action = await _repMiniFireAction.GetAsync(MiniFireActionId);
             var type = await _repMiniFireActionType.GetAsync(action.MiniFireActionTypeId);
-            return new MiniFireActionDetailDto()
+            var detail= new MiniFireActionDetailDto()
             {
                 Address = action.Address,
                 Content = action.Content,
                 Problem = action.Problem,
                 Date = action.CreationTime.ToString("yyyy-MM-dd"),
                 MiniFireActionId = action.Id,
-                Type = type.Type
+                Type = type.Type,
+                AttendUser=action.AttendUser
             };
+            return detail;
         }
         public async Task<PagedResultDto<MiniFireActionDto>> GetActionList(GetMiniFireListBaseInput input)
         {
@@ -306,11 +311,17 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<int> Add(AddMiniFireStationInput input)
+        public async Task<SuccessOutput> Add(AddMiniFireStationInput input)
         {
-            Valid.Exception(_miniFireStationRepository.Count(m => input.Name.Equals(m.Name)) > 0, "保存失败：站点名称已存在");
-            Valid.Exception(_miniFireStationRepository.Count(m => input.ContactPhone.Equals(m.ContactPhone)) > 0, "保存失败：手机号已存在");
+            if (await _miniFireStationRepository.FirstOrDefaultAsync(p => p.Name.Equals(input.Name)) != null)
+                return new SuccessOutput() { Success = false, FailCause = "保存失败：站点名称已存在" };
+            if (await _miniFireStationRepository.FirstOrDefaultAsync(p => p.ContactPhone.Equals(input.ContactPhone)) != null)
+                return new SuccessOutput() { Success = false, FailCause = "保存失败：手机号已存在" };
+            //Valid.Exception(_miniFireStationRepository.Count(m => input.Name.Equals(m.Name)) > 0, "保存失败：站点名称已存在");
+            //Valid.Exception(_miniFireStationRepository.Count(m => input.ContactPhone.Equals(m.ContactPhone)) > 0, "保存失败：手机号已存在");
 
+            try
+            {
             var unit = await _repFireUnit.FirstOrDefaultAsync(p => p.Name == input.FireUnitName);
             var entity = new MiniFireStation()
             {
@@ -335,7 +346,11 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
                 Job = "站长"
             });
             await _miniFireStationRepository.UpdateAsync(entity);
-            return stationid;
+            }catch(Exception e)
+            {
+                return new SuccessOutput() { Success = false, FailCause = e.Message };
+            }
+            return new SuccessOutput() { Success = true };
         }
 
         /// <summary>
@@ -456,22 +471,49 @@ POW(SIN(({lng} * PI() / 180 - Lng * PI() / 180) / 2), 2))) *1000) AS Distance FR
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task Update(UpdateMiniFireStationInput input)
+        public async Task<SuccessOutput> Update(UpdateMiniFireStationInput input)
         {
-            Valid.Exception(_miniFireStationRepository.Count(m => input.Name.Equals(m.Name) && !input.Id.Equals(m.Id)) > 0, "保存失败：站点名称已存在");
-
-            var unit = await _repFireUnit.FirstOrDefaultAsync(p => p.Name == input.FireUnitName);
-            var old = _miniFireStationRepository.GetAll().Where(u => u.Id == input.Id).FirstOrDefault();
-            old.Name = input.Name;
-            old.FireUnitId = unit != null ? unit.Id : 0;
-            old.Level = input.Level;
-            old.ContactName = input.ContactName;
-            old.ContactPhone = input.ContactPhone;
-            old.PersonNum = input.PersonNum;
-            old.Address = input.Address;
-            old.Lng = input.Lng;
-            old.Lat = input.Lat;
-            await _miniFireStationRepository.UpdateAsync(old);
+            if (_miniFireStationRepository.Count(m => input.Name.Equals(m.Name)) > 1)
+                return new SuccessOutput() { Success = false, FailCause = "保存失败：站点名称重复" };
+            if(_miniFireStationRepository.Count(m => input.ContactPhone.Equals(m.ContactPhone)) > 1)
+                return new SuccessOutput() { Success = false, FailCause = "保存失败：站长手机号重复" };
+            //Valid.Exception(_miniFireStationRepository.Count(m => input.Name.Equals(m.Name) && !input.Id.Equals(m.Id)) > 0, "保存失败：站点名称已存在");
+            try
+            {
+                var unit = await _repFireUnit.FirstOrDefaultAsync(p => p.Name == input.FireUnitName);
+                var old = _miniFireStationRepository.GetAll().Where(u => u.Id == input.Id).FirstOrDefault();
+                old.Name = input.Name;
+                old.FireUnitId = unit != null ? unit.Id : 0;
+                old.Level = input.Level;
+                old.ContactName = input.ContactName;
+                old.ContactPhone = input.ContactPhone;
+                old.PersonNum = input.PersonNum;
+                old.Address = input.Address;
+                old.Lng = input.Lng;
+                old.Lat = input.Lat;
+                await _miniFireStationRepository.UpdateAsync(old);
+                var jobuser = await _repMiniFireStationJobUser.FirstOrDefaultAsync(p => p.MiniFireStationId == input.Id && p.Job.Equals("站长"));
+                if(jobuser==null)
+                {
+                    await _repMiniFireStationJobUser.InsertAsync(new MiniFireStationJobUser()
+                    {
+                        MiniFireStationId = input.Id,
+                        ContactName = input.ContactName,
+                        ContactPhone = input.ContactPhone,
+                        Job = "站长"
+                    });
+                }
+                else
+                {
+                    jobuser.ContactName = input.ContactName;
+                    jobuser.ContactPhone = input.ContactPhone;
+                    await _repMiniFireStationJobUser.UpdateAsync(jobuser);
+                }
+            } catch(Exception e)
+            {
+                return new SuccessOutput() { Success = false, FailCause = e.Message };
+            }
+            return new SuccessOutput() { Success = true };
         }
     }
 }

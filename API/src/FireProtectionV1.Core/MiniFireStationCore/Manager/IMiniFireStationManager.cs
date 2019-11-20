@@ -16,14 +16,14 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns> 
-        Task<int> Add(AddMiniFireStationInput input);
+        Task<SuccessOutput> Add(AddMiniFireStationInput input);
 
         /// <summary>
         /// 修改
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task Update(UpdateMiniFireStationInput input);
+        Task<SuccessOutput> Update(UpdateMiniFireStationInput input);
         Task<SuccessOutput> AddJobUser(AddMiniFireJobUserDto input);
         Task<PagedResultDto<MiniFireEquipmentDto>> GetMiniFireEquipmentList(GetMiniFireListBaseInput input);
         Task<PagedResultDto<MiniFireActionDto>> GetActionList(GetMiniFireListBaseInput input);

@@ -34,6 +34,11 @@ namespace FireProtectionV1.MiniFireStationCore.Dto
         /// 活动问题
         /// </summary>
         public string Problem { get; set; }
+        /// <summary>
+        /// 参与人员
+        /// </summary>
+        public string AttendUser { get; set; }
+
     }
     public class MiniFireActionAddDto
     {
@@ -54,8 +59,16 @@ namespace FireProtectionV1.MiniFireStationCore.Dto
         /// </summary>
         public string Content { get; set; }
         /// <summary>
+        /// 参与人员
+        /// </summary>
+        public string AttendUser { get; set; }
+        /// <summary>
         /// 活动问题
         /// </summary>
         public string Problem { get; set; }
+        /// <summary>
+        /// 活动日期(格式：yyyy-MM-dd)
+        /// </summary>
+        public string Date { get; set; }
     }
 }

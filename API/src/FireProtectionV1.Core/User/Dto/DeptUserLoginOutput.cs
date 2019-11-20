@@ -18,5 +18,9 @@ namespace FireProtectionV1.User.Dto
         /// 部门名称
         /// </summary>
         public string DeptName { get; set; }
+        /// <summary>
+        /// 是否微型消防站人员ID
+        /// </summary>
+        public bool IsMiniFireUser { get; set; }
     }
 }

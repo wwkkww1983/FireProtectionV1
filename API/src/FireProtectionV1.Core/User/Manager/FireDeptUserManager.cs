@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using FireProtectionV1.Common.Helper;
 using FireProtectionV1.Enterprise.Model;
+using FireProtectionV1.MiniFireStationCore.Model;
 using FireProtectionV1.User.Dto;
 using FireProtectionV1.User.Model;
 
@@ -12,17 +13,39 @@ namespace FireProtectionV1.User.Manager
 {
     public class FireDeptUserManager:IFireDeptUserManager
     {
+        IRepository<FireUnit> _repFireUnit;
+        IRepository<MiniFireStation> _repMiniFireStation;
+        IRepository<MiniFireStationJobUser> _repMiniFireStationJobUser;
         IRepository<FireDept> _fireDeptRep;
         IRepository<FireDeptUser> _fireDeptUserRep;
-        public FireDeptUserManager(IRepository<FireDeptUser> fireDeptUserRep, IRepository<FireDept> fireDeptRep)
+        public FireDeptUserManager(
+            IRepository<FireUnit> repFireUnit,
+            IRepository<MiniFireStation> repMiniFireStation,
+            IRepository<MiniFireStationJobUser> repMiniFireStationJobUser,
+            IRepository<FireDeptUser> fireDeptUserRep, IRepository<FireDept> fireDeptRep)
         {
+            _repFireUnit = repFireUnit;
+            _repMiniFireStation = repMiniFireStation;
+            _repMiniFireStationJobUser = repMiniFireStationJobUser;
             _fireDeptUserRep = fireDeptUserRep;
             _fireDeptRep = fireDeptRep;
         }
         public async Task<DeptUserLoginOutput> UserLogin(LoginInput input)
         {
             string md5=MD5Encrypt.Encrypt(input.Password + input.Account, 16);
-            DeptUserLoginOutput output = new DeptUserLoginOutput() { Success = true };
+            DeptUserLoginOutput output = new DeptUserLoginOutput() { Success = true,IsMiniFireUser=false };
+            var minifireuser = await _repMiniFireStationJobUser.FirstOrDefaultAsync(p => p.ContactPhone.Equals(input.Account) && p.Job.Equals("站长"));
+            if (minifireuser != null)
+            {
+                output.UserId = minifireuser.Id;
+                output.Name = minifireuser.ContactName;
+                var ministation = await _repMiniFireStation.FirstOrDefaultAsync(p => p.Id == minifireuser.MiniFireStationId);
+                var fireunit = await _repFireUnit.FirstOrDefaultAsync(p => p.Id == ministation.FireUnitId);
+                if(fireunit!=null)
+                    output.DeptName = fireunit.Name;
+                output.IsMiniFireUser = true;
+                return output;
+            }
             var v =await _fireDeptUserRep.FirstOrDefaultAsync(p => p.Account.Equals(input.Account)&&p.Password.Equals(md5));
             if (v == null)
             {
