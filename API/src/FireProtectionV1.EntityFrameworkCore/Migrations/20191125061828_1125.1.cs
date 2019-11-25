@@ -2,59 +2,48 @@
 
 namespace FireProtectionV1.Migrations
 {
-    public partial class _11252 : Migration
+    public partial class _11251 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "FiremanNum",
+            migrationBuilder.AddColumn<string>(
+                name: "FireDeptContractName",
                 table: "FireUnit",
-                nullable: false,
-                defaultValue: 0);
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "FireDeptContractPhone",
+                table: "FireUnit",
+                nullable: true);
 
             migrationBuilder.AddColumn<int>(
-                name: "FiremanTest",
+                name: "FireDeptId",
                 table: "FireUnit",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.AddColumn<string>(
-                name: "LegalPerson",
+                name: "ZP_Picture",
                 table: "FireUnit",
                 nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "LegalPersonPhone",
-                table: "FireUnit",
-                nullable: true);
-
-            migrationBuilder.AddColumn<int>(
-                name: "WorkerNum",
-                table: "FireUnit",
-                nullable: false,
-                defaultValue: 0);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "FiremanNum",
+                name: "FireDeptContractName",
                 table: "FireUnit");
 
             migrationBuilder.DropColumn(
-                name: "FiremanTest",
+                name: "FireDeptContractPhone",
                 table: "FireUnit");
 
             migrationBuilder.DropColumn(
-                name: "LegalPerson",
+                name: "FireDeptId",
                 table: "FireUnit");
 
             migrationBuilder.DropColumn(
-                name: "LegalPersonPhone",
-                table: "FireUnit");
-
-            migrationBuilder.DropColumn(
-                name: "WorkerNum",
+                name: "ZP_Picture",
                 table: "FireUnit");
         }
     }
