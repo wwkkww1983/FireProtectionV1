@@ -46,10 +46,17 @@ namespace FireProtectionV1.Enterprise.Manager
         Task<FireUnitArchitecture> GetById(int id);
 
         /// <summary>
-        /// 获取某个防火单位的所有建筑信息
+        /// 获取某个防火单位的所有建筑信息（常用于建筑树状展示）
         /// </summary>
         /// <param name="fireunitId"></param>
         /// <returns></returns>
         Task<List<GetFireUnitArchitectureOutput>> GetListByFireUnitId(int fireunitId);
+
+        /// <summary>
+        /// 根据建筑ID获取下属楼层（常用于建筑与楼层级联下拉框）
+        /// </summary>
+        /// <param name="architectureId"></param>
+        /// <returns></returns>
+        Task<List<FireUnitArchitectureFloor>> GetFloorsByArchitectureId(int architectureId);
     }
 }

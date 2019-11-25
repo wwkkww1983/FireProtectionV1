@@ -206,5 +206,16 @@ namespace FireProtectionV1.Enterprise.Manager
                         };
             return Task.FromResult(query.ToList());
         }
+
+        public Task<List<FireUnitArchitectureFloor>> GetFloorsByArchitectureId(int architectureId)
+        {
+            var FireUnitArchitectureFloors = _FireUnitArchitectureFloorRepository.GetAll();
+
+            var expr = ExprExtension.True<FireUnitArchitectureFloor>().And(item => item.ArchitectureId.Equals(architectureId));
+
+            FireUnitArchitectureFloors = FireUnitArchitectureFloors.Where(expr);
+
+            return Task.FromResult(FireUnitArchitectureFloors.ToList());
+        }
     }
 }
