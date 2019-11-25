@@ -21,7 +21,6 @@ namespace FireProtectionV1.Enterprise.Model
         /// <summary>
         /// 防火单位地址
         /// </summary>
-        [Required]
         [MaxLength(StringType.Long)]
         public string Address { get; set; }
         /// <summary>
@@ -30,19 +29,38 @@ namespace FireProtectionV1.Enterprise.Model
         [Required]
         public int TypeId { get; set; }
         /// <summary>
+        /// 法人
+        /// </summary>
+        public string LegalPerson { get; set; }
+        /// <summary>
+        /// 法人联系电话
+        /// </summary>
+        public string LegalPersonPhone { get; set; }
+        /// <summary>
+        /// 专兼职消防员数量
+        /// </summary>
+        public int FiremanNum { get; set; }
+        /// <summary>
+        /// 专兼职消防员测试
+        /// </summary>
+        public int FiremanTest { get; set; }
+        /// <summary>
+        /// 职工人数
+        /// </summary>
+        public int WorkerNum { get; set; }
+        /// <summary>
         /// 所属区域
         /// </summary>
         [Required]
         public int AreaId { get; set; }
         /// <summary>
-        /// 联系人
+        /// 联系人（消防管理负责人）
         /// </summary>
         [MaxLength(StringType.Normal)]
         public string ContractName { get; set; }
         /// <summary>
-        /// 联系电话
+        /// 联系人电话
         /// </summary>
-        [Phone]
         [MaxLength(20)]
         public string ContractPhone { get; set; }
         /// <summary>
@@ -66,5 +84,21 @@ namespace FireProtectionV1.Enterprise.Model
         /// 巡查方式
         /// </summary>
         public byte Patrol { get; set; }
+        /// <summary>
+        /// 归口消防监管部门
+        /// </summary>
+        public int FireDeptId { get; set; }
+        /// <summary>
+        /// 归口部门联系人
+        /// </summary>
+        public string FireDeptContractName { get; set; }
+        /// <summary>
+        /// 归口部门联系人电话
+        /// </summary>
+        public string FireDeptContractPhone { get; set; }
+        /// <summary>
+        /// 总平图存放路径
+        /// </summary>
+        public string ZP_Picture { get; set; }
     }
 }

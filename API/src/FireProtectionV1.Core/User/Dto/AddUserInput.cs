@@ -21,10 +21,26 @@ namespace FireProtectionV1.User.Dto
         [Required]
         public string Name { get; set; }
         /// <summary>
-        /// 部门ID
+        /// 单位ID
         /// </summary>
         [Required]
         public int FireUnitInfoID { get; set; }
+        /// <summary>
+        /// 照片
+        /// </summary>
+        public string Photo { get; set; }
+        /// <summary>
+        /// 职业资格证书名称
+        /// </summary>
+        public string Qualification { get; set; }
+        /// <summary>
+        /// 职业资格证书编号
+        /// </summary>
+        public string QualificationNumber { get; set; }
+        /// <summary>
+        /// 职业资格证书有效期
+        /// </summary>
+        public DateTime QualificationValidity { get; set; }
         /// <summary>
         /// 权限
         /// </summary>

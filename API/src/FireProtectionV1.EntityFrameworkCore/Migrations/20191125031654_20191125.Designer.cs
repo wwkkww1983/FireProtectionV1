@@ -3,14 +3,16 @@ using System;
 using FireProtectionV1.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FireProtectionV1.Migrations
 {
     [DbContext(typeof(FireProtectionV1DbContext))]
-    partial class FireProtectionV1DbContextModelSnapshot : ModelSnapshot
+    [Migration("20191125031654_20191125")]
+    partial class _20191125
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,8 +109,6 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<int>("FiremanNum");
 
-                    b.Property<int>("FiremanTest");
-
                     b.Property<string>("InvitationCode")
                         .HasMaxLength(10);
 
@@ -141,100 +141,6 @@ namespace FireProtectionV1.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FireUnit");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.Enterprise.Model.FireUnitArchitecture", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AboveNum");
-
-                    b.Property<decimal>("Area");
-
-                    b.Property<int>("BelowNum");
-
-                    b.Property<int>("BuildYear");
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<string>("FireDevice_FHJL_Detail");
-
-                    b.Property<bool>("FireDevice_FHJL_Exist");
-
-                    b.Property<string>("FireDevice_FHM_Detail");
-
-                    b.Property<bool>("FireDevice_FHM_Exist");
-
-                    b.Property<string>("FireDevice_HJ_Detail");
-
-                    b.Property<bool>("FireDevice_HJ_Exist");
-
-                    b.Property<string>("FireDevice_LTJ_Detail");
-
-                    b.Property<bool>("FireDevice_LTJ_Exist");
-
-                    b.Property<string>("FireDevice_MHQ_Detail");
-
-                    b.Property<bool>("FireDevice_MHQ_Exist");
-
-                    b.Property<string>("FireDevice_MH_Detail");
-
-                    b.Property<bool>("FireDevice_MH_Exist");
-
-                    b.Property<string>("FireDevice_SSZS_Detail");
-
-                    b.Property<bool>("FireDevice_SSZS_Exist");
-
-                    b.Property<string>("FireDevice_TFPY_Detail");
-
-                    b.Property<bool>("FireDevice_TFPY_Exist");
-
-                    b.Property<string>("FireDevice_XFSY_Detail");
-
-                    b.Property<bool>("FireDevice_XFSY_Exist");
-
-                    b.Property<string>("FireDevice_XHS_Detail");
-
-                    b.Property<bool>("FireDevice_XHS_Exist");
-
-                    b.Property<string>("FireDevice_YJZM_Detail");
-
-                    b.Property<bool>("FireDevice_YJZM_Exist");
-
-                    b.Property<int>("FireUnitId");
-
-                    b.Property<decimal>("Height");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("Outward_Picture");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FireUnitArchitecture");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.Enterprise.Model.FireUnitArchitectureFloor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("ArchitectureId");
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<string>("Floor_Picture");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FireUnitArchitectureFloor");
                 });
 
             modelBuilder.Entity("FireProtectionV1.Enterprise.Model.FireUnitAttention", b =>

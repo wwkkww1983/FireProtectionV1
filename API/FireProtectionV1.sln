@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FireProtectionV1.Migrator",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GovFire", "GovFire\GovFire.csproj", "{DE0F0775-04F8-4FF5-BA13-C2B170D97128}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "test", "test\test.csproj", "{00E6B408-8188-4029-A9EC-E7079ACBF8A1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,10 +53,6 @@ Global
 		{DE0F0775-04F8-4FF5-BA13-C2B170D97128}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE0F0775-04F8-4FF5-BA13-C2B170D97128}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE0F0775-04F8-4FF5-BA13-C2B170D97128}.Release|Any CPU.Build.0 = Release|Any CPU
-		{00E6B408-8188-4029-A9EC-E7079ACBF8A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{00E6B408-8188-4029-A9EC-E7079ACBF8A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{00E6B408-8188-4029-A9EC-E7079ACBF8A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{00E6B408-8188-4029-A9EC-E7079ACBF8A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,7 +65,6 @@ Global
 		{C6DB4135-8D62-415B-BA11-A5F69587C2CF} = {AFAA0841-BD93-466F-B8F4-FB4EEC86F1FC}
 		{623F38AA-B22D-410E-A430-29EE27C68911} = {AFAA0841-BD93-466F-B8F4-FB4EEC86F1FC}
 		{DE0F0775-04F8-4FF5-BA13-C2B170D97128} = {AFAA0841-BD93-466F-B8F4-FB4EEC86F1FC}
-		{00E6B408-8188-4029-A9EC-E7079ACBF8A1} = {AFAA0841-BD93-466F-B8F4-FB4EEC86F1FC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EBE68CA0-E446-4E9E-85DA-283605035966}

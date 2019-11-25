@@ -7,7 +7,7 @@ using System.Text;
 namespace FireProtectionV1.Enterprise.Model
 {
     /// <summary>
-    /// 防火单位
+    /// 监管人员关注防火单位
     /// </summary>
     public class FireUnitAttention : EntityBase
     {

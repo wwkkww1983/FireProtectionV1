@@ -65,12 +65,7 @@ namespace FireProtectionV1.User.Manager
         /// <returns></returns>
         public async Task<int> Add(FireUnitUserInput input)
         {
-            //AccountInfo account = new AccountInfo()
-            //{
-            //    Account = input.Account,
-            //    Password = input.Password,
-            //    Name = input.Name
-            //};
+            Valid.Exception(_fireUnitAccountRepository.Count(m => m.Account.Equals(input.Account)) > 0, "手机号已被注册");
             var account = input.MapTo<FireUnitUser>();
             int accountID = await _fireUnitAccountRepository.InsertAndGetIdAsync(account);
 
@@ -182,6 +177,10 @@ namespace FireProtectionV1.User.Manager
             var userInfo= await _fireUnitAccountRepository.SingleAsync(u => u.Id == input.ID);
             userInfo.Account = input.Account;
             userInfo.Name = input.Name;
+            userInfo.Photo = input.Photo;
+            userInfo.Qualification = input.Qualification;
+            userInfo.QualificationNumber = input.QualificationNumber;
+            userInfo.QualificationValidity = input.QualificationValidity;
             _fireUnitAccountRepository.Update(userInfo);
 
             string sql = $@"DELETE FROM fireunituserrole WHERE AccountID={input.ID}";
@@ -206,14 +205,16 @@ namespace FireProtectionV1.User.Manager
         public async Task<SuccessOutput> AddUser(AddUserInput input)
         {
             SuccessOutput output = new SuccessOutput() { Success = true };
-            var haveuser = _fireUnitAccountRepository.GetAll().Where(p => p.Account.Equals(input.Account)).FirstOrDefault();
-            if (haveuser != null)
-                return new SuccessOutput() { Success = false, FailCause = "手机号已被注册" };
+            Valid.Exception(_fireUnitAccountRepository.Count(m => m.Account.Equals(input.Account)) > 0, "手机号已被注册");
             FireUnitUser user = new FireUnitUser()
             {
                 Name = input.Name,
                 Account=input.Account,
                 FireUnitInfoID = input.FireUnitInfoID,
+                Photo = input.Photo,
+                Qualification = input.Qualification,
+                QualificationNumber = input.QualificationNumber,
+                QualificationValidity = input.QualificationValidity,
                 Password = MD5Encrypt.Encrypt("666666" + input.Account, 16),
             };
             var userid = _fireUnitAccountRepository.InsertAndGetId(user);

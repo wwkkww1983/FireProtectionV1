@@ -27,19 +27,24 @@ namespace FireProtectionV1.User.Model
     public enum FireUnitRole
     {
         /// <summary>
-        /// 防火单位管理员
+        /// 消防管理员
         /// </summary>
-        [Description("防火单位管理员")]
+        [Description("消防管理员")]
         FireUnitManager = 1,
         /// <summary>
-        /// 防火单位值班员
+        /// 消防值班员
         /// </summary>
-        [Description("防火单位值班员")]
+        [Description("消防值班员")]
         FireUnitDuty = 2,
         /// <summary>
-        /// 防火单位巡查员
+        /// 消防巡查员
         /// </summary>
-        [Description("防火单位巡查员")]
+        [Description("消防巡查员")]
         FireUnitPatrol = 3,
+        /// <summary>
+        /// 消防人员
+        /// </summary>
+        [Description("消防人员")]
+        FireUnitPeople = 4
     }
 }

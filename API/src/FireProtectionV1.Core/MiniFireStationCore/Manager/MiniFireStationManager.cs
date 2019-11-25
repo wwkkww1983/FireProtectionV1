@@ -248,7 +248,7 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
                     if(!jobuser.ContactName.Equals(input.ContactName)||
                         !jobuser.ContactPhone.Equals(input.ContactPhone)||
                         !jobuser.Job.Equals(input.Job))
-                        return new SuccessOutput() { Success = false, FailCause = "此功能只能修改站长照片" };
+                        return new SuccessOutput() { Success = false, FailCause = "只能修改站长照片" };
                 }
                 jobuser.ContactName = input.ContactName;
                 jobuser.ContactPhone = input.ContactPhone;

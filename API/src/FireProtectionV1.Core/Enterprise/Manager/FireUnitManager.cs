@@ -62,6 +62,11 @@ namespace FireProtectionV1.Enterprise.Manager
             _fireUnitSystemRep = fireUnitSystemRep;
             _equipmentNoRep = equipmentNoRep;
         }
+        /// <summary>
+        /// 保存消防预案
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<SuccessOutput> SaveFirePlan(FirePlanInput input)
         {
             var plan = await _repFireUnitPlan.FirstOrDefaultAsync(p => p.FireUnitId == input.FireUnitId);
@@ -80,6 +85,11 @@ namespace FireProtectionV1.Enterprise.Manager
             }
             return new SuccessOutput() { Success = true };
         }
+        /// <summary>
+        /// 获得消防预案
+        /// </summary>
+        /// <param name="FireUnitId"></param>
+        /// <returns></returns>
         public async Task<string> GetFirePlan(int FireUnitId)
         {
             var plan =await _repFireUnitPlan.FirstOrDefaultAsync(p => p.FireUnitId == FireUnitId);
@@ -87,6 +97,11 @@ namespace FireProtectionV1.Enterprise.Manager
                 return plan.FirePlan;
             return null;
         }
+        /// <summary>
+        /// 按防火单位名称模糊查询
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<List<FireUnitNameOutput>> QueryFireUnitLikeName(QueryFireUnitLikeNameInput input)
         {
             List<FireUnitNameOutput> output = await Task.Run(() =>
@@ -279,6 +294,14 @@ namespace FireProtectionV1.Enterprise.Manager
         {
             var old= _fireUnitRep.GetAll().Where(u=>u.Id==input.Id).FirstOrDefault();
             old.Name = input.Name;
+            old.LegalPerson = input.LegalPerson;
+            old.LegalPersonPhone = input.LegalPersonPhone;
+            old.FiremanNum = input.FiremanNum;
+            old.WorkerNum = input.WorkerNum;
+            old.FireDeptId = input.FireDeptId;
+            old.FireDeptContractName = input.FireDeptContractName;
+            old.FireDeptContractPhone = input.FireDeptContractPhone;
+            old.ZP_Picture = input.ZP_Picture;
             old.TypeId = input.TypeId;
             old.AreaId = input.AreaId;
             old.Address = input.Address;
@@ -310,7 +333,7 @@ namespace FireProtectionV1.Enterprise.Manager
                 output.Address = f.Address;
                 output.ContractName = f.ContractName;
                 output.ContractPhone = f.ContractPhone;
-                output.Patrol = (Patrol)f.Patrol;
+                output.Patrol = f.Patrol;
                 output.Lat = f.Lat;
                 output.Lng = f.Lng;
                 var a =await _areaRep.SingleAsync(p => p.Id.Equals(f.AreaId));
