@@ -2,7 +2,7 @@
 
 namespace FireProtectionV1.Migrations
 {
-    public partial class _1125 : Migration
+    public partial class _20191125 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

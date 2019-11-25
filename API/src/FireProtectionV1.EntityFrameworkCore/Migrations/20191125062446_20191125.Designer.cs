@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FireProtectionV1.Migrations
 {
     [DbContext(typeof(FireProtectionV1DbContext))]
-    [Migration("20191125061828_1125.1")]
-    partial class _11251
+    [Migration("20191125062446_20191125")]
+    partial class _20191125
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1310,14 +1310,6 @@ namespace FireProtectionV1.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(50);
-
-                    b.Property<string>("Photo");
-
-                    b.Property<string>("Qualification");
-
-                    b.Property<string>("QualificationNumber");
-
-                    b.Property<DateTime>("QualificationValidity");
 
                     b.Property<int>("Status");
 

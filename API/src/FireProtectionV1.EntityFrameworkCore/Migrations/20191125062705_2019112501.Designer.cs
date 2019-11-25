@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FireProtectionV1.Migrations
 {
     [DbContext(typeof(FireProtectionV1DbContext))]
-    [Migration("20191125061750_1125")]
-    partial class _1125
+    [Migration("20191125062705_2019112501")]
+    partial class _2019112501
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -101,6 +101,12 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<DateTime>("CreationTime");
 
+                    b.Property<string>("FireDeptContractName");
+
+                    b.Property<string>("FireDeptContractPhone");
+
+                    b.Property<int>("FireDeptId");
+
                     b.Property<int>("FiremanNum");
 
                     b.Property<string>("InvitationCode")
@@ -129,6 +135,8 @@ namespace FireProtectionV1.Migrations
                     b.Property<int>("TypeId");
 
                     b.Property<int>("WorkerNum");
+
+                    b.Property<string>("ZP_Picture");
 
                     b.HasKey("Id");
 
