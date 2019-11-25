@@ -300,6 +300,156 @@
             消防系统名称
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.Name">
+            <summary>
+            建筑名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.AboveNum">
+            <summary>
+            地上层数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.BelowNum">
+            <summary>
+            地下层数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.BuildYear">
+            <summary>
+            建造年代
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.Area">
+            <summary>
+            建筑面积
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.Height">
+            <summary>
+            建筑高度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.Outward_Picture">
+            <summary>
+            外观图
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.FireUnitId">
+            <summary>
+            所属防火单位
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.FireDevice_LTJ_Exist">
+            <summary>
+            消防设施_楼梯间_是否存在
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.FireDevice_LTJ_Detail">
+            <summary>
+            消防设施_楼梯间_细节
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.FireDevice_HJ_Exist">
+            <summary>
+            消防设施_火警系统_是否存在
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.FireDevice_HJ_Detail">
+            <summary>
+            消防设施_火警系统_细节
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.FireDevice_MH_Exist">
+            <summary>
+            消防设施_自动灭火系统_是否存在
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.FireDevice_MH_Detail">
+            <summary>
+            消防设施_自动灭火系统_细节
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.FireDevice_TFPY_Exist">
+            <summary>
+            消防设施_通风和防排烟系统_是否存在
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.FireDevice_TFPY_Detail">
+            <summary>
+            消防设施_通风和防排烟系统_细节
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.FireDevice_XHS_Exist">
+            <summary>
+            消防设施_消火栓系统_是否存在
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.FireDevice_XHS_Detail">
+            <summary>
+            消防设施_消火栓系统_细节
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.FireDevice_XFSY_Exist">
+            <summary>
+            消防设施_消防水源_是否存在
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.FireDevice_XFSY_Detail">
+            <summary>
+            消防设施_消防水源_细节
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.FireDevice_FHM_Exist">
+            <summary>
+            消防设施_防火门_是否存在
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.FireDevice_FHM_Detail">
+            <summary>
+            消防设施_防火门_细节
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.FireDevice_FHJL_Exist">
+            <summary>
+            消防设施_防火卷帘_是否存在
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.FireDevice_FHJL_Detail">
+            <summary>
+            消防设施_防火卷帘_细节
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.FireDevice_MHQ_Exist">
+            <summary>
+            消防设施_灭火器_是否存在
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.FireDevice_MHQ_Detail">
+            <summary>
+            消防设施_灭火器_细节
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.FireDevice_YJZM_Exist">
+            <summary>
+            消防设施_应急照明_是否存在
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.FireDevice_YJZM_Detail">
+            <summary>
+            消防设施_应急照明_细节
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.FireDevice_SSZS_Exist">
+            <summary>
+            消防设施_疏散指示标志_是否存在
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput.FireDevice_SSZS_Detail">
+            <summary>
+            消防设施_疏散指示标志_细节
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.AddFireUnitInput.Name">
             <summary>
             防火单位名称
@@ -372,7 +522,7 @@
         </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.DeletFireUnitInput.Id">
             <summary>
-            防火单元ID
+            防火单位ID
             </summary>
         </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.DeptUserAttentionFireUnitInput.UserId">
@@ -465,6 +615,11 @@
             消防系统ID
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitArchitectureOutput.Floors">
+            <summary>
+            建筑下的楼层列表
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitExcelOutput.Name">
             <summary>
             防火单位名称
@@ -505,44 +660,14 @@
             防火单位Id
             </summary>
         </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.Id">
-            <summary>
-            防火单位Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.Name">
-            <summary>
-            防火单位名称
-            </summary>
-        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.Area">
             <summary>
             防火单位区域
             </summary>
         </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.Address">
-            <summary>
-            防火单位地址
-            </summary>
-        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.Type">
             <summary>
             防火单位类型
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.ContractName">
-            <summary>
-            联系人
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.ContractPhone">
-            <summary>
-            联系电话
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.SafeUnitId">
-            <summary>
-            维保单位Id
             </summary>
         </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.SafeUnit">
@@ -553,21 +678,6 @@
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.IsAttention">
             <summary>
             是否关注
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.Patrol">
-            <summary>
-            巡查方式
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.Lng">
-            <summary>
-            经度
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.Lat">
-            <summary>
-            纬度
             </summary>
         </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput.Name">
@@ -790,56 +900,6 @@
             更新
             </summary>
         </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.UpdateFireUnitInput.Id">
-            <summary>
-            防火单位Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.UpdateFireUnitInput.Name">
-            <summary>
-            防火单位名称
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.UpdateFireUnitInput.TypeId">
-            <summary>
-            防火单位类型Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.UpdateFireUnitInput.AreaId">
-            <summary>
-            区域Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.UpdateFireUnitInput.ContractName">
-            <summary>
-            联系人
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.UpdateFireUnitInput.ContractPhone">
-            <summary>
-            联系电话
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.UpdateFireUnitInput.SafeUnitId">
-            <summary>
-            维保单位Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.UpdateFireUnitInput.Address">
-            <summary>
-            地址
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.UpdateFireUnitInput.Lng">
-            <summary>
-            经度
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.Enterprise.Dto.UpdateFireUnitInput.Lat">
-            <summary>
-            纬度
-            </summary>
-        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.UpdateFireUnitSetInput.FireUnitId">
             <summary>
             防火单位Id
@@ -860,6 +920,27 @@
             <summary>
             消防系统Id
             </summary>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.SaveFirePlan(FireProtectionV1.Enterprise.Dto.FirePlanInput)">
+            <summary>
+            保存消防预案
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.GetFirePlan(System.Int32)">
+            <summary>
+            获得消防预案
+            </summary>
+            <param name="FireUnitId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.QueryFireUnitLikeName(FireProtectionV1.Enterprise.Dto.QueryFireUnitLikeNameInput)">
+            <summary>
+            按防火单位名称模糊查询
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
         </member>
         <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.InvitatVerify(FireProtectionV1.Enterprise.Dto.InvitatVerifyInput)">
             <summary>
@@ -1004,6 +1085,48 @@
             扫码获取信息
             </summary>
             <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitArchitectureManager.Add(FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput)">
+            <summary>
+            添加
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitArchitectureManager.Update(FireProtectionV1.Enterprise.Dto.UpdateFireUnitArchitectureInput)">
+            <summary>
+            修改建筑信息
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitArchitectureManager.UpdateFloor(FireProtectionV1.Enterprise.Dto.UpdateFireUnitArchitectureFloorInput)">
+            <summary>
+            修改楼层信息
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitArchitectureManager.Delete(System.Int32)">
+            <summary>
+            删除
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitArchitectureManager.GetById(System.Int32)">
+            <summary>
+            获取单个建筑信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitArchitectureManager.GetListByFireUnitId(System.Int32)">
+            <summary>
+            获取某个防火单位的所有建筑信息
+            </summary>
+            <param name="fireunitId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.Add(FireProtectionV1.Enterprise.Dto.AddFireUnitInput)">
@@ -1287,6 +1410,26 @@
             防火单位类型
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnit.LegalPerson">
+            <summary>
+            法人
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnit.LegalPersonPhone">
+            <summary>
+            法人联系电话
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnit.FiremanNum">
+            <summary>
+            专兼职消防员数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnit.WorkerNum">
+            <summary>
+            职工人数
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Model.FireUnit.AreaId">
             <summary>
             所属区域
@@ -1294,12 +1437,12 @@
         </member>
         <member name="P:FireProtectionV1.Enterprise.Model.FireUnit.ContractName">
             <summary>
-            联系人
+            联系人（消防管理负责人）
             </summary>
         </member>
         <member name="P:FireProtectionV1.Enterprise.Model.FireUnit.ContractPhone">
             <summary>
-            联系电话
+            联系人电话
             </summary>
         </member>
         <member name="P:FireProtectionV1.Enterprise.Model.FireUnit.InvitationCode">
@@ -1327,9 +1470,194 @@
             巡查方式
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnit.FireDeptId">
+            <summary>
+            归口消防监管部门
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnit.FireDeptContractName">
+            <summary>
+            归口部门联系人
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnit.FireDeptContractPhone">
+            <summary>
+            归口部门联系人电话
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnit.ZP_Picture">
+            <summary>
+            总平图存放路径
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.Name">
+            <summary>
+            建筑名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.AboveNum">
+            <summary>
+            地上层数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.BelowNum">
+            <summary>
+            地下层数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.BuildYear">
+            <summary>
+            建造年代
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.Area">
+            <summary>
+            建筑面积
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.Height">
+            <summary>
+            建筑高度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.Outward_Picture">
+            <summary>
+            外观图
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.FireUnitId">
+            <summary>
+            所属防火单位
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.FireDevice_LTJ_Exist">
+            <summary>
+            消防设施_楼梯间_是否存在
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.FireDevice_LTJ_Detail">
+            <summary>
+            消防设施_楼梯间_细节
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.FireDevice_HJ_Exist">
+            <summary>
+            消防设施_火警系统_是否存在
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.FireDevice_HJ_Detail">
+            <summary>
+            消防设施_火警系统_细节
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.FireDevice_MH_Exist">
+            <summary>
+            消防设施_自动灭火系统_是否存在
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.FireDevice_MH_Detail">
+            <summary>
+            消防设施_自动灭火系统_细节
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.FireDevice_TFPY_Exist">
+            <summary>
+            消防设施_通风和防排烟系统_是否存在
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.FireDevice_TFPY_Detail">
+            <summary>
+            消防设施_通风和防排烟系统_细节
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.FireDevice_XHS_Exist">
+            <summary>
+            消防设施_消火栓系统_是否存在
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.FireDevice_XHS_Detail">
+            <summary>
+            消防设施_消火栓系统_细节
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.FireDevice_XFSY_Exist">
+            <summary>
+            消防设施_消防水源_是否存在
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.FireDevice_XFSY_Detail">
+            <summary>
+            消防设施_消防水源_细节
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.FireDevice_FHM_Exist">
+            <summary>
+            消防设施_防火门_是否存在
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.FireDevice_FHM_Detail">
+            <summary>
+            消防设施_防火门_细节
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.FireDevice_FHJL_Exist">
+            <summary>
+            消防设施_防火卷帘_是否存在
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.FireDevice_FHJL_Detail">
+            <summary>
+            消防设施_防火卷帘_细节
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.FireDevice_MHQ_Exist">
+            <summary>
+            消防设施_灭火器_是否存在
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.FireDevice_MHQ_Detail">
+            <summary>
+            消防设施_灭火器_细节
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.FireDevice_YJZM_Exist">
+            <summary>
+            消防设施_应急照明_是否存在
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.FireDevice_YJZM_Detail">
+            <summary>
+            消防设施_应急照明_细节
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.FireDevice_SSZS_Exist">
+            <summary>
+            消防设施_疏散指示标志_是否存在
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitecture.FireDevice_SSZS_Detail">
+            <summary>
+            消防设施_疏散指示标志_细节
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitectureFloor.Name">
+            <summary>
+            楼层名称，例如1楼、-1楼
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitectureFloor.Floor_Picture">
+            <summary>
+            楼层平面图
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitArchitectureFloor.ArchitectureId">
+            <summary>
+            所属建筑ID
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.Enterprise.Model.FireUnitAttention">
             <summary>
-            防火单位
+            监管人员关注防火单位
             </summary>
         </member>
         <member name="P:FireProtectionV1.Enterprise.Model.FireUnitAttention.FireUnitId">
@@ -6644,7 +6972,27 @@
         </member>
         <member name="P:FireProtectionV1.User.Dto.AddUserInput.FireUnitInfoID">
             <summary>
-            部门ID
+            单位ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.AddUserInput.Photo">
+            <summary>
+            照片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.AddUserInput.Qualification">
+            <summary>
+            职业资格证书名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.AddUserInput.QualificationNumber">
+            <summary>
+            职业资格证书编号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.AddUserInput.QualificationValidity">
+            <summary>
+            职业资格证书有效期
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Dto.AddUserInput.Rolelist">
@@ -6712,6 +7060,26 @@
             角色
             </summary>
         </member>
+        <member name="P:FireProtectionV1.User.Dto.FireUnitUserInput.Photo">
+            <summary>
+            照片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.FireUnitUserInput.Qualification">
+            <summary>
+            职业资格证书名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.FireUnitUserInput.QualificationNumber">
+            <summary>
+            职业资格证书编号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.FireUnitUserInput.QualificationValidity">
+            <summary>
+            职业资格证书有效期
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.User.Dto.FireUnitUserLoginOutput.UserId">
             <summary>
             用户Id
@@ -6765,6 +7133,26 @@
         <member name="P:FireProtectionV1.User.Dto.GetUnitPeopleOutput.Account">
             <summary>
             账号（手机号）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.GetUnitPeopleOutput.Photo">
+            <summary>
+            照片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.GetUnitPeopleOutput.Qualification">
+            <summary>
+            职业资格证书名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.GetUnitPeopleOutput.QualificationNumber">
+            <summary>
+            职业资格证书编号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.GetUnitPeopleOutput.QualificationValidity">
+            <summary>
+            职业资格证书有效期
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Dto.GetUnitPeopleOutput.Rolelist">
@@ -7202,6 +7590,26 @@
             姓名
             </summary>
         </member>
+        <member name="P:FireProtectionV1.User.Model.FireUnitUser.Photo">
+            <summary>
+            照片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Model.FireUnitUser.Qualification">
+            <summary>
+            职业资格证书名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Model.FireUnitUser.QualificationNumber">
+            <summary>
+            职业资格证书编号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Model.FireUnitUser.QualificationValidity">
+            <summary>
+            职业资格证书有效期
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.User.Model.FireUnitUser.FireUnitInfoID">
             <summary>
             防火单位ID
@@ -7224,17 +7632,22 @@
         </member>
         <member name="F:FireProtectionV1.User.Model.FireUnitRole.FireUnitManager">
             <summary>
-            防火单位管理员
+            消防管理员
             </summary>
         </member>
         <member name="F:FireProtectionV1.User.Model.FireUnitRole.FireUnitDuty">
             <summary>
-            防火单位值班员
+            消防值班员
             </summary>
         </member>
         <member name="F:FireProtectionV1.User.Model.FireUnitRole.FireUnitPatrol">
             <summary>
-            防火单位巡查员
+            消防巡查员
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.User.Model.FireUnitRole.FireUnitPeople">
+            <summary>
+            消防人员
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Model.HydrantUser.Account">

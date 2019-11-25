@@ -40,10 +40,10 @@ namespace FireProtectionV1.Enterprise.Model
         /// 专兼职消防员数量
         /// </summary>
         public int FiremanNum { get; set; }
-        /// <summary>
-        /// 专兼职消防员测试
-        /// </summary>
-        public int FiremanTest { get; set; }
+        ///// <summary>
+        ///// 专兼职消防员测试
+        ///// </summary>
+        //public int FiremanTest { get; set; }
         /// <summary>
         /// 职工人数
         /// </summary>

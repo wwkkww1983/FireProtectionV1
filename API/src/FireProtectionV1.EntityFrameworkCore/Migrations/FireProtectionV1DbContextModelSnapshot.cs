@@ -107,8 +107,6 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<int>("FiremanNum");
 
-                    b.Property<int>("FiremanTest");
-
                     b.Property<string>("InvitationCode")
                         .HasMaxLength(10);
 

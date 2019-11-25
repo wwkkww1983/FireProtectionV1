@@ -2,22 +2,22 @@
 
 namespace FireProtectionV1.Migrations
 {
-    public partial class _2019112503 : Migration
+    public partial class _11253 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "WorkerNum",
-                table: "FireUnit",
-                newName: "FiremanTest");
+            migrationBuilder.DropColumn(
+                name: "FiremanTest",
+                table: "FireUnit");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
+            migrationBuilder.AddColumn<int>(
                 name: "FiremanTest",
                 table: "FireUnit",
-                newName: "WorkerNum");
+                nullable: false,
+                defaultValue: 0);
         }
     }
 }
