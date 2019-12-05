@@ -47,4 +47,46 @@ namespace FireProtectionV1.User.Model
         [Description("消防人员")]
         FireUnitPeople = 4
     }
+    public class FireUnitRoleFunc
+    {
+        static public List<string> GetListName(List<FireUnitRole> lstRole)
+        {
+            List<string> lst = new List<string>();
+            foreach(var v in lstRole)
+            {
+                lst.Add(GetRoleName(v));
+            }
+            return lst;
+        }
+        static public FireUnitRole GetRoleEnum(string role)
+        {
+            switch (role)
+            {
+                case "消防管理员":
+                    return FireUnitRole.FireUnitManager;
+                case "消防值班员":
+                    return FireUnitRole.FireUnitDuty;
+                case "消防巡查员":
+                    return FireUnitRole.FireUnitPatrol;
+                case "消防人员":
+                    return FireUnitRole.FireUnitPeople;
+            }
+            return FireUnitRole.FireUnitPeople;
+        }
+        static public string GetRoleName(FireUnitRole role)
+        {
+            switch (role)
+            {
+                case FireUnitRole.FireUnitManager:
+                    return "消防管理员";
+                case FireUnitRole.FireUnitDuty:
+                    return "消防值班员";
+                case FireUnitRole.FireUnitPatrol:
+                    return "消防巡查员";
+                case FireUnitRole.FireUnitPeople:
+                    return "消防人员";
+            }
+            return "";
+        }
+    }
 }

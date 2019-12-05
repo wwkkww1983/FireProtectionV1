@@ -18,6 +18,7 @@ namespace FireProtectionV1.FireWorking.Manager
 {
     public class BreakDownManager : IBreakDownManager
     {
+        IRepository<Detector> _repDetector;
         IHostingEnvironment _hostingEnv;
         IRepository<SafeUnitUser> _repSafeUnitUser;
         IRepository<FireUnit> _fireUnitRep;
@@ -32,6 +33,7 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<DataToPatrol> _patrolRep;
         IRepository<DataToPatrolDetail> _patrolDetailRep;
         public BreakDownManager(
+            IRepository<Detector> repDetector,
             IRepository<SafeUnitUser> repSafeUnitUser,
             IHostingEnvironment hostingEnv,
             IRepository<FireUnit> fireUnitRep,
@@ -47,6 +49,7 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<Fault> Fault
             )
         {
+            _repDetector = repDetector;
             _repSafeUnitUser = repSafeUnitUser;
             _hostingEnv = hostingEnv;
             _fireUnitRep = fireUnitRep;
@@ -224,6 +227,20 @@ namespace FireProtectionV1.FireWorking.Manager
                     breakdown.SolutionWay = input.SolutionWay;
                     breakdown.SolutionTime = now;
                     breakdown.HandleStatus = (byte)input.HandleStatus;
+                    if(breakdown.Source== (byte)Common.Enum.SourceType.Terminal)
+                    {
+                        var fault = await _Fault.FirstOrDefaultAsync(p => p.Id == breakdown.DataId);
+                        if (fault != null)
+                        {
+                            var detector = await _repDetector.FirstOrDefaultAsync(p => p.Id == fault.DetectorId);
+                            if (detector != null)
+                            {
+                                if(detector.FaultNum>0)
+                                    detector.FaultNum--;
+                                await _repDetector.UpdateAsync(detector);
+                            }
+                        }
+                    }
                 }
                 //维保单位页面提交
                 else if (input.HandleStatus == HandleStatus.SafeResolving)

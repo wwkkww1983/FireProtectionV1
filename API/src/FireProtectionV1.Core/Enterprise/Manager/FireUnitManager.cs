@@ -327,6 +327,18 @@ namespace FireProtectionV1.Enterprise.Manager
             var f = await _fireUnitRep.SingleAsync(p => p.Id.Equals(input.Id));
             if (f != null)
             {
+                output.CreationTime = f.CreationTime;
+                output.ZP_Picture = f.ZP_Picture;
+                output.FireDeptContractPhone = f.FireDeptContractPhone;
+                output.FireDeptContractName = f.FireDeptContractName;
+                output.FireDeptId = f.FireDeptId;
+                output.InvitationCode = f.InvitationCode;
+                output.WorkerNum = f.WorkerNum;
+                output.FiremanNum = f.FiremanNum;
+                output.LegalPersonPhone = f.LegalPersonPhone;
+                output.LegalPerson = f.LegalPerson;
+                output.TypeId = f.TypeId;
+                output.AreaId = f.AreaId;
                 output.IsAttention = att != null;
                 output.Id = f.Id;
                 output.Name = f.Name;

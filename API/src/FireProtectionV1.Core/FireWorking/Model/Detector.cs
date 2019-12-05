@@ -51,5 +51,17 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         [MaxLength(10)]
         public string State { get; set; }
+        /// <summary>
+        /// 所在楼层
+        /// </summary>
+        public int FireUnitArchitectureFloorId { get; set; }
+        /// <summary>
+        /// 故障数量
+        /// </summary>
+        public int FaultNum { get; set; }
+        /// <summary>
+        /// 最后一次故障ID
+        /// </summary>
+        public int LastFaultId { get; set; }
     }
 }

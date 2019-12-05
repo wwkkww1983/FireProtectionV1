@@ -2,12 +2,14 @@
 using FireProtectionV1.AppService;
 using FireProtectionV1.Dto;
 using FireProtectionV1.FireWorking.Dto;
+using FireProtectionV1.FireWorking.Dto.FireDevice;
 using FireProtectionV1.FireWorking.Manager;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Threading.Tasks;
+using TsjWebApi;
 
 namespace FireProtectionV1.DeviceService
 {
@@ -20,6 +22,7 @@ namespace FireProtectionV1.DeviceService
             _deviceManager = detectorManager;
             _alarmManager = alarmManager;
         }
+
         /// <summary>
         /// 新增探测器部件
         /// </summary>

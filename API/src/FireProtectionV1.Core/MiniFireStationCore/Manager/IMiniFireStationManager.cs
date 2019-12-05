@@ -16,7 +16,7 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns> 
-        Task<SuccessOutput> Add(AddMiniFireStationInput input);
+        Task<AddMiniFireStationOutput> Add(AddMiniFireStationInput input);
 
         /// <summary>
         /// 修改

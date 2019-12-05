@@ -779,6 +779,60 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="T:FireProtectionV1.AppService.FireUnitArchitectureAppService">
+            <summary>
+            防火单位建筑
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitArchitectureAppService.Add(FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput)">
+            <summary>
+            添加
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitArchitectureAppService.Update(FireProtectionV1.Enterprise.Dto.UpdateFireUnitArchitectureInput)">
+            <summary>
+            修改建筑信息
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitArchitectureAppService.UpdateFloor(FireProtectionV1.Enterprise.Dto.UpdateFireUnitArchitectureFloorInput)">
+            <summary>
+            修改楼层信息
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitArchitectureAppService.Delete(System.Int32)">
+            <summary>
+            删除
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitArchitectureAppService.GetById(System.Int32)">
+            <summary>
+            获取单个建筑信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitArchitectureAppService.GetListByFireUnitId(System.Int32)">
+            <summary>
+            获取某个防火单位的所有建筑信息（常用于建筑树状展示）
+            </summary>
+            <param name="fireunitId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitArchitectureAppService.GetFloorsByArchitectureId(System.Int32)">
+            <summary>
+            根据建筑ID获取下属楼层（常用于建筑与楼层级联下拉框）
+            </summary>
+            <param name="architectureId"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.GetVerifyCode">
             <summary>
             获取验证码
@@ -1565,6 +1619,197 @@
             <param name="FireSysType">1:安全用电，2:火灾报警</param>
             <param name="FireUnitId">防火单位Id</param>
             <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireAlarmDeviceList(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取指定防火单位ID的火警联网设施列表
+            </summary>
+            <param name="FireUnitId">防火单位ID</param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireAlarmDevice(System.Int32)">
+            <summary>
+            获取火警联网设备详情
+            </summary>
+            <param name="DeviceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.AddFireAlarmDevice(FireProtectionV1.FireWorking.Dto.FireDevice.FireAlarmDeviceDto)">
+            <summary>
+            新增火警联网设备
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.DeleteFireAlarmDevice(System.Int32)">
+            <summary>
+            删除火警联网设备
+            </summary>
+            <param name="DeviceId">火警联网设备ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.UpdateFireAlarmDevice(FireProtectionV1.FireWorking.Dto.FireDevice.UpdateFireAlarmDeviceDto)">
+            <summary>
+            修改火警联网设备
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireAlarmDetectorTypes">
+            <summary>
+            获取火警联网设施部件类型数组
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireAlarmFaultDetectorList(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取指定设备ID的故障部件列表
+            </summary>
+            <param name="DeviceId">设备ID</param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireAlarm30DayList(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取指定设备ID的30天报警记录
+            </summary>
+            <param name="DeviceId">设备ID</param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetDeviceDetectorList(System.String,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取指定设备SN的部件列表
+            </summary>
+            <param name="DeviceSn">设备SN</param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetDeviceDetector(System.Int32)">
+            <summary>
+            获取部件详情
+            </summary>
+            <param name="DetectorId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.AddFireAlarmDetector(FireProtectionV1.FireWorking.Dto.FireDevice.AddDetectorDto)">
+            <summary>
+            添加火警联网部件
+            </summary>
+            <param name="detectorDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.DeleteDetector(System.Int32)">
+            <summary>
+            删除部件
+            </summary>
+            <param name="DetectorId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.UpdateFireAlarmDetector(FireProtectionV1.FireWorking.Dto.FireDevice.UpdateDetectorDto)">
+            <summary>
+            修改火警联网部件
+            </summary>
+            <param name="detectorDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireElectricDeviceList(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取指定防火单位ID的电气火灾设施列表
+            </summary>
+            <param name="FireUnitId">防火单位ID</param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireElectricDevice(System.Int32)">
+            <summary>
+            获取电气火灾设备详情
+            </summary>
+            <param name="DeviceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.AddFireElectricDevice(FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDeviceDto)">
+            <summary>
+            新增电气火灾设备
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.DeleteFireElectricDevice(System.Int32)">
+            <summary>
+            删除电气火灾设备
+            </summary>
+            <param name="DeviceId">电气火灾设备ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.UpdateFireElectricDevice(FireProtectionV1.FireWorking.Dto.FireDevice.UpdateFireElectricDeviceDto)">
+            <summary>
+            修改电气火灾设备
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireOrtherDevice(System.Int32)">
+            <summary>
+            获取指定其他消防设备ID的详情
+            </summary>
+            <param name="Deviceid">其他消防设备ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireOrtherDeviceList(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取其他消防设备列表
+            </summary>
+            <param name="FireUnitId">防火单位ID</param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.AddFireOrtherDevice(FireProtectionV1.FireWorking.Dto.FireDevice.FireOrtherDeviceDto)">
+            <summary>
+            新增其他消防设备
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.UpdateFireOrtherDevice(FireProtectionV1.FireWorking.Dto.FireDevice.UpdateFireOrtherDeviceDto)">
+            <summary>
+            修改其他消防设备
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.DeleteFireOrtherDevice(System.Int32)">
+            <summary>
+            删除其他消防设备
+            </summary>
+            <param name="DeviceId">其他消防设备ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireAlarmDeviceTypes">
+            <summary>
+            获取火警联网设备型号数组
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireElectricDeviceTypes">
+            <summary>
+            获取电气火灾设备型号数组
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireAlarmDeviceProtocols">
+            <summary>
+            获取火警联网设备协议数组
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetSerialPortParam(System.Int32)">
+            <summary>
+            获取火警设备串口参数
+            </summary>
+            <param name="DeviceId">火警联网设备ID</param>
             <returns></returns>
         </member>
         <member name="P:FireProtectionV1.Dto.EndDeviceOptionDto.Value">

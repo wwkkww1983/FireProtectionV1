@@ -40,10 +40,10 @@ namespace FireProtectionV1.User.Dto
         /// <summary>
         /// 职业资格证书有效期
         /// </summary>
-        public DateTime QualificationValidity { get; set; }
+        public string QualificationValidity { get; set; }
         /// <summary>
         /// 权限
         /// </summary>
-        public List<FireUnitRole> Rolelist { get; set; }
+        public List<string> Rolelist { get; set; }
     }
 }

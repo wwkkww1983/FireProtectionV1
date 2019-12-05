@@ -311,33 +311,34 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<SuccessOutput> Add(AddMiniFireStationInput input)
+        public async Task<AddMiniFireStationOutput> Add(AddMiniFireStationInput input)
         {
             if (await _miniFireStationRepository.FirstOrDefaultAsync(p => p.Name.Equals(input.Name)) != null)
-                return new SuccessOutput() { Success = false, FailCause = "保存失败：站点名称已存在" };
+                return new AddMiniFireStationOutput() { Success = false, FailCause = "保存失败：站点名称已存在" };
             if (await _miniFireStationRepository.FirstOrDefaultAsync(p => p.ContactPhone.Equals(input.ContactPhone)) != null)
-                return new SuccessOutput() { Success = false, FailCause = "保存失败：手机号已存在" };
+                return new AddMiniFireStationOutput() { Success = false, FailCause = "保存失败：手机号已存在" };
             //Valid.Exception(_miniFireStationRepository.Count(m => input.Name.Equals(m.Name)) > 0, "保存失败：站点名称已存在");
             //Valid.Exception(_miniFireStationRepository.Count(m => input.ContactPhone.Equals(m.ContactPhone)) > 0, "保存失败：手机号已存在");
-
+            int stationid = 0;
             try
             {
             var unit = await _repFireUnit.FirstOrDefaultAsync(p => p.Name == input.FireUnitName);
-            var entity = new MiniFireStation()
-            {
-                Address = input.Address,
-                ContactName = input.ContactName,
-                ContactPhone = input.ContactPhone,
-                FireUnitId = unit != null ? unit.Id : 0,
-                Lat = input.Lat,
-                Level = input.Level,
-                Lng = input.Lng,
-                Name = input.Name,
-                PersonNum = input.PersonNum,
+                var entity = new MiniFireStation()
+                {
+                    Address = input.Address,
+                    ContactName = input.ContactName,
+                    ContactPhone = input.ContactPhone,
+                    FireUnitId = unit != null ? unit.Id : 0,
+                    Lat = input.Lat,
+                    Level = input.Level,
+                    Lng = input.Lng,
+                    Name = input.Name,
+                    PersonNum = input.PersonNum,
+                    PhotoBase64 = input.PhotoBase64
             };
 
             //var entity = input.MapTo<MiniFireStation>();
-            var stationid= await _miniFireStationRepository.InsertAndGetIdAsync(entity);
+            stationid= await _miniFireStationRepository.InsertAndGetIdAsync(entity);
             entity.StationUserId = await _repMiniFireStationJobUser.InsertAndGetIdAsync(new MiniFireStationJobUser()
             {
                 MiniFireStationId = stationid,
@@ -348,9 +349,9 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
             await _miniFireStationRepository.UpdateAsync(entity);
             }catch(Exception e)
             {
-                return new SuccessOutput() { Success = false, FailCause = e.Message };
+                return new AddMiniFireStationOutput() { Success = false, FailCause = e.Message };
             }
-            return new SuccessOutput() { Success = true };
+            return new AddMiniFireStationOutput() { Success = true,MiniFireStationId=stationid};
         }
 
         /// <summary>
@@ -372,6 +373,9 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
         /// <returns></returns>
         public async Task<MiniFireStationOutput> GetById(int id)
         {
+            var mini = await _miniFireStationRepository.FirstOrDefaultAsync(p => p.Id == id);
+            if (mini == null)
+                return new MiniFireStationOutput();
             var a= await _miniFireStationRepository.GetAsync(id);
             var b = await _repFireUnit.FirstOrDefaultAsync(p => p.Id == a.FireUnitId);
             return new MiniFireStationOutput()
@@ -386,7 +390,8 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
                 Level = a.Level,
                 Lng = a.Lng,
                 Name = a.Name,
-                PersonNum = a.PersonNum
+                PersonNum = a.PersonNum,
+                PhotoBase64=a.PhotoBase64
             };
         }
 
