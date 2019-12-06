@@ -101,6 +101,16 @@ namespace FireProtectionV1.DeviceService
             return await _deviceManager.GetFireAlarm30DayList(DeviceId, dto);
         }
         /// <summary>
+        /// 获取指定设备ID的高频报警部件列表
+        /// </summary>
+        /// <param name="DeviceId">设备ID</param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<GetFireAlarmHighDto>> GetFireAlarmHighList(int DeviceId, PagedResultRequestDto dto)
+        {
+            return await _deviceManager.GetFireAlarmHighList(DeviceId, dto);
+        }
+        /// <summary>
         /// 获取指定设备SN的部件列表
         /// </summary>
         /// <param name="DeviceSn">设备SN</param>
@@ -147,14 +157,24 @@ namespace FireProtectionV1.DeviceService
             return await _deviceManager.UpdateFireAlarmDetector(detectorDto);
         }
         /// <summary>
+        /// 获取电气火灾设备各状态数量
+        /// </summary>
+        /// <param name="FireUnitId"></param>
+        /// <returns></returns>
+        public async Task<GetFireElectricDeviceStateOutput> GetFireElectricDeviceState(int FireUnitId)
+        {
+            return await _deviceManager.GetFireElectricDeviceState(FireUnitId);
+        }
+        /// <summary>
         /// 获取指定防火单位ID的电气火灾设施列表
         /// </summary>
         /// <param name="FireUnitId">防火单位ID</param>
+        /// <param name="State">设备状态：null/""、在线、离线、良好、隐患、超限</param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<FireElectricDeviceItemDto>> GetFireElectricDeviceList(int FireUnitId, PagedResultRequestDto dto)
+        public async Task<PagedResultDto<FireElectricDeviceItemDto>> GetFireElectricDeviceList(int FireUnitId,string State, PagedResultRequestDto dto)
         {
-            return await _deviceManager.GetFireElectricDeviceList(FireUnitId, dto);
+            return await _deviceManager.GetFireElectricDeviceList(FireUnitId,State, dto);
         }
         /// <summary>
         /// 获取电气火灾设备详情
@@ -205,11 +225,13 @@ namespace FireProtectionV1.DeviceService
         /// 获取其他消防设备列表
         /// </summary>
         /// <param name="FireUnitId">防火单位ID</param>
+        /// <param name="ExpireType">选项：即将过期、已过期</param>
+        /// <param name="FireUnitArchitectureName">建筑名称</param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<FireOrtherDeviceItemDto>> GetFireOrtherDeviceList(int FireUnitId, PagedResultRequestDto dto)
+        public async Task<PagedResultDto<FireOrtherDeviceItemDto>> GetFireOrtherDeviceList(int FireUnitId, string ExpireType, string FireUnitArchitectureName, PagedResultRequestDto dto)
         {
-            return await _deviceManager.GetFireOrtherDeviceList(FireUnitId, dto);
+            return await _deviceManager.GetFireOrtherDeviceList(FireUnitId,ExpireType,FireUnitArchitectureName, dto);
         }
         /// <summary>
         /// 新增其他消防设备

@@ -154,7 +154,8 @@ namespace FireProtectionV1.FireWorking.Manager
                 int id = _alarmToFireRep.InsertAndGetId(new AlarmToFire()
                 {
                     FireUnitId = detector.FireUnitId,
-                    DetectorId = detector.Id
+                    DetectorId = detector.Id,
+                    GatewayId=detector.GatewayId
                 });
                 var detectorType = await _deviceManager.GetDetectorTypeAsync(detector.DetectorTypeId);
                 var fireunit = await _repFireUnit.FirstOrDefaultAsync(detector.FireUnitId);
@@ -197,6 +198,7 @@ namespace FireProtectionV1.FireWorking.Manager
             else
             {
                 his.CreationTime = now;
+                his.GatewayId = detector.GatewayId;
                 await _alarmToFireRep.UpdateAsync(his);
             }
             return new AddDataOutput()

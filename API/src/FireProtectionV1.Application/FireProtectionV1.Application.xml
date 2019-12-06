@@ -1564,6 +1564,13 @@
             <param name="origin"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.DeviceService.DataAppService.AddNewFault(FireProtectionV1.FireWorking.Dto.AddNewFaultInput)">
+            <summary>
+            添加故障
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.DeviceService.DataAppService.GetSimulateTodayData">
             <summary>
             生成当天模拟数据
@@ -1601,6 +1608,13 @@
         <member name="M:FireProtectionV1.DeviceService.DeviceAppService.GetRecordAnalog(FireProtectionV1.FireWorking.Dto.GetRecordDetectorInput)">
             <summary>
             获得防火单位模拟量终端历史记录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.DeviceAppService.GetRecordElectric(FireProtectionV1.FireWorking.Dto.GetRecordElectricInput)">
+            <summary>
+            获取电气火灾监测项目模拟量趋势
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -1679,6 +1693,14 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireAlarmHighList(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取指定设备ID的高频报警部件列表
+            </summary>
+            <param name="DeviceId">设备ID</param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetDeviceDetectorList(System.String,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
             获取指定设备SN的部件列表
@@ -1715,11 +1737,19 @@
             <param name="detectorDto"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireElectricDeviceList(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireElectricDeviceState(System.Int32)">
+            <summary>
+            获取电气火灾设备各状态数量
+            </summary>
+            <param name="FireUnitId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireElectricDeviceList(System.Int32,System.String,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
             获取指定防火单位ID的电气火灾设施列表
             </summary>
             <param name="FireUnitId">防火单位ID</param>
+            <param name="State">设备状态：null/""、在线、离线、良好、隐患、超限</param>
             <param name="dto"></param>
             <returns></returns>
         </member>
@@ -1758,11 +1788,13 @@
             <param name="Deviceid">其他消防设备ID</param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireOrtherDeviceList(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireOrtherDeviceList(System.Int32,System.String,System.String,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
             获取其他消防设备列表
             </summary>
             <param name="FireUnitId">防火单位ID</param>
+            <param name="ExpireType">选项：即将过期、已过期</param>
+            <param name="FireUnitArchitectureName">建筑名称</param>
             <param name="dto"></param>
             <returns></returns>
         </member>

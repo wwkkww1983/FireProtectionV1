@@ -92,6 +92,15 @@ namespace FireProtectionV1.DeviceService
             return await _deviceManager.GetRecordAnalog(input);
         }
         /// <summary>
+        /// 获取电气火灾监测项目模拟量趋势
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<GetRecordElectricOutput> GetRecordElectric(GetRecordElectricInput input)
+        {
+            return await _deviceManager.GetRecordElectric(input);
+        }
+        /// <summary>
         /// 获得防火单位非模拟量终端历史记录
         /// </summary>
         /// <param name="input"></param>

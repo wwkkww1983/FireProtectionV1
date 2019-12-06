@@ -256,7 +256,22 @@ namespace FireProtectionV1.FireWorking.Manager
                 output.MonitorItem.Add("电缆温度");
             return output;
         }
-        public async Task<PagedResultDto<FireElectricDeviceItemDto>> GetFireElectricDeviceList(int fireUnitId, PagedResultRequestDto dto)
+        public async Task<GetFireElectricDeviceStateOutput> GetFireElectricDeviceState(int FireUnitId)
+        {
+            var gateways = _gatewayRep.GetAll().Where(p => p.FireUnitId == FireUnitId&&p.FireSysType==(byte)FireSysType.Electric);
+            //var detectors= from a in _detectorRep.GetAll()
+            //               join b in gateways on a.GatewayId equals b.Id
+            //               //和设备配置比较 80% 良好，隐患
+            return new GetFireElectricDeviceStateOutput()
+            {
+                BadNum = 0,
+                GoodNum = 0,
+                OfflineNum = gateways.Count(p => p.Status != GatewayStatus.Online),
+                OnlineNum = gateways.Count(p=>p.Status==GatewayStatus.Online),
+                WarnNum = 0
+            };
+        }
+        public async Task<PagedResultDto<FireElectricDeviceItemDto>> GetFireElectricDeviceList(int fireUnitId, string state, PagedResultRequestDto dto)
         {
             var detectors = _detectorRep.GetAll().Where(p => p.FireUnitId == fireUnitId).ToList();
             var query0 = from a in _repFireElectricDevice.GetAll().Where(p => p.FireUnitId == fireUnitId)
@@ -268,7 +283,7 @@ namespace FireProtectionV1.FireWorking.Manager
                         orderby a.CreationTime descending
                         let L= detectors.FirstOrDefault(p => p.GatewayId == a.GatewayId && p.Identify.Equals("L"))
                         let N= detectors.FirstOrDefault(p => p.GatewayId == a.GatewayId && p.Identify.Equals("N"))
-                        let A = detectors.FirstOrDefault(p => p.GatewayId == a.GatewayId && p.Identify.Equals("A"))
+                        let A = detectors.FirstOrDefault(p => p.GatewayId == a.GatewayId && p.Identify.Equals("I0"))
                         let L1 = detectors.FirstOrDefault(p => p.GatewayId == a.GatewayId && p.Identify.Equals("L1"))
                         let L2 = detectors.FirstOrDefault(p => p.GatewayId == a.GatewayId && p.Identify.Equals("L2"))
                         let L3 = detectors.FirstOrDefault(p => p.GatewayId == a.GatewayId && p.Identify.Equals("L3"))
@@ -291,6 +306,9 @@ namespace FireProtectionV1.FireWorking.Manager
                             L2 = L2 == null ? "" : L2.State,
                             L3 = L3 == null ? "" : L3.State,
                         };
+
+            if (!string.IsNullOrEmpty(state))
+                query0 = query0.Where(p => p.State.Equals(state));
             var query = query0.ToList();
             foreach(var v in query)
             {
@@ -381,6 +399,36 @@ namespace FireProtectionV1.FireWorking.Manager
                     TotalCount = query.Count()
                 };
             });
+        }
+        public async Task<PagedResultDto<GetFireAlarmHighDto>> GetFireAlarmHighList(int DeviceId, PagedResultRequestDto dto)
+        {
+            int highFreq = int.Parse(ConfigHelper.Configuration["FireDomain:HighFreqAlarm"]);
+            var device = await _repFireAlarmDevice.GetAsync(DeviceId);
+            var gateway = await _gatewayRep.FirstOrDefaultAsync(p => p.Id == device.GatewayId);
+            var detectorHigh = _alarmToFireRep.GetAll().Where(p => p.GatewayId == device.GatewayId && p.CreationTime >= DateTime.Now.Date.AddDays(-30))
+            .GroupBy(p=>p.DetectorId).Where(p=>p.Count()>highFreq).Select(p => new
+            {
+                DetectorId=p.Key,
+                AlarmNum = p.Count()
+            }).ToList();
+            var query=from a in detectorHigh
+                      join b in _detectorRep.GetAll() on a.DetectorId equals b.Id
+                      join c in _detectorTypeRep.GetAll() on b.DetectorTypeId equals c.Id
+                      join d0 in _repFireUnitArchitectureFloor.GetAll() on b.FireUnitArchitectureFloorId equals d0.Id into de
+                      from d in de.DefaultIfEmpty()
+                      select new GetFireAlarmHighDto()
+                      {
+                          DetectorTypeName = c.Name,
+                          FireUnitArchitectureFloorName = d == null ? "" : d.Name,
+                          Identify = b.Identify,
+                          Location = b.Location,
+                          AlarmNum=a.AlarmNum
+                      };
+            return new PagedResultDto<GetFireAlarmHighDto>()
+            {
+                Items = query.Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList(),
+                TotalCount = query.Count()
+            };
         }
         public async Task<PagedResultDto<FireAlarmDeviceItemDto>> GetFireAlarmDeviceList(int fireUnitId, PagedResultRequestDto dto)
         {
@@ -557,6 +605,26 @@ namespace FireProtectionV1.FireWorking.Manager
                                     }).ToList();
             return output;
         }
+        public async Task<GetRecordElectricOutput> GetRecordElectric(GetRecordElectricInput input)
+        {
+            var output = new GetRecordElectricOutput();
+            var device = await _repFireElectricDevice.FirstOrDefaultAsync(p => p.Id == input.DeviceId);
+            var detector = await _detectorRep.FirstOrDefaultAsync(p => p.Identify.Equals(input.Identify)&&p.GatewayId==device.GatewayId);
+            if (detector == null)
+                return output;
+            if (input.Identify.Equals("L") || input.Identify.Equals("L1") || input.Identify.Equals("L2") || input.Identify.Equals("L3") || input.Identify.Equals("N"))
+            {
+                output.Unit = "℃";
+                output.MonitorItemName = "电缆温度 " + input.Identify;
+            }else if (input.Identify.Equals("剩余电流"))
+            {
+                output.Unit = "mA";
+                output.MonitorItemName = "剩余电流 " + input.Identify;
+            }
+            output.AnalogTimes = _recordAnalogRep.GetAll().Where(p => p.DetectorId == detector.Id).OrderByDescending(p => p.CreationTime).Select(p =>
+                   new AnalogTime() { Time = p.CreationTime.ToString("HH:mm:ss"), Value = p.Analog }).ToList();
+            return output;
+        }
         /// <summary>
         /// 模拟量探测器历史记录
         /// </summary>
@@ -575,7 +643,9 @@ namespace FireProtectionV1.FireWorking.Manager
                 output.State = GatewayStatusNames.GetName((GatewayStatus)state.State);
                 output.LastTimeStateChange = state.CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
             }
-            output.AnalogTimes = _recordAnalogRep.GetAll().Where(p => p.DetectorId == input.DetectorId).OrderByDescending(p => p.CreationTime).Take(10).Select(p =>
+            //output.AnalogTimes = _recordAnalogRep.GetAll().Where(p => p.DetectorId == input.DetectorId).OrderByDescending(p => p.CreationTime).Take(10).Select(p =>
+            //       new AnalogTime() { Time = p.CreationTime.ToString("HH:mm:ss"), Value = p.Analog }).ToList();
+            output.AnalogTimes = _recordAnalogRep.GetAll().Where(p => p.DetectorId == input.DetectorId).OrderByDescending(p => p.CreationTime).Select(p =>
                    new AnalogTime() { Time = p.CreationTime.ToString("HH:mm:ss"), Value = p.Analog }).ToList();
             return output;
         }
@@ -741,7 +811,7 @@ namespace FireProtectionV1.FireWorking.Manager
             elec.ExistTemperature = input.MonitorItem.Contains("电缆温度");
             elec.FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId;
             elec.Location = input.Location;
-            var aDetector=await _detectorRep.FirstOrDefaultAsync(p => p.GatewayId == elec.GatewayId && p.Identify.Equals("A"));
+            var aDetector=await _detectorRep.FirstOrDefaultAsync(p => p.GatewayId == elec.GatewayId && p.Identify.Equals("I0"));
             aDetector.FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId;
             aDetector.Location = input.Location;
             await _detectorRep.UpdateAsync(aDetector);
@@ -947,7 +1017,7 @@ namespace FireProtectionV1.FireWorking.Manager
                     FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId,
                     FireUnitId = input.FireUnitId,
                     GatewayId = gatewayId,
-                    Identify = "A",
+                    Identify = "I0",
                     Location = input.Location,
                     Origin = origin
                 });
@@ -1074,30 +1144,62 @@ namespace FireProtectionV1.FireWorking.Manager
                 FireUnitArchitectureName= arch==null?"": arch.Name
             };
         }
-        public async Task<PagedResultDto<FireOrtherDeviceItemDto>> GetFireOrtherDeviceList(int fireUnitId, PagedResultRequestDto dto)
+        public async Task<GetFireOrtherDeviceExpireOutput> GetFireOrtherDeviceExpire(int FireUnitId)
         {
-            var query = from a in _repFireOrtherDevice.GetAll().Where(p => p.FireUnitId == fireUnitId)
+            var devices = _repFireOrtherDevice.GetAll().Where(p => p.FireUnitId == FireUnitId);
+            return await Task.Run<GetFireOrtherDeviceExpireOutput>(() =>
+          {
+              return new GetFireOrtherDeviceExpireOutput()
+              {
+                  ExpireNum = devices.Where(p => DateTime.Now >= p.ExpireTime).Count(),
+                  WillExpireNum = devices.Where(p => DateTime.Now >= p.ExpireTime.AddDays(-30) && DateTime.Now < p.ExpireTime).Count()
+              };
+          });
+        }
+        public async Task<PagedResultDto<FireOrtherDeviceItemDto>> GetFireOrtherDeviceList(int fireUnitId,string ExpireType,string FireUnitArchitectureName, PagedResultRequestDto dto)
+        {
+            return await Task.Run<PagedResultDto<FireOrtherDeviceItemDto>>(() =>
+            {
+                var query = from a in _repFireOrtherDevice.GetAll().Where(p => p.FireUnitId == fireUnitId)
                         join b0 in _repFireUnitArchitecture.GetAll() on a.FireUnitArchitectureId equals b0.Id into be
                         from b in be.DefaultIfEmpty()
                         join c0 in _repFireUnitArchitectureFloor.GetAll() on a.FireUnitArchitectureFloorId equals c0.Id into ce
                         from c in ce.DefaultIfEmpty()
-                        select new FireOrtherDeviceItemDto()
+                        select new 
                         {
                             DeviceId = a.Id,
                             DeviceSn = a.DeviceSn,
                             DeviceName = a.DeviceName,
                             FireUnitArchitectureName = b == null ? "":b.Name,
                             FireUnitArchitectureFloorName = c == null ? "" : c.Name,
-                            ExpireTime = a.ExpireTime.ToString("yyyy-MM-dd"),
+                            ExpireTime = a.ExpireTime,//.ToString("yyyy-MM-dd"),
                             IsNet = "否",
                             Location = a.Location
                         };
-            return await Task.Run<PagedResultDto<FireOrtherDeviceItemDto>>(() =>
+            if (!string.IsNullOrEmpty(FireUnitArchitectureName))
+                query = query.Where(p => p.FireUnitArchitectureName.Equals(FireUnitArchitectureName));
+            if (!string.IsNullOrEmpty(ExpireType))
             {
+                if (ExpireType.Equals("即将过期"))
+                    query = query.Where(p => DateTime.Now >= p.ExpireTime.AddDays(-30) && DateTime.Now < p.ExpireTime);
+                else if (ExpireType.Equals("已过期"))
+                    query = query.Where(p => DateTime.Now >= p.ExpireTime);
+            }
+                var q = query.Select(p => new FireOrtherDeviceItemDto()
+                {
+                    DeviceSn = p.DeviceSn,
+                    DeviceId = p.DeviceId,
+                    DeviceName = p.DeviceName,
+                    ExpireTime = p.ExpireTime.ToString("yyyy-MM-dd"),
+                    FireUnitArchitectureFloorName = p.FireUnitArchitectureFloorName,
+                    FireUnitArchitectureName = p.FireUnitArchitectureName,
+                    IsNet = p.IsNet,
+                    Location = p.Location
+                });
                 return new PagedResultDto<FireOrtherDeviceItemDto>()
                 {
-                    TotalCount = query.Count(),
-                    Items = query.Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList()
+                    TotalCount = q.Count(),
+                    Items = q.Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList()
                 };
             });
         }

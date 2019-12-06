@@ -29,7 +29,7 @@ namespace FireProtectionV1.FireWorking.Manager
         Task AddGateway(AddGatewayInput input);
 
         Task<Detector> GetDetectorAsync(int id);
-        Task<PagedResultDto<FireElectricDeviceItemDto>> GetFireElectricDeviceList(int fireUnitId, PagedResultRequestDto dto);
+        Task<PagedResultDto<FireElectricDeviceItemDto>> GetFireElectricDeviceList(int fireUnitId, string state, PagedResultRequestDto dto);
         Detector GetDetector(string identify,string origin);
         Gateway GetGateway(string identify, string origin);
         Task<PagedResultDto<FireAlarmDeviceItemDto>> GetFireAlarmDeviceList(int fireUnitId, PagedResultRequestDto dto);
@@ -65,6 +65,7 @@ namespace FireProtectionV1.FireWorking.Manager
         Task<SuccessOutput> UpdateFireAlarmDetector(UpdateDetectorDto detectorDto);
         Task<SuccessOutput> UpdateFireOrtherDevice(UpdateFireOrtherDeviceDto input);
         Task<AddDeviceDetectorOutput> AddFireAlarmDetector(AddDetectorDto detectorDto, string tianshuju);
+        Task<GetRecordElectricOutput> GetRecordElectric(GetRecordElectricInput input);
         Task<PagedResultDto<FaultDetectorOutput>> GetFireAlarmFaultDetectorList(int DeviceId, PagedResultRequestDto dto);
 
         /// <summary>
@@ -78,14 +79,16 @@ namespace FireProtectionV1.FireWorking.Manager
         Task<PagedResultDto<GetFireAlarm30DayDto>> GetFireAlarm30DayList(int deviceId, PagedResultRequestDto dto);
         Task<SuccessOutput> DeleteFireAlarmDevice(int deviceId);
         Task<PagedResultDto<DetectorDto>> GetDeviceDetectorList(string deviceSn, PagedResultRequestDto dto);
+        Task<PagedResultDto<GetFireAlarmHighDto>> GetFireAlarmHighList(int deviceId, PagedResultRequestDto dto);
         Task<SuccessOutput> DeleteFireElectricDevice(int deviceId);
         Task<SuccessOutput> DeleteFireOrtherDevice(int deviceId);
-        Task<PagedResultDto<FireOrtherDeviceItemDto>> GetFireOrtherDeviceList(int fireUnitId, PagedResultRequestDto dto);
+        Task<PagedResultDto<FireOrtherDeviceItemDto>> GetFireOrtherDeviceList(int FireUnitId, string ExpireType, string FireUnitArchitectureName, PagedResultRequestDto dto);
         Task<List<string>> GetFireAlarmDeviceTypes();
         Task<List<string>> GetFireElectricDeviceTypes();
         Task<List<string>> GetFireAlarmDeviceProtocols();
         Task<SerialPortParamDto> GetSerialPortParam(int deviceId);
         Task<UpdateFireElectricDeviceDto> GetFireElectricDevice(int deviceId);
         Task<GetFireOrtherDeviceOutput> GetFireOrtherDevice(int deviceid);
+        Task<GetFireElectricDeviceStateOutput> GetFireElectricDeviceState(int fireUnitId);
     }
 }

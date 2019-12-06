@@ -4,6 +4,21 @@ using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto
 {
+    public class GetRecordElectricOutput
+    {
+        /// <summary>
+        /// 监测指标
+        /// </summary>
+        public string MonitorItemName { get; set; }
+        /// <summary>
+        /// 模拟量单位
+        /// </summary>
+        public string Unit { get; set; }
+        /// <summary>
+        /// 历史模拟量
+        /// </summary>
+        public List<AnalogTime> AnalogTimes { get; set; }
+    }
     public class RecordAnalogOutput
     {
         /// <summary>
