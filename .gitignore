@@ -30,3 +30,4 @@ bin
 /API/src/FireProtectionV1.Web/App_Data/Files/App
 *.png
 *.docx
+/API/src/FireProtectionV1.Core/FireWorking/Manager/DeviceManager - 副本.cs
