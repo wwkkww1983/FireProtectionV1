@@ -181,7 +181,6 @@ namespace FireProtectionV1.Common.Helper
             return new Size(newWidth, newHeight);
         }
 
-
         /// <summary>
         /// 得到图片格式
         /// </summary>

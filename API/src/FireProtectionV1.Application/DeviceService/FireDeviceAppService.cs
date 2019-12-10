@@ -252,6 +252,15 @@ namespace FireProtectionV1.DeviceService
             return await _deviceManager.AddFireOrtherDevice(input);
         }
         /// <summary>
+        /// 导入其它消防设备
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> ImportOrtherDevice(FireOtherDeviceImportDto input)
+        {
+            return await _deviceManager.ImportOrtherDevice(input);
+        }
+        /// <summary>
         /// 修改其他消防设备
         /// </summary>
         /// <param name="input"></param>

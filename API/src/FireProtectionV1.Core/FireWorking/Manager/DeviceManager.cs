@@ -1,17 +1,24 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
 using DeviceServer.Tcp.Protocol;
+using FireProtectionV1.Common.DBContext;
 using FireProtectionV1.Common.Enum;
+using FireProtectionV1.Common.Helper;
 using FireProtectionV1.Configuration;
+using FireProtectionV1.Enterprise.Dto;
 using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Dto.FireDevice;
 using FireProtectionV1.FireWorking.Model;
 using FireProtectionV1.SettingCore.Manager;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +35,8 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<FireAlarmDevice> _repFireAlarmDevice;
         IRepository<FireElectricDevice> _repFireElectricDevice;
         IRepository<FireOrtherDevice> _repFireOrtherDevice;
+        IRepository<FireUntiSystem> _fireUnitSystemRep;
+        IRepository<FireSystem> _fireSystemRep;
         IRepository<Fault> _faultRep;
         IRepository<AlarmToFire> _alarmToFireRep;
         IRepository<RecordOnline> _recordOnlineRep;
@@ -45,6 +54,8 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<FireAlarmDevice> repFireAlarmDevice,
             IRepository<FireElectricDevice> repFireElectricDevice,
             IRepository<FireOrtherDevice> repFireOrtherDevice,
+            IRepository<FireUntiSystem> fireUnitSystemRep,
+            IRepository<FireSystem> fireSystemRep,
             IRepository<Fault> faultRep,
             IRepository<AlarmToFire> alarmToFireRep,
             IRepository<RecordOnline> recordOnlineRep,
@@ -62,6 +73,8 @@ namespace FireProtectionV1.FireWorking.Manager
             _repFireAlarmDevice = repFireAlarmDevice;
             _repFireElectricDevice = repFireElectricDevice;
             _repFireOrtherDevice = repFireOrtherDevice;
+            _fireUnitSystemRep = fireUnitSystemRep;
+            _fireSystemRep = fireSystemRep;
             _faultRep = faultRep;
             _alarmToFireRep = alarmToFireRep;
             _recordOnlineRep = recordOnlineRep;
@@ -1311,6 +1324,110 @@ namespace FireProtectionV1.FireWorking.Manager
                 return new SuccessOutput() { Success = false, FailCause = e.Message };
             }
             return new SuccessOutput() { Success = true };
+        }
+
+        /// <summary>
+        /// 导入其它消防设备
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<SuccessOutput> ImportOrtherDevice(FireOtherDeviceImportDto input)
+        {
+            SuccessOutput output = new SuccessOutput();
+            IFormFile file = input.file;
+            if (file.Length > 0)
+            {
+                DataTable dt = new DataTable();
+                string strMsg;
+                dt = ExcelHelper.ExcelToDatatable(file.OpenReadStream(), Path.GetExtension(file.FileName), out strMsg);
+                if (!string.IsNullOrEmpty(strMsg))
+                {
+                    output.Success = false;
+                    output.FailCause = strMsg;
+                    return output;
+                }
+                if (dt.Rows.Count > 0)
+                {
+                    // 获得当前防火单位的消防系统
+                    var fireUnitSystemlist = await _fireUnitSystemRep.GetAllListAsync(u => u.FireUnitId == input.FireUnitId);
+                    var fireUnitSystems = from a in fireUnitSystemlist
+                                          join b in _fireSystemRep.GetAll() on a.FireSystemId equals b.Id
+                                          select new GetPatrolFireUnitSystemOutput
+                                          {
+                                              FireSystemId = a.FireSystemId,
+                                              SystemName = b.SystemName,
+                                          };
+                    List<GetPatrolFireUnitSystemOutput> lstFireUnitSystem = fireUnitSystems.ToList();
+
+                    // 获得当前防火单位的建筑及楼层数据
+                    var FireUnitArchitectures = _repFireUnitArchitecture.GetAll();
+                    var FireUnitArchitectureFloors = _repFireUnitArchitectureFloor.GetAll();
+
+                    var expr = ExprExtension.True<FireUnitArchitecture>().And(item => item.FireUnitId.Equals(input.FireUnitId));
+                    FireUnitArchitectures = FireUnitArchitectures.Where(expr);
+
+                    var query = from a in FireUnitArchitectures
+                                select new GetFireUnitArchitectureOutput
+                                {
+                                    Id = a.Id,
+                                    Name = a.Name,
+                                    Floors = FireUnitArchitectureFloors.Where(item => item.ArchitectureId.Equals(a.Id)).ToList()
+                                };
+                    List<GetFireUnitArchitectureOutput> lstFireUnitArchitecture = query.ToList();
+
+                    // 验证表格数据的正确性
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        DataRow row = dt.Rows[i];
+                        if (string.IsNullOrEmpty(row["设备编号"].ToString()))
+                        {
+                            strMsg = $"第{i + 1}行设备编号不能为空";
+                        }
+                        else if (string.IsNullOrEmpty(row["设备名称"].ToString()))
+                        {
+                            strMsg = $"第{i + 1}行设备名称不能为空";
+                        }
+                        else if (!string.IsNullOrEmpty(row["所属系统"].ToString()) && lstFireUnitSystem.Find(d => d.SystemName.Equals(row["所属系统"].ToString().Trim())) == null)
+                        {
+                            strMsg = $"第{i + 1}行所属系统在后台数据中不存在";
+                        }
+                        else if (!string.IsNullOrEmpty(row["所在建筑"].ToString()) && lstFireUnitArchitecture.Find(d => d.Name.Equals(row["所在建筑"].ToString().Trim())) == null)
+                        {
+                            strMsg = $"第{i + 1}行所在建筑在后台数据中不存在";
+                        }
+                        else if (!string.IsNullOrEmpty(row["所在建筑"].ToString()) && !string.IsNullOrEmpty(row["楼层"].ToString()) && lstFireUnitArchitecture.Find(d => d.Name.Equals(row["所在建筑"].ToString().Trim())).Floors.Find(f => f.Name.Equals(row["楼层"].ToString().Trim())) == null)
+                        {
+                            strMsg = $"第{i + 1}行楼层在后台数据中不存在";
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(strMsg))
+                    {
+                        output.Success = false;
+                        output.FailCause = strMsg;
+                        return output;
+                    }
+
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        DataRow row = dt.Rows[i];
+                        await _repFireOrtherDevice.InsertAsync(new FireOrtherDevice()
+                        {
+                            FireUnitId = input.FireUnitId,
+                            DeviceSn = row["设备编号"].ToString().Trim(),
+                            DeviceType = row["设备型号"].ToString().Trim(),
+                            FireUnitArchitectureId = !string.IsNullOrEmpty(row["所在建筑"].ToString().Trim()) ? lstFireUnitArchitecture.Find(d=>d.Name.Equals(row["所在建筑"].ToString().Trim())).Id : 0,
+                            FireUnitArchitectureFloorId = !string.IsNullOrEmpty(row["所在建筑"].ToString().Trim()) && !string.IsNullOrEmpty(row["楼层"].ToString().Trim()) ? lstFireUnitArchitecture.Find(d => d.Name.Equals(row["所在建筑"].ToString().Trim())).Floors.Find(f=>f.Name.Equals(row["楼层"].ToString().Trim())).Id : 0,
+                            Location = row["具体位置"].ToString().Trim(),
+                            DeviceName = row["设备名称"].ToString().Trim(),
+                            FireSystemId = !string.IsNullOrEmpty(row["所属系统"].ToString().Trim()) ? lstFireUnitSystem.Find(d => d.SystemName.Equals(row["所属系统"].ToString().Trim())).FireSystemId : 0,
+                            StartTime = DateTime.Parse(row["启用时间"].ToString().Trim()),
+                            ExpireTime = DateTime.Parse(row["有效期"].ToString().Trim())
+                        });
+                    }
+                }
+            }
+            output.Success = true;
+            return output;
         }
 
         /// <summary>

@@ -72,6 +72,28 @@ namespace FireProtectionV1.BigScreen.Manager
         }
 
         /// <summary>
+        /// 首页：地图呼吸气泡层_柳州
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public Task<List<BreathingBubble>> GetBreathingBubble_lz(string value)
+        {
+            List<BreathingBubble> lstBreathingBubble = new List<BreathingBubble>();
+            var lstFireUnit = _cacheManager.GetCache("BigScreen").Get("lstFireUnit", () => GetAllFireUnit());
+            foreach (var fireUnit in lstFireUnit)
+            {
+                lstBreathingBubble.Add(new BreathingBubble()
+                {
+                    id = fireUnit.Id,
+                    lng = (double)fireUnit.Lng,
+                    lat = (double)fireUnit.Lat,
+                    info = fireUnit.Name
+                });
+            }
+            return Task.FromResult(lstBreathingBubble);
+        }
+
+        /// <summary>
         /// 首页：飞线层
         /// </summary>
         /// <returns></returns>
@@ -91,6 +113,28 @@ namespace FireProtectionV1.BigScreen.Manager
 
             return Task.FromResult(lstFlyLine);
         }
+
+        /// <summary>
+        /// 首页：飞线层_柳州
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<FlyLine_lz>> GetFlyLine_lz()
+        {
+            List<FlyLine_lz> lstFlyLine = new List<FlyLine_lz>();
+            var lstFireUnit = _cacheManager.GetCache("BigScreen").Get("lstFireUnit", () => GetAllFireUnit());
+            int num = lstFireUnit.Count;
+            if (num > 60) num = 60;
+            for (int i = 0; i < num; i++)
+            {
+                lstFlyLine.Add(new FlyLine_lz()
+                {
+                    from = lstFireUnit[i].Lng + "," + lstFireUnit[i].Lat
+                });
+            }
+
+            return Task.FromResult(lstFlyLine);
+        }
+
         /// <summary>
         /// 首页：地图多行文本
         /// </summary>
@@ -101,8 +145,11 @@ namespace FireProtectionV1.BigScreen.Manager
             DataText mt = new DataText();
             var lstFireUnit = _cacheManager.GetCache("BigScreen").Get("lstFireUnit", () => GetAllFireUnit());
             int cntFireUnit = lstFireUnit.Count();
+
+            int num = 10;
+            if (cntFireUnit < 10) num = cntFireUnit;
             Random random = new Random();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < num; i++)
             {
                 int key = random.Next(0, cntFireUnit);
                 mt.value += $"<br/>{DateTime.Now.ToString("HH:mm:ss")}<br/>接收{lstFireUnit[i].Name}网关心跳";
@@ -230,6 +277,20 @@ namespace FireProtectionV1.BigScreen.Manager
             return Task.FromResult(lstNumberCard);
         }
         /// <summary>
+        /// 首页：获取每个月防火单位总接入数量_柳州
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public Task<List<NumberCard>> GetTotalFireUnitNum_lz(string value)
+        {
+            List<NumberCard> lstNumberCard = new List<NumberCard>();
+            NumberCard totalWarning = new NumberCard();
+            totalWarning.name = "";
+            totalWarning.value = 5;
+            lstNumberCard.Add(totalWarning);
+            return Task.FromResult(lstNumberCard);
+        }
+        /// <summary>
         /// 首页：获取每个月总预警数量
         /// </summary>
         /// <param name="value"></param>
@@ -257,6 +318,20 @@ namespace FireProtectionV1.BigScreen.Manager
                     totalWarning.value = 633;
                     break;
             }
+            lstNumberCard.Add(totalWarning);
+            return Task.FromResult(lstNumberCard);
+        }
+        /// <summary>
+        /// 首页：获取每个月总预警数量_柳州
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public Task<List<NumberCard>> GetTotalWarningNum_lz(string value)
+        {
+            List<NumberCard> lstNumberCard = new List<NumberCard>();
+            NumberCard totalWarning = new NumberCard();
+            totalWarning.name = "";
+            totalWarning.value = 157;
             lstNumberCard.Add(totalWarning);
             return Task.FromResult(lstNumberCard);
         }
@@ -334,6 +409,7 @@ namespace FireProtectionV1.BigScreen.Manager
             result = result.Replace("04", random.Next(4, 31).ToString());
             return Task.FromResult(result);
         }
+
         /// <summary>
         /// 防火单位：类型柱状图
         /// </summary>
@@ -341,7 +417,7 @@ namespace FireProtectionV1.BigScreen.Manager
         public Task<List<Histogram>> GetFireUnitTypeHistogram()
         {
             List<Histogram> lstHistogram = new List<Histogram>();
-            string sql = "SELECT TypeId, b.name, COUNT(1) cnt FROM fireunit a INNER JOIN fireunittype b ON a.`TypeId` = b.`Id` WHERE lng > 0 GROUP BY TypeId ORDER BY cnt DESC LIMIT 10";
+            string sql = "SELECT TypeId, b.name, COUNT(1) cnt FROM fireunit a INNER JOIN fireunittype b ON a.`TypeId` = b.`Id` WHERE lng > 0 AND a.IsDeleted=0 GROUP BY TypeId ORDER BY cnt DESC LIMIT 10";
             var dataTable = _sqlRepository.Query(sql);
             foreach (DataRow row in dataTable.Rows)
             {

@@ -29,3 +29,4 @@ bin
 /API/src/FireProtectionV1.Web/App_Data/Files/Voices/HydrantAlarm
 /API/src/FireProtectionV1.Web/App_Data/Files/App
 *.png
+*.docx

@@ -16,11 +16,23 @@ namespace FireProtectionV1.BigScreen.Manager
         /// <returns></returns>
         Task<List<NumberCard>> GetTotalWarningNum(string value);
         /// <summary>
+        /// 首页：获取每个月总预警数量_柳州
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        Task<List<NumberCard>> GetTotalWarningNum_lz(string value);
+        /// <summary>
         /// 首页：获取每个月防火单位总接入数量
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
         Task<List<NumberCard>> GetTotalFireUnitNum(string value);
+        /// <summary>
+        /// 首页：获取每个月防火单位总接入数量_柳州
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        Task<List<NumberCard>> GetTotalFireUnitNum_lz(string value);
         /// <summary>
         /// 首页：地图呼吸气泡层
         /// </summary>
@@ -28,10 +40,21 @@ namespace FireProtectionV1.BigScreen.Manager
         /// <returns></returns>
         Task<List<BreathingBubble>> GetBreathingBubble(string value);
         /// <summary>
+        /// 首页：地图呼吸气泡层_柳州
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        Task<List<BreathingBubble>> GetBreathingBubble_lz(string value);
+        /// <summary>
         /// 首页：飞线层
         /// </summary>
         /// <returns></returns>
         Task<List<FlyLine>> GetFlyLine();
+        /// <summary>
+        /// 首页：飞线层_柳州
+        /// </summary>
+        /// <returns></returns>
+        Task<List<FlyLine_lz>> GetFlyLine_lz();
         /// <summary>
         /// 首页：地图多行文本
         /// </summary>
