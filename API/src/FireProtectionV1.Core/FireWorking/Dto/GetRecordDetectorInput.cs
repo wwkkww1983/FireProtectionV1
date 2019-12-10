@@ -16,11 +16,11 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public string Identify { get; set; }
         /// <summary>
-        /// 开始时间
+        /// 开始时间 yyyy-MM-dd HH:mm:ss
         /// </summary>
         public DateTime Start { get; set; }
         /// <summary>
-        /// 结束时间
+        /// 结束时间 yyyy-MM-dd HH:mm:ss
         /// </summary>
         public DateTime End { get; set; }
         public GetRecordElectricInput()

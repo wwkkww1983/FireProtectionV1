@@ -3655,12 +3655,12 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetRecordElectricInput.Start">
             <summary>
-            开始时间
+            开始时间 yyyy-MM-dd HH:mm:ss
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetRecordElectricInput.End">
             <summary>
-            结束时间
+            结束时间 yyyy-MM-dd HH:mm:ss
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetRecordDetectorInput.DetectorId">
@@ -4166,6 +4166,16 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.GetRecordElectricOutput.Unit">
             <summary>
             模拟量单位
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetRecordElectricOutput.Max">
+            <summary>
+            上限值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetRecordElectricOutput.Min">
+            <summary>
+            下限值
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetRecordElectricOutput.AnalogTimes">

@@ -1788,6 +1788,13 @@
             <param name="Deviceid">其他消防设备ID</param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireOrtherDeviceExpire(System.Int32)">
+            <summary>
+            获取其他消防设施过期/即将过期数量
+            </summary>
+            <param name="FireUnitId"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireOrtherDeviceList(System.Int32,System.String,System.String,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
             获取其他消防设备列表

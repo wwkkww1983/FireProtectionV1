@@ -97,16 +97,30 @@ namespace FireProtectionV1.FireWorking.Manager
         }
         public async Task<SuccessOutput> DeleteFireElectricDevice(int DeviceId)
         {
-            if (await _repFireElectricDevice.FirstOrDefaultAsync(p => p.Id == DeviceId) == null)
+            var device = await _repFireElectricDevice.FirstOrDefaultAsync(p => p.Id == DeviceId);
+            if (device == null)
                 return new SuccessOutput() { Success = false, FailCause = $"不存在ID为{DeviceId}的设备" };
             await _repFireElectricDevice.DeleteAsync(DeviceId);
+            var gateway = await _gatewayRep.FirstOrDefaultAsync(device.GatewayId);
+            if(gateway!=null)
+            {
+                await _detectorRep.DeleteAsync(p => p.GatewayId == gateway.Id);
+                await _gatewayRep.DeleteAsync(gateway);
+            }
             return new SuccessOutput() { Success = true };
         }
         public async Task<SuccessOutput> DeleteFireAlarmDevice(int DeviceId)
         {
-            if(await _repFireAlarmDevice.FirstOrDefaultAsync(p=>p.Id==DeviceId)==null)
+            var device = await _repFireAlarmDevice.FirstOrDefaultAsync(p => p.Id == DeviceId);
+            if (device == null)
                 return new SuccessOutput() { Success = false, FailCause = $"不存在ID为{DeviceId}的设备" };
             await _repFireAlarmDevice.DeleteAsync(DeviceId);
+            var gateway = await _gatewayRep.FirstOrDefaultAsync(device.GatewayId);
+            if (gateway != null)
+            {
+                await _detectorRep.DeleteAsync(p => p.GatewayId == gateway.Id);
+                await _gatewayRep.DeleteAsync(gateway);
+            }
             return new SuccessOutput() { Success = true };
         }
 
@@ -259,9 +273,24 @@ namespace FireProtectionV1.FireWorking.Manager
         public async Task<GetFireElectricDeviceStateOutput> GetFireElectricDeviceState(int FireUnitId)
         {
             var gateways = _gatewayRep.GetAll().Where(p => p.FireUnitId == FireUnitId&&p.FireSysType==(byte)FireSysType.Electric);
-            //var detectors= from a in _detectorRep.GetAll()
-            //               join b in gateways on a.GatewayId equals b.Id
-            //               //和设备配置比较 80% 良好，隐患
+            var query = from a in _detectorRep.GetAll()
+                            join b in _repFireElectricDevice.GetAll().Where(p => p.FireUnitId == FireUnitId) on a.GatewayId equals b.GatewayId
+                            select new
+                            {
+                                a.Id,
+                                a.GatewayId,
+                                a.State,
+                                b.PhaseType,
+                                b.PhaseJson
+                            };
+            var detectors = query.ToList();
+            //和设备配置比较 80% 良好，隐患
+            //var goup=detectors.GroupBy(p=>p.GatewayId).Select(p=>new
+            //{
+            //    GatewayId=p.Key,
+            //    BadNum=p.Count(p1=>p1.State)
+            //})
+            
             return new GetFireElectricDeviceStateOutput()
             {
                 BadNum = 0,
@@ -290,7 +319,6 @@ namespace FireProtectionV1.FireWorking.Manager
                         select new FireElectricDeviceItemDto()
                         {
                             State=d.Status==GatewayStatus.Online? a.State:"离线",
-                            MonitorItem=new List<string>(),
                             DeviceId = a.Id,
                             DeviceSn = a.DeviceSn,
                             FireUnitArchitectureFloorId = a.FireUnitArchitectureFloorId,
@@ -310,8 +338,9 @@ namespace FireProtectionV1.FireWorking.Manager
             if (!string.IsNullOrEmpty(state))
                 query0 = query0.Where(p => p.State.Equals(state));
             var query = query0.ToList();
-            foreach(var v in query)
+            foreach (var v in query)
             {
+                v.MonitorItem = new List<string>();
                 var device = await _repFireElectricDevice.FirstOrDefaultAsync(v.DeviceId);
                 if (device.ExistAmpere)
                     v.MonitorItem.Add("剩余电流");
@@ -607,23 +636,49 @@ namespace FireProtectionV1.FireWorking.Manager
         }
         public async Task<GetRecordElectricOutput> GetRecordElectric(GetRecordElectricInput input)
         {
+            DateTime end = DateTime.Now;
+            if (input.End != null && input.End.Ticks != 0)
+            {
+                end = input.End;
+            }
+            DateTime start=end.Date.AddDays(-1);
+            if (input.Start!=null&&input.Start.Ticks!=0)
+            {
+                start = input.Start;
+
+            }
             var output = new GetRecordElectricOutput();
+            try
+            {
             var device = await _repFireElectricDevice.FirstOrDefaultAsync(p => p.Id == input.DeviceId);
             var detector = await _detectorRep.FirstOrDefaultAsync(p => p.Identify.Equals(input.Identify)&&p.GatewayId==device.GatewayId);
+            if (input.Identify.Equals("剩余电流"))
+                detector = await _detectorRep.FirstOrDefaultAsync(p => p.Identify.Equals("I0") && p.GatewayId == device.GatewayId);
             if (detector == null)
                 return output;
+            JObject jObject = JObject.Parse(device.PhaseJson);
             if (input.Identify.Equals("L") || input.Identify.Equals("L1") || input.Identify.Equals("L2") || input.Identify.Equals("L3") || input.Identify.Equals("N"))
             {
                 output.Unit = "℃";
                 output.MonitorItemName = "电缆温度 " + input.Identify;
+                output.Min = jObject[$"{input.Identify}min"].ToString();
+                output.Max = jObject[$"{input.Identify}max"].ToString();
             }else if (input.Identify.Equals("剩余电流"))
             {
                 output.Unit = "mA";
-                output.MonitorItemName = "剩余电流 " + input.Identify;
+                output.MonitorItemName = "剩余电流";
+                output.Min = jObject["Amin"].ToString();
+                output.Max = jObject["Amax"].ToString();
             }
-            output.AnalogTimes = _recordAnalogRep.GetAll().Where(p => p.DetectorId == detector.Id).OrderByDescending(p => p.CreationTime).Select(p =>
-                   new AnalogTime() { Time = p.CreationTime.ToString("HH:mm:ss"), Value = p.Analog }).ToList();
+            output.AnalogTimes = _recordAnalogRep.GetAll().Where(p => p.DetectorId == detector.Id&&p.CreationTime>=start&&p.CreationTime<=end).OrderByDescending(p => p.CreationTime).Select(p =>
+                   new AnalogTime() { Time = p.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"), Value = p.Analog }).ToList();
             return output;
+
+            }catch(Exception e)
+            {
+                return new GetRecordElectricOutput();
+            }
+
         }
         /// <summary>
         /// 模拟量探测器历史记录

@@ -222,6 +222,15 @@ namespace FireProtectionV1.DeviceService
             return await _deviceManager.GetFireOrtherDevice(Deviceid);
         }
         /// <summary>
+        /// 获取其他消防设施过期/即将过期数量
+        /// </summary>
+        /// <param name="FireUnitId"></param>
+        /// <returns></returns>
+        public async Task<GetFireOrtherDeviceExpireOutput> GetFireOrtherDeviceExpire(int FireUnitId)
+        {
+            return await _deviceManager.GetFireOrtherDeviceExpire(FireUnitId);
+        }
+        /// <summary>
         /// 获取其他消防设备列表
         /// </summary>
         /// <param name="FireUnitId">防火单位ID</param>

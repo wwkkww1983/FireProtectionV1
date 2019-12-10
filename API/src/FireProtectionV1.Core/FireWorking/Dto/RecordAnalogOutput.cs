@@ -15,6 +15,14 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public string Unit { get; set; }
         /// <summary>
+        /// 上限值
+        /// </summary>
+        public string Max { get; set; } 
+        /// <summary>
+        /// 下限值
+        /// </summary>
+        public string Min { get; set; }
+        /// <summary>
         /// 历史模拟量
         /// </summary>
         public List<AnalogTime> AnalogTimes { get; set; }

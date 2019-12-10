@@ -90,5 +90,6 @@ namespace FireProtectionV1.FireWorking.Manager
         Task<UpdateFireElectricDeviceDto> GetFireElectricDevice(int deviceId);
         Task<GetFireOrtherDeviceOutput> GetFireOrtherDevice(int deviceid);
         Task<GetFireElectricDeviceStateOutput> GetFireElectricDeviceState(int fireUnitId);
+        Task<GetFireOrtherDeviceExpireOutput> GetFireOrtherDeviceExpire(int fireUnitId);
     }
 }

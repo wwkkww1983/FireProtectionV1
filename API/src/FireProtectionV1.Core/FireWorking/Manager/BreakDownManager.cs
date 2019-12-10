@@ -159,8 +159,8 @@ namespace FireProtectionV1.FireWorking.Manager
             {
                 HandleStatus = breakdown.HandleStatus,
                 Source = breakdown.Source,
-                UserName = user.Name,
-                Phone = user.Account,
+                UserName = user==null?"":user.Name,
+                Phone = user == null ? "" : user.Account,
                 CreationTime = breakdown.CreationTime.ToString("yyyy-MM-dd HH:mm"),
                 SolutionWay=breakdown.SolutionWay,
                 Remark=breakdown.Remark,
@@ -176,6 +176,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 output.VoiceLength = dutyproblem.VoiceLength;
                 output.PatrolPhotosPath = photospath;
             }
+            output.PhotosBase64 = new List<string>();
             //巡查来源
             if (breakdown.Source == 2)
             {
@@ -185,6 +186,10 @@ namespace FireProtectionV1.FireWorking.Manager
                 output.RemakeText = patroldetailproblem.ProblemRemark;
                 output.VoiceLength = patroldetailproblem.VoiceLength;
                 output.PatrolPhotosPath = photospath;
+                foreach (var f in output.PatrolPhotosPath)
+                {
+                    output.PhotosBase64.Add(ImageHelper.ThumbImg(_hostingEnv.ContentRootPath + f.Replace("Src", "App_Data/Files")));
+                }
             }
             //物联终端来源
             if (breakdown.Source == 3)
@@ -192,11 +197,6 @@ namespace FireProtectionV1.FireWorking.Manager
                 var fault = _Fault.FirstOrDefault(u => u.Id == breakdown.DataId);
                 output.ProblemRemakeType = 1;
                 output.RemakeText = fault.FaultRemark;
-            }
-            output.PhotosBase64 = new List<string>();
-            foreach(var f in output.PatrolPhotosPath)
-            {
-                output.PhotosBase64.Add(ImageHelper.ThumbImg(_hostingEnv.ContentRootPath + f.Replace("Src", "App_Data/Files")));
             }
             return output;
         }
