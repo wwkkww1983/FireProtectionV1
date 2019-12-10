@@ -91,5 +91,12 @@ namespace FireProtectionV1.FireWorking.Manager
         Task<GetFireOrtherDeviceOutput> GetFireOrtherDevice(int deviceid);
         Task<GetFireElectricDeviceStateOutput> GetFireElectricDeviceState(int fireUnitId);
         Task<GetFireOrtherDeviceExpireOutput> GetFireOrtherDeviceExpire(int fireUnitId);
+
+        /// <summary>
+        /// 导入其它消防设备
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<SuccessOutput> ImportOrtherDevice(FireOtherDeviceImportDto input);
     }
 }

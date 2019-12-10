@@ -13,6 +13,7 @@
   <ItemGroup>
     <PackageReference Include="Abp" Version="4.4.0" />
     <PackageReference Include="Abp.RedisCache" Version="4.4.0" />
+    <PackageReference Include="DotNetCore.NPOI" Version="1.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.2.0" />

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -98,5 +99,16 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// 到期时间(yyyy-MM-dd)
         /// </summary>
         public string ExpireTime { get; set; }
+    }
+    public class FireOtherDeviceImportDto
+    {
+        /// <summary>
+        /// 防火单位ID
+        /// </summary>
+        public int FireUnitId { get; set; }
+        /// <summary>
+        /// excel文件流
+        /// </summary>
+        public IFormFile file { get; set; }
     }
 }
