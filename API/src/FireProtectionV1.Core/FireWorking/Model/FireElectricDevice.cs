@@ -43,7 +43,7 @@ namespace FireProtectionV1.FireWorking.Model
         [MaxLength(100)]
         public string Location { get; set; }
         /// <summary>
-        /// 设备状态：良好/隐患
+        /// 设备状态：良好/隐患/超限
         /// </summary>
         public string State { get; set; }
         /// <summary>
@@ -89,8 +89,8 @@ namespace FireProtectionV1.FireWorking.Model
         public int Lmax { get; set; }
         public int Nmin { get; set; }
         public int Nmax { get; set; }
-        public int Amin { get; set; }
-        public int Amax { get; set; }
+        public int I0min { get; set; }
+        public int I0max { get; set; }
     }
     public class ThreePhase
     {
@@ -102,7 +102,7 @@ namespace FireProtectionV1.FireWorking.Model
         public int L3max { get; set; }
         public int Nmin { get; set; }
         public int Nmax { get; set; }
-        public int Amin { get; set; }
-        public int Amax { get; set; }
+        public int I0min { get; set; }
+        public int I0max { get; set; }
     }
 }

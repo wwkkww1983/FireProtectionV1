@@ -240,8 +240,8 @@ namespace FireProtectionV1.FireWorking.Manager
                 output.Lmax = singlePhase.Lmax;
                 output.Nmin = singlePhase.Nmin;
                 output.Nmax = singlePhase.Nmax;
-                output.Amax = singlePhase.Amax;
-                output.Amin = singlePhase.Amin;
+                output.Amax = singlePhase.I0max;
+                output.Amin = singlePhase.I0min;
             }else if (output.PhaseType.Equals("三相"))
             {
                 ThreePhase threePhase = JsonConvert.DeserializeObject<ThreePhase>(device.PhaseJson);
@@ -253,8 +253,8 @@ namespace FireProtectionV1.FireWorking.Manager
                 output.L3max = threePhase.L3max;
                 output.Nmin = threePhase.Nmin;
                 output.Nmax = threePhase.Nmax;
-                output.Amax = threePhase.Amax;
-                output.Amin = threePhase.Amin;
+                output.Amax = threePhase.I0max;
+                output.Amin = threePhase.I0min;
             }
             output.EnableAlarm = new List<string>();
             output.MonitorItem = new List<string>();
@@ -272,43 +272,67 @@ namespace FireProtectionV1.FireWorking.Manager
         }
         public async Task<GetFireElectricDeviceStateOutput> GetFireElectricDeviceState(int FireUnitId)
         {
-            var gateways = _gatewayRep.GetAll().Where(p => p.FireUnitId == FireUnitId&&p.FireSysType==(byte)FireSysType.Electric);
-            var query = from a in _detectorRep.GetAll()
-                            join b in _repFireElectricDevice.GetAll().Where(p => p.FireUnitId == FireUnitId) on a.GatewayId equals b.GatewayId
-                            select new
-                            {
-                                a.Id,
-                                a.GatewayId,
-                                a.State,
-                                b.PhaseType,
-                                b.PhaseJson
-                            };
-            var detectors = query.ToList();
-            //和设备配置比较 80% 良好，隐患
-            //var goup=detectors.GroupBy(p=>p.GatewayId).Select(p=>new
+
+            var devices = from a in _repFireElectricDevice.GetAll().Where(p=>p.FireUnitId==FireUnitId)
+                           join b in _gatewayRep.GetAll().Where(p => p.FireUnitId == FireUnitId && p.FireSysType == (byte)FireSysType.Electric)
+                           on a.GatewayId equals b.Id
+                           select new {
+                               b.Status,
+                               a.State
+                           };
+            //var query = from a in _detectorRep.GetAll()
+            //                join b in _repFireElectricDevice.GetAll().Where(p => p.FireUnitId == FireUnitId) on a.GatewayId equals b.GatewayId
+            //                select new
+            //                {
+            //                    a.Id,
+            //                    Identify=a.Identify,
+            //                    a.GatewayId,
+            //                    State=a.State==null?"":a.State,
+            //                    b.PhaseType,
+            //                    PhaseJson=string.IsNullOrEmpty( b.PhaseJson)?"{}": b.PhaseJson
+            //                };
+            //var detectors = query.ToList();
+            ////和设备配置比较 80% 良好，隐患
+            //var d2 = detectors.Select(p => new
             //{
-            //    GatewayId=p.Key,
-            //    BadNum=p.Count(p1=>p1.State)
-            //})
-            
+            //    Max = !JObject.Parse(p.PhaseJson).ContainsKey($"{p.Identify}max")?0:double.Parse(JObject.Parse(p.PhaseJson)[$"{p.Identify}max"].ToString()),
+            //    p.Id, p.GatewayId,
+            //    Value= System.Text.RegularExpressions.Regex.Replace(p.State, @"[^\d.\d]", "").Equals("")?0:double.Parse(System.Text.RegularExpressions.Regex.Replace(p.State, @"[^\d.\d]", "")),
+            //}).ToList();
+
+            //var group = d2.GroupBy(p => p.GatewayId).Select(p => new
+            //{
+            //    GatewayId = p.Key,
+            //    BadNum = p.Where(p1 => p1.Value < p1.Max && p1.Value >= 0.8 * p1.Max).Count(),
+            //    GoodNum = p.Where(p1 => p1.Value < 0.8 * p1.Max).Count(),
+            //    WarnNum = p.Where(p1 => p1.Value >= p1.Max).Count()
+            //}).ToList();
             return new GetFireElectricDeviceStateOutput()
             {
-                BadNum = 0,
-                GoodNum = 0,
-                OfflineNum = gateways.Count(p => p.Status != GatewayStatus.Online),
-                OnlineNum = gateways.Count(p=>p.Status==GatewayStatus.Online),
-                WarnNum = 0
+                BadNum = devices.Where(p => p.State.Equals("隐患")).Count(),
+                GoodNum = devices.Where(p => p.State.Equals("良好")).Count(),
+                OfflineNum = devices.Count(p => p.Status != GatewayStatus.Online),
+                OnlineNum = devices.Count(p=>p.Status==GatewayStatus.Online),
+                WarnNum = devices.Where(p=> p.State.Equals("超限")).Count()
             };
         }
         public async Task<PagedResultDto<FireElectricDeviceItemDto>> GetFireElectricDeviceList(int fireUnitId, string state, PagedResultRequestDto dto)
         {
+            var devices = _repFireElectricDevice.GetAll().Where(p => p.FireUnitId == fireUnitId);
+            var gateways = _gatewayRep.GetAll().Where(p=>p.FireUnitId==fireUnitId&&p.FireSysType==(byte)FireSysType.Electric);
+            if (state.Equals("在线"))
+                gateways = gateways.Where(p => p.Status == GatewayStatus.Online);
+            else if (state.Equals("离线"))
+                gateways = gateways.Where(p => p.Status != GatewayStatus.Online);
+            else if (!string.IsNullOrEmpty(state))
+                devices = devices.Where(p => p.State.Equals(state));
             var detectors = _detectorRep.GetAll().Where(p => p.FireUnitId == fireUnitId).ToList();
-            var query0 = from a in _repFireElectricDevice.GetAll().Where(p => p.FireUnitId == fireUnitId)
-                        join b0 in _repFireUnitArchitectureFloor.GetAll() on a.FireUnitArchitectureFloorId equals b0.Id into be
+            var query0 = from a in devices
+                         join b0 in _repFireUnitArchitectureFloor.GetAll() on a.FireUnitArchitectureFloorId equals b0.Id into be
                         from b in be.DefaultIfEmpty()
                         join c0 in _repFireUnitArchitecture.GetAll() on a.FireUnitArchitectureId equals c0.Id into ce
                         from c in ce.DefaultIfEmpty()
-                        join d in _gatewayRep.GetAll() on a.GatewayId equals d.Id
+                        join d in gateways on a.GatewayId equals d.Id
                         orderby a.CreationTime descending
                         let L= detectors.FirstOrDefault(p => p.GatewayId == a.GatewayId && p.Identify.Equals("L"))
                         let N= detectors.FirstOrDefault(p => p.GatewayId == a.GatewayId && p.Identify.Equals("N"))
@@ -318,7 +342,7 @@ namespace FireProtectionV1.FireWorking.Manager
                         let L3 = detectors.FirstOrDefault(p => p.GatewayId == a.GatewayId && p.Identify.Equals("L3"))
                         select new FireElectricDeviceItemDto()
                         {
-                            State=d.Status==GatewayStatus.Online? a.State:"离线",
+                            State=a.State,
                             DeviceId = a.Id,
                             DeviceSn = a.DeviceSn,
                             FireUnitArchitectureFloorId = a.FireUnitArchitectureFloorId,
@@ -327,16 +351,14 @@ namespace FireProtectionV1.FireWorking.Manager
                             FireUnitArchitectureName = c == null ? "" : c.Name,
                             Location = a.Location,
                             PhaseType=a.PhaseType,
-                            L=L==null?"":L.State,
-                            N = N == null ? "" : N.State,
-                            A = A == null ? "" : A.State,
-                            L1 = L1 == null ? "" : L1.State,
-                            L2 = L2 == null ? "" : L2.State,
-                            L3 = L3 == null ? "" : L3.State,
+                            L=d.Status != GatewayStatus.Online?"未知":(L==null?"":L.State),
+                            N = d.Status != GatewayStatus.Online ? "未知" : (N == null ? "" : N.State),
+                            A = d.Status != GatewayStatus.Online ? "未知" : (A == null ? "" : A.State),
+                            L1 = d.Status != GatewayStatus.Online ? "未知" : (L1 == null ? "" : L1.State),
+                            L2 = d.Status != GatewayStatus.Online ? "未知" : (L2 == null ? "" : L2.State),
+                            L3 = d.Status != GatewayStatus.Online ? "未知" : (L3 == null ? "" : L3.State),
                         };
 
-            if (!string.IsNullOrEmpty(state))
-                query0 = query0.Where(p => p.State.Equals(state));
             var query = query0.ToList();
             foreach (var v in query)
             {
@@ -898,8 +920,8 @@ namespace FireProtectionV1.FireWorking.Manager
                 await _detectorRep.InsertOrUpdateAsync(lDetector);
                 SinglePhase singlePhase = new SinglePhase()
                 {
-                    Amax = input.Amax,
-                    Amin = input.Amin,
+                    I0max = input.Amax,
+                    I0min = input.Amin,
                     Lmax = input.Lmax,
                     Lmin = input.Lmin,
                     Nmax = input.Nmax,
@@ -962,8 +984,8 @@ namespace FireProtectionV1.FireWorking.Manager
                 await _detectorRep.InsertOrUpdateAsync(l1Detector);
                 ThreePhase threePhase = new ThreePhase()
                 {
-                    Amax = input.Amax,
-                    Amin = input.Amin,
+                    I0max = input.Amax,
+                    I0min = input.Amin,
                     L1max = input.L1max,
                     L1min = input.L1min,
                     L2max = input.L2max,
@@ -1016,8 +1038,8 @@ namespace FireProtectionV1.FireWorking.Manager
                 {
                     SinglePhase singlePhase = new SinglePhase()
                     {
-                        Amax = input.Amax,
-                        Amin = input.Amin,
+                        I0max = input.Amax,
+                        I0min = input.Amin,
                         Lmax = input.Lmax,
                         Lmin = input.Lmin,
                         Nmax = input.Nmax,
@@ -1029,8 +1051,8 @@ namespace FireProtectionV1.FireWorking.Manager
                 {
                    ThreePhase threePhase = new ThreePhase()
                     {
-                        Amax = input.Amax,
-                        Amin = input.Amin,
+                       I0max = input.Amax,
+                       I0min = input.Amin,
                         L1max = input.L1max,
                         L1min = input.L1min,
                         L2max = input.L2max,
@@ -1379,6 +1401,22 @@ namespace FireProtectionV1.FireWorking.Manager
                 Analog = input.Analog,
                 DetectorId = detector.Id
             });
+            var device = await _repFireElectricDevice.FirstOrDefaultAsync(p => p.GatewayId == detector.GatewayId);
+            if(!string.IsNullOrEmpty(device.PhaseJson))
+            {
+                var jobject = JObject.Parse(device.PhaseJson);
+                if (jobject.ContainsKey($"{input.Identify}max"))
+                {
+                    var max = double.Parse(jobject[$"{input.Identify}max"].ToString());
+                    if (input.Analog >= max)
+                        device.State = "超限";
+                    else if (input.Analog >= max * 0.8)
+                        device.State = "隐患";
+                    else
+                        device.State = "良好";
+                    await _repFireElectricDevice.UpdateAsync(device);
+                }
+            }
             return new AddDataOutput() { IsDetectorExit = true };
         }
         public async Task<AddDataOutput> AddOnlineDetector(AddOnlineDetectorInput input)
