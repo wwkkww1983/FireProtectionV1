@@ -13,17 +13,20 @@ namespace FireProtectionV1.FireWorking.Manager
 {
     public class FaultManager: IFaultManager
     {
+        IRepository<Detector> _repDetector;
         IRepository<BreakDown> _repBreakDown;
         IRepository<FireUnit> _fireUnitRep;
         IRepository<Fault> _faultRep;
         IDeviceManager _deviceManager;
         public FaultManager(
+            IRepository<Detector> repDetector,
             IRepository<BreakDown> repBreakDown,
             IDeviceManager deviceManager,
             IRepository<FireUnit> fireUnitRep,
             IRepository<Fault> faultRep
             )
         {
+            _repDetector = repDetector;
             _repBreakDown = repBreakDown;
             _deviceManager = deviceManager;
             _fireUnitRep = fireUnitRep;
@@ -46,6 +49,10 @@ namespace FireProtectionV1.FireWorking.Manager
                 FaultRemark=input.FaultRemark,
                 ProcessState=(byte)Common.Enum.HandleStatus.UuResolve
             });
+            detector.FaultNum++;
+            detector.LastFaultId = id;
+            await _repDetector.UpdateAsync(detector);
+
             var breakdown = new BreakDown()
             {
                 DataId = id,

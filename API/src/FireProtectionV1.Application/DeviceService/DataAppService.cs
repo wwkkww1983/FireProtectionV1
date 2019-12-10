@@ -114,6 +114,15 @@ namespace FireProtectionV1.DeviceService
                 Origin=origin
             });
         }
+        /// <summary>
+        /// 添加故障
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<AddDataOutput> AddNewFault(AddNewFaultInput input)
+        {
+            return await _faultManager.AddNewFault(input);
+        }
         //public void Test()
         //{
         //    for(int fireunitid=5; fireunitid<20; fireunitid++)

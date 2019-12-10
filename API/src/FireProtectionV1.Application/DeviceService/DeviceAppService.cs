@@ -2,12 +2,14 @@
 using FireProtectionV1.AppService;
 using FireProtectionV1.Dto;
 using FireProtectionV1.FireWorking.Dto;
+using FireProtectionV1.FireWorking.Dto.FireDevice;
 using FireProtectionV1.FireWorking.Manager;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Threading.Tasks;
+using TsjWebApi;
 
 namespace FireProtectionV1.DeviceService
 {
@@ -20,6 +22,7 @@ namespace FireProtectionV1.DeviceService
             _deviceManager = detectorManager;
             _alarmManager = alarmManager;
         }
+
         /// <summary>
         /// 新增探测器部件
         /// </summary>
@@ -87,6 +90,15 @@ namespace FireProtectionV1.DeviceService
         public async Task<RecordAnalogOutput> GetRecordAnalog(GetRecordDetectorInput input)
         {
             return await _deviceManager.GetRecordAnalog(input);
+        }
+        /// <summary>
+        /// 获取电气火灾监测项目模拟量趋势
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<GetRecordElectricOutput> GetRecordElectric(GetRecordElectricInput input)
+        {
+            return await _deviceManager.GetRecordElectric(input);
         }
         /// <summary>
         /// 获得防火单位非模拟量终端历史记录

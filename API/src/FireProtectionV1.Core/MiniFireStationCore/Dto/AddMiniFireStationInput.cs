@@ -47,5 +47,9 @@ namespace FireProtectionV1.MiniFireStationCore.Dto
         /// </summary>
         [Required]
         public decimal Lat { get; set; }
+        /// <summary>
+        /// 外观图
+        /// </summary>
+        public string PhotoBase64 { get; set; }
     }
 }

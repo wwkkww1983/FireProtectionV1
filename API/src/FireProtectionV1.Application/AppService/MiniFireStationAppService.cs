@@ -181,7 +181,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<SuccessOutput> Add(AddMiniFireStationInput input)
+        public async Task<AddMiniFireStationOutput> Add(AddMiniFireStationInput input)
         {
             return await _manager.Add(input);
         }

@@ -12,6 +12,10 @@ namespace FireProtectionV1.FireWorking.Model
     public class Fault : EntityBase
     {
         /// <summary>
+        /// 网关Id
+        /// </summary>
+        public int GatewayId { get; set; }
+        /// <summary>
         /// 探测器Id
         /// </summary>
         [Required]

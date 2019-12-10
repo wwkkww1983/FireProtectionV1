@@ -15,6 +15,12 @@ namespace FireProtectionV1.EntityFrameworkCore
 {
     public class FireProtectionV1DbContext : AbpDbContext
     {
+        public DbSet<FireAlarmDeviceType> FireAlarmDeviceType { get; set; }
+        public DbSet<FireElectricDeviceType> FireElectricDeviceType { get; set; }
+        public DbSet<FireAlarmDeviceProtocol> FireAlarmDeviceProtocol { get; set; }
+        public DbSet<FireAlarmDevice> FireAlarmDevice { get; set; }
+        public DbSet<FireElectricDevice> FireElectricDevice { get; set; }
+        public DbSet<FireOrtherDevice> FireOrtherDevice { get; set; }
         public DbSet<MiniFireActionType> MiniFireActionType { get; set; }
         public DbSet<MiniFireAction> MiniFireAction { get; set; }
         public DbSet<MiniFireEquipment> MiniFireEquipment { get; set; }

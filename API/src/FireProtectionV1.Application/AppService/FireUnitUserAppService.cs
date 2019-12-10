@@ -80,7 +80,13 @@ namespace FireProtectionV1.AppService
             if (!verifyCode.Equals(input.VerifyCode))
                 return new FireUnitUserLoginOutput() { Success = false, FailCause = "验证码错误" };
             //登录判断
-            return await Login(input);
+            var output= await Login(input);
+            if (output.Rolelist == null || !output.Rolelist.Contains(User.Model.FireUnitRole.FireUnitManager))
+            {
+                output.Success = false;
+                output.FailCause = "只有管理员才能登录";
+            }
+            return output;
         }
         private async Task<FireUnitUserLoginOutput> Login(LoginInput input)
         {

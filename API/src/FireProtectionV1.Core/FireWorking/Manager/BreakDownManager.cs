@@ -18,6 +18,7 @@ namespace FireProtectionV1.FireWorking.Manager
 {
     public class BreakDownManager : IBreakDownManager
     {
+        IRepository<Detector> _repDetector;
         IHostingEnvironment _hostingEnv;
         IRepository<SafeUnitUser> _repSafeUnitUser;
         IRepository<FireUnit> _fireUnitRep;
@@ -32,6 +33,7 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<DataToPatrol> _patrolRep;
         IRepository<DataToPatrolDetail> _patrolDetailRep;
         public BreakDownManager(
+            IRepository<Detector> repDetector,
             IRepository<SafeUnitUser> repSafeUnitUser,
             IHostingEnvironment hostingEnv,
             IRepository<FireUnit> fireUnitRep,
@@ -47,6 +49,7 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<Fault> Fault
             )
         {
+            _repDetector = repDetector;
             _repSafeUnitUser = repSafeUnitUser;
             _hostingEnv = hostingEnv;
             _fireUnitRep = fireUnitRep;
@@ -156,8 +159,8 @@ namespace FireProtectionV1.FireWorking.Manager
             {
                 HandleStatus = breakdown.HandleStatus,
                 Source = breakdown.Source,
-                UserName = user.Name,
-                Phone = user.Account,
+                UserName = user==null?"":user.Name,
+                Phone = user == null ? "" : user.Account,
                 CreationTime = breakdown.CreationTime.ToString("yyyy-MM-dd HH:mm"),
                 SolutionWay=breakdown.SolutionWay,
                 Remark=breakdown.Remark,
@@ -173,6 +176,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 output.VoiceLength = dutyproblem.VoiceLength;
                 output.PatrolPhotosPath = photospath;
             }
+            output.PhotosBase64 = new List<string>();
             //巡查来源
             if (breakdown.Source == 2)
             {
@@ -182,6 +186,10 @@ namespace FireProtectionV1.FireWorking.Manager
                 output.RemakeText = patroldetailproblem.ProblemRemark;
                 output.VoiceLength = patroldetailproblem.VoiceLength;
                 output.PatrolPhotosPath = photospath;
+                foreach (var f in output.PatrolPhotosPath)
+                {
+                    output.PhotosBase64.Add(ImageHelper.ThumbImg(_hostingEnv.ContentRootPath + f.Replace("Src", "App_Data/Files")));
+                }
             }
             //物联终端来源
             if (breakdown.Source == 3)
@@ -189,11 +197,6 @@ namespace FireProtectionV1.FireWorking.Manager
                 var fault = _Fault.FirstOrDefault(u => u.Id == breakdown.DataId);
                 output.ProblemRemakeType = 1;
                 output.RemakeText = fault.FaultRemark;
-            }
-            output.PhotosBase64 = new List<string>();
-            foreach(var f in output.PatrolPhotosPath)
-            {
-                output.PhotosBase64.Add(ImageHelper.ThumbImg(_hostingEnv.ContentRootPath + f.Replace("Src", "App_Data/Files")));
             }
             return output;
         }
@@ -224,6 +227,20 @@ namespace FireProtectionV1.FireWorking.Manager
                     breakdown.SolutionWay = input.SolutionWay;
                     breakdown.SolutionTime = now;
                     breakdown.HandleStatus = (byte)input.HandleStatus;
+                    if(breakdown.Source== (byte)Common.Enum.SourceType.Terminal)
+                    {
+                        var fault = await _Fault.FirstOrDefaultAsync(p => p.Id == breakdown.DataId);
+                        if (fault != null)
+                        {
+                            var detector = await _repDetector.FirstOrDefaultAsync(p => p.Id == fault.DetectorId);
+                            if (detector != null)
+                            {
+                                if(detector.FaultNum>0)
+                                    detector.FaultNum--;
+                                await _repDetector.UpdateAsync(detector);
+                            }
+                        }
+                    }
                 }
                 //维保单位页面提交
                 else if (input.HandleStatus == HandleStatus.SafeResolving)

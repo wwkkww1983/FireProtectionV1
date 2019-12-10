@@ -4,6 +4,7 @@ using Abp.Domain.Services;
 using FireProtectionV1.Common.DBContext;
 using FireProtectionV1.Common.Helper;
 using FireProtectionV1.Enterprise.Model;
+using FireProtectionV1.MiniFireStationCore.Model;
 using FireProtectionV1.User.Dto;
 using FireProtectionV1.User.Model;
 using System;
@@ -15,6 +16,7 @@ namespace FireProtectionV1.User.Manager
 {
     public class FireUnitUserManager : DomainService, IFireUnitUserManager
     {
+        IRepository<MiniFireStation> _repMiniFireStation;
         IRepository<FireUnitUser> _fireUnitAccountRepository;
         IRepository<FireUnitUserRole> _fireUnitAccountRoleRepository;
         IRepository<FireUnit> _fireUnitRepository;
@@ -22,6 +24,7 @@ namespace FireProtectionV1.User.Manager
         IRepository<FireUntiSystem> _fireUnitSystemRep;
 
         public FireUnitUserManager(
+            IRepository<MiniFireStation> repMiniFireStation,
             IRepository<FireUntiSystem> fireUnitSystemRep,
             IRepository<FireUnitUser> fireUnitAccountRepository,
             IRepository<FireUnitUserRole> fireUnitAccountRoleRepository,
@@ -29,6 +32,7 @@ namespace FireProtectionV1.User.Manager
             ISqlRepository sqlRepository
             )
         {
+            _repMiniFireStation = repMiniFireStation;
             _fireUnitSystemRep = fireUnitSystemRep;
             _fireUnitAccountRepository = fireUnitAccountRepository;
             _fireUnitAccountRoleRepository = fireUnitAccountRoleRepository;
@@ -108,6 +112,12 @@ namespace FireProtectionV1.User.Manager
                 {
                     output.FireUnitName = fireunit.Name;
                     output.FireUnitID = fireunit.Id;
+                    var mini = await _repMiniFireStation.FirstOrDefaultAsync(p => p.FireUnitId == fireunit.Id);
+                    if (mini != null)
+                    {
+                        output.MiniFireStationId = mini.Id;
+                        output.MiniFireStationName = mini.Name;
+                    }
                 }
                 if (output.Rolelist.Contains(FireUnitRole.FireUnitManager))
                 {
@@ -118,7 +128,6 @@ namespace FireProtectionV1.User.Manager
                         output.GuideFlage = 0 == _fireUnitSystemRep.GetAll().Where(u => u.FireUnitId == v.FireUnitInfoID).Count();
                     }
                 }
-
             }
             return output;
         }
@@ -136,12 +145,17 @@ namespace FireProtectionV1.User.Manager
             var unitpeople = from a in unitpeoplelist
                              where a.FireUnitInfoID == loginman.FireUnitInfoID
                              orderby a.CreationTime descending
+                             let rolelst= rolllist.Where(u => u.AccountID == a.Id).Select(u => u.Role).ToList()
                              select new GetUnitPeopleOutput
                              {
                                  ID = a.Id,
                                  Name = a.Name,
                                  Account = a.Account,
-                                 Rolelist = rolllist.Where(u => u.AccountID == a.Id).Select(u => u.Role).ToList()
+                                 Rolelist = FireUnitRoleFunc.GetListName( rolelst),//rolllist.Where(u => u.AccountID == a.Id).Select(u => u.Role).ToList(),
+                                 Photo=a.Photo,
+                                 Qualification=a.Qualification,
+                                 QualificationNumber=a.QualificationNumber,
+                                 QualificationValidity=a.QualificationValidity.ToString("yyyy-MM-dd")
                              };
             return unitpeople.ToList();
                 
@@ -154,13 +168,17 @@ namespace FireProtectionV1.User.Manager
         public async Task<GetUnitPeopleOutput> GetUserInfo(GetUnitPeopleInput input)
         {
             var loginman = await _fireUnitAccountRepository.SingleAsync(u => u.Id == input.AccountID);
-            var rolllist = _fireUnitAccountRoleRepository.GetAll();
+            var rolllist = _fireUnitAccountRoleRepository.GetAll().Where(u => u.AccountID == input.AccountID).Select(u => u.Role).ToList();
             GetUnitPeopleOutput userInfo = new GetUnitPeopleOutput()
             {
                 ID = loginman.Id,
                 Name = loginman.Name,
                 Account = loginman.Account,
-                Rolelist = rolllist.Where(u => u.AccountID == input.AccountID).Select(u => u.Role).ToList()
+                Rolelist = FireUnitRoleFunc.GetListName( rolllist),
+                Photo = loginman.Photo,
+                Qualification = loginman.Qualification,
+                QualificationNumber = loginman.QualificationNumber,
+                QualificationValidity = loginman.QualificationValidity.ToString("yyyy-MM-dd")
             };
             return userInfo;
 
@@ -180,19 +198,22 @@ namespace FireProtectionV1.User.Manager
             userInfo.Photo = input.Photo;
             userInfo.Qualification = input.Qualification;
             userInfo.QualificationNumber = input.QualificationNumber;
-            userInfo.QualificationValidity = input.QualificationValidity;
+            userInfo.QualificationValidity = DateTime.Parse( input.QualificationValidity);
             _fireUnitAccountRepository.Update(userInfo);
 
             string sql = $@"DELETE FROM fireunituserrole WHERE AccountID={input.ID}";
             var dataTable = _SqlRepository.Query(sql);
-            foreach(var a in input.Rolelist)
+            if (input.Rolelist != null)
             {
-                FireUnitUserRole userRole = new FireUnitUserRole()
+                foreach (var a in input.Rolelist)
                 {
-                    AccountID = input.ID,
-                    Role = a
-                };
-                _fireUnitAccountRoleRepository.Insert(userRole);
+                    FireUnitUserRole userRole = new FireUnitUserRole()
+                    {
+                        AccountID = input.ID,
+                        Role = FireUnitRoleFunc.GetRoleEnum(a)
+                    };
+                    _fireUnitAccountRoleRepository.Insert(userRole);
+                }
             }
 
             return output;
@@ -214,18 +235,21 @@ namespace FireProtectionV1.User.Manager
                 Photo = input.Photo,
                 Qualification = input.Qualification,
                 QualificationNumber = input.QualificationNumber,
-                QualificationValidity = input.QualificationValidity,
+                QualificationValidity = DateTime.Parse( input.QualificationValidity),
                 Password = MD5Encrypt.Encrypt("666666" + input.Account, 16),
             };
             var userid = _fireUnitAccountRepository.InsertAndGetId(user);
-            foreach(var roleid in input.Rolelist)
+            if (input.Rolelist != null)
             {
-                FireUnitUserRole role = new FireUnitUserRole()
+                foreach (var roleid in input.Rolelist)
                 {
-                    AccountID = userid,
-                    Role = roleid
-                };
-                await _fireUnitAccountRoleRepository.InsertAsync(role);
+                    FireUnitUserRole role = new FireUnitUserRole()
+                    {
+                        AccountID = userid,
+                        Role = FireUnitRoleFunc.GetRoleEnum(roleid)
+                    };
+                    await _fireUnitAccountRoleRepository.InsertAsync(role);
+                }
             }
             return output;
         }

@@ -35,5 +35,13 @@ namespace FireProtectionV1.User.Dto
         /// 是否引导
         /// </summary>
         public bool GuideFlage { get; set; }
+        /// <summary>
+        /// 微型消防站ID
+        /// </summary>
+        public int MiniFireStationId { get; set; }
+        /// <summary>
+        /// 微型消防站名字
+        /// </summary>
+        public string MiniFireStationName { get; set; }
     }
 }

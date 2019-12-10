@@ -33,13 +33,12 @@ namespace FireProtectionV1.User.Dto
         /// </summary>
         public string QualificationNumber { get; set; }
         /// <summary>
-        /// 职业资格证书有效期
+        /// 职业资格证书有效期("yyyy-MM-dd")
         /// </summary>
-        public DateTime QualificationValidity { get; set; }
+        public string QualificationValidity { get; set; }
         /// <summary>
         /// 角色
         /// </summary>
-        public List<FireUnitRole> Rolelist { get; set; }
-
+        public List<string> Rolelist { get; set; }
     }
 }
