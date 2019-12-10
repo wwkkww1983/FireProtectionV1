@@ -162,9 +162,22 @@
             <param name="value"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetBreathingBubble_lz(System.String)">
+            <summary>
+            首页：地图呼吸气泡层_柳州
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetFlyLine">
             <summary>
             首页：飞线层
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetFlyLine_lz">
+            <summary>
+            首页：飞线层_柳州
             </summary>
             <returns></returns>
         </member>
@@ -187,9 +200,23 @@
             <param name="value"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetTotalFireUnitNum_lz(System.String)">
+            <summary>
+            首页：获取每个月防火单位总接入数量_柳州
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetTotalWarningNum(System.String)">
             <summary>
             首页：获取每个月总预警数量
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetTotalWarningNum_lz(System.String)">
+            <summary>
+            首页：获取每个月总预警数量_柳州
             </summary>
             <param name="value"></param>
             <returns></returns>
@@ -777,6 +804,60 @@
             （所有防火单位）超过1天没有值班记录的单位列表
             </summary>
             <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FireProtectionV1.AppService.FireUnitArchitectureAppService">
+            <summary>
+            防火单位建筑
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitArchitectureAppService.Add(FireProtectionV1.Enterprise.Dto.AddFireUnitArchitectureInput)">
+            <summary>
+            添加
+            </summary>
+            <param name="input"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitArchitectureAppService.Update(FireProtectionV1.Enterprise.Dto.UpdateFireUnitArchitectureInput)">
+            <summary>
+            修改建筑信息
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitArchitectureAppService.UpdateFloor(FireProtectionV1.Enterprise.Dto.UpdateFireUnitArchitectureFloorInput)">
+            <summary>
+            修改楼层信息
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitArchitectureAppService.Delete(System.Int32)">
+            <summary>
+            删除
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitArchitectureAppService.GetById(System.Int32)">
+            <summary>
+            获取单个建筑信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitArchitectureAppService.GetListByFireUnitId(System.Int32)">
+            <summary>
+            获取某个防火单位的所有建筑信息（常用于建筑树状展示）
+            </summary>
+            <param name="fireunitId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitArchitectureAppService.GetFloorsByArchitectureId(System.Int32)">
+            <summary>
+            根据建筑ID获取下属楼层（常用于建筑与楼层级联下拉框）
+            </summary>
+            <param name="architectureId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.GetVerifyCode">

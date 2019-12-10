@@ -31,6 +31,16 @@ namespace FireProtectionV1.AppService
         }
 
         /// <summary>
+        /// 首页：地图呼吸气泡层_柳州
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public async Task<List<BreathingBubble>> GetBreathingBubble_lz(string value)
+        {
+            return await _manager.GetBreathingBubble_lz(value);
+        }
+
+        /// <summary>
         /// 首页：飞线层
         /// </summary>
         /// <returns></returns>
@@ -38,6 +48,15 @@ namespace FireProtectionV1.AppService
         {
             return await _manager.GetFlyLine();
         }
+        /// <summary>
+        /// 首页：飞线层_柳州
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<FlyLine_lz>> GetFlyLine_lz()
+        {
+            return await _manager.GetFlyLine_lz();
+        }
+
         /// <summary>
         /// 首页：地图多行文本
         /// </summary>
@@ -64,6 +83,15 @@ namespace FireProtectionV1.AppService
             return await _manager.GetTotalFireUnitNum(value);
         }
         /// <summary>
+        /// 首页：获取每个月防火单位总接入数量_柳州
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public async Task<List<NumberCard>> GetTotalFireUnitNum_lz(string value)
+        {
+            return await _manager.GetTotalFireUnitNum_lz(value);
+        }
+        /// <summary>
         /// 首页：获取每个月总预警数量
         /// </summary>
         /// <param name="value"></param>
@@ -71,6 +99,15 @@ namespace FireProtectionV1.AppService
         public async Task<List<NumberCard>> GetTotalWarningNum(string value)
         {
             return await _manager.GetTotalWarningNum(value);
+        }
+        /// <summary>
+        /// 首页：获取每个月总预警数量_柳州
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public async Task<List<NumberCard>> GetTotalWarningNum_lz(string value)
+        {
+            return await _manager.GetTotalWarningNum_lz(value);
         }
 
         /// <summary>
