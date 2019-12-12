@@ -29,6 +29,7 @@ namespace FireProtectionV1.Enterprise.Manager
         IRepository<SafeUnit> _safeUnitRep;
         IRepository<Area> _areaRep;
         IRepository<FireUnitType> _fireUnitTypeRep;
+        IRepository<FireDept> _repFireDept;
         IRepository<FireUnit> _fireUnitRep;
         IRepository<FireUnitUser> _fireUnitUserRep;
         IRepository<FireSystem> _fireSystemRep;
@@ -36,6 +37,7 @@ namespace FireProtectionV1.Enterprise.Manager
         IRepository<EquipmentNo> _equipmentNoRep;
         ICacheManager _cacheManager;
         public FireUnitManager(
+            IRepository<FireDept> repFireDept,
             IRepository<FireUnitPlan> repFireUnitPlan,
             IRepository<FireUnitAttention> fireUnitAttentionRep,
             IRepository<SafeUnit> safeUnitR,
@@ -50,6 +52,7 @@ namespace FireProtectionV1.Enterprise.Manager
             IRepository<EquipmentNo> equipmentNoRep
             )
         {
+            _repFireDept = repFireDept;
             _repFireUnitPlan = repFireUnitPlan;
             _fireUnitAttentionRep = fireUnitAttentionRep;
             _safeUnitRep = safeUnitR;
@@ -327,6 +330,8 @@ namespace FireProtectionV1.Enterprise.Manager
             var f = await _fireUnitRep.SingleAsync(p => p.Id.Equals(input.Id));
             if (f != null)
             {
+                var dept = await _repFireDept.FirstOrDefaultAsync(f.FireDeptId);
+                output.FireDeptName = dept == null ? "" : dept.Name;
                 output.CreationTime = f.CreationTime;
                 output.ZP_Picture = f.ZP_Picture;
                 output.FireDeptContractPhone = f.FireDeptContractPhone;

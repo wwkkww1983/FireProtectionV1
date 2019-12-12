@@ -38,6 +38,10 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         public int FireUnitArchitectureFloorId { get; set; }
         /// <summary>
+        /// 通讯方式
+        /// </summary>
+        public string NetComm { get; set; }
+        /// <summary>
         /// 设备地点
         /// </summary>
         [MaxLength(100)]

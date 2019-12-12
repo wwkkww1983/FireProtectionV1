@@ -1839,6 +1839,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.ImportOrtherDevice(FireProtectionV1.FireWorking.Dto.FireDevice.FireOtherDeviceImportDto)">
+            <summary>
+            导入其它消防设备
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.UpdateFireOrtherDevice(FireProtectionV1.FireWorking.Dto.FireDevice.UpdateFireOrtherDeviceDto)">
             <summary>
             修改其他消防设备

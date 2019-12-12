@@ -189,7 +189,8 @@ namespace FireProtectionV1.FireWorking.Manager
                 FireUnitArchitectureId = device.FireUnitArchitectureId,
                 FireUnitId = device.FireUnitId,
                 NetDetectorNum = device.NetDetectorNum,
-                Protocol = device.Protocol
+                Protocol = device.Protocol,
+                NetComm=device.NetComm
             };
             output.EnableAlarm = new List<string>();
             output.EnableFault = new List<string>();
@@ -221,6 +222,7 @@ namespace FireProtectionV1.FireWorking.Manager
             device.FireUnitArchitectureId = input.FireUnitArchitectureId;
             device.NetDetectorNum = input.NetDetectorNum;
             device.Protocol = input.Protocol;
+            device.NetComm = input.NetComm;
             await _repFireAlarmDevice.UpdateAsync(device);
             gateway.Identify = device.DeviceSn;
             var arch = await _repFireUnitArchitecture.FirstOrDefaultAsync(p => p.Id == device.FireUnitArchitectureId);
@@ -246,6 +248,7 @@ namespace FireProtectionV1.FireWorking.Manager
             output.PhaseType = device.PhaseType;
             output.DataRate = "2小时";
             output.NetComms = new List<string>() { "以太网", "WIFI", "NB-IoT" };
+            output.NetComm = device.NetComm;
             if (output.PhaseType.Equals("单相"))
             {
                 SinglePhase singlePhase = JsonConvert.DeserializeObject<SinglePhase>(device.PhaseJson);
@@ -333,12 +336,15 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             var devices = _repFireElectricDevice.GetAll().Where(p => p.FireUnitId == fireUnitId);
             var gateways = _gatewayRep.GetAll().Where(p=>p.FireUnitId==fireUnitId&&p.FireSysType==(byte)FireSysType.Electric);
-            if (state.Equals("在线"))
-                gateways = gateways.Where(p => p.Status == GatewayStatus.Online);
-            else if (state.Equals("离线"))
-                gateways = gateways.Where(p => p.Status != GatewayStatus.Online);
-            else if (!string.IsNullOrEmpty(state))
-                devices = devices.Where(p => p.State.Equals(state));
+            if (state != null)
+            {
+                if (state.Equals("在线"))
+                    gateways = gateways.Where(p => p.Status == GatewayStatus.Online);
+                else if (state.Equals("离线"))
+                    gateways = gateways.Where(p => p.Status != GatewayStatus.Online);
+                else if (!string.IsNullOrEmpty(state))
+                    devices = devices.Where(p => p.State.Equals(state));
+            }
             var detectors = _detectorRep.GetAll().Where(p => p.FireUnitId == fireUnitId).ToList();
             var query0 = from a in devices
                          join b0 in _repFireUnitArchitectureFloor.GetAll() on a.FireUnitArchitectureFloorId equals b0.Id into be
@@ -355,7 +361,7 @@ namespace FireProtectionV1.FireWorking.Manager
                         let L3 = detectors.FirstOrDefault(p => p.GatewayId == a.GatewayId && p.Identify.Equals("L3"))
                         select new FireElectricDeviceItemDto()
                         {
-                            State=a.State,
+                            State=d.Status!=GatewayStatus.Online?"离线": a.State,
                             DeviceId = a.Id,
                             DeviceSn = a.DeviceSn,
                             FireUnitArchitectureFloorId = a.FireUnitArchitectureFloorId,
@@ -872,7 +878,8 @@ namespace FireProtectionV1.FireWorking.Manager
                     FireUnitId = input.FireUnitId,
                     GatewayId = gatewayId,
                     NetDetectorNum = input.NetDetectorNum,
-                    Protocol = input.Protocol
+                    Protocol = input.Protocol,
+                    NetComm=input.NetComm
                 });
             }catch(Exception e)
             {
@@ -891,6 +898,7 @@ namespace FireProtectionV1.FireWorking.Manager
             gateway.Identify = input.DeviceSn;
             gateway.Location = input.Location;
             await _gatewayRep.UpdateAsync(gateway);
+            elec.NetComm = input.NetComm;
             elec.DeviceSn = input.DeviceSn;
             elec.DeviceType = input.DeviceType;
             elec.FireUnitArchitectureId = input.FireUnitArchitectureId;
@@ -1093,7 +1101,8 @@ namespace FireProtectionV1.FireWorking.Manager
                     FireUnitArchitectureFloorId =input.FireUnitArchitectureFloorId,
                     Location=input.Location,
                     PhaseType=input.PhaseType,
-                    PhaseJson= phase
+                    PhaseJson= phase,
+                    NetComm=input.NetComm
                 });
                 var ampereType = await _detectorTypeRep.FirstOrDefaultAsync(p => p.Name.Equals("剩余电流探测器"));
                 var temperatureType = await _detectorTypeRep.FirstOrDefaultAsync(p => p.Name.Equals("电缆温度探测器"));

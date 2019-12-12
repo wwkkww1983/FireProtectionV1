@@ -213,7 +213,12 @@ namespace FireProtectionV1.Enterprise.Manager
 
             var expr = ExprExtension.True<FireUnitArchitectureFloor>().And(item => item.ArchitectureId.Equals(architectureId));
 
-            FireUnitArchitectureFloors = FireUnitArchitectureFloors.Where(expr);
+            FireUnitArchitectureFloors = FireUnitArchitectureFloors.Where(expr).OrderBy(p => double.Parse(System.Text.RegularExpressions.Regex.Replace(p.Name, @"[^\d.\d]", "")));
+            //FireUnitArchitectureFloors = FireUnitArchitectureFloors.Select(p => new
+            //{
+            //    Floor = p,
+            //    FloorNum = double.Parse(System.Text.RegularExpressions.Regex.Replace(p.Name, @"[^\d.\d]", ""))
+            //}).OrderBy(p => p.FloorNum).Select(p => p.Floor);
 
             return Task.FromResult(FireUnitArchitectureFloors.ToList());
         }

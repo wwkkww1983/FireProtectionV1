@@ -734,6 +734,11 @@
             是否关注
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitInfoOutput.FireDeptName">
+            <summary>
+            归口管理部门
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput.Name">
             <summary>
             防火单位名称
@@ -2787,6 +2792,11 @@
             品牌
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireAlarmDeviceDto.NetComm">
+            <summary>
+            通讯方式
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireAlarmDeviceDto.Protocol">
             <summary>
             通信协议
@@ -2900,6 +2910,11 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDeviceDto.EnableAlarm">
             <summary>
             启用监测类型数组
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDeviceDto.NetComm">
+            <summary>
+            通讯方式
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDeviceDto.NetComms">
@@ -3160,6 +3175,16 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireOrtherDeviceDto.ExpireTime">
             <summary>
             到期时间(yyyy-MM-dd)
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireOtherDeviceImportDto.FireUnitId">
+            <summary>
+            防火单位ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireOtherDeviceImportDto.file">
+            <summary>
+            excel文件流
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.GetFireAlarm30DayDto.Identify">
@@ -4440,6 +4465,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.ImportOrtherDevice(FireProtectionV1.FireWorking.Dto.FireDevice.FireOtherDeviceImportDto)">
+            <summary>
+            导入其它消防设备
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.AddGateway(FireProtectionV1.FireWorking.Dto.AddGatewayInput)">
             <summary>
             新增网关设备
@@ -4699,6 +4731,13 @@
         <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetRecordAnalog(FireProtectionV1.FireWorking.Dto.GetRecordDetectorInput)">
             <summary>
             获得防火单位终端历史记录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.ImportOrtherDevice(FireProtectionV1.FireWorking.Dto.FireDevice.FireOtherDeviceImportDto)">
+            <summary>
+            导入其它消防设备
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -5488,6 +5527,11 @@
             设备编号
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireAlarmDevice.NetComm">
+            <summary>
+            通讯方式
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Model.FireAlarmDevice.FireUnitArchitectureId">
             <summary>
             所在建筑Id
@@ -5581,6 +5625,11 @@
         <member name="P:FireProtectionV1.FireWorking.Model.FireElectricDevice.FireUnitArchitectureFloorId">
             <summary>
             所在楼层
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireElectricDevice.NetComm">
+            <summary>
+            通讯方式
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.FireElectricDevice.Location">

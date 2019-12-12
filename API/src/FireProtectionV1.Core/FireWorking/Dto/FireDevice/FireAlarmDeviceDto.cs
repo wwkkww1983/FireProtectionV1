@@ -49,6 +49,11 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// </summary>
         public string Brand { get; set; }
         /// <summary>
+        /// 通讯方式
+        /// </summary>
+        public string NetComm { get; set; }
+
+        /// <summary>
         /// 通信协议
         /// </summary>
         public string Protocol { get; set; }

@@ -167,7 +167,7 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
             var query = from a in _repMiniFireEquipment.GetAll().Where(p => p.MiniFireStationId == input.MiniFireStationId)
                         join b in _repMiniFireEquipmentDefine.GetAll()
                         on a.DefineId equals b.Id
-                        orderby b.Type
+                        orderby b.CreationTime descending
                         select new MiniFireEquipmentDto()
                         {
                             MiniFireEquipmentId=a.Id,

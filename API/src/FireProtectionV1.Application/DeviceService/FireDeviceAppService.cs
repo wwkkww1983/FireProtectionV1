@@ -4,6 +4,7 @@ using FireProtectionV1.Dto;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Dto.FireDevice;
 using FireProtectionV1.FireWorking.Manager;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -256,7 +257,7 @@ namespace FireProtectionV1.DeviceService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<SuccessOutput> ImportOrtherDevice(FireOtherDeviceImportDto input)
+        public async Task<SuccessOutput> ImportOrtherDevice([FromForm]FireOtherDeviceImportDto input)
         {
             return await _deviceManager.ImportOrtherDevice(input);
         }

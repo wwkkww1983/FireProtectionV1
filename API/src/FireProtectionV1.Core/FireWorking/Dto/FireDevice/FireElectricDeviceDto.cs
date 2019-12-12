@@ -46,6 +46,11 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// </summary>
         public List<string> EnableAlarm { get; set; }
         /// <summary>
+        /// 通讯方式
+        /// </summary>
+        public string NetComm { get; set; }
+
+        /// <summary>
         /// 通信方式数组
         /// </summary>
         public List<string> NetComms { get; set; }

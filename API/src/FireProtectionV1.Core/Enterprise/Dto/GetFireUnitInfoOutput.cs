@@ -25,8 +25,8 @@ namespace FireProtectionV1.Enterprise.Dto
         /// </summary>
         public bool IsAttention { get; set; }
         /// <summary>
-        /// 巡查方式
+        /// 归口管理部门
         /// </summary>
-        //public Patrol Patrol { get; set; }
+        public string FireDeptName { get; set; }
     }
 }
