@@ -67,7 +67,7 @@ namespace FireProtectionV1.Common.Helper
 
                     DataRow dataRow = null;
 
-                    for(int j = sheet.FirstRowNum +1; j < sheet.LastRowNum; j++)
+                    for(int j = sheet.FirstRowNum +1; j <= sheet.LastRowNum; j++)
                     {
                         IRow row = sheet.GetRow(j);
                         dataRow = dt.NewRow();
