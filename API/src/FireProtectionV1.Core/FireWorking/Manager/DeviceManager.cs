@@ -1361,6 +1361,14 @@ namespace FireProtectionV1.FireWorking.Manager
                 }
                 if (dt.Rows.Count > 0)
                 {
+                    if (dt.Columns.Count != 9 || dt.Columns[0].ColumnName != "设备编号" || dt.Columns[1].ColumnName != "设备名称" || dt.Columns[2].ColumnName != "设备型号"
+                        || dt.Columns[3].ColumnName != "所属系统" || dt.Columns[4].ColumnName != "所在建筑" || dt.Columns[5].ColumnName != "楼层"
+                        || dt.Columns[6].ColumnName != "具体位置" || dt.Columns[7].ColumnName != "启用日期" || dt.Columns[8].ColumnName != "有效期")
+                    {
+                        output.Success = false;
+                        output.FailCause = "表格的字段不正确，请使用数据导入表格模板";
+                        return output;
+                    }
                     // 获得当前防火单位的消防系统
                     var fireUnitSystemlist = await _fireUnitSystemRep.GetAllListAsync(u => u.FireUnitId == input.FireUnitId);
                     var fireUnitSystems = from a in fireUnitSystemlist
@@ -1388,6 +1396,7 @@ namespace FireProtectionV1.FireWorking.Manager
                                 };
                     List<GetFireUnitArchitectureOutput> lstFireUnitArchitecture = query.ToList();
 
+                    List<string> lstDeviceNo = new List<string>();
                     // 验证表格数据的正确性
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
@@ -1395,23 +1404,44 @@ namespace FireProtectionV1.FireWorking.Manager
                         if (string.IsNullOrEmpty(row["设备编号"].ToString()))
                         {
                             strMsg = $"第{i + 1}行设备编号不能为空";
+                            break;
+                        }
+                        else if (lstDeviceNo.Find(d=>row["设备编号"].ToString().Trim().Equals(d)) != null)
+                        {
+                            strMsg = $"第{i + 1}行设备编号存在重复";
+                            break;
                         }
                         else if (string.IsNullOrEmpty(row["设备名称"].ToString()))
                         {
                             strMsg = $"第{i + 1}行设备名称不能为空";
+                            break;
                         }
                         else if (!string.IsNullOrEmpty(row["所属系统"].ToString()) && lstFireUnitSystem.Find(d => d.SystemName.Equals(row["所属系统"].ToString().Trim())) == null)
                         {
                             strMsg = $"第{i + 1}行所属系统在后台数据中不存在";
+                            break;
                         }
                         else if (!string.IsNullOrEmpty(row["所在建筑"].ToString()) && lstFireUnitArchitecture.Find(d => d.Name.Equals(row["所在建筑"].ToString().Trim())) == null)
                         {
                             strMsg = $"第{i + 1}行所在建筑在后台数据中不存在";
+                            break;
                         }
                         else if (!string.IsNullOrEmpty(row["所在建筑"].ToString()) && !string.IsNullOrEmpty(row["楼层"].ToString()) && lstFireUnitArchitecture.Find(d => d.Name.Equals(row["所在建筑"].ToString().Trim())).Floors.Find(f => f.Name.Equals(row["楼层"].ToString().Trim())) == null)
                         {
                             strMsg = $"第{i + 1}行楼层在后台数据中不存在";
+                            break;
                         }
+                        else if (!string.IsNullOrEmpty(row["启用日期"].ToString()) && !DateTime.TryParse(row["启用日期"].ToString().Trim(), out DateTime startDate))
+                        {
+                            strMsg = $"第{i + 1}行启用日期必须为合法的日期";
+                            break;
+                        }
+                        else if (!string.IsNullOrEmpty(row["有效期"].ToString()) && !DateTime.TryParse(row["有效期"].ToString().Trim(), out DateTime validDate))
+                        {
+                            strMsg = $"第{i + 1}行有效期必须为合法的日期";
+                            break;
+                        }
+                        lstDeviceNo.Add(row["设备编号"].ToString().Trim());
                     }
                     if (!string.IsNullOrEmpty(strMsg))
                     {
@@ -1419,6 +1449,8 @@ namespace FireProtectionV1.FireWorking.Manager
                         output.FailCause = strMsg;
                         return output;
                     }
+
+                    await _repFireOrtherDevice.DeleteAsync(d => input.FireUnitId.Equals(d.FireUnitId));
 
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
@@ -1433,13 +1465,19 @@ namespace FireProtectionV1.FireWorking.Manager
                             Location = row["具体位置"].ToString().Trim(),
                             DeviceName = row["设备名称"].ToString().Trim(),
                             FireSystemId = !string.IsNullOrEmpty(row["所属系统"].ToString().Trim()) ? lstFireUnitSystem.Find(d => d.SystemName.Equals(row["所属系统"].ToString().Trim())).FireSystemId : 0,
-                            StartTime = DateTime.Parse(row["启用时间"].ToString().Trim()),
+                            StartTime = DateTime.Parse(row["启用日期"].ToString().Trim()),
                             ExpireTime = DateTime.Parse(row["有效期"].ToString().Trim())
                         });
                     }
                 }
+                output.Success = true;
             }
-            output.Success = true;
+            else
+            {
+                output.Success = false;
+                output.FailCause = "未读取到指定文件的数据";
+                return output;
+            }
             return output;
         }
 
