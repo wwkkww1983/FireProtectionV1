@@ -4,6 +4,7 @@ using FireProtectionV1.Dto;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Dto.FireDevice;
 using FireProtectionV1.FireWorking.Manager;
+using FireProtectionV1.FireWorking.Model;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -311,6 +312,56 @@ namespace FireProtectionV1.DeviceService
         public async Task<SerialPortParamDto> GetSerialPortParam(int DeviceId)
         {
             return await _deviceManager. GetSerialPortParam(DeviceId);
+        }
+
+        /// <summary>
+        /// 添加消防管网设备
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task AddFireWaterDevice(FireWaterDevice input)
+        {
+            await _deviceManager.AddFireWaterDevice(input);
+        }
+
+        /// <summary>
+        /// 修改消防管网设备
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task UpdateFireWaterDevice(FireWaterDevice input)
+        {
+            await _deviceManager.UpdateFireWaterDevice(input);
+        }
+
+        /// <summary>
+        /// 删除消防管网设备
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <returns></returns>
+        public async Task DeleteFireWaterDevice(int deviceId)
+        {
+            await _deviceManager.DeleteFireWaterDevice(deviceId);
+        }
+
+        /// <summary>
+        /// 获取单个设备信息
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <returns></returns>
+        public async Task<FireWaterDevice> GetById(int deviceId)
+        {
+            return await _deviceManager.GetById(deviceId);
+        }
+
+        /// <summary>
+        /// 获取消防管网设备列表
+        /// </summary>
+        /// <param name="fireUnitId"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<FireWaterDevice>> GetFireWaterDeviceList(int fireUnitId)
+        {
+            return await _deviceManager.GetFireWaterDeviceList(fireUnitId);
         }
     }
 }

@@ -98,5 +98,36 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<SuccessOutput> ImportOrtherDevice(FireOtherDeviceImportDto input);
+        /// <summary>
+        /// 添加消防管网设备
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task AddFireWaterDevice(FireWaterDevice input);
+        /// <summary>
+        /// 修改消防管网设备
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task UpdateFireWaterDevice(FireWaterDevice input);
+        /// <summary>
+        /// 删除消防管网设备
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <returns></returns>
+        Task DeleteFireWaterDevice(int deviceId);
+        /// <summary>
+        /// 获取单个设备信息
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <returns></returns>
+        Task<FireWaterDevice> GetById(int deviceId);
+        /// <summary>
+        /// 获取消防管网设备列表
+        /// </summary>
+        /// <param name="fireUnitId"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<FireWaterDevice>> GetFireWaterDeviceList(int fireUnitId);
     }
 }

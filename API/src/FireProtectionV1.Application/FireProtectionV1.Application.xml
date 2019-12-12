@@ -1885,6 +1885,41 @@
             <param name="DeviceId">火警联网设备ID</param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.AddFireWaterDevice(FireProtectionV1.FireWorking.Model.FireWaterDevice)">
+            <summary>
+            添加消防管网设备
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.UpdateFireWaterDevice(FireProtectionV1.FireWorking.Model.FireWaterDevice)">
+            <summary>
+            修改消防管网设备
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.DeleteFireWaterDevice(System.Int32)">
+            <summary>
+            删除消防管网设备
+            </summary>
+            <param name="deviceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetById(System.Int32)">
+            <summary>
+            获取单个设备信息
+            </summary>
+            <param name="deviceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireWaterDeviceList(System.Int32)">
+            <summary>
+            获取消防管网设备列表
+            </summary>
+            <param name="fireUnitId"></param>
+            <returns></returns>
+        </member>
         <member name="P:FireProtectionV1.Dto.EndDeviceOptionDto.Value">
             <summary>
             终端设备选项值

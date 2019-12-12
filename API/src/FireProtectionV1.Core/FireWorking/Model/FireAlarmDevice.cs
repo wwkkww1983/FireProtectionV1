@@ -30,7 +30,6 @@ namespace FireProtectionV1.FireWorking.Model
         /// 通讯方式
         /// </summary>
         public string NetComm { get; set; }
-
         /// <summary>
         /// 所在建筑Id
         /// </summary>

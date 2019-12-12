@@ -4497,6 +4497,41 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.AddFireWaterDevice(FireProtectionV1.FireWorking.Model.FireWaterDevice)">
+            <summary>
+            添加消防管网设备
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.UpdateFireWaterDevice(FireProtectionV1.FireWorking.Model.FireWaterDevice)">
+            <summary>
+            修改消防管网设备
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.DeleteFireWaterDevice(System.Int32)">
+            <summary>
+            删除消防管网设备
+            </summary>
+            <param name="deviceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.GetById(System.Int32)">
+            <summary>
+            获取单个设备信息
+            </summary>
+            <param name="deviceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.GetFireWaterDeviceList(System.Int32)">
+            <summary>
+            获取消防管网设备列表
+            </summary>
+            <param name="fireUnitId"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.DutyManager.GetDutylist(FireProtectionV1.FireWorking.Dto.GetDataDutyInput)">
             <summary>
             获取值班记录列表
@@ -4740,6 +4775,42 @@
             导入其它消防设备
             </summary>
             <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.AddFireWaterDevice(FireProtectionV1.FireWorking.Model.FireWaterDevice)">
+            <summary>
+            添加消防管网设备
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.UpdateFireWaterDevice(FireProtectionV1.FireWorking.Model.FireWaterDevice)">
+            <summary>
+            修改消防管网设备
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.DeleteFireWaterDevice(System.Int32)">
+            <summary>
+            删除消防管网设备
+            </summary>
+            <param name="deviceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetById(System.Int32)">
+            <summary>
+            获取单个设备信息
+            </summary>
+            <param name="deviceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetFireWaterDeviceList(System.Int32)">
+            <summary>
+            获取消防管网设备列表
+            </summary>
+            <param name="fireUnitId"></param>
+            <param name="dto"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IDutyManager.AddNewDuty(FireProtectionV1.FireWorking.Dto.AddNewDutyInput)">
@@ -5750,6 +5821,91 @@
         <member name="P:FireProtectionV1.FireWorking.Model.FireOrtherDevice.ExpireTime">
             <summary>
             到期时间
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.FireWorking.Model.FireWaterDevice">
+            <summary>
+            消防管网
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireWaterDevice.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireWaterDevice.DeviceAddress">
+            <summary>
+            设备地址
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireWaterDevice.Location">
+            <summary>
+            设备安装位置
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireWaterDevice.Gateway_Type">
+            <summary>
+            网关型号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireWaterDevice.Gateway_Sn">
+            <summary>
+            网关编号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireWaterDevice.Gateway_Location">
+            <summary>
+            网关安装位置
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireWaterDevice.Gateway_NetComm">
+            <summary>
+            网关通讯方式
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireWaterDevice.State">
+            <summary>
+            设备状态：良好/超限/离线
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireWaterDevice.MonitorType">
+            <summary>
+            监控类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireWaterDevice.HeightThreshold">
+            <summary>
+            液位范围，json格式
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireWaterDevice.PressThreshold">
+            <summary>
+            水压范围，json格式
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireWaterDevice.EnableCloudAlarm">
+            <summary>
+            启用云端报警
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireWaterDevice.CurrentValue">
+            <summary>
+            当前数值
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.FireWorking.Model.MonitorType.Height">
+            <summary>
+            液位
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.FireWorking.Model.MonitorType.Press">
+            <summary>
+            水压
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireWaterDeviceType.Name">
+            <summary>
+            型号名称
             </summary>
         </member>
         <member name="T:FireProtectionV1.FireWorking.Model.Gateway">

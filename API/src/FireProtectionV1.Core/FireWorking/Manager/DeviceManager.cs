@@ -35,6 +35,7 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<FireAlarmDevice> _repFireAlarmDevice;
         IRepository<FireElectricDevice> _repFireElectricDevice;
         IRepository<FireOrtherDevice> _repFireOrtherDevice;
+        IRepository<FireWaterDevice> _repFireWaterDevice;
         IRepository<FireUntiSystem> _fireUnitSystemRep;
         IRepository<FireSystem> _fireSystemRep;
         IRepository<Fault> _faultRep;
@@ -54,6 +55,7 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<FireAlarmDevice> repFireAlarmDevice,
             IRepository<FireElectricDevice> repFireElectricDevice,
             IRepository<FireOrtherDevice> repFireOrtherDevice,
+            IRepository<FireWaterDevice> repFireWaterDevice,
             IRepository<FireUntiSystem> fireUnitSystemRep,
             IRepository<FireSystem> fireSystemRep,
             IRepository<Fault> faultRep,
@@ -73,6 +75,7 @@ namespace FireProtectionV1.FireWorking.Manager
             _repFireAlarmDevice = repFireAlarmDevice;
             _repFireElectricDevice = repFireElectricDevice;
             _repFireOrtherDevice = repFireOrtherDevice;
+            _repFireWaterDevice = repFireWaterDevice;
             _fireUnitSystemRep = fireUnitSystemRep;
             _fireSystemRep = fireSystemRep;
             _faultRep = faultRep;
@@ -1659,6 +1662,92 @@ namespace FireProtectionV1.FireWorking.Manager
                 ParityBit=1,
                 Rate="2400"
             });
+        }
+
+        /// <summary>
+        /// 添加消防管网设备
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task AddFireWaterDevice(FireWaterDevice input)
+        {
+            Valid.Exception(_repFireWaterDevice.Count(m => m.DeviceAddress.Equals(input.DeviceAddress)) > 0, "设备地址已存在");
+
+            await _repFireWaterDevice.InsertAsync(new FireWaterDevice()
+            {
+                CreationTime = DateTime.Now,
+                FireUnitId = input.FireUnitId,
+                DeviceAddress = input.DeviceAddress,
+                State = "离线",
+                Location = input.Location,
+                Gateway_Type = input.Gateway_Type,
+                Gateway_Sn = input.Gateway_Sn,
+                Gateway_Location = input.Gateway_Location,
+                Gateway_NetComm = input.Gateway_NetComm,
+                MonitorType = input.MonitorType,
+                HeightThreshold = input.HeightThreshold,
+                PressThreshold = input.PressThreshold,
+                EnableCloudAlarm = input.EnableCloudAlarm
+            });
+        }
+
+        /// <summary>
+        /// 修改消防管网设备
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task UpdateFireWaterDevice(FireWaterDevice input)
+        {
+            Valid.Exception(_repFireWaterDevice.Count(m => m.DeviceAddress.Equals(input.DeviceAddress) && !m.Id.Equals(input.Id)) > 0, "设备地址已存在");
+
+            FireWaterDevice device = await _repFireWaterDevice.GetAsync(input.Id);
+
+            device.DeviceAddress = input.DeviceAddress;
+            device.Location = input.Location;
+            device.Gateway_Type = input.Gateway_Type;
+            device.Gateway_Sn = input.Gateway_Sn;
+            device.Gateway_Location = input.Gateway_Location;
+            device.Gateway_NetComm = input.Gateway_NetComm;
+            device.MonitorType = input.MonitorType;
+            device.HeightThreshold = input.HeightThreshold;
+            device.PressThreshold = input.PressThreshold;
+            device.EnableCloudAlarm = input.EnableCloudAlarm;
+
+            await _repFireWaterDevice.UpdateAsync(device);
+        }
+
+        /// <summary>
+        /// 删除消防管网设备
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <returns></returns>
+        public async Task DeleteFireWaterDevice(int deviceId)
+        {
+            await _repFireWaterDevice.DeleteAsync(deviceId);
+        }
+
+        /// <summary>
+        /// 获取单个设备信息
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <returns></returns>
+        public async Task<FireWaterDevice> GetById(int deviceId)
+        {
+            return await _repFireWaterDevice.GetAsync(deviceId);
+        }
+
+        /// <summary>
+        /// 获取消防管网设备列表
+        /// </summary>
+        /// <param name="fireUnitId"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<FireWaterDevice>> GetFireWaterDeviceList(int fireUnitId)
+        {
+            var lstWaterDevices = await _repFireWaterDevice.GetAllListAsync(d=> fireUnitId.Equals(d.FireUnitId));
+
+            var tCount = lstWaterDevices.Count();
+
+            return new PagedResultDto<FireWaterDevice>(tCount, lstWaterDevices);
         }
     }
 }
