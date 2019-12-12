@@ -40,6 +40,10 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         public string Gateway_NetComm { get; set; }
         /// <summary>
+        /// 网关数据采集频率
+        /// </summary>
+        public string Gateway_DataRate { get; set; }
+        /// <summary>
         /// 设备状态：良好/超限/离线
         /// </summary>
         public string State { get; set; }

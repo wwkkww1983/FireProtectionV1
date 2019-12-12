@@ -1684,6 +1684,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 Gateway_Sn = input.Gateway_Sn,
                 Gateway_Location = input.Gateway_Location,
                 Gateway_NetComm = input.Gateway_NetComm,
+                Gateway_DataRate = "2小时",
                 MonitorType = input.MonitorType,
                 HeightThreshold = input.HeightThreshold,
                 PressThreshold = input.PressThreshold,
