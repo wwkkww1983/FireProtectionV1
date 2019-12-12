@@ -294,7 +294,7 @@ namespace FireProtectionV1.FireWorking.Manager
                            on a.GatewayId equals b.Id
                            select new {
                                b.Status,
-                               a.State
+                               State= b.Status==GatewayStatus.Online?a.State:"离线"
                            };
             //var query = from a in _detectorRep.GetAll()
             //                join b in _repFireElectricDevice.GetAll().Where(p => p.FireUnitId == FireUnitId) on a.GatewayId equals b.GatewayId
@@ -338,12 +338,13 @@ namespace FireProtectionV1.FireWorking.Manager
             var gateways = _gatewayRep.GetAll().Where(p=>p.FireUnitId==fireUnitId&&p.FireSysType==(byte)FireSysType.Electric);
             if (state != null)
             {
-                if (state.Equals("在线"))
-                    gateways = gateways.Where(p => p.Status == GatewayStatus.Online);
-                else if (state.Equals("离线"))
+                if (state.Equals("离线"))
                     gateways = gateways.Where(p => p.Status != GatewayStatus.Online);
-                else if (!string.IsNullOrEmpty(state))
-                    devices = devices.Where(p => p.State.Equals(state));
+                else {
+                    gateways = gateways.Where(p => p.Status == GatewayStatus.Online);
+                    if (!string.IsNullOrEmpty(state))
+                        devices = devices.Where(p => p.State.Equals(state));
+                }
             }
             var detectors = _detectorRep.GetAll().Where(p => p.FireUnitId == fireUnitId).ToList();
             var query0 = from a in devices
@@ -708,8 +709,8 @@ namespace FireProtectionV1.FireWorking.Manager
             {
                 output.Unit = "mA";
                 output.MonitorItemName = "剩余电流";
-                output.Min = jObject["Amin"].ToString();
-                output.Max = jObject["Amax"].ToString();
+                output.Min = jObject["I0min"].ToString();
+                output.Max = jObject["I0max"].ToString();
             }
             output.AnalogTimes = _recordAnalogRep.GetAll().Where(p => p.DetectorId == detector.Id&&p.CreationTime>=start&&p.CreationTime<=end).OrderByDescending(p => p.CreationTime).Select(p =>
                    new AnalogTime() { Time = p.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"), Value = p.Analog }).ToList();
@@ -1312,6 +1313,9 @@ namespace FireProtectionV1.FireWorking.Manager
             var arch = await _repFireUnitArchitecture.FirstOrDefaultAsync(p => p.Id == input.FireUnitArchitectureId);
             if (arch == null)
                 return new SuccessOutput() { Success = false, FailCause = "建筑不存在" };
+            var device = await _repFireOrtherDevice.FirstOrDefaultAsync(p => p.DeviceSn.Equals(input.DeviceSn));
+            if(device!=null)
+                return new SuccessOutput() { Success = false, FailCause = "设备编号已存在" };
             try
             {
                 await _repFireOrtherDevice.InsertAsync(new FireOrtherDevice()
