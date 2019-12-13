@@ -103,13 +103,13 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task AddFireWaterDevice(FireWaterDevice input);
+        Task AddFireWaterDevice(AddFireWaterDeviceInput input);
         /// <summary>
         /// 修改消防管网设备
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task UpdateFireWaterDevice(FireWaterDevice input);
+        Task UpdateFireWaterDevice(UpdateFireWaterDeviceInput input);
         /// <summary>
         /// 删除消防管网设备
         /// </summary>
@@ -121,7 +121,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="deviceId"></param>
         /// <returns></returns>
-        Task<FireWaterDevice> GetById(int deviceId);
+        Task<UpdateFireWaterDeviceInput> GetById(int deviceId);
         /// <summary>
         /// 获取消防管网设备列表
         /// </summary>
@@ -129,5 +129,10 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="dto"></param>
         /// <returns></returns>
         Task<PagedResultDto<FireWaterDevice>> GetFireWaterDeviceList(int fireUnitId);
+        /// <summary>
+        /// 获取消防管网联网网关设备型号列表
+        /// </summary>
+        /// <returns></returns>
+        Task<List<string>> GetFireWaterDeviceTypes();
     }
 }

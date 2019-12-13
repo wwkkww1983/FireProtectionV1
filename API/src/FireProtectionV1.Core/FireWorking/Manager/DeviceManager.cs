@@ -36,6 +36,7 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<FireElectricDevice> _repFireElectricDevice;
         IRepository<FireOrtherDevice> _repFireOrtherDevice;
         IRepository<FireWaterDevice> _repFireWaterDevice;
+        IRepository<FireWaterDeviceType> _repFireWaterDeviceType;
         IRepository<FireUntiSystem> _fireUnitSystemRep;
         IRepository<FireSystem> _fireSystemRep;
         IRepository<Fault> _faultRep;
@@ -56,6 +57,7 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<FireElectricDevice> repFireElectricDevice,
             IRepository<FireOrtherDevice> repFireOrtherDevice,
             IRepository<FireWaterDevice> repFireWaterDevice,
+            IRepository<FireWaterDeviceType> repFireWaterDeviceType,
             IRepository<FireUntiSystem> fireUnitSystemRep,
             IRepository<FireSystem> fireSystemRep,
             IRepository<Fault> faultRep,
@@ -76,6 +78,7 @@ namespace FireProtectionV1.FireWorking.Manager
             _repFireElectricDevice = repFireElectricDevice;
             _repFireOrtherDevice = repFireOrtherDevice;
             _repFireWaterDevice = repFireWaterDevice;
+            _repFireWaterDeviceType = repFireWaterDeviceType;
             _fireUnitSystemRep = fireUnitSystemRep;
             _fireSystemRep = fireSystemRep;
             _faultRep = faultRep;
@@ -289,7 +292,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 output.MonitorItem.Add("电缆温度");
             return output;
         }
-        public async Task<GetFireElectricDeviceStateOutput> GetFireElectricDeviceState(int FireUnitId)
+        public Task<GetFireElectricDeviceStateOutput> GetFireElectricDeviceState(int FireUnitId)
         {
 
             var devices = from a in _repFireElectricDevice.GetAll().Where(p=>p.FireUnitId==FireUnitId)
@@ -326,14 +329,14 @@ namespace FireProtectionV1.FireWorking.Manager
             //    GoodNum = p.Where(p1 => p1.Value < 0.8 * p1.Max).Count(),
             //    WarnNum = p.Where(p1 => p1.Value >= p1.Max).Count()
             //}).ToList();
-            return new GetFireElectricDeviceStateOutput()
+            return Task.FromResult(new GetFireElectricDeviceStateOutput()
             {
                 BadNum = devices.Where(p => p.State.Equals("隐患")).Count(),
                 GoodNum = devices.Where(p => p.State.Equals("良好")).Count(),
                 OfflineNum = devices.Count(p => p.Status != GatewayStatus.Online),
                 OnlineNum = devices.Count(p=>p.Status==GatewayStatus.Online),
                 WarnNum = devices.Where(p=> p.State.Equals("超限")).Count()
-            };
+            });
         }
         public async Task<PagedResultDto<FireElectricDeviceItemDto>> GetFireElectricDeviceList(int fireUnitId, string state, PagedResultRequestDto dto)
         {
@@ -1669,9 +1672,31 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task AddFireWaterDevice(FireWaterDevice input)
+        public async Task AddFireWaterDevice(AddFireWaterDeviceInput input)
         {
             Valid.Exception(_repFireWaterDevice.Count(m => m.DeviceAddress.Equals(input.DeviceAddress)) > 0, "设备地址已存在");
+
+            string heightPhase = JsonConvert.SerializeObject(new HeightPhase()
+            {
+                MinHeight = input.MinHeight,
+                MaxHeight = input.MaxHeight
+            });
+            string pressPhase = JsonConvert.SerializeObject(new PressPhase()
+            {
+                MinPress = input.MinPress,
+                MaxPress = input.MaxPress
+            });
+
+            var gatewayId = await _gatewayRep.InsertAndGetIdAsync(new Gateway()
+            {
+                FireSysType = (byte)FireSysType.Water,
+                Identify = input.Gateway_Sn,
+                Location = input.Gateway_Location,
+                FireUnitId = input.FireUnitId,
+                Origin = "安吉斯",
+                Status = GatewayStatus.Offline,
+                StatusChangeTime = DateTime.Now
+            });
 
             await _repFireWaterDevice.InsertAsync(new FireWaterDevice()
             {
@@ -1680,14 +1705,15 @@ namespace FireProtectionV1.FireWorking.Manager
                 DeviceAddress = input.DeviceAddress,
                 State = "离线",
                 Location = input.Location,
+                GatewayId = gatewayId,
                 Gateway_Type = input.Gateway_Type,
                 Gateway_Sn = input.Gateway_Sn,
                 Gateway_Location = input.Gateway_Location,
                 Gateway_NetComm = input.Gateway_NetComm,
                 Gateway_DataRate = "2小时",
                 MonitorType = input.MonitorType,
-                HeightThreshold = input.HeightThreshold,
-                PressThreshold = input.PressThreshold,
+                HeightThreshold = heightPhase,
+                PressThreshold = pressPhase,
                 EnableCloudAlarm = input.EnableCloudAlarm
             });
         }
@@ -1697,11 +1723,28 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task UpdateFireWaterDevice(FireWaterDevice input)
+        public async Task UpdateFireWaterDevice(UpdateFireWaterDeviceInput input)
         {
             Valid.Exception(_repFireWaterDevice.Count(m => m.DeviceAddress.Equals(input.DeviceAddress) && !m.Id.Equals(input.Id)) > 0, "设备地址已存在");
 
             FireWaterDevice device = await _repFireWaterDevice.GetAsync(input.Id);
+            var gateway = await _gatewayRep.FirstOrDefaultAsync(p => p.Id == device.GatewayId);
+            Valid.Exception(gateway == null, "设备网关数据不存在");
+
+            gateway.Identify = input.Gateway_Sn;
+            gateway.Location = input.Gateway_Location;
+            await _gatewayRep.UpdateAsync(gateway);
+
+            string heightPhase = JsonConvert.SerializeObject(new HeightPhase()
+            {
+                MinHeight = input.MinHeight,
+                MaxHeight = input.MaxHeight
+            });
+            string pressPhase = JsonConvert.SerializeObject(new PressPhase()
+            {
+                MinPress = input.MinPress,
+                MaxPress = input.MaxPress
+            });
 
             device.DeviceAddress = input.DeviceAddress;
             device.Location = input.Location;
@@ -1710,8 +1753,8 @@ namespace FireProtectionV1.FireWorking.Manager
             device.Gateway_Location = input.Gateway_Location;
             device.Gateway_NetComm = input.Gateway_NetComm;
             device.MonitorType = input.MonitorType;
-            device.HeightThreshold = input.HeightThreshold;
-            device.PressThreshold = input.PressThreshold;
+            device.HeightThreshold = heightPhase;
+            device.PressThreshold = pressPhase;
             device.EnableCloudAlarm = input.EnableCloudAlarm;
 
             await _repFireWaterDevice.UpdateAsync(device);
@@ -1732,9 +1775,30 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="deviceId"></param>
         /// <returns></returns>
-        public async Task<FireWaterDevice> GetById(int deviceId)
+        public async Task<UpdateFireWaterDeviceInput> GetById(int deviceId)
         {
-            return await _repFireWaterDevice.GetAsync(deviceId);
+            var device = await _repFireWaterDevice.GetAsync(deviceId);
+            HeightPhase heightPhase = JsonConvert.DeserializeObject<HeightPhase>(device.HeightThreshold);
+            PressPhase pressPhase = JsonConvert.DeserializeObject<PressPhase>(device.PressThreshold);
+            return new UpdateFireWaterDeviceInput()
+            {
+                Id = device.Id,
+                DeviceAddress = device.DeviceAddress,
+                FireUnitId = device.FireUnitId,
+                Location = device.Location,
+                State = device.State,
+                EnableCloudAlarm = device.EnableCloudAlarm,
+                MonitorType = device.MonitorType,
+                Gateway_Sn = device.Gateway_Sn,
+                Gateway_Location = device.Gateway_Location,
+                Gateway_Type = device.Gateway_Type,
+                Gateway_NetComm = device.Gateway_NetComm,
+                Gateway_DataRate = device.Gateway_DataRate,
+                MinHeight = heightPhase.MinHeight,
+                MaxHeight = heightPhase.MaxHeight,
+                MinPress = pressPhase.MinPress,
+                MaxPress = pressPhase.MaxPress
+            };
         }
 
         /// <summary>
@@ -1749,6 +1813,17 @@ namespace FireProtectionV1.FireWorking.Manager
             var tCount = lstWaterDevices.Count();
 
             return new PagedResultDto<FireWaterDevice>(tCount, lstWaterDevices);
+        }
+
+        /// <summary>
+        /// 获取消防管网联网网关设备型号列表
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<string>> GetFireWaterDeviceTypes()
+        {
+            return await Task.Run(() => {
+                return _repFireWaterDeviceType.GetAll().OrderBy(p => p.Name).Select(p => p.Name).ToList();
+            });
         }
     }
 }

@@ -22,6 +22,7 @@ namespace FireProtectionV1.EntityFrameworkCore
         public DbSet<FireElectricDevice> FireElectricDevice { get; set; }
         public DbSet<FireOrtherDevice> FireOrtherDevice { get; set; }
         public DbSet<FireWaterDevice> FireWaterDevice { get; set; }
+        public DbSet<FireWaterDeviceType> FireWaterDeviceType { get; set; }
         public DbSet<MiniFireActionType> MiniFireActionType { get; set; }
         public DbSet<MiniFireAction> MiniFireAction { get; set; }
         public DbSet<MiniFireEquipment> MiniFireEquipment { get; set; }

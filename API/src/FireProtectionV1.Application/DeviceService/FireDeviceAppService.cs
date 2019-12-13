@@ -319,7 +319,7 @@ namespace FireProtectionV1.DeviceService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task AddFireWaterDevice(FireWaterDevice input)
+        public async Task AddFireWaterDevice(AddFireWaterDeviceInput input)
         {
             await _deviceManager.AddFireWaterDevice(input);
         }
@@ -329,7 +329,7 @@ namespace FireProtectionV1.DeviceService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task UpdateFireWaterDevice(FireWaterDevice input)
+        public async Task UpdateFireWaterDevice(UpdateFireWaterDeviceInput input)
         {
             await _deviceManager.UpdateFireWaterDevice(input);
         }
@@ -349,7 +349,7 @@ namespace FireProtectionV1.DeviceService
         /// </summary>
         /// <param name="deviceId"></param>
         /// <returns></returns>
-        public async Task<FireWaterDevice> GetById(int deviceId)
+        public async Task<UpdateFireWaterDeviceInput> GetById(int deviceId)
         {
             return await _deviceManager.GetById(deviceId);
         }
@@ -362,6 +362,15 @@ namespace FireProtectionV1.DeviceService
         public async Task<PagedResultDto<FireWaterDevice>> GetFireWaterDeviceList(int fireUnitId)
         {
             return await _deviceManager.GetFireWaterDeviceList(fireUnitId);
+        }
+
+        /// <summary>
+        /// 获取消防管网联网网关设备型号列表
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<string>> GetFireWaterDeviceTypes()
+        {
+            return await _deviceManager.GetFireWaterDeviceTypes();
         }
     }
 }

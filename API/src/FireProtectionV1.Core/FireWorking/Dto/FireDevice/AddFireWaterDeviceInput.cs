@@ -1,15 +1,11 @@
-﻿using FireProtectionV1.Common.DBContext;
+﻿using FireProtectionV1.FireWorking.Model;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Text;
 
-namespace FireProtectionV1.FireWorking.Model
+namespace FireProtectionV1.FireWorking.Dto.FireDevice
 {
-    /// <summary>
-    /// 消防管网
-    /// </summary>
-    public class FireWaterDevice : EntityBase
+    public class AddFireWaterDeviceInput
     {
         /// <summary>
         /// 防火单位Id
@@ -27,10 +23,6 @@ namespace FireProtectionV1.FireWorking.Model
         /// 网关型号
         /// </summary>
         public string Gateway_Type { get; set; }
-        /// <summary>
-        /// 网关设备ID
-        /// </summary>
-        public int GatewayId { get; set; }
         /// <summary>
         /// 网关编号
         /// </summary>
@@ -56,46 +48,24 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         public MonitorType MonitorType { get; set; }
         /// <summary>
-        /// 液位范围，json格式
+        /// 液位范围最小值
         /// </summary>
-        public string HeightThreshold { get; set; }
+        public float MinHeight { get; set; }
         /// <summary>
-        /// 水压范围，json格式
+        /// 液位范围最大值
         /// </summary>
-        public string PressThreshold { get; set; }
+        public float MaxHeight { get; set; }
+        /// <summary>
+        /// 水压范围最小值
+        /// </summary>
+        public float MinPress { get; set; }
+        /// <summary>
+        /// 水压范围最大值
+        /// </summary>
+        public float MaxPress { get; set; }
         /// <summary>
         /// 启用云端报警
         /// </summary>
         public bool EnableCloudAlarm { get; set; }
-        /// <summary>
-        /// 当前数值
-        /// </summary>
-        public string CurrentValue { get; set; }
-    }
-
-    [Export("监控类型")]
-    public enum MonitorType
-    {
-        /// <summary>
-        /// 液位
-        /// </summary>
-        [Description("液位")]
-        Height = 1,
-        /// <summary>
-        /// 水压
-        /// </summary>
-        [Description("水压")]
-        Press = 2
-    }
-
-    public class HeightPhase
-    {
-        public float MinHeight { get; set; }
-        public float MaxHeight { get; set; }
-    }
-    public class PressPhase
-    {
-        public float MinPress { get; set; }
-        public float MaxPress { get; set; }
     }
 }

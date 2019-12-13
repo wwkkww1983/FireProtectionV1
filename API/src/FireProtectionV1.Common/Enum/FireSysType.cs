@@ -18,7 +18,11 @@ namespace FireProtectionV1.Common.Enum
         /// <summary>
         /// 火警预警
         /// </summary>
-        Fire = 2
+        Fire = 2,
+        /// <summary>
+        /// 消防管网
+        /// </summary>
+        Water = 3
     }
     [Export("巡查方式")]
     public enum Patrol
