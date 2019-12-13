@@ -1750,6 +1750,13 @@
             <param name="detectorDto"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.ImportFireAlarmDetector(FireProtectionV1.FireWorking.Dto.FireDevice.FireAlarmDetectorImportDto)">
+            <summary>
+            导入火警联网网关对应消防主机的联网部件
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.DeleteDetector(System.Int32)">
             <summary>
             删除部件
@@ -1885,14 +1892,14 @@
             <param name="DeviceId">火警联网设备ID</param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.AddFireWaterDevice(FireProtectionV1.FireWorking.Model.FireWaterDevice)">
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.AddFireWaterDevice(FireProtectionV1.FireWorking.Dto.FireDevice.AddFireWaterDeviceInput)">
             <summary>
             添加消防管网设备
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.UpdateFireWaterDevice(FireProtectionV1.FireWorking.Model.FireWaterDevice)">
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.UpdateFireWaterDevice(FireProtectionV1.FireWorking.Dto.FireDevice.UpdateFireWaterDeviceInput)">
             <summary>
             修改消防管网设备
             </summary>
@@ -1913,11 +1920,17 @@
             <param name="deviceId"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireWaterDeviceList(System.Int32)">
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireWaterDeviceList(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
             获取消防管网设备列表
             </summary>
             <param name="fireUnitId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireWaterDeviceTypes">
+            <summary>
+            获取消防管网联网网关设备型号列表
+            </summary>
             <returns></returns>
         </member>
         <member name="P:FireProtectionV1.Dto.EndDeviceOptionDto.Value">

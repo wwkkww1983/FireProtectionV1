@@ -91,7 +91,12 @@ namespace FireProtectionV1.FireWorking.Manager
         Task<GetFireOrtherDeviceOutput> GetFireOrtherDevice(int deviceid);
         Task<GetFireElectricDeviceStateOutput> GetFireElectricDeviceState(int fireUnitId);
         Task<GetFireOrtherDeviceExpireOutput> GetFireOrtherDeviceExpire(int fireUnitId);
-
+        /// <summary>
+        /// 导入火警联网网关对应消防主机的联网部件
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<SuccessOutput> ImportFireAlarmDetector(FireAlarmDetectorImportDto input);
         /// <summary>
         /// 导入其它消防设备
         /// </summary>
@@ -128,7 +133,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="fireUnitId"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<PagedResultDto<FireWaterDevice>> GetFireWaterDeviceList(int fireUnitId);
+        Task<PagedResultDto<FireWaterDevice>> GetFireWaterDeviceList(int fireUnitId, PagedResultRequestDto dto);
         /// <summary>
         /// 获取消防管网联网网关设备型号列表
         /// </summary>

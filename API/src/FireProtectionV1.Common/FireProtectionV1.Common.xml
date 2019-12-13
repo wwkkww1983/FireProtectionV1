@@ -173,6 +173,11 @@
             火警预警
             </summary>
         </member>
+        <member name="F:FireProtectionV1.Common.Enum.FireSysType.Water">
+            <summary>
+            消防管网
+            </summary>
+        </member>
         <member name="F:FireProtectionV1.Common.Enum.Patrol.UnSet">
             <summary>
             普通巡查

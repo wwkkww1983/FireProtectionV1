@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -94,5 +95,17 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// 部件状态
         /// </summary>
         public string State { get; set; }
+    }
+
+    public class FireAlarmDetectorImportDto
+    {
+        /// <summary>
+        /// 火警联网设施编号
+        /// </summary>
+        public string FireAlarmDeviceSn { get; set; }
+        /// <summary>
+        /// excel文件流
+        /// </summary>
+        public IFormFile file { get; set; }
     }
 }

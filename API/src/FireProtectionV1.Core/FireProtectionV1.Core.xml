@@ -2652,6 +2652,81 @@
             是否超限
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.AddFireWaterDeviceInput.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.AddFireWaterDeviceInput.DeviceAddress">
+            <summary>
+            设备地址
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.AddFireWaterDeviceInput.Location">
+            <summary>
+            设备安装位置
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.AddFireWaterDeviceInput.Gateway_Type">
+            <summary>
+            网关型号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.AddFireWaterDeviceInput.Gateway_Sn">
+            <summary>
+            网关编号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.AddFireWaterDeviceInput.Gateway_Location">
+            <summary>
+            网关安装位置
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.AddFireWaterDeviceInput.Gateway_NetComm">
+            <summary>
+            网关通讯方式
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.AddFireWaterDeviceInput.Gateway_DataRate">
+            <summary>
+            网关数据采集频率
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.AddFireWaterDeviceInput.State">
+            <summary>
+            设备状态：良好/超限/离线
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.AddFireWaterDeviceInput.MonitorType">
+            <summary>
+            监控类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.AddFireWaterDeviceInput.MinHeight">
+            <summary>
+            液位范围最小值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.AddFireWaterDeviceInput.MaxHeight">
+            <summary>
+            液位范围最大值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.AddFireWaterDeviceInput.MinPress">
+            <summary>
+            水压范围最小值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.AddFireWaterDeviceInput.MaxPress">
+            <summary>
+            水压范围最大值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.AddFireWaterDeviceInput.EnableCloudAlarm">
+            <summary>
+            启用云端报警
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FaultDetectorOutput.FaultContent">
             <summary>
             故障描述
@@ -2745,6 +2820,16 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.DetectorDto.State">
             <summary>
             部件状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireAlarmDetectorImportDto.FireAlarmDeviceSn">
+            <summary>
+            火警联网设施编号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireAlarmDetectorImportDto.file">
+            <summary>
+            excel文件流
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.GetFireAlarmDeviceDto.State">
@@ -4442,6 +4527,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.ImportFireAlarmDetector(FireProtectionV1.FireWorking.Dto.FireDevice.FireAlarmDetectorImportDto)">
+            <summary>
+            导入火警联网网关对应消防主机的联网部件
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.AddFireAlarmDevice(FireProtectionV1.FireWorking.Dto.FireDevice.FireAlarmDeviceDto,System.String)">
             <summary>
             新增火警联网设备
@@ -4497,14 +4589,14 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.AddFireWaterDevice(FireProtectionV1.FireWorking.Model.FireWaterDevice)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.AddFireWaterDevice(FireProtectionV1.FireWorking.Dto.FireDevice.AddFireWaterDeviceInput)">
             <summary>
             添加消防管网设备
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.UpdateFireWaterDevice(FireProtectionV1.FireWorking.Model.FireWaterDevice)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.UpdateFireWaterDevice(FireProtectionV1.FireWorking.Dto.FireDevice.UpdateFireWaterDeviceInput)">
             <summary>
             修改消防管网设备
             </summary>
@@ -4525,11 +4617,17 @@
             <param name="deviceId"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.GetFireWaterDeviceList(System.Int32)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.GetFireWaterDeviceList(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
             获取消防管网设备列表
             </summary>
             <param name="fireUnitId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.GetFireWaterDeviceTypes">
+            <summary>
+            获取消防管网联网网关设备型号列表
+            </summary>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.DutyManager.GetDutylist(FireProtectionV1.FireWorking.Dto.GetDataDutyInput)">
@@ -4770,6 +4868,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.ImportFireAlarmDetector(FireProtectionV1.FireWorking.Dto.FireDevice.FireAlarmDetectorImportDto)">
+            <summary>
+            导入火警联网网关对应消防主机的联网部件
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.ImportOrtherDevice(FireProtectionV1.FireWorking.Dto.FireDevice.FireOtherDeviceImportDto)">
             <summary>
             导入其它消防设备
@@ -4777,14 +4882,14 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.AddFireWaterDevice(FireProtectionV1.FireWorking.Model.FireWaterDevice)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.AddFireWaterDevice(FireProtectionV1.FireWorking.Dto.FireDevice.AddFireWaterDeviceInput)">
             <summary>
             添加消防管网设备
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.UpdateFireWaterDevice(FireProtectionV1.FireWorking.Model.FireWaterDevice)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.UpdateFireWaterDevice(FireProtectionV1.FireWorking.Dto.FireDevice.UpdateFireWaterDeviceInput)">
             <summary>
             修改消防管网设备
             </summary>
@@ -4805,12 +4910,18 @@
             <param name="deviceId"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetFireWaterDeviceList(System.Int32)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetFireWaterDeviceList(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
             获取消防管网设备列表
             </summary>
             <param name="fireUnitId"></param>
             <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetFireWaterDeviceTypes">
+            <summary>
+            获取消防管网联网网关设备型号列表
+            </summary>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IDutyManager.AddNewDuty(FireProtectionV1.FireWorking.Dto.AddNewDutyInput)">
@@ -5846,6 +5957,11 @@
         <member name="P:FireProtectionV1.FireWorking.Model.FireWaterDevice.Gateway_Type">
             <summary>
             网关型号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireWaterDevice.GatewayId">
+            <summary>
+            网关设备ID
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.FireWaterDevice.Gateway_Sn">

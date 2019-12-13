@@ -13,6 +13,10 @@ namespace FireProtectionV1.Enterprise.Dto
         [Required]
         public string Name { get; set; }
         /// <summary>
+        /// 消防联系人ID
+        /// </summary>
+        public int FireUnitUserId { get; set; }
+        /// <summary>
         /// 地上层数
         /// </summary>
         public int AboveNum { get; set; }

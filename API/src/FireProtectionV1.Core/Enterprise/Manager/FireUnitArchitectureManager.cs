@@ -34,6 +34,7 @@ namespace FireProtectionV1.Enterprise.Manager
             {
                 CreationTime = DateTime.Now,
                 Name = input.Name,
+                FireUnitUserId = input.FireUnitUserId,
                 AboveNum = input.AboveNum,
                 BelowNum = input.BelowNum,
                 BuildYear = input.BuildYear,
@@ -149,6 +150,7 @@ namespace FireProtectionV1.Enterprise.Manager
             }
 
             old.Name = input.Name;
+            old.FireUnitUserId = input.FireUnitUserId;
             old.AboveNum = input.AboveNum;
             old.BelowNum = input.BelowNum;
             old.BuildYear = input.BuildYear;
