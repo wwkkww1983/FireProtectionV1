@@ -374,8 +374,7 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
         public async Task<MiniFireStationOutput> GetById(int id)
         {
             var mini = await _miniFireStationRepository.FirstOrDefaultAsync(p => p.Id == id);
-            if (mini == null)
-                return new MiniFireStationOutput();
+            if (mini == null) return new MiniFireStationOutput();
             var a= await _miniFireStationRepository.GetAsync(id);
             var b = await _repFireUnit.FirstOrDefaultAsync(p => p.Id == a.FireUnitId);
             return new MiniFireStationOutput()
@@ -393,6 +392,46 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
                 PersonNum = a.PersonNum,
                 PhotoBase64=a.PhotoBase64
             };
+        }
+
+        /// <summary>
+        /// 获取某个防火单位的微型消防站
+        /// </summary>
+        /// <param name="fireUnitId"></param>
+        /// <returns></returns>
+        public Task<MiniFireStationOutput> GetByFireUnitId(int fireUnitId)
+        {
+            var miniFireStations = _miniFireStationRepository.GetAll().Where(d => fireUnitId.Equals(d.FireUnitId));
+            var fireUnits = _repFireUnit.GetAll();
+
+            var query = from a in miniFireStations
+                        join b in fireUnits
+                        on a.FireUnitId equals b.Id
+                        select new MiniFireStationOutput()
+                        {
+                            Id = a.Id,
+                            Address = a.Address,
+                            ContactName = a.ContactName,
+                            ContactPhone = a.ContactPhone,
+                            FireUnitId = a.FireUnitId,
+                            FireUnitName = b.Name,
+                            Lat = a.Lat,
+                            Level = a.Level,
+                            Lng = a.Lng,
+                            Name = a.Name,
+                            PersonNum = a.PersonNum,
+                            PhotoBase64 = a.PhotoBase64
+                        };
+            MiniFireStationOutput output = query.SingleOrDefault();
+            if (output == null)
+            {
+                output = new MiniFireStationOutput()
+                {
+                    FireUnitId = fireUnitId,
+                    FireUnitName = fireUnits.SingleOrDefault(d => fireUnitId.Equals(d.Id)).Name
+                };
+            }
+            return Task.FromResult(output);
         }
 
         /// <summary>

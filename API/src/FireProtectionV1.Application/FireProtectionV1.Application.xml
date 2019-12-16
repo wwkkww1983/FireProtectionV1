@@ -1209,6 +1209,13 @@
             <param name="MiniFireEquipmentId"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.GetByFireUnitId(System.Int32)">
+            <summary>
+            获取某个防火单位的微型消防站
+            </summary>
+            <param name="fireUnitId"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.GetMiniFireEquipmentList(FireProtectionV1.MiniFireStationCore.Dto.GetMiniFireListBaseInput)">
             <summary>
             获取指定微型消防站ID的消防设施列表
