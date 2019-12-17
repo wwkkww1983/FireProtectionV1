@@ -123,13 +123,13 @@ namespace FireProtectionV1.FireWorking.Manager
                     fireUnitId = dataid
                 });
             }
-            await _alarmCheckRep.InsertAsync(new AlarmCheck()
-            {
-                AlarmDataId = id,
-                FireSysType = detector.FireSysType,
-                FireUnitId = detector.FireUnitId,
-                CheckState = (byte)CheckStateType.UnCheck
-            });
+            //await _alarmCheckRep.InsertAsync(new AlarmCheck()
+            //{
+            //    AlarmDataId = id,
+            //    FireSysType = detector.FireSysType,
+            //    FireUnitId = detector.FireUnitId,
+            //    CheckState = (byte)CheckStateType.UnCheck
+            //});
             return new AddDataOutput() { IsDetectorExit = true }
 ;
         }
@@ -203,13 +203,13 @@ namespace FireProtectionV1.FireWorking.Manager
                         fireUnitId = dataid
                     });
                 }
-                await _alarmCheckRep.InsertAsync(new AlarmCheck()
-                {
-                    AlarmDataId = id,
-                    FireSysType = detector.FireSysType,
-                    FireUnitId = detector.FireUnitId,
-                    CheckState = (byte)CheckStateType.UnCheck
-                });
+                //await _alarmCheckRep.InsertAsync(new AlarmCheck()
+                //{
+                //    AlarmDataId = id,
+                //    FireSysType = detector.FireSysType,
+                //    FireUnitId = detector.FireUnitId,
+                //    CheckState = (byte)CheckStateType.UnCheck
+                //});
             }
             else
             {
