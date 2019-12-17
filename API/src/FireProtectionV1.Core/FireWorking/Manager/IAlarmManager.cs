@@ -38,13 +38,12 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         Task<AlarmCheckDetailOutput> GetAlarmCheckDetail(int checkId);
         void RepairData();
-
         /// <summary>
         /// 查询防火单位警情核警数据
         /// </summary>
         /// <param name="fireunitid"></param>
         /// <returns></returns>
-        Task<PagedResultDto<AlarmCheckOutput>> GetAlarmChecks(int fireunitid, List<string> filter, Abp.Application.Services.Dto.PagedResultRequestDto dto);
+        Task<PagedResultDto<AlarmCheckOutput>> GetAlarmChecks(int fireunitid, List<string> filter, PagedResultRequestDto dto);
         /// <summary>
         /// 保存核警信息
         /// </summary>
@@ -52,5 +51,25 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         Task CheckAlarm(AlarmCheckDetailDto dto);
         IQueryable<AlarmToFire> GetAlarms(IQueryable<Detector> detectors, DateTime start, DateTime end);
+        /// <summary>
+        /// 获取数据大屏的火警联网实时达
+        /// </summary>
+        /// <param name="fireUnitId">防火单位Id</param>
+        /// <param name="dataNum">需要的数据条数，不传的话默认为5条</param>
+        /// <returns></returns>
+        Task<List<FireAlarmForDataScreenOutput>> GetFireAlarmForDataScreen(int fireUnitId, int dataNum);
+        /// <summary>
+        /// 根据fireAlarmId获取单条火警数据详情
+        /// </summary>
+        /// <param name="fireAlarmId"></param>
+        /// <returns></returns>
+        Task<FireAlarmDetailOutput> GetFireAlarmById(int fireAlarmId);
+        /// <summary>
+        /// 获取火警联网数据列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<FireAlarmListOutput>> GetFireAlarmList(FireAlarmListInput input, PagedResultRequestDto dto);
     }
 }

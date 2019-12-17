@@ -126,6 +126,14 @@ namespace FireProtectionV1.DeviceService
         {
             return await _deviceManager.GetFireUnitGatewaysStatus(FireSysType,FireUnitId, dto);
         }
-
+        /// <summary>
+        /// 用于数据大屏：获取各类消防物联网设施的各种状态及数量
+        /// </summary>
+        /// <param name="fireUnitId"></param>
+        /// <returns></returns>
+        public async Task<List<GetDeviceStatusForDataScreenOutput>> GetDeviceStatusForDataScreen(int fireUnitId)
+        {
+            return await _deviceManager.GetDeviceStatusForDataScreen(fireUnitId);
+        }
     }
 }
