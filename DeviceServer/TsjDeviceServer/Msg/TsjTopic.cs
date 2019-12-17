@@ -12,6 +12,7 @@ namespace TsjDeviceServer
             if (topic != null)
                 _topic = topic.Split('/');
         }
+
         public string Level(int level)
         {
             if (_topic == null)
@@ -20,6 +21,21 @@ namespace TsjDeviceServer
                 return "";
             else
                 return _topic[level - 1];
+        }
+        public const string Report = "Report";
+    }
+    public class TsjTopics
+    {
+        static public List<string> BackSubscribeTopics
+        {
+            get
+            {
+                return new List<string>()
+                {
+                //"Response/#",
+                "Report/#"
+                };
+            }
         }
     }
 }

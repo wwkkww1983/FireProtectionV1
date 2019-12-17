@@ -32,7 +32,7 @@ namespace FireProtectionV1.FireWorking.Model
         [MaxLength(StringType.Long)]
         public string FaultRemark { get; set; }
         /// <summary>
-        /// 处理状态 0:待处理,1:已处理
+        /// 处理状态 HandleStatus
         /// </summary>
         [Required]
         public byte ProcessState { get; set; }

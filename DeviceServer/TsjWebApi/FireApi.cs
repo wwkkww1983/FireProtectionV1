@@ -68,6 +68,46 @@ namespace TsjWebApi
             //string responseFromServer = reader.ReadToEnd();//读取所有
             //Console.WriteLine(responseFromServer);
         }
+        static public string HttpPostTsj(string url, Object param = null)
+        {
+            return "";
+            string postData = JsonConvert.SerializeObject(param);
+            //定义request并设置request的路径
+            WebRequest request = WebRequest.Create(url);
+            request.Method = "post";
+            //设置参数的编码格式，解决中文乱码
+            byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+            //设置request的MIME类型及内容长度
+            request.ContentType = "application/json";
+            request.ContentLength = byteArray.Length;
+            //打开request字符流
+            Stream dataStream = request.GetRequestStream();
+            dataStream.Write(byteArray, 0, byteArray.Length);
+            dataStream.Close();
+            //定义response为前面的request响应
+            try
+            {
+                WebResponse response = request.GetResponse();
+                //获取相应的状态代码
+                //Console.WriteLine(DateTime.Now+ $"HttpPost ok  url:{url} postData:{postData}");
+                //定义response字符流
+                var stream = response.GetResponseStream();
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string res = reader.ReadToEnd();//读取所有
+                    if (string.IsNullOrEmpty(res))
+                        return "";
+                    var jobj = JObject.Parse(res);
+                    return jobj["result"].ToString();
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(DateTime.Now + $"HttpPost请求失败 url:{url} postData:{postData}");
+            }
+            return "";
+        }
         ///// <summary>
         ///// 异步请求post（键值对形式,可等待的）
         ///// </summary>

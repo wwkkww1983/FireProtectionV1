@@ -41,6 +41,12 @@ namespace TsjDeviceServer
         {
             return $"Set/{gatewayIdentify}/Config";
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="topic">主题</param>
+        /// <param name="level">主题层级</param>
+        /// <returns></returns>
         static public string Level(string topic,int level)
         {
             try
@@ -54,20 +60,20 @@ namespace TsjDeviceServer
         }
         static public void ParseMsg(TsjTopic topic,string payload)
         {
-            if (topic.Level(1).Equals("Report"))
-            {
-                var reportData = JsonConvert.DeserializeObject<ReportData>(payload);
-                if (topic.Level(3).Equals("Alarm"))
-                {
-                    FireApi.HttpPost(Config.Url("/api/services/app/Data/AddAlarmFire"), new AddAlarmFireInput()
-                    {
-                        GatewayIdentify=topic.Level(2),
-                        Identify = reportData.Identify,
-                        Origin = Origin.Tianshuju,
-                        DetectorGBType = reportData.GBType
-                    });
-                }
-            }
+            //if (topic.Level(1).Equals("Report"))
+            //{
+            //    var reportData = JsonConvert.DeserializeObject<ReportData>(payload);
+            //    if (topic.Level(3).Equals("Alarm"))
+            //    {
+            //        FireApi.HttpPost(Config.Url("/api/services/app/Data/AddAlarmFire"), new AddAlarmFireInput()
+            //        {
+            //            GatewayIdentify=topic.Level(2),
+            //            Identify = reportData.Identify,
+            //            Origin = Origin.Tianshuju,
+            //            DetectorGBType = reportData.GBType
+            //        });
+            //    }
+            //}
         }
     }
 }

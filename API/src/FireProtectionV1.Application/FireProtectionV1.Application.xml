@@ -1933,6 +1933,34 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.DeviceService.TsjDeviceAppService.NewFault(FireProtectionV1.TsjDevice.Dto.NewFaultInput)">
+            <summary>
+            新增故障
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.TsjDeviceAppService.NewAlarm(FireProtectionV1.TsjDevice.Dto.NewAlarmInput)">
+            <summary>
+            新增火警联网火警
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.TsjDeviceAppService.NewMonitor(FireProtectionV1.TsjDevice.Dto.NewMonitorInput)">
+            <summary>
+            新增模拟量值
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.TsjDeviceAppService.NewOverflow(FireProtectionV1.TsjDevice.Dto.NewOverflowInput)">
+            <summary>
+            新增电气火灾报警(超限)
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="P:FireProtectionV1.Dto.EndDeviceOptionDto.Value">
             <summary>
             终端设备选项值

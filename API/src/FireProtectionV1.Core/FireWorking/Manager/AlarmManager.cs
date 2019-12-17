@@ -125,7 +125,7 @@ namespace FireProtectionV1.FireWorking.Manager
         public async Task<AddDataOutput> AddAlarmFire(AddAlarmFireInput input)
         {
             Detector detector = _deviceManager.GetDetector(input.Identify,input.Origin);
-            Console.WriteLine($"GatewayIdentify:{ input.GatewayIdentify} Origin:{input.Origin}");
+            //Console.WriteLine($"GatewayIdentify:{ input.GatewayIdentify} Origin:{input.Origin}");
             if (detector == null)
             {
                 var gateway = _deviceManager.GetGateway(input.GatewayIdentify, input.Origin);

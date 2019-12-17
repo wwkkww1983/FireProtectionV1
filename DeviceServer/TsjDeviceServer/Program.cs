@@ -9,7 +9,9 @@ namespace TsjDeviceServer
     {
         static void Main(string[] args)
         {
-            Task.WaitAll( ClientTest.RunAsync());
+            BackMqttClient backMqttClient = new BackMqttClient();
+            Task.WaitAll( backMqttClient.Run(new MsgRecvHandler()));
+            //Task.WaitAll( ClientTest.RunAsync());
             while(!Console.ReadLine().Equals("exit"));
         }
     }

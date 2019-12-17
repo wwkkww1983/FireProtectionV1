@@ -4,11 +4,11 @@ using System.Text;
 
 namespace TsjDeviceServer.Data
 {
-    public abstract class ProtocolData
+    public class DataMonitor:TsjData
     {
         /// <summary>
-        /// 网关标识
+        /// 模拟量
         /// </summary>
-        public string GatewayIdentify { get; set; }
+        public string value { get; set; }
     }
 }

@@ -2,24 +2,21 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TsjDeviceServer.Data
+namespace FireProtectionV1.TsjDevice.Dto
 {
-    /// <summary>
-    /// 上报数据
-    /// </summary>
-    public class ReportData
+    public class NewMonitorInput
     {
         /// <summary>
         /// 探测器标识
         /// </summary>
         public string Identify { get; set; }
         /// <summary>
-        /// 探测器国标类型
+        /// 时间
         /// </summary>
-        public byte GBType { get; set; }
+        public string Time { get; set; }
         /// <summary>
-        /// 模拟量值(可空)
+        /// 模拟量值
         /// </summary>
-        public string Analog { get; set; }
+        public string Value { get; set; }
     }
 }

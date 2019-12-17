@@ -27,9 +27,9 @@ namespace TsjDeviceServer
 #else
                 var ip = Config.Configuration["MQTT: ServerIP"];
 #endif
-                var port = int.Parse(Config.Configuration["MQTT: ServerPort"]);
-                var user = Config.Configuration["MQTT: Username"];
-                var pwd = Config.Configuration["MQTT: Password"];
+                var port = int.Parse(Config.Configuration["MQTT:ServerPort"]);
+                var user = Config.Configuration["MQTT:Username"];
+                var pwd = Config.Configuration["MQTT:Password"];
                 var clientOptions = new MqttClientOptionsBuilder()
                     .WithClientId("back1"/*Guid.NewGuid().ToString().Substring(0, 5)*/)
                     .WithTcpServer(ip, port)
@@ -43,7 +43,7 @@ namespace TsjDeviceServer
                     Console.WriteLine("### CONNECTED WITH SERVER ###");
 
                     //await _client.SubscribeAsync(new TopicFilterBuilder().WithTopic("#").Build());
-                    foreach(var topic in Protocol.SubTopics)
+                    foreach(var topic in TsjTopics.BackSubscribeTopics)
                     {
                         await _client.SubscribeAsync(new TopicFilterBuilder().WithTopic(topic).Build());
                     }
