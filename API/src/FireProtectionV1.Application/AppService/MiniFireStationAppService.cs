@@ -96,6 +96,15 @@ namespace FireProtectionV1.AppService
             return await _manager.GetMiniFireEquipment(MiniFireEquipmentId);
         }
         /// <summary>
+        /// 获取某个防火单位的微型消防站
+        /// </summary>
+        /// <param name="fireUnitId"></param>
+        /// <returns></returns>
+        public async Task<MiniFireStationOutput> GetByFireUnitId(int fireUnitId)
+        {
+            return await _manager.GetByFireUnitId(fireUnitId);
+        }
+        /// <summary>
         /// 获取指定微型消防站ID的消防设施列表
         /// </summary>
         /// <param name="input"></param>

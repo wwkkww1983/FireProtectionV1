@@ -62,6 +62,35 @@ namespace FireProtectionV1.AppService
         }
 
         /// <summary>
+        /// 获取数据大屏的火警联网实时达
+        /// </summary>
+        /// <param name="fireUnitId">防火单位Id</param>
+        /// <param name="dataNum">需要的数据条数，不传的话默认为5条</param>
+        /// <returns></returns>
+        public async Task<List<FireAlarmForDataScreenOutput>> GetFireAlarmForDataScreen(int fireUnitId, int dataNum = 5)
+        {
+            return await _alarmManager.GetFireAlarmForDataScreen(fireUnitId, dataNum);
+        }
+        /// <summary>
+        /// 根据fireAlarmId获取单条火警数据详情
+        /// </summary>
+        /// <param name="fireAlarmId"></param>
+        /// <returns></returns>
+        public async Task<FireAlarmDetailOutput> GetFireAlarmById(int fireAlarmId)
+        {
+            return await _alarmManager.GetFireAlarmById(fireAlarmId);
+        }
+        /// <summary>
+        /// 获取火警联网数据列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<FireAlarmListOutput>> GetFireAlarmList(FireAlarmListInput input, PagedResultRequestDto dto)
+        {
+            return await _alarmManager.GetFireAlarmList(input, dto);
+        }
+        /// <summary>
         /// 核警某一条警情[FromForm]
         /// </summary>
         /// <param name="input"></param>

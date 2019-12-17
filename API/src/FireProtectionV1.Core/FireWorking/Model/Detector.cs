@@ -36,7 +36,7 @@ namespace FireProtectionV1.FireWorking.Model
         [Required]
         public int FireUnitId { get; set; }
         /// <summary>
-        /// 设备地点
+        /// 安装位置（例如2003室）
         /// </summary>
         [MaxLength(100)]
         public string Location { get; set; }
@@ -45,7 +45,6 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         [MaxLength(50)]
         public string Origin { get; set; }
-
         /// <summary>
         /// 探测器状态，在线/离线/当前模拟量值
         /// </summary>
@@ -63,5 +62,9 @@ namespace FireProtectionV1.FireWorking.Model
         /// 最后一次故障ID
         /// </summary>
         public int LastFaultId { get; set; }
+        /// <summary>
+        /// 安装位置全路径，包括建筑、楼层及具体位置，例如（行政楼20楼2003室）
+        /// </summary>
+        public string FullLocation { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace FireProtectionV1.FireWorking.Model
         [Required]
         public int AlarmDataId { get; set; }
         /// <summary>
-        /// 核警状态
+        /// 核警状态(1:误报,2:测试,3:真实火警)
         /// </summary>
         [Required]
         public byte CheckState { get; set; }

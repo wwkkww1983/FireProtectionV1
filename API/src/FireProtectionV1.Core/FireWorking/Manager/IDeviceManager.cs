@@ -139,5 +139,11 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <returns></returns>
         Task<List<string>> GetFireWaterDeviceTypes();
+        /// <summary>
+        /// 用于数据大屏：获取各类消防物联网设施的各种状态及数量
+        /// </summary>
+        /// <param name="fireUnitId"></param>
+        /// <returns></returns>
+        Task<List<GetDeviceStatusForDataScreenOutput>> GetDeviceStatusForDataScreen(int fireUnitId);
     }
 }

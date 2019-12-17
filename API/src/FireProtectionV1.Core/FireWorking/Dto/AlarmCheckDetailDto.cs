@@ -15,7 +15,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public int CheckId { get; set; }
         /// <summary>
-        /// 核实警状态(1:误报,2:测试,3:真实火警)
+        /// 核警状态(1:误报,2:测试,3:真实火警)
         /// </summary>
         public byte CheckState { get; set; }
         /// <summary>

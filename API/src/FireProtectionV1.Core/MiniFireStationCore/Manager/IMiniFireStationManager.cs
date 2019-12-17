@@ -43,6 +43,12 @@ namespace FireProtectionV1.MiniFireStationCore.Manager
         Task<PagedResultDto<MiniFireJobUserDto>> GetMiniFireJobUser(GetMiniFireJobUserInput input);
         Task<SuccessOutput> UpdateJobUser(MiniFireJobUserDetailDto input);
         Task<MiniFireActionDetailDto> GetMiniFireAction(int miniFireActionId);
+        /// <summary>
+        /// 获取某个防火单位的微型消防站
+        /// </summary>
+        /// <param name="fireUnitId"></param>
+        /// <returns></returns>
+        Task<MiniFireStationOutput> GetByFireUnitId(int fireUnitId);
 
         /// <summary>
         /// 获取单个实体信息

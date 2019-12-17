@@ -25,6 +25,29 @@
             调试修复数据
             </summary>
         </member>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.GetFireAlarmForDataScreen(System.Int32,System.Int32)">
+            <summary>
+            获取数据大屏的火警联网实时达
+            </summary>
+            <param name="fireUnitId">防火单位Id</param>
+            <param name="dataNum">需要的数据条数，不传的话默认为5条</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.GetFireAlarmById(System.Int32)">
+            <summary>
+            根据fireAlarmId获取单条火警数据详情
+            </summary>
+            <param name="fireAlarmId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.GetFireAlarmList(FireProtectionV1.FireWorking.Dto.FireAlarmListInput,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取火警联网数据列表
+            </summary>
+            <param name="input"></param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.AlarmAppService.CheckAlarm(FireProtectionV1.FireWorking.Dto.AlarmCheckInput)">
             <summary>
             核警某一条警情[FromForm]
@@ -1209,6 +1232,13 @@
             <param name="MiniFireEquipmentId"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.GetByFireUnitId(System.Int32)">
+            <summary>
+            获取某个防火单位的微型消防站
+            </summary>
+            <param name="fireUnitId"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.GetMiniFireEquipmentList(FireProtectionV1.MiniFireStationCore.Dto.GetMiniFireListBaseInput)">
             <summary>
             获取指定微型消防站ID的消防设施列表
@@ -1660,6 +1690,13 @@
             <param name="FireSysType">1:安全用电，2:火灾报警</param>
             <param name="FireUnitId">防火单位Id</param>
             <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.DeviceAppService.GetDeviceStatusForDataScreen(System.Int32)">
+            <summary>
+            用于数据大屏：获取各类消防物联网设施的各种状态及数量
+            </summary>
+            <param name="fireUnitId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireAlarmDeviceList(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
