@@ -46,5 +46,9 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// 高频火警部件数量
         /// </summary>
         public int HighAlarmDetectorNum { get; set; }
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime CreationTime { get; set; }
     }
 }

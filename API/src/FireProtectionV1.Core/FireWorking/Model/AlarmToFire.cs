@@ -1,4 +1,5 @@
 ﻿using FireProtectionV1.Common.DBContext;
+using FireProtectionV1.Common.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,18 +10,53 @@ namespace FireProtectionV1.FireWorking.Model
     public class AlarmToFire : EntityBase
     {
         /// <summary>
-        /// 网关Id
+        /// 火警联网设施Id
         /// </summary>
-        public int GatewayId { get; set; }
+        [Required]
+        public int FireAlarmDeviceId { get; set; }
         /// <summary>
         /// 探测器Id
         /// </summary>
         [Required]
-        public int DetectorId { get; set; }
+        public int FireAlarmDetectorId { get; set; }
         /// <summary>
         /// 防火单位Id
         /// </summary>
         [Required]
         public int FireUnitId { get; set; }
+        /// <summary>
+        /// 核警状态
+        /// </summary>
+        public CheckStateType CheckState { get; set; }
+        /// <summary>
+        /// 核警情况描述
+        /// </summary>
+        [MaxLength(300)]
+        public string CheckContent { get; set; }
+        /// <summary>
+        /// 核警语音url
+        /// </summary>
+        [MaxLength(100)]
+        public string CheckVoiceUrl { get; set; }
+        /// <summary>
+        /// 核警语音长度
+        /// </summary>
+        public int CheckVoiceLength { get; set; }
+        /// <summary>
+        /// 核警人员Id
+        /// </summary>
+        public int CheckUserId { get; set; }
+        /// <summary>
+        /// 核警时间
+        /// </summary>
+        public DateTime? CheckTime { get; set; }
+        /// <summary>
+        /// 通知工作人员
+        /// </summary>
+        public bool NotifyWorker { get; set; }
+        /// <summary>
+        /// 通知微型消防站
+        /// </summary>
+        public bool NotifyMiniStation { get; set; }
     }
 }

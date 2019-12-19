@@ -35,7 +35,7 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// <summary>
         /// 设备型号
         /// </summary>
-        public string DeviceType { get; set; }
+        public string DeviceModel { get; set; }
         /// <summary>
         /// 设备编号
         /// </summary>
@@ -52,7 +52,6 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// 通讯方式
         /// </summary>
         public string NetComm { get; set; }
-
         /// <summary>
         /// 通信协议
         /// </summary>
@@ -62,11 +61,11 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// </summary>
         public int NetDetectorNum { get; set; }
         /// <summary>
-        /// 启用发现火警
+        /// 发现火警时的动作
         /// </summary>
         public List<string> EnableAlarm { get; set; }
         /// <summary>
-        /// 启用发现故障
+        /// 发现故障时的动作
         /// </summary>
         public List<string> EnableFault { get; set; }
     }

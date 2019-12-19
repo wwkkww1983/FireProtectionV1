@@ -15,7 +15,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 问题来源
         /// </summary>
-        public byte Source { get; set; }
+        public FaultSource Source { get; set; }
         /// <summary>
         /// 发现人员
         /// </summary>

@@ -1,4 +1,5 @@
 ﻿using FireProtectionV1.Common.DBContext;
+using FireProtectionV1.Common.Enum;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,13 +16,9 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         public int FireUnitId { get; set; }
         /// <summary>
-        /// 网关ID
-        /// </summary>
-        public int GatewayId { get; set; }
-        /// <summary>
         /// 设备型号
         /// </summary>
-        public string DeviceType { get; set; }
+        public string DeviceModel { get; set; }
         /// <summary>
         /// 设备编号
         /// </summary>
@@ -35,32 +32,36 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         public int FireUnitArchitectureId { get; set; }
         /// <summary>
-        /// 品牌
-        /// </summary>
-        public string Brand { get; set; }
-        /// <summary>
         /// 通信协议
         /// </summary>
         public string Protocol { get; set; }
+        /// <summary>
+        /// 消防主机品牌
+        /// </summary>
+        public string Brand { get; set; }
         /// <summary>
         /// 联网部件数量
         /// </summary>
         public int NetDetectorNum { get; set; }
         /// <summary>
-        /// 启用发现火警
+        /// 启用火警发送云端报警
         /// </summary>
-        public bool EnableAlarm { get; set; }
+        public bool EnableAlarmCloud { get; set; }
         /// <summary>
         /// 启用火警发送开关量信号
         /// </summary>
         public bool EnableAlarmSwitch { get; set; }
         /// <summary>
-        /// 启用发现故障
+        /// 启用故障发送云端报警
         /// </summary>
-        public bool EnableFault { get; set; }
+        public bool EnableFaultCloud { get; set; }
         /// <summary>
         /// 启用故障发送开关量信号
         /// </summary>
         public bool EnableFaultSwitch { get; set; }
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public GatewayStatus State { get; set; }
     }
 }

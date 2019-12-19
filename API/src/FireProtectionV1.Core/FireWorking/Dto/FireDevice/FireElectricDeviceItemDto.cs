@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FireProtectionV1.Common.Enum;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -35,17 +36,21 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// </summary>
         public string Location { get; set; }
         /// <summary>
-        /// 状态
+        /// 设备状态：离线/良好/隐患/超限
         /// </summary>
-        public string State { get; set; }
+        public FireElectricDeviceState State { get; set; }
         /// <summary>
-        /// 监测项目数组
+        /// 剩余电流监测
         /// </summary>
-        public List<string> MonitorItem { get; set; }
+        public bool ExistAmpere { get; set; }
+        /// <summary>
+        /// 电缆温度监测
+        /// </summary>
+        public bool ExistTemperature { get; set; }
         /// <summary>
         /// "单项"/"三项"
         /// </summary>
-        public string PhaseType { get; set; }
+        public PhaseType PhaseType { get; set; }
         /// <summary>
         /// 当前L数值
         /// </summary>
@@ -70,5 +75,9 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// 当前L3数值
         /// </summary>
         public string L3 { get; set; }
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime CreationTime { get; set; }
     }
 }

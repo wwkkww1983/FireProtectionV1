@@ -12,28 +12,17 @@ namespace FireProtectionV1.FireWorking.Manager
     public interface IFaultManager : IDomainService
     {
         /// <summary>
-        /// 新增故障
+        /// 添加火警联网部件故障数据
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<AddDataOutput> AddNewFault(AddNewFaultInput input);
+        Task AddNewDetectorFault(AddNewDetectorFaultInput input);
         /// <summary>
-        /// 查询所有故障
-        /// </summary>
-        /// <returns></returns>
-        IQueryable<Fault> GetFaultDataAll();
-        /// <summary>
-        /// 查询指定年月故障
+        /// 查找某个月份的火警联网部件故障数据
         /// </summary>
         /// <param name="year"></param>
         /// <param name="month"></param>
         /// <returns></returns>
         IQueryable<Fault> GetFaultDataMonth(int year, int month);
-        /// <summary>
-        /// 查询待处理故障单位
-        /// </summary>
-        /// <returns></returns>
-        IQueryable<PendingFaultFireUnitOutput> GetPendingFaultFireUnits();
-        IQueryable<Fault> GetFaults(IQueryable<Detector> detectors, DateTime start, DateTime end);
     }
 }

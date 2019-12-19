@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FireProtectionV1.Common.Enum;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,44 +10,32 @@ namespace FireProtectionV1.FireWorking.Dto
     public class AlarmCheckInput
     {
         /// <summary>
-        /// 用户Id
+        /// 核警用户Id
         /// </summary>
         [Required]
-        public int UserId { get; set; }
+        public int CheckUserId { get; set; }
         /// <summary>
-        /// 警情Id
+        /// 火警联网数据Id
         /// </summary>
         [Required]
-        public int CheckId { get; set; }
+        public int FireAlarmId { get; set; }
         /// <summary>
-        /// 核实警状态(1:误报,2:测试,3:真实火警)
+        /// 核警状态(1:误报,2:测试,3:真实火警)
         /// </summary>
         [Required]
-        public byte CheckState { get; set; }
+        public CheckStateType CheckState { get; set; }
         /// <summary>
-        /// 检查情况
+        /// 核警情况描述
         /// </summary>
-        public string Content { get; set; }
+        public string CheckContent { get; set; }
         /// <summary>
-        /// 检查图片
+        /// 核警语音
         /// </summary>
-        public IFormFile Picture1 { get; set; }
+        public IFormFile CheckVoice { get; set; }
         /// <summary>
-        /// 检查图片
+        /// 核警语音长度
         /// </summary>
-        public IFormFile Picture2 { get; set; }
-        /// <summary>
-        /// 检查图片
-        /// </summary>
-        public IFormFile Picture3 { get; set; }
-        /// <summary>
-        /// 检查语音
-        /// </summary>
-        public IFormFile Voice { get; set; }
-        /// <summary>
-        /// 语音长度
-        /// </summary>
-        public UInt16 VoiceLength { get; set; }
+        public int CheckVoiceLength { get; set; }
         /// <summary>
         /// 通知工作人员
         /// </summary>
@@ -54,10 +43,6 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 通知微型消防站
         /// </summary>
-        public bool NotifyMiniaturefire { get; set; }
-        /// <summary>
-        /// 通知119
-        /// </summary>
-        public bool Notify119 { get; set; }
+        public bool NotifyMiniStation { get; set; }
     }
 }

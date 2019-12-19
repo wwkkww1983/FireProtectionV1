@@ -28,10 +28,6 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         public string Gateway_Type { get; set; }
         /// <summary>
-        /// 网关设备ID
-        /// </summary>
-        public int GatewayId { get; set; }
-        /// <summary>
         /// 网关编号
         /// </summary>
         public string Gateway_Sn { get; set; }

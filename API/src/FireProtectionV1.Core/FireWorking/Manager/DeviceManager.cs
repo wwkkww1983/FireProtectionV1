@@ -28,8 +28,8 @@ namespace FireProtectionV1.FireWorking.Manager
     public class DeviceManager : IDeviceManager
     {
         IRepository<FireAlarmDeviceProtocol> _repFireAlarmDeviceProtocol;
-        IRepository<FireElectricDeviceType> _repFireElectricDeviceType;
-        IRepository<FireAlarmDeviceType> _repFireAlarmDeviceType;
+        IRepository<FireElectricDeviceModel> _repFireElectricDeviceModel;
+        IRepository<FireAlarmDeviceModel> _repFireAlarmDeviceModel;
         IRepository<FireUnitArchitectureFloor> _repFireUnitArchitectureFloor;
         IRepository<FireUnitArchitecture> _repFireUnitArchitecture;
         IRepository<FireAlarmDevice> _repFireAlarmDevice;
@@ -41,16 +41,16 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<FireSystem> _fireSystemRep;
         IRepository<Fault> _faultRep;
         IRepository<AlarmToFire> _alarmToFireRep;
+        IRepository<AlarmToElectric> _repAlarmToElectric;
         IRepository<RecordOnline> _recordOnlineRep;
-        IRepository<RecordAnalog> _recordAnalogRep;
+        IRepository<FireElectricRecord> _repFireElectricRecord;
         IFireSettingManager _fireSettingManager;
         IRepository<DetectorType> _detectorTypeRep;
-        IRepository<Gateway> _gatewayRep;
-        IRepository<Detector> _detectorRep;
+        IRepository<FireAlarmDetector> _repFireAlarmDetector;
         public DeviceManager(
             IRepository<FireAlarmDeviceProtocol> repFireAlarmDeviceProtocol,
-            IRepository<FireElectricDeviceType> repFireElectricDeviceType,
-            IRepository<FireAlarmDeviceType> repFireAlarmDeviceType,
+            IRepository<FireElectricDeviceModel> repFireElectricDeviceModel,
+            IRepository<FireAlarmDeviceModel> repFireAlarmDeviceModel,
             IRepository<FireUnitArchitectureFloor> repFireUnitArchitectureFloor,
             IRepository<FireUnitArchitecture> repFireUnitArchitecture,
             IRepository<FireAlarmDevice> repFireAlarmDevice,
@@ -62,16 +62,16 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<FireSystem> fireSystemRep,
             IRepository<Fault> faultRep,
             IRepository<AlarmToFire> alarmToFireRep,
+            IRepository<AlarmToElectric> repAlarmToElectric,
             IRepository<RecordOnline> recordOnlineRep,
-            IRepository<RecordAnalog> recordAnalogRep,
+            IRepository<FireElectricRecord> repFireElectricRecord,
             IFireSettingManager fireSettingManager,
-            IRepository<Detector> detectorRep,
-             IRepository<DetectorType> detectorTypeRep,
-           IRepository<Gateway> gatewayRep)
+            IRepository<DetectorType> detectorTypeRep,
+            IRepository<FireAlarmDetector> repFireAlarmDetector)
         {
             _repFireAlarmDeviceProtocol = repFireAlarmDeviceProtocol;
-            _repFireElectricDeviceType = repFireElectricDeviceType;
-            _repFireAlarmDeviceType = repFireAlarmDeviceType;
+            _repFireElectricDeviceModel = repFireElectricDeviceModel;
+            _repFireAlarmDeviceModel = repFireAlarmDeviceModel;
             _repFireUnitArchitectureFloor = repFireUnitArchitectureFloor;
             _repFireUnitArchitecture = repFireUnitArchitecture;
             _repFireAlarmDevice = repFireAlarmDevice;
@@ -83,73 +83,77 @@ namespace FireProtectionV1.FireWorking.Manager
             _fireSystemRep = fireSystemRep;
             _faultRep = faultRep;
             _alarmToFireRep = alarmToFireRep;
+            _repAlarmToElectric = repAlarmToElectric;
             _recordOnlineRep = recordOnlineRep;
-            _recordAnalogRep = recordAnalogRep;
+            _repFireElectricRecord = repFireElectricRecord;
             _fireSettingManager = fireSettingManager;
             _detectorTypeRep = detectorTypeRep;
-            _detectorRep = detectorRep;
-            _gatewayRep = gatewayRep;
+            _repFireAlarmDetector = repFireAlarmDetector;
         }
-        public async Task<SuccessOutput> UpdateFireAlarmDetector(UpdateDetectorDto input)
+        /// <summary>
+        /// 修改火警联网设施的联网部件
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task UpdateFireAlarmDetector(UpdateDetectorDto input)
         {
-            try
-            {
-                var detector = await _detectorRep.GetAsync(input.DetectorId);
-                var detectortype = await _detectorTypeRep.FirstOrDefaultAsync(p => p.Name.Equals(input.DetectorTypeName));
-                detector.DetectorTypeId = detectortype == null ? 13 : detectortype.Id;
-                detector.FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId;
-                detector.Location = input.Location;
-                detector.Identify = input.Identify;
-            }
-            catch (Exception e)
-            {
-                return new SuccessOutput() { Success = false, FailCause = e.Message };
-            }
-            return new SuccessOutput() { Success = true };
-        }
-        public async Task<SuccessOutput> DeleteFireOrtherDevice(int DeviceId)
-        {
-            if (await _repFireOrtherDevice.FirstOrDefaultAsync(p => p.Id == DeviceId) == null)
-                return new SuccessOutput() { Success = false, FailCause = $"不存在ID为{DeviceId}的设备" };
-            await _repFireOrtherDevice.DeleteAsync(DeviceId);
-            return new SuccessOutput() { Success = true };
-        }
-        public async Task<SuccessOutput> DeleteFireElectricDevice(int DeviceId)
-        {
-            var device = await _repFireElectricDevice.FirstOrDefaultAsync(p => p.Id == DeviceId);
-            if (device == null)
-                return new SuccessOutput() { Success = false, FailCause = $"不存在ID为{DeviceId}的设备" };
-            await _repFireElectricDevice.DeleteAsync(DeviceId);
-            var gateway = await _gatewayRep.FirstOrDefaultAsync(device.GatewayId);
-            if (gateway != null)
-            {
-                await _detectorRep.DeleteAsync(p => p.GatewayId == gateway.Id);
-                await _gatewayRep.DeleteAsync(gateway);
-            }
-            return new SuccessOutput() { Success = true };
-        }
-        public async Task<SuccessOutput> DeleteFireAlarmDevice(int DeviceId)
-        {
-            var device = await _repFireAlarmDevice.FirstOrDefaultAsync(p => p.Id == DeviceId);
-            if (device == null)
-                return new SuccessOutput() { Success = false, FailCause = $"不存在ID为{DeviceId}的设备" };
-            await _repFireAlarmDevice.DeleteAsync(DeviceId);
-            var gateway = await _gatewayRep.FirstOrDefaultAsync(device.GatewayId);
-            if (gateway != null)
-            {
-                await _detectorRep.DeleteAsync(p => p.GatewayId == gateway.Id);
-                await _gatewayRep.DeleteAsync(gateway);
-            }
-            return new SuccessOutput() { Success = true };
-        }
+            var fireAlarmDetector = await _repFireAlarmDetector.GetAsync(input.DetectorId);
+            Valid.Exception(_repFireAlarmDetector.Count(item => item.FireAlarmDeviceId.Equals(fireAlarmDetector.FireAlarmDeviceId) && item.Identify.Equals(input.Identify) && !item.Id.Equals(input.DetectorId)) > 0,
+                $"部件地址{fireAlarmDetector.Identify}已存在");
 
-        public async Task<SuccessOutput> DeleteDetector(int DetectorId)
+            var fireAlarmDevice = await _repFireAlarmDevice.GetAsync(fireAlarmDetector.FireAlarmDeviceId);
+            var architectureName = _repFireUnitArchitecture.Get(fireAlarmDevice.FireUnitArchitectureId)?.Name;
+            var floorName = _repFireUnitArchitectureFloor.Get(input.FireUnitArchitectureFloorId)?.Name;
+            var detectortype = !string.IsNullOrEmpty(input.DetectorTypeName) ? await _detectorTypeRep.FirstOrDefaultAsync(p => p.Name.Equals(input.DetectorTypeName)) : null;
+
+            fireAlarmDetector.Identify = input.Identify;
+            fireAlarmDetector.DetectorTypeId = detectortype == null ? 13 : detectortype.Id;
+            fireAlarmDetector.FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId;
+            fireAlarmDetector.Location = input.Location;
+            fireAlarmDetector.FullLocation = architectureName + floorName + input.Location;
+
+            await _repFireAlarmDetector.UpdateAsync(fireAlarmDetector);
+        }
+        /// <summary>
+        /// 删除其它消防设施
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <returns></returns>
+        public async Task DeleteFireOrtherDevice(int deviceId)
         {
-            var detector = await _detectorRep.FirstOrDefaultAsync(DetectorId);
-            if (detector == null)
-                return new SuccessOutput() { Success = false, FailCause = "部件不存在" };
-            await _detectorRep.DeleteAsync(DetectorId);
-            return new SuccessOutput() { Success = true };
+            await _repFireOrtherDevice.DeleteAsync(deviceId);
+        }
+        /// <summary>
+        /// 删除电气火灾设施
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <returns></returns>
+        public async Task DeleteFireElectricDevice(int deviceId)
+        {
+            Valid.Exception(_repFireElectricRecord.Count(item => item.FireElectricDeviceId.Equals(deviceId)) > 0, "该设施已存在运行记录，不允许被删除");
+
+            await _repFireElectricDevice.DeleteAsync(deviceId);
+        }
+        /// <summary>
+        /// 删除火警联网设施
+        /// </summary>
+        /// <param name="DeviceId"></param>
+        /// <returns></returns>
+        public async Task DeleteFireAlarmDevice(int deviceId)
+        {
+            Valid.Exception(_alarmToFireRep.Count(item => item.FireAlarmDeviceId.Equals(deviceId)) > 0, "该火警联网设施存在历史火警记录，不允许删除");
+            Valid.Exception(_repFireAlarmDetector.Count(item => item.FireAlarmDeviceId.Equals(deviceId)) > 0, "该火警联网设施存在联网部件数据，不允许删除");
+
+            await _repFireAlarmDevice.DeleteAsync(deviceId);
+        }
+        /// <summary>
+        /// 删除火警联网部件
+        /// </summary>
+        /// <param name="detectorId"></param>
+        /// <returns></returns>
+        public async Task DeleteDetector(int detectorId)
+        {
+            await _repFireAlarmDetector.DeleteAsync(detectorId);
         }
         /// <summary>
         /// 添加火警联网部件
@@ -161,143 +165,95 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             var device = await _repFireAlarmDevice.FirstOrDefaultAsync(p => p.DeviceSn.Equals(detectorDto.DeviceSn));
             var detectortype = await _detectorTypeRep.FirstOrDefaultAsync(p => p.Name.Equals(detectorDto.DetectorTypeName));
-            var fireunitArchitecture = await _repFireUnitArchitecture.SingleAsync(d => d.Id.Equals(device.FireUnitArchitectureId));
-            var fireunitArchitectureFloor = await _repFireUnitArchitectureFloor.SingleAsync(d => d.Id.Equals(detectorDto.FireUnitArchitectureFloorId));
+            var fireunitArchitecture = await _repFireUnitArchitecture.FirstOrDefaultAsync(d => d.Id.Equals(device.FireUnitArchitectureId));
+            var fireunitArchitectureFloor = await _repFireUnitArchitectureFloor.FirstOrDefaultAsync(d => d.Id.Equals(detectorDto.FireUnitArchitectureFloorId));
             string architectureName = fireunitArchitecture == null ? "" : fireunitArchitecture.Name;
             string architectureFloorName = fireunitArchitectureFloor == null ? "" : fireunitArchitectureFloor.Name;
 
-            var id = await _detectorRep.InsertAndGetIdAsync(new Detector()
+            var id = await _repFireAlarmDetector.InsertAndGetIdAsync(new FireAlarmDetector()
             {
-                Origin = origin,
-                FireSysType = (byte)FireSysType.Fire,
                 DetectorTypeId = detectortype == null ? 13 : detectortype.Id,
                 Location = detectorDto.Location,
-                GatewayId = device.GatewayId,
                 FaultNum = 0,
                 FireUnitArchitectureFloorId = detectorDto.FireUnitArchitectureFloorId,
                 FireUnitId = device.FireUnitId,
                 Identify = detectorDto.Identify,
-                FullLocation = architectureName + architectureFloorName + detectorDto.Location
+                FullLocation = architectureName + architectureFloorName + detectorDto.Location,
+                FireAlarmDeviceId = device.Id,
+                State = FireAlarmDetectorState.Normal,
+                CreationTime = DateTime.Now
             });
             return new AddDeviceDetectorOutput() { Success = true, DetectorId = id };
         }
-        public async Task<GetFireAlarmDeviceDto> GetFireAlarmDevice(int DeviceId)
+        /// <summary>
+        /// 根据Id获取火警联网设施详情
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <returns></returns>
+        public async Task<GetFireAlarmDeviceDto> GetFireAlarmDevice(int deviceId)
         {
-            var device = await _repFireAlarmDevice.FirstOrDefaultAsync(p => p.Id == DeviceId);
-            if (device == null)
-                return new GetFireAlarmDeviceDto();
-            var gateway = await _gatewayRep.FirstOrDefaultAsync(p => p.Id == device.GatewayId);
-            if (gateway == null)
-                return new GetFireAlarmDeviceDto();
+            var device = await _repFireAlarmDevice.FirstOrDefaultAsync(p => p.Id == deviceId);
+
             var output = new GetFireAlarmDeviceDto()
             {
                 DataRate = "2小时",
                 NetComms = new List<string>() { "以太网", "WIFI", "NB-IoT" },
-                State = gateway.Status == GatewayStatus.Online ? "在线" : "离线",
+                State = device.State.Equals(GatewayStatus.Offline) ? "离线" : "在线",
                 Brand = device.Brand,
                 DeviceId = device.Id,
                 DeviceSn = device.DeviceSn,
-                DeviceType = device.DeviceType,
+                DeviceModel = device.DeviceModel,
                 FireUnitArchitectureId = device.FireUnitArchitectureId,
                 FireUnitId = device.FireUnitId,
                 NetDetectorNum = device.NetDetectorNum,
                 Protocol = device.Protocol,
-                NetComm = device.NetComm
+                NetComm = device.NetComm,
+                EnableAlarm = new List<string>(),
+                EnableFault = new List<string>()
             };
-            output.EnableAlarm = new List<string>();
-            output.EnableFault = new List<string>();
-            if (device.EnableAlarm)
+
+            if (device.EnableAlarmCloud)
                 output.EnableAlarm.Add("云端报警");
             if (device.EnableAlarmSwitch)
                 output.EnableAlarm.Add("发送开关量信号");
-            if (device.EnableFault)
+            if (device.EnableFaultCloud)
                 output.EnableFault.Add("云端报警");
             if (device.EnableFaultSwitch)
                 output.EnableFault.Add("发送开关量信号");
+
             return output;
         }
-        public async Task<SuccessOutput> UpdateFireAlarmDevice(UpdateFireAlarmDeviceDto input)
+        /// <summary>
+        /// 修改火警联网设施
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task UpdateFireAlarmDevice(UpdateFireAlarmDeviceDto input)
         {
             var device = await _repFireAlarmDevice.FirstOrDefaultAsync(p => p.Id == input.DeviceId);
-            if (device == null)
-                return new SuccessOutput() { Success = false, FailCause = $"不存在ID为{input.DeviceId}的设备" };
-            var gateway = await _gatewayRep.FirstOrDefaultAsync(p => p.Id == device.GatewayId);
-            if (gateway == null)
-                return new SuccessOutput() { Success = false, FailCause = $"ID为{input.DeviceId}的设备对应网关已被删除" };
+
             device.Brand = input.Brand;
             device.DeviceSn = input.DeviceSn;
-            device.DeviceType = input.DeviceType;
-            device.EnableAlarm = input.EnableAlarm.Contains("云端报警");
+            device.DeviceModel = input.DeviceModel;
+            device.EnableAlarmCloud = input.EnableAlarm.Contains("云端报警");
             device.EnableAlarmSwitch = input.EnableAlarm.Contains("发送开关量信号");
-            device.EnableFault = input.EnableFault.Contains("云端报警");
+            device.EnableFaultCloud = input.EnableFault.Contains("云端报警");
             device.EnableFaultSwitch = input.EnableFault.Contains("发送开关量信号");
             device.FireUnitArchitectureId = input.FireUnitArchitectureId;
             device.NetDetectorNum = input.NetDetectorNum;
             device.Protocol = input.Protocol;
             device.NetComm = input.NetComm;
+
             await _repFireAlarmDevice.UpdateAsync(device);
-            gateway.Identify = device.DeviceSn;
-            var arch = await _repFireUnitArchitecture.FirstOrDefaultAsync(p => p.Id == device.FireUnitArchitectureId);
-            if (arch != null)
-                gateway.Location = arch.Name;
-            return new SuccessOutput() { Success = true };
         }
-        public async Task<UpdateFireElectricDeviceDto> GetFireElectricDevice(int DeviceId)
+        /// <summary>
+        /// 根据Id获取电气火灾设施
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <returns></returns>
+        public async Task<FireElectricDevice> GetFireElectricDevice(int deviceId)
         {
-            var output = new UpdateFireElectricDeviceDto();
-            var device = await _repFireElectricDevice.FirstOrDefaultAsync(p => p.Id == DeviceId);
-            if (device == null)
-                return output;
-            var gateway = await _gatewayRep.FirstOrDefaultAsync(p => p.Id == device.GatewayId);
-            output.State = gateway.Status == GatewayStatus.Online ? device.State : "离线";
-            output.Location = device.Location;
-            output.FireUnitId = device.FireUnitId;
-            output.DeviceId = device.Id;
-            output.FireUnitArchitectureFloorId = device.FireUnitArchitectureFloorId;
-            output.FireUnitArchitectureId = device.FireUnitArchitectureId;
-            output.DeviceType = device.DeviceType;
-            output.DeviceSn = device.DeviceSn;
-            output.PhaseType = device.PhaseType;
-            output.DataRate = "2小时";
-            output.NetComms = new List<string>() { "以太网", "WIFI", "NB-IoT" };
-            output.NetComm = device.NetComm;
-            if (output.PhaseType.Equals("单相"))
-            {
-                SinglePhase singlePhase = JsonConvert.DeserializeObject<SinglePhase>(device.PhaseJson);
-                output.Lmin = singlePhase.Lmin;
-                output.Lmax = singlePhase.Lmax;
-                output.Nmin = singlePhase.Nmin;
-                output.Nmax = singlePhase.Nmax;
-                output.Amax = singlePhase.I0max;
-                output.Amin = singlePhase.I0min;
-            }
-            else if (output.PhaseType.Equals("三相"))
-            {
-                ThreePhase threePhase = JsonConvert.DeserializeObject<ThreePhase>(device.PhaseJson);
-                output.L1min = threePhase.L1min;
-                output.L1max = threePhase.L1max;
-                output.L2min = threePhase.L2min;
-                output.L2max = threePhase.L2max;
-                output.L3min = threePhase.L3min;
-                output.L3max = threePhase.L3max;
-                output.Nmin = threePhase.Nmin;
-                output.Nmax = threePhase.Nmax;
-                output.Amax = threePhase.I0max;
-                output.Amin = threePhase.I0min;
-            }
-            output.EnableAlarm = new List<string>();
-            output.MonitorItem = new List<string>();
-            if (device.EnableCloudAlarm)
-                output.EnableAlarm.Add("云端报警");
-            if (device.EnableEndAlarm)
-                output.EnableAlarm.Add("终端报警");
-            if (device.EnableAlarmSwitch)
-                output.EnableAlarm.Add("发送开关量信号");
-            if (device.ExistAmpere)
-                output.MonitorItem.Add("剩余电流");
-            if (device.ExistTemperature)
-                output.MonitorItem.Add("电缆温度");
-            return output;
+            return await _repFireElectricDevice.GetAsync(deviceId);
         }
         /// <summary>
         /// 获取电气火灾设备各种状态的数量
@@ -316,24 +272,6 @@ namespace FireProtectionV1.FireWorking.Manager
             };
             output.OnlineNum = output.BadNum + output.GoodNum + output.WarnNum;
             return Task.FromResult(output);
-
-            //var devices = from a in _repFireElectricDevice.GetAll().Where(p => p.FireUnitId == FireUnitId)
-            //              join b in _gatewayRep.GetAll().Where(p => p.FireUnitId == FireUnitId && p.FireSysType == (byte)FireSysType.Electric)
-            //              on a.GatewayId equals b.Id
-            //              select new
-            //              {
-            //                  b.Status,
-            //                  State = b.Status == GatewayStatus.Online ? a.State : "离线"
-            //              };
-
-            //return Task.FromResult(new GetFireElectricDeviceStateOutput()
-            //{
-            //    BadNum = devices.Where(p => p.State.Equals("隐患")).Count(),
-            //    GoodNum = devices.Where(p => p.State.Equals("良好")).Count(),
-            //    OfflineNum = devices.Count(p => p.Status != GatewayStatus.Online),
-            //    OnlineNum = devices.Count(p => p.Status == GatewayStatus.Online),
-            //    WarnNum = devices.Where(p => p.State.Equals("超限")).Count()
-            //});
         }
         /// <summary>
         /// 用于数据大屏：获取各类消防物联网设施的各种状态及数量
@@ -363,9 +301,9 @@ namespace FireProtectionV1.FireWorking.Manager
                 }
             };
 
-            var fireAlarmDevice = _gatewayRep.GetAll().Where(d => d.FireUnitId.Equals(fireUnitId) && d.FireSysType == (byte)FireSysType.Fire);
-            offlineNum = fireAlarmDevice.Count(p => p.Status.Equals(GatewayStatus.Offline));
-            onlineNum = fireAlarmDevice.Count(p => p.Status.Equals(GatewayStatus.Online));
+            var fireAlarmDevice = _repFireAlarmDevice.GetAll().Where(item => item.FireUnitId.Equals(fireUnitId));
+            offlineNum = fireAlarmDevice.Count(p => p.State.Equals(GatewayStatus.Offline));
+            onlineNum = fireAlarmDevice.Count(p => p.State.Equals(GatewayStatus.Online));
             var fireAlarmDeviceStatusForDataScreen = new GetDeviceStatusForDataScreenOutput()
             {
                 DeviceType = "火警联网设施",
@@ -399,248 +337,282 @@ namespace FireProtectionV1.FireWorking.Manager
 
             return Task.FromResult(lstOutput);
         }
-
-        public async Task<PagedResultDto<FireElectricDeviceItemDto>> GetFireElectricDeviceList(int fireUnitId, string state, PagedResultRequestDto dto)
+        /// <summary>
+        /// 获取指定防火单位的电气火灾设施列表
+        /// </summary>
+        /// <param name="fireUnitId">防火单位ID</param>
+        /// <param name="state">设备状态：null/""、在线、离线、良好、隐患、超限</param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public Task<PagedResultDto<FireElectricDeviceItemDto>> GetFireElectricDeviceList(int fireUnitId, string state, PagedResultRequestDto dto)
         {
-            var devices = _repFireElectricDevice.GetAll().Where(p => p.FireUnitId == fireUnitId);
-            var gateways = _gatewayRep.GetAll().Where(p => p.FireUnitId == fireUnitId && p.FireSysType == (byte)FireSysType.Electric);
-            if (state != null)
-            {
-                if (state.Equals("离线"))
-                    gateways = gateways.Where(p => p.Status != GatewayStatus.Online);
-                else
-                {
-                    gateways = gateways.Where(p => p.Status == GatewayStatus.Online);
-                    if (!string.IsNullOrEmpty(state))
-                        devices = devices.Where(p => p.State.Equals(state));
-                }
-            }
-            var detectors = _detectorRep.GetAll().Where(p => p.FireUnitId == fireUnitId).ToList();
-            var query0 = from a in devices
-                         join b0 in _repFireUnitArchitectureFloor.GetAll() on a.FireUnitArchitectureFloorId equals b0.Id into be
-                         from b in be.DefaultIfEmpty()
-                         join c0 in _repFireUnitArchitecture.GetAll() on a.FireUnitArchitectureId equals c0.Id into ce
-                         from c in ce.DefaultIfEmpty()
-                         join d in gateways on a.GatewayId equals d.Id
-                         orderby a.CreationTime descending
-                         let L = detectors.FirstOrDefault(p => p.GatewayId == a.GatewayId && p.Identify.Equals("L"))
-                         let N = detectors.FirstOrDefault(p => p.GatewayId == a.GatewayId && p.Identify.Equals("N"))
-                         let A = detectors.FirstOrDefault(p => p.GatewayId == a.GatewayId && p.Identify.Equals("I0"))
-                         let L1 = detectors.FirstOrDefault(p => p.GatewayId == a.GatewayId && p.Identify.Equals("L1"))
-                         let L2 = detectors.FirstOrDefault(p => p.GatewayId == a.GatewayId && p.Identify.Equals("L2"))
-                         let L3 = detectors.FirstOrDefault(p => p.GatewayId == a.GatewayId && p.Identify.Equals("L3"))
-                         select new FireElectricDeviceItemDto()
-                         {
-                             State = d.Status != GatewayStatus.Online ? "离线" : a.State,
-                             DeviceId = a.Id,
-                             DeviceSn = a.DeviceSn,
-                             FireUnitArchitectureFloorId = a.FireUnitArchitectureFloorId,
-                             FireUnitArchitectureFloorName = b == null ? "" : b.Name,
-                             FireUnitArchitectureId = a.FireUnitArchitectureId,
-                             FireUnitArchitectureName = c == null ? "" : c.Name,
-                             Location = a.Location,
-                             PhaseType = a.PhaseType,
-                             L = d.Status != GatewayStatus.Online ? "未知" : (L == null ? "" : L.State),
-                             N = d.Status != GatewayStatus.Online ? "未知" : (N == null ? "" : N.State),
-                             A = d.Status != GatewayStatus.Online ? "未知" : (A == null ? "" : A.State),
-                             L1 = d.Status != GatewayStatus.Online ? "未知" : (L1 == null ? "" : L1.State),
-                             L2 = d.Status != GatewayStatus.Online ? "未知" : (L2 == null ? "" : L2.State),
-                             L3 = d.Status != GatewayStatus.Online ? "未知" : (L3 == null ? "" : L3.State),
-                         };
+            var fireElectricDevices = _repFireElectricDevice.GetAll();
+            var expr = ExprExtension.True<FireElectricDevice>()
+                .IfAnd(fireUnitId != 0, item => item.FireUnitId.Equals(fireUnitId))
+                .IfAnd(state.Equals("在线"), item => !item.State.Equals(FireElectricDeviceState.Offline))
+                .IfAnd(state.Equals("离线"), item => item.State.Equals(FireElectricDeviceState.Offline))
+                .IfAnd(state.Equals("良好"), item => item.State.Equals(FireElectricDeviceState.Good))
+                .IfAnd(state.Equals("隐患"), item => item.State.Equals(FireElectricDeviceState.Danger))
+                .IfAnd(state.Equals("超限"), item => item.State.Equals(FireElectricDeviceState.Transfinite));
+            fireElectricDevices = fireElectricDevices.Where(expr);
 
-            var query = query0.ToList();
-            foreach (var v in query)
+            var fireUnitArchitectures = _repFireUnitArchitecture.GetAll();
+            var fireUnitArchitectureFloors = _repFireUnitArchitectureFloor.GetAll();
+            var fireElectricRecords = _repFireElectricRecord.GetAll().Where(item => item.FireUnitId.Equals(fireUnitId)).OrderByDescending(item => item.CreationTime);
+
+            var query = from a in fireElectricDevices
+                        join b in fireUnitArchitectures on a.FireUnitArchitectureId equals b.Id into result1
+                        from a_b in result1.DefaultIfEmpty()
+                        join c in fireUnitArchitectureFloors on a.FireUnitArchitectureFloorId equals c.Id into result2
+                        from a_c in result2.DefaultIfEmpty()
+                        let A = !a.State.Equals(FireElectricDeviceState.Offline) ? fireElectricRecords.FirstOrDefault(item => item.FireElectricDeviceId.Equals(a.Id) && item.Sign.Equals("A")) : null
+                        let L = !a.State.Equals(FireElectricDeviceState.Offline) ? fireElectricRecords.FirstOrDefault(item => item.FireElectricDeviceId.Equals(a.Id) && item.Sign.Equals("L")) : null
+                        let N = !a.State.Equals(FireElectricDeviceState.Offline) ? fireElectricRecords.FirstOrDefault(item => item.FireElectricDeviceId.Equals(a.Id) && item.Sign.Equals("N")) : null
+                        let L1 = !a.State.Equals(FireElectricDeviceState.Offline) ? fireElectricRecords.FirstOrDefault(item => item.FireElectricDeviceId.Equals(a.Id) && item.Sign.Equals("L1")) : null
+                        let L2 = !a.State.Equals(FireElectricDeviceState.Offline) ? fireElectricRecords.FirstOrDefault(item => item.FireElectricDeviceId.Equals(a.Id) && item.Sign.Equals("L2")) : null
+                        let L3 = !a.State.Equals(FireElectricDeviceState.Offline) ? fireElectricRecords.FirstOrDefault(item => item.FireElectricDeviceId.Equals(a.Id) && item.Sign.Equals("L3")) : null
+                        select new FireElectricDeviceItemDto()
+                        {
+                            DeviceId = a.Id,
+                            DeviceSn = a.DeviceSn,
+                            FireUnitArchitectureId = a_b != null ? a_b.Id : 0,
+                            FireUnitArchitectureName = a_b != null ? a_b.Name : "",
+                            FireUnitArchitectureFloorId = a_c != null ? a_c.Id : 0,
+                            FireUnitArchitectureFloorName = a_c != null ? a_c.Name : "",
+                            Location = a.Location,
+                            ExistAmpere = a.ExistAmpere,
+                            ExistTemperature = a.ExistTemperature,
+                            PhaseType = a.PhaseType,
+                            State = a.State,
+                            A = A != null ? A.Analog + "mA" : "未知",
+                            L = L != null ? L.Analog + "℃" : "未知",
+                            N = N != null ? N.Analog + "℃" : "未知",
+                            L1 = L1 != null ? L1.Analog + "℃" : "未知",
+                            L2 = L2 != null ? L2.Analog + "℃" : "未知",
+                            L3 = L3 != null ? L3.Analog + "℃" : "未知",
+                            CreationTime = a.CreationTime
+                        };
+
+            return Task.FromResult(new PagedResultDto<FireElectricDeviceItemDto>()
             {
-                v.MonitorItem = new List<string>();
-                var device = await _repFireElectricDevice.FirstOrDefaultAsync(v.DeviceId);
-                if (device.ExistAmpere)
-                    v.MonitorItem.Add("剩余电流");
-                if (device.ExistTemperature)
-                    v.MonitorItem.Add("电缆温度");
-            }
-            return await Task.Run<PagedResultDto<FireElectricDeviceItemDto>>(() =>
-            {
-                return new PagedResultDto<FireElectricDeviceItemDto>()
-                {
-                    Items = query.Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList(),
-                    TotalCount = query.Count()
-                };
+                Items = query.OrderByDescending(item => item.CreationTime).Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList(),
+                TotalCount = query.Count()
             });
         }
-        public async Task<PagedResultDto<FaultDetectorOutput>> GetFireAlarmFaultDetectorList(int DeviceId, PagedResultRequestDto dto)
+        /// <summary>
+        /// 获取某个火警联网设施下的故障部件列表
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<FaultDetectorOutput>> GetFireAlarmFaultDetectorList(int deviceId, PagedResultRequestDto dto)
         {
-            var device = await _repFireAlarmDevice.FirstOrDefaultAsync(p => p.Id == DeviceId);
-            if (device == null)
-                return new PagedResultDto<FaultDetectorOutput>()
-                {
-                    Items = new List<FaultDetectorOutput>(),
-                    TotalCount = 0
-                };
-            var fualtDetectors = from a in _detectorRep.GetAll().Where(p => p.GatewayId == device.GatewayId && p.FaultNum > 0)
-                                 join b0 in _faultRep.GetAll() on a.LastFaultId equals b0.Id into be
-                                 from b in be.DefaultIfEmpty()
-                                 select new
-                                 {
-                                     a,
-                                     b
-                                 };
-            List<FaultDetectorOutput> lst = new List<FaultDetectorOutput>();
-            foreach (var fault in fualtDetectors)
-            {
-                var type = await _detectorTypeRep.FirstOrDefaultAsync(fault.a.DetectorTypeId);
-                var floor = await _repFireUnitArchitectureFloor.FirstOrDefaultAsync(fault.a.FireUnitArchitectureFloorId);
-                FireUnitArchitecture arch = null;
-                if (floor != null)
-                    arch = await _repFireUnitArchitecture.FirstOrDefaultAsync(floor.ArchitectureId);
+            var device = await _repFireAlarmDevice.FirstOrDefaultAsync(p => p.Id == deviceId);
+            var fireUnitArchitecture = await _repFireUnitArchitecture.GetAsync(device.FireUnitArchitectureId);
 
-                lst.Add(new FaultDetectorOutput()
-                {
-                    State = fault.a.State,
-                    DetectorId = fault.a.Id,
-                    DetectorTypeName = type == null ? "" : type.Name,
-                    FaultContent = fault.b == null ? "" : fault.b.FaultRemark,
-                    FaultTime = fault.b == null ? "" : fault.b.CreationTime.ToString("yyyy-MM-dd"),
-                    FireUnitArchitectureFloorName = floor == null ? "" : floor.Name,
-                    FireUnitArchitectureFloorId = fault.a.FireUnitArchitectureFloorId,
-                    FireUnitArchitectureId = arch == null ? 0 : arch.Id,
-                    FireUnitArchitectureName = arch == null ? "" : arch.Name,
-                    Identify = fault.a.Identify,
-                    Location = fault.a.Location
-                });
-            }
+            var fireAlarmFaultDetectors = _repFireAlarmDetector.GetAll().Where(item => item.FireAlarmDeviceId.Equals(deviceId) && item.State.Equals(FireAlarmDetectorState.Fault));
+            var fireAlarmDetectorFaults = _faultRep.GetAll().Where(item => item.FireAlarmDeviceId.Equals(deviceId));
+            var detectorTypes = _detectorTypeRep.GetAll();
+            var fireUnitArchitectureFloors = _repFireUnitArchitectureFloor.GetAll();
+
+            var query = from a in fireAlarmFaultDetectors
+                        join b in detectorTypes on a.DetectorTypeId equals b.Id into result1
+                        from a_b in result1.DefaultIfEmpty()
+                        join c in fireUnitArchitectureFloors on a.FireUnitArchitectureFloorId equals c.Id into result2
+                        from a_c in result2.DefaultIfEmpty()
+                        select new FaultDetectorOutput()
+                        {
+                            DetectorId = a.Id,
+                            Identify = a.Identify,
+                            CreationTime = a.CreationTime,
+                            DetectorTypeName = a_b != null ? a_b.Name : "",
+                            Location = a.Location,
+                            FireUnitArchitectureId = fireUnitArchitecture != null ? fireUnitArchitecture.Id : 0,
+                            FireUnitArchitectureName = fireUnitArchitecture != null ? fireUnitArchitecture.Name : "",
+                            FireUnitArchitectureFloorId = a_c != null ? a_c.Id : 0,
+                            FireUnitArchitectureFloorName = a_c != null ? a_c.Name : "",
+                            State = "故障",
+                            FaultContent = a.LastFaultId > 0 ? fireAlarmDetectorFaults.FirstOrDefault(item => item.Id.Equals(a.LastFaultId)).FaultRemark : "",
+                            FaultTime = a.LastFaultId > 0 ? fireAlarmDetectorFaults.FirstOrDefault(item => item.Id.Equals(a.LastFaultId)).CreationTime.ToString() : "",
+                        };
+
             return new PagedResultDto<FaultDetectorOutput>()
             {
-                Items = lst.Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList(),
-                TotalCount = lst.Count
-            };
-        }
-        public async Task<PagedResultDto<GetFireAlarm30DayDto>> GetFireAlarm30DayList(int DeviceId, PagedResultRequestDto dto)
-        {
-            var device = await _repFireAlarmDevice.GetAsync(DeviceId);
-            var gateway = await _gatewayRep.FirstOrDefaultAsync(p => p.Id == device.GatewayId);
-            var alarm = _alarmToFireRep.GetAll().Where(p => p.GatewayId == device.GatewayId && p.CreationTime >= DateTime.Now.Date.AddDays(-30)).OrderByDescending(p => p.CreationTime);
-            var query = from a in alarm
-                        join b in _detectorRep.GetAll() on a.DetectorId equals b.Id
-                        join c in _detectorTypeRep.GetAll() on b.DetectorTypeId equals c.Id
-                        join d0 in _repFireUnitArchitectureFloor.GetAll() on b.FireUnitArchitectureFloorId equals d0.Id into de
-                        from d in de.DefaultIfEmpty()
-                        select new GetFireAlarm30DayDto()
-                        {
-                            AlarmTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                            DetectorTypeName = c.Name,
-                            FireUnitArchitectureFloorName = d == null ? "" : d.Name,
-                            Identify = b.Identify,
-                            Location = b.Location
-                        };
-            return await Task.Run<PagedResultDto<GetFireAlarm30DayDto>>(() =>
-            {
-                return new PagedResultDto<GetFireAlarm30DayDto>()
-                {
-                    Items = query.Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList(),
-                    TotalCount = query.Count()
-                };
-            });
-        }
-        public async Task<PagedResultDto<GetFireAlarmHighDto>> GetFireAlarmHighList(int DeviceId, PagedResultRequestDto dto)
-        {
-            int highFreq = int.Parse(ConfigHelper.Configuration["FireDomain:HighFreqAlarm"]);
-            var device = await _repFireAlarmDevice.GetAsync(DeviceId);
-            var gateway = await _gatewayRep.FirstOrDefaultAsync(p => p.Id == device.GatewayId);
-            var detectorHigh = _alarmToFireRep.GetAll().Where(p => p.GatewayId == device.GatewayId && p.CreationTime >= DateTime.Now.Date.AddDays(-30))
-            .GroupBy(p => p.DetectorId).Where(p => p.Count() > highFreq).Select(p => new
-            {
-                DetectorId = p.Key,
-                AlarmNum = p.Count()
-            }).ToList();
-            var query = from a in detectorHigh
-                        join b in _detectorRep.GetAll() on a.DetectorId equals b.Id
-                        join c in _detectorTypeRep.GetAll() on b.DetectorTypeId equals c.Id
-                        join d0 in _repFireUnitArchitectureFloor.GetAll() on b.FireUnitArchitectureFloorId equals d0.Id into de
-                        from d in de.DefaultIfEmpty()
-                        select new GetFireAlarmHighDto()
-                        {
-                            DetectorTypeName = c.Name,
-                            FireUnitArchitectureFloorName = d == null ? "" : d.Name,
-                            Identify = b.Identify,
-                            Location = b.Location,
-                            AlarmNum = a.AlarmNum
-                        };
-            return new PagedResultDto<GetFireAlarmHighDto>()
-            {
-                Items = query.Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList(),
+                Items = query.OrderByDescending(item => item.FaultTime).Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList(),
                 TotalCount = query.Count()
             };
         }
-        public async Task<PagedResultDto<FireAlarmDeviceItemDto>> GetFireAlarmDeviceList(int fireUnitId, PagedResultRequestDto dto)
+        /// <summary>
+        /// 获取火警联网设施最近30天的火警列表数据
+        /// </summary>
+        /// <param name="fireAlarmDeviceId"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public Task<PagedResultDto<GetFireAlarm30DayDto>> GetFireAlarm30DayList(int fireAlarmDeviceId, PagedResultRequestDto dto)
+        {
+            var alarmToFires = _alarmToFireRep.GetAll().Where(item => item.FireAlarmDeviceId == fireAlarmDeviceId && item.CreationTime >= DateTime.Now.AddDays(-30));
+            var fireAlarmDetectors = _repFireAlarmDetector.GetAll().Where(item => item.FireAlarmDeviceId == fireAlarmDeviceId);
+            var detectorTypes = _detectorTypeRep.GetAll();
+            var fireUnitArchitectureFloors = _repFireUnitArchitectureFloor.GetAll();
+
+            var query = from a in alarmToFires
+                        join b in fireAlarmDetectors on a.FireAlarmDeviceId equals b.Id
+                        join c in fireUnitArchitectureFloors on b.FireUnitArchitectureFloorId equals c.Id into result1
+                        from b_c in result1.DefaultIfEmpty()
+                        join d in detectorTypes on b.DetectorTypeId equals d.Id into result2
+                        from b_d in result2.DefaultIfEmpty()
+                        select new GetFireAlarm30DayDto()
+                        {
+                            AlarmTime = a.CreationTime,
+                            DetectorTypeName = b_d != null ? b_d.Name : "",
+                            FireUnitArchitectureFloorName = b_c != null ? b_c.Name : "",
+                            Identify = b.Identify,
+                            Location = b.Location
+                        };
+
+            return Task.FromResult(new PagedResultDto<GetFireAlarm30DayDto>()
+            {
+                Items = query.OrderByDescending(item => item.AlarmTime).Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList(),
+                TotalCount = query.Count()
+            });
+        }
+        /// <summary>
+        /// 获取指定火警联网设施ID的高频报警部件列表
+        /// </summary>
+        /// <param name="fireAlarmDeviceId"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public Task<PagedResultDto<GetFireAlarmHighDto>> GetFireAlarmHighList(int fireAlarmDeviceId, PagedResultRequestDto dto)
         {
             int highFreq = int.Parse(ConfigHelper.Configuration["FireDomain:HighFreqAlarm"]);
-            var groupGateway = _alarmToFireRep.GetAll().Where(p => p.FireUnitId == fireUnitId && p.CreationTime >= DateTime.Now.Date.AddDays(-30))
-            .GroupBy(p => p.GatewayId).Select(p => new
+
+            var lstDetectorHigh = _alarmToFireRep.GetAll().Where(item => item.FireAlarmDeviceId == fireAlarmDeviceId && item.CreationTime >= DateTime.Now.AddDays(-30))
+                .GroupBy(item => item.FireAlarmDetectorId).Where(item => item.Count() >= highFreq).Select(item => new
+                {
+                    FireAlarmDetectorId = item.Key,
+                    AlarmNum = item.Count()
+                }).ToList();
+            var fireAlarmDetectors = _repFireAlarmDetector.GetAll().Where(item => item.FireAlarmDeviceId == fireAlarmDeviceId);
+            var detectorTypes = _detectorTypeRep.GetAll();
+            var fireUnitArchitectureFloors = _repFireUnitArchitectureFloor.GetAll();
+
+            var query = from a in lstDetectorHigh
+                        join b in fireAlarmDetectors on a.FireAlarmDetectorId equals b.Id
+                        join c in detectorTypes on b.DetectorTypeId equals c.Id into result1
+                        from b_c in result1.DefaultIfEmpty()
+                        join d in fireUnitArchitectureFloors on b.FireUnitArchitectureFloorId equals d.Id into result2
+                        from b_d in result2.DefaultIfEmpty()
+                        select new GetFireAlarmHighDto()
+                        {
+                            Identify = b.Identify,
+                            DetectorTypeName = b_c != null ? b_c.Name : "",
+                            FireUnitArchitectureFloorName = b_d != null ? b_d.Name : "",
+                            Location = b.Location,
+                            AlarmNum = a.AlarmNum
+                        };
+
+            return Task.FromResult(new PagedResultDto<GetFireAlarmHighDto>()
             {
-                GatewayId = p.Key,
-                AlarmNum = p.Count(),
-                High = p.GroupBy(p1 => p1.DetectorId).Where(p1 => p1.Count() > highFreq).Count()
-            }).ToList();
-            var groupGtFault = _detectorRep.GetAll().Where(p => p.FireUnitId == fireUnitId).GroupBy(p => p.GatewayId).Select(p => new
+                Items = query.OrderByDescending(item => item.AlarmNum).Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList(),
+                TotalCount = query.Count()
+            });
+        }
+        /// <summary>
+        /// 获取指定防火单位ID的火警联网设施列表
+        /// </summary>
+        /// <param name="fireUnitId">防火单位ID</param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public Task<PagedResultDto<FireAlarmDeviceItemDto>> GetFireAlarmDeviceList(int fireUnitId, PagedResultRequestDto dto)
+        {
+            int highFreq = int.Parse(ConfigHelper.Configuration["FireDomain:HighFreqAlarm"]);
+
+            var fireAlarmDevices = _repFireAlarmDevice.GetAll().Where(item => item.FireUnitId.Equals(fireUnitId));
+            var fireUnitArchitectures = _repFireUnitArchitecture.GetAll();
+
+            // 30天火警数量及高频报警部件数量
+            var groupFireAlarm = _alarmToFireRep.GetAll().Where(item => item.FireUnitId == fireUnitId && item.CreationTime >= DateTime.Now.AddDays(-30))
+                .GroupBy(item => item.FireAlarmDeviceId).Select(p => new
+                {
+                    FireAlarmDeviceId = p.Key,
+                    AlarmNum = p.Count(),
+                    HighDeviceNum = p.GroupBy(p1 => p1.FireAlarmDetectorId).Where(p1 => p1.Count() > highFreq).Count()
+                }).ToList();
+            // 故障部件数量及部件故障率
+            var groupGtFault = _repFireAlarmDetector.GetAll().Where(p => p.FireUnitId == fireUnitId).GroupBy(p => p.FireAlarmDeviceId).Select(p => new
             {
-                GatewayId = p.Key,
+                FireAlarmDeviceId = p.Key,
                 FaultNum = p.Where(p1 => p1.FaultNum > 0).Count(),
                 FaultRate = p.Count() == 0 ? "0%" : (p.Where(p1 => p1.FaultNum > 0).Count() / (double)p.Count()).ToString("P")
             }).ToList();
 
-            var query = from a in _repFireAlarmDevice.GetAll().Where(p => p.FireUnitId == fireUnitId)
-                        join b in _gatewayRep.GetAll().Where(p => p.FireUnitId == fireUnitId)
-                        on a.GatewayId equals b.Id
-                        join c in _repFireUnitArchitecture.GetAll()
-                        on a.FireUnitArchitectureId equals c.Id
-                        join d0 in groupGateway
-                        on b.Id equals d0.GatewayId into dj
-                        from d in dj.DefaultIfEmpty()
-                        join e0 in groupGtFault
-                        on b.Id equals e0.GatewayId into ej
-                        from e in ej.DefaultIfEmpty()
-                        orderby a.CreationTime descending
+            var query = from a in fireAlarmDevices
+                        join b in groupGtFault on a.Id equals b.FireAlarmDeviceId into result1
+                        from a_b in result1.DefaultIfEmpty()
+                        join c in groupFireAlarm on a.Id equals c.FireAlarmDeviceId into result2
+                        from a_c in result2.DefaultIfEmpty()
+                        join d in fireUnitArchitectures on a.FireUnitArchitectureId equals d.Id into result3
+                        from a_d in result3.DefaultIfEmpty()
                         select new FireAlarmDeviceItemDto()
                         {
                             DeviceId = a.Id,
                             DeviceSn = a.DeviceSn,
-                            State = b.Status == GatewayStatus.Online ? "在线" : "离线",
-                            FireUnitArchitectureId = a.FireUnitArchitectureId,
-                            FireUnitArchitectureName = c.Name,
+                            State = a.State.Equals(GatewayStatus.Offline) ? "离线" : "在线",
+                            FireUnitArchitectureId = a_d != null ? a_d.Id : 0,
+                            FireUnitArchitectureName = a_d != null ? a_d.Name : "",
                             NetDetectorNum = a.NetDetectorNum,
-                            AlarmNum30Day = d == null ? 0 : d.AlarmNum,
-                            HighAlarmDetectorNum = d == null ? 0 : d.High,
-                            DetectorFaultRate = e == null ? "0%" : e.FaultRate,
-                            FaultDetectorNum = e == null ? 0 : e.FaultNum
+                            FaultDetectorNum = a_b != null ? a_b.FaultNum : 0,
+                            DetectorFaultRate = a_b != null ? a_b.FaultRate : "0%",
+                            AlarmNum30Day = a_c != null ? a_c.AlarmNum : 0,
+                            HighAlarmDetectorNum = a_c != null ? a_c.HighDeviceNum : 0,
+                            CreationTime = a.CreationTime
                         };
-            return await Task.Run<PagedResultDto<FireAlarmDeviceItemDto>>(() =>
+
+            return Task.FromResult(new PagedResultDto<FireAlarmDeviceItemDto>()
             {
-                return new PagedResultDto<FireAlarmDeviceItemDto>()
-                {
-                    Items = query.Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList(),
-                    TotalCount = query.Count()
-                };
+                Items = query.OrderByDescending(item => item.CreationTime).Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList(),
+                TotalCount = query.Count()
             });
         }
-        public async Task<PagedResultDto<DetectorDto>> GetDeviceDetectorList(string DeviceSn, PagedResultRequestDto dto)
+        /// <summary>
+        /// 根据火警联网设备Id获取其下的部件列表
+        /// </summary>
+        /// <param name="fireAlarmDeviceId"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<FireAlarmDetectorDto>> GetDeviceDetectorList(int fireAlarmDeviceId, PagedResultRequestDto dto)
         {
-            var device = await _repFireAlarmDevice.FirstOrDefaultAsync(p => p.DeviceSn.Equals(DeviceSn));
-            if (device == null)
-                return new PagedResultDto<DetectorDto>()
-                {
-                    Items = new List<DetectorDto>(),
-                    TotalCount = 0
-                };
-            var detectors = _detectorRep.GetAll().Where(p => p.GatewayId == device.GatewayId).OrderByDescending(p => p.CreationTime);
-            List<DetectorDto> lst = new List<DetectorDto>();
-            foreach (var v in detectors)
+            var fireAlarmDevice = await _repFireAlarmDevice.GetAsync(fireAlarmDeviceId);
+            Valid.Exception(fireAlarmDevice == null, "未找到对应的火警联网设施");
+            var fireUnitArchitecture = await _repFireUnitArchitecture.GetAsync(fireAlarmDevice.FireUnitArchitectureId);
+
+            var fireAlarmDetectors = _repFireAlarmDetector.GetAll().Where(item => item.FireAlarmDeviceId == fireAlarmDeviceId);
+            var detectorTypes = _detectorTypeRep.GetAll();
+            var fireUnitArchitectureFloors = _repFireUnitArchitectureFloor.GetAll();
+
+            var query = from a in fireAlarmDetectors
+                        join b in detectorTypes on a.DetectorTypeId equals b.Id into result1
+                        from a_b in result1.DefaultIfEmpty()
+                        join c in fireUnitArchitectureFloors on a.FireUnitArchitectureFloorId equals c.Id into result2
+                        from a_c in result2.DefaultIfEmpty()
+                        select new FireAlarmDetectorDto()
+                        {
+                            DetectorId = a.Id,
+                            DetectorTypeName = a_b != null ? a_b.Name : "",
+                            FireUnitArchitectureId = fireUnitArchitecture != null ? fireUnitArchitecture.Id : 0,
+                            FireUnitArchitectureName = fireUnitArchitecture != null ? fireUnitArchitecture.Name : "",
+                            FireUnitArchitectureFloorId = a_c != null ? a_c.Id : 0,
+                            FireUnitArchitectureFloorName = a_c != null ? a_c.Name : "",
+                            Identify = a.Identify,
+                            Location = a.Location,
+                            State = a.State.Equals(FireAlarmDetectorState.Fault) ? "故障" : "正常",
+                            CreationTime = a.CreationTime
+                        };
+
+            return new PagedResultDto<FireAlarmDetectorDto>()
             {
-                lst.Add(await GetDeviceDetector(v.Id));
-            }
-            return new PagedResultDto<DetectorDto>()
-            {
-                Items = lst.Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList(),
-                TotalCount = lst.Count
+                Items = query.OrderByDescending(item => item.CreationTime).Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList(),
+                TotalCount = query.Count()
             };
         }
         /// <summary>
@@ -650,102 +622,107 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="fireUnitId"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<GatewayStatusOutput>> GetFireUnitGatewaysStatus(int fireSysType, int fireUnitId, PagedResultRequestDto dto)
-        {
-            var status = _gatewayRep.GetAll().Where(p => p.FireSysType == fireSysType && p.FireUnitId == fireUnitId).Select(p => new GatewayStatusOutput()
-            {
-                Gateway = p.Identify,
-                Location = p.Location,
-                Status = GatewayStatusNames.GetName(p.Status)
-            });
-            return await Task.Run<PagedResultDto<GatewayStatusOutput>>(() =>
-            {
-                return new PagedResultDto<GatewayStatusOutput>()
-                {
-                    TotalCount = status.Count(),
-                    Items = status.Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList()
-                };
-            });
-        }
+        //public async Task<PagedResultDto<GatewayStatusOutput>> GetFireUnitGatewaysStatus(int fireSysType, int fireUnitId, PagedResultRequestDto dto)
+        //{
+        //    var status = _gatewayRep.GetAll().Where(p => p.FireSysType == fireSysType && p.FireUnitId == fireUnitId).Select(p => new GatewayStatusOutput()
+        //    {
+        //        Gateway = p.Identify,
+        //        Location = p.Location,
+        //        Status = GatewayStatusNames.GetName(p.Status)
+        //    });
+        //    return await Task.Run<PagedResultDto<GatewayStatusOutput>>(() =>
+        //    {
+        //        return new PagedResultDto<GatewayStatusOutput>()
+        //        {
+        //            TotalCount = status.Count(),
+        //            Items = status.Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList()
+        //        };
+        //    });
+        //}
         /// <summary>
         /// 非模拟量探测器历史记录
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<RecordUnAnalogOutput> GetRecordUnAnalog(GetRecordDetectorInput input)
-        {
-            var output = new RecordUnAnalogOutput();
-            var detector = await _detectorRep.SingleAsync(p => p.Id == input.DetectorId);
-            var detectorType = await _detectorTypeRep.SingleAsync(p => p.Id == detector.DetectorTypeId);
-            output.Name = detectorType.Name;
-            output.Location = detector.Location;
-            var state = _recordOnlineRep.GetAll().Where(p => p.DetectorId == input.DetectorId).OrderByDescending(p => p.CreationTime).FirstOrDefault();
-            if (state != null)
-            {
-                output.State = GatewayStatusNames.GetName((GatewayStatus)state.State);
-                output.LastTimeStateChange = state.CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
-            }
-            List<string> dates = new List<string>();
-            for (DateTime dt = input.Start; dt <= input.End; dt = dt.AddDays(1))
-            {
-                dates.Add(dt.ToString("yyyy-MM-dd"));
-            }
-            var onlines = from a in dates
-                          join b in _recordOnlineRep.GetAll().Where(p => p.DetectorId == input.DetectorId && p.State == (sbyte)GatewayStatus.Offline && p.CreationTime >= input.Start && p.CreationTime <= input.End)
-                          .GroupBy(p => p.CreationTime.ToString("yyyy-MM-dd"))
-                          on a equals b.Key into u
-                          from c in u.DefaultIfEmpty()
-                          select new
-                          {
-                              Time = a,
-                              Count = c == null ? 0 : c.Count()
-                          };
-            var gatawayDetector = _detectorRep.Single(p => p.Id == input.DetectorId);
-            var gatway = _gatewayRep.Single(p => p.Identify == gatawayDetector.Identify && p.Origin == gatawayDetector.Origin);
-            IQueryable<Detector> detectors = _detectorRep.GetAll().Where(p => p.GatewayId == gatway.Id);
-            //报警包括UITD和下属部件的报警
-            var alarmTofires = from a in detectors
-                               join b in _alarmToFireRep.GetAll().Where(p => p.CreationTime >= input.Start && p.CreationTime <= input.End)
-                               on a.Id equals b.DetectorId
-                               select b;
-            var alarms = from a in dates
-                         join b in alarmTofires.GroupBy(p => p.CreationTime.ToString("yyyy-MM-dd"))
-                         on a equals b.Key into u
-                         from c in u.DefaultIfEmpty()
-                         select new
-                         {
-                             Time = a,
-                             Count = c == null ? 0 : c.Count()
-                         };
-            var faultdatas = from a in detectors
-                             join b in _faultRep.GetAll().Where(p => p.CreationTime >= input.Start && p.CreationTime <= input.End)
-                             on a.Id equals b.DetectorId
-                             select b;
-            var faults = from a in dates
-                         join b in faultdatas.GroupBy(p => p.CreationTime.ToString("yyyy-MM-dd"))
-                         on a equals b.Key into u
-                         from c in u.DefaultIfEmpty()
-                         select new
-                         {
-                             Time = a,
-                             Count = c == null ? 0 : c.Count()
-                         };
-            int m = faults.Count();
-            int m2 = alarms.Count();
-            output.UnAnalogTimes = (from a in onlines
-                                    join b in alarms
-                                    on a.Time equals b.Time
-                                    join c in faults
-                                    on b.Time equals c.Time
-                                    select new UnAnalogTime()
-                                    {
-                                        Time = a.Time,
-                                        OfflineCount = a.Count,
-                                        AlarmCount = b.Count,
-                                        FaultCount = c.Count
-                                    }).ToList();
-            return output;
-        }
+        //public async Task<RecordUnAnalogOutput> GetRecordUnAnalog(GetRecordDetectorInput input)
+        //{
+        //    var output = new RecordUnAnalogOutput();
+        //    var detector = await _repFireAlarmDetector.SingleAsync(p => p.Id == input.DetectorId);
+        //    var detectorType = await _detectorTypeRep.SingleAsync(p => p.Id == detector.DetectorTypeId);
+        //    output.Name = detectorType.Name;
+        //    output.Location = detector.Location;
+        //    var state = _recordOnlineRep.GetAll().Where(p => p.DetectorId == input.DetectorId).OrderByDescending(p => p.CreationTime).FirstOrDefault();
+        //    if (state != null)
+        //    {
+        //        output.State = GatewayStatusNames.GetName((GatewayStatus)state.State);
+        //        output.LastTimeStateChange = state.CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
+        //    }
+        //    List<string> dates = new List<string>();
+        //    for (DateTime dt = input.Start; dt <= input.End; dt = dt.AddDays(1))
+        //    {
+        //        dates.Add(dt.ToString("yyyy-MM-dd"));
+        //    }
+        //    var onlines = from a in dates
+        //                  join b in _recordOnlineRep.GetAll().Where(p => p.DetectorId == input.DetectorId && p.State == (sbyte)GatewayStatus.Offline && p.CreationTime >= input.Start && p.CreationTime <= input.End)
+        //                  .GroupBy(p => p.CreationTime.ToString("yyyy-MM-dd"))
+        //                  on a equals b.Key into u
+        //                  from c in u.DefaultIfEmpty()
+        //                  select new
+        //                  {
+        //                      Time = a,
+        //                      Count = c == null ? 0 : c.Count()
+        //                  };
+        //    var gatawayDetector = _repFireAlarmDetector.Single(p => p.Id == input.DetectorId);
+        //    var gatway = _gatewayRep.Single(p => p.Identify == gatawayDetector.Identify && p.Origin == gatawayDetector.Origin);
+        //    IQueryable<Detector> detectors = _repFireAlarmDetector.GetAll().Where(p => p.FireAlarmDeviceId == gatway.Id);
+        //    //报警包括UITD和下属部件的报警
+        //    var alarmTofires = from a in detectors
+        //                       join b in _alarmToFireRep.GetAll().Where(p => p.CreationTime >= input.Start && p.CreationTime <= input.End)
+        //                       on a.Id equals b.FireAlarmDetectorId
+        //                       select b;
+        //    var alarms = from a in dates
+        //                 join b in alarmTofires.GroupBy(p => p.CreationTime.ToString("yyyy-MM-dd"))
+        //                 on a equals b.Key into u
+        //                 from c in u.DefaultIfEmpty()
+        //                 select new
+        //                 {
+        //                     Time = a,
+        //                     Count = c == null ? 0 : c.Count()
+        //                 };
+        //    var faultdatas = from a in detectors
+        //                     join b in _faultRep.GetAll().Where(p => p.CreationTime >= input.Start && p.CreationTime <= input.End)
+        //                     on a.Id equals b.DetectorId
+        //                     select b;
+        //    var faults = from a in dates
+        //                 join b in faultdatas.GroupBy(p => p.CreationTime.ToString("yyyy-MM-dd"))
+        //                 on a equals b.Key into u
+        //                 from c in u.DefaultIfEmpty()
+        //                 select new
+        //                 {
+        //                     Time = a,
+        //                     Count = c == null ? 0 : c.Count()
+        //                 };
+        //    int m = faults.Count();
+        //    int m2 = alarms.Count();
+        //    output.UnAnalogTimes = (from a in onlines
+        //                            join b in alarms
+        //                            on a.Time equals b.Time
+        //                            join c in faults
+        //                            on b.Time equals c.Time
+        //                            select new UnAnalogTime()
+        //                            {
+        //                                Time = a.Time,
+        //                                OfflineCount = a.Count,
+        //                                AlarmCount = b.Count,
+        //                                FaultCount = c.Count
+        //                            }).ToList();
+        //    return output;
+        //}
+        /// <summary>
+        /// 获取电气火灾监测单个项目的模拟量趋势
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<GetRecordElectricOutput> GetRecordElectric(GetRecordElectricInput input)
         {
             DateTime end = DateTime.Now;
@@ -757,161 +734,174 @@ namespace FireProtectionV1.FireWorking.Manager
             if (input.Start != null && input.Start.Ticks != 0)
             {
                 start = input.Start;
-
             }
+
+            var fireElectricDevice = await _repFireElectricDevice.GetAsync(input.DeviceId);
+            var records = _repFireElectricRecord.GetAll().Where(item => item.FireElectricDeviceId.Equals(input.DeviceId) && item.Sign.Equals(input.Sign) && item.CreationTime >= start && item.CreationTime <= end);
+
             var output = new GetRecordElectricOutput();
-            try
+            if (input.Sign.Equals("A"))
             {
-                var device = await _repFireElectricDevice.FirstOrDefaultAsync(p => p.Id == input.DeviceId);
-                var detector = await _detectorRep.FirstOrDefaultAsync(p => p.Identify.Equals(input.Identify) && p.GatewayId == device.GatewayId);
-                if (input.Identify.Equals("剩余电流"))
-                    detector = await _detectorRep.FirstOrDefaultAsync(p => p.Identify.Equals("I0") && p.GatewayId == device.GatewayId);
-                if (detector == null)
-                    return output;
-                JObject jObject = JObject.Parse(device.PhaseJson);
-                if (input.Identify.Equals("L") || input.Identify.Equals("L1") || input.Identify.Equals("L2") || input.Identify.Equals("L3") || input.Identify.Equals("N"))
-                {
-                    output.Unit = "℃";
-                    output.MonitorItemName = "电缆温度 " + input.Identify;
-                    output.Min = jObject[$"{input.Identify}min"].ToString();
-                    output.Max = jObject[$"{input.Identify}max"].ToString();
-                }
-                else if (input.Identify.Equals("剩余电流"))
-                {
-                    output.Unit = "mA";
-                    output.MonitorItemName = "剩余电流";
-                    output.Min = jObject["I0min"].ToString();
-                    output.Max = jObject["I0max"].ToString();
-                }
-                output.AnalogTimes = _recordAnalogRep.GetAll().Where(p => p.DetectorId == detector.Id && p.CreationTime >= start && p.CreationTime <= end).OrderByDescending(p => p.CreationTime).Select(p =>
-                               new AnalogTime() { Time = p.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"), Value = p.Analog }).ToList();
-                return output;
-
+                output.MonitorItemName = "剩余电流";
+                output.Unit = "mA";
+                output.Min = fireElectricDevice.MinAmpere;
+                output.Max = fireElectricDevice.MaxAmpere;
             }
-            catch (Exception e)
+            else
             {
-                return new GetRecordElectricOutput();
+                output.MonitorItemName = "电缆温度";
+                output.Unit = "℃";
+                switch (input.Sign)
+                {
+                    case "N":
+                        output.Min = fireElectricDevice.MinN;
+                        output.Max = fireElectricDevice.MaxN;
+                        break;
+                    case "L":
+                        output.Min = fireElectricDevice.MinL;
+                        output.Max = fireElectricDevice.MaxL;
+                        break;
+                    case "L1":
+                        output.Min = fireElectricDevice.MinL1;
+                        output.Max = fireElectricDevice.MaxL1;
+                        break;
+                    case "L2":
+                        output.Min = fireElectricDevice.MinL2;
+                        output.Max = fireElectricDevice.MaxL2;
+                        break;
+                    case "L3":
+                        output.Min = fireElectricDevice.MinL3;
+                        output.Max = fireElectricDevice.MaxL3;
+                        break;
+                }
             }
+            output.lstAnalogData = records.OrderByDescending(item => item.CreationTime)
+                .Select(item => new AnalogData()
+                {
+                    Time = item.CreationTime,
+                    Value = item.Analog
+                }).ToList();
 
+            return output;
         }
         /// <summary>
         /// 模拟量探测器历史记录
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<RecordAnalogOutput> GetRecordAnalog(GetRecordDetectorInput input)
-        {
-            var output = new RecordAnalogOutput();
-            var detector = await _detectorRep.SingleAsync(p => p.Id == input.DetectorId);
-            var detectorType = await _detectorTypeRep.SingleAsync(p => p.Id == detector.DetectorTypeId);
-            output.Name = detectorType.Name;
-            output.Location = detector.Location;
-            var state = _recordOnlineRep.GetAll().Where(p => p.DetectorId == input.DetectorId).OrderByDescending(p => p.CreationTime).FirstOrDefault();
-            if (state != null)
-            {
-                output.State = GatewayStatusNames.GetName((GatewayStatus)state.State);
-                output.LastTimeStateChange = state.CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
-            }
-            //output.AnalogTimes = _recordAnalogRep.GetAll().Where(p => p.DetectorId == input.DetectorId).OrderByDescending(p => p.CreationTime).Take(10).Select(p =>
-            //       new AnalogTime() { Time = p.CreationTime.ToString("HH:mm:ss"), Value = p.Analog }).ToList();
-            output.AnalogTimes = _recordAnalogRep.GetAll().Where(p => p.DetectorId == input.DetectorId).OrderByDescending(p => p.CreationTime).Select(p =>
-                   new AnalogTime() { Time = p.CreationTime.ToString("HH:mm:ss"), Value = p.Analog }).ToList();
-            return output;
-        }
+        //public async Task<RecordAnalogOutput> GetRecordAnalog(GetRecordDetectorInput input)
+        //{
+        //    var output = new RecordAnalogOutput();
+        //    var detector = await _detectorRep.SingleAsync(p => p.Id == input.DetectorId);
+        //    var detectorType = await _detectorTypeRep.SingleAsync(p => p.Id == detector.DetectorTypeId);
+        //    output.Name = detectorType.Name;
+        //    output.Location = detector.Location;
+        //    var state = _recordOnlineRep.GetAll().Where(p => p.DetectorId == input.DetectorId).OrderByDescending(p => p.CreationTime).FirstOrDefault();
+        //    if (state != null)
+        //    {
+        //        output.State = GatewayStatusNames.GetName((GatewayStatus)state.State);
+        //        output.LastTimeStateChange = state.CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
+        //    }
+        //    //output.AnalogTimes = _recordAnalogRep.GetAll().Where(p => p.DetectorId == input.DetectorId).OrderByDescending(p => p.CreationTime).Take(10).Select(p =>
+        //    //       new AnalogTime() { Time = p.CreationTime.ToString("HH:mm:ss"), Value = p.Analog }).ToList();
+        //    output.AnalogTimes = _recordAnalogRep.GetAll().Where(p => p.DetectorId == input.DetectorId).OrderByDescending(p => p.CreationTime).Select(p =>
+        //           new AnalogTime() { Time = p.CreationTime.ToString("HH:mm:ss"), Value = p.Analog }).ToList();
+        //    return output;
+        //}
         /// <summary>
         /// 获取防火单位的终端状态
         /// </summary>
         /// <param name="fireUnitId"></param>
         /// <returns></returns>
-        public async Task<PagedResultDeviceDto<EndDeviceStateOutput>> GetFireUnitEndDeviceState(int fireUnitId, int option, PagedResultRequestDto dto)
-        {
-            var uitd = (from a in _detectorRep.GetAll().Where(p => p.FireUnitId == fireUnitId && p.DetectorTypeId == GetDetectorType((byte)UnitType.UITD).Id
-                       && (option == 0 ? true : (option == -1 ? p.State.Equals("离线") : !p.State.Equals("离线"))))
-                        join b in _detectorTypeRep.GetAll()
-                        on a.DetectorTypeId equals b.Id
-                        select new EndDeviceStateOutput()
-                        {
-                            DetectorId = a.Id,
-                            IsAnalog = false,
-                            Name = b.Name,
-                            Location = a.Location,
-                            StateName = a.State,
-                            Analog = "-",
-                            Standard = "-"
-                        }).ToList();
-            var tem = (from a in _detectorRep.GetAll().Where(p => p.FireUnitId == fireUnitId && p.DetectorTypeId == GetDetectorType((byte)UnitType.ElectricTemperature).Id
-                         && (option == 0 ? true : (option == -1 ? p.State.Equals("离线") : !p.State.Equals("离线"))))
-                       join b in _detectorTypeRep.GetAll()
-                        on a.DetectorTypeId equals b.Id
-                       select new EndDeviceStateOutput()
-                       {
-                           IsAnalog = true,
-                           DetectorId = a.Id,
-                           Name = b.Name,
-                           Location = a.Location,
-                           StateName = a.State.Equals("离线") ? "离线" : "在线",
-                           Analog = a.State.Equals("离线") ? "-" : a.State
-                       }).ToList();
-            var setTem = await _fireSettingManager.GetByName("CableTemperature");
-            foreach (var v in tem)
-            {
-                v.Standard = $"<={setTem.MaxValue}℃";
-                double an;
-                v.IsOverRange = double.TryParse(v.Analog, out an) ? an > setTem.MaxValue : false;
-            }
-            var ele = (from a in _detectorRep.GetAll().Where(p => p.FireUnitId == fireUnitId && p.DetectorTypeId == GetDetectorType((byte)UnitType.ElectricResidual).Id
-                       && (option == 0 ? true : (option == -1 ? p.State.Equals("离线") : !p.State.Equals("离线"))))
-                       join b in _detectorTypeRep.GetAll()
-                       on a.DetectorTypeId equals b.Id
-                       select new EndDeviceStateOutput()
-                       {
-                           IsAnalog = true,
-                           DetectorId = a.Id,
-                           Name = b.Name,
-                           Location = a.Location,
-                           StateName = a.State.Equals("离线") ? "离线" : "在线",
-                           Analog = a.State.Equals("离线") ? "-" : a.State
-                       }).ToList();
-            var setEle = await _fireSettingManager.GetByName("ResidualCurrent");
-            foreach (var v in ele)
-            {
-                v.Standard = $"<={setEle.MaxValue}mA";
-                double an;
-                v.IsOverRange = double.TryParse(v.Analog, out an) ? an > setEle.MaxValue : false;
-            }
-            var lst = uitd.Union(tem).Union(ele).ToList();
-            return new PagedResultDeviceDto<EndDeviceStateOutput>()
-            {
-                OfflineCount = lst.Count(p => string.IsNullOrEmpty(p.StateName) || p.StateName.Equals("离线")),
-                TotalCount = lst.Count,
-                Items = lst.Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList()
-            };
-        }
+        //public async Task<PagedResultDeviceDto<EndDeviceStateOutput>> GetFireUnitEndDeviceState(int fireUnitId, int option, PagedResultRequestDto dto)
+        //{
+        //    var uitd = (from a in _detectorRep.GetAll().Where(p => p.FireUnitId == fireUnitId && p.DetectorTypeId == GetDetectorType((byte)UnitType.UITD).Id
+        //               && (option == 0 ? true : (option == -1 ? p.State.Equals("离线") : !p.State.Equals("离线"))))
+        //                join b in _detectorTypeRep.GetAll()
+        //                on a.DetectorTypeId equals b.Id
+        //                select new EndDeviceStateOutput()
+        //                {
+        //                    DetectorId = a.Id,
+        //                    IsAnalog = false,
+        //                    Name = b.Name,
+        //                    Location = a.Location,
+        //                    StateName = a.State,
+        //                    Analog = "-",
+        //                    Standard = "-"
+        //                }).ToList();
+        //    var tem = (from a in _detectorRep.GetAll().Where(p => p.FireUnitId == fireUnitId && p.DetectorTypeId == GetDetectorType((byte)UnitType.ElectricTemperature).Id
+        //                 && (option == 0 ? true : (option == -1 ? p.State.Equals("离线") : !p.State.Equals("离线"))))
+        //               join b in _detectorTypeRep.GetAll()
+        //                on a.DetectorTypeId equals b.Id
+        //               select new EndDeviceStateOutput()
+        //               {
+        //                   IsAnalog = true,
+        //                   DetectorId = a.Id,
+        //                   Name = b.Name,
+        //                   Location = a.Location,
+        //                   StateName = a.State.Equals("离线") ? "离线" : "在线",
+        //                   Analog = a.State.Equals("离线") ? "-" : a.State
+        //               }).ToList();
+        //    var setTem = await _fireSettingManager.GetByName("CableTemperature");
+        //    foreach (var v in tem)
+        //    {
+        //        v.Standard = $"<={setTem.MaxValue}℃";
+        //        double an;
+        //        v.IsOverRange = double.TryParse(v.Analog, out an) ? an > setTem.MaxValue : false;
+        //    }
+        //    var ele = (from a in _detectorRep.GetAll().Where(p => p.FireUnitId == fireUnitId && p.DetectorTypeId == GetDetectorType((byte)UnitType.ElectricResidual).Id
+        //               && (option == 0 ? true : (option == -1 ? p.State.Equals("离线") : !p.State.Equals("离线"))))
+        //               join b in _detectorTypeRep.GetAll()
+        //               on a.DetectorTypeId equals b.Id
+        //               select new EndDeviceStateOutput()
+        //               {
+        //                   IsAnalog = true,
+        //                   DetectorId = a.Id,
+        //                   Name = b.Name,
+        //                   Location = a.Location,
+        //                   StateName = a.State.Equals("离线") ? "离线" : "在线",
+        //                   Analog = a.State.Equals("离线") ? "-" : a.State
+        //               }).ToList();
+        //    var setEle = await _fireSettingManager.GetByName("ResidualCurrent");
+        //    foreach (var v in ele)
+        //    {
+        //        v.Standard = $"<={setEle.MaxValue}mA";
+        //        double an;
+        //        v.IsOverRange = double.TryParse(v.Analog, out an) ? an > setEle.MaxValue : false;
+        //    }
+        //    var lst = uitd.Union(tem).Union(ele).ToList();
+        //    return new PagedResultDeviceDto<EndDeviceStateOutput>()
+        //    {
+        //        OfflineCount = lst.Count(p => string.IsNullOrEmpty(p.StateName) || p.StateName.Equals("离线")),
+        //        TotalCount = lst.Count,
+        //        Items = lst.Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList()
+        //    };
+        //}
 
         /// <summary>
         /// 新增探测器部件
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task AddDetector(AddDetectorInput input)
-        {
-            var gateway = _gatewayRep.GetAll().Where(p => p.Identify == input.GatewayIdentify).FirstOrDefault();
-            Valid.Exception(gateway == null, $"网关地址{input.GatewayIdentify}不存在");
+        //public async Task AddDetector(AddDetectorInput input)
+        //{
+        //    var gateway = _gatewayRep.GetAll().Where(p => p.Identify == input.GatewayIdentify).FirstOrDefault();
+        //    Valid.Exception(gateway == null, $"网关地址{input.GatewayIdentify}不存在");
 
-            var type = _detectorTypeRep.GetAll().Where(p => p.GBType == input.DetectorGBType).FirstOrDefault();
-            if (type == null)
-                return;
-            await _detectorRep.InsertAsync(new Detector()
-            {
-                DetectorTypeId = type.Id,
-                FireSysType = gateway.FireSysType,
-                Identify = input.Identify,
-                Location = input.Location,
-                GatewayId = gateway.Id,
-                FireUnitId = gateway.FireUnitId,
-                Origin = input.Origin
-            });
-        }
+        //    var type = _detectorTypeRep.GetAll().Where(p => p.GBType == input.DetectorGBType).FirstOrDefault();
+        //    if (type == null)
+        //        return;
+        //    await _detectorRep.InsertAsync(new Detector()
+        //    {
+        //        DetectorTypeId = type.Id,
+        //        FireSysType = gateway.FireSysType,
+        //        Identify = input.Identify,
+        //        Location = input.Location,
+        //        GatewayId = gateway.Id,
+        //        FireUnitId = gateway.FireUnitId,
+        //        Origin = input.Origin
+        //    });
+        //}
 
         /// <summary>
         /// 导入火警联网网关对应消防主机的联网部件
@@ -985,7 +975,7 @@ namespace FireProtectionV1.FireWorking.Manager
                             strMsg = $"第{i + 1}行楼层在后台数据中不存在";
                             break;
                         }
-                        
+
                         lstDeviceNo.Add(row["部件地址"].ToString().Trim());
                     }
                     if (!string.IsNullOrEmpty(strMsg))
@@ -995,24 +985,24 @@ namespace FireProtectionV1.FireWorking.Manager
                         return output;
                     }
 
-                    await _detectorRep.DeleteAsync(d => fireAlarmDevice.GatewayId.Equals(d.GatewayId));
+                    await _repFireAlarmDetector.DeleteAsync(d => fireAlarmDevice.Id.Equals(d.FireAlarmDeviceId));
 
                     List<DetectorType> lstDetectorType = await _detectorTypeRep.GetAllListAsync();
-
+                    string architectureName = fireAlarmDevice.FireUnitArchitectureId > 0 ? _repFireUnitArchitecture.Get(fireAlarmDevice.FireUnitArchitectureId).Name : "";
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
                         DataRow row = dt.Rows[i];
-                        await _detectorRep.InsertAsync(new Detector()
+                        await _repFireAlarmDetector.InsertAsync(new FireAlarmDetector()
                         {
-                            Origin = "天树聚",
-                            FireSysType = (byte)FireSysType.Fire,
-                            DetectorTypeId = !string.IsNullOrEmpty(row["部件类型"].ToString())?lstDetectorType.Find(d=>row["部件类型"].ToString().Trim().Equals(d.Name)).Id:0,
+                            DetectorTypeId = !string.IsNullOrEmpty(row["部件类型"].ToString()) ? lstDetectorType.Find(d => row["部件类型"].ToString().Trim().Equals(d.Name)).Id : 0,
                             Location = row["安装位置"].ToString().Trim(),
-                            GatewayId = fireAlarmDevice.GatewayId,
                             FaultNum = 0,
                             FireUnitArchitectureFloorId = !string.IsNullOrEmpty(row["楼层"].ToString()) ? lstFireUnitArchitectureFloors.Find(d => row["楼层"].ToString().Trim().Equals(d.Name)).Id : 0,
                             FireUnitId = fireAlarmDevice.FireUnitId,
-                            Identify = row["部件地址"].ToString().Trim()
+                            Identify = row["部件地址"].ToString().Trim(),
+                            FireAlarmDeviceId = fireAlarmDevice.Id,
+                            State = FireAlarmDetectorState.Normal,
+                            FullLocation = architectureName + row["楼层"].ToString().Trim() + row["安装位置"].ToString().Trim()
                         });
                     }
                 }
@@ -1028,68 +1018,44 @@ namespace FireProtectionV1.FireWorking.Manager
         }
 
         /// <summary>
-        /// 新增火警联网设备
+        /// 新增火警联网设施
         /// </summary>
         /// <param name="input"></param>
-        /// <param name="origin">网关设备厂商</param>
         /// <returns></returns>
-        public async Task<SuccessOutput> AddFireAlarmDevice(FireAlarmDeviceDto input, string origin)
+        public async Task AddFireAlarmDevice(FireAlarmDeviceDto input)
         {
-            var arch = await _repFireUnitArchitecture.FirstOrDefaultAsync(p => p.Id == input.FireUnitArchitectureId);
-            if (arch == null)
-                return new SuccessOutput() { Success = false, FailCause = "建筑不存在" };
-            var gateway = await _gatewayRep.FirstOrDefaultAsync(p => p.Identify.Equals(input.DeviceSn) && p.Origin.Equals(origin));
-            if (gateway != null)
-                return new SuccessOutput() { Success = false, FailCause = "设备编号已经存在" };
-            try
+            Valid.Exception(_repFireAlarmDevice.Count(item => item.DeviceSn.Equals(input.DeviceSn)) > 0, "火警联网设施编号已存在");
+
+            await _repFireAlarmDevice.InsertAsync(new FireAlarmDevice()
             {
-                var gatewayId = await _gatewayRep.InsertAndGetIdAsync(new Gateway()
-                {
-                    FireSysType = (byte)FireSysType.Fire,
-                    Identify = input.DeviceSn,
-                    Location = arch.Name,
-                    FireUnitId = input.FireUnitId,
-                    Origin = origin,
-                    Status = GatewayStatus.UnKnow,
-                    StatusChangeTime = DateTime.Now
-                });
-                await _repFireAlarmDevice.InsertAsync(new FireAlarmDevice()
-                {
-                    Brand = input.Brand,
-                    DeviceSn = input.DeviceSn,
-                    DeviceType = input.DeviceType,
-                    EnableAlarm = input.EnableAlarm.Contains("云端报警"),
-                    EnableAlarmSwitch = input.EnableAlarm.Contains("发送开关量信号"),
-                    EnableFault = input.EnableFault.Contains("云端报警"),
-                    EnableFaultSwitch = input.EnableFault.Contains("发送开关量信号"),
-                    FireUnitArchitectureId = input.FireUnitArchitectureId,
-                    FireUnitId = input.FireUnitId,
-                    GatewayId = gatewayId,
-                    NetDetectorNum = input.NetDetectorNum,
-                    Protocol = input.Protocol,
-                    NetComm = input.NetComm
-                });
-            }
-            catch (Exception e)
-            {
-                return new SuccessOutput() { Success = false, FailCause = e.Message };
-            }
-            return new SuccessOutput() { Success = true };
+                Brand = input.Brand,
+                DeviceSn = input.DeviceSn,
+                DeviceModel = input.DeviceModel,
+                EnableAlarmCloud = input.EnableAlarm.Contains("云端报警"),
+                EnableAlarmSwitch = input.EnableAlarm.Contains("发送开关量信号"),
+                EnableFaultCloud = input.EnableFault.Contains("云端报警"),
+                EnableFaultSwitch = input.EnableFault.Contains("发送开关量信号"),
+                FireUnitArchitectureId = input.FireUnitArchitectureId,
+                FireUnitId = input.FireUnitId,
+                NetDetectorNum = input.NetDetectorNum,
+                Protocol = input.Protocol,
+                NetComm = input.NetComm,
+                State = GatewayStatus.Offline
+            });
+
         }
-        public async Task<SuccessOutput> UpdateFireElectricDevice(UpdateFireElectricDeviceDto input)
+        /// <summary>
+        /// 修改电气火灾设施
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task UpdateFireElectricDevice(UpdateFireElectricDeviceDto input)
         {
-            var elec = await _repFireElectricDevice.FirstOrDefaultAsync(p => p.Id == input.DeviceId);
-            if (elec == null)
-                return new SuccessOutput() { Success = false, FailCause = $"不存在ID为{input.DeviceId}的设备" };
-            var gateway = await _gatewayRep.FirstOrDefaultAsync(p => p.Id == elec.GatewayId);
-            if (elec == null)
-                return new SuccessOutput() { Success = false, FailCause = "设备网关被删除" };
-            gateway.Identify = input.DeviceSn;
-            gateway.Location = input.Location;
-            await _gatewayRep.UpdateAsync(gateway);
+            var elec = await _repFireElectricDevice.GetAsync(input.DeviceId);
+
             elec.NetComm = input.NetComm;
             elec.DeviceSn = input.DeviceSn;
-            elec.DeviceType = input.DeviceType;
+            elec.DeviceModel = input.DeviceModel;
             elec.FireUnitArchitectureId = input.FireUnitArchitectureId;
             elec.EnableCloudAlarm = input.EnableAlarm.Contains("云端报警");
             elec.EnableEndAlarm = input.EnableAlarm.Contains("终端报警");
@@ -1098,290 +1064,67 @@ namespace FireProtectionV1.FireWorking.Manager
             elec.ExistTemperature = input.MonitorItem.Contains("电缆温度");
             elec.FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId;
             elec.Location = input.Location;
-            var aDetector = await _detectorRep.FirstOrDefaultAsync(p => p.GatewayId == elec.GatewayId && p.Identify.Equals("I0"));
-            aDetector.FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId;
-            aDetector.Location = input.Location;
-            await _detectorRep.UpdateAsync(aDetector);
-            var nDetector = await _detectorRep.FirstOrDefaultAsync(p => p.GatewayId == elec.GatewayId && p.Identify.Equals("N"));
-            nDetector.FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId;
-            nDetector.Location = input.Location;
-            await _detectorRep.UpdateAsync(nDetector);
-
-            var temperatureType = await _detectorTypeRep.FirstOrDefaultAsync(p => p.Name.Equals("电缆温度探测器"));
-            string phase = "";
-            if (input.PhaseType.Equals("单相"))
-            {
-                var lDetector = await _detectorRep.FirstOrDefaultAsync(p => p.GatewayId == elec.GatewayId && p.Identify.Equals("L"));
-                if (lDetector == null)
-                {
-                    lDetector = new Detector()
-                    {
-                        DetectorTypeId = temperatureType.Id,
-                        FaultNum = 0,
-                        FireSysType = (byte)FireSysType.Electric,
-                        FireUnitId = input.FireUnitId,
-                        GatewayId = elec.GatewayId,
-                        Identify = "L",
-                        Origin = gateway.Origin
-                    };
-                }
-                lDetector.FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId;
-                lDetector.Location = input.Location;
-                await _detectorRep.InsertOrUpdateAsync(lDetector);
-                SinglePhase singlePhase = new SinglePhase()
-                {
-                    I0max = input.Amax,
-                    I0min = input.Amin,
-                    Lmax = input.Lmax,
-                    Lmin = input.Lmin,
-                    Nmax = input.Nmax,
-                    Nmin = input.Nmin
-                };
-                phase = JsonConvert.SerializeObject(singlePhase);
-            }
-            else if (input.PhaseType.Equals("三相"))
-            {
-                var l3Detector = await _detectorRep.FirstOrDefaultAsync(p => p.GatewayId == elec.GatewayId && p.Identify.Equals("L3"));
-                if (l3Detector == null)
-                {
-                    l3Detector = new Detector()
-                    {
-                        DetectorTypeId = temperatureType.Id,
-                        FaultNum = 0,
-                        FireSysType = (byte)FireSysType.Electric,
-                        FireUnitId = input.FireUnitId,
-                        GatewayId = elec.GatewayId,
-                        Identify = "L",
-                        Origin = gateway.Origin
-                    };
-                }
-                l3Detector.FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId;
-                l3Detector.Location = input.Location;
-                await _detectorRep.InsertOrUpdateAsync(l3Detector);
-                var l2Detector = await _detectorRep.FirstOrDefaultAsync(p => p.GatewayId == elec.GatewayId && p.Identify.Equals("L2"));
-                if (l2Detector == null)
-                {
-                    l2Detector = new Detector()
-                    {
-                        DetectorTypeId = temperatureType.Id,
-                        FaultNum = 0,
-                        FireSysType = (byte)FireSysType.Electric,
-                        FireUnitId = input.FireUnitId,
-                        GatewayId = elec.GatewayId,
-                        Identify = "L",
-                        Origin = gateway.Origin
-                    };
-                }
-                l2Detector.FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId;
-                l2Detector.Location = input.Location;
-                await _detectorRep.InsertOrUpdateAsync(l2Detector);
-                var l1Detector = await _detectorRep.FirstOrDefaultAsync(p => p.GatewayId == elec.GatewayId && p.Identify.Equals("L1"));
-                if (l1Detector == null)
-                {
-                    l1Detector = new Detector()
-                    {
-                        DetectorTypeId = temperatureType.Id,
-                        FaultNum = 0,
-                        FireSysType = (byte)FireSysType.Electric,
-                        FireUnitId = input.FireUnitId,
-                        GatewayId = elec.GatewayId,
-                        Identify = "L",
-                        Origin = gateway.Origin
-                    };
-                }
-                l1Detector.FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId;
-                l1Detector.Location = input.Location;
-                await _detectorRep.InsertOrUpdateAsync(l1Detector);
-                ThreePhase threePhase = new ThreePhase()
-                {
-                    I0max = input.Amax,
-                    I0min = input.Amin,
-                    L1max = input.L1max,
-                    L1min = input.L1min,
-                    L2max = input.L2max,
-                    L2min = input.L2min,
-                    L3max = input.L3max,
-                    L3min = input.L3min,
-                    Nmax = input.Nmax,
-                    Nmin = input.Nmin
-                };
-                phase = JsonConvert.SerializeObject(threePhase);
-            }
             elec.PhaseType = input.PhaseType;
-            elec.PhaseJson = phase;
+            elec.MinAmpere = input.Amin;
+            elec.MaxAmpere = input.Amax;
+            elec.MinL = input.Lmin;
+            elec.MaxL = input.Lmax;
+            elec.MinN = input.Nmin;
+            elec.MaxN = input.Nmax;
+            elec.MinL1 = input.L1min;
+            elec.MaxL1 = input.L1max;
+            elec.MinL2 = input.L2min;
+            elec.MaxL2 = input.L2max;
+            elec.MinL3 = input.L3min;
+            elec.MaxL3 = input.L3max;
+
             await _repFireElectricDevice.UpdateAsync(elec);
-
-            return new SuccessOutput() { Success = true };
         }
-        //public async Task<UpdateFireElectricDeviceDto> GetFireElectricDevice(int DeviceId)
-        //{
-
-        //}
         /// <summary>
         /// 新增电气火灾设备
         /// </summary>
         /// <param name="input"></param>
-        /// <param name="origin">网关设备厂商</param>
         /// <returns></returns>
-        public async Task<SuccessOutput> AddFireElectricDevice(FireElectricDeviceDto input, string origin)
+        public async Task AddFireElectricDevice(FireElectricDeviceDto input)
         {
-            var arch = await _repFireUnitArchitecture.FirstOrDefaultAsync(p => p.Id == input.FireUnitArchitectureId);
-            if (arch == null)
-                return new SuccessOutput() { Success = false, FailCause = "建筑不存在" };
-            var gateway = await _gatewayRep.FirstOrDefaultAsync(p => p.Identify.Equals(input.DeviceSn) && p.Origin.Equals(origin));
-            if (gateway != null)
-                return new SuccessOutput() { Success = false, FailCause = "设备编号已经存在" };
-            try
+            Valid.Exception(_repFireElectricDevice.Count(item => item.DeviceSn.Equals(input.DeviceSn)) > 0, $"设备编号{input.DeviceSn}已存在");
+
+            await _repFireElectricDevice.InsertAndGetIdAsync(new FireElectricDevice()
             {
-                var gatewayId = await _gatewayRep.InsertAndGetIdAsync(new Gateway()
-                {
-                    FireSysType = (byte)FireSysType.Electric,
-                    Identify = input.DeviceSn,
-                    Location = input.Location,
-                    FireUnitId = input.FireUnitId,
-                    Origin = origin,
-                    Status = GatewayStatus.UnKnow,
-                    StatusChangeTime = DateTime.Now
-                });
-                string phase = "";
-                if (input.PhaseType.Equals("单相"))
-                {
-                    SinglePhase singlePhase = new SinglePhase()
-                    {
-                        I0max = input.Amax,
-                        I0min = input.Amin,
-                        Lmax = input.Lmax,
-                        Lmin = input.Lmin,
-                        Nmax = input.Nmax,
-                        Nmin = input.Nmin
-                    };
-                    phase = JsonConvert.SerializeObject(singlePhase);
-                }
-                else if (input.PhaseType.Equals("三相"))
-                {
-                    ThreePhase threePhase = new ThreePhase()
-                    {
-                        I0max = input.Amax,
-                        I0min = input.Amin,
-                        L1max = input.L1max,
-                        L1min = input.L1min,
-                        L2max = input.L2max,
-                        L2min = input.L2min,
-                        L3max = input.L3max,
-                        L3min = input.L3min,
-                        Nmax = input.Nmax,
-                        Nmin = input.Nmin
-                    };
-                    phase = JsonConvert.SerializeObject(threePhase);
-                }
-                await _repFireElectricDevice.InsertAsync(new FireElectricDevice()
-                {
-                    State = "良好",
-                    DeviceSn = input.DeviceSn,
-                    DeviceType = input.DeviceType,
-                    FireUnitArchitectureId = input.FireUnitArchitectureId,
-                    FireUnitId = input.FireUnitId,
-                    GatewayId = gatewayId,
-                    EnableCloudAlarm = input.EnableAlarm.Contains("云端报警"),
-                    EnableEndAlarm = input.EnableAlarm.Contains("终端报警"),
-                    EnableAlarmSwitch = input.EnableAlarm.Contains("发送开关量信号"),
-                    ExistAmpere = input.MonitorItem.Contains("剩余电流"),
-                    ExistTemperature = input.MonitorItem.Contains("电缆温度"),
-                    FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId,
-                    Location = input.Location,
-                    PhaseType = input.PhaseType,
-                    PhaseJson = phase,
-                    NetComm = input.NetComm
-                });
-                var ampereType = await _detectorTypeRep.FirstOrDefaultAsync(p => p.Name.Equals("剩余电流探测器"));
-                var temperatureType = await _detectorTypeRep.FirstOrDefaultAsync(p => p.Name.Equals("电缆温度探测器"));
-                if (ampereType == null || temperatureType == null)
-                    return new SuccessOutput() { Success = false, FailCause = "数据库不存在‘剩余电流探测器’或‘电缆温度探测器’的类型" };
-                var AId = await _detectorRep.InsertAndGetIdAsync(new Detector()
-                {
-                    DetectorTypeId = ampereType.Id,
-                    FaultNum = 0,
-                    FireSysType = (byte)FireSysType.Electric,
-                    FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId,
-                    FireUnitId = input.FireUnitId,
-                    GatewayId = gatewayId,
-                    Identify = "I0",
-                    Location = input.Location,
-                    Origin = origin
-                });
-                var NId = await _detectorRep.InsertAndGetIdAsync(new Detector()
-                {
-                    DetectorTypeId = temperatureType.Id,
-                    FaultNum = 0,
-                    FireSysType = (byte)FireSysType.Electric,
-                    FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId,
-                    FireUnitId = input.FireUnitId,
-                    GatewayId = gatewayId,
-                    Identify = "N",
-                    Location = input.Location,
-                    Origin = origin
-                });
-                if (input.PhaseType.Equals("单相"))
-                {
-                    var LId = await _detectorRep.InsertAndGetIdAsync(new Detector()
-                    {
-                        DetectorTypeId = temperatureType.Id,
-                        FaultNum = 0,
-                        FireSysType = (byte)FireSysType.Electric,
-                        FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId,
-                        FireUnitId = input.FireUnitId,
-                        GatewayId = gatewayId,
-                        Identify = "L",
-                        Location = input.Location,
-                        Origin = origin
-                    });
-                }
-                else if (input.PhaseType.Equals("三相"))
-                {
-                    var L1Id = await _detectorRep.InsertAndGetIdAsync(new Detector()
-                    {
-                        DetectorTypeId = temperatureType.Id,
-                        FaultNum = 0,
-                        FireSysType = (byte)FireSysType.Electric,
-                        FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId,
-                        FireUnitId = input.FireUnitId,
-                        GatewayId = gatewayId,
-                        Identify = "L1",
-                        Location = input.Location,
-                        Origin = origin
-                    });
-                    var L2Id = await _detectorRep.InsertAndGetIdAsync(new Detector()
-                    {
-                        DetectorTypeId = temperatureType.Id,
-                        FaultNum = 0,
-                        FireSysType = (byte)FireSysType.Electric,
-                        FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId,
-                        FireUnitId = input.FireUnitId,
-                        GatewayId = gatewayId,
-                        Identify = "L2",
-                        Location = input.Location,
-                        Origin = origin
-                    });
-                    var L3Id = await _detectorRep.InsertAndGetIdAsync(new Detector()
-                    {
-                        DetectorTypeId = temperatureType.Id,
-                        FaultNum = 0,
-                        FireSysType = (byte)FireSysType.Electric,
-                        FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId,
-                        FireUnitId = input.FireUnitId,
-                        GatewayId = gatewayId,
-                        Identify = "L3",
-                        Location = input.Location,
-                        Origin = origin
-                    });
-                }
-            }
-            catch (Exception e)
-            {
-                return new SuccessOutput() { Success = false, FailCause = e.Message };
-            }
-            return new SuccessOutput() { Success = true };
+                State = FireElectricDeviceState.Offline,
+                DeviceSn = input.DeviceSn,
+                DeviceModel = input.DeviceModel,
+                FireUnitArchitectureId = input.FireUnitArchitectureId,
+                FireUnitId = input.FireUnitId,
+                EnableCloudAlarm = input.EnableAlarm.Contains("云端报警"),
+                EnableEndAlarm = input.EnableAlarm.Contains("终端报警"),
+                EnableAlarmSwitch = input.EnableAlarm.Contains("发送开关量信号"),
+                ExistAmpere = input.MonitorItem.Contains("剩余电流"),
+                ExistTemperature = input.MonitorItem.Contains("电缆温度"),
+                FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId,
+                Location = input.Location,
+                PhaseType = input.PhaseType,
+                NetComm = input.NetComm,
+                DataRate = "2小时",
+                MinAmpere = input.Amin,
+                MaxAmpere = input.Amax,
+                MinL = input.Lmin,
+                MaxL = input.Lmax,
+                MinL1 = input.L1min,
+                MaxL1 = input.L1max,
+                MinL2 = input.L2min,
+                MaxL2 = input.L2max,
+                MinL3 = input.L3min,
+                MaxL3 = input.L3max,
+                MinN = input.Nmin,
+                MaxN = input.Nmax
+            });
         }
+        /// <summary>
+        /// 修改其它消防设施
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<SuccessOutput> UpdateFireOrtherDevice(UpdateFireOrtherDeviceDto input)
         {
             var device = await _repFireOrtherDevice.FirstOrDefaultAsync(p => p.Id == input.DeviceId);
@@ -1410,9 +1153,14 @@ namespace FireProtectionV1.FireWorking.Manager
             }
             return new SuccessOutput() { Success = true };
         }
-        public async Task<GetFireOrtherDeviceOutput> GetFireOrtherDevice(int Deviceid)
+        /// <summary>
+        /// 通过Id获取其它消防设施
+        /// </summary>
+        /// <param name="deviceid"></param>
+        /// <returns></returns>
+        public async Task<GetFireOrtherDeviceOutput> GetFireOrtherDevice(int deviceid)
         {
-            var device = await _repFireOrtherDevice.FirstOrDefaultAsync(p => p.Id == Deviceid);
+            var device = await _repFireOrtherDevice.FirstOrDefaultAsync(p => p.Id == deviceid);
             var arch = await _repFireUnitArchitecture.FirstOrDefaultAsync(p => p.Id == device.FireUnitArchitectureId);
             var floor = await _repFireUnitArchitectureFloor.FirstOrDefaultAsync(p => p.Id == device.FireUnitArchitectureFloorId);
             return new GetFireOrtherDeviceOutput()
@@ -1432,18 +1180,28 @@ namespace FireProtectionV1.FireWorking.Manager
                 FireUnitArchitectureName = arch == null ? "" : arch.Name
             };
         }
-        public async Task<GetFireOrtherDeviceExpireOutput> GetFireOrtherDeviceExpire(int FireUnitId)
+        /// <summary>
+        /// 获取防火单位的其它消防设施的即将过期数量和已过期数量
+        /// </summary>
+        /// <param name="fireUnitId"></param>
+        /// <returns></returns>
+        public Task<GetFireOrtherDeviceExpireOutput> GetFireOrtherDeviceExpire(int fireUnitId)
         {
-            var devices = _repFireOrtherDevice.GetAll().Where(p => p.FireUnitId == FireUnitId);
-            return await Task.Run<GetFireOrtherDeviceExpireOutput>(() =>
-          {
-              return new GetFireOrtherDeviceExpireOutput()
-              {
-                  ExpireNum = devices.Where(p => DateTime.Now >= p.ExpireTime).Count(),
-                  WillExpireNum = devices.Where(p => DateTime.Now >= p.ExpireTime.AddDays(-30) && DateTime.Now < p.ExpireTime).Count()
-              };
-          });
+            var devices = _repFireOrtherDevice.GetAll().Where(p => p.FireUnitId == fireUnitId);
+            return Task.FromResult(new GetFireOrtherDeviceExpireOutput()
+            {
+                ExpireNum = devices.Where(p => DateTime.Now >= p.ExpireTime).Count(),
+                WillExpireNum = devices.Where(p => DateTime.Now >= p.ExpireTime.AddDays(-30) && DateTime.Now < p.ExpireTime).Count()
+            });
         }
+        /// <summary>
+        /// 获取其它消防设施列表
+        /// </summary>
+        /// <param name="fireUnitId"></param>
+        /// <param name="ExpireType"></param>
+        /// <param name="FireUnitArchitectureName"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         public async Task<PagedResultDto<FireOrtherDeviceItemDto>> GetFireOrtherDeviceList(int fireUnitId, string ExpireType, string FireUnitArchitectureName, PagedResultRequestDto dto)
         {
             return await Task.Run<PagedResultDto<FireOrtherDeviceItemDto>>(() =>
@@ -1674,175 +1432,182 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task AddGateway(AddGatewayInput input)
-        {
-            await _gatewayRep.InsertAsync(new Gateway()
-            {
-                FireSysType = input.FireSysType,
-                Identify = input.Identify,
-                Location = input.Location,
-                FireUnitId = input.FireUnitId,
-                Origin = input.Origin
-            });
-        }
-        public async Task<DetectorType> GetDetectorTypeAsync(int id)
-        {
-            return await _detectorTypeRep.SingleAsync(p => p.Id == id);
-        }
+        //public async Task AddGateway(AddGatewayInput input)
+        //{
+        //    await _gatewayRep.InsertAsync(new Gateway()
+        //    {
+        //        FireSysType = input.FireSysType,
+        //        Identify = input.Identify,
+        //        Location = input.Location,
+        //        FireUnitId = input.FireUnitId,
+        //        Origin = input.Origin
+        //    });
+        //}
+
+        /// <summary>
+        /// 根据国际数值获取对应的部件类型
+        /// </summary>
+        /// <param name="GBtype"></param>
+        /// <returns></returns>
         public DetectorType GetDetectorType(byte GBtype)
         {
             return _detectorTypeRep.GetAll().Where(p => p.GBType == GBtype).FirstOrDefault();
         }
-        public async Task<Detector> GetDetectorAsync(int id)
+        /// <summary>
+        /// 根据Id获取单个火警联网部件详情
+        /// </summary>
+        /// <param name="detectorId"></param>
+        /// <returns></returns>
+        public async Task<FireAlarmDetector> GetDetectorById(int detectorId)
         {
-            return await _detectorRep.SingleAsync(p => p.Id == id);
+            return await _repFireAlarmDetector.GetAsync(detectorId);
         }
+        //public Detector GetDetector(string identify, string origin)
+        //{
+        //    return _detectorRep.GetAll().Where(p => p.Identify.Equals(identify) && p.Origin.Equals(origin)).FirstOrDefault();
+        //}
+        //public Gateway GetGateway(string gatewayIdentify, string origin)
+        //{
+        //    return _gatewayRep.GetAll().Where(p => p.Identify.Equals(gatewayIdentify) && p.Origin.Equals(origin)).FirstOrDefault();
+        //}
+        //public IQueryable<Detector> GetDetectorAll(int fireunitid, FireSysType fireSysType)
+        //{
+        //    return _detectorRep.GetAll().Where(p => p.FireSysType == (byte)fireSysType && p.FireUnitId == fireunitid);
+        //}
+        //public IQueryable<Detector> GetDetectorElectricAll()
+        //{
+        //    return _detectorRep.GetAll().Where(p => p.FireSysType == (byte)FireSysType.Electric);
+        //}
+        /// <summary>
+        /// 添加电气火灾监测数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task AddElecRecord(AddDataElecInput input)
+        {
+            var fireElectricDevice = await _repFireElectricDevice.FirstOrDefaultAsync(item => item.DeviceSn.Equals(input.FireElectricDeviceSn));
+            Valid.Exception(fireElectricDevice == null, $"未找到编号为{input.FireElectricDeviceSn}的电气火灾设备");
+            Valid.Exception(input.Sign != "A" || input.Sign != "N" || input.Sign != "L" || input.Sign != "L1" || input.Sign != "L2" || input.Sign != "L3", "记录的类型标记错误");
 
-        public async Task<DetectorDto> GetDeviceDetector(int detectorId)
-        {
-            var detector = await _detectorRep.GetAsync(detectorId);
-            var type = await _detectorTypeRep.FirstOrDefaultAsync(detector.DetectorTypeId);
-            var floor = await _repFireUnitArchitectureFloor.FirstOrDefaultAsync(detector.FireUnitArchitectureFloorId);
-            FireUnitArchitecture arch = null;
-            if (floor != null)
-                arch = await _repFireUnitArchitecture.FirstOrDefaultAsync(floor.ArchitectureId);
-            return new DetectorDto()
+            await _repFireElectricRecord.InsertAsync(new FireElectricRecord()
             {
-                DetectorId = detector.Id,
-                DetectorTypeName = type == null ? "" : type.Name,
-                FireUnitArchitectureFloorId = detector.FireUnitArchitectureFloorId,
-                FireUnitArchitectureFloorName = floor == null ? "" : floor.Name,
-                FireUnitArchitectureId = floor == null ? 0 : floor.ArchitectureId,
-                FireUnitArchitectureName = arch == null ? "" : arch.Name,
-                Identify = detector.Identify,
-                Location = detector.Location,
-                State = detector.FaultNum > 0 ? "故障" : "正常"
-            };
-        }
-        public Detector GetDetector(string identify, string origin)
-        {
-            return _detectorRep.GetAll().Where(p => p.Identify.Equals(identify) && p.Origin.Equals(origin)).FirstOrDefault();
-        }
-        public Gateway GetGateway(string gatewayIdentify, string origin)
-        {
-            return _gatewayRep.GetAll().Where(p => p.Identify.Equals(gatewayIdentify) && p.Origin.Equals(origin)).FirstOrDefault();
-        }
-        public IQueryable<Detector> GetDetectorAll(int fireunitid, FireSysType fireSysType)
-        {
-            return _detectorRep.GetAll().Where(p => p.FireSysType == (byte)fireSysType && p.FireUnitId == fireunitid);
-        }
-        public IQueryable<Detector> GetDetectorElectricAll()
-        {
-            return _detectorRep.GetAll().Where(p => p.FireSysType == (byte)FireSysType.Electric);
-        }
-        public IQueryable<DetectorType> GetDetectorTypeAll()
-        {
-            return _detectorTypeRep.GetAll();
-        }
+                FireUnitId = fireElectricDevice.FireUnitId,
+                FireElectricDeviceId = fireElectricDevice.Id,
+                Sign = input.Sign,
+                Analog = input.Analog
+            });
 
-        public async Task<AddDataOutput> AddRecordAnalog(AddDataElecInput input)
-        {
-            var detector = GetDetector(input.Identify, input.Origin);
-            if (detector == null)
+            int max = 0;
+            switch (input.Sign)
             {
-                return new AddDataOutput()
-                {
-                    IsDetectorExit = false
-                };
+                case "A":
+                    max = fireElectricDevice.MaxAmpere;
+                    break;
+                case "N":
+                    max = fireElectricDevice.MaxN;
+                    break;
+                case "L":
+                    max = fireElectricDevice.MaxL;
+                    break;
+                case "L1":
+                    max = fireElectricDevice.MaxL1;
+                    break;
+                case "L2":
+                    max = fireElectricDevice.MaxL2;
+                    break;
+                case "L3":
+                    max = fireElectricDevice.MaxL3;
+                    break;
             }
-            detector.State = $"{input.Analog}{input.Unit}";
-            await _detectorRep.UpdateAsync(detector);
-            await _recordAnalogRep.InsertAsync(new RecordAnalog()
+
+            FireElectricDeviceState nowState = FireElectricDeviceState.Good;
+            if (max > 0 && input.Analog > 0)
             {
-                Analog = input.Analog,
-                DetectorId = detector.Id
-            });
-            var device = await _repFireElectricDevice.FirstOrDefaultAsync(p => p.GatewayId == detector.GatewayId);
-            if (!string.IsNullOrEmpty(device.PhaseJson))
-            {
-                var jobject = JObject.Parse(device.PhaseJson);
-                if (jobject.ContainsKey($"{input.Identify}max"))
-                {
-                    var max = double.Parse(jobject[$"{input.Identify}max"].ToString());
-                    if (input.Analog >= max)
-                        device.State = "超限";
-                    else if (input.Analog >= max * 0.8)
-                        device.State = "隐患";
-                    else
-                        device.State = "良好";
-                    await _repFireElectricDevice.UpdateAsync(device);
-                }
+                if (input.Analog > max) nowState = FireElectricDeviceState.Transfinite;
+                else if (input.Analog >= max * 0.8) nowState = FireElectricDeviceState.Danger;
             }
-            return new AddDataOutput() { IsDetectorExit = true };
-        }
-        public async Task<AddDataOutput> AddOnlineDetector(AddOnlineDetectorInput input)
-        {
-            var detector = GetDetector(input.Identify, input.Origin);
-            if (detector == null)
+            // 如果状态发生了变化，则修改电气火灾设施的状态
+            if (fireElectricDevice.State != nowState)
             {
-                return new AddDataOutput()
-                {
-                    IsDetectorExit = false
-                };
+                fireElectricDevice.State = nowState;
+                await _repFireElectricDevice.UpdateAsync(fireElectricDevice);
             }
-            await _recordOnlineRep.InsertAsync(new RecordOnline()
+            // 如果超限，则向AlarmToElectric表中插入一条数据
+            if (nowState.Equals(FireElectricDeviceState.Transfinite))
             {
-                State = (sbyte)(input.IsOnline ? GatewayStatus.Online : GatewayStatus.Offline),
-                DetectorId = detector.Id
-            });
-            return new AddDataOutput() { IsDetectorExit = true };
-        }
-        public async Task AddOnlineGateway(AddOnlineGatewayInput input)
-        {
-            var gateway = GetGateway(input.Identify, input.Origin);
-            var detectors = _detectorRep.GetAll().Where(p => p.GatewayId == gateway.Id);
-            foreach (var v in detectors)
-            {
-                await _recordOnlineRep.InsertAsync(new RecordOnline()
+                await _repAlarmToElectric.InsertAsync(new AlarmToElectric()
                 {
-                    State = (sbyte)(input.IsOnline ? GatewayStatus.Online : GatewayStatus.Offline),
-                    DetectorId = v.Id
+                    FireElectricDeviceId = fireElectricDevice.Id,
+                    Sign = input.Sign,
+                    Analog = input.Analog,
+                    FireUnitId = fireElectricDevice.FireUnitId
                 });
-                v.State = input.IsOnline ? "在线" : "离线";
-                await _detectorRep.UpdateAsync(v);
             }
         }
+        //public async Task<AddDataOutput> AddOnlineDetector(AddOnlineDetectorInput input)
+        //{
+        //    var detector = GetDetector(input.Identify, input.Origin);
+        //    if (detector == null)
+        //    {
+        //        return new AddDataOutput()
+        //        {
+        //            IsDetectorExit = false
+        //        };
+        //    }
+        //    await _recordOnlineRep.InsertAsync(new RecordOnline()
+        //    {
+        //        State = (sbyte)(input.IsOnline ? GatewayStatus.Online : GatewayStatus.Offline),
+        //        DetectorId = detector.Id
+        //    });
+        //    return new AddDataOutput() { IsDetectorExit = true };
+        //}
+        //public async Task AddOnlineGateway(AddOnlineGatewayInput input)
+        //{
+        //    var gateway = GetGateway(input.Identify, input.Origin);
+        //    var detectors = _detectorRep.GetAll().Where(p => p.GatewayId == gateway.Id);
+        //    foreach (var v in detectors)
+        //    {
+        //        await _recordOnlineRep.InsertAsync(new RecordOnline()
+        //        {
+        //            State = (sbyte)(input.IsOnline ? GatewayStatus.Online : GatewayStatus.Offline),
+        //            DetectorId = v.Id
+        //        });
+        //        v.State = input.IsOnline ? "在线" : "离线";
+        //        await _detectorRep.UpdateAsync(v);
+        //    }
+        //}
         /// <summary>
         /// 获取火警联网设备型号数组
         /// </summary>
         /// <returns></returns>
-        public async Task<List<string>> GetFireAlarmDeviceTypes()
+        public Task<List<string>> GetFireAlarmDeviceModels()
         {
-            return await Task.Run<List<string>>(() =>
-            {
-                return _repFireAlarmDeviceType.GetAll().OrderBy(p => p.Name).Select(p => p.Name).ToList();
-            });
+            return Task.FromResult(_repFireAlarmDeviceModel.GetAll().OrderByDescending(p => p.CreationTime).Select(item=>item.Name).ToList());
         }
         /// <summary>
         /// 获取电气火灾设备型号数组
         /// </summary>
         /// <returns></returns>
-        public async Task<List<string>> GetFireElectricDeviceTypes()
+        public Task<List<string>> GetFireElectricDeviceModels()
         {
-            return await Task.Run<List<string>>(() =>
-            {
-                return _repFireElectricDeviceType.GetAll().OrderBy(p => p.Name).Select(p => p.Name).ToList();
-            });
+            return Task.FromResult(_repFireElectricDeviceModel.GetAll().OrderByDescending(p => p.CreationTime).Select(item => item.Name).ToList());
         }
         /// <summary>
         /// 获取火灾报警控制器协议数组
         /// </summary>
         /// <returns></returns>
-        public async Task<List<string>> GetFireAlarmDeviceProtocols()
+        public Task<List<string>> GetFireAlarmDeviceProtocols()
         {
-            return await Task.Run<List<string>>(() =>
-            {
-                return _repFireAlarmDeviceProtocol.GetAll().OrderBy(p => p.Name).Select(p => p.Name).ToList();
-            });
+            return Task.FromResult(_repFireAlarmDeviceProtocol.GetAll().OrderByDescending(p => p.CreationTime).Select(item => item.Name).ToList());
         }
-        public async Task<SerialPortParamDto> GetSerialPortParam(int DeviceId)
+        /// <summary>
+        /// 获取火警设备串口参数
+        /// </summary>
+        /// <param name="deviceId">火警联网设备ID</param>
+        /// <returns></returns>
+        public Task<SerialPortParamDto> GetSerialPortParam(int DeviceId)
         {
-            return await Task.FromResult<SerialPortParamDto>(new SerialPortParamDto()
+            return Task.FromResult(new SerialPortParamDto()
             {
                 ComType = "RS232",
                 StopBit = "1",
@@ -1851,7 +1616,6 @@ namespace FireProtectionV1.FireWorking.Manager
                 Rate = "2400"
             });
         }
-
         /// <summary>
         /// 添加消防管网设备
         /// </summary>
@@ -1872,17 +1636,6 @@ namespace FireProtectionV1.FireWorking.Manager
                 MaxPress = input.MaxPress
             });
 
-            var gatewayId = await _gatewayRep.InsertAndGetIdAsync(new Gateway()
-            {
-                FireSysType = (byte)FireSysType.Water,
-                Identify = input.Gateway_Sn,
-                Location = input.Gateway_Location,
-                FireUnitId = input.FireUnitId,
-                Origin = "安吉斯",
-                Status = GatewayStatus.Offline,
-                StatusChangeTime = DateTime.Now
-            });
-
             await _repFireWaterDevice.InsertAsync(new FireWaterDevice()
             {
                 CreationTime = DateTime.Now,
@@ -1890,7 +1643,6 @@ namespace FireProtectionV1.FireWorking.Manager
                 DeviceAddress = input.DeviceAddress,
                 State = "离线",
                 Location = input.Location,
-                GatewayId = gatewayId,
                 Gateway_Type = input.Gateway_Type,
                 Gateway_Sn = input.Gateway_Sn,
                 Gateway_Location = input.Gateway_Location,
@@ -1902,7 +1654,6 @@ namespace FireProtectionV1.FireWorking.Manager
                 EnableCloudAlarm = input.EnableCloudAlarm
             });
         }
-
         /// <summary>
         /// 修改消防管网设备
         /// </summary>
@@ -1913,12 +1664,6 @@ namespace FireProtectionV1.FireWorking.Manager
             Valid.Exception(_repFireWaterDevice.Count(m => m.DeviceAddress.Equals(input.DeviceAddress) && !m.Id.Equals(input.Id)) > 0, "设备地址已存在");
 
             FireWaterDevice device = await _repFireWaterDevice.GetAsync(input.Id);
-            var gateway = await _gatewayRep.FirstOrDefaultAsync(p => p.Id == device.GatewayId);
-            Valid.Exception(gateway == null, "设备网关数据不存在");
-
-            gateway.Identify = input.Gateway_Sn;
-            gateway.Location = input.Gateway_Location;
-            await _gatewayRep.UpdateAsync(gateway);
 
             string heightPhase = JsonConvert.SerializeObject(new HeightPhase()
             {
@@ -1956,11 +1701,11 @@ namespace FireProtectionV1.FireWorking.Manager
         }
 
         /// <summary>
-        /// 获取单个设备信息
+        /// 获取单个消防管网设备信息
         /// </summary>
         /// <param name="deviceId"></param>
         /// <returns></returns>
-        public async Task<UpdateFireWaterDeviceInput> GetById(int deviceId)
+        public async Task<UpdateFireWaterDeviceInput> GetFireWaterDeviceById(int deviceId)
         {
             var device = await _repFireWaterDevice.GetAsync(deviceId);
             HeightPhase heightPhase = JsonConvert.DeserializeObject<HeightPhase>(device.HeightThreshold);
@@ -2014,6 +1759,15 @@ namespace FireProtectionV1.FireWorking.Manager
             {
                 return _repFireWaterDeviceType.GetAll().OrderBy(p => p.Name).Select(p => p.Name).ToList();
             });
+        }
+
+        /// <summary>
+        /// 获取固件更新列表
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<GetFirmwareUpdateListOutput>> GetFirmwareUpdateList()
+        {
+            return Task.FromResult(new List<GetFirmwareUpdateListOutput>());
         }
     }
 }

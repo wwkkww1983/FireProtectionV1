@@ -27,25 +27,16 @@ namespace FireProtectionV1.DeviceService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task AddDetector(AddDetectorInput input)
-        {
-            try
-            {
-                await _deviceManager.AddDetector(input);
-            }catch(Exception e)
-            {
+        //public async Task AddDetector(AddDetectorInput input)
+        //{
+        //    try
+        //    {
+        //        await _deviceManager.AddDetector(input);
+        //    }catch(Exception e)
+        //    {
 
-            }
-        }
-        /// <summary>
-        /// 新增网关设备
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public async Task AddGateway(AddGatewayInput input)
-        {
-            await _deviceManager.AddGateway(input);
-        }
+        //    }
+        //}
         /// <summary>
         /// 获取终端设备筛选选项
         /// </summary>
@@ -77,21 +68,21 @@ namespace FireProtectionV1.DeviceService
         /// <param name="Option">筛选选项值</param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<PagedResultDeviceDto<EndDeviceStateOutput>> GetFireUnitEndDeviceState([Required]int FireUnitId,int Option,PagedResultRequestDto dto)
-        {
-            return await _deviceManager.GetFireUnitEndDeviceState(FireUnitId, Option,dto);
-        }
+        //public async Task<PagedResultDeviceDto<EndDeviceStateOutput>> GetFireUnitEndDeviceState([Required]int FireUnitId,int Option,PagedResultRequestDto dto)
+        //{
+        //    return await _deviceManager.GetFireUnitEndDeviceState(FireUnitId, Option,dto);
+        //}
         /// <summary>
         /// 获得防火单位模拟量终端历史记录
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<RecordAnalogOutput> GetRecordAnalog(GetRecordDetectorInput input)
-        {
-            return await _deviceManager.GetRecordAnalog(input);
-        }
+        //public async Task<RecordAnalogOutput> GetRecordAnalog(GetRecordDetectorInput input)
+        //{
+        //    return await _deviceManager.GetRecordAnalog(input);
+        //}
         /// <summary>
-        /// 获取电气火灾监测项目模拟量趋势
+        /// 获取电气火灾监测单个项目的模拟量趋势
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -104,16 +95,16 @@ namespace FireProtectionV1.DeviceService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<RecordUnAnalogOutput> GetRecordUnAnalog(GetRecordDetectorInput input)
-        {
-            return await _deviceManager.GetRecordUnAnalog(new GetRecordDetectorInput()
-            {
-                DetectorId=input.DetectorId,
-                FireUnitId=input.FireUnitId,
-                End=DateTime.Now.Date.AddSeconds(-1),
-                Start=DateTime.Now.Date.AddDays(-7)
-            });
-        }
+        //public async Task<RecordUnAnalogOutput> GetRecordUnAnalog(GetRecordDetectorInput input)
+        //{
+        //    return await _deviceManager.GetRecordUnAnalog(new GetRecordDetectorInput()
+        //    {
+        //        DetectorId=input.DetectorId,
+        //        FireUnitId=input.FireUnitId,
+        //        End=DateTime.Now.Date.AddSeconds(-1),
+        //        Start=DateTime.Now.Date.AddDays(-7)
+        //    });
+        //}
         /// <summary>
         /// 查询防火单位网关状态列表
         /// </summary>
@@ -121,10 +112,10 @@ namespace FireProtectionV1.DeviceService
         /// <param name="FireUnitId">防火单位Id</param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<GatewayStatusOutput>> GetFireUnitGatewaysStatus([Required]int FireSysType, [Required]int FireUnitId, PagedResultRequestDto dto)
-        {
-            return await _deviceManager.GetFireUnitGatewaysStatus(FireSysType,FireUnitId, dto);
-        }
+        //public async Task<PagedResultDto<GatewayStatusOutput>> GetFireUnitGatewaysStatus([Required]int FireSysType, [Required]int FireUnitId, PagedResultRequestDto dto)
+        //{
+        //    return await _deviceManager.GetFireUnitGatewaysStatus(FireSysType,FireUnitId, dto);
+        //}
         /// <summary>
         /// 用于数据大屏：获取各类消防物联网设施的各种状态及数量
         /// </summary>

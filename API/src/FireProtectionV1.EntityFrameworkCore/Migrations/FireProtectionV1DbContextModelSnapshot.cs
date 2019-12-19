@@ -320,68 +320,23 @@ namespace FireProtectionV1.Migrations
                     b.ToTable("SafeUnit");
                 });
 
-            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.AlarmCheck", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AlarmDataId");
-
-                    b.Property<byte>("CheckState");
-
-                    b.Property<string>("Content")
-                        .HasMaxLength(300);
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<byte>("FireSysType");
-
-                    b.Property<int>("FireUnitId");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<byte>("Notify119");
-
-                    b.Property<byte>("NotifyMiniaturefire");
-
-                    b.Property<byte>("NotifyWorker");
-
-                    b.Property<int>("UserId");
-
-                    b.Property<string>("VioceUrl")
-                        .HasMaxLength(100);
-
-                    b.Property<int>("VoiceLength");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AlarmCheck");
-                });
-
             modelBuilder.Entity("FireProtectionV1.FireWorking.Model.AlarmToElectric", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AlarmLimit")
-                        .IsRequired()
-                        .HasMaxLength(20);
-
                     b.Property<double>("Analog");
 
                     b.Property<DateTime>("CreationTime");
 
-                    b.Property<int>("DetectorId");
+                    b.Property<int>("FireElectricDeviceId");
 
                     b.Property<int>("FireUnitId");
 
-                    b.Property<int>("GatewayId");
-
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<string>("Unit")
-                        .IsRequired()
-                        .HasMaxLength(4);
+                    b.Property<string>("Sign")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -393,46 +348,37 @@ namespace FireProtectionV1.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("CheckContent")
+                        .HasMaxLength(300);
+
+                    b.Property<byte>("CheckState");
+
+                    b.Property<DateTime?>("CheckTime");
+
+                    b.Property<int>("CheckUserId");
+
+                    b.Property<int>("CheckVoiceLength");
+
+                    b.Property<string>("CheckVoiceUrl")
+                        .HasMaxLength(100);
+
                     b.Property<DateTime>("CreationTime");
 
-                    b.Property<int>("DetectorId");
+                    b.Property<int>("FireAlarmDetectorId");
+
+                    b.Property<int>("FireAlarmDeviceId");
 
                     b.Property<int>("FireUnitId");
 
-                    b.Property<int>("GatewayId");
-
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<bool>("NotifyMiniStation");
+
+                    b.Property<bool>("NotifyWorker");
 
                     b.HasKey("Id");
 
                     b.ToTable("AlarmToFire");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.AlarmToGas", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("CollectDeviceId");
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<decimal>("CurrentData");
-
-                    b.Property<int>("FireUnitId");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("SafeRange")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("TerminalDeviceSn")
-                        .IsRequired()
-                        .HasMaxLength(10);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AlarmToGas");
                 });
 
             modelBuilder.Entity("FireProtectionV1.FireWorking.Model.BreakDown", b =>
@@ -446,14 +392,11 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<DateTime>("DispatchTime");
 
-                    b.Property<string>("DoUserFrom")
-                        .HasMaxLength(20);
-
                     b.Property<int>("DoUserId");
 
                     b.Property<int>("FireUnitId");
 
-                    b.Property<byte>("HandleStatus");
+                    b.Property<int>("HandleStatus");
 
                     b.Property<bool>("IsDeleted");
 
@@ -464,12 +407,9 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<DateTime>("SolutionTime");
 
-                    b.Property<byte>("SolutionWay");
+                    b.Property<int>("SolutionWay");
 
-                    b.Property<byte>("Source");
-
-                    b.Property<string>("UserFrom")
-                        .HasMaxLength(20);
+                    b.Property<int>("Source");
 
                     b.Property<int>("UserId");
 
@@ -612,52 +552,12 @@ namespace FireProtectionV1.Migrations
                     b.ToTable("DataToPatrolDetailProblem");
                 });
 
-            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.Detector", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<int>("DetectorTypeId");
-
-                    b.Property<int>("FaultNum");
-
-                    b.Property<byte>("FireSysType");
-
-                    b.Property<int>("FireUnitArchitectureFloorId");
-
-                    b.Property<int>("FireUnitId");
-
-                    b.Property<string>("FullLocation");
-
-                    b.Property<int>("GatewayId");
-
-                    b.Property<string>("Identify")
-                        .HasMaxLength(50);
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<int>("LastFaultId");
-
-                    b.Property<string>("Location")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Origin")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("State")
-                        .HasMaxLength(10);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Detector");
-                });
-
             modelBuilder.Entity("FireProtectionV1.FireWorking.Model.DetectorType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("ApplyForTSJ");
 
                     b.Property<DateTime>("CreationTime");
 
@@ -681,22 +581,57 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<DateTime>("CreationTime");
 
-                    b.Property<int>("DetectorId");
+                    b.Property<string>("FaultRemark");
 
-                    b.Property<string>("FaultRemark")
-                        .HasMaxLength(200);
+                    b.Property<int>("FireAlarmDetectorId");
+
+                    b.Property<int>("FireAlarmDeviceId");
 
                     b.Property<int>("FireUnitId");
 
-                    b.Property<int>("GatewayId");
-
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<byte>("ProcessState");
+                    b.Property<int>("State");
 
                     b.HasKey("Id");
 
                     b.ToTable("Fault");
+                });
+
+            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.FireAlarmDetector", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<int>("DetectorTypeId");
+
+                    b.Property<int>("FaultNum");
+
+                    b.Property<int>("FireAlarmDeviceId");
+
+                    b.Property<int>("FireUnitArchitectureFloorId");
+
+                    b.Property<int>("FireUnitId");
+
+                    b.Property<string>("FullLocation");
+
+                    b.Property<string>("Identify")
+                        .HasMaxLength(50);
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<int>("LastFaultId");
+
+                    b.Property<string>("Location")
+                        .HasMaxLength(100);
+
+                    b.Property<int>("State");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FireAlarmDetector");
                 });
 
             modelBuilder.Entity("FireProtectionV1.FireWorking.Model.FireAlarmDevice", b =>
@@ -708,23 +643,21 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<DateTime>("CreationTime");
 
+                    b.Property<string>("DeviceModel");
+
                     b.Property<string>("DeviceSn");
 
-                    b.Property<string>("DeviceType");
-
-                    b.Property<bool>("EnableAlarm");
+                    b.Property<bool>("EnableAlarmCloud");
 
                     b.Property<bool>("EnableAlarmSwitch");
 
-                    b.Property<bool>("EnableFault");
+                    b.Property<bool>("EnableFaultCloud");
 
                     b.Property<bool>("EnableFaultSwitch");
 
                     b.Property<int>("FireUnitArchitectureId");
 
                     b.Property<int>("FireUnitId");
-
-                    b.Property<int>("GatewayId");
 
                     b.Property<bool>("IsDeleted");
 
@@ -734,9 +667,28 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<string>("Protocol");
 
+                    b.Property<int>("State");
+
                     b.HasKey("Id");
 
                     b.ToTable("FireAlarmDevice");
+                });
+
+            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.FireAlarmDeviceModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(20);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FireAlarmDeviceModel");
                 });
 
             modelBuilder.Entity("FireProtectionV1.FireWorking.Model.FireAlarmDeviceProtocol", b =>
@@ -756,36 +708,19 @@ namespace FireProtectionV1.Migrations
                     b.ToTable("FireAlarmDeviceProtocol");
                 });
 
-            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.FireAlarmDeviceType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(20);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FireAlarmDeviceType");
-                });
-
             modelBuilder.Entity("FireProtectionV1.FireWorking.Model.FireElectricDevice", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AmpereThreshold");
-
                     b.Property<DateTime>("CreationTime");
 
-                    b.Property<string>("DeviceSn")
+                    b.Property<string>("DataRate");
+
+                    b.Property<string>("DeviceModel")
                         .HasMaxLength(20);
 
-                    b.Property<string>("DeviceType")
+                    b.Property<string>("DeviceSn")
                         .HasMaxLength(20);
 
                     b.Property<bool>("EnableAlarmSwitch");
@@ -804,29 +739,47 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<int>("FireUnitId");
 
-                    b.Property<int>("GatewayId");
-
                     b.Property<bool>("IsDeleted");
 
                     b.Property<string>("Location")
                         .HasMaxLength(100);
 
+                    b.Property<int>("MaxAmpere");
+
+                    b.Property<int>("MaxL");
+
+                    b.Property<int>("MaxL1");
+
+                    b.Property<int>("MaxL2");
+
+                    b.Property<int>("MaxL3");
+
+                    b.Property<int>("MaxN");
+
+                    b.Property<int>("MinAmpere");
+
+                    b.Property<int>("MinL");
+
+                    b.Property<int>("MinL1");
+
+                    b.Property<int>("MinL2");
+
+                    b.Property<int>("MinL3");
+
+                    b.Property<int>("MinN");
+
                     b.Property<string>("NetComm");
 
-                    b.Property<string>("PhaseJson");
+                    b.Property<int>("PhaseType");
 
-                    b.Property<string>("PhaseType");
-
-                    b.Property<string>("State");
-
-                    b.Property<string>("TemperatureThreshold");
+                    b.Property<int>("State");
 
                     b.HasKey("Id");
 
                     b.ToTable("FireElectricDevice");
                 });
 
-            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.FireElectricDeviceType", b =>
+            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.FireElectricDeviceModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -840,7 +793,29 @@ namespace FireProtectionV1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FireElectricDeviceType");
+                    b.ToTable("FireElectricDeviceModel");
+                });
+
+            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.FireElectricRecord", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<double>("Analog");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<int>("FireElectricDeviceId");
+
+                    b.Property<int>("FireUnitId");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Sign");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FireElectricRecord");
                 });
 
             modelBuilder.Entity("FireProtectionV1.FireWorking.Model.FireOrtherDevice", b =>
@@ -894,8 +869,6 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<int>("FireUnitId");
 
-                    b.Property<int>("GatewayId");
-
                     b.Property<string>("Gateway_DataRate");
 
                     b.Property<string>("Gateway_Location");
@@ -940,38 +913,6 @@ namespace FireProtectionV1.Migrations
                     b.ToTable("FireWaterDeviceType");
                 });
 
-            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.Gateway", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<byte>("FireSysType");
-
-                    b.Property<int>("FireUnitId");
-
-                    b.Property<string>("Identify")
-                        .HasMaxLength(50);
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Origin")
-                        .HasMaxLength(50);
-
-                    b.Property<int>("Status");
-
-                    b.Property<DateTime>("StatusChangeTime");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Gateway");
-                });
-
             modelBuilder.Entity("FireProtectionV1.FireWorking.Model.PhotosPathSave", b =>
                 {
                     b.Property<int>("Id")
@@ -994,24 +935,6 @@ namespace FireProtectionV1.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PhotosPathSave");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.RecordAnalog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<double>("Analog");
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<int>("DetectorId");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RecordAnalog");
                 });
 
             modelBuilder.Entity("FireProtectionV1.FireWorking.Model.RecordOnline", b =>

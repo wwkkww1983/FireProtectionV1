@@ -25,6 +25,6 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// <summary>
         /// 报警时间
         /// </summary>
-        public string AlarmTime { get; set; }
+        public DateTime AlarmTime { get; set; }
     }
 }

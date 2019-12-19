@@ -1,4 +1,5 @@
 ﻿using FireProtectionV1.Common.DBContext;
+using FireProtectionV1.Common.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,34 +13,24 @@ namespace FireProtectionV1.FireWorking.Model
     public class Fault : EntityBase
     {
         /// <summary>
-        /// 网关Id
+        /// 火警联网设施Id
         /// </summary>
-        public int GatewayId { get; set; }
+        public int FireAlarmDeviceId { get; set; }
         /// <summary>
         /// 探测器Id
         /// </summary>
-        [Required]
-        public int DetectorId { get; set; }
-        ///// <summary>
-        ///// 故障标题
-        ///// </summary>
-        //[Required]
-        //[MaxLength(StringType.Normal)]
-        //public string FaultTitle { get; set; }
+        public int FireAlarmDetectorId { get; set; }
         /// <summary>
         /// 故障描述
         /// </summary>
-        [MaxLength(StringType.Long)]
         public string FaultRemark { get; set; }
         /// <summary>
-        /// 处理状态 HandleStatus
+        /// 处理状态
         /// </summary>
-        [Required]
-        public byte ProcessState { get; set; }
+        public HandleStatus State { get; set; }
         /// <summary>
         /// 防火单位Id
         /// </summary>
-        [Required]
         public int FireUnitId { get; set; }
     }
 }

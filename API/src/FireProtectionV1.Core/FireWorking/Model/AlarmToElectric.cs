@@ -9,31 +9,20 @@ namespace FireProtectionV1.FireWorking.Model
     public class AlarmToElectric: EntityBase
     {
         /// <summary>
-        /// 网关Id
-        /// </summary>
-        public int GatewayId { get; set; }
-        /// <summary>
-        /// 探测器Id
+        /// 电气火灾设施Id
         /// </summary>
         [Required]
-        public int DetectorId { get; set; }
+        public int FireElectricDeviceId { get; set; }
+        /// <summary>
+        /// 记录的类型标记：A/L/N/L1/L2/L3，其中A代表剩余电流，其它代表电缆温度
+        /// </summary>
+        [Required]
+        public string Sign { get; set; }
         /// <summary>
         /// 模拟量值
         /// </summary>
         [Required]
         public double Analog { get; set; }
-        /// <summary>
-        /// 计量单位
-        /// </summary>
-        [Required]
-        [MaxLength(4)]
-        public string Unit { get; set; }
-        /// <summary>
-        /// 预警限值
-        /// </summary>
-        [Required]
-        [MaxLength(20)]
-        public string AlarmLimit { get; set; }
         /// <summary>
         /// 防火单位Id
         /// </summary>

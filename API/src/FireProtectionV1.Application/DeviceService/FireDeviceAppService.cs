@@ -26,12 +26,12 @@ namespace FireProtectionV1.DeviceService
         /// <summary>
         /// 获取指定防火单位ID的火警联网设施列表
         /// </summary>
-        /// <param name="FireUnitId">防火单位ID</param>
+        /// <param name="fireUnitId">防火单位ID</param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<FireAlarmDeviceItemDto>> GetFireAlarmDeviceList(int FireUnitId, PagedResultRequestDto dto)
+        public async Task<PagedResultDto<FireAlarmDeviceItemDto>> GetFireAlarmDeviceList(int fireUnitId, PagedResultRequestDto dto)
         {
-            return await _deviceManager.GetFireAlarmDeviceList(FireUnitId, dto);
+            return await _deviceManager.GetFireAlarmDeviceList(fireUnitId, dto);
         }
         /// <summary>
         /// 获取火警联网设备详情
@@ -43,31 +43,31 @@ namespace FireProtectionV1.DeviceService
             return await _deviceManager.GetFireAlarmDevice(DeviceId);
         }
         /// <summary>
-        /// 新增火警联网设备
+        /// 新增火警联网设施
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<SuccessOutput> AddFireAlarmDevice(FireAlarmDeviceDto input)
+        public async Task AddFireAlarmDevice(FireAlarmDeviceDto input)
         {
-            return await _deviceManager.AddFireAlarmDevice(input, Origin.Tianshuju);
+            await _deviceManager.AddFireAlarmDevice(input);
         }
         /// <summary>
         /// 删除火警联网设备
         /// </summary>
-        /// <param name="DeviceId">火警联网设备ID</param>
+        /// <param name="deviceId">火警联网设备ID</param>
         /// <returns></returns>
-        public async Task<SuccessOutput> DeleteFireAlarmDevice(int DeviceId)
+        public async Task DeleteFireAlarmDevice(int deviceId)
         {
-            return await _deviceManager.DeleteFireAlarmDevice(DeviceId);
+            await _deviceManager.DeleteFireAlarmDevice(deviceId);
         }
         /// <summary>
         /// 修改火警联网设备
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<SuccessOutput> UpdateFireAlarmDevice(UpdateFireAlarmDeviceDto input)
+        public async Task UpdateFireAlarmDevice(UpdateFireAlarmDeviceDto input)
         {
-            return await _deviceManager.UpdateFireAlarmDevice(input);
+            await _deviceManager.UpdateFireAlarmDevice(input);
         }
         /// <summary>
         /// 获取火警联网设施部件类型数组
@@ -92,43 +92,43 @@ namespace FireProtectionV1.DeviceService
             return await _deviceManager.GetFireAlarmFaultDetectorList(DeviceId, dto);
         }
         /// <summary>
-        /// 获取指定设备ID的30天报警记录
+        /// 获取火警联网设施最近30天的火警列表数据
         /// </summary>
-        /// <param name="DeviceId">设备ID</param>
+        /// <param name="fireAlarmDeviceId"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<GetFireAlarm30DayDto>> GetFireAlarm30DayList(int DeviceId, PagedResultRequestDto dto)
+        public async Task<PagedResultDto<GetFireAlarm30DayDto>> GetFireAlarm30DayList(int fireAlarmDeviceId, PagedResultRequestDto dto)
         {
-            return await _deviceManager.GetFireAlarm30DayList(DeviceId, dto);
+            return await _deviceManager.GetFireAlarm30DayList(fireAlarmDeviceId, dto);
         }
         /// <summary>
-        /// 获取指定设备ID的高频报警部件列表
+        /// 获取指定火警联网设施ID的高频报警部件列表
         /// </summary>
-        /// <param name="DeviceId">设备ID</param>
+        /// <param name="fireAlarmDeviceId"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<GetFireAlarmHighDto>> GetFireAlarmHighList(int DeviceId, PagedResultRequestDto dto)
+        public async Task<PagedResultDto<GetFireAlarmHighDto>> GetFireAlarmHighList(int fireAlarmDeviceId, PagedResultRequestDto dto)
         {
-            return await _deviceManager.GetFireAlarmHighList(DeviceId, dto);
+            return await _deviceManager.GetFireAlarmHighList(fireAlarmDeviceId, dto);
         }
         /// <summary>
-        /// 获取指定设备SN的部件列表
+        /// 根据火警联网设备Id获取其下的部件列表
         /// </summary>
-        /// <param name="DeviceSn">设备SN</param>
+        /// <param name="fireAlarmDeviceId">设备SN</param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<DetectorDto>> GetDeviceDetectorList(string DeviceSn, PagedResultRequestDto dto)
+        public async Task<PagedResultDto<FireAlarmDetectorDto>> GetDeviceDetectorList(int fireAlarmDeviceId, PagedResultRequestDto dto)
         {
-            return await _deviceManager.GetDeviceDetectorList(DeviceSn, dto);
+            return await _deviceManager.GetDeviceDetectorList(fireAlarmDeviceId, dto);
         }
         /// <summary>
-        /// 获取部件详情
+        /// 根据Id获取单个火警联网部件详情
         /// </summary>
-        /// <param name="DetectorId"></param>
+        /// <param name="detectorId"></param>
         /// <returns></returns>
-        public async Task<DetectorDto> GetDeviceDetector(int DetectorId)
+        public async Task<FireAlarmDetector> GetDetectorById(int detectorId)
         {
-            return await _deviceManager.GetDeviceDetector(DetectorId);
+            return await _deviceManager.GetDetectorById(detectorId);
         }
         /// <summary>
         /// 添加火警联网部件
@@ -149,22 +149,22 @@ namespace FireProtectionV1.DeviceService
             return await _deviceManager.ImportFireAlarmDetector(input);
         }
         /// <summary>
-        /// 删除部件
+        /// 删除火警联网部件
         /// </summary>
-        /// <param name="DetectorId"></param>
+        /// <param name="detectorId"></param>
         /// <returns></returns>
-        public async Task<SuccessOutput> DeleteDetector(int DetectorId)
+        public async Task DeleteDetector(int detectorId)
         {
-            return await _deviceManager.DeleteDetector(DetectorId);
+            await _deviceManager.DeleteDetector(detectorId);
         }
         /// <summary>
-        /// 修改火警联网部件
+        /// 修改火警联网设施的联网部件
         /// </summary>
         /// <param name="detectorDto"></param>
         /// <returns></returns>
-        public async Task<SuccessOutput> UpdateFireAlarmDetector(UpdateDetectorDto detectorDto)
+        public async Task UpdateFireAlarmDetector(UpdateDetectorDto detectorDto)
         {
-            return await _deviceManager.UpdateFireAlarmDetector(detectorDto);
+            await _deviceManager.UpdateFireAlarmDetector(detectorDto);
         }
         /// <summary>
         /// 获取电气火灾设备各状态数量
@@ -176,22 +176,22 @@ namespace FireProtectionV1.DeviceService
             return await _deviceManager.GetFireElectricDeviceState(FireUnitId);
         }
         /// <summary>
-        /// 获取指定防火单位ID的电气火灾设施列表
+        /// 获取指定防火单位的电气火灾设施列表
         /// </summary>
-        /// <param name="FireUnitId">防火单位ID</param>
-        /// <param name="State">设备状态：null/""、在线、离线、良好、隐患、超限</param>
+        /// <param name="fireUnitId">防火单位ID</param>
+        /// <param name="state">设备状态：null/""、在线、离线、良好、隐患、超限</param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<FireElectricDeviceItemDto>> GetFireElectricDeviceList(int FireUnitId, string State, PagedResultRequestDto dto)
+        public async Task<PagedResultDto<FireElectricDeviceItemDto>> GetFireElectricDeviceList(int fireUnitId, string state, PagedResultRequestDto dto)
         {
-            return await _deviceManager.GetFireElectricDeviceList(FireUnitId, State, dto);
+            return await _deviceManager.GetFireElectricDeviceList(fireUnitId, state, dto);
         }
         /// <summary>
         /// 获取电气火灾设备详情
         /// </summary>
         /// <param name="DeviceId"></param>
         /// <returns></returns>
-        public async Task<UpdateFireElectricDeviceDto> GetFireElectricDevice(int DeviceId)
+        public async Task<FireElectricDevice> GetFireElectricDevice(int DeviceId)
         {
             return await _deviceManager.GetFireElectricDevice(DeviceId);
         }
@@ -200,27 +200,27 @@ namespace FireProtectionV1.DeviceService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<SuccessOutput> AddFireElectricDevice(FireElectricDeviceDto input)
+        public async Task AddFireElectricDevice(FireElectricDeviceDto input)
         {
-            return await _deviceManager.AddFireElectricDevice(input, Origin.Tianshuju);
+            await _deviceManager.AddFireElectricDevice(input);
         }
         /// <summary>
         /// 删除电气火灾设备
         /// </summary>
         /// <param name="DeviceId">电气火灾设备ID</param>
         /// <returns></returns>
-        public async Task<SuccessOutput> DeleteFireElectricDevice(int DeviceId)
+        public async Task DeleteFireElectricDevice(int DeviceId)
         {
-            return await _deviceManager.DeleteFireElectricDevice(DeviceId);
+            await _deviceManager.DeleteFireElectricDevice(DeviceId);
         }
         /// <summary>
         /// 修改电气火灾设备
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<SuccessOutput> UpdateFireElectricDevice(UpdateFireElectricDeviceDto input)
+        public async Task UpdateFireElectricDevice(UpdateFireElectricDeviceDto input)
         {
-            return await _deviceManager.UpdateFireElectricDevice(input);
+            await _deviceManager.UpdateFireElectricDevice(input);
         }
         /// <summary>
         /// 获取指定其他消防设备ID的详情
@@ -282,27 +282,27 @@ namespace FireProtectionV1.DeviceService
         /// <summary>
         /// 删除其他消防设备
         /// </summary>
-        /// <param name="DeviceId">其他消防设备ID</param>
+        /// <param name="deviceId">其他消防设备ID</param>
         /// <returns></returns>
-        public async Task<SuccessOutput> DeleteFireOrtherDevice(int DeviceId)
+        public async Task DeleteFireOrtherDevice(int deviceId)
         {
-            return await _deviceManager.DeleteFireOrtherDevice(DeviceId);
+            await _deviceManager.DeleteFireOrtherDevice(deviceId);
         }
         /// <summary>
         /// 获取火警联网设备型号数组
         /// </summary>
         /// <returns></returns>
-        public async Task<List<string>> GetFireAlarmDeviceTypes()
+        public async Task<List<string>> GetFireAlarmDeviceModels()
         {
-            return await _deviceManager.GetFireAlarmDeviceTypes();
+            return await _deviceManager.GetFireAlarmDeviceModels();
         }
         /// <summary>
         /// 获取电气火灾设备型号数组
         /// </summary>
         /// <returns></returns>
-        public async Task<List<string>> GetFireElectricDeviceTypes()
+        public async Task<List<string>> GetFireElectricDeviceModels()
         {
-            return await _deviceManager.GetFireElectricDeviceTypes();
+            return await _deviceManager.GetFireElectricDeviceModels();
         }
         /// <summary>
         /// 获取火警联网设备协议数组
@@ -315,13 +315,12 @@ namespace FireProtectionV1.DeviceService
         /// <summary>
         /// 获取火警设备串口参数
         /// </summary>
-        /// <param name="DeviceId">火警联网设备ID</param>
+        /// <param name="deviceId">火警联网设备ID</param>
         /// <returns></returns>
-        public async Task<SerialPortParamDto> GetSerialPortParam(int DeviceId)
+        public async Task<SerialPortParamDto> GetSerialPortParam(int deviceId)
         {
-            return await _deviceManager.GetSerialPortParam(DeviceId);
+            return await _deviceManager.GetSerialPortParam(deviceId);
         }
-
         /// <summary>
         /// 添加消防管网设备
         /// </summary>
@@ -331,7 +330,6 @@ namespace FireProtectionV1.DeviceService
         {
             await _deviceManager.AddFireWaterDevice(input);
         }
-
         /// <summary>
         /// 修改消防管网设备
         /// </summary>
@@ -341,7 +339,6 @@ namespace FireProtectionV1.DeviceService
         {
             await _deviceManager.UpdateFireWaterDevice(input);
         }
-
         /// <summary>
         /// 删除消防管网设备
         /// </summary>
@@ -351,17 +348,15 @@ namespace FireProtectionV1.DeviceService
         {
             await _deviceManager.DeleteFireWaterDevice(deviceId);
         }
-
         /// <summary>
-        /// 获取单个设备信息
+        /// 获取单个消防管网设备信息
         /// </summary>
         /// <param name="deviceId"></param>
         /// <returns></returns>
-        public async Task<UpdateFireWaterDeviceInput> GetById(int deviceId)
+        public async Task<UpdateFireWaterDeviceInput> GetFireWaterDeviceById(int deviceId)
         {
-            return await _deviceManager.GetById(deviceId);
+            return await _deviceManager.GetFireWaterDeviceById(deviceId);
         }
-
         /// <summary>
         /// 获取消防管网设备列表
         /// </summary>
@@ -371,7 +366,6 @@ namespace FireProtectionV1.DeviceService
         {
             return await _deviceManager.GetFireWaterDeviceList(fireUnitId, dto);
         }
-
         /// <summary>
         /// 获取消防管网联网网关设备型号列表
         /// </summary>
@@ -379,6 +373,14 @@ namespace FireProtectionV1.DeviceService
         public async Task<List<string>> GetFireWaterDeviceTypes()
         {
             return await _deviceManager.GetFireWaterDeviceTypes();
+        }
+        /// <summary>
+        /// 获取固件更新列表
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<GetFirmwareUpdateListOutput>> GetFirmwareUpdateList()
+        {
+            return await _deviceManager.GetFirmwareUpdateList();
         }
     }
 }

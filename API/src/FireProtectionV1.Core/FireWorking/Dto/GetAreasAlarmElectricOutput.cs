@@ -71,10 +71,6 @@ namespace FireProtectionV1.FireWorking.Dto
         /// 防火单位名称
         /// </summary>
         public string Name { get; set; }
-        /// <summary>
-        /// 离线时间
-        /// </summary>
-        public string Time { get; set; }
     }
     public class MonthCount
     {

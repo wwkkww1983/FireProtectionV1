@@ -6,20 +6,19 @@ using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto
 {
-    public class AddNewFaultInput: DeviceBaseInput
+    public class AddNewDetectorFaultInput
     {
         /// <summary>
-        /// 部件国标类型
+        /// 火警联网设施编号
         /// </summary>
-        public byte DetectorGBType { get; set; }
+        public string FireAlarmDeviceSn { get; set; }
         /// <summary>
-        /// 网关设备标识
+        /// 联网部件编号
         /// </summary>
-        public string GatewayIdentify { get; set; }
+        public string FireAlarmDetectorSn { get; set; }
         /// <summary>
         /// 故障描述
         /// </summary>
-        [MaxLength(StringType.Long)]
         public string FaultRemark { get; set; }
     }
 }

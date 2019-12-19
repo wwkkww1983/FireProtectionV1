@@ -1,0 +1,559 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FireProtectionV1.Application</name>
+    </assembly>
+    <members>
+        <member name="T:FireProtectionV1.AppService.AppServiceBase">
+            <summary>
+            Derive your application services from this class.
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AreaAppService.GetAreas(FireProtectionV1.Infrastructure.Dto.GetAreaInput)">
+            <summary>
+            根据父级区域Id查询子级区域数组
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AreaAppService.GetAreasChenghua">
+            <summary>
+            查询成华区子级区域数组
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DataReportAppService.GetDataMinotor">
+            <summary>
+            数据监控页
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DataReportAppService.GetAreasAlarmElectric(FireProtectionV1.FireWorking.Dto.GetAreasAlarmElectricInput)">
+            <summary>
+            安全用电数据分析
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DataReportAppService.GetAreasAlarmFire(FireProtectionV1.FireWorking.Dto.GetAreasAlarmFireInput)">
+            <summary>
+            火警预警数据分析
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FireProtectionV1.AppService.FireDeptUserAppService">
+            <summary>
+            消防部门用户接口
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireDeptUserAppService.UserLogout(FireProtectionV1.User.Dto.DeptUserLogoutInput)">
+            <summary>
+            注销用户
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireDeptUserAppService.UserLogin(FireProtectionV1.User.Dto.PcDeptUserLoginInput)">
+            <summary>
+            用户登录(PC端)
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireDeptUserAppService.UserLoginForMobile(FireProtectionV1.User.Dto.DeptUserLoginInput)">
+            <summary>
+            用户登录(移动端)
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireSettingAppService.GetAllSetting">
+            <summary>
+            获取所有设置
+            CableTemperature:电缆温度℃ | ResidualCurrent:剩余电流mA | PoolWaterPressure:消防水池水压KPa | PoolWaterHeight:消防水池液位高度M | HydrantPressure:市政消火栓水压kPa
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireSettingAppService.GetByName(System.String)">
+            <summary>
+            根据设置名获取某一具体设置
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireSettingAppService.SaveSetting(System.Collections.Generic.List{FireProtectionV1.SettingCore.Model.FireSetting})">
+            <summary>
+            保存设置
+            </summary>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireSettingAppService.InitSetting">
+            <summary>
+            设置初始化
+            MinValue、MaxValue都是数值型，有的设置只有下限值或只有上限值
+            因此约定：MaxValue=10000表示无上限值，MinValue=-10000表示无下限值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:FireProtectionV1.AppService.FireUnitAppService">
+            <summary>
+            防火单位服务
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetGatewayStatusTypes">
+            <summary>
+            获取网关状态类型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitTypes">
+            <summary>
+            获取防火单位类型数组
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitListExcel(FireProtectionV1.Enterprise.Dto.GetPagedFireUnitListInput)">
+            <summary>
+            （所有防火单位）导出防火单位列表excel
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitList(FireProtectionV1.Enterprise.Dto.GetPagedFireUnitListInput)">
+            <summary>
+            （所有防火单位）防火单位分页列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitListForMobile(FireProtectionV1.Enterprise.Dto.GetPagedFireUnitListInput)">
+            <summary>
+            （所有防火单位）防火单位分页列表（手机端）
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.AttentionFireUnit(FireProtectionV1.Enterprise.Dto.DeptUserAttentionFireUnitInput)">
+            <summary>
+            （单个防火单位）置顶单个防火单位
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.AttentionFireUnitCancel(FireProtectionV1.Enterprise.Dto.DeptUserAttentionFireUnitInput)">
+            <summary>
+            （单个防火单位）取消置顶单个防火单位
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.Add(FireProtectionV1.Enterprise.Dto.AddFireUnitInput)">
+            <summary>
+            添加防火单位
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.Update(FireProtectionV1.Enterprise.Dto.UpdateFireUnitInput)">
+            <summary>
+            修改防火单位信息
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.Delete(FireProtectionV1.FireWorking.Dto.FireUnitIdInput)">
+            <summary>
+            删除防火单位
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetMapList">
+            <summary>
+            地图加载所需使用到的防火单位列表数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitInfo(FireProtectionV1.Enterprise.Dto.GetFireUnitInfoInput)">
+            <summary>
+            （单个防火单位）防火单位详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitAlarm(FireProtectionV1.FireWorking.Dto.FireUnitIdInput)">
+            <summary>
+            （单个防火单位）防火单位消防数据
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnit30DayAlarmEle(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
+            <summary>
+            （单个防火单位）安全用电最近30天报警记录查询
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnit30DayAlarmFire(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
+            <summary>
+            （单个防火单位）火警预警最近30天报警记录查询
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitHighFreqAlarmEle(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
+            <summary>
+            （单个防火单位）安全用电高频报警部件查询
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitHighFreqAlarmElecE(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
+            <summary>
+            （单个防火单位）安全用电高频报警部件查询（剩余电流）
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitHighFreqAlarmElecT(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
+            <summary>
+            （单个防火单位）安全用电高频报警部件查询（电缆温度）
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitHighFreqAlarmFire(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
+            <summary>
+            （单个防火单位）火警预警高频报警部件查询
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitPendingFault(FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput)">
+            <summary>
+            （单个防火单位）设备设施故障待处理故障查询
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetAreas30DayFireAlarmListExcel(FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput)">
+            <summary>
+            （所有防火单位）火灾报警监控列表Excel导出
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetAreas30DayFireAlarmList(FireProtectionV1.Enterprise.Dto.GetPagedFireUnitListFilterTypeInput)">
+            <summary>
+            （所有防火单位）火灾报警监控列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetAreas30DayTempAlarmListExcel(FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput)">
+            <summary>
+            （所有防火单位）安全用电监控列表Excel导出（电缆温度）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetAreas30DayTempAlarmList(FireProtectionV1.Enterprise.Dto.GetPagedFireUnitListFilterTypeInput)">
+            <summary>
+            （所有防火单位）安全用电监控列表（电缆温度）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetAreas30DayElecAlarmListExcel(FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput)">
+            <summary>
+            （所有防火单位）安全用电监控列表Excel导出（剩余电流）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetAreas30DayElecAlarmList(FireProtectionV1.Enterprise.Dto.GetPagedFireUnitListFilterTypeInput)">
+            <summary>
+            （所有防火单位）安全用电监控列表（剩余电流）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitFaultListExcel(FireProtectionV1.Enterprise.Dto.GetFireUnitListFilterTypeInput)">
+            <summary>
+            （所有防火单位）设备设施故障监控Excel导出
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitFaultList(FireProtectionV1.Enterprise.Dto.GetPagedFireUnitListInput)">
+            <summary>
+            （所有防火单位）设备设施故障监控
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitPatrolList(FireProtectionV1.Enterprise.Dto.GetPagedFireUnitListInput)">
+            <summary>
+            （所有防火单位）值班巡查监控（巡查记录）
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetFireUnitDutyList(FireProtectionV1.Enterprise.Dto.GetPagedFireUnitListInput)">
+            <summary>
+            （所有防火单位）值班巡查监控（值班记录）
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetNoPatrol7DayFireUnitList(FireProtectionV1.Enterprise.Dto.PagedRequestByUserIdDto)">
+            <summary>
+            （所有防火单位）超过7天没有巡查记录的单位列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitAppService.GetNoDuty1DayFireUnitList(FireProtectionV1.Enterprise.Dto.PagedRequestByUserIdDto)">
+            <summary>
+            （所有防火单位）超过1天没有值班记录的单位列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.Add(FireProtectionV1.User.Dto.FireUnitUserInput)">
+            <summary>
+            添加账号
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.HttpContextAppService.GetVerifyCode">
+            <summary>
+            获取验证码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:FireProtectionV1.AppService.HydrantAppService">
+            <summary>
+            市政消火栓
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.AppService.HydrantAppService.Add(FireProtectionV1.HydrantCore.Dto.AddHydrantInput)">
+            <summary>
+            新增
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.HydrantAppService.Delete(System.Int32)">
+            <summary>
+            删除
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.HydrantAppService.GetInfoById(System.Int32)">
+            <summary>
+            获取实体信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.HydrantAppService.GetListForApp(FireProtectionV1.HydrantCore.Dto.GetHydrantListInput)">
+            <summary>
+            App端分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.HydrantAppService.GetListForWeb(FireProtectionV1.HydrantCore.Dto.GetHydrantListInput)">
+            <summary>
+            Web端分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.HydrantAppService.GetNearbyAlarmById(System.Int32)">
+            <summary>
+            获取最近30天报警记录
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.HydrantAppService.Update(FireProtectionV1.HydrantCore.Dto.UpdateHydrantInput)">
+            <summary>
+            修改
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FireProtectionV1.AppService.InfrastructureAppService">
+            <summary>
+            数据字典初始化
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.AppService.InfrastructureAppService.InitData">
+            <summary>
+            初始化数据(部署初始化)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:FireProtectionV1.AppService.MiniFireStationAppService">
+            <summary>
+            微型消防站
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.Add(FireProtectionV1.MiniFireStationCore.Dto.AddMiniFireStationInput)">
+            <summary>
+            新增
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.Delete(System.Int32)">
+            <summary>
+            删除
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.GetById(System.Int32)">
+            <summary>
+            获取单个微型消防站信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.GetList(FireProtectionV1.MiniFireStationCore.Dto.GetMiniFireStationListInput)">
+            <summary>
+            分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.GetNearbyStation(System.Decimal,System.Decimal)">
+            <summary>
+            根据坐标点获取附近1KM直线距离内的微型消防站
+            </summary>
+            <param name="lng"></param>
+            <param name="lat"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.MiniFireStationAppService.Update(FireProtectionV1.MiniFireStationCore.Dto.UpdateMiniFireStationInput)">
+            <summary>
+            修改
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FireProtectionV1.AppService.SafeUnitAppService">
+            <summary>
+            维保单位
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.GetSelectSafeUnits(FireProtectionV1.Enterprise.Dto.GetSafeUnitInput)">
+            <summary>
+            选择查询维保单位
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.Add(FireProtectionV1.Enterprise.Dto.AddSafeUnitInput)">
+            <summary>
+            新增
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.Update(FireProtectionV1.Enterprise.Dto.UpdateSafeUnitInput)">
+            <summary>
+            修改
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.Delete(FireProtectionV1.Enterprise.Dto.DeletFireUnitInput)">
+            <summary>
+            删除
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.GetById(System.Int32)">
+            <summary>
+            获取单个实体信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SafeUnitAppService.GetList(FireProtectionV1.Enterprise.Dto.GetSafeUnitListInput)">
+            <summary>
+            分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FireProtectionV1.AppService.StreetGridAppService">
+            <summary>
+            网格
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.AppService.StreetGridAppService.GetUserList(FireProtectionV1.StreetGridCore.Dto.GetStreetGridUserListInput)">
+            <summary>
+            网格员分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.StreetGridEventAppService.GetEventById(System.Int32)">
+            <summary>
+            获取单个实体信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.StreetGridEventAppService.GetList(FireProtectionV1.StreetGridCore.Dto.GetStreetGridEventListInput)">
+            <summary>
+            分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SupervisionAppService.GetList(FireProtectionV1.SupervisionCore.Dto.GetSupervisionListInput)">
+            <summary>
+            分页
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SupervisionAppService.GetSingleSupervisionDetail(System.Int32)">
+            <summary>
+            获取单条执法记录明细项目信息
+            </summary>
+            <param name="supervisionId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SupervisionAppService.GetSingleSupervisionMain(System.Int32)">
+            <summary>
+            获取单条记录主信息
+            </summary>
+            <param name="supervisionId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SupervisionAppService.GetSupervisionItem">
+            <summary>
+            获取所有监管执法项目
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.SupervisionAppService.AddSupervision(FireProtectionV1.SupervisionCore.Dto.AddSupervisionInput)">
+            <summary>
+            添加监管执法记录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.ExcelBuild.BuildFileBytes">
+            <summary>
+            构建文件字节数据
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

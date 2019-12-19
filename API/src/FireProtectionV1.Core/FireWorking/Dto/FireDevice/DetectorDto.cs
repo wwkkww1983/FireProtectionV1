@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto.FireDevice
 {
-    public class FaultDetectorOutput: DetectorDto
+    public class FaultDetectorOutput: FireAlarmDetectorDto
     {
         /// <summary>
         /// 故障描述
@@ -57,7 +57,7 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// </summary>
         public string Location { get; set; }
     }
-    public class DetectorDto
+    public class FireAlarmDetectorDto
     {
         /// <summary>
         /// 部件ID
@@ -95,6 +95,10 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// 部件状态
         /// </summary>
         public string State { get; set; }
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime CreationTime { get; set; }
     }
 
     public class FireAlarmDetectorImportDto

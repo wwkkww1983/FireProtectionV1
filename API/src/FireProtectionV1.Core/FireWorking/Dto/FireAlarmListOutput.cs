@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FireProtectionV1.Common.Enum;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -33,6 +34,6 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 核警状态
         /// </summary>
-        public int CheckState { get; set; }
+        public CheckStateType CheckState { get; set; }
     }
 }

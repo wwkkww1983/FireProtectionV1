@@ -9,13 +9,13 @@ namespace FireProtectionV1.FireWorking.Dto
     public class GetBreakDownInfoOutput
     {
         /// <summary>
-        /// 处理状态（1待处理,2处理中,3已解决,4自行处理,5维保叫修处理中,6维保叫修已处理）
+        /// 处理状态（1待处理,3已解决,4自行处理中,5维保叫修处理中,6维保叫修已处理）
         /// </summary>
-        public byte HandleStatus { get; set; }
+        public HandleStatus HandleStatus { get; set; }
         /// <summary>
         /// 故障来源（1.值班 2.巡查 3.物联终端）
         /// </summary>
-        public byte Source { get; set; }
+        public FaultSource Source { get; set; }
         /// <summary>
         /// 发现人员
         /// </summary>
@@ -48,7 +48,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 问题处理途径（1.自行处理 2.维保叫修）
         /// </summary>
-        public byte SolutionWay { get; set; }
+        public HandleChannel SolutionWay { get; set; }
         /// <summary>
         /// 备注
         /// </summary>

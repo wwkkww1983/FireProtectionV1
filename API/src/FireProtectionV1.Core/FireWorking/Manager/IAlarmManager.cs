@@ -13,18 +13,11 @@ namespace FireProtectionV1.FireWorking.Manager
     public interface IAlarmManager : IDomainService
     {
         /// <summary>
-        /// 新增安全用电报警
-        /// </summary>
-        /// <param name="input"></param>
-        /// <param name="alarmLimit"></param>
-        /// <returns></returns>
-        Task<AddDataOutput> AddAlarmElec(AddDataElecInput input, string alarmLimit);
-        /// <summary>
-        /// 新增火灾监控设备报警
+        /// 新增火警联网数据
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<AddDataOutput> AddAlarmFire(AddAlarmFireInput input);
+        Task AddAlarmFire(AddAlarmFireInput input);
         /// <summary>
         /// 查询指定时间以后的最新电气火灾报警数据
         /// </summary>
@@ -32,25 +25,12 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         IQueryable<AlarmToElectric> GetNewElecAlarm(DateTime startTime);
         /// <summary>
-        /// 查询给定checkId的警情详细信息
-        /// </summary>
-        /// <param name="checkId"></param>
-        /// <returns></returns>
-        Task<AlarmCheckDetailOutput> GetAlarmCheckDetail(int checkId);
-        void RepairData();
-        /// <summary>
-        /// 查询防火单位警情核警数据
-        /// </summary>
-        /// <param name="fireunitid"></param>
-        /// <returns></returns>
-        Task<PagedResultDto<AlarmCheckOutput>> GetAlarmChecks(int fireunitid, List<string> filter, PagedResultRequestDto dto);
-        /// <summary>
-        /// 保存核警信息
+        /// 核警处理
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task CheckAlarm(AlarmCheckDetailDto dto);
-        IQueryable<AlarmToFire> GetAlarms(IQueryable<Detector> detectors, DateTime start, DateTime end);
+        Task CheckFirmAlarm(AlarmCheckDetailDto dto);
+        //IQueryable<AlarmToFire> GetAlarms(IQueryable<Detector> detectors, DateTime start, DateTime end);
         /// <summary>
         /// 获取数据大屏的火警联网实时达
         /// </summary>

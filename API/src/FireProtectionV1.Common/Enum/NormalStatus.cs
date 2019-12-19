@@ -60,7 +60,7 @@ namespace FireProtectionV1.Common.Enum
     /// 故障来源
     /// </summary>
     [Export("故障来源")]
-    public enum SourceType
+    public enum FaultSource
     {
         /// <summary>
         /// 未指定
@@ -93,21 +93,16 @@ namespace FireProtectionV1.Common.Enum
         /// 未处理
         /// </summary>
         [Description("未处理")]
-        UuResolve = 1,
-        /// <summary>
-        /// 处理中
-        /// </summary>
-        [Description("处理中")]
-        Resolving = 2,
+        UnResolve = 1,
         /// <summary>
         /// 已解决
         /// </summary>
         [Description("已解决")]
         Resolved = 3,
         /// <summary>
-        /// 自行处理
+        /// 自行处理中
         /// </summary>
-        [Description("自行处理")]
+        [Description("自行处理中")]
         SelfHandle = 4,
         /// <summary>
         /// 维保叫修处理中
@@ -120,7 +115,23 @@ namespace FireProtectionV1.Common.Enum
         [Description("维保叫修已处理")]
         SafeResolved = 6
     }
-
+    /// <summary>
+    /// 处理途径
+    /// </summary>
+    [Export("处理途径")]
+    public enum HandleChannel
+    {
+        /// <summary>
+        /// 自行处理
+        /// </summary>
+        [Description("自行处理")]
+        Self = 1,
+        /// <summary>
+        /// 维保叫修
+        /// </summary>
+        [Description("维保叫修")]
+        Maintenance = 2
+    }
     public class GatewayStatusNames
     {
         static public string GetName(GatewayStatus status)
