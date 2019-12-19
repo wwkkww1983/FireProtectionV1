@@ -14,7 +14,7 @@ namespace TsjDeviceServer
 {
     class BackMqttClient
     {
-        IMqttClient _client;
+        static IMqttClient _client;
 
         public async Task Run(IMqttApplicationMessageReceivedHandler recverHandler)
         {
@@ -49,6 +49,8 @@ namespace TsjDeviceServer
                     }
 
                     Console.WriteLine("### SUBSCRIBED ###");
+                    CheckUpdateFirmware checkUpdateFirmware = new CheckUpdateFirmware();
+                    checkUpdateFirmware.Start();
                 });
                 _client.DisconnectedHandler = new MqttClientDisconnectedHandlerDelegate(async e =>
                 {
@@ -80,9 +82,13 @@ namespace TsjDeviceServer
             }
             while (!Console.ReadLine().Equals("exit")) ;
         }
-        public async Task Send(MqttApplicationMessage msg)
+        //public async Task Send(MqttApplicationMessage msg)
+        //{
+        //}
+        static public async Task Send(MqttApplicationMessage msg)
         {
-            await _client.PublishAsync(msg);
+            if(_client!=null)
+                await _client.PublishAsync(msg);
         }
     }
 }
