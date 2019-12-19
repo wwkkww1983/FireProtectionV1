@@ -29,7 +29,7 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<DataToPatrolDetailProblem> _patrolDetailProblem;
         IRepository<FireUnitUser> _fireUnitAccountRepository;
         IRepository<FireSystem> _fireSystemRep;
-        IRepository<FireUntiSystem> _fireUnitSystemRep;        
+        IRepository<FireUnitSystem> _fireUnitSystemRep;        
         IRepository<PhotosPathSave> _photosPathSave;
         IRepository<DataToPatrolDetailFireSystem> _patrolDetailFireSystem;
         IRepository<BreakDown> _breakDownRep;
@@ -43,7 +43,7 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<DataToPatrolDetail> patrolDetailRep,
             IRepository<FireUnitUser> fireUnitAccountRepository,
             IRepository<FireSystem> fireSystemRep,
-            IRepository<FireUntiSystem> fireUnitSystemRep,           
+            IRepository<FireUnitSystem> fireUnitSystemRep,           
             IRepository<DataToPatrolDetailProblem> patrolDetailProblemRep,
             IRepository<PhotosPathSave> photosPathSaveRep,
             IRepository<DataToPatrolDetailFireSystem> patrolDetailFireSystemRep,

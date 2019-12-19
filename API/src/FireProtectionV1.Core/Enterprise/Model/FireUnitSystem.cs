@@ -6,7 +6,7 @@ using System.Text;
 
 namespace FireProtectionV1.Enterprise.Model
 {
-    public class FireUntiSystem : EntityBase
+    public class FireUnitSystem : EntityBase
     {
         /// <summary>
         /// 防火单位Id
