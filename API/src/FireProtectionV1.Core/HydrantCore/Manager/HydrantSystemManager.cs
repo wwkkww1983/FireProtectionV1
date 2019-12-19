@@ -69,18 +69,18 @@ namespace FireProtectionV1.HydrantCore.Manager
         {
             var userArealist = _hydrantUserArea.GetAll().Where(u => u.AccountID == input.UserID);
             var list = from a in _areaRepository.GetAll()
-                         join b in userArealist on a.Id equals b.AreaID
-                         join c in _hydrantRepository.GetAll() on b.AreaID equals c.AreaId
-                         orderby c.CreationTime descending
-                         select new GetUserHydrant
-                         {
-                             ID = c.Id,
-                             Sn = c.Sn,
-                             Address = c.Address,
-                             Status = c.Status
-                         };
-            if(input.MatchName!=null)
-                list = list.Where(u=>u.Sn.Contains(input.MatchName));
+                       join b in userArealist on a.Id equals b.AreaID
+                       join c in _hydrantRepository.GetAll() on b.AreaID equals c.AreaId
+                       orderby c.CreationTime descending
+                       select new GetUserHydrant
+                       {
+                           ID = c.Id,
+                           Sn = c.Sn,
+                           Address = c.Address,
+                           Status = c.Status
+                       };
+            if (input.MatchName != null)
+                list = list.Where(u => u.Sn.Contains(input.MatchName));
             GetUserHydrantListOutput output = new GetUserHydrantListOutput()
             {
                 TotalCount = list.Count(),
@@ -100,20 +100,20 @@ namespace FireProtectionV1.HydrantCore.Manager
                 .IfAnd(input.AreaID != 32949, item => item.AreaId == input.AreaID);
             hyrantlist = hyrantlist.Where(expr);
 
-           
+
             var list = from a in hyrantlist
-                         join b in _areaRepository.GetAll() on a.AreaId equals b.Id
-                         orderby a.Status
-                         select new GetAreaHydrant
-                         {
-                             ID = a.Id,
-                             Area = b.Name,
-                             Sn = a.Sn,
-                             Status = a.Status,
-                             Lng = a.Lng,
-                             Lat = a.Lat,
-                             DumpEnergy = System.Decimal.Round(a.DumpEnergy, 2)
-                         };
+                       join b in _areaRepository.GetAll() on a.AreaId equals b.Id
+                       orderby a.Status
+                       select new GetAreaHydrant
+                       {
+                           ID = a.Id,
+                           Area = b.Name,
+                           Sn = a.Sn,
+                           Status = a.Status,
+                           Lng = a.Lng,
+                           Lat = a.Lat,
+                           DumpEnergy = System.Decimal.Round(a.DumpEnergy, 2)
+                       };
             GetAreaHydrantListOutput output = new GetAreaHydrantListOutput()
             {
                 TotalCount = list.Count(),
@@ -131,7 +131,7 @@ namespace FireProtectionV1.HydrantCore.Manager
         {
             var alarmlist = _hydrantAlarmRepository.GetAll();
             var expr = ExprExtension.True<HydrantAlarm>()
-                .IfAnd(input.OnlyUnRead==true, item => item.ReadFlag==false);
+                .IfAnd(input.OnlyUnRead == true, item => item.ReadFlag == false);
             alarmlist = alarmlist.Where(expr);
             var list = (from a in alarmlist
                         join b in _hydrantRepository.GetAll() on a.HydrantId equals b.Id
@@ -144,10 +144,10 @@ namespace FireProtectionV1.HydrantCore.Manager
                             Address = b.Address,
                             Title = a.Title,
                             ReadFlag = a.ReadFlag,
-                            SoultionTime=a.SoultionTime.ToString("yyyy-MM-dd HH:mm")
+                            SoultionTime = a.SoultionTime.ToString("yyyy-MM-dd HH:mm")
                         }).OrderBy(u => u.ReadFlag).ThenByDescending(u => u.CreateTime);
-            if(input.HandleStatus==HandleStatus.Resolving||input.HandleStatus==HandleStatus.Resolved)
-                list=list.OrderByDescending(u => u.SoultionTime);
+            if (input.HandleStatus != HandleStatus.UnResolve)
+                list = list.OrderByDescending(u => u.SoultionTime);
             GetHydrantAlarmPagingOutput output = new GetHydrantAlarmPagingOutput()
             {
                 TotalCount = list.Count(),
@@ -222,12 +222,12 @@ namespace FireProtectionV1.HydrantCore.Manager
         public async Task<SuccessOutput> UpdtateAlarmAlreadyRead(GetUserHydrantInput input)
         {
             SuccessOutput output = new SuccessOutput() { Success = true };
-               var list = from a in _hydrantAlarmRepository.GetAll()
-                        join b in _hydrantRepository.GetAll() on a.HydrantId equals b.Id
-                        join c in _hydrantUserArea.GetAll().Where(u => u.AccountID == input.UserID) on b.AreaId equals c.AreaID
-                        where a.ReadFlag == false
-                        select a;
-            foreach(var a in list)
+            var list = from a in _hydrantAlarmRepository.GetAll()
+                       join b in _hydrantRepository.GetAll() on a.HydrantId equals b.Id
+                       join c in _hydrantUserArea.GetAll().Where(u => u.AccountID == input.UserID) on b.AreaId equals c.AreaID
+                       where a.ReadFlag == false
+                       select a;
+            foreach (var a in list)
             {
                 a.ReadFlag = true;
                 await _hydrantAlarmRepository.UpdateAsync(a);
@@ -258,21 +258,21 @@ namespace FireProtectionV1.HydrantCore.Manager
             output.Adress = hyrant.Address;
             output.Lng = hyrant.Lng;
             output.Lat = hyrant.Lat;
-            output.Phone = user==null?null:user.Account;
+            output.Phone = user == null ? null : user.Account;
             output.PhtosPath = _photosPathSave.GetAll().Where(u => u.TableName.Equals("HydrantAlarm") && u.DataId == alarm.Id).Select(u => u.PhotoPath).ToList();
             output.PhotosBase64 = new List<string>();
-            foreach(var f in output.PhtosPath)
+            foreach (var f in output.PhtosPath)
             {
                 output.PhotosBase64.Add(ImageHelper.ThumbImg(_hostingEnv.ContentRootPath + f.Replace("Src", "App_Data/Files")));
             }
-            if (alarm.ReadFlag==false)
+            if (alarm.ReadFlag == false)
             {
                 alarm.ReadFlag = true;
                 _hydrantAlarmRepository.Update(alarm);
             }
             return output;
         }
-    
+
 
 
 
@@ -304,7 +304,7 @@ namespace FireProtectionV1.HydrantCore.Manager
 
                 string voicepath = _hostingEnv.ContentRootPath + $@"/App_Data/Files/Voices/HydrantAlarm/";
                 if ((int)input.ProblemRemarkType == 1)
-                { 
+                {
                     alarm.ProblemRemark = input.ProblemRemark;
                 }
                 else if ((int)input.ProblemRemarkType == 2 && input.VoiceFile != null)
@@ -314,7 +314,7 @@ namespace FireProtectionV1.HydrantCore.Manager
                 }
 
                 await _hydrantAlarmRepository.UpdateAsync(alarm);
-                return output; 
+                return output;
             }
             catch (Exception e)
             {
@@ -335,9 +335,9 @@ namespace FireProtectionV1.HydrantCore.Manager
             var pressureset = _fireSettingRepository.FirstOrDefault(u => u.Name == "HydrantPressure");
             var energyset = _fireSettingRepository.FirstOrDefault(u => u.Name == "HydrantDumpEnergy");
             GetHydrantSetOutput output = new GetHydrantSetOutput();
-            output.PressureMin = pressureset==null?0: pressureset.MinValue;
+            output.PressureMin = pressureset == null ? 0 : pressureset.MinValue;
             output.PressureMax = pressureset == null ? 0 : pressureset.MaxValue;
-            output.DumpEnergy= energyset == null ? 0 : pressureset.MinValue;
+            output.DumpEnergy = energyset == null ? 0 : pressureset.MinValue;
 
             return Task.FromResult(output);
         }
@@ -356,7 +356,7 @@ namespace FireProtectionV1.HydrantCore.Manager
                 {
                     Name = "HydrantDumpEnergy",
                     MinValue = input.PressureMin,
-                    MaxValue=input.PressureMax
+                    MaxValue = input.PressureMax
                 });
             }
             else
@@ -369,7 +369,7 @@ namespace FireProtectionV1.HydrantCore.Manager
             var energysetting = _fireSettingRepository.FirstOrDefault(item => "HydrantDumpEnergy".Equals(item.Name));
             if (energysetting == null)
             {
-                 _fireSettingRepository.Insert(new FireSetting()
+                _fireSettingRepository.Insert(new FireSetting()
                 {
                     Name = "HydrantDumpEnergy",
                     MinValue = input.DumpEnergy
@@ -393,7 +393,7 @@ namespace FireProtectionV1.HydrantCore.Manager
 
                 HydrantId = input.HydrantId,
                 Title = input.Title,
-                HandleStatus=1
+                HandleStatus = 1
             };
             _hydrantAlarmRepository.Insert(alarm);
             SuccessOutput output = new SuccessOutput() { Success = true };
@@ -401,5 +401,5 @@ namespace FireProtectionV1.HydrantCore.Manager
         }
     }
 
-       
+
 }

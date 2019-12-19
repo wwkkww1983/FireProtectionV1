@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FireProtectionV1.Common.Enum;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -35,9 +36,9 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public string FireContractUser { get; set; }
         /// <summary>
-        /// 核警状态(0:未核警，1:误报，2:测试，3:真实火警)
+        /// 核警状态(0:未核警，1:误报，2:测试，3:真实火警，4:已过期)
         /// </summary>
-        public int CheckState { get; set; }
+        public CheckStateType CheckState { get; set; }
         /// <summary>
         /// 核警时间
         /// </summary>
@@ -61,14 +62,10 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 是否通知工作人员
         /// </summary>
-        public int NotifyWorker { get; set; }
+        public bool NotifyWorker { get; set; }
         /// <summary>
         /// 是否通知微型消防站
         /// </summary>
-        public int NotifyMiniaturefire { get; set; }
-        /// <summary>
-        /// 是否通知119
-        /// </summary>
-        public int Notify119 { get; set; }
+        public bool NotifyMiniStation { get; set; }
     }
 }

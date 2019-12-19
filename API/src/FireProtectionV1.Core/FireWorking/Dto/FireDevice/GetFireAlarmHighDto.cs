@@ -26,7 +26,7 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// </summary>
         public string Location { get; set; }
         /// <summary>
-        /// 30天拼接每天报警数量
+        /// 30天平均每天报警数量
         /// </summary>
         public int AlarmNum { get; set; }
     }

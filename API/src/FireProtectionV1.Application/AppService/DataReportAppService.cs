@@ -1,8 +1,12 @@
-﻿using FireProtectionV1.DataReportCore.Dto;
+﻿using Abp.Domain.Repositories;
+using FireProtectionV1.Common.Enum;
+using FireProtectionV1.DataReportCore.Dto;
 using FireProtectionV1.DataReportCore.Manager;
 using FireProtectionV1.Dto;
+using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Manager;
+using FireProtectionV1.FireWorking.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +17,8 @@ namespace FireProtectionV1.AppService
 {
     public class DataReportAppService : AppServiceBase
     {
+        IRepository<Fault> _repFault;
+        IRepository<FireUnit> _repFireUnit;
         IFaultManager _faultManager;
         IDutyManager _dutyManager;
         IPatrolManager _patrolManager;
@@ -20,11 +26,16 @@ namespace FireProtectionV1.AppService
         IFireWorkingManager _fireWorkingManager;
 
         public DataReportAppService(
+            IRepository<Fault> repFault,
+            IRepository<FireUnit> repFireUnit,
             IFaultManager faultManager,
             IDutyManager dutyManager,
             IPatrolManager patrolManager,
-            IDataReportManager manager, IFireWorkingManager fireWorkingManager)
+            IDataReportManager manager,
+            IFireWorkingManager fireWorkingManager)
         {
+            _repFault = repFault;
+            _repFireUnit = repFireUnit;
             _faultManager = faultManager;
             _dutyManager = dutyManager;
             _patrolManager = patrolManager;
@@ -105,31 +116,49 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="UserId">用户Id</param>
         /// <returns></returns>
-        public async Task<GetAreasFaultOutput> GetAreasFault(int UserId)
+        public Task<GetAreasFaultOutput> GetAreasFault(int UserId)
         {
             DateTime now = DateTime.Now;
             DateTime nowMonDay1 = now.Date.AddDays(1 - now.Day);
             var output = new GetAreasFaultOutput();
-            await Task.Run(() =>
+
+            var faultall = _repFault.GetAll();
+            output.FaultCount = faultall.Count();
+            output.FaultPendingCount = faultall.Where(p => p.State == HandleStatus.UnResolve).Count();
+            output.MonthFaultCounts = new List<MonthFaultCount>();
+            for (int i = 3; i >= 1; i--)
             {
-                var faultall = _faultManager.GetFaultDataAll();
-                output.FaultCount = faultall.Count();
-                output.FaultPendingCount = faultall.Where(p => p.ProcessState == 0).Count();
-                output.MonthFaultCounts = new List<MonthFaultCount>();
-                for (int i = 3; i >= 1; i--)
+                DateTime mon = now.AddMonths(-i);
+                var faultDataMonth = _faultManager.GetFaultDataMonth(mon.Year, mon.Month);
+                output.MonthFaultCounts.Add(new MonthFaultCount()
                 {
-                    DateTime mon = now.AddMonths(-i);
-                    var faultDataMonth = _faultManager.GetFaultDataMonth(mon.Year, mon.Month);
-                    output.MonthFaultCounts.Add(new MonthFaultCount()
-                    {
-                        Month = mon.ToString("yyyy-MM"),
-                        Count = faultDataMonth.Count(),
-                        PendingCount = faultDataMonth.Where(p => p.ProcessState == 0).Count()
-                    });
-                }
-                output.PendingFaultFireUnits = _faultManager.GetPendingFaultFireUnits().OrderByDescending(p=>p.PendingCount).Take(10).ToList();
+                    Month = mon.ToString("yyyy-MM"),
+                    Count = faultDataMonth.Count(),
+                    PendingCount = faultDataMonth.Where(p => p.State == HandleStatus.UnResolve).Count()
+                });
+            }
+
+            var groupFault = _repFault.GetAll().GroupBy(p => p.FireUnitId).Select(p => new
+            {
+                FireUnitId = p.Key,
+                FaultCount = p.Count(),
+                PendingCount = p.Where(p1 => p1.State == HandleStatus.UnResolve).Count()
             });
-            return output;
+            var fireUnits = _repFireUnit.GetAll();
+
+            var query = from a in groupFault
+                        join b in fireUnits on a.FireUnitId equals b.Id
+                        select new PendingFaultFireUnitOutput()
+                        {
+                            FireUnitId = a.FireUnitId,
+                            FireUnitName = b.Name,
+                            Count = a.FaultCount,
+                            PendingCount = a.PendingCount
+                        };
+
+            output.PendingFaultFireUnits = query.OrderByDescending(p => p.PendingCount).Take(10).ToList();
+
+            return Task.FromResult(output);
         }
     }
 }

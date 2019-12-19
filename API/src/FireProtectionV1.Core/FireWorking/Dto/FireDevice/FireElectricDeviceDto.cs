@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FireProtectionV1.Common.Enum;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -20,36 +21,35 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// <summary>
         /// 设备型号
         /// </summary>
-        public string DeviceType { get; set; }
+        public string DeviceModel { get; set; }
         /// <summary>
         /// 设备编号
         /// </summary>
         public string DeviceSn { get; set; }
         /// <summary>
-        /// 所在建筑
+        /// 所在建筑Id
         /// </summary>
         public int FireUnitArchitectureId { get; set; }
         /// <summary>
-        /// 所在楼层
+        /// 所在楼层Id
         /// </summary>
         public int FireUnitArchitectureFloorId { get; set; }
         /// <summary>
-        /// 设备地点
+        /// 设备安装地点
         /// </summary>
         public string Location { get; set; }
         /// <summary>
-        /// 监测类型数组
+        /// 监测类型数组（剩余电流、电缆温度）
         /// </summary>
         public List<string> MonitorItem { get; set; }
         /// <summary>
-        /// 启用监测类型数组
+        /// 超限动作数组（终端报警、云端报警、发送开关量信号）
         /// </summary>
         public List<string> EnableAlarm { get; set; }
         /// <summary>
         /// 通讯方式
         /// </summary>
         public string NetComm { get; set; }
-
         /// <summary>
         /// 通信方式数组
         /// </summary>
@@ -58,11 +58,14 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// 数据采集频率
         /// </summary>
         public string DataRate { get; set; }
+        /// <summary>
+        /// 设备状态
+        /// </summary>
         public string State { get; set; }
         /// <summary>
-        /// "单项"/"三项"
+        /// "单相"/"三相"
         /// </summary>
-        public string PhaseType { get; set; }
+        public PhaseType PhaseType { get; set; }
         /// <summary>
         /// 电流最大值
         /// </summary>

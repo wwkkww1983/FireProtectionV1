@@ -28,10 +28,6 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public int ElecAlarmCount { get; set; }
         /// <summary>
-        /// （安全用电）已核警数
-        /// </summary>
-        public int ElecAlarmCheckCount { get; set; }
-        /// <summary>
         /// （安全用电）最后一次火警时间
         /// </summary>
         public string ElecLastAlarmTime { get; set; }

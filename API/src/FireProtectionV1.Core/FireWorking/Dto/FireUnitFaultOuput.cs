@@ -20,7 +20,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public int FaultCount { get; set; }
         /// <summary>
-        /// 处理故障数量
+        /// 处理中故障数量
         /// </summary>
         public int ProcessedCount { get; set; }
         /// <summary>

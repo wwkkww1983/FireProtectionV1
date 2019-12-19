@@ -5,27 +5,22 @@ using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto
 {
-    public class AddDataElecInput : DeviceBaseInput
+    public class AddDataElecInput
     {
         /// <summary>
-        /// 部件国标类型
+        /// 电气火灾设施编号
         /// </summary>
-        public byte DetectorGBType { get; set; }
-
+        [Required]
+        public string FireElectricDeviceSn { get; set; }
         /// <summary>
-        /// 网关设备标识
+        /// 记录的类型标记：A/L/N/L1/L2/L3，其中A代表剩余电流，其它代表电缆温度
         /// </summary>
-        public string GatewayIdentify { get; set; }
+        [Required]
+        public string Sign { get; set; }
         /// <summary>
         /// 模拟量值
         /// </summary>
         [Required]
         public double Analog { get; set; }
-        /// <summary>
-        /// 计量单位
-        /// </summary>
-        [Required]
-        [MaxLength(4)]
-        public string Unit { get; set; }
     }
 }

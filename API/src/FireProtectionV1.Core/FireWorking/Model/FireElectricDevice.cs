@@ -1,4 +1,5 @@
 ﻿using FireProtectionV1.Common.DBContext;
+using FireProtectionV1.Common.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,14 +17,10 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         public int FireUnitId { get; set; }
         /// <summary>
-        /// 网关ID
-        /// </summary>
-        public int GatewayId { get; set; }
-        /// <summary>
         /// 设备型号
         /// </summary>
         [MaxLength(20)]
-        public string DeviceType { get; set; }
+        public string DeviceModel { get; set; }
         /// <summary>
         /// 设备编号
         /// </summary>
@@ -42,30 +39,26 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         public string NetComm { get; set; }
         /// <summary>
-        /// 设备地点
+        /// 数据传送频率
+        /// </summary>
+        public string DataRate { get; set; } = "2小时";
+        /// <summary>
+        /// 设备安装地点
         /// </summary>
         [MaxLength(100)]
         public string Location { get; set; }
         /// <summary>
-        /// 设备状态：良好/隐患/超限
+        /// 设备状态：离线/良好/隐患/超限
         /// </summary>
-        public string State { get; set; }
-        /// <summary>
-        /// 电缆温度监测
-        /// </summary>
-        public bool ExistTemperature { get; set; }
-        /// <summary>
-        /// 温度监测范围(josn SinglePhase/ThreePhase)
-        /// </summary>
-        public string TemperatureThreshold { get; set; }
+        public FireElectricDeviceState State { get; set; }
         /// <summary>
         /// 剩余电流监测
         /// </summary>
         public bool ExistAmpere { get; set; }
         /// <summary>
-        /// 电流监测阈值
+        /// 电缆温度监测
         /// </summary>
-        public string AmpereThreshold { get; set; }
+        public bool ExistTemperature { get; set; }
         /// <summary>
         /// 启用终端报警
         /// </summary>
@@ -79,34 +72,56 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         public bool EnableAlarmSwitch { get; set; }
         /// <summary>
-        /// "单项"/"三项"
+        /// 剩余电流下限
         /// </summary>
-        public string PhaseType { get; set; }
+        public int MinAmpere { get; set; }
         /// <summary>
-        /// "单相"/"三相"配置对象json
+        /// 剩余电流上限
         /// </summary>
-        public string PhaseJson { get; set; }
-    }
-    public class SinglePhase
-    {
-        public int Lmin { get; set; }
-        public int Lmax { get; set; }
-        public int Nmin { get; set; }
-        public int Nmax { get; set; }
-        public int I0min { get; set; }
-        public int I0max { get; set; }
-    }
-    public class ThreePhase
-    {
-        public int L1min { get; set; }
-        public int L1max { get; set; }
-        public int L2min { get; set; }
-        public int L2max { get; set; }
-        public int L3min { get; set; }
-        public int L3max { get; set; }
-        public int Nmin { get; set; }
-        public int Nmax { get; set; }
-        public int I0min { get; set; }
-        public int I0max { get; set; }
+        public int MaxAmpere { get; set; }
+        /// <summary>
+        /// 电缆温度监测：单相/三相
+        /// </summary>
+        public PhaseType PhaseType { get; set; }
+        /// <summary>
+        /// L温度下限
+        /// </summary>
+        public int MinL { get; set; }
+        /// <summary>
+        /// L温度上限
+        /// </summary>
+        public int MaxL { get; set; }
+        /// <summary>
+        /// N温度下限
+        /// </summary>
+        public int MinN { get; set; }
+        /// <summary>
+        /// N温度上限
+        /// </summary>
+        public int MaxN { get; set; }
+        /// <summary>
+        /// L1温度下限
+        /// </summary>
+        public int MinL1 { get; set; }
+        /// <summary>
+        /// L1温度上限
+        /// </summary>
+        public int MaxL1 { get; set; }
+        /// <summary>
+        /// L2温度下限
+        /// </summary>
+        public int MinL2 { get; set; }
+        /// <summary>
+        /// L2温度上限
+        /// </summary>
+        public int MaxL2 { get; set; }
+        /// <summary>
+        /// L3温度下限
+        /// </summary>
+        public int MinL3 { get; set; }
+        /// <summary>
+        /// L3温度上限
+        /// </summary>
+        public int MaxL3 { get; set; }
     }
 }

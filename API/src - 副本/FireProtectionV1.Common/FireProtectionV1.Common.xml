@@ -1,0 +1,608 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FireProtectionV1.Common</name>
+    </assembly>
+    <members>
+        <member name="T:FireProtectionV1.Common.DBContext.EntityBase">
+            <summary>
+            所有实体的父类
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Common.DBContext.EntityBase.CreationTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Common.DBContext.EntityBase.IsDeleted">
+            <summary>
+            软删除标记
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.Common.DBContext.ExprExtension.True``1">
+            <summary>
+            初始化一个恒为真的表达式
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.DBContext.ExprExtension.False``1">
+            <summary>
+            初始化一个恒为假的表达式
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.DBContext.ExprExtension.IfAnd``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Boolean,System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            有条件拼接And
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="sourceExpr">原表达式</param>
+            <param name="isAppend">是否需要拼接</param>
+            <param name="express">要拼接的表达式</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.DBContext.ExprExtension.IfOr``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Boolean,System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            有条件拼接Or
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="sourceExpr">原表达式</param>
+            <param name="isAppend">是否需要拼接</param>
+            <param name="express">要拼接的表达式</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.DBContext.ExprExtension.Or``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            拼接Or表达式
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="expr1"></param>
+            <param name="expr2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.DBContext.ExprExtension.And``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            拼接And表达式
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="expr1"></param>
+            <param name="expr2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.DBContext.ExprExtension.AndAlso``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Func{System.Linq.Expressions.Expression,System.Linq.Expressions.Expression,System.Linq.Expressions.BinaryExpression})">
+            <summary>
+            合并表达式以及参数
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="expr1"></param>
+            <param name="expr2"></param>
+            <param name="func"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FireProtectionV1.Common.DBContext.ReplaceExpressionVisitor">
+            <summary>
+            替换表达式的访问器
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.Common.DBContext.ISqlExecuter.Execute(System.String,System.Object[])">
+            <summary>
+            执行给定的命令
+            </summary>
+            <param name="sql">命令字符串</param>
+            <param name="parameters">要应用于命令字符串的参数</param>
+            <returns>执行命令后由数据库返回的结果</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.DBContext.ISqlExecuter.SqlQuery``1(System.String,System.Object[])">
+            <summary>
+            创建一个原始 SQL 查询，该查询将返回给定泛型类型的元素。
+            </summary>
+            <typeparam name="T">查询所返回对象的类型</typeparam>
+            <param name="sql">SQL 查询字符串</param>
+            <param name="parameters">要应用于 SQL 查询字符串的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.DBContext.ISqlRepository.Execute(System.String,System.Object[])">
+            <summary>
+            执行给定的命令
+            </summary>
+            <param name="sql">命令字符串</param>
+            <param name="parameters">要应用于命令字符串的参数</param>
+            <returns>执行命令后由数据库返回的结果</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.DBContext.ISqlRepository.Query(System.String,System.Object[])">
+            <summary>
+            执行语句返回datatable
+            </summary>
+            <param name="sql">sql语句</param>
+            <param name="parameters">sql参数</param>
+            <returns>dataset</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.DBContext.ISqlRepository.DataTableToList``1(System.Data.DataTable)">
+            <summary>
+            DataTableToList
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dt"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FireProtectionV1.Common.DBContext.StringType">
+            <summary>
+            字符型字段长度限制
+            如果超出Long的范围，则直接用string定义字段类型，不使用此枚举限制
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.CheckStateType.UnCheck">
+            <summary>
+            未处理
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.CheckStateType.False">
+            <summary>
+            误报
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.CheckStateType.Test">
+            <summary>
+            测试
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.CheckStateType.True">
+            <summary>
+            真实报警
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.CheckStateType.Expire">
+            <summary>
+            已过期
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.Common.Enum.FireSysType">
+            <summary>
+            消防报警系统类型
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.FireSysType.Electric">
+            <summary>
+            电气火灾
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.FireSysType.Fire">
+            <summary>
+            火警预警
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.FireSysType.Water">
+            <summary>
+            消防管网
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.Patrol.UnSet">
+            <summary>
+            普通巡查
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.Patrol.NormalPatrol">
+            <summary>
+            普通巡查
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.Patrol.ScanPatrol">
+            <summary>
+            扫码巡查
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.Common.Enum.NormalStatus">
+            <summary>
+            常用的状态枚举
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.NormalStatus.Enabled">
+            <summary>
+            已启用
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.NormalStatus.Disabled">
+            <summary>
+            已停用
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.Common.Enum.GatewayStatus">
+            <summary>
+            网关状态
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.GatewayStatus.UnKnow">
+            <summary>
+            未指定
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.GatewayStatus.Online">
+            <summary>
+            正常在线
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.GatewayStatus.Offline">
+            <summary>
+            离线
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.GatewayStatus.Unusual">
+            <summary>
+            异常（表示当前在线但有故障，例如消火栓的水压偏低）
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.GatewayStatus.PartOffline">
+            <summary>
+            部分离线
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.Common.Enum.SourceType">
+            <summary>
+            故障来源
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.SourceType.UnKnow">
+            <summary>
+            未指定
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.SourceType.Duty">
+            <summary>
+            值班
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.SourceType.Patrol">
+            <summary>
+            巡查
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.SourceType.Terminal">
+            <summary>
+            物联终端
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.Common.Enum.HandleStatus">
+            <summary>
+            处理状态
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.HandleStatus.UuResolve">
+            <summary>
+            未处理
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.HandleStatus.Resolving">
+            <summary>
+            处理中
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.HandleStatus.Resolved">
+            <summary>
+            已解决
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.HandleStatus.SelfHandle">
+            <summary>
+            自行处理
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.HandleStatus.SafeResolving">
+            <summary>
+            维保叫修处理中
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.HandleStatus.SafeResolved">
+            <summary>
+            维保叫修已处理
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.ProblemType.unselect">
+            <summary>
+            未指定
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.ProblemType.text">
+            <summary>
+            文本
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.ProblemType.voice">
+            <summary>
+            语音
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.ProblemStatusType.alldate">
+            <summary>
+            所有记录
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.ProblemStatusType.noraml">
+            <summary>
+            正常
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.ProblemStatusType.Repaired">
+            <summary>
+            绿色故障(已现场解决)
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.ProblemStatusType.DisRepaired">
+            <summary>
+            橙色故障(未现场解决)
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.ImageHelper.GetFileExt(System.String)">
+            <summary>
+            取小写文件名后缀
+            </summary>
+            <param name="name">文件名</param>
+            <returns>返回小写后缀，不带“.”</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.ImageHelper.IsImage(System.String)">
+            <summary>
+            是否为图片文件
+            </summary>
+            <param name="fileExt">文件扩展名，不含“.”</param>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.ImageHelper.CheckFileExt(System.String,System.String[])">
+            <summary>
+            检查是否允许文件
+            </summary>
+            <param name="fileExt">文件后缀</param>
+            <param name="allowExt">允许文件数组</param>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.ImageHelper.ThumbImg(System.DrawingCore.Image,System.String,System.Int32,System.Int32)">
+            <summary>
+            制作缩略图
+            </summary>
+            <param name="original">图片对象</param>
+            <param name="newFileName">新图路径</param>
+            <param name="maxWidth">最大宽度</param>
+            <param name="maxHeight">最大高度</param>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.ImageHelper.ThumbImg(System.String)">
+            <summary>
+            制作缩略图base64
+            </summary>
+            <param name="fileName">文件名</param>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.ImageHelper.ThumbImg(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            制作缩略图
+            </summary>
+            <param name="fileName">文件名</param>
+            <param name="newFileName">新图路径</param>
+            <param name="maxWidth">最大宽度</param>
+            <param name="maxHeight">最大高度</param>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.ImageHelper.ResizeImage(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            计算新尺寸
+            </summary>
+            <param name="width">原始宽度</param>
+            <param name="height">原始高度</param>
+            <param name="maxWidth">最大新宽度</param>
+            <param name="maxHeight">最大新高度</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.ImageHelper.GetFormat(System.String)">
+            <summary>
+            得到图片格式
+            </summary>
+            <param name="name">文件名称</param>
+            <returns></returns>
+        </member>
+        <member name="T:FireProtectionV1.Common.Helper.MD5Encrypt">
+            <summary>
+            不可逆加密
+            1 防止被篡改
+            2 防止明文存储
+            3 防止抵赖，数字签名
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.MD5Encrypt.Encrypt(System.String,System.Int32)">
+            <summary>
+            MD5字符串加密，默认32位加密结果
+            </summary>
+            <param name="source">待加密字串</param>
+            <param name="length">16或32值之一,其它则采用.net默认MD5加密算法</param>
+            <returns>加密后的字串</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.MD5Encrypt.AbstractFile(System.String)">
+            <summary>
+            获取文件的MD5摘要
+            </summary>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.MD5Encrypt.AbstractFile(System.IO.Stream)">
+            <summary>
+            根据stream获取文件摘要
+            </summary>
+            <param name="stream"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FireProtectionV1.Common.Helper.RandomHelper">
+            <summary>
+            随机字符串工具类
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Helper.RandomHelper._RandIndex">
+            <summary>
+            随机系数
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.RandomHelper.GetRandomNumber(System.Double,System.Double,System.Int32,System.Boolean,System.Int32)">
+            <summary>
+            获取某个区间的一个随机数
+            </summary>
+            <param name="minimum">开始区间</param>
+            <param name="maximum">结束区间</param>
+            <param name="length">小数点的位数</param>
+            <param name="isSleep">是否线程睡眠</param>
+            <param name="millisecondsTimeout">线程时间</param>
+            <returns>返回某个区间的一个随机数</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.RandomHelper.RndInt(System.Int32,System.Int32)">
+            <summary>
+            数字随机数
+            </summary>
+            <param name="minNum">随机数的最小值</param>
+            <param name="maxNum">随机数的最大值</param>
+            <returns>从多少到多少之间的数据 包括开始不包括结束</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.RandomHelper.RndNum(System.Int32)">
+            <summary>
+            数字随机数
+            </summary>
+            <param name="length">生成长度</param>
+            <returns>返回指定长度的数字随机串</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.RandomHelper.RndDateStr">
+            <summary>
+            日期随机函数
+            </summary>
+            <returns>返回日期随机串</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.RandomHelper.RndCode(System.Int32)">
+            <summary>
+            数字和字母随机数
+            </summary>
+            <param name="length">生成长度</param>
+            <returns>返回指定长度的数字和字母的随机串</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.RandomHelper.RndLetter(System.Int32)">
+            <summary>
+            字母随机数
+            </summary>
+            <param name="length">生成长度</param>
+            <returns>返回指定长度的字母随机数</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.RandomHelper.GetGuid">
+            <summary>
+            生成GUID
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:FireProtectionV1.Common.Helper.Valid">
+            <summary>
+            异常过滤辅助类
+            </summary>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.Valid.Exception(System.Boolean,System.String)">
+            <summary>
+            验证数据，当v值为true时，抛出异常
+            </summary>
+            <param name="v">判断条件 true 抛出异常</param>
+            <param name="message">异常提示信息</param>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.VerifyCodeHelper.CreateNumberVerifyCode(System.Int32)">
+            <summary>
+            1.数字验证码
+            </summary>
+            <param name="length"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.VerifyCodeHelper.CreateAbcVerifyCode(System.Int32)">
+            <summary>
+            2.字母验证码
+            </summary>
+            <param name="length">字符长度</param>
+            <returns>验证码字符</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.VerifyCodeHelper.CreateMixVerifyCode(System.Int32)">
+            <summary>
+            3.混合验证码
+            </summary>
+            <param name="length">字符长度</param>
+            <returns>验证码字符</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.VerifyCodeHelper.CreateVerifyCode(FireProtectionV1.Common.Helper.VerifyCodeHelper.VerifyCodeType)">
+            <summary>
+            产生验证码（随机产生4-6位）
+            </summary>
+            <param name="type">验证码类型：数字，字符，符合</param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.VerifyCodeHelper.CreateBitmapByImgVerifyCode(System.String,System.Int32,System.Int32)">
+            <summary>
+            验证码图片 => Bitmap
+            </summary>
+            <param name="verifyCode">验证码</param>
+            <param name="width">宽</param>
+            <param name="height">高</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.VerifyCodeHelper.CreateByteByImgVerifyCode(System.String,System.Int32,System.Int32)">
+            <summary>
+            验证码图片 => byte[]
+            </summary>
+            <param name="verifyCode">验证码</param>
+            <param name="width">宽</param>
+            <param name="height">高</param>
+            <returns>byte[]</returns>
+        </member>
+        <member name="T:FireProtectionV1.Common.Redis.RedisCacheModule">
+            <summary>
+            AbpRedis缓存注入模块
+            </summary>
+        </member>
+        <member name="T:DeviceServer.Tcp.Protocol.UnitType">
+            <summary>
+            部件类型
+            </summary>
+        </member>
+        <member name="F:DeviceServer.Tcp.Protocol.UnitType.AlarmController">
+            <summary>
+            火灾报警控制器
+            </summary>
+        </member>
+        <member name="F:DeviceServer.Tcp.Protocol.UnitType.UITD">
+            <summary>
+            (自定义)用户信息传输装置
+            </summary>
+        </member>
+        <member name="F:DeviceServer.Tcp.Protocol.UnitType.GasDetector">
+            <summary>
+            可燃气体探铡器
+            </summary>
+        </member>
+        <member name="F:DeviceServer.Tcp.Protocol.UnitType.GasDetectorPoint">
+            <summary>
+            点型可燃气体探测器
+            </summary>
+        </member>
+        <member name="F:DeviceServer.Tcp.Protocol.UnitType.GasDetectorDiscrete">
+            <summary>
+            独立式可燃气体探测器
+            </summary>
+        </member>
+        <member name="F:DeviceServer.Tcp.Protocol.UnitType.GasDetectorLine">
+            <summary>
+            线型可燃气体探测器
+            </summary>
+        </member>
+        <member name="F:DeviceServer.Tcp.Protocol.UnitType.ElectricAlertor">
+            <summary>
+            电气火灾监控报警器
+            </summary>
+        </member>
+        <member name="F:DeviceServer.Tcp.Protocol.UnitType.ElectricResidual">
+            <summary>
+            剩余电流式电气火灾监控探测器
+            </summary>
+        </member>
+        <member name="F:DeviceServer.Tcp.Protocol.UnitType.ElectricTemperature">
+            <summary>
+            测温式电气火灾监控探测器
+            </summary>
+        </member>
+        <member name="F:DeviceServer.Tcp.Protocol.UnitType.ManualAlarmButton">
+            <summary>
+            手动火灾报警按钮
+            </summary>
+        </member>
+    </members>
+</doc>

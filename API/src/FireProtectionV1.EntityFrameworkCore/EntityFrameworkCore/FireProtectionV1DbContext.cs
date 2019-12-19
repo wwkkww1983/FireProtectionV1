@@ -15,8 +15,8 @@ namespace FireProtectionV1.EntityFrameworkCore
 {
     public class FireProtectionV1DbContext : AbpDbContext
     {
-        public DbSet<FireAlarmDeviceType> FireAlarmDeviceType { get; set; }
-        public DbSet<FireElectricDeviceType> FireElectricDeviceType { get; set; }
+        public DbSet<FireAlarmDeviceModel> FireAlarmDeviceModel { get; set; }
+        public DbSet<FireElectricDeviceModel> FireElectricDeviceModel { get; set; }
         public DbSet<FireAlarmDeviceProtocol> FireAlarmDeviceProtocol { get; set; }
         public DbSet<FireAlarmDevice> FireAlarmDevice { get; set; }
         public DbSet<FireElectricDevice> FireElectricDevice { get; set; }
@@ -29,9 +29,8 @@ namespace FireProtectionV1.EntityFrameworkCore
         public DbSet<MiniFireEquipmentDefine> MiniFireEquipmentDefine { get; set; }
         public DbSet<MiniFireStationJobUser> MiniFireStationJobUser { get; set; }
         public DbSet<FireUnitPlan> FireUnitPlan { get; set; }
-        public DbSet<RecordAnalog> RecordAnalog { get; set; }
+        public DbSet<FireElectricRecord> FireElectricRecord { get; set; }
         public DbSet<RecordOnline> RecordOnline { get; set; }
-        public DbSet<AlarmCheck> AlarmCheck { get; set; }
         public DbSet<FireUnitAttention> FireUnitAttention { get; set; }
         public DbSet<DataToPatrol> DataToPatrol { get; set; }
         public DbSet<DataToPatrolDetail> DataToPatrolDetail { get; set; }
@@ -40,9 +39,7 @@ namespace FireProtectionV1.EntityFrameworkCore
         public DbSet<DataToDutyProblem> DataToDutyProblem { get; set; }
         public DbSet<Fault> Fault { get; set; }
         public DbSet<DetectorType> DetectorType { get; set; }
-        public DbSet<Detector> Detector { get; set; }
-        public DbSet<Gateway> Gateway { get; set; }
-        public DbSet<AlarmToGas> AlarmToGas { get; set; }
+        public DbSet<FireAlarmDetector> FireAlarmDetector { get; set; }
         public DbSet<AlarmToFire> AlarmToFire { get; set; }
         public DbSet<AlarmToElectric> AlarmToElectric { get; set; }
         public DbSet<FireUnit> FireUnit { get; set; }

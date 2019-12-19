@@ -3,6 +3,7 @@ using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using Abp.Domain.Services;
 using FireProtectionV1.Common.DBContext;
+using FireProtectionV1.Common.Enum;
 using FireProtectionV1.Common.Helper;
 using FireProtectionV1.Enterprise.Dto;
 using FireProtectionV1.Enterprise.Model;
@@ -156,7 +157,7 @@ namespace FireProtectionV1.Enterprise.Manager
             var fireUnitSafes = from a in _repSafeUnitUserFireUnit.GetAll().Where(p => p.SafeUnitUserId == UserId)
                                 join b in _repFireUnit.GetAll()
                                 on a.FireUnitId equals b.Id
-                                join c in _repBreakDown.GetAll().Where(p => p.HandleStatus != 3).GroupBy(p => p.FireUnitId)
+                                join c in _repBreakDown.GetAll().Where(p => p.HandleStatus != HandleStatus.Resolved).GroupBy(p => p.FireUnitId)
                                 on b.Id equals c.Key into b2
                                 from d in b2.DefaultIfEmpty()
                                 select new FireUnitSafe()

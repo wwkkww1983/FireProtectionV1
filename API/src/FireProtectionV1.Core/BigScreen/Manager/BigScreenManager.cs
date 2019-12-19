@@ -6,6 +6,7 @@ using FireProtectionV1.BigScreen.Dto;
 using FireProtectionV1.Common.DBContext;
 using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.FireWorking.Manager;
+using FireProtectionV1.FireWorking.Model;
 using FireProtectionV1.HydrantCore.Model;
 using FireProtectionV1.Infrastructure.Model;
 using System;
@@ -26,6 +27,7 @@ namespace FireProtectionV1.BigScreen.Manager
         IRepository<FireUnit> _fireUnitRep;
         IRepository<FireUnitType> _fireUnitTypeRep;
         IRepository<Hydrant> _hydrantRep;
+        IRepository<DetectorType> _repDetectorType;
         ICacheManager _cacheManager;
         ISqlRepository _sqlRepository;
         public BigScreenManager(
@@ -34,6 +36,7 @@ namespace FireProtectionV1.BigScreen.Manager
             IRepository<FireUnit> fireUnitRep,
             IRepository<FireUnitType> fireUnitTypeRep,
             IRepository<Hydrant> hydrantRep,
+            IRepository<DetectorType> repDetectorType,
             ICacheManager cacheManager,
             ISqlRepository sqlRepository)
         {
@@ -41,6 +44,7 @@ namespace FireProtectionV1.BigScreen.Manager
             _alarmManager = alarmManager;
             _fireUnitRep = fireUnitRep;
             _fireUnitTypeRep = fireUnitTypeRep;
+            _repDetectorType = repDetectorType;
             _hydrantRep = hydrantRep;
             _cacheManager = cacheManager;
             _sqlRepository = sqlRepository;
@@ -158,27 +162,29 @@ namespace FireProtectionV1.BigScreen.Manager
             lstDataText.Add(mt);
             return Task.FromResult(lstDataText);
         }
+
         List<AlarmElec> GetNewAlarmElec(DateTime startTime)
         {
-            var query = from a in _alarmManager.GetNewElecAlarm(startTime)
-                        join b in _deviceManager.GetDetectorElectricAll()
-                        on a.DetectorId equals b.Id
-                        join c in _deviceManager.GetDetectorTypeAll()
-                        on b.DetectorTypeId equals c.Id
-                        join d in _fireUnitRep.GetAll()
-                        on a.FireUnitId equals d.Id
-                        orderby a.CreationTime descending
-                        select new AlarmElec()
-                        {
-                            Address = d.Address,
-                            AlarmType = c.Name,
-                            AlarmValue = $"{a.Analog}{a.Unit}",
-                            ContractName = d.ContractName,
-                            ContractPhone = d.ContractPhone,
-                            CreationTime = a.CreationTime,
-                            FireUnitName = d.Name
-                        };
-            return query.ToList();
+            return new List<AlarmElec>();
+            //var query = from a in _alarmManager.GetNewElecAlarm(startTime)
+            //            join b in _deviceManager.GetDetectorElectricAll()
+            //            on a.DetectorId equals b.Id
+            //            join c in _repDetectorType.GetAll()
+            //            on b.DetectorTypeId equals c.Id
+            //            join d in _fireUnitRep.GetAll()
+            //            on a.FireUnitId equals d.Id
+            //            orderby a.CreationTime descending
+            //            select new AlarmElec()
+            //            {
+            //                Address = d.Address,
+            //                AlarmType = c.Name,
+            //                AlarmValue = $"{a.Analog}{a.Unit}",
+            //                ContractName = d.ContractName,
+            //                ContractPhone = d.ContractPhone,
+            //                CreationTime = a.CreationTime,
+            //                FireUnitName = d.Name
+            //            };
+            //return query.ToList();
         }
         /// <summary>
         /// 首页：电气警情天讯通

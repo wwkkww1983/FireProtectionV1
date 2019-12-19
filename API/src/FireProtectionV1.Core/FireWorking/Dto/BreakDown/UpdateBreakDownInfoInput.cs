@@ -17,9 +17,9 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public HandleStatus HandleStatus { get; set; }
         /// <summary>
-        /// 问题处理途径（0.未选择 1.自行处理 2.维保叫修）
+        /// 问题处理途径（1.自行处理 2.维保叫修）
         /// </summary>
-        public byte SolutionWay { get; set; }
+        public HandleChannel SolutionWay { get; set; }
         /// <summary>
         /// 备注
         /// </summary>

@@ -1,4 +1,6 @@
 ﻿using Abp.Domain.Repositories;
+using FireProtectionV1.Common.Enum;
+using FireProtectionV1.Common.Helper;
 using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
@@ -13,124 +15,76 @@ namespace FireProtectionV1.FireWorking.Manager
 {
     public class FaultManager: IFaultManager
     {
-        IRepository<Detector> _repDetector;
+        IRepository<FireAlarmDevice> _repFireAlarmDevice;
+        IRepository<FireAlarmDetector> _repFireAlarmDetector;
         IRepository<BreakDown> _repBreakDown;
-        IRepository<FireUnit> _fireUnitRep;
-        IRepository<Fault> _faultRep;
-        IDeviceManager _deviceManager;
+        IRepository<Fault> _repFault;
         public FaultManager(
-            IRepository<Detector> repDetector,
+            IRepository<FireAlarmDevice> repFireAlarmDevice,
+            IRepository<FireAlarmDetector> repFireAlarmDetector,
             IRepository<BreakDown> repBreakDown,
-            IDeviceManager deviceManager,
-            IRepository<FireUnit> fireUnitRep,
-            IRepository<Fault> faultRep
+            IRepository<Fault> repFault
             )
         {
-            _repDetector = repDetector;
+            _repFireAlarmDevice = repFireAlarmDevice;
+            _repFireAlarmDetector = repFireAlarmDetector;
             _repBreakDown = repBreakDown;
-            _deviceManager = deviceManager;
-            _fireUnitRep = fireUnitRep;
-            _faultRep = faultRep;
+            _repFault = repFault;
         }
-        public async Task<AddDataOutput> AddNewFault(AddNewFaultInput input)
+        /// <summary>
+        /// 添加火警联网部件故障数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task AddNewDetectorFault(AddNewDetectorFaultInput input)
         {
-            Detector detector = _deviceManager.GetDetector(input.Identify, input.Origin);
-            if (detector == null)
+            var fireAlarmDevice = await _repFireAlarmDevice.FirstOrDefaultAsync(item => item.DeviceSn.Equals(input.FireAlarmDeviceSn));
+            Valid.Exception(fireAlarmDevice == null, $"未找到编号为{input.FireAlarmDeviceSn}的火警联网设施");
+
+            var fireAlarmDetector = await _repFireAlarmDetector.FirstOrDefaultAsync(item => item.Identify.Equals(input.FireAlarmDetectorSn) && item.FireAlarmDeviceId.Equals(fireAlarmDevice.Id));
+            // 如果部件数据不存在，则添加一条部件数据
+            if (fireAlarmDetector == null)
             {
-                return new AddDataOutput()
+                int detectorId = await _repFireAlarmDetector.InsertAndGetIdAsync(new FireAlarmDetector()
                 {
-                    IsDetectorExit = false
-                };
+                    FireAlarmDeviceId = fireAlarmDevice.Id,
+                    FireUnitId = fireAlarmDevice.FireUnitId,
+                    Identify = input.FireAlarmDetectorSn
+                });
+                fireAlarmDetector = await _repFireAlarmDetector.GetAsync(detectorId);
             }
-            var id= _faultRep.InsertAndGetId(new Fault()
-            {
-                FireUnitId = detector.FireUnitId,
-                DetectorId = detector.Id,
-                FaultRemark=input.FaultRemark,
-                ProcessState=(byte)Common.Enum.HandleStatus.UuResolve
-            });
-            detector.FaultNum++;
-            detector.LastFaultId = id;
-            await _repDetector.UpdateAsync(detector);
 
-            var breakdown = new BreakDown()
+            int faultId = await _repFault.InsertAndGetIdAsync(new Fault()
             {
-                DataId = id,
-                FireUnitId = detector.FireUnitId,
-                HandleStatus = (byte)Common.Enum.HandleStatus.UuResolve,
+                FireUnitId = fireAlarmDevice.FireUnitId,
+                FireAlarmDeviceId = fireAlarmDevice.Id,
+                FireAlarmDetectorId = fireAlarmDetector.Id,
+                FaultRemark = input.FaultRemark,
+                State = HandleStatus.UnResolve
+            });
+
+            fireAlarmDetector.FaultNum++;
+            fireAlarmDetector.LastFaultId = faultId;
+            await _repFireAlarmDetector.UpdateAsync(fireAlarmDetector);
+
+            await _repBreakDown.InsertAsync(new BreakDown()
+            {
+                DataId = faultId,
+                FireUnitId = fireAlarmDevice.FireUnitId,
+                HandleStatus = HandleStatus.UnResolve,
                 Remark = input.FaultRemark,
-                Source = (byte)Common.Enum.SourceType.Terminal
-            };
-            var breakdownId=await _repBreakDown.InsertAndGetIdAsync(breakdown);
-            var detectorType = await _deviceManager.GetDetectorTypeAsync(detector.DetectorTypeId);
-            var detectorTypeName = detectorType == null ? "" : detectorType.Name;
-            var fireunit = await _fireUnitRep.FirstOrDefaultAsync(p => p.Id == detector.FireUnitId);
-            DataApi.UpdateEvent(new GovFire.Dto.EventDto()
-            {
-                id = breakdownId.ToString(),
-                state = breakdown.HandleStatus == 3 ? "1" : "0",
-                createtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                donetime = "",
-                eventcontent = $"{input.FaultRemark},{detector.Identify},{detectorTypeName}",
-                eventtype = BreakDownWords.GetSource(breakdown.Source),
-                firecompany = fireunit == null ? "" : fireunit.Name,
-                lat = fireunit == null ? "" : fireunit.Lat.ToString(),
-                lon = fireunit == null ? "" : fireunit.Lng.ToString(),
-                fireUnitId = ""
+                Source = FaultSource.Terminal
             });
-
-            //var detectorType = _deviceManager.GetDetectorType(input.DetectorGBType);
-            //var fireunit = await _repFireUnit.FirstOrDefaultAsync(detector.FireUnitId);
-            //DataApi.UpdateEvent(new GovFire.Dto.EventDto()
-            //{
-            //    id = "123456789",
-            //    state = "0",
-            //    createtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-            //    donetime = "",
-            //    eventcontent = "线路损坏",
-            //    eventtype = "有源部件故障监测",
-            //    firecompany = "未来中心",
-            //    lat = "30.656422",
-            //    lon = "104.102073"
-            //});
-
-            return new AddDataOutput()
-            {
-                IsDetectorExit = true
-            };
         }
-        public IQueryable<Fault> GetFaultDataAll()
-        {
-            return _faultRep.GetAll();
-        }
+        /// <summary>
+        /// 查找某个月份的火警联网部件故障数据
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <returns></returns>
         public IQueryable<Fault> GetFaultDataMonth(int year, int month)
         {
-            return _faultRep.GetAll().Where(p => p.CreationTime.Year == year && p.CreationTime.Month == month);
-        }
-        public IQueryable<PendingFaultFireUnitOutput> GetPendingFaultFireUnits()
-        {
-            return from a in _faultRep.GetAll().GroupBy(p => p.FireUnitId).Select(p => new
-                    {
-                        FireUnitId = p.Key,
-                        FaultCount = p.Count(),
-                        PendingCount = p.Where(p1 => p1.ProcessState == 0).Count()
-                    })
-                   join b in _fireUnitRep.GetAll()
-                   on a.FireUnitId equals b.Id
-                   select new PendingFaultFireUnitOutput()
-                   {
-                       FireUnitId = a.FireUnitId,
-                       FireUnitName = b.Name,
-                       Count = a.FaultCount,
-                       PendingCount = a.PendingCount
-                   };
-        }
-        public IQueryable<Fault> GetFaults(IQueryable<Detector> detectors, DateTime start, DateTime end)
-        {
-            return from a in detectors
-                   join b in _faultRep.GetAll().Where(p => p.CreationTime >= start && p.CreationTime <= end)
-                   on a.Id equals b.DetectorId
-                   select b;
+            return _repFault.GetAll().Where(p => p.CreationTime.Year == year && p.CreationTime.Month == month);
         }
     }
 }

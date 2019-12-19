@@ -430,30 +430,29 @@ namespace FireProtectionV1.FireWorking.Manager
                     {
                         FireUnitId = patrol.FireUnitId,
                         UserId = patrol.FireUnitUserId,
-                        UserFrom = "FireUnitUser",
-                        Source = (byte)SourceType.Patrol,
+                        Source = FaultSource.Patrol,
                         DataId = problemId
                     };
                     if (detail.PatrolStatus == (byte)ProblemStatusType.Repaired)
                     {
-                        breakdown.HandleStatus = (byte)HandleStatus.Resolved;
+                        breakdown.HandleStatus = HandleStatus.Resolved;
                         breakdown.SolutionTime = DateTime.Now;
-                        breakdown.SolutionWay = 1;
+                        breakdown.SolutionWay = HandleChannel.Self;
                     }
                     else
                     {
-                        breakdown.HandleStatus = (byte)HandleStatus.UuResolve;
+                        breakdown.HandleStatus = HandleStatus.UnResolve;
                     }
                     var id = await _breakDownRep.InsertAndGetIdAsync(breakdown);
                     var fireunit = await _fireUnitRep.FirstOrDefaultAsync(p => p.Id == patrol.FireUnitId);
                     DataApi.UpdateEvent(new GovFire.Dto.EventDto()
                     {
                         id = id.ToString(),
-                        state = breakdown.HandleStatus == 3 ? "1" : "0",
+                        state = breakdown.HandleStatus == HandleStatus.Resolved ? "1" : "0",
                         createtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                         donetime = "",
                         eventcontent = problem.ProblemRemarkType == 1 ? problem.ProblemRemark : "",
-                        eventtype = BreakDownWords.GetSource(breakdown.Source),
+                        eventtype = BreakDownWords.GetSource((byte)breakdown.Source),
                         firecompany = fireunit == null ? "" : fireunit.Name,
                         lat = fireunit == null ? "" : fireunit.Lat.ToString(),
                         lon = fireunit == null ? "" : fireunit.Lng.ToString(),
@@ -582,30 +581,29 @@ namespace FireProtectionV1.FireWorking.Manager
                     {
                         FireUnitId = patrol.FireUnitId,
                         UserId = patrol.FireUnitUserId,
-                        UserFrom="FireUnitUser",
-                        Source = (byte)SourceType.Patrol,
+                        Source = FaultSource.Patrol,
                         DataId = problemId
                     };
                     if (detail.PatrolStatus == (byte)ProblemStatusType.Repaired)
                     {
-                        breakdown.HandleStatus = (byte)HandleStatus.Resolved;
+                        breakdown.HandleStatus = HandleStatus.Resolved;
                         breakdown.SolutionTime = DateTime.Now;
-                        breakdown.SolutionWay = 1;
+                        breakdown.SolutionWay = HandleChannel.Self;
                     }
                     else
                     {
-                        breakdown.HandleStatus = (byte)HandleStatus.UuResolve;
+                        breakdown.HandleStatus = HandleStatus.UnResolve;
                     }
                     var id=await _breakDownRep.InsertAndGetIdAsync(breakdown);
                     var fireunit =await _fireUnitRep.FirstOrDefaultAsync(p => p.Id == patrol.FireUnitId);
                     DataApi.UpdateEvent(new GovFire.Dto.EventDto()
                     {
                         id = id.ToString(),
-                        state = breakdown.HandleStatus==3?"1":"0",
+                        state = breakdown.HandleStatus == HandleStatus.Resolved?"1":"0",
                         createtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                         donetime = "",
                         eventcontent = problem.ProblemRemarkType==1? problem.ProblemRemark:"",
-                        eventtype = BreakDownWords.GetSource(breakdown.Source),
+                        eventtype = BreakDownWords.GetSource((byte)breakdown.Source),
                         firecompany = fireunit==null?"":fireunit.Name,
                         lat = fireunit == null ? "" : fireunit.Lat.ToString(),
                         lon = fireunit == null ? "" : fireunit.Lng.ToString(),

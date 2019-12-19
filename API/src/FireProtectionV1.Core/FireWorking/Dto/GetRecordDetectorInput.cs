@@ -10,11 +10,13 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 设备ID
         /// </summary>
+        [Required]
         public int DeviceId { get; set; }
         /// <summary>
-        /// 监测标识：L、N、L1、L2、L3、剩余电流
+        /// 监测标识：A、L、N、L1、L2、L3，其中A代表剩余电流
         /// </summary>
-        public string Identify { get; set; }
+        [Required]
+        public string Sign { get; set; }
         /// <summary>
         /// 开始时间 yyyy-MM-dd HH:mm:ss
         /// </summary>
@@ -23,6 +25,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// 结束时间 yyyy-MM-dd HH:mm:ss
         /// </summary>
         public DateTime End { get; set; }
+
         public GetRecordElectricInput()
         {
             End = DateTime.Now;

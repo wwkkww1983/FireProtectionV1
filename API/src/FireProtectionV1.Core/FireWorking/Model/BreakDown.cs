@@ -12,49 +12,35 @@ namespace FireProtectionV1.FireWorking.Model
         /// <summary>
         /// 防火单位Id
         /// </summary>
-        [Required]
         public int FireUnitId { get; set; }
         /// <summary>
         /// 记录人员ID
         /// </summary>
         public int UserId { get; set; }
         /// <summary>
-        /// 记录人员类型：FireUnitUser,SafeUnitUser
-        /// </summary>
-        [MaxLength(20)]
-        public string UserFrom { get; set; }
-        /// <summary>
-        /// 处理人员Id
+        /// 处理人员Id（根据SolutionWay，可能是防火单位人员，也可能是维保单位人员）
         /// </summary>
         public int DoUserId { get; set; }
         /// <summary>
-        /// 处理人员类型：FireUnitUser,SafeUnitUser
+        /// 故障来源
         /// </summary>
-        [MaxLength(20)]
-        public string DoUserFrom { get; set; }
+        public FaultSource Source { get; set; }
         /// <summary>
-        /// 故障来源（1.值班 2.巡查 3.物联终端）
+        /// 处理状态
         /// </summary>
-        [Required]
-        public byte Source { get; set; }
+        public HandleStatus HandleStatus { get; set; }
         /// <summary>
-        /// 处理状态（1待处理,2处理中,3已解决,4自行处理,5维保叫修处理中,6维保叫修已处理）
+        /// 故障来源数据ID（值班表、巡查表、火警联网部件故障表的Id）
         /// </summary>
-        [Required]
-        public byte HandleStatus { get; set; }
-        /// <summary>
-        /// 故障来源数据ID
-        /// </summary>
-        [Required]
         public int DataId { get; set; }
         /// <summary>
         /// 解决时间
         /// </summary>
         public DateTime SolutionTime { get; set; }
         /// <summary>
-        /// 问题处理途径（1.自行处理 2.维保叫修）
+        /// 问题处理途径
         /// </summary>
-        public byte SolutionWay { get; set; }
+        public HandleChannel SolutionWay { get; set; }
         /// <summary>
         /// 备注
         /// </summary>
