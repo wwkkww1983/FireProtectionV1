@@ -29,7 +29,7 @@
         </member>
         <member name="M:FireProtectionV1.AppService.AlarmAppService.CheckFireAlarm(FireProtectionV1.FireWorking.Dto.AlarmCheckInput)">
             <summary>
-            火警联网核警[FromForm]
+            火警联网核警
             </summary>
             <param name="input"></param>
             <returns></returns>

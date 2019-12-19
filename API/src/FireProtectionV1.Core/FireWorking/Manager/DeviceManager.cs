@@ -348,12 +348,15 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             var fireElectricDevices = _repFireElectricDevice.GetAll();
             var expr = ExprExtension.True<FireElectricDevice>()
-                .IfAnd(fireUnitId != 0, item => item.FireUnitId.Equals(fireUnitId))
-                .IfAnd(state.Equals("在线"), item => !item.State.Equals(FireElectricDeviceState.Offline))
+                .IfAnd(fireUnitId != 0, item => item.FireUnitId.Equals(fireUnitId));
+            if (!string.IsNullOrEmpty(state))
+            {
+                expr = expr.IfAnd(state.Equals("在线"), item => !item.State.Equals(FireElectricDeviceState.Offline))
                 .IfAnd(state.Equals("离线"), item => item.State.Equals(FireElectricDeviceState.Offline))
                 .IfAnd(state.Equals("良好"), item => item.State.Equals(FireElectricDeviceState.Good))
                 .IfAnd(state.Equals("隐患"), item => item.State.Equals(FireElectricDeviceState.Danger))
                 .IfAnd(state.Equals("超限"), item => item.State.Equals(FireElectricDeviceState.Transfinite));
+            }
             fireElectricDevices = fireElectricDevices.Where(expr);
 
             var fireUnitArchitectures = _repFireUnitArchitecture.GetAll();
@@ -1582,7 +1585,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public Task<List<string>> GetFireAlarmDeviceModels()
         {
-            return Task.FromResult(_repFireAlarmDeviceModel.GetAll().OrderByDescending(p => p.CreationTime).Select(item=>item.Name).ToList());
+            return Task.FromResult(_repFireAlarmDeviceModel.GetAll().OrderByDescending(p => p.CreationTime).Select(item => item.Name).ToList());
         }
         /// <summary>
         /// 获取电气火灾设备型号数组

@@ -52,7 +52,7 @@ namespace FireProtectionV1.AppService
             return await _alarmManager.GetFireAlarmList(input, dto);
         }
         /// <summary>
-        /// 火警联网核警[FromForm]
+        /// 火警联网核警
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
