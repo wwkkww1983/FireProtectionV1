@@ -22,12 +22,12 @@ namespace FireProtectionV1.Schedule.Manager
         }
         /// <summary>
         /// 执行时间：每1分钟
-        /// 将过期火警数据的核警状态改为已过期
         /// </summary>
         /// <returns></returns>
-        public Task UpdateFireAlarmCheckState()
+        public Task EveryMinute()
         {
-            string sql = $"update alarmtofire set checkstate={CheckStateType.Expire} where checkstate=0 and TIMESTAMPDIFF(MINUTE,CreationTime,NOW()) > 60";
+            // 将过期火警数据的核警状态改为已过期
+            string sql = $"update alarmtofire set checkstate={FireAlarmCheckState.Expire} where checkstate={FireAlarmCheckState.UnCheck} and TIMESTAMPDIFF(MINUTE,CreationTime,NOW()) > 60";
             return Task.FromResult(_sqlRepository.Execute(sql));
         }
     }

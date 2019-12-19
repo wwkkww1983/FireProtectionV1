@@ -27,7 +27,7 @@ namespace FireProtectionV1.FireWorking.Model
         /// <summary>
         /// 核警状态
         /// </summary>
-        public CheckStateType CheckState { get; set; }
+        public FireAlarmCheckState CheckState { get; set; }
         /// <summary>
         /// 核警情况描述
         /// </summary>

@@ -21,12 +21,11 @@ namespace FireProtectionV1.AppService
 
         /// <summary>
         /// 执行时间：每1分钟
-        /// 将过期火警数据的核警状态改为已过期
         /// </summary>
         /// <returns></returns>
-        public async Task UpdateFireAlarmCheckState()
+        public async Task EveryMinute()
         {
-            await _scheduleManager.UpdateFireAlarmCheckState();
+            await _scheduleManager.EveryMinute();
         }
     }
 }

@@ -18,7 +18,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 核警状态(1:误报,2:测试,3:真实火警)
         /// </summary>
-        public CheckStateType CheckState { get; set; }
+        public FireAlarmCheckState CheckState { get; set; }
         /// <summary>
         /// 检查情况
         /// </summary>

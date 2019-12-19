@@ -95,7 +95,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 FireAlarmDetectorId = fireAlarmDetectorId,
                 FireAlarmDeviceId = fireAlarmDevice.Id,
                 FireUnitId = fireAlarmDevice.FireUnitId,
-                CheckState = CheckStateType.UnCheck
+                CheckState = FireAlarmCheckState.UnCheck
             });
         }
         
@@ -109,7 +109,7 @@ namespace FireProtectionV1.FireWorking.Manager
             var fireAlarm = await _alarmToFireRep.GetAsync(dto.FireAlarmId);
             Valid.Exception(fireAlarm == null, "未找到对应的火警联网数据");
 
-            if (dto.CheckState == CheckStateType.False || dto.CheckState == CheckStateType.Test || dto.CheckState == CheckStateType.True)
+            if (dto.CheckState == FireAlarmCheckState.False || dto.CheckState == FireAlarmCheckState.Test || dto.CheckState == FireAlarmCheckState.True)
             {
                 fireAlarm.CheckState = dto.CheckState;
                 fireAlarm.CheckContent = dto.CheckContent;
@@ -215,11 +215,11 @@ namespace FireProtectionV1.FireWorking.Manager
             var fireAlarms = _alarmToFireRep.GetAll();
             var expr = ExprExtension.True<AlarmToFire>()
                 .IfAnd(input.FireUnitId != 0, item => item.FireUnitId == input.FireUnitId)
-                .IfAnd(!input.CheckStates.Contains("未核警"), item => item.CheckState != CheckStateType.UnCheck)
-                .IfAnd(!input.CheckStates.Contains("误报"), item => item.CheckState != CheckStateType.False)
-                .IfAnd(!input.CheckStates.Contains("测试"), item => item.CheckState != CheckStateType.Test)
-                .IfAnd(!input.CheckStates.Contains("真实火警"), item => item.CheckState != CheckStateType.True)
-                .IfAnd(!input.CheckStates.Contains("已过期"), item => item.CheckState != CheckStateType.Expire);
+                .IfAnd(!input.CheckStates.Contains("未核警"), item => item.CheckState != FireAlarmCheckState.UnCheck)
+                .IfAnd(!input.CheckStates.Contains("误报"), item => item.CheckState != FireAlarmCheckState.False)
+                .IfAnd(!input.CheckStates.Contains("测试"), item => item.CheckState != FireAlarmCheckState.Test)
+                .IfAnd(!input.CheckStates.Contains("真实火警"), item => item.CheckState != FireAlarmCheckState.True)
+                .IfAnd(!input.CheckStates.Contains("已过期"), item => item.CheckState != FireAlarmCheckState.Expire);
             fireAlarms = fireAlarms.Where(expr);
 
             var fireAlarmDevices = _repFireAlarmDevice.GetAll();

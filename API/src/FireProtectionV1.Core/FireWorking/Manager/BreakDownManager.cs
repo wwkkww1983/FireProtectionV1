@@ -89,7 +89,9 @@ namespace FireProtectionV1.FireWorking.Manager
             {
                 var expr = ExprExtension.True<BreakDown>()
                 .IfAnd(input.Source != FaultSource.UnKnow, item => item.Source == input.Source);
+
                 breakdownlist = breakdownlist.Where(expr);
+
                 if (input.HandleStatus == HandleStatus.SelfHandle)
                     breakdownlist = breakdownlist.OrderByDescending(p => p.DispatchTime);
                 else if (input.HandleStatus == HandleStatus.UnResolve)

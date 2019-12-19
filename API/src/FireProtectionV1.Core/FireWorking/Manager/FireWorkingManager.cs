@@ -91,7 +91,7 @@ namespace FireProtectionV1.FireWorking.Manager
                     output.FireLastAlarmTime = alarmFireAll.Max(p => p.CreationTime).ToString("yyyy-MM-dd HH:mm");
                 }
                 output.FireAlarmCount = alarmFireAll.Count();
-                output.FireAlarmCheckCount = alarmFireAll.Count(item => item.CheckState == CheckStateType.False || item.CheckState == CheckStateType.Test || item.CheckState == CheckStateType.True);
+                output.FireAlarmCheckCount = alarmFireAll.Count(item => item.CheckState == FireAlarmCheckState.False || item.CheckState == FireAlarmCheckState.Test || item.CheckState == FireAlarmCheckState.True);
                 output.Fire30DayCount = alarmFire.Count();
                 output.FireHighCount = output.Fire30DayCount == 0 ? 0 : alarmFire.GroupBy(p => p.FireAlarmDetectorId).Select(p => new { DetectorId = p.Key, Count = p.Count() }).Where(p => p.Count > highFreq).Count();
                 output.FirePointsCount = _repFireAlarmDevice.Count(item => item.FireUnitId.Equals(input.Id));

@@ -13,9 +13,8 @@ namespace FireProtectionV1.Schedule.Manager
     {
         /// <summary>
         /// 执行时间：每1分钟
-        /// 将过期火警数据的核警状态改为已过期
         /// </summary>
         /// <returns></returns>
-        Task UpdateFireAlarmCheckState();
+        Task EveryMinute();
     }
 }
