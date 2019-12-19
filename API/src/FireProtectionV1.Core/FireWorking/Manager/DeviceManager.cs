@@ -368,12 +368,12 @@ namespace FireProtectionV1.FireWorking.Manager
                         from a_b in result1.DefaultIfEmpty()
                         join c in fireUnitArchitectureFloors on a.FireUnitArchitectureFloorId equals c.Id into result2
                         from a_c in result2.DefaultIfEmpty()
-                        let A = !a.State.Equals(FireElectricDeviceState.Offline) ? fireElectricRecords.FirstOrDefault(item => item.FireElectricDeviceId.Equals(a.Id) && item.Sign.Equals("A")) : null
-                        let L = !a.State.Equals(FireElectricDeviceState.Offline) ? fireElectricRecords.FirstOrDefault(item => item.FireElectricDeviceId.Equals(a.Id) && item.Sign.Equals("L")) : null
-                        let N = !a.State.Equals(FireElectricDeviceState.Offline) ? fireElectricRecords.FirstOrDefault(item => item.FireElectricDeviceId.Equals(a.Id) && item.Sign.Equals("N")) : null
-                        let L1 = !a.State.Equals(FireElectricDeviceState.Offline) ? fireElectricRecords.FirstOrDefault(item => item.FireElectricDeviceId.Equals(a.Id) && item.Sign.Equals("L1")) : null
-                        let L2 = !a.State.Equals(FireElectricDeviceState.Offline) ? fireElectricRecords.FirstOrDefault(item => item.FireElectricDeviceId.Equals(a.Id) && item.Sign.Equals("L2")) : null
-                        let L3 = !a.State.Equals(FireElectricDeviceState.Offline) ? fireElectricRecords.FirstOrDefault(item => item.FireElectricDeviceId.Equals(a.Id) && item.Sign.Equals("L3")) : null
+                        let tA = fireElectricRecords.FirstOrDefault(item => item.FireElectricDeviceId.Equals(a.Id) && item.Sign.Equals("A"))
+                        let tL = fireElectricRecords.FirstOrDefault(item => item.FireElectricDeviceId.Equals(a.Id) && item.Sign.Equals("L"))
+                        let tN = fireElectricRecords.FirstOrDefault(item => item.FireElectricDeviceId.Equals(a.Id) && item.Sign.Equals("N"))
+                        let tL1 = fireElectricRecords.FirstOrDefault(item => item.FireElectricDeviceId.Equals(a.Id) && item.Sign.Equals("L1"))
+                        let tL2 = fireElectricRecords.FirstOrDefault(item => item.FireElectricDeviceId.Equals(a.Id) && item.Sign.Equals("L2"))
+                        let tL3 = fireElectricRecords.FirstOrDefault(item => item.FireElectricDeviceId.Equals(a.Id) && item.Sign.Equals("L3"))
                         select new FireElectricDeviceItemDto()
                         {
                             DeviceId = a.Id,
@@ -387,15 +387,15 @@ namespace FireProtectionV1.FireWorking.Manager
                             ExistTemperature = a.ExistTemperature,
                             PhaseType = a.PhaseType,
                             State = a.State,
-                            A = A != null ? A.Analog + "mA" : "未知",
-                            L = L != null ? L.Analog + "℃" : "未知",
-                            N = N != null ? N.Analog + "℃" : "未知",
-                            L1 = L1 != null ? L1.Analog + "℃" : "未知",
-                            L2 = L2 != null ? L2.Analog + "℃" : "未知",
-                            L3 = L3 != null ? L3.Analog + "℃" : "未知",
+                            A = a.State.Equals(FireElectricDeviceState.Offline) ? "未知" : tA.Analog + "mA",
+                            N = a.State.Equals(FireElectricDeviceState.Offline) ? "未知" : tN.Analog + "℃",
+                            L = a.State.Equals(FireElectricDeviceState.Offline) ? "未知" : tL.Analog + "℃",
+                            L1 = a.State.Equals(FireElectricDeviceState.Offline) ? "未知" : tL1.Analog + "℃",
+                            L2 = a.State.Equals(FireElectricDeviceState.Offline) ? "未知" : tL2.Analog + "℃",
+                            L3 = a.State.Equals(FireElectricDeviceState.Offline) ? "未知" : tL3.Analog + "℃",
                             CreationTime = a.CreationTime
                         };
-
+            var test = query.ToList();
             return Task.FromResult(new PagedResultDto<FireElectricDeviceItemDto>()
             {
                 Items = query.OrderByDescending(item => item.CreationTime).Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList(),
