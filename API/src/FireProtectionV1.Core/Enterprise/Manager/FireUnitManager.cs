@@ -33,7 +33,7 @@ namespace FireProtectionV1.Enterprise.Manager
         IRepository<FireUnit> _fireUnitRep;
         IRepository<FireUnitUser> _fireUnitUserRep;
         IRepository<FireSystem> _fireSystemRep;
-        IRepository<FireUntiSystem> _fireUnitSystemRep;
+        IRepository<FireUnitSystem> _fireUnitSystemRep;
         IRepository<EquipmentNo> _equipmentNoRep;
         ICacheManager _cacheManager;
         public FireUnitManager(
@@ -48,7 +48,7 @@ namespace FireProtectionV1.Enterprise.Manager
             IFireUnitUserManager fireUnitAccountManager,
             ICacheManager cacheManager,
             IRepository<FireSystem> fireSystemRep,
-            IRepository<FireUntiSystem> fireUnitSystemRep,
+            IRepository<FireUnitSystem> fireUnitSystemRep,
             IRepository<EquipmentNo> equipmentNoRep
             )
         {
@@ -501,7 +501,7 @@ namespace FireProtectionV1.Enterprise.Manager
              _fireUnitSystemRep.Delete(u=>u.FireUnitId==input.FireUnitId);
             foreach(var a in input.SystemId)
             {
-                FireUntiSystem fireUnitSystem = new FireUntiSystem()
+                FireUnitSystem fireUnitSystem = new FireUnitSystem()
                 {
                     FireUnitId = input.FireUnitId,
                     FireSystemId = a,

@@ -69,7 +69,7 @@ namespace FireProtectionV1.EntityFrameworkCore
         public DbSet<Suggest> Suggest { get; set; }
         public DbSet<SupervisionPhotos> SupervisionPhotos { get; set; }
         public DbSet<FireSystem> FireSystem { get; set; }
-        public DbSet<FireUntiSystem> FireUntiSystem { get; set; }
+        public DbSet<FireUnitSystem> FireUnitSystem { get; set; }
         public DbSet<PhotosPathSave> PhotosPathSave { get; set; }
         public DbSet<DataToPatrolDetailFireSystem> DataToPatrolDetailFireSystem { get; set; }
         public DbSet<EquipmentNo> EquipmentNo { get; set; }
@@ -87,7 +87,7 @@ namespace FireProtectionV1.EntityFrameworkCore
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // 设置经纬度的精度
-            modelBuilder.Entity<FireUnit>().Property(item=>item.Lng).HasColumnType("decimal(9,6)");
+            modelBuilder.Entity<FireUnit>().Property(item => item.Lng).HasColumnType("decimal(9,6)");
             modelBuilder.Entity<FireUnit>().Property(item => item.Lat).HasColumnType("decimal(9,6)");
             modelBuilder.Entity<MiniFireStation>().Property(item => item.Lng).HasColumnType("decimal(9,6)");
             modelBuilder.Entity<MiniFireStation>().Property(item => item.Lat).HasColumnType("decimal(9,6)");

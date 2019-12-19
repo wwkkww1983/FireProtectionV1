@@ -112,15 +112,13 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<decimal>("Lat")
-                        .HasColumnType("decimal(9,6)");
+                    b.Property<decimal>("Lat");
 
                     b.Property<string>("LegalPerson");
 
                     b.Property<string>("LegalPersonPhone");
 
-                    b.Property<decimal>("Lng")
-                        .HasColumnType("decimal(9,6)");
+                    b.Property<decimal>("Lng");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -273,7 +271,7 @@ namespace FireProtectionV1.Migrations
                     b.ToTable("FireUnitPlan");
                 });
 
-            modelBuilder.Entity("FireProtectionV1.Enterprise.Model.FireUntiSystem", b =>
+            modelBuilder.Entity("FireProtectionV1.Enterprise.Model.FireUnitSystem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -288,7 +286,7 @@ namespace FireProtectionV1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FireUntiSystem");
+                    b.ToTable("FireUnitSystem");
                 });
 
             modelBuilder.Entity("FireProtectionV1.Enterprise.Model.SafeUnit", b =>
@@ -970,11 +968,9 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<decimal>("Lat")
-                        .HasColumnType("decimal(9,6)");
+                    b.Property<decimal>("Lat");
 
-                    b.Property<decimal>("Lng")
-                        .HasColumnType("decimal(9,6)");
+                    b.Property<decimal>("Lng");
 
                     b.Property<string>("Sn")
                         .IsRequired();
@@ -1188,13 +1184,11 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<decimal>("Lat")
-                        .HasColumnType("decimal(9,6)");
+                    b.Property<decimal>("Lat");
 
                     b.Property<int>("Level");
 
-                    b.Property<decimal>("Lng")
-                        .HasColumnType("decimal(9,6)");
+                    b.Property<decimal>("Lng");
 
                     b.Property<string>("Name")
                         .IsRequired()

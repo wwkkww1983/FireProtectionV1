@@ -21,11 +21,11 @@ namespace FireProtectionV1.User.Manager
         IRepository<FireUnitUserRole> _fireUnitAccountRoleRepository;
         IRepository<FireUnit> _fireUnitRepository;
         ISqlRepository _SqlRepository;
-        IRepository<FireUntiSystem> _fireUnitSystemRep;
+        IRepository<FireUnitSystem> _fireUnitSystemRep;
 
         public FireUnitUserManager(
             IRepository<MiniFireStation> repMiniFireStation,
-            IRepository<FireUntiSystem> fireUnitSystemRep,
+            IRepository<FireUnitSystem> fireUnitSystemRep,
             IRepository<FireUnitUser> fireUnitAccountRepository,
             IRepository<FireUnitUserRole> fireUnitAccountRoleRepository,
             IRepository<FireUnit> fireUnitRepository,

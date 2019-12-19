@@ -37,7 +37,7 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<FireOrtherDevice> _repFireOrtherDevice;
         IRepository<FireWaterDevice> _repFireWaterDevice;
         IRepository<FireWaterDeviceType> _repFireWaterDeviceType;
-        IRepository<FireUntiSystem> _fireUnitSystemRep;
+        IRepository<FireUnitSystem> _fireUnitSystemRep;
         IRepository<FireSystem> _fireSystemRep;
         IRepository<Fault> _faultRep;
         IRepository<AlarmToFire> _alarmToFireRep;
@@ -58,7 +58,7 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<FireOrtherDevice> repFireOrtherDevice,
             IRepository<FireWaterDevice> repFireWaterDevice,
             IRepository<FireWaterDeviceType> repFireWaterDeviceType,
-            IRepository<FireUntiSystem> fireUnitSystemRep,
+            IRepository<FireUnitSystem> fireUnitSystemRep,
             IRepository<FireSystem> fireSystemRep,
             IRepository<Fault> faultRep,
             IRepository<AlarmToFire> alarmToFireRep,

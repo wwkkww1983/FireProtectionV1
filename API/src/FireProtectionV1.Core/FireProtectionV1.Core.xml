@@ -1761,12 +1761,12 @@
             消防预案
             </summary>
         </member>
-        <member name="P:FireProtectionV1.Enterprise.Model.FireUntiSystem.FireUnitId">
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitSystem.FireUnitId">
             <summary>
             防火单位Id
             </summary>
         </member>
-        <member name="P:FireProtectionV1.Enterprise.Model.FireUntiSystem.FireSystemId">
+        <member name="P:FireProtectionV1.Enterprise.Model.FireUnitSystem.FireSystemId">
             <summary>
             消防系统Id
             </summary>
