@@ -2209,7 +2209,7 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetBreakDownInput.HandleStatus">
             <summary>
-            处理状态(1待处理,3已解决,4自行处理,5维保叫修处理中,6维保叫修已处理)
+            处理状态(1待处理,2处理中,3已解决,4自行处理,5维保叫修处理中,6维保叫修已处理)
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetBreakDownOutput.BreakDownId">
@@ -8112,10 +8112,9 @@
             计划任务接口
             </summary>
         </member>
-        <member name="M:FireProtectionV1.Schedule.Manager.IScheduleManager.UpdateFireAlarmCheckState">
+        <member name="M:FireProtectionV1.Schedule.Manager.IScheduleManager.EveryMinute">
             <summary>
             执行时间：每1分钟
-            将过期火警数据的核警状态改为已过期
             </summary>
             <returns></returns>
         </member>
@@ -8124,10 +8123,9 @@
             计划任务服务
             </summary>
         </member>
-        <member name="M:FireProtectionV1.Schedule.Manager.ScheduleManager.UpdateFireAlarmCheckState">
+        <member name="M:FireProtectionV1.Schedule.Manager.ScheduleManager.EveryMinute">
             <summary>
             执行时间：每1分钟
-            将过期火警数据的核警状态改为已过期
             </summary>
             <returns></returns>
         </member>

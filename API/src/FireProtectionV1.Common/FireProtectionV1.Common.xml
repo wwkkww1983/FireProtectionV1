@@ -133,29 +133,29 @@
             如果超出Long的范围，则直接用string定义字段类型，不使用此枚举限制
             </summary>
         </member>
-        <member name="F:FireProtectionV1.Common.Enum.CheckStateType.UnCheck">
+        <member name="T:FireProtectionV1.Common.Enum.FireAlarmDetectorState">
             <summary>
-            未处理
+            火警联网部件状态
             </summary>
         </member>
-        <member name="F:FireProtectionV1.Common.Enum.CheckStateType.False">
+        <member name="F:FireProtectionV1.Common.Enum.FireAlarmDetectorState.Normal">
             <summary>
-            误报
+            正常
             </summary>
         </member>
-        <member name="F:FireProtectionV1.Common.Enum.CheckStateType.Test">
+        <member name="F:FireProtectionV1.Common.Enum.FireAlarmDetectorState.Fault">
             <summary>
-            测试
+            故障
             </summary>
         </member>
-        <member name="F:FireProtectionV1.Common.Enum.CheckStateType.True">
+        <member name="T:FireProtectionV1.Common.Enum.PhaseType">
             <summary>
-            真实报警
+            电缆温度监测相数
             </summary>
         </member>
-        <member name="F:FireProtectionV1.Common.Enum.CheckStateType.Expire">
+        <member name="T:FireProtectionV1.Common.Enum.FireElectricDeviceState">
             <summary>
-            已过期
+            电气火灾设备状态
             </summary>
         </member>
         <member name="F:FireProtectionV1.Common.Enum.FireElectricDeviceState.Offline">
@@ -178,24 +178,49 @@
             超限
             </summary>
         </member>
-        <member name="T:FireProtectionV1.Common.Enum.FireSysType">
+        <member name="T:FireProtectionV1.Common.Enum.FireElectricDataType">
             <summary>
-            消防报警系统类型
+            电气火灾记录类型
             </summary>
         </member>
-        <member name="F:FireProtectionV1.Common.Enum.FireSysType.Electric">
+        <member name="F:FireProtectionV1.Common.Enum.FireElectricDataType.Ampere">
             <summary>
-            电气火灾
+            剩余电流
             </summary>
         </member>
-        <member name="F:FireProtectionV1.Common.Enum.FireSysType.Fire">
+        <member name="F:FireProtectionV1.Common.Enum.FireElectricDataType.Temperature">
             <summary>
-            火警预警
+            电缆温度
             </summary>
         </member>
-        <member name="F:FireProtectionV1.Common.Enum.FireSysType.Water">
+        <member name="T:FireProtectionV1.Common.Enum.FireAlarmCheckState">
             <summary>
-            消防管网
+            火警核警状态
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.FireAlarmCheckState.UnCheck">
+            <summary>
+            未处理
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.FireAlarmCheckState.False">
+            <summary>
+            误报
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.FireAlarmCheckState.Test">
+            <summary>
+            测试
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.FireAlarmCheckState.True">
+            <summary>
+            真实火警
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.FireAlarmCheckState.Expire">
+            <summary>
+            已过期
             </summary>
         </member>
         <member name="F:FireProtectionV1.Common.Enum.Patrol.UnSet">
@@ -291,6 +316,11 @@
         <member name="F:FireProtectionV1.Common.Enum.HandleStatus.UnResolve">
             <summary>
             未处理
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.HandleStatus.Resolving">
+            <summary>
+            处理中，该值仅用于查询，实际数据库中不会存这个数值，处理中=自行处理中+维保叫修处理中+维保叫修已处理
             </summary>
         </member>
         <member name="F:FireProtectionV1.Common.Enum.HandleStatus.Resolved">

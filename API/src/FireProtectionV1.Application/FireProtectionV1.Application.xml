@@ -1454,10 +1454,9 @@
             计划任务服务接口
             </summary>
         </member>
-        <member name="M:FireProtectionV1.AppService.ScheduleAppService.UpdateFireAlarmCheckState">
+        <member name="M:FireProtectionV1.AppService.ScheduleAppService.EveryMinute">
             <summary>
             执行时间：每1分钟
-            将过期火警数据的核警状态改为已过期
             </summary>
             <returns></returns>
         </member>
