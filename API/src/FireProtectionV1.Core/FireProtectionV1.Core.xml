@@ -5503,7 +5503,7 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.CheckState">
             <summary>
-            核警状态(1:误报,2:测试,3:真实火警)
+            核警状态
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmCheck.FireUnitId">

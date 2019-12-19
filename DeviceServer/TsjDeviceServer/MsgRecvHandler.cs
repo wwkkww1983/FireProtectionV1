@@ -39,7 +39,6 @@ namespace TsjDeviceServer
             else if (tsjMsg.IsFault)
             {
                 var msg = (DataFault)tsjMsg.TsjData;
-                Logger.Log.Info(TsjConvert.ToLocalDateTime(msg.at).ToString("yyyy-MM-dd HH:mm:ss"));
                 FireApi.HttpPostTsj(Config.Url("/api/services/app/TsjDevice/NewFault"), new NewFaultInput()
                 {
                     Identify = msg.id,

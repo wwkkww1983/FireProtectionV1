@@ -19,7 +19,7 @@ namespace Common
         static public string Url(string urlapi)
         {
 #if DEBUG
-            return "http://47.98.179.238:5081" + urlapi;
+            return "http://127.0.0.1:5000" + urlapi;
 #else
             return Config.Configuration["FireApi:UrlBase"]+urlapi;
 #endif

@@ -68,6 +68,37 @@ namespace TsjWebApi
             //string responseFromServer = reader.ReadToEnd();//读取所有
             //Console.WriteLine(responseFromServer);
         }
+        static public string HttpGetTsj(string url)
+        {
+            //定义request并设置request的路径
+            WebRequest request = WebRequest.Create(url);
+            request.Method = "get";
+            //设置request的MIME类型及内容长度
+            request.ContentType = "application/json";
+            //定义response为前面的request响应
+            try
+            {
+                WebResponse response = request.GetResponse();
+                //获取相应的状态代码
+                //Console.WriteLine(DateTime.Now+ $"HttpPost ok  url:{url} postData:{postData}");
+                //定义response字符流
+                var stream = response.GetResponseStream();
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string res = reader.ReadToEnd();//读取所有
+                    if (string.IsNullOrEmpty(res))
+                        return "";
+                    var jobj = JObject.Parse(res);
+                    return jobj["result"].ToString();
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(DateTime.Now + $"HttpGet请求失败 url:{url}");
+            }
+            return "";
+        }
         static public string HttpPostTsj(string url, Object param = null)
         {
             return "";
