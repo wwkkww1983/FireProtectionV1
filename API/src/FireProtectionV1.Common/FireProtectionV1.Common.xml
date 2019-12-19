@@ -158,6 +158,26 @@
             已过期
             </summary>
         </member>
+        <member name="F:FireProtectionV1.Common.Enum.FireElectricDeviceState.Offline">
+            <summary>
+            离线
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.FireElectricDeviceState.Good">
+            <summary>
+            良好
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.FireElectricDeviceState.Danger">
+            <summary>
+            隐患
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.FireElectricDeviceState.Transfinite">
+            <summary>
+            超限
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.Common.Enum.FireSysType">
             <summary>
             消防报警系统类型
@@ -238,27 +258,27 @@
             部分离线
             </summary>
         </member>
-        <member name="T:FireProtectionV1.Common.Enum.SourceType">
+        <member name="T:FireProtectionV1.Common.Enum.FaultSource">
             <summary>
             故障来源
             </summary>
         </member>
-        <member name="F:FireProtectionV1.Common.Enum.SourceType.UnKnow">
+        <member name="F:FireProtectionV1.Common.Enum.FaultSource.UnKnow">
             <summary>
             未指定
             </summary>
         </member>
-        <member name="F:FireProtectionV1.Common.Enum.SourceType.Duty">
+        <member name="F:FireProtectionV1.Common.Enum.FaultSource.Duty">
             <summary>
             值班
             </summary>
         </member>
-        <member name="F:FireProtectionV1.Common.Enum.SourceType.Patrol">
+        <member name="F:FireProtectionV1.Common.Enum.FaultSource.Patrol">
             <summary>
             巡查
             </summary>
         </member>
-        <member name="F:FireProtectionV1.Common.Enum.SourceType.Terminal">
+        <member name="F:FireProtectionV1.Common.Enum.FaultSource.Terminal">
             <summary>
             物联终端
             </summary>
@@ -268,14 +288,9 @@
             处理状态
             </summary>
         </member>
-        <member name="F:FireProtectionV1.Common.Enum.HandleStatus.UuResolve">
+        <member name="F:FireProtectionV1.Common.Enum.HandleStatus.UnResolve">
             <summary>
             未处理
-            </summary>
-        </member>
-        <member name="F:FireProtectionV1.Common.Enum.HandleStatus.Resolving">
-            <summary>
-            处理中
             </summary>
         </member>
         <member name="F:FireProtectionV1.Common.Enum.HandleStatus.Resolved">
@@ -285,7 +300,7 @@
         </member>
         <member name="F:FireProtectionV1.Common.Enum.HandleStatus.SelfHandle">
             <summary>
-            自行处理
+            自行处理中
             </summary>
         </member>
         <member name="F:FireProtectionV1.Common.Enum.HandleStatus.SafeResolving">
@@ -296,6 +311,21 @@
         <member name="F:FireProtectionV1.Common.Enum.HandleStatus.SafeResolved">
             <summary>
             维保叫修已处理
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.Common.Enum.HandleChannel">
+            <summary>
+            处理途径
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.HandleChannel.Self">
+            <summary>
+            自行处理
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.HandleChannel.Maintenance">
+            <summary>
+            维保叫修
             </summary>
         </member>
         <member name="F:FireProtectionV1.Common.Enum.ProblemType.unselect">
