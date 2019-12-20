@@ -1015,7 +1015,7 @@
         </member>
         <member name="M:FireProtectionV1.Enterprise.Manager.FireUnitManager.GetFireUnitListExcel(FireProtectionV1.Enterprise.Dto.GetPagedFireUnitListInput)">
             <summary>
-            得到防火单位列表excel数据
+            得到消防管理部门人员下属防火单位列表excel数据
             </summary>
             <param name="input"></param>
             <returns></returns>

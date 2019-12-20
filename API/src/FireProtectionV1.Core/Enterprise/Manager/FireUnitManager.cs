@@ -148,7 +148,7 @@ namespace FireProtectionV1.Enterprise.Manager
             return Task.FromResult<List<GetFireUnitTypeOutput>>(v.Union(v2).ToList());
         }
         /// <summary>
-        /// 得到防火单位列表excel数据
+        /// 得到消防管理部门人员下属防火单位列表excel数据
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -365,7 +365,7 @@ namespace FireProtectionV1.Enterprise.Manager
                     }
 
                 }
-                var type =await _fireUnitTypeRep.SingleAsync(p => p.Id == f.TypeId);
+                var type =await _fireUnitTypeRep.FirstOrDefaultAsync(p => p.Id == f.TypeId);
                 if (type != null)
                     output.Type = type.Name;
                 if (f.SafeUnitId != 0)
