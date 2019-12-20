@@ -204,7 +204,8 @@ namespace FireProtectionV1.Enterprise.Manager
                         {
                             Id = a.Id,
                             Name = a.Name,
-                            Floors = FireUnitArchitectureFloors.Where(item=>item.ArchitectureId.Equals(a.Id)).ToList()
+                            Floors = FireUnitArchitectureFloors.Where(item=>item.ArchitectureId.Equals(a.Id))
+                            .OrderBy(p => double.Parse(System.Text.RegularExpressions.Regex.Replace(p.Name, @"[^-\d.\d]", ""))).ToList()
                         };
             return Task.FromResult(query.ToList());
         }
