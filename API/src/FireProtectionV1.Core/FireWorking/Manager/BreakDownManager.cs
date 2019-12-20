@@ -1,4 +1,5 @@
-﻿using Abp.Domain.Repositories;
+﻿using Abp.Application.Services.Dto;
+using Abp.Domain.Repositories;
 using FireProtectionV1.Common.DBContext;
 using FireProtectionV1.Common.Enum;
 using FireProtectionV1.Common.Helper;
@@ -18,51 +19,111 @@ namespace FireProtectionV1.FireWorking.Manager
 {
     public class BreakDownManager : IBreakDownManager
     {
-        IRepository<FireAlarmDetector> _repFireAlarmDetector;
         IHostingEnvironment _hostingEnv;
+        IRepository<FireAlarmDetector> _repFireAlarmDetector;
         IRepository<SafeUnitUser> _repSafeUnitUser;
-        IRepository<FireUnit> _fireUnitRep;
-        IRepository<BreakDown> _breakDownRep;
-        IRepository<FireUnitUser> _fireUnitAccountRepository;
-        IRepository<DataToDutyProblem> _dataToDutyProblemRep;
-        IRepository<PhotosPathSave> _photosPathSave;
-        IRepository<SafeUnit> _safeUnit;
-        IRepository<DataToPatrolDetailProblem> _patrolDetailProblem;
-        IRepository<Fault> _Fault;
-        IRepository<DataToDuty> _dutyRep;
-        IRepository<DataToPatrol> _patrolRep;
-        IRepository<DataToPatrolDetail> _patrolDetailRep;
+        IRepository<FireUnit> _repFireUnit;
+        IRepository<BreakDown> _repBreakDown;
+        IRepository<FireUnitUser> _repFireUnitUser;
+        IRepository<DataToDutyProblem> _repDataToDutyProblem;
+        IRepository<PhotosPathSave> _repPhotosPathSave;
+        IRepository<SafeUnit> _repSafeUnit;
+        IRepository<DataToPatrolDetailProblem> _repDataToPatrolDetailProblem;
+        IRepository<Fault> _repFault;
+        IRepository<DataToDuty> _repDataToDuty;
+        IRepository<DataToPatrol> _repDataToPatrol;
+        IRepository<DataToPatrolDetail> _repDataToPatrolDetail;
         public BreakDownManager(
+            IHostingEnvironment hostingEnv,
             IRepository<FireAlarmDetector> repFireAlarmDetector,
             IRepository<SafeUnitUser> repSafeUnitUser,
-            IHostingEnvironment hostingEnv,
-            IRepository<FireUnit> fireUnitRep,
-            IRepository<BreakDown> breakDownRep,
-            IRepository<DataToDutyProblem> dataToDutyProblemRep,
-            IRepository<PhotosPathSave> photosPathSaveRep,
-            IRepository<FireUnitUser> fireUnitAccountRepository,
-            IRepository<SafeUnit> safeUnit,
-            IRepository<DataToPatrolDetailProblem> patrolDetailProblem,
-            IRepository<DataToDuty> dutyRep,
-            IRepository<DataToPatrol> patrolRep,
-            IRepository<DataToPatrolDetail> patrolDetailRep,
-            IRepository<Fault> Fault
+            IRepository<FireUnit> repFireUnit,
+            IRepository<BreakDown> repBreakDown,
+            IRepository<DataToDutyProblem> repDataToDutyProblem,
+            IRepository<PhotosPathSave> repPhotosPathSave,
+            IRepository<FireUnitUser> repFireUnitUser,
+            IRepository<SafeUnit> repSafeUnit,
+            IRepository<DataToPatrolDetailProblem> repDataToPatrolDetailProblem,
+            IRepository<DataToDuty> repDataToDuty,
+            IRepository<DataToPatrol> repDataToPatrol,
+            IRepository<DataToPatrolDetail> repDataToPatrolDetail,
+            IRepository<Fault> repFault
             )
         {
+            _hostingEnv = hostingEnv;
             _repFireAlarmDetector = repFireAlarmDetector;
             _repSafeUnitUser = repSafeUnitUser;
-            _hostingEnv = hostingEnv;
-            _fireUnitRep = fireUnitRep;
-            _breakDownRep = breakDownRep;
-            _dataToDutyProblemRep = dataToDutyProblemRep;
-            _photosPathSave = photosPathSaveRep;
-            _fireUnitAccountRepository = fireUnitAccountRepository;
-            _safeUnit = safeUnit;
-            _patrolDetailProblem = patrolDetailProblem;
-            _dutyRep = dutyRep;
-            _patrolRep = patrolRep;
-            _patrolDetailRep = patrolDetailRep;
-            _Fault = Fault;
+            _repFireUnit = repFireUnit;
+            _repBreakDown = repBreakDown;
+            _repDataToDutyProblem = repDataToDutyProblem;
+            _repPhotosPathSave = repPhotosPathSave;
+            _repFireUnitUser = repFireUnitUser;
+            _repSafeUnit = repSafeUnit;
+            _repDataToPatrolDetailProblem = repDataToPatrolDetailProblem;
+            _repDataToDuty = repDataToDuty;
+            _repDataToPatrol = repDataToPatrol;
+            _repDataToPatrolDetail = repDataToPatrolDetail;
+            _repFault = repFault;
+        }
+        /// <summary>
+        /// 获取设施故障列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public Task<PagedResultDto<GetBreakDownOutput>> GetBreakDownlist(GetBreakDownInput input, PagedResultRequestDto dto)
+        {
+            var breakDowns = _repBreakDown.GetAll().Where(item => item.FireUnitId.Equals(input.FireUnitId) && item.HandleStatus.Equals(input.HandleStatus));
+
+            var query = from a in breakDowns
+                        select new GetBreakDownOutput()
+                        {
+                            BreakDownId = a.Id,
+                            CreationTime = a.CreationTime,
+                            DispatchTime = a.DispatchTime,
+                            HandleStatus = a.HandleStatus,
+                            SafeCompleteTime = a.SafeCompleteTime,
+                            SolutionTime = a.SolutionTime,
+                            SolutionWay = a.SolutionWay,
+                            Source = a.Source,
+                            UserId = a.UserId,
+                            UserBelongUnitId = a.UserBelongUnitId,
+                            FireUnitId = a.FireUnitId
+                        };
+
+            if (input.HandleStatus.Equals(HandleStatus.UnResolve))
+            {
+                query = query.OrderByDescending(item => item.CreationTime);
+            }
+            else if (input.HandleStatus.Equals(HandleStatus.SelfHandle) || input.HandleStatus.Equals(HandleStatus.SafeResolving))
+            {
+                query = query.OrderByDescending(item => item.DispatchTime);
+            }
+            else if (input.HandleStatus.Equals(HandleStatus.SafeResolved) || input.HandleStatus.Equals(HandleStatus.Resolved))
+            {
+                query = query.OrderByDescending(item => item.SolutionTime);
+            }
+
+            var list = query.Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList();
+            var tCount = query.Count();
+
+            foreach (var item in list)
+            {
+                if (item.FireUnitId.Equals(item.UserBelongUnitId))
+                {
+                    var user = _repFireUnitUser.Get(item.UserId);
+                    item.UserName = user != null ? user.Name : "";
+                    item.UserPhone = user != null ? user.Account : "";
+                }
+                else
+                {
+                    var user = _repSafeUnitUser.Get(item.UserId);
+                    item.UserName = user != null ? user.Name : "";
+                    item.UserPhone = user != null ? user.Account : "";
+                }
+            }
+
+            return Task.FromResult(new PagedResultDto<GetBreakDownOutput>(tCount, list));
         }
 
         /// <summary>
@@ -70,69 +131,69 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<GetBreakDownPagingOutput> GetBreakDownlist(GetBreakDownInput input)
-        {
-            var breakdownlist = _breakDownRep.GetAll().Where(u => u.FireUnitId == input.FireUnitId && u.HandleStatus == input.HandleStatus);
-            var userlist = _fireUnitAccountRepository.GetAll();
-            //值班故障
-            var dutys = _breakDownRep.GetAll().Where(u => u.FireUnitId == input.FireUnitId);
-            //处理维保叫修页面，还有问题来源的选项
-            if (input.HandleStatus == HandleStatus.SafeResolved || input.HandleStatus == HandleStatus.SafeResolving)
-            {
-                breakdownlist = breakdownlist.Where(p => p.HandleStatus == input.HandleStatus);
-                if (input.HandleStatus == HandleStatus.SafeResolving)
-                    breakdownlist = breakdownlist.OrderByDescending(p => p.DispatchTime);
-                else if (input.HandleStatus == HandleStatus.SafeResolved)
-                    breakdownlist = breakdownlist.OrderByDescending(p => p.SafeCompleteTime);
-            }
-            else
-            {
-                var expr = ExprExtension.True<BreakDown>()
-                .IfAnd(input.Source != FaultSource.UnKnow, item => item.Source == input.Source);
+        //public Task<GetBreakDownPagingOutput> GetBreakDownlist(GetBreakDownInput input)
+        //{
+        //    var breakdownlist = _breakDownRep.GetAll().Where(u => u.FireUnitId == input.FireUnitId && u.HandleStatus == input.HandleStatus);
+        //    var userlist = _fireUnitAccountRepository.GetAll();
+        //    //值班故障
+        //    var dutys = _breakDownRep.GetAll().Where(u => u.FireUnitId == input.FireUnitId);
+        //    //处理维保叫修页面，还有问题来源的选项
+        //    if (input.HandleStatus == HandleStatus.SafeResolved || input.HandleStatus == HandleStatus.SafeResolving)
+        //    {
+        //        breakdownlist = breakdownlist.Where(p => p.HandleStatus == input.HandleStatus);
+        //        if (input.HandleStatus == HandleStatus.SafeResolving)
+        //            breakdownlist = breakdownlist.OrderByDescending(p => p.DispatchTime);
+        //        else if (input.HandleStatus == HandleStatus.SafeResolved)
+        //            breakdownlist = breakdownlist.OrderByDescending(p => p.SafeCompleteTime);
+        //    }
+        //    else
+        //    {
+        //        var expr = ExprExtension.True<BreakDown>()
+        //        .IfAnd(input.Source != FaultSource.UnKnow, item => item.Source == input.Source);
 
-                breakdownlist = breakdownlist.Where(expr);
+        //        breakdownlist = breakdownlist.Where(expr);
 
-                if (input.HandleStatus == HandleStatus.SelfHandle)
-                    breakdownlist = breakdownlist.OrderByDescending(p => p.DispatchTime);
-                else if (input.HandleStatus == HandleStatus.UnResolve)
-                    breakdownlist = breakdownlist.OrderByDescending(p => p.CreationTime);
-                else if (input.HandleStatus == HandleStatus.Resolved)
-                {
-                    if (input.IsRequstBySafe)
-                        breakdownlist = breakdownlist.Where(p => p.SolutionWay == HandleChannel.Maintenance);
-                    breakdownlist = breakdownlist.OrderByDescending(p => p.SolutionTime);
-                }
-            }
-            var lst = breakdownlist.Select(a => new
-            {
-                A = a,
-                B = new GetBreakDownOutput
-                {
-                    BreakDownId = a.Id,
-                    Source = a.Source,
-                    CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm"),
-                    SolutionTime = a.SolutionTime.ToString("yyyy-MM-dd HH:mm"),
-                    DispatchTime = a.DispatchTime.ToString("yyyy-MM-dd HH:mm"),
-                    SafeCompleteTime = a.SafeCompleteTime.ToString("yyyy-MM-dd HH:mm")
-                }
-            }).ToList();
-            foreach (var v in lst)
-            {
-                var user = _fireUnitAccountRepository.FirstOrDefault(p => p.Id == v.A.UserId);
-                if (user != null)
-                {
-                    v.B.UserName = user.Name;
-                    v.B.Phone = user.Account;
-                }
-            }
-            var list = lst.Select(p => p.B);
-            GetBreakDownPagingOutput output = new GetBreakDownPagingOutput()
-            {
-                TotalCount = list.Count(),
-                BreakDownList = list.Skip(input.SkipCount).Take(input.MaxResultCount).ToList()
-            };
-            return Task.FromResult(output);
-        }
+        //        if (input.HandleStatus == HandleStatus.SelfHandle)
+        //            breakdownlist = breakdownlist.OrderByDescending(p => p.DispatchTime);
+        //        else if (input.HandleStatus == HandleStatus.UnResolve)
+        //            breakdownlist = breakdownlist.OrderByDescending(p => p.CreationTime);
+        //        else if (input.HandleStatus == HandleStatus.Resolved)
+        //        {
+        //            if (input.IsRequstBySafe)
+        //                breakdownlist = breakdownlist.Where(p => p.SolutionWay == HandleChannel.Maintenance);
+        //            breakdownlist = breakdownlist.OrderByDescending(p => p.SolutionTime);
+        //        }
+        //    }
+        //    var lst = breakdownlist.Select(a => new
+        //    {
+        //        A = a,
+        //        B = new GetBreakDownOutput
+        //        {
+        //            BreakDownId = a.Id,
+        //            Source = a.Source,
+        //            CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm"),
+        //            SolutionTime = a.SolutionTime.ToString("yyyy-MM-dd HH:mm"),
+        //            DispatchTime = a.DispatchTime.ToString("yyyy-MM-dd HH:mm"),
+        //            SafeCompleteTime = a.SafeCompleteTime.ToString("yyyy-MM-dd HH:mm")
+        //        }
+        //    }).ToList();
+        //    foreach (var v in lst)
+        //    {
+        //        var user = _fireUnitAccountRepository.FirstOrDefault(p => p.Id == v.A.UserId);
+        //        if (user != null)
+        //        {
+        //            v.B.UserName = user.Name;
+        //            v.B.Phone = user.Account;
+        //        }
+        //    }
+        //    var list = lst.Select(p => p.B);
+        //    GetBreakDownPagingOutput output = new GetBreakDownPagingOutput()
+        //    {
+        //        TotalCount = list.Count(),
+        //        BreakDownList = list.Skip(input.SkipCount).Take(input.MaxResultCount).ToList()
+        //    };
+        //    return Task.FromResult(output);
+        //}
 
         /// <summary>
         /// 获取设施故障详情
@@ -141,8 +202,8 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public async Task<GetBreakDownInfoOutput> GetBreakDownInfo(GetBreakDownInfoInput input)
         {
-            var breakdown = await _breakDownRep.SingleAsync(u => u.Id == input.BreakDownId);
-            var user = _fireUnitAccountRepository.FirstOrDefault(u => u.Id == breakdown.UserId);
+            var breakdown = await _repBreakDown.SingleAsync(u => u.Id == input.BreakDownId);
+            var user = _repFireUnitUser.FirstOrDefault(u => u.Id == breakdown.UserId);
 
             GetBreakDownInfoOutput output = new GetBreakDownInfoOutput()
             {
@@ -158,8 +219,8 @@ namespace FireProtectionV1.FireWorking.Manager
             //值班来源
             if (breakdown.Source == FaultSource.Duty)
             {
-                var dutyproblem = _dataToDutyProblemRep.FirstOrDefault(u => u.Id == breakdown.DataId);
-                var photospath = _photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToDutyProblem") && u.DataId == dutyproblem.Id).Select(u => u.PhotoPath).ToList();
+                var dutyproblem = _repDataToDutyProblem.FirstOrDefault(u => u.Id == breakdown.DataId);
+                var photospath = _repPhotosPathSave.GetAll().Where(u => u.TableName.Equals("DataToDutyProblem") && u.DataId == dutyproblem.Id).Select(u => u.PhotoPath).ToList();
                 output.ProblemRemakeType = (byte)dutyproblem.ProblemRemarkType;
                 output.RemakeText = dutyproblem.ProblemRemark;
                 output.VoiceLength = dutyproblem.VoiceLength;
@@ -169,8 +230,8 @@ namespace FireProtectionV1.FireWorking.Manager
             //巡查来源
             if (breakdown.Source == FaultSource.Patrol)
             {
-                var patroldetailproblem = _patrolDetailProblem.FirstOrDefault(u => u.Id == breakdown.DataId);
-                var photospath = _photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToPatrolDetail") && u.DataId == patroldetailproblem.PatrolDetailId).Select(u => u.PhotoPath).ToList();
+                var patroldetailproblem = _repDataToPatrolDetailProblem.FirstOrDefault(u => u.Id == breakdown.DataId);
+                var photospath = _repPhotosPathSave.GetAll().Where(u => u.TableName.Equals("DataToPatrolDetail") && u.DataId == patroldetailproblem.PatrolDetailId).Select(u => u.PhotoPath).ToList();
                 output.ProblemRemakeType = (byte)patroldetailproblem.ProblemRemarkType;
                 output.RemakeText = patroldetailproblem.ProblemRemark;
                 output.VoiceLength = patroldetailproblem.VoiceLength;
@@ -183,7 +244,7 @@ namespace FireProtectionV1.FireWorking.Manager
             //物联终端来源
             if (breakdown.Source == FaultSource.Terminal)
             {
-                var fault = _Fault.FirstOrDefault(u => u.Id == breakdown.DataId);
+                var fault = _repFault.FirstOrDefault(u => u.Id == breakdown.DataId);
                 output.ProblemRemakeType = 1;
                 output.RemakeText = fault.FaultRemark;
             }
@@ -201,7 +262,7 @@ namespace FireProtectionV1.FireWorking.Manager
             SuccessOutput output = new SuccessOutput() { Success = true };
             try
             {
-                var breakdown = await _breakDownRep.SingleAsync(u => u.Id == input.BreakDownId);
+                var breakdown = await _repBreakDown.SingleAsync(u => u.Id == input.BreakDownId);
                 DateTime now = DateTime.Now;
                 //防火单位页面提交
                 if (input.HandleStatus == HandleStatus.UnResolve)
@@ -220,7 +281,7 @@ namespace FireProtectionV1.FireWorking.Manager
                     breakdown.HandleStatus = input.HandleStatus;
                     if (breakdown.Source == FaultSource.Terminal)
                     {
-                        var fault = await _Fault.FirstOrDefaultAsync(p => p.Id == breakdown.DataId);
+                        var fault = await _repFault.FirstOrDefaultAsync(p => p.Id == breakdown.DataId);
                         if (fault != null)
                         {
                             var detector = await _repFireAlarmDetector.FirstOrDefaultAsync(p => p.Id == fault.FireAlarmDetectorId);
@@ -250,8 +311,8 @@ namespace FireProtectionV1.FireWorking.Manager
 
                 breakdown.Remark = input.Remark;
 
-                await _breakDownRep.UpdateAsync(breakdown);
-                var fireunit = await _fireUnitRep.FirstOrDefaultAsync(p => p.Id == breakdown.FireUnitId);
+                await _repBreakDown.UpdateAsync(breakdown);
+                var fireunit = await _repFireUnit.FirstOrDefaultAsync(p => p.Id == breakdown.FireUnitId);
                 DataApi.UpdateEvent(new GovFire.Dto.EventDto()
                 {
                     id = breakdown.Id.ToString(),
@@ -284,7 +345,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public Task<GetBreakDownTotalOutput> GetBreakDownTotal(GetBreakDownTotalInput input)
         {
-            var breakdownlist = _breakDownRep.GetAll().Where(u => u.FireUnitId == input.FireUnitId);
+            var breakdownlist = _repBreakDown.GetAll().Where(u => u.FireUnitId == input.FireUnitId);
             GetBreakDownTotalOutput output = new GetBreakDownTotalOutput();
             output.DutyCount = breakdownlist.Where(u => u.Source == FaultSource.Duty).Count();
             output.PatrolCount = breakdownlist.Where(u => u.Source == FaultSource.Patrol).Count();

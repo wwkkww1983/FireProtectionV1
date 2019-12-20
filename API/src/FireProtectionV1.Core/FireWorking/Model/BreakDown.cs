@@ -18,9 +18,9 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         public int UserId { get; set; }
         /// <summary>
-        /// 处理人员Id（根据SolutionWay，可能是防火单位人员，也可能是维保单位人员）
+        /// 记录人员归属的单位Id。如果是本防火单位人员，则该值与FireUnitId一致，如果是维保人员，则该值存放维保单位的Id
         /// </summary>
-        public int DoUserId { get; set; }
+        public int UserBelongUnitId { get; set; }
         /// <summary>
         /// 故障来源
         /// </summary>
@@ -30,11 +30,15 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         public HandleStatus HandleStatus { get; set; }
         /// <summary>
+        /// 处理人员Id（根据SolutionWay，可能是防火单位人员，也可能是维保单位人员）
+        /// </summary>
+        public int DoUserId { get; set; }
+        /// <summary>
         /// 故障来源数据ID（值班表、巡查表、火警联网部件故障表的Id）
         /// </summary>
         public int DataId { get; set; }
         /// <summary>
-        /// 解决时间
+        /// 处理时间
         /// </summary>
         public DateTime SolutionTime { get; set; }
         /// <summary>

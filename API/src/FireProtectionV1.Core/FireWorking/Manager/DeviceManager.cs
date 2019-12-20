@@ -288,18 +288,37 @@ namespace FireProtectionV1.FireWorking.Manager
             int offlineNum = fireElectricDevice.Count(p => p.State.Equals("离线"));
             int warnNum = fireElectricDevice.Count(p => p.State.Equals("超限"));
             int onlineNum = badNum + goodNum + warnNum;
+
             var fireElectricDeviceStatusForDataScreen = new GetDeviceStatusForDataScreenOutput()
             {
                 DeviceType = "电气火灾设施",
-                DeviceStatusObject = new
-                {
-                    BadNum = badNum,
-                    GoodNum = goodNum,
-                    OfflineNum = offlineNum,
-                    WarnNum = warnNum,
-                    OnlineNum = onlineNum
-                }
+                DeviceStatusList = new List<NumOfStatus>()
             };
+            fireElectricDeviceStatusForDataScreen.DeviceStatusList.Add(new NumOfStatus()
+            {
+                Status = "离线",
+                Num = offlineNum
+            });
+            fireElectricDeviceStatusForDataScreen.DeviceStatusList.Add(new NumOfStatus()
+            {
+                Status = "在线",
+                Num = onlineNum
+            });
+            fireElectricDeviceStatusForDataScreen.DeviceStatusList.Add(new NumOfStatus()
+            {
+                Status = "良好",
+                Num = goodNum
+            });
+            fireElectricDeviceStatusForDataScreen.DeviceStatusList.Add(new NumOfStatus()
+            {
+                Status = "隐患",
+                Num = badNum
+            });
+            fireElectricDeviceStatusForDataScreen.DeviceStatusList.Add(new NumOfStatus()
+            {
+                Status = "超限",
+                Num = warnNum
+            });
 
             var fireAlarmDevice = _repFireAlarmDevice.GetAll().Where(item => item.FireUnitId.Equals(fireUnitId));
             offlineNum = fireAlarmDevice.Count(p => p.State.Equals(GatewayStatus.Offline));
@@ -307,12 +326,18 @@ namespace FireProtectionV1.FireWorking.Manager
             var fireAlarmDeviceStatusForDataScreen = new GetDeviceStatusForDataScreenOutput()
             {
                 DeviceType = "火警联网设施",
-                DeviceStatusObject = new
-                {
-                    OfflineNum = offlineNum,
-                    OnlineNum = onlineNum
-                }
+                DeviceStatusList = new List<NumOfStatus>()
             };
+            fireAlarmDeviceStatusForDataScreen.DeviceStatusList.Add(new NumOfStatus()
+            {
+                Status = "在线",
+                Num = onlineNum
+            });
+            fireAlarmDeviceStatusForDataScreen.DeviceStatusList.Add(new NumOfStatus()
+            {
+                Status = "离线",
+                Num = offlineNum
+            });
 
             var fireWaterDevice = _repFireWaterDevice.GetAll().Where(d => d.FireUnitId.Equals(fireUnitId));
             goodNum = fireWaterDevice.Count(p => p.State.Equals("良好"));
@@ -322,14 +347,28 @@ namespace FireProtectionV1.FireWorking.Manager
             var fireWaterDeviceStatusForDataScreen = new GetDeviceStatusForDataScreenOutput()
             {
                 DeviceType = "消防管网设施",
-                DeviceStatusObject = new
-                {
-                    GoodNum = goodNum,
-                    OfflineNum = offlineNum,
-                    WarnNum = warnNum,
-                    OnlineNum = onlineNum
-                }
+                DeviceStatusList = new List<NumOfStatus>()
             };
+            fireWaterDeviceStatusForDataScreen.DeviceStatusList.Add(new NumOfStatus()
+            {
+                Status = "离线",
+                Num = offlineNum
+            });
+            fireWaterDeviceStatusForDataScreen.DeviceStatusList.Add(new NumOfStatus()
+            {
+                Status = "在线",
+                Num = onlineNum
+            });
+            fireWaterDeviceStatusForDataScreen.DeviceStatusList.Add(new NumOfStatus()
+            {
+                Status = "良好",
+                Num = goodNum
+            });
+            fireWaterDeviceStatusForDataScreen.DeviceStatusList.Add(new NumOfStatus()
+            {
+                Status = "超限",
+                Num = warnNum
+            });
 
             lstOutput.Add(fireAlarmDeviceStatusForDataScreen);
             lstOutput.Add(fireElectricDeviceStatusForDataScreen);

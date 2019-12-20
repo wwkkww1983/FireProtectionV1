@@ -97,8 +97,8 @@ namespace FireProtectionV1.Common.Enum
         /// <summary>
         /// 处理中，该值仅用于查询，实际数据库中不会存这个数值，处理中=自行处理中+维保叫修处理中+维保叫修已处理
         /// </summary>
-        [Description("处理中")]
-        Resolving = 2,
+        //[Description("处理中")]
+        //Resolving = 2,
         /// <summary>
         /// 已解决
         /// </summary>

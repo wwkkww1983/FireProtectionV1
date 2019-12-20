@@ -12,7 +12,7 @@ namespace FireProtectionV1.AppService
     public class BreakDownService : AppServiceBase
     {
         IBreakDownManager _breakDownManager;
-        
+
         public BreakDownService(IBreakDownManager breakDownManager)
         {
             _breakDownManager = breakDownManager;
@@ -21,10 +21,11 @@ namespace FireProtectionV1.AppService
         /// 获取设施故障列表
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<GetBreakDownPagingOutput> GetBreakDownlist(GetBreakDownInput input)
+        public async Task<PagedResultDto<GetBreakDownOutput>> GetBreakDownlist(GetBreakDownInput input, PagedResultRequestDto dto)
         {
-            return await _breakDownManager.GetBreakDownlist(input);
+            return await _breakDownManager.GetBreakDownlist(input, dto);
         }
         /// <summary>
         /// 获取设施故障详情
