@@ -151,30 +151,7 @@ namespace FireProtectionV1.DeviceService
 
         //    }
         //}
-        /// <summary>
-        /// 获取终端设备筛选选项
-        /// </summary>
-        /// <returns></returns>
-        //public Task<List<EndDeviceOptionDto>> GetEndDeviceOptions()
-        //{
-        //    var output = new List<EndDeviceOptionDto>();
-        //    output.Add(new EndDeviceOptionDto()
-        //    {
-        //        Value = 0,
-        //        Name = "全部终端"
-        //    });
-        //    output.Add(new EndDeviceOptionDto()
-        //    {
-        //        Value = 1,
-        //        Name = "在线"
-        //    });
-        //    output.Add(new EndDeviceOptionDto()
-        //    {
-        //        Value = -1,
-        //        Name = "离线"
-        //    });
-        //    return Task.FromResult<List<EndDeviceOptionDto>>(output);
-        //}
+
         /// <summary>
         /// 获取防火单位的终端状态
         /// </summary>
@@ -502,7 +479,7 @@ namespace FireProtectionV1.DeviceService
         /// </summary>
         /// <param name="fireUnitId"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<FireWaterDevice>> GetFireWaterDeviceList(int fireUnitId, PagedResultRequestDto dto)
+        public async Task<PagedResultDto<GetFireWaterDeviceListOutput>> GetFireWaterDeviceList(int fireUnitId, PagedResultRequestDto dto)
         {
             return await _deviceManager.GetFireWaterDeviceList(fireUnitId, dto);
         }

@@ -474,7 +474,7 @@ namespace FireProtectionV1.FireWorking.Manager
                             L3 = a.State.Equals(FireElectricDeviceState.Offline) ? "未知" : tL3.Analog + "℃",
                             CreationTime = a.CreationTime
                         };
-            var test = query.ToList();
+
             return Task.FromResult(new PagedResultDto<FireElectricDeviceItemDto>()
             {
                 Items = query.OrderByDescending(item => item.CreationTime).Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList(),
@@ -627,14 +627,16 @@ namespace FireProtectionV1.FireWorking.Manager
                     FireAlarmDeviceId = p.Key,
                     AlarmNum = p.Count(),
                     HighDeviceNum = p.GroupBy(p1 => p1.FireAlarmDetectorId).Where(p1 => p1.Count() > highFreq).Count()
-                }).ToList();
-            // 故障部件数量及部件故障率
-            var groupGtFault = _repFireAlarmDetector.GetAll().Where(p => p.FireUnitId == fireUnitId).GroupBy(p => p.FireAlarmDeviceId).Select(p => new
+                });
+
+            // 故障部件数量统计
+            var groupGtFault = _repFireAlarmDetector.GetAll()
+                .Where(item => item.FireUnitId.Equals(fireUnitId) && item.State.Equals(FireAlarmDetectorState.Fault))
+                .GroupBy(p => p.FireAlarmDeviceId).Select(p => new
             {
                 FireAlarmDeviceId = p.Key,
-                FaultNum = p.Where(p1 => p1.FaultNum > 0).Count(),
-                FaultRate = p.Count() == 0 ? "0.00%" : (p.Where(p1 => p1.FaultNum > 0).Count() / (double)p.Count()).ToString("P")
-            }).ToList();
+                FaultNum = p.Count()
+            });
 
             var query = from a in fireAlarmDevices
                         join b in groupGtFault on a.Id equals b.FireAlarmDeviceId into result1
@@ -652,15 +654,23 @@ namespace FireProtectionV1.FireWorking.Manager
                             FireUnitArchitectureName = a_d != null ? a_d.Name : "",
                             NetDetectorNum = a.NetDetectorNum,
                             FaultDetectorNum = a_b != null ? a_b.FaultNum : 0,
-                            DetectorFaultRate = a_b != null ? a_b.FaultRate : "0.00%",
+                            DetectorFaultRate = "0.00%",
                             AlarmNum30Day = a_c != null ? a_c.AlarmNum : 0,
                             HighAlarmDetectorNum = a_c != null ? a_c.HighDeviceNum : 0,
                             CreationTime = a.CreationTime
                         };
 
+            var lstOutput = query.OrderByDescending(item => item.CreationTime).Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList();
+            foreach (var item in lstOutput)
+            {
+                if (item.NetDetectorNum > 0 && item.FaultDetectorNum > 0)
+                {
+                    item.DetectorFaultRate = ((double)item.FaultDetectorNum / item.NetDetectorNum).ToString("P");
+                }
+            }
             return Task.FromResult(new PagedResultDto<FireAlarmDeviceItemDto>()
             {
-                Items = query.OrderByDescending(item => item.CreationTime).Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList(),
+                Items = lstOutput,
                 TotalCount = query.Count()
             });
         }
@@ -1837,17 +1847,32 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="fireUnitId"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<FireWaterDevice>> GetFireWaterDeviceList(int fireUnitId, PagedResultRequestDto dto)
+        public Task<PagedResultDto<GetFireWaterDeviceListOutput>> GetFireWaterDeviceList(int fireUnitId, PagedResultRequestDto dto)
         {
-            var lstWaterDevices = await _repFireWaterDevice.GetAllListAsync(d => fireUnitId.Equals(d.FireUnitId));
+            var fireWaterDevices = _repFireWaterDevice.GetAll().Where(item => item.FireUnitId.Equals(fireUnitId));
 
-            var tCount = lstWaterDevices.Count();
+            var query = from a in fireWaterDevices
+                        orderby a.CreationTime descending
+                        select new GetFireWaterDeviceListOutput()
+                        {
+                            Id = a.Id,
+                            DeviceAddress = a.DeviceAddress,
+                            Location = a.Location,
+                            Gateway_Sn = a.Gateway_Sn,
+                            Gateway_Model = a.Gateway_Model,
+                            Gateway_Location = a.Gateway_Location,
+                            MonitorType = a.MonitorType,
+                            MinThreshold = a.MinThreshold,
+                            MaxThreshold = a.MaxThreshold,
+                            State = a.State,
+                            CurrentValue = a.State.Equals(FireWaterDeviceState.Offline) ? "未知" : a.CurrentValue + (a.MonitorType.Equals(MonitorType.Height) ? "m" : "MPa")
+                        };
 
-            return new PagedResultDto<FireWaterDevice>()
+            return Task.FromResult(new PagedResultDto<GetFireWaterDeviceListOutput>()
             {
-                Items = lstWaterDevices.Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList(),
-                TotalCount = lstWaterDevices.Count
-            };
+                Items = query.Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList(),
+                TotalCount = query.Count()
+            });
         }
 
         /// <summary>

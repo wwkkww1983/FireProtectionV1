@@ -44,6 +44,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="FireWorking\Dto\新文件夹\" />
     <Folder Include="Schedule\Dto\" />
   </ItemGroup>
 </Project>
