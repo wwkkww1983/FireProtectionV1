@@ -30,20 +30,20 @@ namespace FireProtectionV1.AppService
         /// <summary>
         /// 获取设施故障详情
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="breakDownId"></param>
         /// <returns></returns>
-        public async Task<GetBreakDownInfoOutput> GetBreakDownInfo(GetBreakDownInfoInput input)
+        public async Task<GetBreakDownInfoOutput> GetBreakDownInfo(int breakDownId)
         {
-            return await _breakDownManager.GetBreakDownInfo(input);
+            return await _breakDownManager.GetBreakDownInfo(breakDownId);
         }
         /// <summary>
         /// 更新设施故障详情
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<SuccessOutput> UpdateBreakDownInfo(UpdateBreakDownInfoInput input)
+        public async Task UpdateBreakDownInfo(UpdateBreakDownInfoInput input)
         {
-            return await _breakDownManager.UpdateBreakDownInfo(input);
+            await _breakDownManager.UpdateBreakDownInfo(input);
         }
         /// <summary>
         /// 获取设施故障处理情况

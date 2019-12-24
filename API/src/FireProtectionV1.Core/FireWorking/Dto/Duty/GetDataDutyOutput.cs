@@ -8,20 +8,24 @@ namespace FireProtectionV1.FireWorking.Dto
     public class GetDataDutyOutput
     {
         /// <summary>
-        /// 值班ID
+        /// 值班记录ID
         /// </summary>
         public int DutyId { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>
-        public string CreationTime { get; set; }
+        public DateTime CreationTime { get; set; }
         /// <summary>
-        /// 值班人员
+        /// 值班人员姓名
         /// </summary>
-        public string DutyUser { get; set; }
+        public string DutyUserName { get; set; }
+        /// <summary>
+        /// 值班人员手机
+        /// </summary>
+        public string DutyUserPhone { get; set; }
         /// <summary>
         /// 记录状态
         /// </summary>
-        public ProblemStatusType DutyStatus { get; set; }
+        public DutyOrPatrolStatus DutyStatus { get; set; }
     }
 }

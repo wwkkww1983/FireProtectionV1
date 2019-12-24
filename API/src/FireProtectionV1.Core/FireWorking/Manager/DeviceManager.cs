@@ -28,15 +28,13 @@ namespace FireProtectionV1.FireWorking.Manager
     public class DeviceManager : IDeviceManager
     {
         IRepository<FireAlarmDeviceProtocol> _repFireAlarmDeviceProtocol;
-        IRepository<FireElectricDeviceModel> _repFireElectricDeviceModel;
-        IRepository<FireAlarmDeviceModel> _repFireAlarmDeviceModel;
+        IRepository<TsjDeviceModel> _repTsjDeviceModel;
         IRepository<FireUnitArchitectureFloor> _repFireUnitArchitectureFloor;
         IRepository<FireUnitArchitecture> _repFireUnitArchitecture;
         IRepository<FireAlarmDevice> _repFireAlarmDevice;
         IRepository<FireElectricDevice> _repFireElectricDevice;
         IRepository<FireOrtherDevice> _repFireOrtherDevice;
         IRepository<FireWaterDevice> _repFireWaterDevice;
-        IRepository<FireWaterDeviceType> _repFireWaterDeviceType;
         IRepository<FireUnitSystem> _fireUnitSystemRep;
         IRepository<FireSystem> _fireSystemRep;
         IRepository<Fault> _faultRep;
@@ -44,20 +42,19 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<AlarmToElectric> _repAlarmToElectric;
         IRepository<RecordOnline> _recordOnlineRep;
         IRepository<FireElectricRecord> _repFireElectricRecord;
+        IRepository<FireWaterRecord> _repFireWaterRecord;
         IFireSettingManager _fireSettingManager;
         IRepository<DetectorType> _detectorTypeRep;
         IRepository<FireAlarmDetector> _repFireAlarmDetector;
         public DeviceManager(
             IRepository<FireAlarmDeviceProtocol> repFireAlarmDeviceProtocol,
-            IRepository<FireElectricDeviceModel> repFireElectricDeviceModel,
-            IRepository<FireAlarmDeviceModel> repFireAlarmDeviceModel,
+            IRepository<TsjDeviceModel> repTsjDeviceModel,
             IRepository<FireUnitArchitectureFloor> repFireUnitArchitectureFloor,
             IRepository<FireUnitArchitecture> repFireUnitArchitecture,
             IRepository<FireAlarmDevice> repFireAlarmDevice,
             IRepository<FireElectricDevice> repFireElectricDevice,
             IRepository<FireOrtherDevice> repFireOrtherDevice,
             IRepository<FireWaterDevice> repFireWaterDevice,
-            IRepository<FireWaterDeviceType> repFireWaterDeviceType,
             IRepository<FireUnitSystem> fireUnitSystemRep,
             IRepository<FireSystem> fireSystemRep,
             IRepository<Fault> faultRep,
@@ -65,20 +62,19 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<AlarmToElectric> repAlarmToElectric,
             IRepository<RecordOnline> recordOnlineRep,
             IRepository<FireElectricRecord> repFireElectricRecord,
+            IRepository<FireWaterRecord> repFireWaterRecord,
             IFireSettingManager fireSettingManager,
             IRepository<DetectorType> detectorTypeRep,
             IRepository<FireAlarmDetector> repFireAlarmDetector)
         {
             _repFireAlarmDeviceProtocol = repFireAlarmDeviceProtocol;
-            _repFireElectricDeviceModel = repFireElectricDeviceModel;
-            _repFireAlarmDeviceModel = repFireAlarmDeviceModel;
+            _repTsjDeviceModel = repTsjDeviceModel;
             _repFireUnitArchitectureFloor = repFireUnitArchitectureFloor;
             _repFireUnitArchitecture = repFireUnitArchitecture;
             _repFireAlarmDevice = repFireAlarmDevice;
             _repFireElectricDevice = repFireElectricDevice;
             _repFireOrtherDevice = repFireOrtherDevice;
             _repFireWaterDevice = repFireWaterDevice;
-            _repFireWaterDeviceType = repFireWaterDeviceType;
             _fireUnitSystemRep = fireUnitSystemRep;
             _fireSystemRep = fireSystemRep;
             _faultRep = faultRep;
@@ -86,6 +82,7 @@ namespace FireProtectionV1.FireWorking.Manager
             _repAlarmToElectric = repAlarmToElectric;
             _recordOnlineRep = recordOnlineRep;
             _repFireElectricRecord = repFireElectricRecord;
+            _repFireWaterRecord = repFireWaterRecord;
             _fireSettingManager = fireSettingManager;
             _detectorTypeRep = detectorTypeRep;
             _repFireAlarmDetector = repFireAlarmDetector;
@@ -198,7 +195,7 @@ namespace FireProtectionV1.FireWorking.Manager
             {
                 DataRate = "2小时",
                 NetComms = new List<string>() { "以太网", "WIFI", "NB-IoT" },
-                State = device.State.Equals(GatewayStatus.Offline) ? "离线" : "在线",
+                State = device.State,
                 Brand = device.Brand,
                 DeviceId = device.Id,
                 DeviceSn = device.DeviceSn,
@@ -251,9 +248,52 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="deviceId"></param>
         /// <returns></returns>
-        public async Task<FireElectricDevice> GetFireElectricDevice(int deviceId)
+        public async Task<GetFireElectricDeviceOutput> GetFireElectricDevice(int deviceId)
         {
-            return await _repFireElectricDevice.GetAsync(deviceId);
+            var device = await _repFireElectricDevice.GetAsync(deviceId);
+            List<string> lstEnableAlarm = new List<string>();
+            List<string> lstMonitorItem = new List<string>();
+            if (device.EnableEndAlarm) lstEnableAlarm.Add("终端报警");
+            if (device.EnableCloudAlarm) lstEnableAlarm.Add("云端报警");
+            if (device.EnableAlarmSwitch) lstEnableAlarm.Add("发送开关量信号");
+            if (device.ExistTemperature) lstMonitorItem.Add("电缆温度");
+            if (device.ExistAmpere) lstMonitorItem.Add("剩余电流");
+
+            var output = new GetFireElectricDeviceOutput()
+            {
+                CreationTime = device.CreationTime,
+                DataRate = device.DataRate,
+                DeviceModel = device.DeviceModel,
+                DeviceSn = device.DeviceSn,
+                EnableAlarmSwitch = device.EnableAlarmSwitch,
+                EnableCloudAlarm = device.EnableCloudAlarm,
+                EnableEndAlarm = device.EnableEndAlarm,
+                ExistAmpere = device.ExistAmpere,
+                ExistTemperature = device.ExistTemperature,
+                FireUnitArchitectureFloorId = device.FireUnitArchitectureFloorId,
+                FireUnitArchitectureId = device.FireUnitArchitectureId,
+                FireUnitId = device.FireUnitId,
+                Id = device.Id,
+                Location = device.Location,
+                MaxAmpere = device.MaxAmpere,
+                MaxL = device.MaxL,
+                MaxL1 = device.MaxL1,
+                MaxL2 = device.MaxL2,
+                MaxL3 = device.MaxL3,
+                MaxN = device.MaxN,
+                MinAmpere = device.MinAmpere,
+                MinL = device.MinL,
+                MinL1 = device.MinL1,
+                MinL2 = device.MinL2,
+                MinL3 = device.MinL3,
+                MinN = device.MinN,
+                NetComm = device.NetComm,
+                PhaseType = device.PhaseType,
+                State = device.State,
+                EnableAlarmList = lstEnableAlarm,
+                MonitorItemList = lstMonitorItem
+            };
+            return output;
         }
         /// <summary>
         /// 获取电气火灾设备各种状态的数量
@@ -265,10 +305,10 @@ namespace FireProtectionV1.FireWorking.Manager
             var fireElectricDevice = _repFireElectricDevice.GetAll().Where(d => d.FireUnitId.Equals(fireUnitId));
             var output = new GetFireElectricDeviceStateOutput()
             {
-                BadNum = fireElectricDevice.Count(p => p.State.Equals("隐患")),
-                GoodNum = fireElectricDevice.Count(p => p.State.Equals("良好")),
-                OfflineNum = fireElectricDevice.Count(p => p.State.Equals("离线")),
-                WarnNum = fireElectricDevice.Count(p => p.State.Equals("超限"))
+                BadNum = fireElectricDevice.Count(p => p.State.Equals(FireElectricDeviceState.Danger)),
+                GoodNum = fireElectricDevice.Count(p => p.State.Equals(FireElectricDeviceState.Good)),
+                OfflineNum = fireElectricDevice.Count(p => p.State.Equals(FireElectricDeviceState.Offline)),
+                WarnNum = fireElectricDevice.Count(p => p.State.Equals(FireElectricDeviceState.Transfinite))
             };
             output.OnlineNum = output.BadNum + output.GoodNum + output.WarnNum;
             return Task.FromResult(output);
@@ -283,10 +323,10 @@ namespace FireProtectionV1.FireWorking.Manager
             List<GetDeviceStatusForDataScreenOutput> lstOutput = new List<GetDeviceStatusForDataScreenOutput>();
 
             var fireElectricDevice = _repFireElectricDevice.GetAll().Where(d => d.FireUnitId.Equals(fireUnitId));
-            int badNum = fireElectricDevice.Count(p => p.State.Equals("隐患"));
-            int goodNum = fireElectricDevice.Count(p => p.State.Equals("良好"));
-            int offlineNum = fireElectricDevice.Count(p => p.State.Equals("离线"));
-            int warnNum = fireElectricDevice.Count(p => p.State.Equals("超限"));
+            int badNum = fireElectricDevice.Count(p => p.State.Equals(FireElectricDeviceState.Danger));
+            int goodNum = fireElectricDevice.Count(p => p.State.Equals(FireElectricDeviceState.Good));
+            int offlineNum = fireElectricDevice.Count(p => p.State.Equals(FireElectricDeviceState.Offline));
+            int warnNum = fireElectricDevice.Count(p => p.State.Equals(FireElectricDeviceState.Transfinite));
             int onlineNum = badNum + goodNum + warnNum;
 
             var fireElectricDeviceStatusForDataScreen = new GetDeviceStatusForDataScreenOutput()
@@ -340,9 +380,9 @@ namespace FireProtectionV1.FireWorking.Manager
             });
 
             var fireWaterDevice = _repFireWaterDevice.GetAll().Where(d => d.FireUnitId.Equals(fireUnitId));
-            goodNum = fireWaterDevice.Count(p => p.State.Equals("良好"));
-            warnNum = fireWaterDevice.Count(p => p.State.Equals("超限"));
-            offlineNum = fireWaterDevice.Count(p => p.State.Equals("离线"));
+            goodNum = fireWaterDevice.Count(p => p.State.Equals(FireWaterDeviceState.Good));
+            warnNum = fireWaterDevice.Count(p => p.State.Equals(FireWaterDeviceState.Transfinite));
+            offlineNum = fireWaterDevice.Count(p => p.State.Equals(FireWaterDeviceState.Offline));
             onlineNum = goodNum + warnNum;
             var fireWaterDeviceStatusForDataScreen = new GetDeviceStatusForDataScreenOutput()
             {
@@ -519,6 +559,14 @@ namespace FireProtectionV1.FireWorking.Manager
             });
         }
         /// <summary>
+        /// 获取火警联网设施部件类型数组
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<string>> GetFireAlarmDetectorTypes()
+        {
+            return Task.FromResult(_detectorTypeRep.GetAll().Where(item => item.ApplyForTSJ).Select(item => item.Name).ToList());
+        }
+        /// <summary>
         /// 获取指定火警联网设施ID的高频报警部件列表
         /// </summary>
         /// <param name="fireAlarmDeviceId"></param>
@@ -585,7 +633,7 @@ namespace FireProtectionV1.FireWorking.Manager
             {
                 FireAlarmDeviceId = p.Key,
                 FaultNum = p.Where(p1 => p1.FaultNum > 0).Count(),
-                FaultRate = p.Count() == 0 ? "0%" : (p.Where(p1 => p1.FaultNum > 0).Count() / (double)p.Count()).ToString("P")
+                FaultRate = p.Count() == 0 ? "0.00%" : (p.Where(p1 => p1.FaultNum > 0).Count() / (double)p.Count()).ToString("P")
             }).ToList();
 
             var query = from a in fireAlarmDevices
@@ -599,12 +647,12 @@ namespace FireProtectionV1.FireWorking.Manager
                         {
                             DeviceId = a.Id,
                             DeviceSn = a.DeviceSn,
-                            State = a.State.Equals(GatewayStatus.Offline) ? "离线" : "在线",
+                            State = a.State,
                             FireUnitArchitectureId = a_d != null ? a_d.Id : 0,
                             FireUnitArchitectureName = a_d != null ? a_d.Name : "",
                             NetDetectorNum = a.NetDetectorNum,
                             FaultDetectorNum = a_b != null ? a_b.FaultNum : 0,
-                            DetectorFaultRate = a_b != null ? a_b.FaultRate : "0%",
+                            DetectorFaultRate = a_b != null ? a_b.FaultRate : "0.00%",
                             AlarmNum30Day = a_c != null ? a_c.AlarmNum : 0,
                             HighAlarmDetectorNum = a_c != null ? a_c.HighDeviceNum : 0,
                             CreationTime = a.CreationTime
@@ -1058,7 +1106,41 @@ namespace FireProtectionV1.FireWorking.Manager
             }
             return output;
         }
+        /// <summary>
+        /// 在线/离线事件接口
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task UpdateDeviceState(UpdateDeviceStateInput input)
+        {
+            switch (input.GatewayType)
+            {
+                case TsjDeviceType.FireAlarm:
+                    var fireAlarmDevice = await _repFireAlarmDevice.FirstOrDefaultAsync(item => item.DeviceSn.Equals(input.GatewaySn));
+                    Valid.Exception(fireAlarmDevice == null, $"未找到编号为{input.GatewaySn}的火警联网设施");
 
+                    fireAlarmDevice.State = input.GatewayStatus;
+                    await _repFireAlarmDevice.UpdateAsync(fireAlarmDevice);
+                    break;
+                case TsjDeviceType.FireElectric:
+                    var fireElectricDevice = await _repFireElectricDevice.FirstOrDefaultAsync(item => item.DeviceSn.Equals(input.GatewaySn));
+                    Valid.Exception(fireElectricDevice == null, $"未找到编号为{input.GatewaySn}的电气火灾设施");
+
+                    fireElectricDevice.State = input.GatewayStatus.Equals(GatewayStatus.Offline) ? FireElectricDeviceState.Offline : FireElectricDeviceState.Good;
+                    await _repFireElectricDevice.UpdateAsync(fireElectricDevice);
+                    break;
+                case TsjDeviceType.FireWater:
+                    var lstFireWaterDevice = _repFireWaterDevice.GetAll().Where(item => item.Gateway_Sn.Equals(input.GatewaySn)).ToList();
+                    Valid.Exception(lstFireWaterDevice == null, $"未找到编号为{input.GatewaySn}的消防管网监测设施");
+
+                    foreach (var device in lstFireWaterDevice)
+                    {
+                        device.State = input.GatewayStatus.Equals(GatewayStatus.Offline) ? FireWaterDeviceState.Offline : FireWaterDeviceState.Good;
+                        await _repFireWaterDevice.UpdateAsync(device);
+                    }
+                    break;
+            }
+        }
         /// <summary>
         /// 新增火警联网设施
         /// </summary>
@@ -1099,26 +1181,26 @@ namespace FireProtectionV1.FireWorking.Manager
             elec.DeviceSn = input.DeviceSn;
             elec.DeviceModel = input.DeviceModel;
             elec.FireUnitArchitectureId = input.FireUnitArchitectureId;
-            elec.EnableCloudAlarm = input.EnableAlarm.Contains("云端报警");
-            elec.EnableEndAlarm = input.EnableAlarm.Contains("终端报警");
-            elec.EnableAlarmSwitch = input.EnableAlarm.Contains("发送开关量信号");
-            elec.ExistAmpere = input.MonitorItem.Contains("剩余电流");
-            elec.ExistTemperature = input.MonitorItem.Contains("电缆温度");
+            elec.EnableCloudAlarm = input.EnableAlarmList.Contains("云端报警");
+            elec.EnableEndAlarm = input.EnableAlarmList.Contains("终端报警");
+            elec.EnableAlarmSwitch = input.EnableAlarmList.Contains("发送开关量信号");
+            elec.ExistAmpere = input.MonitorItemList.Contains("剩余电流");
+            elec.ExistTemperature = input.MonitorItemList.Contains("电缆温度");
             elec.FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId;
             elec.Location = input.Location;
             elec.PhaseType = input.PhaseType;
-            elec.MinAmpere = input.Amin;
-            elec.MaxAmpere = input.Amax;
-            elec.MinL = input.Lmin;
-            elec.MaxL = input.Lmax;
-            elec.MinN = input.Nmin;
-            elec.MaxN = input.Nmax;
-            elec.MinL1 = input.L1min;
-            elec.MaxL1 = input.L1max;
-            elec.MinL2 = input.L2min;
-            elec.MaxL2 = input.L2max;
-            elec.MinL3 = input.L3min;
-            elec.MaxL3 = input.L3max;
+            elec.MinAmpere = input.MinAmpere;
+            elec.MaxAmpere = input.MaxAmpere;
+            elec.MinL = input.MinL;
+            elec.MaxL = input.MaxL;
+            elec.MinN = input.MinN;
+            elec.MaxN = input.MaxN;
+            elec.MinL1 = input.MinL1;
+            elec.MaxL1 = input.MaxL1;
+            elec.MinL2 = input.MinL2;
+            elec.MaxL2 = input.MaxL2;
+            elec.MinL3 = input.MinL3;
+            elec.MaxL3 = input.MaxL3;
 
             await _repFireElectricDevice.UpdateAsync(elec);
         }
@@ -1138,28 +1220,28 @@ namespace FireProtectionV1.FireWorking.Manager
                 DeviceModel = input.DeviceModel,
                 FireUnitArchitectureId = input.FireUnitArchitectureId,
                 FireUnitId = input.FireUnitId,
-                EnableCloudAlarm = input.EnableAlarm.Contains("云端报警"),
-                EnableEndAlarm = input.EnableAlarm.Contains("终端报警"),
-                EnableAlarmSwitch = input.EnableAlarm.Contains("发送开关量信号"),
-                ExistAmpere = input.MonitorItem.Contains("剩余电流"),
-                ExistTemperature = input.MonitorItem.Contains("电缆温度"),
+                EnableCloudAlarm = input.EnableAlarmList.Contains("云端报警"),
+                EnableEndAlarm = input.EnableAlarmList.Contains("终端报警"),
+                EnableAlarmSwitch = input.EnableAlarmList.Contains("发送开关量信号"),
+                ExistAmpere = input.MonitorItemList.Contains("剩余电流"),
+                ExistTemperature = input.MonitorItemList.Contains("电缆温度"),
                 FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId,
                 Location = input.Location,
                 PhaseType = input.PhaseType,
                 NetComm = input.NetComm,
                 DataRate = "2小时",
-                MinAmpere = input.Amin,
-                MaxAmpere = input.Amax,
-                MinL = input.Lmin,
-                MaxL = input.Lmax,
-                MinL1 = input.L1min,
-                MaxL1 = input.L1max,
-                MinL2 = input.L2min,
-                MaxL2 = input.L2max,
-                MinL3 = input.L3min,
-                MaxL3 = input.L3max,
-                MinN = input.Nmin,
-                MaxN = input.Nmax
+                MinAmpere = input.MinAmpere,
+                MaxAmpere = input.MaxAmpere,
+                MinL = input.MinL,
+                MaxL = input.MaxL,
+                MinL1 = input.MinL1,
+                MaxL1 = input.MaxL1,
+                MinL2 = input.MinL2,
+                MaxL2 = input.MaxL2,
+                MinL3 = input.MinL3,
+                MaxL3 = input.MaxL3,
+                MinN = input.MinN,
+                MaxN = input.MaxN
             });
         }
         /// <summary>
@@ -1529,7 +1611,7 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             var fireElectricDevice = await _repFireElectricDevice.FirstOrDefaultAsync(item => item.DeviceSn.Equals(input.FireElectricDeviceSn));
             Valid.Exception(fireElectricDevice == null, $"未找到编号为{input.FireElectricDeviceSn}的电气火灾设备");
-            Valid.Exception(input.Sign != "A" || input.Sign != "N" || input.Sign != "L" || input.Sign != "L1" || input.Sign != "L2" || input.Sign != "L3", "记录的类型标记错误");
+            Valid.Exception(input.Sign != "A" && input.Sign != "N" && input.Sign != "L" && input.Sign != "L1" && input.Sign != "L2" && input.Sign != "L3", "记录的类型标记错误");
 
             await _repFireElectricRecord.InsertAsync(new FireElectricRecord()
             {
@@ -1624,7 +1706,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public Task<List<string>> GetFireAlarmDeviceModels()
         {
-            return Task.FromResult(_repFireAlarmDeviceModel.GetAll().OrderByDescending(p => p.CreationTime).Select(item => item.Name).ToList());
+            return Task.FromResult(_repTsjDeviceModel.GetAll().Where(item => item.DeviceType.Equals(TsjDeviceType.FireAlarm)).Select(item => item.Model).ToList());
         }
         /// <summary>
         /// 获取电气火灾设备型号数组
@@ -1632,7 +1714,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public Task<List<string>> GetFireElectricDeviceModels()
         {
-            return Task.FromResult(_repFireElectricDeviceModel.GetAll().OrderByDescending(p => p.CreationTime).Select(item => item.Name).ToList());
+            return Task.FromResult(_repTsjDeviceModel.GetAll().Where(item => item.DeviceType.Equals(TsjDeviceType.FireElectric)).Select(item => item.Model).ToList());
         }
         /// <summary>
         /// 获取火灾报警控制器协议数组
@@ -1647,7 +1729,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="deviceId">火警联网设备ID</param>
         /// <returns></returns>
-        public Task<SerialPortParamDto> GetSerialPortParam(int DeviceId)
+        public Task<SerialPortParamDto> GetSerialPortParam(int deviceId)
         {
             return Task.FromResult(new SerialPortParamDto()
             {
@@ -1665,34 +1747,24 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public async Task AddFireWaterDevice(AddFireWaterDeviceInput input)
         {
-            Valid.Exception(_repFireWaterDevice.Count(m => m.DeviceAddress.Equals(input.DeviceAddress)) > 0, "设备地址已存在");
-
-            string heightPhase = JsonConvert.SerializeObject(new HeightPhase()
-            {
-                MinHeight = input.MinHeight,
-                MaxHeight = input.MaxHeight
-            });
-            string pressPhase = JsonConvert.SerializeObject(new PressPhase()
-            {
-                MinPress = input.MinPress,
-                MaxPress = input.MaxPress
-            });
+            Valid.Exception(_repFireWaterDevice.Count(m => m.Gateway_Sn.Equals(input.Gateway_Sn) && !m.FireUnitId.Equals(input.FireUnitId)) > 0, "设备网关编号已存在");
+            Valid.Exception(_repFireWaterDevice.Count(m => m.DeviceAddress.Equals(input.DeviceAddress) && m.Gateway_Sn.Equals(input.Gateway_Sn)) > 0, "设备地址已存在");
 
             await _repFireWaterDevice.InsertAsync(new FireWaterDevice()
             {
                 CreationTime = DateTime.Now,
                 FireUnitId = input.FireUnitId,
                 DeviceAddress = input.DeviceAddress,
-                State = "离线",
+                State = FireWaterDeviceState.Offline,
                 Location = input.Location,
-                Gateway_Type = input.Gateway_Type,
+                Gateway_Model = input.Gateway_Model,
                 Gateway_Sn = input.Gateway_Sn,
                 Gateway_Location = input.Gateway_Location,
                 Gateway_NetComm = input.Gateway_NetComm,
                 Gateway_DataRate = "2小时",
                 MonitorType = input.MonitorType,
-                HeightThreshold = heightPhase,
-                PressThreshold = pressPhase,
+                MinThreshold = input.MinThreshold,
+                MaxThreshold = input.MaxThreshold,
                 EnableCloudAlarm = input.EnableCloudAlarm
             });
         }
@@ -1703,30 +1775,20 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public async Task UpdateFireWaterDevice(UpdateFireWaterDeviceInput input)
         {
-            Valid.Exception(_repFireWaterDevice.Count(m => m.DeviceAddress.Equals(input.DeviceAddress) && !m.Id.Equals(input.Id)) > 0, "设备地址已存在");
+            Valid.Exception(_repFireWaterDevice.Count(m => m.Gateway_Sn.Equals(input.Gateway_Sn) && !m.FireUnitId.Equals(input.FireUnitId)) > 0, "设备网关编号已存在");
+            Valid.Exception(_repFireWaterDevice.Count(m => m.DeviceAddress.Equals(input.DeviceAddress) && m.Gateway_Sn.Equals(input.Gateway_Sn) && !m.Id.Equals(input.Id)) > 0, "设备地址已存在");
 
             FireWaterDevice device = await _repFireWaterDevice.GetAsync(input.Id);
 
-            string heightPhase = JsonConvert.SerializeObject(new HeightPhase()
-            {
-                MinHeight = input.MinHeight,
-                MaxHeight = input.MaxHeight
-            });
-            string pressPhase = JsonConvert.SerializeObject(new PressPhase()
-            {
-                MinPress = input.MinPress,
-                MaxPress = input.MaxPress
-            });
-
             device.DeviceAddress = input.DeviceAddress;
             device.Location = input.Location;
-            device.Gateway_Type = input.Gateway_Type;
+            device.Gateway_Model = input.Gateway_Model;
             device.Gateway_Sn = input.Gateway_Sn;
             device.Gateway_Location = input.Gateway_Location;
             device.Gateway_NetComm = input.Gateway_NetComm;
             device.MonitorType = input.MonitorType;
-            device.HeightThreshold = heightPhase;
-            device.PressThreshold = pressPhase;
+            device.MinThreshold = input.MinThreshold;
+            device.MaxThreshold = input.MaxThreshold;
             device.EnableCloudAlarm = input.EnableCloudAlarm;
 
             await _repFireWaterDevice.UpdateAsync(device);
@@ -1750,8 +1812,7 @@ namespace FireProtectionV1.FireWorking.Manager
         public async Task<UpdateFireWaterDeviceInput> GetFireWaterDeviceById(int deviceId)
         {
             var device = await _repFireWaterDevice.GetAsync(deviceId);
-            HeightPhase heightPhase = JsonConvert.DeserializeObject<HeightPhase>(device.HeightThreshold);
-            PressPhase pressPhase = JsonConvert.DeserializeObject<PressPhase>(device.PressThreshold);
+
             return new UpdateFireWaterDeviceInput()
             {
                 Id = device.Id,
@@ -1763,13 +1824,11 @@ namespace FireProtectionV1.FireWorking.Manager
                 MonitorType = device.MonitorType,
                 Gateway_Sn = device.Gateway_Sn,
                 Gateway_Location = device.Gateway_Location,
-                Gateway_Type = device.Gateway_Type,
+                Gateway_Model = device.Gateway_Model,
                 Gateway_NetComm = device.Gateway_NetComm,
                 Gateway_DataRate = device.Gateway_DataRate,
-                MinHeight = heightPhase.MinHeight,
-                MaxHeight = heightPhase.MaxHeight,
-                MinPress = pressPhase.MinPress,
-                MaxPress = pressPhase.MaxPress
+                MinThreshold = device.MinThreshold,
+                MaxThreshold = device.MaxThreshold
             };
         }
 
@@ -1795,12 +1854,38 @@ namespace FireProtectionV1.FireWorking.Manager
         /// 获取消防管网联网网关设备型号列表
         /// </summary>
         /// <returns></returns>
-        public async Task<List<string>> GetFireWaterDeviceTypes()
+        public Task<List<string>> GetFireWaterDeviceModels()
         {
-            return await Task.Run(() =>
+            return Task.FromResult(_repTsjDeviceModel.GetAll().Where(item => item.DeviceType.Equals(TsjDeviceType.FireWater)).Select(item => item.Model).ToList());
+        }
+
+        /// <summary>
+        /// 添加消防水管网监测数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task AddFireWaterRecord(AddFireWaterRecordInput input)
+        {
+            var device = await _repFireWaterDevice.FirstOrDefaultAsync(item => item.Gateway_Sn.Equals(input.FireWaterGatewaySn) && item.DeviceAddress.Equals(input.FireWaterDeviceSn));
+            Valid.Exception(device == null, "未找到对应的消防水管网监测设施");
+
+            await _repFireWaterRecord.InsertAndGetIdAsync(new FireWaterRecord()
             {
-                return _repFireWaterDeviceType.GetAll().OrderBy(p => p.Name).Select(p => p.Name).ToList();
+                FireWaterDeviceId = device.Id,
+                Value = input.Value
             });
+
+            device.CurrentValue = input.Value;
+            if (input.Value >= device.MinThreshold && input.Value <= device.MaxThreshold)
+            {
+                device.State = FireWaterDeviceState.Good;
+            }
+            else
+            {
+                device.State = FireWaterDeviceState.Transfinite;
+            }
+
+            await _repFireWaterDevice.UpdateAsync(device);
         }
 
         /// <summary>

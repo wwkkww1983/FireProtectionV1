@@ -18,6 +18,6 @@ namespace FireProtectionV1.FireWorking.Dto
         /// 日期（格式：yyyy-MM-dd）
         /// </summary>
         [Required]
-        public DateTime date { get; set; }
+        public DateTime Date { get; set; }
     }
 }

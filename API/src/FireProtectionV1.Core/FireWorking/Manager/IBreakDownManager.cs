@@ -21,15 +21,15 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <summary>
         /// 获取设施故障详情
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="breakDownId"></param>
         /// <returns></returns>
-        Task<GetBreakDownInfoOutput> GetBreakDownInfo(GetBreakDownInfoInput input);
+        Task<GetBreakDownInfoOutput> GetBreakDownInfo(int breakDownId);
         /// <summary>
         /// 更新设施故障详情
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<SuccessOutput> UpdateBreakDownInfo(UpdateBreakDownInfoInput input);
+        Task UpdateBreakDownInfo(UpdateBreakDownInfoInput input);
         /// <summary>
         /// 获取设施故障处理情况
         /// </summary>

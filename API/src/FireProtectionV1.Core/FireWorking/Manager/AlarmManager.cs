@@ -10,6 +10,7 @@ using FireProtectionV1.FireWorking.Model;
 using FireProtectionV1.User.Manager;
 using FireProtectionV1.User.Model;
 using GovFire;
+using Microsoft.AspNetCore.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace FireProtectionV1.FireWorking.Manager
 {
     public class AlarmManager : DomainService, IAlarmManager
     {
+        IHostingEnvironment _hostingEnvironment;
         IRepository<FireAlarmDetector> _repFireAlarmDetector;
         IRepository<DetectorType> _repDetectorType;
         //IRepository<PhotosPathSave> _photosPathSaveRep;
@@ -32,6 +34,7 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<FireUnitArchitecture> _repFireUnitArchitecture;
         IRepository<FireUnitUser> _repFireUnitUser;
         public AlarmManager(
+            IHostingEnvironment hostingEnvironment,
             IRepository<FireAlarmDetector> repFireAlarmDetector,
             IRepository<DetectorType> repDetectorType,
             IRepository<FireUnit> repFireUnit,
@@ -45,6 +48,7 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<FireUnitUser> repFireUnitUser
         )
         {
+            _hostingEnvironment = hostingEnvironment;
             _repFireAlarmDetector = repFireAlarmDetector;
             _repDetectorType = repDetectorType;
             _repFireUnit = repFireUnit;
@@ -104,19 +108,28 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task CheckFirmAlarm(AlarmCheckDetailDto dto)
+        public async Task CheckFirmAlarm(AlarmCheckInput input)
         {
-            var fireAlarm = await _alarmToFireRep.GetAsync(dto.FireAlarmId);
+            var fireAlarm = await _alarmToFireRep.GetAsync(input.FireAlarmId);
             Valid.Exception(fireAlarm == null, "未找到对应的火警联网数据");
 
-            if (dto.CheckState == FireAlarmCheckState.False || dto.CheckState == FireAlarmCheckState.Test || dto.CheckState == FireAlarmCheckState.True)
+            if (input.CheckState == FireAlarmCheckState.False || input.CheckState == FireAlarmCheckState.Test || input.CheckState == FireAlarmCheckState.True)
             {
-                fireAlarm.CheckState = dto.CheckState;
-                fireAlarm.CheckContent = dto.CheckContent;
+                if (input.NotifyList.Contains("通知工作人员")) fireAlarm.NotifyWorker = true;
+                else fireAlarm.NotifyWorker = false;
+                if (input.NotifyList.Contains("通知微型消防站")) fireAlarm.NotifyMiniStation = true;
+                else fireAlarm.NotifyMiniStation = false;
+
+                if (input.CheckVoice != null)
+                {
+                    string pathVoice = _hostingEnvironment.ContentRootPath + "/App_Data/Files/Voices/AlarmCheck/";
+                    fireAlarm.CheckVoiceUrl = "/Src/Voices/AlarmCheck/" + await SaveFileHelper.SaveFile(input.CheckVoice, pathVoice);
+                    fireAlarm.CheckVoiceLength = input.CheckVoiceLength;
+                }
+                fireAlarm.CheckState = input.CheckState;
+                fireAlarm.CheckContent = input.CheckContent;
                 fireAlarm.CheckTime = DateTime.Now;
-                fireAlarm.CheckUserId = dto.CheckUserId;
-                fireAlarm.CheckVoiceUrl = dto.CheckVoiceUrl;
-                fireAlarm.CheckVoiceLength = dto.CheckVoiceLength;
+                fireAlarm.CheckUserId = input.CheckUserId;
 
                 await _alarmToFireRep.UpdateAsync(fireAlarm);
             }
@@ -180,6 +193,10 @@ namespace FireProtectionV1.FireWorking.Manager
             var detectorType = detector != null ? await _repDetectorType.FirstOrDefaultAsync(detector.DetectorTypeId) : null;
             var fireCheckUser = await _repFireUnitUser.FirstOrDefaultAsync(fireAlarm.CheckUserId);
 
+            List<string> lstNotify = new List<string>();
+            if (fireAlarm.NotifyWorker) lstNotify.Add("通知工作人员");
+            if (fireAlarm.NotifyMiniStation) lstNotify.Add("通知微型消防站");
+
             return new FireAlarmDetailOutput()
             {
                 FireAlarmId = fireAlarm.Id,
@@ -197,6 +214,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 NotifyWorker = fireAlarm.NotifyWorker,
                 NotifyMiniStation = fireAlarm.NotifyMiniStation,
                 FireCheckUser = fireCheckUser != null ? $"{fireCheckUser.Name}（{fireCheckUser.Account}）" : "",
+                NotifyList = lstNotify
             };
         }
         /// <summary>

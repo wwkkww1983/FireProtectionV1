@@ -133,6 +133,46 @@
             如果超出Long的范围，则直接用string定义字段类型，不使用此枚举限制
             </summary>
         </member>
+        <member name="T:FireProtectionV1.Common.Enum.FireWaterDeviceState">
+            <summary>
+            消防水管网设备状态
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.FireWaterDeviceState.Good">
+            <summary>
+            良好
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.FireWaterDeviceState.Transfinite">
+            <summary>
+            超限
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.FireWaterDeviceState.Offline">
+            <summary>
+            离线
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.Common.Enum.TsjDeviceType">
+            <summary>
+            天树聚物联设备类型
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.TsjDeviceType.FireAlarm">
+            <summary>
+            火警联网设施
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.TsjDeviceType.FireElectric">
+            <summary>
+            电气火灾监测设施
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.TsjDeviceType.FireWater">
+            <summary>
+            消防水管网监测设施
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.Common.Enum.FireAlarmDetectorState">
             <summary>
             火警联网部件状态
@@ -153,14 +193,19 @@
             电缆温度监测相数
             </summary>
         </member>
+        <member name="F:FireProtectionV1.Common.Enum.PhaseType.Single">
+            <summary>
+            单相
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.PhaseType.Third">
+            <summary>
+            三相
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.Common.Enum.FireElectricDeviceState">
             <summary>
             电气火灾设备状态
-            </summary>
-        </member>
-        <member name="F:FireProtectionV1.Common.Enum.FireElectricDeviceState.Offline">
-            <summary>
-            离线
             </summary>
         </member>
         <member name="F:FireProtectionV1.Common.Enum.FireElectricDeviceState.Good">
@@ -176,6 +221,11 @@
         <member name="F:FireProtectionV1.Common.Enum.FireElectricDeviceState.Transfinite">
             <summary>
             超限
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.FireElectricDeviceState.Offline">
+            <summary>
+            离线
             </summary>
         </member>
         <member name="T:FireProtectionV1.Common.Enum.FireElectricDataType">
@@ -223,17 +273,52 @@
             已过期
             </summary>
         </member>
-        <member name="F:FireProtectionV1.Common.Enum.Patrol.UnSet">
+        <member name="T:FireProtectionV1.Common.Enum.RemakeType">
+            <summary>
+            描述类型
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.RemakeType.Text">
+            <summary>
+            文字
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.RemakeType.Voice">
+            <summary>
+            语音
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.Common.Enum.DutyOrPatrolStatus">
+            <summary>
+            值班记录或巡查记录的状态
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.DutyOrPatrolStatus.Normal">
+            <summary>
+            正常
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.DutyOrPatrolStatus.Repaired">
+            <summary>
+            绿色故障(已现场解决)
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.DutyOrPatrolStatus.DisRepaired">
+            <summary>
+            橙色故障(未现场解决)
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.Common.Enum.PatrolType">
+            <summary>
+            巡查方式
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.PatrolType.NormalPatrol">
             <summary>
             普通巡查
             </summary>
         </member>
-        <member name="F:FireProtectionV1.Common.Enum.Patrol.NormalPatrol">
-            <summary>
-            普通巡查
-            </summary>
-        </member>
-        <member name="F:FireProtectionV1.Common.Enum.Patrol.ScanPatrol">
+        <member name="F:FireProtectionV1.Common.Enum.PatrolType.ScanPatrol">
             <summary>
             扫码巡查
             </summary>
@@ -258,29 +343,14 @@
             网关状态
             </summary>
         </member>
-        <member name="F:FireProtectionV1.Common.Enum.GatewayStatus.UnKnow">
-            <summary>
-            未指定
-            </summary>
-        </member>
         <member name="F:FireProtectionV1.Common.Enum.GatewayStatus.Online">
             <summary>
-            正常在线
+            在线
             </summary>
         </member>
         <member name="F:FireProtectionV1.Common.Enum.GatewayStatus.Offline">
             <summary>
             离线
-            </summary>
-        </member>
-        <member name="F:FireProtectionV1.Common.Enum.GatewayStatus.Unusual">
-            <summary>
-            异常（表示当前在线但有故障，例如消火栓的水压偏低）
-            </summary>
-        </member>
-        <member name="F:FireProtectionV1.Common.Enum.GatewayStatus.PartOffline">
-            <summary>
-            部分离线
             </summary>
         </member>
         <member name="T:FireProtectionV1.Common.Enum.FaultSource">
@@ -316,11 +386,6 @@
         <member name="F:FireProtectionV1.Common.Enum.HandleStatus.UnResolve">
             <summary>
             未处理
-            </summary>
-        </member>
-        <member name="F:FireProtectionV1.Common.Enum.HandleStatus.Resolving">
-            <summary>
-            处理中，该值仅用于查询，实际数据库中不会存这个数值，处理中=自行处理中+维保叫修处理中+维保叫修已处理
             </summary>
         </member>
         <member name="F:FireProtectionV1.Common.Enum.HandleStatus.Resolved">
@@ -371,26 +436,6 @@
         <member name="F:FireProtectionV1.Common.Enum.ProblemType.voice">
             <summary>
             语音
-            </summary>
-        </member>
-        <member name="F:FireProtectionV1.Common.Enum.ProblemStatusType.alldate">
-            <summary>
-            所有记录
-            </summary>
-        </member>
-        <member name="F:FireProtectionV1.Common.Enum.ProblemStatusType.noraml">
-            <summary>
-            正常
-            </summary>
-        </member>
-        <member name="F:FireProtectionV1.Common.Enum.ProblemStatusType.Repaired">
-            <summary>
-            绿色故障(已现场解决)
-            </summary>
-        </member>
-        <member name="F:FireProtectionV1.Common.Enum.ProblemStatusType.DisRepaired">
-            <summary>
-            橙色故障(未现场解决)
             </summary>
         </member>
         <member name="M:FireProtectionV1.Common.Helper.ImageHelper.GetFileExt(System.String)">
@@ -545,6 +590,14 @@
             生成GUID
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Common.Helper.SaveFileHelper.SaveFile(Microsoft.AspNetCore.Http.IFormFile,System.String)">
+            <summary>
+            上传文件到服务器
+            </summary>
+            <param name="formFile"></param>
+            <param name="path"></param>
+            <returns>new filename</returns>
         </member>
         <member name="T:FireProtectionV1.Common.Helper.Valid">
             <summary>

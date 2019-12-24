@@ -15,14 +15,12 @@ namespace FireProtectionV1.EntityFrameworkCore
 {
     public class FireProtectionV1DbContext : AbpDbContext
     {
-        public DbSet<FireAlarmDeviceModel> FireAlarmDeviceModel { get; set; }
-        public DbSet<FireElectricDeviceModel> FireElectricDeviceModel { get; set; }
         public DbSet<FireAlarmDeviceProtocol> FireAlarmDeviceProtocol { get; set; }
         public DbSet<FireAlarmDevice> FireAlarmDevice { get; set; }
         public DbSet<FireElectricDevice> FireElectricDevice { get; set; }
         public DbSet<FireOrtherDevice> FireOrtherDevice { get; set; }
         public DbSet<FireWaterDevice> FireWaterDevice { get; set; }
-        public DbSet<FireWaterDeviceType> FireWaterDeviceType { get; set; }
+        public DbSet<FireWaterRecord> FireWaterRecord { get; set; }
         public DbSet<MiniFireActionType> MiniFireActionType { get; set; }
         public DbSet<MiniFireAction> MiniFireAction { get; set; }
         public DbSet<MiniFireEquipment> MiniFireEquipment { get; set; }
@@ -36,7 +34,6 @@ namespace FireProtectionV1.EntityFrameworkCore
         public DbSet<DataToPatrolDetail> DataToPatrolDetail { get; set; }
         public DbSet<DataToPatrolDetailProblem> DataToPatrolDetailProblem { get; set; }
         public DbSet<DataToDuty> DataToDuty { get; set; }
-        public DbSet<DataToDutyProblem> DataToDutyProblem { get; set; }
         public DbSet<Fault> Fault { get; set; }
         public DbSet<DetectorType> DetectorType { get; set; }
         public DbSet<FireAlarmDetector> FireAlarmDetector { get; set; }
@@ -71,6 +68,7 @@ namespace FireProtectionV1.EntityFrameworkCore
         public DbSet<FireSystem> FireSystem { get; set; }
         public DbSet<FireUnitSystem> FireUnitSystem { get; set; }
         public DbSet<PhotosPathSave> PhotosPathSave { get; set; }
+        public DbSet<TsjDeviceModel> TsjDeviceModel { get; set; }
         public DbSet<DataToPatrolDetailFireSystem> DataToPatrolDetailFireSystem { get; set; }
         public DbSet<EquipmentNo> EquipmentNo { get; set; }
         public DbSet<BreakDown> BreakDown { get; set; }

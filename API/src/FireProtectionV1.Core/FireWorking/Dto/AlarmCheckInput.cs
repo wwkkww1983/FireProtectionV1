@@ -37,12 +37,8 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public int CheckVoiceLength { get; set; }
         /// <summary>
-        /// 通知工作人员
+        /// 通知工作人员、微型消防站
         /// </summary>
-        public bool NotifyWorker { get; set; }
-        /// <summary>
-        /// 通知微型消防站
-        /// </summary>
-        public bool NotifyMiniStation { get; set; }
+        public List<string> NotifyList { get; set; }
     }
 }

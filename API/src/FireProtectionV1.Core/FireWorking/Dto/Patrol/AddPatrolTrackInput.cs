@@ -29,7 +29,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 巡查结果
         /// </summary>
-        public List<ProblemStatusType> ProblemStatus { get; set; }
+        public List<DutyOrPatrolStatus> ProblemStatus { get; set; }
         /// <summary>
         /// 现场照片
         /// </summary>
@@ -80,7 +80,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// 巡查结果
         /// </summary>
         [Required]
-        public ProblemStatusType ProblemStatus { get; set; }
+        public DutyOrPatrolStatus ProblemStatus { get; set; }
         /// <summary>
         /// 现场照片
         /// </summary>
@@ -135,7 +135,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// 巡查结果
         /// </summary>
         [Required]
-        public ProblemStatusType ProblemStatus { get; set; }
+        public DutyOrPatrolStatus ProblemStatus { get; set; }
         /// <summary>
         /// 现场照片
         /// </summary>

@@ -14,6 +14,6 @@ namespace FireProtectionV1.FireWorking.Dto
         /// 防火单位Id
         /// </summary>
         [Required]
-        public Patrol PatrolType { get; set; }
+        public PatrolType PatrolType { get; set; }
     }
 }

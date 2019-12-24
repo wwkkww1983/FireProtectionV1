@@ -1,4 +1,5 @@
 ﻿using FireProtectionV1.Common.DBContext;
+using FireProtectionV1.Common.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,7 +27,7 @@ namespace FireProtectionV1.FireWorking.Model
         /// <summary>
         /// 网关型号
         /// </summary>
-        public string Gateway_Type { get; set; }
+        public string Gateway_Model { get; set; }
         /// <summary>
         /// 网关编号
         /// </summary>
@@ -46,19 +47,19 @@ namespace FireProtectionV1.FireWorking.Model
         /// <summary>
         /// 设备状态：良好/超限/离线
         /// </summary>
-        public string State { get; set; }
+        public FireWaterDeviceState State { get; set; }
         /// <summary>
         /// 监控类型
         /// </summary>
         public MonitorType MonitorType { get; set; }
         /// <summary>
-        /// 液位范围，json格式
+        /// 最小值
         /// </summary>
-        public string HeightThreshold { get; set; }
+        public double MinThreshold { get; set; }
         /// <summary>
-        /// 水压范围，json格式
+        /// 最大值
         /// </summary>
-        public string PressThreshold { get; set; }
+        public double MaxThreshold { get; set; }
         /// <summary>
         /// 启用云端报警
         /// </summary>
@@ -66,7 +67,7 @@ namespace FireProtectionV1.FireWorking.Model
         /// <summary>
         /// 当前数值
         /// </summary>
-        public string CurrentValue { get; set; }
+        public double CurrentValue { get; set; }
     }
 
     [Export("监控类型")]

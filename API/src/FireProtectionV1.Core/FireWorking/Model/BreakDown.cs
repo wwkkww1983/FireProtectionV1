@@ -26,13 +26,26 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         public FaultSource Source { get; set; }
         /// <summary>
+        /// 问题描述
+        /// </summary>
+        [MaxLength(200)]
+        public string ProblemRemark { get; set; }
+        /// <summary>
+        /// 问题描述语音
+        /// </summary>
+        public string ProblemVoiceUrl { get; set; }
+        /// <summary>
+        /// 语音长度
+        /// </summary>
+        public int VoiceLength { get; set; }
+        /// <summary>
         /// 处理状态
         /// </summary>
         public HandleStatus HandleStatus { get; set; }
         /// <summary>
         /// 处理人员Id（根据SolutionWay，可能是防火单位人员，也可能是维保单位人员）
         /// </summary>
-        public int DoUserId { get; set; }
+        //public int DoUserId { get; set; }
         /// <summary>
         /// 故障来源数据ID（值班表、巡查表、火警联网部件故障表的Id）
         /// </summary>
@@ -46,10 +59,10 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         public HandleChannel SolutionWay { get; set; }
         /// <summary>
-        /// 备注
+        /// 处理备注
         /// </summary>
         [MaxLength(200)]
-        public string Remark { get; set; }
+        public string SolutionRemark { get; set; }
         /// <summary>
         /// 派单时间
         /// </summary>
@@ -57,7 +70,7 @@ namespace FireProtectionV1.FireWorking.Model
         /// <summary>
         /// 维保处理完成时间
         /// </summary>
-        public DateTime SafeCompleteTime { get; set; }
+        //public DateTime SafeCompleteTime { get; set; }
     }
     public class BreakDownWords
     {

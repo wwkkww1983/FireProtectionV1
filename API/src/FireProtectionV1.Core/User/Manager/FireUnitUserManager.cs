@@ -51,7 +51,7 @@ namespace FireProtectionV1.User.Manager
                 Account = input.Phone,
                 Name = input.UserName,
                 Status = Common.Enum.NormalStatus.Enabled,
-                FireUnitInfoID = fireunit.Id,
+                FireUnitID = fireunit.Id,
                 Password = md5
             });
             FireUnitUserRole role = new FireUnitUserRole()
@@ -107,7 +107,7 @@ namespace FireProtectionV1.User.Manager
                                    where a.AccountID == v.Id
                                    select a.Role).ToList();
 
-                var fireunit = await _fireUnitRepository.FirstOrDefaultAsync(p => p.Id == v.FireUnitInfoID);
+                var fireunit = await _fireUnitRepository.FirstOrDefaultAsync(p => p.Id == v.FireUnitID);
                 if (fireunit != null)
                 {
                     output.FireUnitName = fireunit.Name;
@@ -125,7 +125,7 @@ namespace FireProtectionV1.User.Manager
                     //因为引导是分步调用API，这里判断是否引导完成，也加条件判断
                     if (!output.GuideFlage)
                     {
-                        output.GuideFlage = 0 == _fireUnitSystemRep.GetAll().Where(u => u.FireUnitId == v.FireUnitInfoID).Count();
+                        output.GuideFlage = 0 == _fireUnitSystemRep.GetAll().Where(u => u.FireUnitId == v.FireUnitID).Count();
                     }
                 }
             }
@@ -143,7 +143,7 @@ namespace FireProtectionV1.User.Manager
             var rolllist = _fireUnitAccountRoleRepository.GetAll();
 
             var unitpeople = from a in unitpeoplelist
-                             where a.FireUnitInfoID == loginman.FireUnitInfoID
+                             where a.FireUnitID == loginman.FireUnitID
                              orderby a.CreationTime descending
                              let rolelst= rolllist.Where(u => u.AccountID == a.Id).Select(u => u.Role).ToList()
                              select new GetUnitPeopleOutput
@@ -231,7 +231,7 @@ namespace FireProtectionV1.User.Manager
             {
                 Name = input.Name,
                 Account=input.Account,
-                FireUnitInfoID = input.FireUnitInfoID,
+                FireUnitID = input.FireUnitInfoID,
                 Photo = input.Photo,
                 Qualification = input.Qualification,
                 QualificationNumber = input.QualificationNumber,

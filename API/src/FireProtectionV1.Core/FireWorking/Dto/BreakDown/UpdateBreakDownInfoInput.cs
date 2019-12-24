@@ -13,7 +13,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public int BreakDownId { get; set; }
         /// <summary>
-        /// 是否已解决
+        /// 处理状态
         /// </summary>
         public HandleStatus HandleStatus { get; set; }
         /// <summary>
@@ -23,6 +23,6 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 备注
         /// </summary>
-        public string Remark { get; set; }
+        public string SolutionRemark { get; set; }
     }
 }

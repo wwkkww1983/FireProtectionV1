@@ -16,11 +16,20 @@ namespace FireProtectionV1.AppService
     public class AlarmAppService : AppServiceBase
     {
         IAlarmManager _alarmManager;
-        IHostingEnvironment _hostingEnvironment;
-        public AlarmAppService(IAlarmManager alarmManager, IHostingEnvironment hostingEnvironment)
+
+        public AlarmAppService(IAlarmManager alarmManager)
         {
-            _hostingEnvironment = hostingEnvironment;
             _alarmManager = alarmManager;
+        }
+        /// <summary>
+        /// 新增火灾监控设备报警
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task AddAlarmFire(AddAlarmFireInput input)
+        {
+            //Console.WriteLine($"{DateTime.Now} 收到报警 AddAlarmFire 部件类型:{input.DetectorGBType.ToString()} 部件地址：{input.Identify} 网关地址：{input.GatewayIdentify}");
+            await _alarmManager.AddAlarmFire(input);
         }
         /// <summary>
         /// 获取数据大屏的火警联网实时达
@@ -56,44 +65,10 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<SuccessOutput> CheckFireAlarm([FromForm]AlarmCheckInput input)
+        public async Task CheckFireAlarm([FromForm]AlarmCheckInput input)
         {
-            //string webRootPath = _hostingEnvironment.WebRootPath;
-            string contentRootPath = _hostingEnvironment.ContentRootPath;
-            string pathVoice = contentRootPath + "/App_Data/Files/Voices/AlarmCheck/";
-            var dto = new AlarmCheckDetailDto();
-            dto.FireAlarmId = input.FireAlarmId;
-            dto.CheckState = input.CheckState;
-            dto.CheckContent = input.CheckContent;
-            dto.CheckUserId = input.CheckUserId;
-            if (input.CheckVoice != null)
-            {
-                dto.CheckVoiceUrl = "/Src/Voices/AlarmCheck/" + await SaveFile(input.CheckVoice, pathVoice);
-                dto.CheckVoiceLength = input.CheckVoiceLength;
-            }
-            dto.NotifyWorker = input.NotifyWorker;
-            dto.NotifyMiniStation = input.NotifyMiniStation;
-            await _alarmManager.CheckFirmAlarm(dto);
-            return new SuccessOutput() { Success = true };
+            await _alarmManager.CheckFirmAlarm(input);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="formFile"></param>
-        /// <param name="path"></param>
-        /// <returns>new filename</returns>
-        private async Task<string> SaveFile(IFormFile formFile,string path)
-        {
-            if (formFile != null)
-            {
-                string filename= DateTime.Now.ToString("yyyyMMddHHmmss") + Guid.NewGuid().ToString("N").Substring(0,16)+ Path.GetExtension(formFile.FileName);
-                using (var stream = System.IO.File.Create(path+ filename))
-                {
-                    await formFile.CopyToAsync(stream);
-                }
-                return filename; 
-            }
-            return "";
-        }
+        
     }
 }

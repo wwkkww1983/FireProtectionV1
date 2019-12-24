@@ -22,7 +22,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 记录状态
         /// </summary>
-        public ProblemStatusType DutyStatus { get; set; }
+        public DutyOrPatrolStatus DutyStatus { get; set; }
         /// <summary>
         /// 值班记录描述
         /// </summary>

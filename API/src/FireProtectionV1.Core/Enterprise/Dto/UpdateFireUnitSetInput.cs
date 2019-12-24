@@ -18,8 +18,9 @@ namespace FireProtectionV1.Enterprise.Dto
         /// 维保单位Id
         /// </summary>
         public int SafeUnitId { get; set; }
+        /// <summary>
         /// 巡查方式
         /// </summary>
-        public Patrol Patrol { get; set; }
+        public PatrolType Patrol { get; set; }
     }
 }

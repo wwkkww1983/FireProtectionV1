@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FireProtectionV1.Common.Enum;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -25,7 +26,7 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// <summary>
         /// 状态
         /// </summary>
-        public string State { get; set; }
+        public GatewayStatus State { get; set; }
         /// <summary>
         /// 联网部件数量
         /// </summary>

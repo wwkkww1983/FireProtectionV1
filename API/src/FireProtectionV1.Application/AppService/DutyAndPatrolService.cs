@@ -1,4 +1,5 @@
-﻿using FireProtectionV1.FireWorking.Dto;
+﻿using Abp.Application.Services.Dto;
+using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Manager;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,53 +24,53 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<GetDataDutyPagingOutput> GetDutylist(GetDataDutyInput input)
+        public async Task<PagedResultDto<GetDataDutyOutput>> GetDutylist(GetDataDutyInput input, PagedResultRequestDto dto)
         {
-            return await _dutyManager.GetDutylist(input);
+            return await _dutyManager.GetDutylist(input, dto);
         }
 
         /// <summary>
         /// 获取值班记录详情
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="dutyId"></param>
         /// <returns></returns>
-        public async Task<GetDataDutyInfoOutput> GetDutyInfo(GetDataDutyInfoInput input)
+        public async Task<GetDataDutyInfoOutput> GetDutyInfo(int dutyId)
         {
-            return await _dutyManager.GetDutyInfo(input);
+            return await _dutyManager.GetDutyInfo(dutyId);
         }
         /// <summary>
         /// 新增值班记录
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<SuccessOutput> AddDutyInfo([FromForm]AddDataDutyInfoInput input)
+        public async Task AddDutyInfo([FromForm]AddDataDutyInfoInput input)
         {
-            return await _dutyManager.AddDutyInfo(input);
+            await _dutyManager.AddDutyInfo(input);
         }
         /// <summary>
         /// Web获取日期控件信息
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<List<GetDataDutyForWebOutput>> GetDutylistForWeb(GetDataDutyForWebInput input)
+        public async Task<GetDataDutyForWebOutput> GetDutylistForWeb(GetDataDutyForWebInput input)
         {
             return await _dutyManager.GetDutylistForWeb(input);
         }
         /// <summary>
         /// Web获取值班记录统计
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="fireUnitId"></param>
         /// <returns></returns>
-        public async Task<GetDataDutyTotalOutput> GetDutyTotal(GetDataDutyTotalInput input)
+        public async Task<GetDataDutyTotalOutput> GetDutyTotalForWeb(int fireUnitId)
         {
-            return await _dutyManager.GetDutyTotal(input);
+            return await _dutyManager.GetDutyTotalForWeb(fireUnitId);
         }
         /// <summary>
         /// Web获取值班记录详情
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<List<GetDutyInfoForWebOutput>> GetDutyInfoForWeb(GetDataDutyInfoForWebInput input)
+        public async Task<List<GetDataDutyInfoOutput>> GetDutyInfoForWeb(GetDataDutyInfoForWebInput input)
         {
             return await _dutyManager.GetDutyInfoForWeb(input);
         }

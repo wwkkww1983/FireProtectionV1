@@ -1,4 +1,5 @@
 ﻿using FireProtectionV1.Schedule.Manager;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,9 +24,19 @@ namespace FireProtectionV1.AppService
         /// 执行时间：每1分钟
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public async Task EveryMinute()
         {
             await _scheduleManager.EveryMinute();
+        }
+        /// <summary>
+        /// 执行时间：每1小时
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task EveryHour()
+        {
+            await _scheduleManager.EveryHour();
         }
     }
 }
