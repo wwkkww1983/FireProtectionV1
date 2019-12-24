@@ -135,9 +135,9 @@ namespace FireProtectionV1.Common.Enum
     public enum FireAlarmCheckState
     {
         /// <summary>
-        /// 未处理
+        /// 未核警
         /// </summary>
-        [Description("未处理")]
+        [Description("未核警")]
         UnCheck = 1,
         /// <summary>
         /// 误报

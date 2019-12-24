@@ -290,7 +290,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="fireUnitId"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<PagedResultDto<FireWaterDevice>> GetFireWaterDeviceList(int fireUnitId, PagedResultRequestDto dto);
+        Task<PagedResultDto<GetFireWaterDeviceListOutput>> GetFireWaterDeviceList(int fireUnitId, PagedResultRequestDto dto);
         /// <summary>
         /// 获取消防管网联网网关设备型号列表
         /// </summary>

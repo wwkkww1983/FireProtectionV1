@@ -3476,6 +3476,61 @@
             即将过期数量
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.GetFireWaterDeviceListOutput.Id">
+            <summary>
+            设备Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.GetFireWaterDeviceListOutput.DeviceAddress">
+            <summary>
+            设备地址
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.GetFireWaterDeviceListOutput.Location">
+            <summary>
+            设备安装位置
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.GetFireWaterDeviceListOutput.Gateway_Model">
+            <summary>
+            网关型号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.GetFireWaterDeviceListOutput.Gateway_Sn">
+            <summary>
+            网关编号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.GetFireWaterDeviceListOutput.Gateway_Location">
+            <summary>
+            网关安装位置
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.GetFireWaterDeviceListOutput.State">
+            <summary>
+            设备状态：良好/超限/离线
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.GetFireWaterDeviceListOutput.MonitorType">
+            <summary>
+            监控类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.GetFireWaterDeviceListOutput.MinThreshold">
+            <summary>
+            最小值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.GetFireWaterDeviceListOutput.MaxThreshold">
+            <summary>
+            最大值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.GetFireWaterDeviceListOutput.CurrentValue">
+            <summary>
+            当前数值
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SerialPortParamDto.ComType">
             <summary>
             接口
