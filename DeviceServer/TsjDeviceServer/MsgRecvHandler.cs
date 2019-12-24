@@ -65,7 +65,26 @@ namespace TsjDeviceServer
                     Time = TsjConvert.ToLocalDateTime(msg.at).ToString("yyyy-MM-dd HH:mm:ss")
                 });
             }
-
+            else if (tsjMsg.IsOffline)
+            {
+                var msg = (DataOverflow)tsjMsg.TsjData;
+                //FireApi.HttpPostTsj(Config.Url("/api/services/app/TsjDevice/NewOverflow"), new NewOverflowInput()
+                //{
+                //    Identify = msg.id,
+                //    Value = msg.value,
+                //    Time = TsjConvert.ToLocalDateTime(msg.at).ToString("yyyy-MM-dd HH:mm:ss")
+                //});
+            }
+            else if (tsjMsg.IsHello)
+            {
+                var msg = (DataOverflow)tsjMsg.TsjData;
+                //FireApi.HttpPostTsj(Config.Url("/api/services/app/TsjDevice/NewOverflow"), new NewOverflowInput()
+                //{
+                //    Identify = msg.id,
+                //    Value = msg.value,
+                //    Time = TsjConvert.ToLocalDateTime(msg.at).ToString("yyyy-MM-dd HH:mm:ss")
+                //});
+            }
         }
     }
 }

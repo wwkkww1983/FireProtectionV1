@@ -5,7 +5,7 @@ using TsjDeviceServer.Msg;
 
 namespace TsjDeviceServer.Data
 {
-    public class DataAlarm: TsjData
+    public class DataAlarm: TsjDetectorData
     {
     }
 }

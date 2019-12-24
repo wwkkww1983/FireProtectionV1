@@ -70,6 +70,7 @@ namespace TsjWebApi
         }
         static public string HttpGetTsj(string url)
         {
+            return "";
             //定义request并设置request的路径
             WebRequest request = WebRequest.Create(url);
             request.Method = "get";

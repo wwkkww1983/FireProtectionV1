@@ -15,6 +15,9 @@ namespace TsjDeviceServer.Msg
         public bool IsFault { get; private set; }
         public bool IsMonitor { get; private set; }
         public bool IsOverflow { get; private set; }
+        public bool IsOffline { get; private set; }
+        public bool IsHello { get; private set; }
+
         public TsjMsg(string topic,byte[] payload)
         {
             _tsjTopic = new TsjTopic(topic);
@@ -46,6 +49,15 @@ namespace TsjDeviceServer.Msg
                 {
                     TsjData = JsonConvert.DeserializeObject<DataOverflow>(strload);
                     IsOverflow = true;
+                }
+                else if (_tsjTopic.Level(3).Equals("Will"))
+                {
+                    IsOffline = true;
+                }
+                else if (_tsjTopic.Level(3).Equals("Hello"))
+                {
+                    TsjData = JsonConvert.DeserializeObject<DataHello>(strload);
+                    IsHello = true;
                 }
             }
             catch (Exception e)

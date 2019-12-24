@@ -34,6 +34,8 @@ namespace TsjDeviceServer
         private void GetUpdateFireware()
         {
             var res=FireApi.HttpGetTsj(Config.Url("/api/services/app/TsjDevice/GetUpdateFirmwareList"));
+            if (string.IsNullOrEmpty(res))
+                return;
             var lstUpdate = JsonConvert.DeserializeObject<List<UpdateFirmwareOutput>>(res);
             foreach(var v in lstUpdate)
             {
