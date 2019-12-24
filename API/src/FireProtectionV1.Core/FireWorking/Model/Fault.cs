@@ -25,12 +25,12 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         public string FaultRemark { get; set; }
         /// <summary>
-        /// 处理状态
-        /// </summary>
-        public HandleStatus State { get; set; }
-        /// <summary>
         /// 防火单位Id
         /// </summary>
         public int FireUnitId { get; set; }
+        /// <summary>
+        /// 解决时间
+        /// </summary>
+        public DateTime SolutionTime { get; set; }
     }
 }

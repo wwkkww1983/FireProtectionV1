@@ -12,7 +12,7 @@ namespace FireProtectionV1.AppService
     public class BreakDownService : AppServiceBase
     {
         IBreakDownManager _breakDownManager;
-        
+
         public BreakDownService(IBreakDownManager breakDownManager)
         {
             _breakDownManager = breakDownManager;
@@ -21,28 +21,29 @@ namespace FireProtectionV1.AppService
         /// 获取设施故障列表
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<GetBreakDownPagingOutput> GetBreakDownlist(GetBreakDownInput input)
+        public async Task<PagedResultDto<GetBreakDownOutput>> GetBreakDownlist(GetBreakDownInput input, PagedResultRequestDto dto)
         {
-            return await _breakDownManager.GetBreakDownlist(input);
+            return await _breakDownManager.GetBreakDownlist(input, dto);
         }
         /// <summary>
         /// 获取设施故障详情
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="breakDownId"></param>
         /// <returns></returns>
-        public async Task<GetBreakDownInfoOutput> GetBreakDownInfo(GetBreakDownInfoInput input)
+        public async Task<GetBreakDownInfoOutput> GetBreakDownInfo(int breakDownId)
         {
-            return await _breakDownManager.GetBreakDownInfo(input);
+            return await _breakDownManager.GetBreakDownInfo(breakDownId);
         }
         /// <summary>
         /// 更新设施故障详情
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<SuccessOutput> UpdateBreakDownInfo(UpdateBreakDownInfoInput input)
+        public async Task UpdateBreakDownInfo(UpdateBreakDownInfoInput input)
         {
-            return await _breakDownManager.UpdateBreakDownInfo(input);
+            await _breakDownManager.UpdateBreakDownInfo(input);
         }
         /// <summary>
         /// 获取设施故障处理情况

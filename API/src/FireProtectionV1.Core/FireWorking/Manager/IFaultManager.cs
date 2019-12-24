@@ -16,7 +16,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task AddNewDetectorFault(AddNewDetectorFaultInput input);
+        Task AddDetectorFault(AddNewDetectorFaultInput input);
         /// <summary>
         /// 查找某个月份的火警联网部件故障数据
         /// </summary>

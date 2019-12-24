@@ -22,6 +22,6 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 记录状态
         /// </summary>
-        public ProblemStatusType PatrolStatus { get; set; }
+        public DutyOrPatrolStatus PatrolStatus { get; set; }
     }
 }

@@ -15,8 +15,12 @@ namespace FireProtectionV1.FireWorking.Dto
         [Required]
         public int FireUnitId { get; set; }
         /// <summary>
-        /// 月份（格式:yyyy-MM）
+        /// 年份（初始传0）
         /// </summary>
-        public DateTime Moth { get; set; }
+        public int Year { get; set; }
+        /// <summary>
+        /// 月份（初始传0）
+        /// </summary>
+        public int Month { get; set; }
     }
 }

@@ -15,19 +15,15 @@ namespace FireProtectionV1.FireWorking.Dto
         [Required]
         public int FireUnitId { get; set; }
         /// <summary>
-        /// 防火单位用户Id
+        /// 值班用户Id
         /// </summary>
         [Required]
-        public int FireUnitUserId { get; set; }
-        /// <summary>
-        /// 值班记录描述
-        /// </summary>
-        public string DutyRemark { get; set; }
+        public int UserId { get; set; }
         /// <summary>
         /// 记录状态（1、正常；2：绿色故障；3：橙色故障）
         /// </summary>
         [Required]
-        public ProblemStatusType DutyStatus { get; set; }
+        public DutyOrPatrolStatus Status { get; set; }
         /// <summary>
         /// 值班记录图片
         /// </summary>
@@ -40,23 +36,18 @@ namespace FireProtectionV1.FireWorking.Dto
         /// 值班记录图片
         /// </summary>
         public IFormFile DutyPicture3 { get; set; }
-
         /// <summary>
-        /// 问题描述类型
-        /// </summary>
-        public ProblemType ProblemRemarkType { get; set; }
-        /// <summary>
-        /// 问题描述
+        /// 问题文字描述
         /// </summary>
         public string ProblemRemark { get; set; }
         /// <summary>
         /// 问题描述语音
         /// </summary>
-        public IFormFile RemarkVioce { get; set; }
+        public IFormFile ProblemVoice { get; set; }
         /// <summary>
         /// 语音长度
         /// </summary>
-        public UInt16 VoiceLength { get; set; }
+        public int VoiceLength { get; set; }
         /// <summary>
         /// 现场问题图片
         /// </summary>

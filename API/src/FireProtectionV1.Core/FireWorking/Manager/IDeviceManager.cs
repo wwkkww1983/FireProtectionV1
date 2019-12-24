@@ -67,11 +67,22 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         Task AddFireElectricDevice(FireElectricDeviceDto input);
         /// <summary>
+        /// 在线/离线事件接口
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task UpdateDeviceState(UpdateDeviceStateInput input);
+        /// <summary>
         /// 根据Id获取火警联网设施详情
         /// </summary>
         /// <param name="deviceId"></param>
         /// <returns></returns>
         Task<GetFireAlarmDeviceDto> GetFireAlarmDevice(int deviceId);
+        /// <summary>
+        /// 获取火警联网设施部件类型数组
+        /// </summary>
+        /// <returns></returns>
+        Task<List<string>> GetFireAlarmDetectorTypes();
         /// <summary>
         /// 获取防火单位的终端状态
         /// </summary>
@@ -223,7 +234,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="deviceId"></param>
         /// <returns></returns>
-        Task<FireElectricDevice> GetFireElectricDevice(int deviceId);
+        Task<GetFireElectricDeviceOutput> GetFireElectricDevice(int deviceId);
         /// <summary>
         /// 通过Id获取其它消防设施
         /// </summary>
@@ -284,7 +295,13 @@ namespace FireProtectionV1.FireWorking.Manager
         /// 获取消防管网联网网关设备型号列表
         /// </summary>
         /// <returns></returns>
-        Task<List<string>> GetFireWaterDeviceTypes();
+        Task<List<string>> GetFireWaterDeviceModels();
+        /// <summary>
+        /// 添加消防水管网监测数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task AddFireWaterRecord(AddFireWaterRecordInput input);
         /// <summary>
         /// 用于数据大屏：获取各类消防物联网设施的各种状态及数量
         /// </summary>

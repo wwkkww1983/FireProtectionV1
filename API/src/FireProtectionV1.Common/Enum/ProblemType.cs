@@ -26,28 +26,5 @@ namespace FireProtectionV1.Common.Enum
         voice = 2
     }
 
-    [Export("故障类型")]
-    public enum ProblemStatusType
-    {
-        /// <summary>
-        /// 所有记录
-        /// </summary>
-        [Description("未指定")]
-        alldate = 0,
-        /// <summary>
-        /// 正常
-        /// </summary>
-        [Description("正常")]
-        noraml = 1,
-        /// <summary>
-        /// 绿色故障(已现场解决)
-        /// </summary>
-        [Description("绿色故障(已现场解决)")]
-        Repaired = 2,
-        /// <summary>
-        /// 橙色故障(未现场解决)
-        /// </summary>
-        [Description("橙色故障(未现场解决)")]
-        DisRepaired = 3
-    }
+    
 }

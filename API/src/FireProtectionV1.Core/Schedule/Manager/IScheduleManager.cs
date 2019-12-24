@@ -16,5 +16,10 @@ namespace FireProtectionV1.Schedule.Manager
         /// </summary>
         /// <returns></returns>
         Task EveryMinute();
+        /// <summary>
+        /// 执行时间：每1小时
+        /// </summary>
+        /// <returns></returns>
+        Task EveryHour();
     }
 }

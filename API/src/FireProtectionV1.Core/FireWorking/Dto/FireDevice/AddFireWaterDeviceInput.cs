@@ -22,7 +22,7 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// <summary>
         /// 网关型号
         /// </summary>
-        public string Gateway_Type { get; set; }
+        public string Gateway_Model { get; set; }
         /// <summary>
         /// 网关编号
         /// </summary>
@@ -40,29 +40,17 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// </summary>
         public string Gateway_DataRate { get; set; }
         /// <summary>
-        /// 设备状态：良好/超限/离线
-        /// </summary>
-        public string State { get; set; }
-        /// <summary>
         /// 监控类型
         /// </summary>
         public MonitorType MonitorType { get; set; }
         /// <summary>
-        /// 液位范围最小值
+        /// 监控范围最小值
         /// </summary>
-        public float MinHeight { get; set; }
+        public double MinThreshold { get; set; }
         /// <summary>
-        /// 液位范围最大值
+        /// 监控范围最大值
         /// </summary>
-        public float MaxHeight { get; set; }
-        /// <summary>
-        /// 水压范围最小值
-        /// </summary>
-        public float MinPress { get; set; }
-        /// <summary>
-        /// 水压范围最大值
-        /// </summary>
-        public float MaxPress { get; set; }
+        public double MaxThreshold { get; set; }
         /// <summary>
         /// 启用云端报警
         /// </summary>

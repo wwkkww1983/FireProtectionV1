@@ -1,4 +1,5 @@
-﻿using Abp.Domain.Repositories;
+﻿using Abp.Application.Services.Dto;
+using Abp.Domain.Repositories;
 using FireProtectionV1.Common.DBContext;
 using FireProtectionV1.Common.Enum;
 using FireProtectionV1.Common.Helper;
@@ -18,60 +19,47 @@ using System.Threading.Tasks;
 
 namespace FireProtectionV1.FireWorking.Manager
 {
-    public class DutyManager: IDutyManager
+    public class DutyManager : IDutyManager
     {
-        IRepository<FireUnit> _fireUnitRep;
-        IRepository<DataToDuty> _dutyRep;
-        IRepository<DataToDutyProblem> _dataToDutyProblemRep;
-        IRepository<FireUnitUser> _fireUnitAccountRepository;
-        IRepository<PhotosPathSave> _photosPathSave;
-        IRepository<BreakDown> _breakDownRep;
-        private IHostingEnvironment _hostingEnv;
-
+        IHostingEnvironment _hostingEnv;
+        IRepository<FireUnit> _repFireUnit;
+        IRepository<DataToDuty> _repDataToDuty;
+        IRepository<FireUnitUser> _repFireUnitUser;
+        IRepository<PhotosPathSave> _repPhotosPathSave;
+        IRepository<BreakDown> _repBreakDown;
         public DutyManager(
-            IRepository<FireUnit> fireUnitRep,
-            IRepository<DataToDuty> dutyRep,
-            IRepository<FireUnitUser> fireUnitAccountRepository,
-            IRepository<DataToDutyProblem> dataToDutyProblemRep,
-            IRepository<PhotosPathSave> photosPathSaveRep,
-            IRepository<BreakDown> breakDownRep,
-            IHostingEnvironment env
+            IHostingEnvironment hostingEnv,
+            IRepository<FireUnit> repFireUnit,
+            IRepository<DataToDuty> repDataToDuty,
+            IRepository<FireUnitUser> repFireUnitUser,
+            IRepository<PhotosPathSave> repPhotosPathSave,
+            IRepository<BreakDown> repBreakDown
             )
         {
-            _fireUnitRep = fireUnitRep;
-            _dutyRep = dutyRep;
-            _fireUnitAccountRepository = fireUnitAccountRepository;
-            _dataToDutyProblemRep = dataToDutyProblemRep;
-            _photosPathSave = photosPathSaveRep;
-            _breakDownRep = breakDownRep;
-            _hostingEnv = env;
+            _hostingEnv = hostingEnv;
+            _repFireUnit = repFireUnit;
+            _repDataToDuty = repDataToDuty;
+            _repFireUnitUser = repFireUnitUser;
+            _repPhotosPathSave = repPhotosPathSave;
+            _repBreakDown = repBreakDown;
         }
-        public async Task AddNewDuty(AddNewDutyInput input)
-        {
-            await _dutyRep.InsertAsync(new DataToDuty()
-            {
-                DutyStatus = input.DutyStatus,
-                DutyPicture = input.DutyPicture,
-                FireUnitId = input.FireUnitId,
-                FireUnitUserId = input.FireUnitUserId
-            });
-        }
+
         public IQueryable<DataToDuty> GetDutyDataAll()
         {
-            return _dutyRep.GetAll();
+            return _repDataToDuty.GetAll();
         }
         public IQueryable<DataToDuty> GetDutyDataMonth(int year, int month)
         {
-            return _dutyRep.GetAll().Where(p => p.CreationTime.Year == year && p.CreationTime.Month == month);
+            return _repDataToDuty.GetAll().Where(p => p.CreationTime.Year == year && p.CreationTime.Month == month);
         }
         public IQueryable<DataToDuty> GetDutyDataDuration(DateTime start, DateTime end)
         {
-            return _dutyRep.GetAll().Where(p => p.CreationTime >= start && p.CreationTime <= end);
+            return _repDataToDuty.GetAll().Where(p => p.CreationTime >= start && p.CreationTime <= end);
         }
         public IQueryable<FireUnitManualOuput> GetDutyFireUnitsAll(string filterName = null)
         {
-            return from a in _fireUnitRep.GetAll().Where(p => string.IsNullOrEmpty(filterName) ? true : p.Name.Contains(filterName))
-                   join b in _dutyRep.GetAll().GroupBy(p => p.FireUnitId).Select(p => new
+            return from a in _repFireUnit.GetAll().Where(p => string.IsNullOrEmpty(filterName) ? true : p.Name.Contains(filterName))
+                   join b in _repDataToDuty.GetAll().GroupBy(p => p.FireUnitId).Select(p => new
                    {
                        FireUnitId = p.Key,
                        LastTime = p.Max(p1 => p1.CreationTime),
@@ -90,15 +78,15 @@ namespace FireProtectionV1.FireWorking.Manager
         public IQueryable<FireUnitManualOuput> GetNoDuty1DayFireUnits()
         {
             DateTime now = DateTime.Now;
-            var workFireUnits = from a in _dutyRep.GetAll().Where(p => p.CreationTime > now.Date.AddDays(-1))
+            var workFireUnits = from a in _repDataToDuty.GetAll().Where(p => p.CreationTime > now.Date.AddDays(-1))
                                     .GroupBy(p => p.FireUnitId).Select(p => p.Key).ToList()
-                                join b in _fireUnitRep.GetAll()
+                                join b in _repFireUnit.GetAll()
                                 on a equals b.Id
                                 select b;
 
-            var noWorkFireUnits = _fireUnitRep.GetAll().Except(workFireUnits.ToList());
+            var noWorkFireUnits = _repFireUnit.GetAll().Except(workFireUnits.ToList());
             var query = from a in noWorkFireUnits
-                        join b in _dutyRep.GetAll().GroupBy(p => p.FireUnitId).Select(p => new
+                        join b in _repDataToDuty.GetAll().GroupBy(p => p.FireUnitId).Select(p => new
                         {
                             FireUnitId = p.Key,
                             LastTime = p.Max(p1 => p1.CreationTime),
@@ -121,202 +109,207 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<GetDataDutyPagingOutput> GetDutylist(GetDataDutyInput input)
+        public Task<PagedResultDto<GetDataDutyOutput>> GetDutylist(GetDataDutyInput input, PagedResultRequestDto dto)
         {
-            var dutys = _dutyRep.GetAll().Where(u => u.FireUnitId == input.FireUnitId);
-            var expr = ExprExtension.True<DataToDuty>()
-                .IfAnd(input.DutyStatus != ProblemStatusType.alldate, item => item.DutyStatus == (byte)input.DutyStatus);
-            dutys = dutys.Where(expr);
-
-            var fireUnits = _fireUnitAccountRepository.GetAll();
-
-            var list = from a in dutys
-                       join b in fireUnits on a.FireUnitUserId equals b.Id
-                       orderby a.CreationTime descending
-                       select new GetDataDutyOutput
-                       {
-                           DutyId = a.Id,
-                           CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm"),
-                           DutyUser = b.Name,
-                           DutyStatus = (ProblemStatusType)a.DutyStatus
-                       };
-            GetDataDutyPagingOutput output = new GetDataDutyPagingOutput()
+            var dutys = _repDataToDuty.GetAll().Where(item => item.FireUnitId.Equals(input.FireUnitId));
+            if (input.DutyStatus > 0)
             {
-                TotalCount = list.Count(),
-                DutyList = list.Skip(input.SkipCount).Take(input.MaxResultCount).ToList()
-            };
-            return Task.FromResult(output);
+                dutys = dutys.Where(item => item.Status.Equals(input.DutyStatus));
+            }
+            var users = _repFireUnitUser.GetAll().Where(item => item.FireUnitID.Equals(input.FireUnitId));
+
+            var query = from a in dutys
+                        join b in users on a.UserId equals b.Id into result1
+                        from a_b in result1.DefaultIfEmpty()
+                        select new GetDataDutyOutput()
+                        {
+                            CreationTime = a.CreationTime,
+                            DutyId = a.Id,
+                            DutyStatus = a.Status,
+                            DutyUserName = a_b != null ? a_b.Name : "",
+                            DutyUserPhone = a_b != null ? a_b.Account : ""
+                        };
+
+            return Task.FromResult(new PagedResultDto<GetDataDutyOutput>()
+            {
+                Items = query.OrderByDescending(item => item.CreationTime).Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList(),
+                TotalCount = query.Count()
+            });
         }
         /// <summary>
         /// 获取值班记录详情
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<GetDataDutyInfoOutput> GetDutyInfo(GetDataDutyInfoInput input)
+        public async Task<GetDataDutyInfoOutput> GetDutyInfo(int dutyId)
         {
-            var duty = _dutyRep.FirstOrDefault(u => u.Id == input.DutyId);
-            var problem = _dataToDutyProblemRep.FirstOrDefault(u => u.DutyId == duty.Id);
-            GetDataDutyInfoOutput output = new GetDataDutyInfoOutput();
-            output.DutyId = duty.Id;
-            output.DutyUser = _fireUnitAccountRepository.Single(u => u.Id == duty.FireUnitUserId).Name;
-            output.DutyPhtosPath = _photosPathSave.GetAll().Where(u =>u.TableName.Equals("DataToDuty") && u.DataId == duty.Id).Select(u => u.PhotoPath).ToList();
-            output.PhotosBase64Duty = new List<string>();
+            var duty = await _repDataToDuty.GetAsync(dutyId);
+
+            var output = new GetDataDutyInfoOutput()
+            {
+                CreationTime = duty.CreationTime,
+                DutyPhtosPath = _repPhotosPathSave.GetAll().Where(item => item.TableName.Equals("DataToDuty") && item.DataId.Equals(dutyId)).Select(item => item.PhotoPath).ToList(),
+                FireUnitId = duty.FireUnitId,
+                Id = duty.Id,
+                UserId = duty.UserId,
+                Status = duty.Status
+            };
+
+            var user = await _repFireUnitUser.GetAsync(duty.UserId);
+            output.DutyUserName = user != null ? user.Name : "";
+            output.DutyUserPhone = user != null ? user.Account : "";
+
             foreach (var f in output.DutyPhtosPath)
             {
-                output.PhotosBase64Duty.Add(ImageHelper.ThumbImg(_hostingEnv.ContentRootPath + f.Replace("Src", "App_Data/Files")));
+                output.DutyPhotosBase64.Add(ImageHelper.ThumbImg(_hostingEnv.ContentRootPath + f.Replace("Src", "App_Data/Files")));
             }
-            output.DutyRemark = duty.DutyRemark;
-            output.DutyStatus = (ProblemStatusType)duty.DutyStatus;
 
-            if(problem!=null) 
+            if (output.Status != DutyOrPatrolStatus.Normal)
             {
-                output.ProblemRemarkType = (ProblemType)problem.ProblemRemarkType;
-                output.ProblemRemark = problem.ProblemRemark;
-                output.VoiceLength = problem.VoiceLength;
-
-                var lst= _photosPathSave.GetAll().Where(u => u.TableName.Equals("DataToDutyProblem") && u.DataId == problem.Id).Select(u => u.PhotoPath).ToList();
-                output.ProblemPhtosPath = lst;
-                output.PhotosBase64 = new List<string>();
-                foreach (var f in lst)
+                var breakDown = await _repBreakDown.FirstOrDefaultAsync(item => item.DataId.Equals(output.Id));
+                if (breakDown != null)
                 {
-                    output.PhotosBase64.Add(ImageHelper.ThumbImg(_hostingEnv.ContentRootPath+f.Replace("Src","App_Data/Files")));
+                    output.ProblemRemark = breakDown.ProblemRemark;
+                    output.ProblemVoiceUrl = breakDown.ProblemVoiceUrl;
+                    output.VoiceLength = breakDown.VoiceLength;
+                    output.ProblemPhtosPath = _repPhotosPathSave.GetAll().Where(item => item.TableName.Equals("DataToDuty_Problem") && item.DataId.Equals(dutyId)).Select(item => item.PhotoPath).ToList();
+                    foreach (var f in output.ProblemPhtosPath)
+                    {
+                        output.ProblemPhotosBase64.Add(ImageHelper.ThumbImg(_hostingEnv.ContentRootPath + f.Replace("Src", "App_Data/Files")));
+                    }
                 }
             }
-            return Task.FromResult(output);
+
+            return output;
         }
         /// <summary>
         /// 新增值班记录
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<SuccessOutput> AddDutyInfo(AddDataDutyInfoInput input)
+        public async Task AddDutyInfo(AddDataDutyInfoInput input)
         {
-            SuccessOutput output = new SuccessOutput() { Success = true };
-
-            try
+            var dutyId = await _repDataToDuty.InsertAndGetIdAsync(new DataToDuty()
             {
-                byte a = (byte)input.DutyStatus;
-                DataToDuty dutyInfo = new DataToDuty()
+                FireUnitId = input.FireUnitId,
+                UserId = input.UserId,
+                Status = input.Status
+            });
+
+            // 保存值班记录照片
+            string tableName = "DataToDuty";
+            string path = _hostingEnv.ContentRootPath + $@"/App_Data/Files/Photos/DataToDuty/";
+            if (input.DutyPicture1 != null)
+            {
+                string dutyPicture1_Name = await SaveFileHelper.SaveFile(input.DutyPicture1, path);
+                string photopath = "/Src/Photos/DataToDuty/" + dutyPicture1_Name;
+
+                await _repPhotosPathSave.InsertAsync(new PhotosPathSave()
                 {
-                    FireUnitId=input.FireUnitId,
-                    FireUnitUserId = input.FireUnitUserId,
-                    DutyRemark = input.DutyRemark,
-                    DutyStatus = (byte)input.DutyStatus
+                    TableName = tableName,
+                    DataId = dutyId,
+                    PhotoPath = photopath
+                });
+            }
+            if (input.DutyPicture2 != null)
+            {
+                string dutyPicture2_Name = await SaveFileHelper.SaveFile(input.DutyPicture2, path);
+                string photopath = "/Src/Photos/DataToDuty/" + dutyPicture2_Name;
+
+                await _repPhotosPathSave.InsertAsync(new PhotosPathSave()
+                {
+                    TableName = tableName,
+                    DataId = dutyId,
+                    PhotoPath = photopath
+                });
+            }
+            if (input.DutyPicture3 != null)
+            {
+                string dutyPicture3_Name = await SaveFileHelper.SaveFile(input.DutyPicture3, path);
+                string photopath = "/Src/Photos/DataToDuty/" + dutyPicture3_Name;
+
+                await _repPhotosPathSave.InsertAsync(new PhotosPathSave()
+                {
+                    TableName = tableName,
+                    DataId = dutyId,
+                    PhotoPath = photopath
+                });
+            }
+
+            // 如果存在问题，则向设施故障表中写入数据
+            if (input.Status != DutyOrPatrolStatus.Normal)
+            {
+                BreakDown breakDown = new BreakDown()
+                {
+                    DataId = dutyId,
+                    FireUnitId = input.FireUnitId,
+                    ProblemRemark = input.ProblemRemark,
+                    Source = FaultSource.Duty,
+                    UserId = input.UserId,
+                    UserBelongUnitId = input.FireUnitId
                 };
-                int dutyId = _dutyRep.InsertAndGetId(dutyInfo);
 
-                string tableName = "DataToDuty";
-                string path = _hostingEnv.ContentRootPath + $@"/App_Data/Files/Photos/DataToDuty/";
-                if (input.DutyPicture1 != null)
-                    SavePhotosPath(tableName, dutyId, await SaveFiles(input.DutyPicture1, path));
-                if (input.DutyPicture2 != null)
-                    SavePhotosPath(tableName, dutyId, await SaveFiles(input.DutyPicture2, path));
-                if (input.DutyPicture3 != null)
-                    SavePhotosPath(tableName, dutyId, await SaveFiles(input.DutyPicture3, path));
 
-                if ((int)input.DutyStatus != 1)
+                tableName = "DataToDuty_Problem";
+                if (input.ProblemPicture1 != null)
                 {
-                    DataToDutyProblem problemInfo = new DataToDutyProblem()
-                    {
-                        DutyId = dutyId,
-                        ProblemRemarkType = (int)input.ProblemRemarkType
-                    };
-                    string problempath = _hostingEnv.ContentRootPath+ $@"/App_Data/Files/Voices/DataToDuty/";
-                    string problemtableName = "DataToDutyProblem";
-                    if ((int)input.ProblemRemarkType == 1)
-                    {
-                        problemInfo.ProblemRemark = input.ProblemRemark;
-                        problemInfo.VoiceLength = input.VoiceLength;
-                    }
-                    else if ((int)input.ProblemRemarkType == 2 && input.RemarkVioce != null)
-                    {
-                        problemInfo.ProblemRemark = "/Src/Voices/DataToDuty/" + await SaveFiles(input.RemarkVioce, problempath);
-                        problemInfo.VoiceLength = input.VoiceLength;
-                    }
-                    int problemId = _dataToDutyProblemRep.InsertAndGetId(problemInfo);
-                    if (input.ProblemPicture1 != null)
-                         SavePhotosPath(problemtableName, problemId, await SaveFiles(input.ProblemPicture1, path));
-                    if (input.ProblemPicture2 != null)
-                         SavePhotosPath(problemtableName, problemId, await SaveFiles(input.ProblemPicture2, path));
-                    if (input.ProblemPicture3 != null)
-                         SavePhotosPath(problemtableName, problemId, await SaveFiles(input.ProblemPicture3, path));
+                    string problemPicture1_Name = await SaveFileHelper.SaveFile(input.ProblemPicture1, path);
+                    string photopath = "/Src/Photos/DataToDuty/" + problemPicture1_Name;
 
-                    //每发现一个问题向故障设施插入一条数据
-                    BreakDown breakdown = new BreakDown()
+                    await _repPhotosPathSave.InsertAsync(new PhotosPathSave()
                     {
-                        FireUnitId = input.FireUnitId,
-                        UserId = input.FireUnitUserId,
-                        Source = FaultSource.Duty,
-                        DataId = problemId
-                    };
-                    if (input.DutyStatus == ProblemStatusType.Repaired)
+                        TableName = tableName,
+                        DataId = dutyId,
+                        PhotoPath = photopath
+                    });
+                }
+                if (input.ProblemPicture2 != null)
+                {
+                    string problemPicture2_Name = await SaveFileHelper.SaveFile(input.ProblemPicture2, path);
+                    string photopath = "/Src/Photos/DataToDuty/" + problemPicture2_Name;
+
+                    await _repPhotosPathSave.InsertAsync(new PhotosPathSave()
                     {
-                        breakdown.HandleStatus = HandleStatus.Resolved;
-                        breakdown.SolutionTime = DateTime.Now;
-                        breakdown.SolutionWay = HandleChannel.Self;
-                    }
-                    else
+                        TableName = tableName,
+                        DataId = dutyId,
+                        PhotoPath = photopath
+                    });
+                }
+                if (input.ProblemPicture3 != null)
+                {
+                    string problemPicture3_Name = await SaveFileHelper.SaveFile(input.ProblemPicture3, path);
+                    string photopath = "/Src/Photos/DataToDuty/" + problemPicture3_Name;
+
+                    await _repPhotosPathSave.InsertAsync(new PhotosPathSave()
                     {
-                        breakdown.HandleStatus = HandleStatus.UnResolve;
-                    }
-                    var id = await _breakDownRep.InsertAndGetIdAsync(breakdown);
-                    var fireunit = await _fireUnitRep.FirstOrDefaultAsync(p => p.Id == input.FireUnitId);
-                    DataApi.UpdateEvent(new GovFire.Dto.EventDto()
-                    {
-                        id = id.ToString(),
-                        state = breakdown.HandleStatus == HandleStatus.Resolved ? "1" : "0",
-                        createtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                        donetime = "",
-                        eventcontent = problemInfo.ProblemRemarkType == 1 ? problemInfo.ProblemRemark : "",
-                        eventtype = BreakDownWords.GetSource((byte)breakdown.Source),
-                        firecompany = fireunit == null ? "" : fireunit.Name,
-                        lat = fireunit == null ? "" : fireunit.Lat.ToString(),
-                        lon = fireunit == null ? "" : fireunit.Lng.ToString(),
-                        fireUnitId = ""
+                        TableName = tableName,
+                        DataId = dutyId,
+                        PhotoPath = photopath
                     });
                 }
 
-                return output;
-            }
-            catch(Exception e)
-            {
-                output.Success = false;
-                output.FailCause = e.Message;
-                return output;
-            }
-           
-        }
+                if (input.ProblemVoice != null)
+                {
+                    string voicePath = _hostingEnv.ContentRootPath + $@"/App_Data/Files/Voices/DataToDuty/";
+                    string voiceName = await SaveFileHelper.SaveFile(input.ProblemVoice, voicePath);
 
-        private  void SavePhotosPath(string tablename, int dataId,string fileName)
-        {
-            string photopath = "/Src/Photos/DataToDuty/" + fileName;
-            PhotosPathSave photo = new PhotosPathSave()
-            {
-                TableName=tablename,
-                DataId=dataId,
-                PhotoPath=photopath
-            };
-             _photosPathSave.InsertAsync(photo);
-        }
-        private async Task<string> SaveFiles(IFormFile file, string path)
-        {
-            if (!Directory.Exists(path))//判断是否存在
-            {
-                Directory.CreateDirectory(path);//创建新路径
-            }
-            string fileName = GetTimeStamp() + Path.GetExtension(file.FileName);
-            using (var stream = System.IO.File.Create(path + fileName))
-            {
-                await file.CopyToAsync(stream);
-            }
-            return fileName;
-        }
+                    breakDown.ProblemVoiceUrl = "/Src/Voices/DataToDuty/" + voiceName;
+                    breakDown.VoiceLength = input.VoiceLength;
+                }
 
-        //获取当前时间段额时间戳
-        public string GetTimeStamp()
-        {
-            TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            return Convert.ToInt64(ts.TotalMilliseconds).ToString();
+                if (input.Status == DutyOrPatrolStatus.Repaired)
+                {
+                    breakDown.HandleStatus = HandleStatus.Resolved;
+                    breakDown.SolutionTime = DateTime.Now;
+                    breakDown.SolutionWay = HandleChannel.Self;
+                }
+                else
+                {
+                    breakDown.HandleStatus = HandleStatus.UnResolve;
+                }
+
+                await _repBreakDown.InsertAsync(breakDown);
+            }
         }
 
         /// <summary>
@@ -324,34 +317,56 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<List<GetDataDutyForWebOutput>> GetDutylistForWeb(GetDataDutyForWebInput input)
+        public Task<GetDataDutyForWebOutput> GetDutylistForWeb(GetDataDutyForWebInput input)
         {
-            var list = _dutyRep.GetAll().Where(u=>u.FireUnitId==input.FireUnitId&&u.CreationTime.Month==input.Moth.Month);
-            var list2 = from a in list
-                         orderby a.CreationTime
-                         select new GetDataDutyForWebOutput
-                         {
-                             DutyId = a.Id,
-                             CreationTime = a.CreationTime.ToString("yyyy-MM-dd"),
-                             DutyStatus = a.DutyStatus
-                         };
-            var output = list2.GroupBy(u => u.CreationTime).Select(u => u.OrderByDescending(a=>a.DutyStatus).First());
-            return Task.FromResult(output.ToList());
+            GetDataDutyForWebOutput output = new GetDataDutyForWebOutput();
+            
+            IQueryable<DataToDuty> dataDutys = _repDataToDuty.GetAll().Where(item => item.FireUnitId.Equals(input.FireUnitId));
+            // 如果input.Month>0，则取对应月份的数据，否则取记录中最近有记录的那个月份的数据
+            if (input.Month > 0)
+            {
+                dataDutys = dataDutys.Where(item => item.CreationTime.Year.Equals(input.Year) && item.CreationTime.Month.Equals(input.Month));
+                output.Year = input.Year;
+                output.Month = input.Month;
+            }
+            else
+            {
+                var maxDate = dataDutys.Max(item => item.CreationTime);
+                if (maxDate != null)
+                {
+                    dataDutys = dataDutys.Where(item => item.CreationTime.Year.Equals(maxDate.Year) && item.CreationTime.Month.Equals(maxDate.Month));
+                    output.Year = maxDate.Year;
+                    output.Month = maxDate.Month;
+                }
+            }
+
+            var query = from a in dataDutys
+                        select new DataDutyForWeb()
+                        {
+                            DutyId = a.Id,
+                            CreationTime = a.CreationTime.ToString("yyyy-MM-dd"),
+                            DutyStatus = a.Status
+                        };
+
+            // 一天可能有多条数据，同一天中只取DutyStatus最大的那一条
+            output.DataDutyForWebList = query.GroupBy(item => item.CreationTime).Select(item => item.OrderByDescending(d => d.DutyStatus)).FirstOrDefault().ToList();
+
+            return Task.FromResult(output);
         }
 
         /// <summary>
         /// Web获取值班记录统计
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="fireUnitId"></param>
         /// <returns></returns>
-        public Task<GetDataDutyTotalOutput> GetDutyTotal(GetDataDutyTotalInput input)
+        public Task<GetDataDutyTotalOutput> GetDutyTotalForWeb(int fireUnitId)
         {
-            var list = _dutyRep.GetAll();
+            var query = _repDataToDuty.GetAll().Where(item=>item.FireUnitId.Equals(fireUnitId));
             GetDataDutyTotalOutput output = new GetDataDutyTotalOutput()
             {
-                DutyCount = list.Count(),
-                ProplemCount = list.Where(u => u.DutyStatus != (byte)ProblemStatusType.noraml).Count(),
-                LiveSolutionCount = list.Where(u => u.DutyStatus != (byte)ProblemStatusType.Repaired).Count()
+                DutyCount = query.Count(),
+                ProplemCount = query.Count(u => u.Status != DutyOrPatrolStatus.Normal),
+                LiveSolutionCount = query.Count(u => u.Status != DutyOrPatrolStatus.Repaired)
             };
             return Task.FromResult(output);
         }
@@ -361,24 +376,53 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<List<GetDutyInfoForWebOutput>> GetDutyInfoForWeb(GetDataDutyInfoForWebInput input)
+        public async Task<List<GetDataDutyInfoOutput>> GetDutyInfoForWeb(GetDataDutyInfoForWebInput input)
         {
-            var list = _dutyRep.GetAll().Where(u => u.FireUnitId == input.FireUnitId && u.CreationTime.Date == input.date.Date);
-            var userlist = _fireUnitAccountRepository.GetAll();
-            var photoslist = _photosPathSave.GetAll();
-            var output = from a in list
-                         join b in userlist on a.FireUnitUserId equals b.Id
-                         select new GetDutyInfoForWebOutput
-                         {
-                             DutyId = a.Id,
-                             CreationTime = a.CreationTime.ToString("yyyy-MM-dd HH:mm"),
-                             DutyUser = b.Name,
-                             DutyStatus = (ProblemStatusType)a.DutyStatus,
-                             DutyRemark = a.DutyRemark,
-                             DutyPhtosPath = photoslist.Where(u => u.TableName == "DataToDuty" && u.DataId == a.Id).Select(u => u.PhotoPath).ToList()
-                         };
-            return Task.FromResult(output.ToList());
+            var dutys = _repDataToDuty.GetAll().Where(item => item.FireUnitId.Equals(input.FireUnitId) && item.CreationTime.ToShortDateString().Equals(input.Date.ToShortDateString()));
+            var users = _repFireUnitUser.GetAll().Where(item => item.FireUnitID.Equals(input.FireUnitId));
+            var photos = _repPhotosPathSave.GetAll();
+
+            var query = from a in dutys
+                        join b in users on a.UserId equals b.Id into result1
+                        from a_b in result1.DefaultIfEmpty()
+                        select new GetDataDutyInfoOutput()
+                        {
+                            CreationTime = a.CreationTime,
+                            DutyPhtosPath = photos.Where(item => item.TableName.Equals("DataToDuty") && item.DataId.Equals(a.Id)).Select(item => item.PhotoPath).ToList(),
+                            FireUnitId = a.FireUnitId,
+                            Id = a.Id,
+                            UserId = a.UserId,
+                            Status = a.Status,
+                            DutyUserName = a_b != null ? a_b.Name : "",
+                            DutyUserPhone = a_b != null ? a_b.Account : "",
+                        };
+
+            List<GetDataDutyInfoOutput> lstOutput = query.OrderBy(item => item.CreationTime).ToList();
+
+            foreach (var item in lstOutput)
+            {
+                foreach (var f in item.DutyPhtosPath)
+                {
+                    item.DutyPhotosBase64.Add(ImageHelper.ThumbImg(_hostingEnv.ContentRootPath + f.Replace("Src", "App_Data/Files")));
+                }
+                if (item.Status != DutyOrPatrolStatus.Normal)
+                {
+                    var breakDown = await _repBreakDown.FirstOrDefaultAsync(d => d.DataId.Equals(item.Id));
+                    if (breakDown != null)
+                    {
+                        item.ProblemRemark = breakDown.ProblemRemark;
+                        item.ProblemVoiceUrl = breakDown.ProblemVoiceUrl;
+                        item.VoiceLength = breakDown.VoiceLength;
+                        item.ProblemPhtosPath = photos.Where(d => d.TableName.Equals("DataToDuty_Problem") && d.DataId.Equals(item.Id)).Select(d => d.PhotoPath).ToList();
+                        foreach (var f in item.ProblemPhtosPath)
+                        {
+                            item.ProblemPhotosBase64.Add(ImageHelper.ThumbImg(_hostingEnv.ContentRootPath + f.Replace("Src", "App_Data/Files")));
+                        }
+                    }
+                }
+            }
+
+            return lstOutput;
         }
     }
 }
- 

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto
 {
-    public class GetDataDutyInput: PagedResultRequestDto
+    public class GetDataDutyInput
     {
         /// <summary>
         /// 防火单位Id
@@ -17,6 +17,6 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 记录状态
         /// </summary>
-        public ProblemStatusType DutyStatus { get; set; }
+        public DutyOrPatrolStatus DutyStatus { get; set; }
     }
 }

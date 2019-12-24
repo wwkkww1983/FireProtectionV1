@@ -13,6 +13,17 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 各种状态及数量
         /// </summary>
-        public object DeviceStatusObject { get; set; }
+        public List<NumOfStatus> DeviceStatusList { get; set; }
+    }
+    public class NumOfStatus
+    {
+        /// <summary>
+        /// 状态名称
+        /// </summary>
+        public string Status { get; set; }
+        /// <summary>
+        /// 数值
+        /// </summary>
+        public int Num { get; set; }
     }
 }

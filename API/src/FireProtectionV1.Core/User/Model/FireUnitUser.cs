@@ -47,7 +47,7 @@ namespace FireProtectionV1.User.Model
         /// <summary>
         /// 防火单位ID
         /// </summary>
-        public int FireUnitInfoID { get; set; }
+        public int FireUnitID { get; set; }
         /// <summary>
         /// 状态，默认为已启用
         /// </summary>

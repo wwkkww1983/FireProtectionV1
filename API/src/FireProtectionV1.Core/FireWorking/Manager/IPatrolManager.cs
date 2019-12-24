@@ -11,12 +11,6 @@ namespace FireProtectionV1.FireWorking.Manager
 {
     public interface IPatrolManager : IDomainService
     {
-        /// <summary>
-        /// 新增巡查记录
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        Task AddNewPatrol(AddNewPatrolInput input);
         IQueryable<DataToPatrol> GetPatrolDataAll();
         IQueryable<DataToPatrol> GetPatrolDataMonth(int year, int month);
         IQueryable<DataToPatrol> GetPatrolDataDuration(DateTime start, DateTime end);

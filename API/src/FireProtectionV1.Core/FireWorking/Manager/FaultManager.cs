@@ -36,7 +36,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task AddNewDetectorFault(AddNewDetectorFaultInput input)
+        public async Task AddDetectorFault(AddNewDetectorFaultInput input)
         {
             var fireAlarmDevice = await _repFireAlarmDevice.FirstOrDefaultAsync(item => item.DeviceSn.Equals(input.FireAlarmDeviceSn));
             Valid.Exception(fireAlarmDevice == null, $"未找到编号为{input.FireAlarmDeviceSn}的火警联网设施");
@@ -53,28 +53,30 @@ namespace FireProtectionV1.FireWorking.Manager
                 });
                 fireAlarmDetector = await _repFireAlarmDetector.GetAsync(detectorId);
             }
-
-            int faultId = await _repFault.InsertAndGetIdAsync(new Fault()
+            else if (fireAlarmDetector.State.Equals(FireAlarmDetectorState.Normal)) // 如果部件状态为正常，则添加故障数据，否则忽略故障数据
             {
-                FireUnitId = fireAlarmDevice.FireUnitId,
-                FireAlarmDeviceId = fireAlarmDevice.Id,
-                FireAlarmDetectorId = fireAlarmDetector.Id,
-                FaultRemark = input.FaultRemark,
-                State = HandleStatus.UnResolve
-            });
+                int faultId = await _repFault.InsertAndGetIdAsync(new Fault()
+                {
+                    FireUnitId = fireAlarmDevice.FireUnitId,
+                    FireAlarmDeviceId = fireAlarmDevice.Id,
+                    FireAlarmDetectorId = fireAlarmDetector.Id,
+                    FaultRemark = input.FaultRemark,
+                });
 
-            fireAlarmDetector.FaultNum++;
-            fireAlarmDetector.LastFaultId = faultId;
-            await _repFireAlarmDetector.UpdateAsync(fireAlarmDetector);
+                fireAlarmDetector.FaultNum++;
+                fireAlarmDetector.LastFaultId = faultId;
+                fireAlarmDetector.State = FireAlarmDetectorState.Fault;
+                await _repFireAlarmDetector.UpdateAsync(fireAlarmDetector);
 
-            await _repBreakDown.InsertAsync(new BreakDown()
-            {
-                DataId = faultId,
-                FireUnitId = fireAlarmDevice.FireUnitId,
-                HandleStatus = HandleStatus.UnResolve,
-                Remark = input.FaultRemark,
-                Source = FaultSource.Terminal
-            });
+                await _repBreakDown.InsertAsync(new BreakDown()
+                {
+                    DataId = faultId,
+                    FireUnitId = fireAlarmDevice.FireUnitId,
+                    HandleStatus = HandleStatus.UnResolve,
+                    ProblemRemark = input.FaultRemark,
+                    Source = FaultSource.Terminal
+                });
+            }
         }
         /// <summary>
         /// 查找某个月份的火警联网部件故障数据

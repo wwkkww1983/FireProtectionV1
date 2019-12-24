@@ -29,7 +29,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task CheckFirmAlarm(AlarmCheckDetailDto dto);
+        Task CheckFirmAlarm(AlarmCheckInput input);
         //IQueryable<AlarmToFire> GetAlarms(IQueryable<Detector> detectors, DateTime start, DateTime end);
         /// <summary>
         /// 获取数据大屏的火警联网实时达

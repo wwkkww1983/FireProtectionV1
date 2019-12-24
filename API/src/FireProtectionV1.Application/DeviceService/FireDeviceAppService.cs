@@ -17,11 +17,47 @@ namespace FireProtectionV1.DeviceService
     public class FireDeviceAppService : AppServiceBase
     {
         IDeviceManager _deviceManager;
-        IAlarmManager _alarmManager;
-        public FireDeviceAppService(IDeviceManager detectorManager, IAlarmManager alarmManager)
+        IFaultManager _faultManager;
+        public FireDeviceAppService(IDeviceManager detectorManager, IFaultManager faultManager)
         {
             _deviceManager = detectorManager;
-            _alarmManager = alarmManager;
+            _faultManager = faultManager;
+        }
+        /// <summary>
+        /// 添加火警联网部件故障数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task AddDetectorFault(AddNewDetectorFaultInput input)
+        {
+            await _faultManager.AddDetectorFault(input);
+        }
+        /// <summary>
+        /// 添加电气火灾监测数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task AddElecRecord(AddDataElecInput input)
+        {
+            await _deviceManager.AddElecRecord(input);
+        }
+        /// <summary>
+        /// 添加消防水管网监测数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task AddFireWaterRecord(AddFireWaterRecordInput input)
+        {
+            await _deviceManager.AddFireWaterRecord(input);
+        }
+        /// <summary>
+        /// 在线/离线事件接口
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task UpdateDeviceState(UpdateDeviceStateInput input)
+        {
+            await _deviceManager.UpdateDeviceState(input);
         }
         /// <summary>
         /// 获取指定防火单位ID的火警联网设施列表
@@ -70,17 +106,121 @@ namespace FireProtectionV1.DeviceService
             await _deviceManager.UpdateFireAlarmDevice(input);
         }
         /// <summary>
+        /// 获取电气火灾监测单个项目的模拟量趋势
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<GetRecordElectricOutput> GetRecordElectric(GetRecordElectricInput input)
+        {
+            return await _deviceManager.GetRecordElectric(input);
+        }
+        /// <summary>
+        /// 用于数据大屏：获取各类消防物联网设施的各种状态及数量
+        /// </summary>
+        /// <param name="fireUnitId"></param>
+        /// <returns></returns>
+        public async Task<List<GetDeviceStatusForDataScreenOutput>> GetDeviceStatusForDataScreen(int fireUnitId)
+        {
+            return await _deviceManager.GetDeviceStatusForDataScreen(fireUnitId);
+        }
+        /// <summary>
         /// 获取火警联网设施部件类型数组
         /// </summary>
         /// <returns></returns>
-        public List<string> GetFireAlarmDetectorTypes()
+        public async Task<List<string>> GetFireAlarmDetectorTypes()
         {
-            return new List<string>()
-            {
-                "火灾报警控制器","感烟式火灾探测器","感温式火灾探测器",
-                "感光式火灾探测器","可燃气体火灾探测器","复合式火灾探测器","手动火灾报警按钮","其它"
-            };
+            return await _deviceManager.GetFireAlarmDetectorTypes();
+            //return new List<string>()
+            //{
+            //    "火灾报警控制器","感烟式火灾探测器","感温式火灾探测器",
+            //    "感光式火灾探测器","可燃气体火灾探测器","复合式火灾探测器","手动火灾报警按钮","其它"
+            //};
         }
+        /// <summary>
+        /// 新增探测器部件
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        //public async Task AddDetector(AddDetectorInput input)
+        //{
+        //    try
+        //    {
+        //        await _deviceManager.AddDetector(input);
+        //    }catch(Exception e)
+        //    {
+
+        //    }
+        //}
+        /// <summary>
+        /// 获取终端设备筛选选项
+        /// </summary>
+        /// <returns></returns>
+        //public Task<List<EndDeviceOptionDto>> GetEndDeviceOptions()
+        //{
+        //    var output = new List<EndDeviceOptionDto>();
+        //    output.Add(new EndDeviceOptionDto()
+        //    {
+        //        Value = 0,
+        //        Name = "全部终端"
+        //    });
+        //    output.Add(new EndDeviceOptionDto()
+        //    {
+        //        Value = 1,
+        //        Name = "在线"
+        //    });
+        //    output.Add(new EndDeviceOptionDto()
+        //    {
+        //        Value = -1,
+        //        Name = "离线"
+        //    });
+        //    return Task.FromResult<List<EndDeviceOptionDto>>(output);
+        //}
+        /// <summary>
+        /// 获取防火单位的终端状态
+        /// </summary>
+        /// <param name="FireUnitId">防火单位Id</param>
+        /// <param name="Option">筛选选项值</param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        //public async Task<PagedResultDeviceDto<EndDeviceStateOutput>> GetFireUnitEndDeviceState([Required]int FireUnitId,int Option,PagedResultRequestDto dto)
+        //{
+        //    return await _deviceManager.GetFireUnitEndDeviceState(FireUnitId, Option,dto);
+        //}
+        /// <summary>
+        /// 获得防火单位模拟量终端历史记录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        //public async Task<RecordAnalogOutput> GetRecordAnalog(GetRecordDetectorInput input)
+        //{
+        //    return await _deviceManager.GetRecordAnalog(input);
+        //}
+        /// <summary>
+        /// 获得防火单位非模拟量终端历史记录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        //public async Task<RecordUnAnalogOutput> GetRecordUnAnalog(GetRecordDetectorInput input)
+        //{
+        //    return await _deviceManager.GetRecordUnAnalog(new GetRecordDetectorInput()
+        //    {
+        //        DetectorId=input.DetectorId,
+        //        FireUnitId=input.FireUnitId,
+        //        End=DateTime.Now.Date.AddSeconds(-1),
+        //        Start=DateTime.Now.Date.AddDays(-7)
+        //    });
+        //}
+        /// <summary>
+        /// 查询防火单位网关状态列表
+        /// </summary>
+        /// <param name="FireSysType">1:安全用电，2:火灾报警</param>
+        /// <param name="FireUnitId">防火单位Id</param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        //public async Task<PagedResultDto<GatewayStatusOutput>> GetFireUnitGatewaysStatus([Required]int FireSysType, [Required]int FireUnitId, PagedResultRequestDto dto)
+        //{
+        //    return await _deviceManager.GetFireUnitGatewaysStatus(FireSysType,FireUnitId, dto);
+        //}
         /// <summary>
         /// 获取指定设备ID的故障部件列表
         /// </summary>
@@ -191,7 +331,7 @@ namespace FireProtectionV1.DeviceService
         /// </summary>
         /// <param name="DeviceId"></param>
         /// <returns></returns>
-        public async Task<FireElectricDevice> GetFireElectricDevice(int DeviceId)
+        public async Task<GetFireElectricDeviceOutput> GetFireElectricDevice(int DeviceId)
         {
             return await _deviceManager.GetFireElectricDevice(DeviceId);
         }
@@ -370,9 +510,9 @@ namespace FireProtectionV1.DeviceService
         /// 获取消防管网联网网关设备型号列表
         /// </summary>
         /// <returns></returns>
-        public async Task<List<string>> GetFireWaterDeviceTypes()
+        public async Task<List<string>> GetFireWaterDeviceModels()
         {
-            return await _deviceManager.GetFireWaterDeviceTypes();
+            return await _deviceManager.GetFireWaterDeviceModels();
         }
         /// <summary>
         /// 获取固件更新列表

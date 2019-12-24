@@ -1,4 +1,5 @@
-﻿using Abp.Domain.Services;
+﻿using Abp.Application.Services.Dto;
+using Abp.Domain.Services;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
 using System;
@@ -11,58 +12,46 @@ namespace FireProtectionV1.FireWorking.Manager
 {
     public interface IDutyManager : IDomainService
     {
-        /// <summary>
-        /// 新增值班记录
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        Task AddNewDuty(AddNewDutyInput input);
         IQueryable<DataToDuty> GetDutyDataAll();
         IQueryable<DataToDuty> GetDutyDataMonth(int year, int month);
         IQueryable<DataToDuty> GetDutyDataDuration(DateTime start, DateTime end);
         IQueryable<FireUnitManualOuput> GetDutyFireUnitsAll(string filterName = null);
         IQueryable<FireUnitManualOuput> GetNoDuty1DayFireUnits();
-
         /// <summary>
         /// 获取值班记录列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<GetDataDutyPagingOutput> GetDutylist(GetDataDutyInput input);
-
+        Task<PagedResultDto<GetDataDutyOutput>> GetDutylist(GetDataDutyInput input, PagedResultRequestDto dto);
         /// <summary>
         /// 获取值班记录详情
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="dutyId"></param>
         /// <returns></returns>
-        Task<GetDataDutyInfoOutput> GetDutyInfo(GetDataDutyInfoInput input);
-
+        Task<GetDataDutyInfoOutput> GetDutyInfo(int dutyId);
         /// <summary>
         /// 新增值班记录
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<SuccessOutput> AddDutyInfo(AddDataDutyInfoInput input);
-
-
+        Task AddDutyInfo(AddDataDutyInfoInput input);
         /// <summary>
         /// Web获取值班记录列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<List<GetDataDutyForWebOutput>> GetDutylistForWeb (GetDataDutyForWebInput input);
-
+        Task<GetDataDutyForWebOutput> GetDutylistForWeb (GetDataDutyForWebInput input);
         /// <summary>
         /// Web获取值班记录统计
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<GetDataDutyTotalOutput> GetDutyTotal(GetDataDutyTotalInput input);
+        Task<GetDataDutyTotalOutput> GetDutyTotalForWeb(int fireUnitId);
         /// <summary>
         /// Web获取值班记录详情
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<List<GetDutyInfoForWebOutput>> GetDutyInfoForWeb(GetDataDutyInfoForWebInput input);
+        Task<List<GetDataDutyInfoOutput>> GetDutyInfoForWeb(GetDataDutyInfoForWebInput input);
     }
 }

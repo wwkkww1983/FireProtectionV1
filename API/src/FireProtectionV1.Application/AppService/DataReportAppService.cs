@@ -17,26 +17,23 @@ namespace FireProtectionV1.AppService
 {
     public class DataReportAppService : AppServiceBase
     {
-        IRepository<Fault> _repFault;
+        IRepository<BreakDown> _repBreakDown;
         IRepository<FireUnit> _repFireUnit;
-        IFaultManager _faultManager;
         IDutyManager _dutyManager;
         IPatrolManager _patrolManager;
         IDataReportManager _manager;
         IFireWorkingManager _fireWorkingManager;
 
         public DataReportAppService(
-            IRepository<Fault> repFault,
+            IRepository<BreakDown> repBreakDown,
             IRepository<FireUnit> repFireUnit,
-            IFaultManager faultManager,
             IDutyManager dutyManager,
             IPatrolManager patrolManager,
             IDataReportManager manager,
             IFireWorkingManager fireWorkingManager)
         {
-            _repFault = repFault;
+            _repBreakDown = repBreakDown;
             _repFireUnit = repFireUnit;
-            _faultManager = faultManager;
             _dutyManager = dutyManager;
             _patrolManager = patrolManager;
             _manager = manager;
@@ -122,27 +119,27 @@ namespace FireProtectionV1.AppService
             DateTime nowMonDay1 = now.Date.AddDays(1 - now.Day);
             var output = new GetAreasFaultOutput();
 
-            var faultall = _repFault.GetAll();
-            output.FaultCount = faultall.Count();
-            output.FaultPendingCount = faultall.Where(p => p.State == HandleStatus.UnResolve).Count();
+            var breakDowns = _repBreakDown.GetAll();
+            output.FaultCount = breakDowns.Count();
+            output.FaultPendingCount = breakDowns.Where(p => p.HandleStatus == HandleStatus.UnResolve).Count();
             output.MonthFaultCounts = new List<MonthFaultCount>();
             for (int i = 3; i >= 1; i--)
             {
                 DateTime mon = now.AddMonths(-i);
-                var faultDataMonth = _faultManager.GetFaultDataMonth(mon.Year, mon.Month);
+                var breakDownDataMonth = _repBreakDown.GetAll().Where(p => p.CreationTime.Year == mon.Year && p.CreationTime.Month == mon.Month);
                 output.MonthFaultCounts.Add(new MonthFaultCount()
                 {
                     Month = mon.ToString("yyyy-MM"),
-                    Count = faultDataMonth.Count(),
-                    PendingCount = faultDataMonth.Where(p => p.State == HandleStatus.UnResolve).Count()
+                    Count = breakDownDataMonth.Count(),
+                    PendingCount = breakDownDataMonth.Where(p => p.HandleStatus == HandleStatus.UnResolve).Count()
                 });
             }
 
-            var groupFault = _repFault.GetAll().GroupBy(p => p.FireUnitId).Select(p => new
+            var groupFault = _repBreakDown.GetAll().GroupBy(p => p.FireUnitId).Select(p => new
             {
                 FireUnitId = p.Key,
                 FaultCount = p.Count(),
-                PendingCount = p.Where(p1 => p1.State == HandleStatus.UnResolve).Count()
+                PendingCount = p.Where(p1 => p1.HandleStatus == HandleStatus.UnResolve).Count()
             });
             var fireUnits = _repFireUnit.GetAll();
 

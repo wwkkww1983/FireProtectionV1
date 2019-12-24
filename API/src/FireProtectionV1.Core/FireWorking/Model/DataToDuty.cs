@@ -1,4 +1,5 @@
 ﻿using FireProtectionV1.Common.DBContext;
+using FireProtectionV1.Common.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,28 +13,18 @@ namespace FireProtectionV1.FireWorking.Model
     public class DataToDuty : EntityBase
     {
         /// <summary>
-        /// 值班记录图片
-        /// </summary>
-        [MaxLength(100)]
-        public string DutyPicture { get; set; }
-        /// <summary>
-        /// 记录状态（1、正常；2：绿色故障；3：橙色故障）
-        /// </summary>
-        [Required]
-        public byte DutyStatus { get; set; }
-        /// <summary>
         /// 防火单位Id
         /// </summary>
         [Required]
         public int FireUnitId { get; set; }
         /// <summary>
-        /// 防火单位用户Id
+        /// 值班用户Id
         /// </summary>
         [Required]
-        public int FireUnitUserId { get; set; }
+        public int UserId { get; set; }
         /// <summary>
-        /// 值班记录描述
+        /// 状态
         /// </summary>
-        public string DutyRemark { get; set; }
+        public DutyOrPatrolStatus Status { get; set; }
     }
 }
