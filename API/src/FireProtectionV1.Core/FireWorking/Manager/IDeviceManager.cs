@@ -147,10 +147,10 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <summary>
         /// 获取某个火警联网设施下的故障部件列表
         /// </summary>
-        /// <param name="deviceId"></param>
+        /// <param name="fireAlarmDeviceId"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<PagedResultDto<FaultDetectorOutput>> GetFireAlarmFaultDetectorList(int deviceId, PagedResultRequestDto dto);
+        Task<PagedResultDto<FaultDetectorOutput>> GetFireAlarmFaultDetectorList(int fireAlarmDeviceId, PagedResultRequestDto dto);
 
         /// <summary>
         /// 获得防火单位终端历史记录

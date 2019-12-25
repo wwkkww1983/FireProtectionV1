@@ -1,4 +1,5 @@
 ﻿using Abp.Application.Services.Dto;
+using FireProtectionV1.Common.Enum;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Manager;
 using Microsoft.AspNetCore.Mvc;
@@ -48,133 +49,70 @@ namespace FireProtectionV1.AppService
             await _dutyManager.AddDutyInfo(input);
         }
         /// <summary>
-        /// Web获取日期控件信息
+        /// 获取值班记录日历列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<GetDataDutyForWebOutput> GetDutylistForWeb(GetDataDutyForWebInput input)
+        public async Task<List<GetDataDutyForCalendarOutput>> GetDutylistForCalendar(GetDataDutyForCalendarInput input)
         {
-            return await _dutyManager.GetDutylistForWeb(input);
-        }
-        /// <summary>
-        /// Web获取值班记录统计
-        /// </summary>
-        /// <param name="fireUnitId"></param>
-        /// <returns></returns>
-        public async Task<GetDataDutyTotalOutput> GetDutyTotalForWeb(int fireUnitId)
-        {
-            return await _dutyManager.GetDutyTotalForWeb(fireUnitId);
-        }
-        /// <summary>
-        /// Web获取值班记录详情
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public async Task<List<GetDataDutyInfoOutput>> GetDutyInfoForWeb(GetDataDutyInfoForWebInput input)
-        {
-            return await _dutyManager.GetDutyInfoForWeb(input);
+            return await _dutyManager.GetDutylistForCalendar(input);
         }
 
         /// <summary>
         /// 获取巡查记录列表
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<GetDataPatrolPagingOutput> GetPatrollist(GetDataPatrolInput input)
+        public async Task<PagedResultDto<GetPatrolListOutput>> GetPatrolList(GetDataPatrolInput input, PagedResultRequestDto dto)
         {
-            return await _patrolManager.GetPatrollist(input);
-        }
-
-        /// <summary>
-        /// 获取巡查记录轨迹
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public async Task<List<GetPatrolTrackOutput>> GetPatrolTrackList(GetPatrolTrackInput input)
-        {
-            return await _patrolManager.GetPatrolTrackList(input);
+            return await _patrolManager.GetPatrolList(input, dto);
         }
         /// <summary>
         /// 获取防火单位消防系统
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<List<GetPatrolFireUnitSystemOutput>> GetFireUnitlSystem(GetPatrolFireUnitSystemInput input)
-        {
-            return await _patrolManager.GetFireUnitlSystem(input);
-        }
-        /// <summary>
-        /// 添加巡查记录
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public async Task<AddPatrolOutput> AddPatrolTrack(AddPatrolInput input)
-        {
-            return await _patrolManager.AddPatrolTrack(input);
-        }
-        /// <summary>
-        /// 添加巡查记录轨迹(所有)
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public async Task<SuccessOutput> AddPatrolTrackDetailAll([FromForm]AddPatrolTrackAllInput input)
-        {
-            return await _patrolManager.AddPatrolTrackDetailAll(input);
-        }
-        /// <summary>
-        /// 添加巡查记录轨迹
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public async Task<SuccessOutput> AddPatrolTrackDetail([FromForm]AddPatrolTrackInput input)
-        {
-            return await _patrolManager.AddPatrolTrackDetail(input);
-        }
+        //public async Task<List<GetPatrolFireUnitSystemOutput>> GetFireUnitlSystem(GetPatrolFireUnitSystemInput input)
+        //{
+        //    return await _patrolManager.GetFireUnitlSystem(input);
+        //}
 
         /// <summary>
         /// Web获取日历控件信息
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<List<GetDataPatrolForWebOutput>> GetPatrollistForWeb(GetDataPatrolForWebInput input)
+        //public async Task<List<GetDataPatrolForWebOutput>> GetPatrollistForWeb(GetDataPatrolForWebInput input)
+        //{
+        //    //return await _patrolManager.GetPatrollistForWeb(input);
+        //}
+        /// <summary>
+        /// 获取巡查记录状态统计
+        /// </summary>
+        /// <param name="fireunitId"></param>
+        /// <returns></returns>
+        public async Task<GetPatrolStatusTotalOutput> GetPatrolStatusTotal(int fireunitId)
         {
-            return await _patrolManager.GetPatrollistForWeb(input);
+            return await _patrolManager.GetPatrolStatusTotal(fireunitId);
         }
         /// <summary>
-        /// Web获取巡查记录统计
+        /// 获取防火单位的巡查类别
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="fireUnitId"></param>
         /// <returns></returns>
-        public async Task<GetDataPatrolTotalOutput> GetPatrolTotal(GetDataPatrolTotalInput input)
+        public async Task<PatrolType> GetPatrolType(int fireUnitId)
         {
-            return await _patrolManager.GetPatrolTotal(input);
+            return await _patrolManager.GetPatrolType(fireUnitId);
         }
         /// <summary>
-        /// Web获取巡查记录轨迹
+        /// 是否允许新增巡查记录（如果存在未提交的巡查记录，则不允许新增）
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="fireUnitId"></param>
         /// <returns></returns>
-        public async Task<GetPatrolInfoForWebOutput> GetPatrolInfoForWeb(GetPatrolInfoForWebInput input)
+        public async Task<SuccessOutput> GetAddPatrolAllow(int fireUnitId)
         {
-            return await _patrolManager.GetPatrolInfoForWeb(input);
-        }
-        /// <summary>
-        /// 新增时获取巡查记录类别
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public async Task<GetPatrolTypeOutput> GetPatrolType(GetPatrolFireUnitSystemInput input)
-        {
-            return await _patrolManager.GetPatrolType(input);
-        }
-        /// <summary>
-        /// 新增时查询今日是否已添加
-        /// </summary>
-        /// <param name="FireUnitId">防火单位ID</param>
-        /// <returns></returns>
-        public async Task<SuccessOutput> GetAddAllow(int FireUnitId)
-        {
-            return await _patrolManager.GetAddAllow(FireUnitId);
+            return await _patrolManager.GetAddPatrolAllow(fireUnitId);
         }
     }
 }

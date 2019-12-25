@@ -20,7 +20,7 @@ namespace FireProtectionV1.FireWorking.Dto
         [Required]
         public int FireAlarmId { get; set; }
         /// <summary>
-        /// 核警状态(1:误报,2:测试,3:真实火警)
+        /// 核警状态
         /// </summary>
         [Required]
         public FireAlarmCheckState CheckState { get; set; }

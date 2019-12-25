@@ -7,20 +7,12 @@ using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto
 {
-    public class GetDataDutyForWebInput 
+    public class GetPatrolStatusTotalInput
     {
         /// <summary>
         /// 防火单位Id
         /// </summary>
         [Required]
         public int FireUnitId { get; set; }
-        /// <summary>
-        /// 年份（初始传0）
-        /// </summary>
-        public int Year { get; set; }
-        /// <summary>
-        /// 月份（初始传0）
-        /// </summary>
-        public int Month { get; set; }
     }
 }

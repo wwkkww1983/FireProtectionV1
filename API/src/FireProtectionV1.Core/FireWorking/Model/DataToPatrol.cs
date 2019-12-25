@@ -1,4 +1,5 @@
 ﻿using FireProtectionV1.Common.DBContext;
+using FireProtectionV1.Common.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,13 +18,21 @@ namespace FireProtectionV1.FireWorking.Model
         [Required]
         public int FireUnitId { get; set; }
         /// <summary>
-        /// 防火单位巡查人员Id
+        /// 巡查人员Id
         /// </summary>
         [Required]
-        public int FireUnitUserId { get; set; }
+        public int UserId { get; set; }
         /// <summary>
-        /// 记录状态（1、正常；2：绿色故障；3：橙色故障）//根据detail实时变化
+        /// 巡查人员归属的单位Id。如果是本防火单位人员，则该值与FireUnitId一致，如果是维保人员，则该值存放维保单位的Id
         /// </summary>
-        public byte PatrolStatus { get; set; }
+        public int UserBelongUnitId { get; set; }
+        /// <summary>
+        /// 巡查模式
+        /// </summary>
+        public PatrolType PatrolType { get; set; }
+        /// <summary>
+        /// 记录状态
+        /// </summary>
+        public DutyOrPatrolStatus PatrolStatus { get; set; }
     }
 }

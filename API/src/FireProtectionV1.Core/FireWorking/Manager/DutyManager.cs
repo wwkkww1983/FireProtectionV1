@@ -313,35 +313,24 @@ namespace FireProtectionV1.FireWorking.Manager
         }
 
         /// <summary>
-        /// Web获取值班记录列表
+        /// 获取值班记录日历列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<GetDataDutyForWebOutput> GetDutylistForWeb(GetDataDutyForWebInput input)
+        public Task<List<GetDataDutyForCalendarOutput>> GetDutylistForCalendar(GetDataDutyForCalendarInput input)
         {
-            GetDataDutyForWebOutput output = new GetDataDutyForWebOutput();
-            
-            IQueryable<DataToDuty> dataDutys = _repDataToDuty.GetAll().Where(item => item.FireUnitId.Equals(input.FireUnitId));
-            // 如果input.Month>0，则取对应月份的数据，否则取记录中最近有记录的那个月份的数据
-            if (input.Month > 0)
+            int year = DateTime.Now.Year;
+            int month = DateTime.Now.Month;
+            if (input.CalendarDate.HasValue)
             {
-                dataDutys = dataDutys.Where(item => item.CreationTime.Year.Equals(input.Year) && item.CreationTime.Month.Equals(input.Month));
-                output.Year = input.Year;
-                output.Month = input.Month;
-            }
-            else
-            {
-                var maxDate = dataDutys.Max(item => item.CreationTime);
-                if (maxDate != null)
-                {
-                    dataDutys = dataDutys.Where(item => item.CreationTime.Year.Equals(maxDate.Year) && item.CreationTime.Month.Equals(maxDate.Month));
-                    output.Year = maxDate.Year;
-                    output.Month = maxDate.Month;
-                }
+                year = input.CalendarDate.Value.Year;
+                month = input.CalendarDate.Value.Month;
             }
 
+            var dataDutys = _repDataToDuty.GetAll().Where(item => item.FireUnitId.Equals(input.FireUnitId) && item.CreationTime.Year.Equals(year) && item.CreationTime.Month.Equals(month));
+
             var query = from a in dataDutys
-                        select new DataDutyForWeb()
+                        select new GetDataDutyForCalendarOutput()
                         {
                             DutyId = a.Id,
                             CreationTime = a.CreationTime.ToString("yyyy-MM-dd"),
@@ -349,24 +338,22 @@ namespace FireProtectionV1.FireWorking.Manager
                         };
 
             // 一天可能有多条数据，同一天中只取DutyStatus最大的那一条
-            output.DataDutyForWebList = query.GroupBy(item => item.CreationTime).Select(item => item.OrderByDescending(d => d.DutyStatus)).FirstOrDefault().ToList();
-
-            return Task.FromResult(output);
+            return Task.FromResult(query.GroupBy(item => item.CreationTime).Select(item => item.OrderByDescending(d => d.DutyStatus)).FirstOrDefault().ToList());
         }
 
         /// <summary>
-        /// Web获取值班记录统计
+        /// 获取值班记录状态统计
         /// </summary>
-        /// <param name="fireUnitId"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
-        public Task<GetDataDutyTotalOutput> GetDutyTotalForWeb(int fireUnitId)
+        public Task<GetDutyStatusTotalOutput> GetDutyStateTotal(int fireUnitId)
         {
             var query = _repDataToDuty.GetAll().Where(item=>item.FireUnitId.Equals(fireUnitId));
-            GetDataDutyTotalOutput output = new GetDataDutyTotalOutput()
+            GetDutyStatusTotalOutput output = new GetDutyStatusTotalOutput()
             {
-                DutyCount = query.Count(),
-                ProplemCount = query.Count(u => u.Status != DutyOrPatrolStatus.Normal),
-                LiveSolutionCount = query.Count(u => u.Status != DutyOrPatrolStatus.Repaired)
+                NormalCount = query.Count(item=>item.Status.Equals(DutyOrPatrolStatus.Normal)),
+                GreenFaultCount = query.Count(item => item.Status.Equals(DutyOrPatrolStatus.Repaired)),
+                RedFaultCount = query.Count(item => item.Status.Equals(DutyOrPatrolStatus.DisRepaired))
             };
             return Task.FromResult(output);
         }
@@ -376,53 +363,53 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<List<GetDataDutyInfoOutput>> GetDutyInfoForWeb(GetDataDutyInfoForWebInput input)
-        {
-            var dutys = _repDataToDuty.GetAll().Where(item => item.FireUnitId.Equals(input.FireUnitId) && item.CreationTime.ToShortDateString().Equals(input.Date.ToShortDateString()));
-            var users = _repFireUnitUser.GetAll().Where(item => item.FireUnitID.Equals(input.FireUnitId));
-            var photos = _repPhotosPathSave.GetAll();
+        //public async Task<List<GetDataDutyInfoOutput>> GetDutyInfoForWeb(GetDataDutyInfoForWebInput input)
+        //{
+        //    var dutys = _repDataToDuty.GetAll().Where(item => item.FireUnitId.Equals(input.FireUnitId) && item.CreationTime.ToShortDateString().Equals(input.Date.ToShortDateString()));
+        //    var users = _repFireUnitUser.GetAll().Where(item => item.FireUnitID.Equals(input.FireUnitId));
+        //    var photos = _repPhotosPathSave.GetAll();
 
-            var query = from a in dutys
-                        join b in users on a.UserId equals b.Id into result1
-                        from a_b in result1.DefaultIfEmpty()
-                        select new GetDataDutyInfoOutput()
-                        {
-                            CreationTime = a.CreationTime,
-                            DutyPhtosPath = photos.Where(item => item.TableName.Equals("DataToDuty") && item.DataId.Equals(a.Id)).Select(item => item.PhotoPath).ToList(),
-                            FireUnitId = a.FireUnitId,
-                            Id = a.Id,
-                            UserId = a.UserId,
-                            Status = a.Status,
-                            DutyUserName = a_b != null ? a_b.Name : "",
-                            DutyUserPhone = a_b != null ? a_b.Account : "",
-                        };
+        //    var query = from a in dutys
+        //                join b in users on a.UserId equals b.Id into result1
+        //                from a_b in result1.DefaultIfEmpty()
+        //                select new GetDataDutyInfoOutput()
+        //                {
+        //                    CreationTime = a.CreationTime,
+        //                    DutyPhtosPath = photos.Where(item => item.TableName.Equals("DataToDuty") && item.DataId.Equals(a.Id)).Select(item => item.PhotoPath).ToList(),
+        //                    FireUnitId = a.FireUnitId,
+        //                    Id = a.Id,
+        //                    UserId = a.UserId,
+        //                    Status = a.Status,
+        //                    DutyUserName = a_b != null ? a_b.Name : "",
+        //                    DutyUserPhone = a_b != null ? a_b.Account : "",
+        //                };
 
-            List<GetDataDutyInfoOutput> lstOutput = query.OrderBy(item => item.CreationTime).ToList();
+        //    List<GetDataDutyInfoOutput> lstOutput = query.OrderBy(item => item.CreationTime).ToList();
 
-            foreach (var item in lstOutput)
-            {
-                foreach (var f in item.DutyPhtosPath)
-                {
-                    item.DutyPhotosBase64.Add(ImageHelper.ThumbImg(_hostingEnv.ContentRootPath + f.Replace("Src", "App_Data/Files")));
-                }
-                if (item.Status != DutyOrPatrolStatus.Normal)
-                {
-                    var breakDown = await _repBreakDown.FirstOrDefaultAsync(d => d.DataId.Equals(item.Id));
-                    if (breakDown != null)
-                    {
-                        item.ProblemRemark = breakDown.ProblemRemark;
-                        item.ProblemVoiceUrl = breakDown.ProblemVoiceUrl;
-                        item.VoiceLength = breakDown.VoiceLength;
-                        item.ProblemPhtosPath = photos.Where(d => d.TableName.Equals("DataToDuty_Problem") && d.DataId.Equals(item.Id)).Select(d => d.PhotoPath).ToList();
-                        foreach (var f in item.ProblemPhtosPath)
-                        {
-                            item.ProblemPhotosBase64.Add(ImageHelper.ThumbImg(_hostingEnv.ContentRootPath + f.Replace("Src", "App_Data/Files")));
-                        }
-                    }
-                }
-            }
+        //    foreach (var item in lstOutput)
+        //    {
+        //        foreach (var f in item.DutyPhtosPath)
+        //        {
+        //            item.DutyPhotosBase64.Add(ImageHelper.ThumbImg(_hostingEnv.ContentRootPath + f.Replace("Src", "App_Data/Files")));
+        //        }
+        //        if (item.Status != DutyOrPatrolStatus.Normal)
+        //        {
+        //            var breakDown = await _repBreakDown.FirstOrDefaultAsync(d => d.DataId.Equals(item.Id));
+        //            if (breakDown != null)
+        //            {
+        //                item.ProblemRemark = breakDown.ProblemRemark;
+        //                item.ProblemVoiceUrl = breakDown.ProblemVoiceUrl;
+        //                item.VoiceLength = breakDown.VoiceLength;
+        //                item.ProblemPhtosPath = photos.Where(d => d.TableName.Equals("DataToDuty_Problem") && d.DataId.Equals(item.Id)).Select(d => d.PhotoPath).ToList();
+        //                foreach (var f in item.ProblemPhtosPath)
+        //                {
+        //                    item.ProblemPhotosBase64.Add(ImageHelper.ThumbImg(_hostingEnv.ContentRootPath + f.Replace("Src", "App_Data/Files")));
+        //                }
+        //            }
+        //        }
+        //    }
 
-            return lstOutput;
-        }
+        //    return lstOutput;
+        //}
     }
 }

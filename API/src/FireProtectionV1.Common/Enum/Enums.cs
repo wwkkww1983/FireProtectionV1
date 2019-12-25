@@ -197,7 +197,12 @@ namespace FireProtectionV1.Common.Enum
         /// 橙色故障(未现场解决)
         /// </summary>
         [Description("橙色故障(未现场解决)")]
-        DisRepaired = 3
+        DisRepaired = 3,
+        /// <summary>
+        /// 未提交（仅用于巡查主记录）
+        /// </summary>
+        [Description("未提交（仅用于巡查主记录）")]
+        NoSubmit = 4
     }
     /// <summary>
     /// 巡查方式

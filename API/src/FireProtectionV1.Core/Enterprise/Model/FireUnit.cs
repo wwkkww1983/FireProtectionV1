@@ -1,4 +1,5 @@
 ﻿using FireProtectionV1.Common.DBContext;
+using FireProtectionV1.Common.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -40,10 +41,6 @@ namespace FireProtectionV1.Enterprise.Model
         /// 专兼职消防员数量
         /// </summary>
         public int FiremanNum { get; set; }
-        ///// <summary>
-        ///// 专兼职消防员测试
-        ///// </summary>
-        //public int FiremanTest { get; set; }
         /// <summary>
         /// 职工人数
         /// </summary>
@@ -83,7 +80,7 @@ namespace FireProtectionV1.Enterprise.Model
         /// <summary>
         /// 巡查方式
         /// </summary>
-        public byte Patrol { get; set; }
+        public PatrolType Patrol { get; set; }
         /// <summary>
         /// 归口消防监管部门
         /// </summary>

@@ -7,19 +7,19 @@ using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto
 {
-    public class GetDataDutyTotalOutput
+    public class GetDutyStatusTotalOutput
     {
         /// <summary>
-        /// 值班总计
+        /// 正常数量
         /// </summary>
-        public int DutyCount { get; set; }
+        public int NormalCount { get; set; }
         /// <summary>
-        /// 问题总计
+        /// 绿色故障数量
         /// </summary>
-        public int ProplemCount { get; set; }
+        public int GreenFaultCount { get; set; }
         /// <summary>
-        /// 现场解决总计
+        /// 橙色故障数量
         /// </summary>
-        public int LiveSolutionCount { get; set; }
+        public int RedFaultCount { get; set; }
     }
 }

@@ -201,12 +201,12 @@ namespace FireProtectionV1.DeviceService
         /// <summary>
         /// 获取指定设备ID的故障部件列表
         /// </summary>
-        /// <param name="DeviceId">设备ID</param>
+        /// <param name="fireAlarmDeviceId">设备ID</param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<FaultDetectorOutput>> GetFireAlarmFaultDetectorList(int DeviceId, PagedResultRequestDto dto)
+        public async Task<PagedResultDto<FaultDetectorOutput>> GetFireAlarmFaultDetectorList(int fireAlarmDeviceId, PagedResultRequestDto dto)
         {
-            return await _deviceManager.GetFireAlarmFaultDetectorList(DeviceId, dto);
+            return await _deviceManager.GetFireAlarmFaultDetectorList(fireAlarmDeviceId, dto);
         }
         /// <summary>
         /// 获取火警联网设施最近30天的火警列表数据

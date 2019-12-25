@@ -16,9 +16,9 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public int TrackId { get; set; }
         /// <summary>
-        /// 巡查模式(1.一般巡查；2.扫码巡查)
+        /// 巡查模式
         /// </summary>
-        public byte PatrolType { get; set; }
+        public PatrolType PatrolType { get; set; }
         /// <summary>
         /// 巡查时间
         /// </summary>
@@ -56,9 +56,12 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public int VoiceLength { get; set; }
         /// <summary>
-        /// 巡查图片
+        /// 巡查图片路径
         /// </summary>
         public List<string> PatrolPhotosPath { get; set; }
+        /// <summary>
+        /// 巡查图片缩略图
+        /// </summary>
         public List<string> PhotosBase64 { get; set; }
     }
 }

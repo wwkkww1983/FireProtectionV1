@@ -1,4 +1,5 @@
 ﻿using FireProtectionV1.Common.DBContext;
+using FireProtectionV1.Common.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,21 +18,24 @@ namespace FireProtectionV1.FireWorking.Model
         [Required]
         public int PatrolId { get; set; }
         /// <summary>
-        /// 消防设施编号
+        /// 消防设施Id（扫码巡查时用到）
         /// </summary>
-        [MaxLength(20)]
-        public string DeviceSn { get; set; }
+        public int DeviceId { get; set; }
         /// <summary>
-        /// 记录状态（1：正常；2：绿色故障；3：橙色故障）
+        /// 记录状态
         /// </summary>
-        public byte PatrolStatus { get; set; }
+        public DutyOrPatrolStatus PatrolStatus { get; set; }
         /// <summary>
-        /// 巡查模式(1.一般巡查；2.扫码巡查)
-        /// </summary>
-        public byte PatrolType { get; set; }
-        /// <summary>
-        /// 巡查地点/编号（一般巡查为地点，扫码巡查为编号）
+        /// 巡查地点
         /// </summary>
         public string PatrolAddress { get; set; }
+        /// <summary>
+        /// 巡查建筑Id
+        /// </summary>
+        public int ArchitectureId { get; set; }
+        /// <summary>
+        /// 巡查楼层Id
+        /// </summary>
+        public int FloorId { get; set; }
     }
 }

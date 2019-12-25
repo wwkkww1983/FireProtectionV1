@@ -484,16 +484,16 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <summary>
         /// 获取某个火警联网设施下的故障部件列表
         /// </summary>
-        /// <param name="deviceId"></param>
+        /// <param name="fireAlarmDeviceId"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<FaultDetectorOutput>> GetFireAlarmFaultDetectorList(int deviceId, PagedResultRequestDto dto)
+        public async Task<PagedResultDto<FaultDetectorOutput>> GetFireAlarmFaultDetectorList(int fireAlarmDeviceId, PagedResultRequestDto dto)
         {
-            var device = await _repFireAlarmDevice.FirstOrDefaultAsync(p => p.Id == deviceId);
+            var device = await _repFireAlarmDevice.FirstOrDefaultAsync(p => p.Id == fireAlarmDeviceId);
             var fireUnitArchitecture = await _repFireUnitArchitecture.GetAsync(device.FireUnitArchitectureId);
 
-            var fireAlarmFaultDetectors = _repFireAlarmDetector.GetAll().Where(item => item.FireAlarmDeviceId.Equals(deviceId) && item.State.Equals(FireAlarmDetectorState.Fault));
-            var fireAlarmDetectorFaults = _faultRep.GetAll().Where(item => item.FireAlarmDeviceId.Equals(deviceId));
+            var fireAlarmFaultDetectors = _repFireAlarmDetector.GetAll().Where(item => item.FireAlarmDeviceId.Equals(fireAlarmDeviceId) && item.State.Equals(FireAlarmDetectorState.Fault));
+            var fireAlarmDetectorFaults = _faultRep.GetAll().Where(item => item.FireAlarmDeviceId.Equals(fireAlarmDeviceId));
             var detectorTypes = _detectorTypeRep.GetAll();
             var fireUnitArchitectureFloors = _repFireUnitArchitectureFloor.GetAll();
 
@@ -828,7 +828,7 @@ namespace FireProtectionV1.FireWorking.Manager
             DateTime end = DateTime.Now;
             if (input.End != null && input.End.Ticks != 0)
             {
-                end = input.End;
+                end = DateTime.Parse(input.End.ToShortDateString() + " 23:59:59");
             }
             DateTime start = end.Date.AddDays(-1);
             if (input.Start != null && input.Start.Ticks != 0)
