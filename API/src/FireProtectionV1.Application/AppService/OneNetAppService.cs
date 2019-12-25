@@ -37,25 +37,26 @@ namespace FireProtectionV1.AppService
             Console.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} nonce={nonce} msg={msg} signature={signature}");
             return msg==null?"":msg;
         }
-        [DontWrapResult]
-        public async Task Test(OneNetInput input)
-        {
-            try
-            {
-                Console.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} {JsonConvert.SerializeObject(input)}");
-            }catch(Exception e)
-            {
-
-            }
-        }
-        //public async Task TestPost()
+        //[DontWrapResult]
+        //public async Task Test(OneNetInput input)
         //{
-        //    var v = _httpContext.HttpContext.Request.Body;
-        //    using (var rd = new StreamReader(v))
+        //    try
         //    {
-        //        var json = await rd.ReadToEndAsync();
-        //        var input = JsonConvert.DeserializeObject<OneNetInput>(json);
+        //        Console.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} {JsonConvert.SerializeObject(input)}");
+        //    }catch(Exception e)
+        //    {
+
         //    }
         //}
+        public async Task Test()
+        {
+            var v = _httpContext.HttpContext.Request.Body;
+            using (var rd = new StreamReader(v))
+            {
+                var json = await rd.ReadToEndAsync();
+                Console.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} {json}");
+                //var input = JsonConvert.DeserializeObject<OneNetInput>(json);
+            }
+        }
     }
 }
