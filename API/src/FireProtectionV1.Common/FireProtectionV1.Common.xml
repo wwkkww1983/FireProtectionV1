@@ -250,7 +250,7 @@
         </member>
         <member name="F:FireProtectionV1.Common.Enum.FireAlarmCheckState.UnCheck">
             <summary>
-            未处理
+            未核警
             </summary>
         </member>
         <member name="F:FireProtectionV1.Common.Enum.FireAlarmCheckState.False">
