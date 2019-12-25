@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TsjDeviceServer.Data
 {
-    public class DataOverflow: TsjData
+    public class DataOverflow: TsjDetectorData
     {
         /// <summary>
         /// 模拟量

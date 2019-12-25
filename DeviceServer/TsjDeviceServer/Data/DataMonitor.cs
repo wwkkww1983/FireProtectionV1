@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TsjDeviceServer.Data
 {
-    public class DataMonitor:TsjData
+    public class DataMonitor: TsjDetectorData
     {
         /// <summary>
         /// 模拟量

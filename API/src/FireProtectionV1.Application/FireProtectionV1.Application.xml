@@ -1331,6 +1331,15 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.OneNetAppService.Test(System.String,System.String,System.String)">
+            <summary>
+            OneNet测试
+            </summary>
+            <param name="nonce"></param>
+            <param name="msg"></param>
+            <param name="signature"></param>
+            <returns></returns>
+        </member>
         <member name="T:FireProtectionV1.AppService.SafeUnitAppService">
             <summary>
             维保单位
