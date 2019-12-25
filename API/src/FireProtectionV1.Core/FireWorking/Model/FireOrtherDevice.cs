@@ -26,7 +26,7 @@ namespace FireProtectionV1.FireWorking.Model
         /// <summary>
         /// 设备型号
         /// </summary>
-        public string DeviceType { get; set; }
+        public string DeviceModel { get; set; }
         /// <summary>
         /// 设备编号
         /// </summary>
@@ -42,8 +42,6 @@ namespace FireProtectionV1.FireWorking.Model
         /// <summary>
         /// 设备地点
         /// </summary>
-        [Required]
-        [MaxLength(100)]
         public string Location { get; set; }
         /// <summary>
         /// 启用时间

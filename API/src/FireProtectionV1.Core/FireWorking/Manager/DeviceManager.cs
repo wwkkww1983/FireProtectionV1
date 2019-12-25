@@ -1271,7 +1271,7 @@ namespace FireProtectionV1.FireWorking.Manager
             {
 
                 device.DeviceSn = input.DeviceSn;
-                device.DeviceType = input.DeviceType;
+                device.DeviceModel = input.DeviceType;
                 device.FireUnitArchitectureId = input.FireUnitArchitectureId;
                 device.FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId;
                 device.Location = input.Location;
@@ -1305,7 +1305,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 ExpireTime = device.ExpireTime.ToString("yyyy-MM-dd"),
                 FireSystemId = device.FireSystemId,
                 DeviceName = device.DeviceName,
-                DeviceType = device.DeviceType,
+                DeviceType = device.DeviceModel,
                 FireUnitArchitectureFloorId = device.FireUnitArchitectureFloorId,
                 FireUnitArchitectureId = device.FireUnitArchitectureId,
                 FireUnitId = device.FireUnitId,
@@ -1401,7 +1401,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 await _repFireOrtherDevice.InsertAsync(new FireOrtherDevice()
                 {
                     DeviceSn = input.DeviceSn,
-                    DeviceType = input.DeviceType,
+                    DeviceModel = input.DeviceType,
                     FireUnitArchitectureId = input.FireUnitArchitectureId,
                     FireUnitId = input.FireUnitId,
                     FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId,
@@ -1539,7 +1539,7 @@ namespace FireProtectionV1.FireWorking.Manager
                         {
                             FireUnitId = input.FireUnitId,
                             DeviceSn = row["设备编号"].ToString().Trim(),
-                            DeviceType = row["设备型号"].ToString().Trim(),
+                            DeviceModel = row["设备型号"].ToString().Trim(),
                             FireUnitArchitectureId = !string.IsNullOrEmpty(row["所在建筑"].ToString().Trim()) ? lstFireUnitArchitecture.Find(d => d.Name.Equals(row["所在建筑"].ToString().Trim())).Id : 0,
                             FireUnitArchitectureFloorId = !string.IsNullOrEmpty(row["所在建筑"].ToString().Trim()) && !string.IsNullOrEmpty(row["楼层"].ToString().Trim()) ? lstFireUnitArchitecture.Find(d => d.Name.Equals(row["所在建筑"].ToString().Trim())).Floors.Find(f => f.Name.Equals(row["楼层"].ToString().Trim())).Id : 0,
                             Location = row["具体位置"].ToString().Trim(),

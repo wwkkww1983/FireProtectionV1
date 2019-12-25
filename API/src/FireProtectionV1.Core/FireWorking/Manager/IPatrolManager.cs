@@ -103,5 +103,11 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="patrolId"></param>
         /// <returns></returns>
         Task<GetPatrolInfoOutput> GetPatrolInfo(int patrolId);
+        /// <summary>
+        /// 获取巡查记录日历列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<GetDataForCalendarOutput>> GetPatrollistForCalendar(GetDataForCalendarInput input);
     }
 }

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto
 {
-    public class GetDataDutyForCalendarInput
+    public class GetDataForCalendarInput
     {
         /// <summary>
         /// 防火单位Id

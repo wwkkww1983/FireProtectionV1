@@ -1,6 +1,7 @@
 ﻿using Abp.Application.Services.Dto;
 using FireProtectionV1.Common.Enum;
 using FireProtectionV1.FireWorking.Dto;
+using FireProtectionV1.FireWorking.Dto.Patrol;
 using FireProtectionV1.FireWorking.Manager;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -29,11 +30,10 @@ namespace FireProtectionV1.AppService
         {
             return await _dutyManager.GetDutylist(input, dto);
         }
-
         /// <summary>
         /// 获取值班记录详情
         /// </summary>
-        /// <param name="dutyId"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
         public async Task<GetDataDutyInfoOutput> GetDutyInfo(int dutyId)
         {
@@ -44,7 +44,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task AddDutyInfo([FromForm]AddDataDutyInfoInput input)
+        public async Task AddDutyInfo(AddDataDutyInfoInput input)
         {
             await _dutyManager.AddDutyInfo(input);
         }
@@ -53,10 +53,20 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<List<GetDataDutyForCalendarOutput>> GetDutylistForCalendar(GetDataDutyForCalendarInput input)
+        public async Task<List<GetDataForCalendarOutput>> GetDutylistForCalendar(GetDataForCalendarInput input)
         {
             return await _dutyManager.GetDutylistForCalendar(input);
         }
+        /// <summary>
+        /// 获取值班记录状态统计
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<GetDutyStatusTotalOutput> GetDutyStateTotal(int fireUnitId)
+        {
+            return await _dutyManager.GetDutyStateTotal(fireUnitId);
+        }
+
 
         /// <summary>
         /// 获取巡查记录列表
@@ -68,25 +78,6 @@ namespace FireProtectionV1.AppService
         {
             return await _patrolManager.GetPatrolList(input, dto);
         }
-        /// <summary>
-        /// 获取防火单位消防系统
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        //public async Task<List<GetPatrolFireUnitSystemOutput>> GetFireUnitlSystem(GetPatrolFireUnitSystemInput input)
-        //{
-        //    return await _patrolManager.GetFireUnitlSystem(input);
-        //}
-
-        /// <summary>
-        /// Web获取日历控件信息
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        //public async Task<List<GetDataPatrolForWebOutput>> GetPatrollistForWeb(GetDataPatrolForWebInput input)
-        //{
-        //    //return await _patrolManager.GetPatrollistForWeb(input);
-        //}
         /// <summary>
         /// 获取巡查记录状态统计
         /// </summary>
@@ -113,6 +104,42 @@ namespace FireProtectionV1.AppService
         public async Task<SuccessOutput> GetAddPatrolAllow(int fireUnitId)
         {
             return await _patrolManager.GetAddPatrolAllow(fireUnitId);
+        }
+        /// <summary>
+        /// 提交巡查轨迹点
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns>返回巡查主记录Id</returns>
+        public async Task<int> SubmitPatrolDetail(AddPatrolDetailInput input)
+        {
+            return await _patrolManager.SubmitPatrolDetail(input);
+        }
+        /// <summary>
+        /// 提交巡查主记录
+        /// </summary>
+        /// <param name="patrolId"></param>
+        /// <returns></returns>
+        public async Task SubmitPatrol(int patrolId)
+        {
+            await _patrolManager.SubmitPatrol(patrolId);
+        }
+        /// <summary>
+        /// 获取巡查记录详情
+        /// </summary>
+        /// <param name="patrolId"></param>
+        /// <returns></returns>
+        public async Task<GetPatrolInfoOutput> GetPatrolInfo(int patrolId)
+        {
+            return await _patrolManager.GetPatrolInfo(patrolId);
+        }
+        /// <summary>
+        /// 获取巡查记录日历列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<List<GetDataForCalendarOutput>> GetPatrollistForCalendar(GetDataForCalendarInput input)
+        {
+            return await _patrolManager.GetPatrollistForCalendar(input);
         }
     }
 }

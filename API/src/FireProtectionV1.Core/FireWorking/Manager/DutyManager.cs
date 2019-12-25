@@ -311,13 +311,12 @@ namespace FireProtectionV1.FireWorking.Manager
                 await _repBreakDown.InsertAsync(breakDown);
             }
         }
-
         /// <summary>
         /// 获取值班记录日历列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task<List<GetDataDutyForCalendarOutput>> GetDutylistForCalendar(GetDataDutyForCalendarInput input)
+        public Task<List<GetDataForCalendarOutput>> GetDutylistForCalendar(GetDataForCalendarInput input)
         {
             int year = DateTime.Now.Year;
             int month = DateTime.Now.Month;
@@ -330,17 +329,16 @@ namespace FireProtectionV1.FireWorking.Manager
             var dataDutys = _repDataToDuty.GetAll().Where(item => item.FireUnitId.Equals(input.FireUnitId) && item.CreationTime.Year.Equals(year) && item.CreationTime.Month.Equals(month));
 
             var query = from a in dataDutys
-                        select new GetDataDutyForCalendarOutput()
+                        select new GetDataForCalendarOutput()
                         {
-                            DutyId = a.Id,
+                            Id = a.Id,
                             CreationTime = a.CreationTime.ToString("yyyy-MM-dd"),
-                            DutyStatus = a.Status
+                            Status = a.Status
                         };
 
-            // 一天可能有多条数据，同一天中只取DutyStatus最大的那一条
-            return Task.FromResult(query.GroupBy(item => item.CreationTime).Select(item => item.OrderByDescending(d => d.DutyStatus)).FirstOrDefault().ToList());
+            // 一天可能有多条数据，同一天中只取Status最大的那一条
+            return Task.FromResult(query.GroupBy(item => item.CreationTime).Select(item => item.OrderByDescending(d => d.Status)).FirstOrDefault().ToList());
         }
-
         /// <summary>
         /// 获取值班记录状态统计
         /// </summary>

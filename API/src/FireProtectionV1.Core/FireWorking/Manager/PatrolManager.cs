@@ -410,13 +410,39 @@ namespace FireProtectionV1.FireWorking.Manager
             var breakDowns = _repBreakDown.GetAll().Where(item => item.FireUnitId.Equals(patrol.FireUnitId));
             var photosPathSave = _repPhotosPathSave.GetAll().Where(item => item.TableName.Equals("DataToPatrolDetail"));
 
-            var query = from a in patrolDetails
+            IQueryable<PatrolDetail> query;
+            if (patrol.PatrolType.Equals(PatrolType.NormalPatrol))
+            {
+                query = from a in patrolDetails
+                            join b in fireUnitArchitectures on a.ArchitectureId equals b.Id into result1
+                            from a_b in result1.DefaultIfEmpty()
+                            join c in fireUnitArchitectureFloors on a.FloorId equals c.Id into result2
+                            from a_c in result2.DefaultIfEmpty()
+                            join d in breakDowns on a.Id equals d.DataId into result3
+                            from a_d in result3.DefaultIfEmpty()
+                            select new PatrolDetail()
+                            {
+                                CreationTime = a.CreationTime,
+                                PatrolAddress = (a.ArchitectureId > 0 ? ((a_b != null ? a_b.Name : "") + (a_c != null ? a_c.Name : "")) : "") + a.PatrolAddress,
+                                Status = a.PatrolStatus,
+                                PatrolPhtosPath = photosPathSave.Where(item => item.DataId.Equals(a.Id)).Select(item => item.PhotoPath).ToList(),
+                                ProblemRemark = a_d != null ? a_d.ProblemRemark : "",
+                                ProblemVoiceUrl = a_d != null ? a_d.ProblemVoiceUrl : "",
+                                VoiceLength = a_d != null ? a_d.VoiceLength : 0
+                            };
+            }
+            else
+            {
+                var devices = _repFireOrtherDevice.GetAll().Where(item => item.FireUnitId.Equals(patrol.FireUnitId));
+                query = from a in patrolDetails
                         join b in fireUnitArchitectures on a.ArchitectureId equals b.Id into result1
                         from a_b in result1.DefaultIfEmpty()
                         join c in fireUnitArchitectureFloors on a.FloorId equals c.Id into result2
                         from a_c in result2.DefaultIfEmpty()
                         join d in breakDowns on a.Id equals d.DataId into result3
                         from a_d in result3.DefaultIfEmpty()
+                        join e in devices on a.DeviceId equals e.Id into result4
+                        from a_e in result4.DefaultIfEmpty()
                         select new PatrolDetail()
                         {
                             CreationTime = a.CreationTime,
@@ -425,9 +451,12 @@ namespace FireProtectionV1.FireWorking.Manager
                             PatrolPhtosPath = photosPathSave.Where(item => item.DataId.Equals(a.Id)).Select(item => item.PhotoPath).ToList(),
                             ProblemRemark = a_d != null ? a_d.ProblemRemark : "",
                             ProblemVoiceUrl = a_d != null ? a_d.ProblemVoiceUrl : "",
-                            VoiceLength = a_d != null ? a_d.VoiceLength : 0
+                            VoiceLength = a_d != null ? a_d.VoiceLength : 0,
+                            DeviceSn = a_e != null ? a_e.DeviceSn : "",
+                            DeviceName = a_e != null ? a_e.DeviceName : "",
+                            DeviceModel = a_e != null ? a_e.DeviceModel : ""
                         };
-
+            }
             var lst = query.OrderBy(item => item.CreationTime).ToList();
             foreach (var item in lst)
             {
@@ -445,6 +474,34 @@ namespace FireProtectionV1.FireWorking.Manager
                 UserPhone = userPhone,
                 PatrolDetailList = lst
             };
+        }
+        /// <summary>
+        /// 获取巡查记录日历列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task<List<GetDataForCalendarOutput>> GetPatrollistForCalendar(GetDataForCalendarInput input)
+        {
+            int year = DateTime.Now.Year;
+            int month = DateTime.Now.Month;
+            if (input.CalendarDate.HasValue)
+            {
+                year = input.CalendarDate.Value.Year;
+                month = input.CalendarDate.Value.Month;
+            }
+
+            var dataPatrols = _repDataToPatrol.GetAll().Where(item => item.FireUnitId.Equals(input.FireUnitId) && !item.PatrolStatus.Equals(DutyOrPatrolStatus.NoSubmit) && item.CreationTime.Year.Equals(year) && item.CreationTime.Month.Equals(month));
+
+            var query = from a in dataPatrols
+                        select new GetDataForCalendarOutput()
+                        {
+                            Id = a.Id,
+                            CreationTime = a.CreationTime.ToString("yyyy-MM-dd"),
+                            Status = a.PatrolStatus
+                        };
+
+            // 一天可能有多条数据，同一天中只取Status最大的那一条
+            return Task.FromResult(query.GroupBy(item => item.CreationTime).Select(item => item.OrderByDescending(d => d.Status)).FirstOrDefault().ToList());
         }
     }
 }

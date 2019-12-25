@@ -40,7 +40,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<List<GetDataDutyForCalendarOutput>> GetDutylistForCalendar(GetDataDutyForCalendarInput input);
+        Task<List<GetDataForCalendarOutput>> GetDutylistForCalendar(GetDataForCalendarInput input);
         /// <summary>
         /// 获取值班记录状态统计
         /// </summary>

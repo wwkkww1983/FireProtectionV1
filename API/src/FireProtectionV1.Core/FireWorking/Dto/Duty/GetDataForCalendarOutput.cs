@@ -5,12 +5,12 @@ using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto
 {
-    public class GetDataDutyForCalendarOutput
+    public class GetDataForCalendarOutput
     {
         /// <summary>
-        /// 值班ID
+        /// 记录ID
         /// </summary>
-        public int DutyId { get; set; }
+        public int Id { get; set; }
         /// <summary>
         /// 创建日期（yyyy-MM-dd）
         /// </summary>
@@ -18,6 +18,6 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 记录状态
         /// </summary>
-        public DutyOrPatrolStatus DutyStatus { get; set; }
+        public DutyOrPatrolStatus Status { get; set; }
     }
 }
