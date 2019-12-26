@@ -422,6 +422,7 @@ namespace FireProtectionV1.FireWorking.Manager
                             from a_d in result3.DefaultIfEmpty()
                             select new PatrolDetail()
                             {
+                                patrolDetailId = a.Id,
                                 CreationTime = a.CreationTime,
                                 PatrolAddress = (a.ArchitectureId > 0 ? ((a_b != null ? a_b.Name : "") + (a_c != null ? a_c.Name : "")) : "") + a.PatrolAddress,
                                 Status = a.PatrolStatus,
@@ -445,6 +446,7 @@ namespace FireProtectionV1.FireWorking.Manager
                         from a_e in result4.DefaultIfEmpty()
                         select new PatrolDetail()
                         {
+                            patrolDetailId = a.Id,
                             CreationTime = a.CreationTime,
                             PatrolAddress = (a.ArchitectureId > 0 ? ((a_b != null ? a_b.Name : "") + (a_c != null ? a_c.Name : "")) : "") + a.PatrolAddress,
                             Status = a.PatrolStatus,
@@ -468,11 +470,13 @@ namespace FireProtectionV1.FireWorking.Manager
 
             return new GetPatrolInfoOutput()
             {
+                PatrolId = patrol.Id,
                 CreationTime = patrol.CreationTime,
                 PatrolType = patrol.PatrolType,
                 UserName = userName,
                 UserPhone = userPhone,
-                PatrolDetailList = lst
+                PatrolDetailList = lst,
+                State = patrol.PatrolStatus
             };
         }
         /// <summary>
@@ -502,6 +506,138 @@ namespace FireProtectionV1.FireWorking.Manager
 
             // 一天可能有多条数据，同一天中只取Status最大的那一条
             return Task.FromResult(query.GroupBy(item => item.CreationTime).Select(item => item.OrderByDescending(d => d.Status)).FirstOrDefault().ToList());
+        }
+        /// <summary>
+        /// 删除巡查轨迹点
+        /// </summary>
+        /// <param name="patrolDetailId"></param>
+        /// <returns></returns>
+        public async Task DeletePatrolDetail(int patrolDetailId)
+        {
+            await _repPhotosPathSave.DeleteAsync(item => item.DataId.Equals(patrolDetailId));
+            await _repBreakDown.DeleteAsync(item => item.DataId.Equals(patrolDetailId));
+            await _repDataToPatrolDetail.DeleteAsync(patrolDetailId);
+        }
+        /// <summary>
+        /// 删除巡查记录
+        /// </summary>
+        /// <param name="patrolDetailId"></param>
+        /// <returns></returns>
+        public async Task DeletePatrol(int patrolId)
+        {
+            var lstPatrolDetail = _repDataToPatrolDetail.GetAll().Where(item => item.PatrolId.Equals(patrolId)).ToList();
+            foreach (var item in lstPatrolDetail)
+            {
+                await DeletePatrolDetail(item.Id);
+            }
+
+            await _repDataToPatrol.DeleteAsync(patrolId);
+        }
+        /// <summary>
+        /// 修改巡查记录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task UpdatePatrolDetail(UpatePatrolDetailInput input)
+        {
+            var patrolDetail = await _repDataToPatrolDetail.GetAsync(input.PatrolDetailId);
+            Valid.Exception(patrolDetail == null, "没有找到对应的巡查轨迹点数据");
+
+            int deviceId = 0;
+            if (!string.IsNullOrEmpty(input.DeviceSn))
+            {
+                var device = await _repFireOrtherDevice.FirstOrDefaultAsync(item => item.DeviceSn.Equals(input.DeviceSn));
+                Valid.Exception(device == null, $"未找到编号为{input.DeviceSn}的消防设施，需先在工作台的其它消防设施模块中录入该消防设施信息");
+                deviceId = device.Id;
+            }
+
+            patrolDetail.DeviceId = deviceId;
+            patrolDetail.ArchitectureId = input.ArchitectureId;
+            patrolDetail.FloorId = input.FloorId;
+            patrolDetail.PatrolAddress = input.PatrolAddress;
+            patrolDetail.PatrolStatus = input.PatrolStatus;
+
+            await _repDataToPatrolDetail.UpdateAsync(patrolDetail);
+
+            await _repPhotosPathSave.DeleteAsync(item => item.DataId.Equals(input.PatrolDetailId));
+            await _repBreakDown.DeleteAsync(item => item.DataId.Equals(input.PatrolDetailId));
+
+            // 保存巡查轨迹照片
+            string tableName = "DataToPatrolDetail";
+            string path = _hostingEnv.ContentRootPath + $@"/App_Data/Files/Photos/DataToPatrol/";
+            if (input.LivePicture1 != null)
+            {
+                string picture1_Name = await SaveFileHelper.SaveFile(input.LivePicture1, path);
+                string photopath = "/Src/Photos/DataToPatrol/" + picture1_Name;
+
+                await _repPhotosPathSave.InsertAsync(new PhotosPathSave()
+                {
+                    TableName = tableName,
+                    DataId = input.PatrolDetailId,
+                    PhotoPath = photopath
+                });
+            }
+            if (input.LivePicture2 != null)
+            {
+                string picture2_Name = await SaveFileHelper.SaveFile(input.LivePicture2, path);
+                string photopath = "/Src/Photos/DataToPatrol/" + picture2_Name;
+
+                await _repPhotosPathSave.InsertAsync(new PhotosPathSave()
+                {
+                    TableName = tableName,
+                    DataId = input.PatrolDetailId,
+                    PhotoPath = photopath
+                });
+            }
+            if (input.LivePicture3 != null)
+            {
+                string picture3_Name = await SaveFileHelper.SaveFile(input.LivePicture3, path);
+                string photopath = "/Src/Photos/DataToPatrol/" + picture3_Name;
+
+                await _repPhotosPathSave.InsertAsync(new PhotosPathSave()
+                {
+                    TableName = tableName,
+                    DataId = input.PatrolDetailId,
+                    PhotoPath = photopath
+                });
+            }
+
+            // 如果存在问题，则向设施故障表中写入数据
+            if (input.PatrolStatus != DutyOrPatrolStatus.Normal)
+            {
+                var patrol = await _repDataToPatrol.GetAsync(patrolDetail.PatrolId);
+                BreakDown breakDown = new BreakDown()
+                {
+                    DataId = input.PatrolDetailId,
+                    FireUnitId = patrol.FireUnitId,
+                    ProblemRemark = input.ProblemRemark,
+                    Source = FaultSource.Patrol,
+                    UserId = patrol.UserId,
+                    UserBelongUnitId = patrol.UserBelongUnitId
+                };
+
+                if (input.ProblemVoice != null)
+                {
+                    string voicePath = _hostingEnv.ContentRootPath + $@"/App_Data/Files/Voices/DataToPatrol/";
+                    string voiceName = await SaveFileHelper.SaveFile(input.ProblemVoice, voicePath);
+
+                    breakDown.ProblemVoiceUrl = "/Src/Voices/DataToPatrol/" + voiceName;
+                    breakDown.VoiceLength = input.VoiceLength;
+                }
+
+                if (input.PatrolStatus == DutyOrPatrolStatus.Repaired)
+                {
+                    breakDown.HandleStatus = HandleStatus.Resolved;
+                    breakDown.SolutionTime = DateTime.Now;
+                    breakDown.SolutionWay = HandleChannel.Self;
+                }
+                else
+                {
+                    breakDown.HandleStatus = HandleStatus.UnResolve;
+                }
+
+                await _repBreakDown.InsertAsync(breakDown);
+            }
         }
     }
 }

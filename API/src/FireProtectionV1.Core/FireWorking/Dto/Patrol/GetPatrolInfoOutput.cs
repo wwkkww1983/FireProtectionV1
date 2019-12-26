@@ -8,6 +8,10 @@ namespace FireProtectionV1.FireWorking.Dto.Patrol
     public class GetPatrolInfoOutput
     {
         /// <summary>
+        /// 记录Id
+        /// </summary>
+        public int PatrolId { get; set; }
+        /// <summary>
         /// 巡查方式
         /// </summary>
         public PatrolType PatrolType { get; set; }
@@ -24,12 +28,20 @@ namespace FireProtectionV1.FireWorking.Dto.Patrol
         /// </summary>
         public string UserPhone { get; set; }
         /// <summary>
+        /// 记录状态
+        /// </summary>
+        public DutyOrPatrolStatus State { get; set; }
+        /// <summary>
         /// 巡查轨迹
         /// </summary>
         public List<PatrolDetail> PatrolDetailList { get; set; }
     }
     public class PatrolDetail
     {
+        /// <summary>
+        /// 轨迹点Id
+        /// </summary>
+        public int patrolDetailId { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>

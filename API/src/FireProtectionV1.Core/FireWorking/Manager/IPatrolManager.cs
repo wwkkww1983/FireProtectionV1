@@ -109,5 +109,23 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<List<GetDataForCalendarOutput>> GetPatrollistForCalendar(GetDataForCalendarInput input);
+        /// <summary>
+        /// 删除巡查轨迹点
+        /// </summary>
+        /// <param name="patrolDetailId"></param>
+        /// <returns></returns>
+        Task DeletePatrolDetail(int patrolDetailId);
+        /// <summary>
+        /// 删除巡查记录
+        /// </summary>
+        /// <param name="patrolDetailId"></param>
+        /// <returns></returns>
+        Task DeletePatrol(int patrolId);
+        /// <summary>
+        /// 修改巡查记录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task UpdatePatrolDetail(UpatePatrolDetailInput input);
     }
 }

@@ -44,7 +44,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task AddDutyInfo(AddDataDutyInfoInput input)
+        public async Task AddDutyInfo([FromForm]AddDataDutyInfoInput input)
         {
             await _dutyManager.AddDutyInfo(input);
         }
@@ -110,7 +110,7 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="input"></param>
         /// <returns>返回巡查主记录Id</returns>
-        public async Task<int> SubmitPatrolDetail(AddPatrolDetailInput input)
+        public async Task<int> SubmitPatrolDetail([FromForm]AddPatrolDetailInput input)
         {
             return await _patrolManager.SubmitPatrolDetail(input);
         }
@@ -140,6 +140,33 @@ namespace FireProtectionV1.AppService
         public async Task<List<GetDataForCalendarOutput>> GetPatrollistForCalendar(GetDataForCalendarInput input)
         {
             return await _patrolManager.GetPatrollistForCalendar(input);
+        }
+        /// <summary>
+        /// 删除巡查轨迹点
+        /// </summary>
+        /// <param name="patrolDetailId"></param>
+        /// <returns></returns>
+        public async Task DeletePatrolDetail(int patrolDetailId)
+        {
+            await _patrolManager.DeletePatrolDetail(patrolDetailId);
+        }
+        /// <summary>
+        /// 删除巡查记录
+        /// </summary>
+        /// <param name="patrolDetailId"></param>
+        /// <returns></returns>
+        public async Task DeletePatrol(int patrolId)
+        {
+            await _patrolManager.DeletePatrol(patrolId);
+        }
+        /// <summary>
+        /// 修改巡查记录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task UpdatePatrolDetail(UpatePatrolDetailInput input)
+        {
+            await _patrolManager.UpdatePatrolDetail(input);
         }
     }
 }
