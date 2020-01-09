@@ -308,6 +308,11 @@
             橙色故障(未现场解决)
             </summary>
         </member>
+        <member name="F:FireProtectionV1.Common.Enum.DutyOrPatrolStatus.NoSubmit">
+            <summary>
+            未提交（仅用于巡查主记录）
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.Common.Enum.PatrolType">
             <summary>
             巡查方式

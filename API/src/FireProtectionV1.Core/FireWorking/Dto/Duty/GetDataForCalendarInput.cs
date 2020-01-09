@@ -15,7 +15,7 @@ namespace FireProtectionV1.FireWorking.Dto
         [Required]
         public int FireUnitId { get; set; }
         /// <summary>
-        /// 日历的年月（不传值则默认取当前月份）
+        /// 日期型字段，例如要取2019-12月数据，需传入2019-12-01，如果不传值则默认取当前月份
         /// </summary>
         public DateTime? CalendarDate { get; set; }
     }

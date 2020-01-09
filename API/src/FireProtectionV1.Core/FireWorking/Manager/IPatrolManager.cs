@@ -38,7 +38,6 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="dto"></param>
         /// <returns></returns>
         Task<PagedResultDto<GetPatrolListOutput>> GetPatrolList(GetDataPatrolInput input, PagedResultRequestDto dto);
-
         /// <summary>
         /// 获取巡查记录轨迹
         /// </summary>
@@ -103,6 +102,12 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="patrolId"></param>
         /// <returns></returns>
         Task<GetPatrolInfoOutput> GetPatrolInfo(int patrolId);
+        /// <summary>
+        /// 获取单个轨迹点详情
+        /// </summary>
+        /// <param name="patrolId"></param>
+        /// <returns></returns>
+        Task<PatrolDetailOutput> GetPatrolDetailInfo(int patrolDetailId);
         /// <summary>
         /// 获取巡查记录日历列表
         /// </summary>

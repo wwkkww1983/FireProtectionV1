@@ -102,7 +102,7 @@ namespace FireProtectionV1.Common.Enum
         /// <summary>
         /// 维保叫修已处理
         /// </summary>
-        [Description("维保叫修已处理")]
+        [Description("维保叫修已处理待确认")]
         SafeResolved = 6
     }
     /// <summary>

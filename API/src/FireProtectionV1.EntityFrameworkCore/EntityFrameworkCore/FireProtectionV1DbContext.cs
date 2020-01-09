@@ -32,7 +32,6 @@ namespace FireProtectionV1.EntityFrameworkCore
         public DbSet<FireUnitAttention> FireUnitAttention { get; set; }
         public DbSet<DataToPatrol> DataToPatrol { get; set; }
         public DbSet<DataToPatrolDetail> DataToPatrolDetail { get; set; }
-        public DbSet<DataToPatrolDetailProblem> DataToPatrolDetailProblem { get; set; }
         public DbSet<DataToDuty> DataToDuty { get; set; }
         public DbSet<Fault> Fault { get; set; }
         public DbSet<DetectorType> DetectorType { get; set; }
@@ -69,7 +68,6 @@ namespace FireProtectionV1.EntityFrameworkCore
         public DbSet<FireUnitSystem> FireUnitSystem { get; set; }
         public DbSet<PhotosPathSave> PhotosPathSave { get; set; }
         public DbSet<TsjDeviceModel> TsjDeviceModel { get; set; }
-        public DbSet<DataToPatrolDetailFireSystem> DataToPatrolDetailFireSystem { get; set; }
         public DbSet<EquipmentNo> EquipmentNo { get; set; }
         public DbSet<BreakDown> BreakDown { get; set; }
         public DbSet<HydrantUser> HydrantUser { get; set; }

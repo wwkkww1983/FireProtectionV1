@@ -19,8 +19,9 @@ namespace FireProtectionV1.Common.Helper
         {
             if (formFile != null)
             {
+                if (!Directory.Exists(path)) Directory.CreateDirectory(path);
                 string filename = DateTime.Now.ToString("yyyyMMddHHmmss") + Guid.NewGuid().ToString("N").Substring(0, 16) + Path.GetExtension(formFile.FileName);
-                using (var stream = System.IO.File.Create(path + filename))
+                using (var stream = File.Create(path + filename))
                 {
                     await formFile.CopyToAsync(stream);
                 }

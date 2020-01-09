@@ -37,7 +37,7 @@ namespace FireProtectionV1.AppService
             return await _breakDownManager.GetBreakDownInfo(breakDownId);
         }
         /// <summary>
-        /// 更新设施故障详情
+        /// 更新设施故障详情（平台端或手机端进行设施故障处理，点击提交时）
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -46,7 +46,7 @@ namespace FireProtectionV1.AppService
             await _breakDownManager.UpdateBreakDownInfo(input);
         }
         /// <summary>
-        /// 获取设施故障处理情况
+        /// 获取设施故障统计情况（用于首页数据大屏）
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>

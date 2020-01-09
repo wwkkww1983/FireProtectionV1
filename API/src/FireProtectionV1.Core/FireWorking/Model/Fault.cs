@@ -21,10 +21,6 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         public int FireAlarmDetectorId { get; set; }
         /// <summary>
-        /// 故障描述
-        /// </summary>
-        public string FaultRemark { get; set; }
-        /// <summary>
         /// 防火单位Id
         /// </summary>
         public int FireUnitId { get; set; }

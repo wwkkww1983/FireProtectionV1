@@ -152,7 +152,9 @@ namespace FireProtectionV1.FireWorking.Manager
                 FireUnitId = duty.FireUnitId,
                 Id = duty.Id,
                 UserId = duty.UserId,
-                Status = duty.Status
+                Status = duty.Status,
+                DutyPhotosBase64 = new List<string>(),
+                ProblemPhotosBase64 = new List<string>()
             };
 
             var user = await _repFireUnitUser.GetAsync(duty.UserId);
@@ -337,12 +339,13 @@ namespace FireProtectionV1.FireWorking.Manager
                         };
 
             // 一天可能有多条数据，同一天中只取Status最大的那一条
-            return Task.FromResult(query.GroupBy(item => item.CreationTime).Select(item => item.OrderByDescending(d => d.Status)).FirstOrDefault().ToList());
+            var list2 = query.OrderByDescending(item => item.Status).GroupBy(item => item.CreationTime, (key, group) => group.First()).ToList();
+            return Task.FromResult(list2);
         }
         /// <summary>
         /// 获取值班记录状态统计
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="fireUnitId"></param>
         /// <returns></returns>
         public Task<GetDutyStatusTotalOutput> GetDutyStateTotal(int fireUnitId)
         {

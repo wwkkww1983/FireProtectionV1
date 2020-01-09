@@ -28,10 +28,8 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<FireUnit> _repFireUnit;
         IRepository<FireUnitArchitecture> _repFireUnitArchitecture;
         IRepository<FireUnitArchitectureFloor> _repFireUnitArchitectureFloor;
-        IRepository<DataToPatrolDetailFireSystem> _repDataToPatrolDetailFireSystem;
         IRepository<DataToPatrol> _repDataToPatrol;
         IRepository<DataToPatrolDetail> _repDataToPatrolDetail;
-        IRepository<DataToPatrolDetailProblem> _repDataToPatrolDetailProblem;
         IRepository<FireUnitUser> _repFireUnitUser;
         IRepository<SafeUnitUser> _repSafeUnitUser;
         IRepository<FireSystem> _repFireSystem;
@@ -46,14 +44,12 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<FireUnit> repFireUnit,
             IRepository<FireUnitArchitecture> repFireUnitArchitecture,
             IRepository<FireUnitArchitectureFloor> repFireUnitArchitectureFloor,
-            IRepository<DataToPatrolDetailFireSystem> repDataToPatrolDetailFireSystem,
             IRepository<DataToPatrol> repDataToPatrol,
             IRepository<DataToPatrolDetail> repDataToPatrolDetail,
             IRepository<FireUnitUser> repFireUnitUser,
             IRepository<SafeUnitUser> repSafeUnitUser,
             IRepository<FireSystem> repFireSystem,
             IRepository<FireUnitSystem> repFireUnitSystem,
-            IRepository<DataToPatrolDetailProblem> repDataToPatrolDetailProblem,
             IRepository<PhotosPathSave> repPhotosPathSave,
             IRepository<BreakDown> repBreakDown,
             IHostingEnvironment env
@@ -65,13 +61,11 @@ namespace FireProtectionV1.FireWorking.Manager
             _repFireUnitArchitecture = repFireUnitArchitecture;
             _repFireUnitArchitectureFloor = repFireUnitArchitectureFloor;
             _repDataToPatrol = repDataToPatrol;
-            _repDataToPatrolDetailFireSystem = repDataToPatrolDetailFireSystem;
             _repFireUnitUser = repFireUnitUser;
             _repSafeUnitUser = repSafeUnitUser;
             _repDataToPatrolDetail = repDataToPatrolDetail;
             _repFireSystem = repFireSystem;
             _repFireUnitSystem = repFireUnitSystem;
-            _repDataToPatrolDetailProblem = repDataToPatrolDetailProblem;
             _repPhotosPathSave = repPhotosPathSave;
             _repBreakDown = repBreakDown;
             _hostingEnv = env;
@@ -407,30 +401,30 @@ namespace FireProtectionV1.FireWorking.Manager
             var patrolDetails = _repDataToPatrolDetail.GetAll().Where(item => item.PatrolId.Equals(patrolId));
             var fireUnitArchitectures = _repFireUnitArchitecture.GetAll();
             var fireUnitArchitectureFloors = _repFireUnitArchitectureFloor.GetAll();
-            var breakDowns = _repBreakDown.GetAll().Where(item => item.FireUnitId.Equals(patrol.FireUnitId));
+            //var breakDowns = _repBreakDown.GetAll().Where(item => item.FireUnitId.Equals(patrol.FireUnitId));
             var photosPathSave = _repPhotosPathSave.GetAll().Where(item => item.TableName.Equals("DataToPatrolDetail"));
 
             IQueryable<PatrolDetail> query;
             if (patrol.PatrolType.Equals(PatrolType.NormalPatrol))
             {
                 query = from a in patrolDetails
-                            join b in fireUnitArchitectures on a.ArchitectureId equals b.Id into result1
-                            from a_b in result1.DefaultIfEmpty()
-                            join c in fireUnitArchitectureFloors on a.FloorId equals c.Id into result2
-                            from a_c in result2.DefaultIfEmpty()
-                            join d in breakDowns on a.Id equals d.DataId into result3
-                            from a_d in result3.DefaultIfEmpty()
-                            select new PatrolDetail()
-                            {
-                                patrolDetailId = a.Id,
-                                CreationTime = a.CreationTime,
-                                PatrolAddress = (a.ArchitectureId > 0 ? ((a_b != null ? a_b.Name : "") + (a_c != null ? a_c.Name : "")) : "") + a.PatrolAddress,
-                                Status = a.PatrolStatus,
-                                PatrolPhtosPath = photosPathSave.Where(item => item.DataId.Equals(a.Id)).Select(item => item.PhotoPath).ToList(),
-                                ProblemRemark = a_d != null ? a_d.ProblemRemark : "",
-                                ProblemVoiceUrl = a_d != null ? a_d.ProblemVoiceUrl : "",
-                                VoiceLength = a_d != null ? a_d.VoiceLength : 0
-                            };
+                        join b in fireUnitArchitectures on a.ArchitectureId equals b.Id into result1
+                        from a_b in result1.DefaultIfEmpty()
+                        join c in fireUnitArchitectureFloors on a.FloorId equals c.Id into result2
+                        from a_c in result2.DefaultIfEmpty()
+                            //join d in breakDowns on a.Id equals d.DataId into result3
+                            //from a_d in result3.DefaultIfEmpty()
+                        select new PatrolDetail()
+                        {
+                            PatrolDetailId = a.Id,
+                            CreationTime = a.CreationTime,
+                            PatrolAddress = (a.ArchitectureId > 0 ? ((a_b != null ? a_b.Name : "") + (a_c != null ? a_c.Name : "")) : "") + (string.IsNullOrEmpty(a.PatrolAddress) ? "" : a.PatrolAddress),
+                            PatrolStatus = a.PatrolStatus,
+                            PatrolPhtosPath = photosPathSave.Where(item => item.DataId.Equals(a.Id)).Select(item => item.PhotoPath).ToList(),
+                            //ProblemRemark = a_d != null ? a_d.ProblemRemark : "",
+                            //ProblemVoiceUrl = a_d != null ? a_d.ProblemVoiceUrl : "",
+                            //VoiceLength = a_d != null ? a_d.VoiceLength : 0,
+                        };
             }
             else
             {
@@ -440,31 +434,42 @@ namespace FireProtectionV1.FireWorking.Manager
                         from a_b in result1.DefaultIfEmpty()
                         join c in fireUnitArchitectureFloors on a.FloorId equals c.Id into result2
                         from a_c in result2.DefaultIfEmpty()
-                        join d in breakDowns on a.Id equals d.DataId into result3
-                        from a_d in result3.DefaultIfEmpty()
+                            //join d in breakDowns on a.Id equals d.DataId into result3
+                            //from a_d in result3.DefaultIfEmpty()
                         join e in devices on a.DeviceId equals e.Id into result4
                         from a_e in result4.DefaultIfEmpty()
                         select new PatrolDetail()
                         {
-                            patrolDetailId = a.Id,
+                            PatrolDetailId = a.Id,
                             CreationTime = a.CreationTime,
-                            PatrolAddress = (a.ArchitectureId > 0 ? ((a_b != null ? a_b.Name : "") + (a_c != null ? a_c.Name : "")) : "") + a.PatrolAddress,
-                            Status = a.PatrolStatus,
+                            PatrolAddress = (a.ArchitectureId > 0 ? ((a_b != null ? a_b.Name : "") + (a_c != null ? a_c.Name : "")) : "") + (string.IsNullOrEmpty(a.PatrolAddress) ? "" : a.PatrolAddress),
+                            PatrolStatus = a.PatrolStatus,
                             PatrolPhtosPath = photosPathSave.Where(item => item.DataId.Equals(a.Id)).Select(item => item.PhotoPath).ToList(),
-                            ProblemRemark = a_d != null ? a_d.ProblemRemark : "",
-                            ProblemVoiceUrl = a_d != null ? a_d.ProblemVoiceUrl : "",
-                            VoiceLength = a_d != null ? a_d.VoiceLength : 0,
+                            //ProblemRemark = a_d != null ? a_d.ProblemRemark : "",
+                            //ProblemVoiceUrl = a_d != null ? a_d.ProblemVoiceUrl : "",
+                            //VoiceLength = a_d != null ? a_d.VoiceLength : 0,
                             DeviceSn = a_e != null ? a_e.DeviceSn : "",
                             DeviceName = a_e != null ? a_e.DeviceName : "",
-                            DeviceModel = a_e != null ? a_e.DeviceModel : ""
+                            DeviceModel = a_e != null ? a_e.DeviceModel : "",
                         };
             }
             var lst = query.OrderBy(item => item.CreationTime).ToList();
             foreach (var item in lst)
             {
+                item.PatrolPhotosBase64 = new List<string>();
                 foreach (var f in item.PatrolPhtosPath)
                 {
                     item.PatrolPhotosBase64.Add(ImageHelper.ThumbImg(_hostingEnv.ContentRootPath + f.Replace("Src", "App_Data/Files")));
+                }
+                if (!item.PatrolStatus.Equals(DutyOrPatrolStatus.Normal))
+                {
+                    var breakDown = await _repBreakDown.FirstOrDefaultAsync(d => d.DataId.Equals(item.PatrolDetailId));
+                    if (breakDown != null)
+                    {
+                        item.ProblemRemark = breakDown.ProblemRemark;
+                        item.ProblemVoiceUrl = breakDown.ProblemVoiceUrl;
+                        item.VoiceLength = breakDown.VoiceLength;
+                    }
                 }
             }
 
@@ -476,8 +481,66 @@ namespace FireProtectionV1.FireWorking.Manager
                 UserName = userName,
                 UserPhone = userPhone,
                 PatrolDetailList = lst,
-                State = patrol.PatrolStatus
+                TotalDetailNum = lst.Count(),
+                TotalProblemNum = lst.Count(item => !item.PatrolStatus.Equals(DutyOrPatrolStatus.Normal)),
+                GreenProblemNum = lst.Count(item => item.PatrolStatus.Equals(DutyOrPatrolStatus.Repaired)),
+                PatrolStatus = patrol.PatrolStatus
             };
+        }
+        /// <summary>
+        /// 获取单个轨迹点详情
+        /// </summary>
+        /// <param name="patrolId"></param>
+        /// <returns></returns>
+        public async Task<PatrolDetailOutput> GetPatrolDetailInfo(int patrolDetailId)
+        {
+            var patrolDetail = await _repDataToPatrolDetail.GetAsync(patrolDetailId);
+            var output = new PatrolDetailOutput()
+            {
+                ArchitectureId = patrolDetail.ArchitectureId,
+                CreationTime = patrolDetail.CreationTime,
+                FloorId = patrolDetail.FloorId,
+                PatrolAddress = patrolDetail.PatrolAddress,
+                PatrolDetailId = patrolDetailId,
+                PatrolStatus = patrolDetail.PatrolStatus,
+                PatrolPhtosPath = _repPhotosPathSave.GetAll().Where(item => item.DataId.Equals(patrolDetailId)).Select(item => item.PhotoPath).ToList(),
+                PatrolPhotosBase64 = new List<string>()
+            };
+            foreach (var f in output.PatrolPhtosPath)
+            {
+                output.PatrolPhotosBase64.Add(ImageHelper.ThumbImg(_hostingEnv.ContentRootPath + f.Replace("Src", "App_Data/Files")));
+            }
+            if (patrolDetail.ArchitectureId > 0)
+            {
+                var architecture = await _repFireUnitArchitecture.GetAsync(patrolDetail.ArchitectureId);
+                output.ArchitectureName = architecture != null ? architecture.Name : "";
+            }
+            if (patrolDetail.FloorId > 0)
+            {
+                var floor = await _repFireUnitArchitectureFloor.GetAsync(patrolDetail.FloorId);
+                output.FloorName = floor != null ? floor.Name : "";
+            }
+            if (patrolDetail.DeviceId > 0)
+            {
+                var device = await _repFireOrtherDevice.GetAsync(patrolDetail.DeviceId);
+                if (device != null)
+                {
+                    output.DeviceModel = device.DeviceModel;
+                    output.DeviceName = device.DeviceName;
+                    output.DeviceSn = device.DeviceSn;
+                }
+            }
+            if (!output.PatrolStatus.Equals(DutyOrPatrolStatus.Normal))
+            {
+                var breakDown = await _repBreakDown.FirstOrDefaultAsync(item => item.DataId.Equals(patrolDetailId));
+                if (breakDown != null)
+                {
+                    output.ProblemRemark = breakDown.ProblemRemark;
+                    output.ProblemVoiceUrl = breakDown.ProblemVoiceUrl;
+                    output.VoiceLength = breakDown.VoiceLength;
+                }
+            }
+            return output;
         }
         /// <summary>
         /// 获取巡查记录日历列表
@@ -503,9 +566,9 @@ namespace FireProtectionV1.FireWorking.Manager
                             CreationTime = a.CreationTime.ToString("yyyy-MM-dd"),
                             Status = a.PatrolStatus
                         };
-
             // 一天可能有多条数据，同一天中只取Status最大的那一条
-            return Task.FromResult(query.GroupBy(item => item.CreationTime).Select(item => item.OrderByDescending(d => d.Status)).FirstOrDefault().ToList());
+            var list2 = query.OrderByDescending(item => item.Status).GroupBy(item => item.CreationTime, (key, group) => group.First()).ToList();
+            return Task.FromResult(list2);
         }
         /// <summary>
         /// 删除巡查轨迹点
@@ -514,8 +577,9 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public async Task DeletePatrolDetail(int patrolDetailId)
         {
-            await _repPhotosPathSave.DeleteAsync(item => item.DataId.Equals(patrolDetailId));
-            await _repBreakDown.DeleteAsync(item => item.DataId.Equals(patrolDetailId));
+            string tableName = "DataToPatrolDetail";
+            await _repPhotosPathSave.DeleteAsync(item => item.DataId.Equals(patrolDetailId) && item.TableName.Equals(tableName));
+            await _repBreakDown.DeleteAsync(item => item.DataId.Equals(patrolDetailId) && item.Source.Equals(FaultSource.Patrol));
             await _repDataToPatrolDetail.DeleteAsync(patrolDetailId);
         }
         /// <summary>
@@ -559,11 +623,12 @@ namespace FireProtectionV1.FireWorking.Manager
 
             await _repDataToPatrolDetail.UpdateAsync(patrolDetail);
 
-            await _repPhotosPathSave.DeleteAsync(item => item.DataId.Equals(input.PatrolDetailId));
-            await _repBreakDown.DeleteAsync(item => item.DataId.Equals(input.PatrolDetailId));
+            string tableName = "DataToPatrolDetail";
+            await _repPhotosPathSave.DeleteAsync(item => item.DataId.Equals(input.PatrolDetailId) && item.TableName.Equals(tableName));
+            await _repBreakDown.DeleteAsync(item => item.DataId.Equals(input.PatrolDetailId) && item.Source.Equals(FaultSource.Patrol));
 
             // 保存巡查轨迹照片
-            string tableName = "DataToPatrolDetail";
+
             string path = _hostingEnv.ContentRootPath + $@"/App_Data/Files/Photos/DataToPatrol/";
             if (input.LivePicture1 != null)
             {

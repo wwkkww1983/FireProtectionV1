@@ -25,6 +25,7 @@ namespace FireProtectionV1.AppService
         /// 获取值班记录列表
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="dto"></param>
         /// <returns></returns>
         public async Task<PagedResultDto<GetDataDutyOutput>> GetDutylist(GetDataDutyInput input, PagedResultRequestDto dto)
         {
@@ -33,7 +34,7 @@ namespace FireProtectionV1.AppService
         /// <summary>
         /// 获取值班记录详情
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="dutyId"></param>
         /// <returns></returns>
         public async Task<GetDataDutyInfoOutput> GetDutyInfo(int dutyId)
         {
@@ -60,7 +61,7 @@ namespace FireProtectionV1.AppService
         /// <summary>
         /// 获取值班记录状态统计
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="fireUnitId"></param>
         /// <returns></returns>
         public async Task<GetDutyStatusTotalOutput> GetDutyStateTotal(int fireUnitId)
         {
@@ -133,6 +134,15 @@ namespace FireProtectionV1.AppService
             return await _patrolManager.GetPatrolInfo(patrolId);
         }
         /// <summary>
+        /// 获取单个轨迹点详情
+        /// </summary>
+        /// <param name="patrolDetailId"></param>
+        /// <returns></returns>
+        public async Task<PatrolDetailOutput> GetPatrolDetailInfo(int patrolDetailId)
+        {
+            return await _patrolManager.GetPatrolDetailInfo(patrolDetailId);
+        }
+        /// <summary>
         /// 获取巡查记录日历列表
         /// </summary>
         /// <param name="input"></param>
@@ -160,11 +170,11 @@ namespace FireProtectionV1.AppService
             await _patrolManager.DeletePatrol(patrolId);
         }
         /// <summary>
-        /// 修改巡查记录
+        /// 修改巡查轨迹点
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task UpdatePatrolDetail(UpatePatrolDetailInput input)
+        public async Task UpdatePatrolDetail([FromForm]UpatePatrolDetailInput input)
         {
             await _patrolManager.UpdatePatrolDetail(input);
         }

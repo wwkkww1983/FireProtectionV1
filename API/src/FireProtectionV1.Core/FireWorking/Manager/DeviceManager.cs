@@ -514,7 +514,7 @@ namespace FireProtectionV1.FireWorking.Manager
                             FireUnitArchitectureFloorId = a_c != null ? a_c.Id : 0,
                             FireUnitArchitectureFloorName = a_c != null ? a_c.Name : "",
                             State = "故障",
-                            FaultContent = a.LastFaultId > 0 ? fireAlarmDetectorFaults.FirstOrDefault(item => item.Id.Equals(a.LastFaultId)).FaultRemark : "",
+                            FaultContent = "",
                             FaultTime = a.LastFaultId > 0 ? fireAlarmDetectorFaults.FirstOrDefault(item => item.Id.Equals(a.LastFaultId)).CreationTime.ToString() : "",
                         };
 
@@ -654,7 +654,7 @@ namespace FireProtectionV1.FireWorking.Manager
                             FireUnitArchitectureName = a_d != null ? a_d.Name : "",
                             NetDetectorNum = a.NetDetectorNum,
                             FaultDetectorNum = a_b != null ? a_b.FaultNum : 0,
-                            DetectorFaultRate = "0.00%",
+                            DetectorFaultRate = "0%",
                             AlarmNum30Day = a_c != null ? a_c.AlarmNum : 0,
                             HighAlarmDetectorNum = a_c != null ? a_c.HighDeviceNum : 0,
                             CreationTime = a.CreationTime
@@ -665,7 +665,7 @@ namespace FireProtectionV1.FireWorking.Manager
             {
                 if (item.NetDetectorNum > 0 && item.FaultDetectorNum > 0)
                 {
-                    item.DetectorFaultRate = ((double)item.FaultDetectorNum / item.NetDetectorNum).ToString("P");
+                    item.DetectorFaultRate = (Math.Round((double)item.FaultDetectorNum / item.NetDetectorNum, 4) * 100).ToString() + "%";
                 }
             }
             return Task.FromResult(new PagedResultDto<FireAlarmDeviceItemDto>()

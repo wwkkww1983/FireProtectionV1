@@ -13,7 +13,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public int BreakDownId { get; set; }
         /// <summary>
-        /// 处理状态
+        /// 需要将该条故障更改为的状态
         /// </summary>
         public HandleStatus HandleStatus { get; set; }
         /// <summary>
