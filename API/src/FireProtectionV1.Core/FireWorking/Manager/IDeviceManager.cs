@@ -67,6 +67,18 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         Task AddFireElectricDevice(FireElectricDeviceDto input);
         /// <summary>
+        /// 刷新某一电气火灾设备的当前数值
+        /// </summary>
+        /// <param name="electricDeviceId"></param>
+        /// <returns></returns>
+        Task<GetSingleElectricDeviceDataOutput> GetSingleElectricDeviceData(int electricDeviceId);
+        /// <summary>
+        /// 发送断电信号
+        /// </summary>
+        /// <param name="electricDeviceId"></param>
+        /// <returns></returns>
+        Task BreakoffPower(int electricDeviceId);
+        /// <summary>
         /// 在线/离线事件接口
         /// </summary>
         /// <param name="input"></param>

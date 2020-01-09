@@ -1,4 +1,5 @@
 ﻿using FireProtectionV1.Common.DBContext;
+using FireProtectionV1.Common.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,6 +20,10 @@ namespace FireProtectionV1.FireWorking.Model
         [Required]
         public string Sign { get; set; }
         /// <summary>
+        /// 报警状态：隐患/超限
+        /// </summary>
+        public FireElectricDeviceState State { get; set; }
+        /// <summary>
         /// 模拟量值
         /// </summary>
         [Required]
@@ -28,5 +33,9 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         [Required]
         public int FireUnitId { get; set; }
+        /// <summary>
+        /// 是否已读取（用于手机端显示未读的报警数据）
+        /// </summary>
+        public bool IsRead { get; set; } = false;
     }
 }

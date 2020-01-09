@@ -61,6 +61,26 @@ namespace FireProtectionV1.AppService
             return await _alarmManager.GetFireAlarmList(input, dto);
         }
         /// <summary>
+        /// 获取电气火灾警情数据列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<ElectricAlarmListOutput>> GetElectricAlarmList(GetElectricAlarmListInput input, PagedResultRequestDto dto)
+        {
+            return await _alarmManager.GetElectricAlarmList(input, dto);
+        }
+        /// <summary>
+        /// 获取消防管网警情数据列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<WaterAlarmListOutput>> GetWaterAlarmList(GetWaterAlarmListInput input, PagedResultRequestDto dto)
+        {
+            return await _alarmManager.GetWaterAlarmList(input, dto);
+        }
+        /// <summary>
         /// 火警联网核警
         /// </summary>
         /// <param name="input"></param>
@@ -69,6 +89,14 @@ namespace FireProtectionV1.AppService
         {
             await _alarmManager.CheckFirmAlarm(input);
         }
-        
+        /// <summary>
+        /// 获取防火单位未读警情类型及数量
+        /// </summary>
+        /// <param name="fireUnitId"></param>
+        /// <returns></returns>
+        public async Task<List<GetNoReadAlarmNumOutput>> GetNoReadAlarmNumList(int fireUnitId)
+        {
+            return await _alarmManager.GetNoReadAlarmNumList(fireUnitId);
+        }
     }
 }

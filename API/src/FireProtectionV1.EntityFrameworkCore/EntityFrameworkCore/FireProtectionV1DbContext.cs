@@ -38,6 +38,7 @@ namespace FireProtectionV1.EntityFrameworkCore
         public DbSet<FireAlarmDetector> FireAlarmDetector { get; set; }
         public DbSet<AlarmToFire> AlarmToFire { get; set; }
         public DbSet<AlarmToElectric> AlarmToElectric { get; set; }
+        public DbSet<AlarmToWater> AlarmToWater { get; set; }
         public DbSet<FireUnit> FireUnit { get; set; }
         public DbSet<FireUnitArchitecture> FireUnitArchitecture { get; set; }
         public DbSet<FireUnitArchitectureFloor> FireUnitArchitectureFloor { get; set; }

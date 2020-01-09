@@ -22,48 +22,54 @@ namespace FireProtectionV1.FireWorking.Manager
     public class AlarmManager : DomainService, IAlarmManager
     {
         IHostingEnvironment _hostingEnvironment;
+        ISqlRepository _sqlRepository;
         IRepository<FireAlarmDetector> _repFireAlarmDetector;
+        IRepository<FireElectricDevice> _repFireElectricDevice;
+        IRepository<FireWaterDevice> _repFireWaterDevice;
         IRepository<DetectorType> _repDetectorType;
-        //IRepository<PhotosPathSave> _photosPathSaveRep;
-        IFireUnitUserManager _fireUnitUserManager;
-        IDeviceManager _deviceManager;
-        IRepository<AlarmToFire> _alarmToFireRep;
-        IRepository<AlarmToElectric> _alarmToElectricRep;
+        IRepository<AlarmToFire> _repAlarmToFire;
+        IRepository<AlarmToElectric> _repAlarmToElectric;
+        IRepository<AlarmToWater> _repAlarmToWater;
         IRepository<FireUnit> _repFireUnit;
         IRepository<FireAlarmDevice> _repFireAlarmDevice;
         IRepository<FireUnitArchitecture> _repFireUnitArchitecture;
+        IRepository<FireUnitArchitectureFloor> _repFireUnitArchitectureFloor;
         IRepository<FireUnitUser> _repFireUnitUser;
         public AlarmManager(
             IHostingEnvironment hostingEnvironment,
+            ISqlRepository sqlRepository,
             IRepository<FireAlarmDetector> repFireAlarmDetector,
+            IRepository<FireElectricDevice> repFireElectricDevice,
+            IRepository<FireWaterDevice> repFireWaterDevice,
             IRepository<DetectorType> repDetectorType,
             IRepository<FireUnit> repFireUnit,
-            //IRepository<PhotosPathSave> photosPathSaveRep,
-            IFireUnitUserManager fireUnitUserManager,
-            IDeviceManager deviceManager,
-            IRepository<AlarmToFire> alarmToFireRep,
-            IRepository<AlarmToElectric> alarmToElectricRep,
+            IRepository<AlarmToFire> repAlarmToFire,
+            IRepository<AlarmToElectric> repAlarmToElectric,
+            IRepository<AlarmToWater> repAlarmToWater,
             IRepository<FireAlarmDevice> repFireAlarmDevice,
             IRepository<FireUnitArchitecture> repFireUnitArchitecture,
+            IRepository<FireUnitArchitectureFloor> repFireUnitArchitectureFloor,
             IRepository<FireUnitUser> repFireUnitUser
         )
         {
             _hostingEnvironment = hostingEnvironment;
+            _sqlRepository = sqlRepository;
             _repFireAlarmDetector = repFireAlarmDetector;
+            _repFireElectricDevice = repFireElectricDevice;
+            _repFireWaterDevice = repFireWaterDevice;
             _repDetectorType = repDetectorType;
             _repFireUnit = repFireUnit;
-            //_photosPathSaveRep = photosPathSaveRep;
-            _fireUnitUserManager = fireUnitUserManager;
-            _deviceManager = deviceManager;
-            _alarmToElectricRep = alarmToElectricRep;
-            _alarmToFireRep = alarmToFireRep;
+            _repAlarmToElectric = repAlarmToElectric;
+            _repAlarmToFire = repAlarmToFire;
+            _repAlarmToWater = repAlarmToWater;
             _repFireAlarmDevice = repFireAlarmDevice;
             _repFireUnitArchitecture = repFireUnitArchitecture;
+            _repFireUnitArchitectureFloor = repFireUnitArchitectureFloor;
             _repFireUnitUser = repFireUnitUser;
         }
         public IQueryable<AlarmToElectric> GetNewElecAlarm(DateTime startTime)
         {
-            return _alarmToElectricRep.GetAll().Where(p => p.CreationTime > startTime && p.CreationTime <= DateTime.Now);
+            return _repAlarmToElectric.GetAll().Where(p => p.CreationTime > startTime && p.CreationTime <= DateTime.Now);
         }
         /// <summary>
         /// 新增火警联网数据
@@ -93,7 +99,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 fireAlarmDetectorId = fireAlarmDetector.Id;
             }
 
-            await _alarmToFireRep.InsertAsync(new AlarmToFire()
+            await _repAlarmToFire.InsertAsync(new AlarmToFire()
             {
                 CreationTime = DateTime.Now,
                 FireAlarmDetectorId = fireAlarmDetectorId,
@@ -102,7 +108,6 @@ namespace FireProtectionV1.FireWorking.Manager
                 CheckState = FireAlarmCheckState.UnCheck
             });
         }
-        
         /// <summary>
         /// 核警处理
         /// </summary>
@@ -110,7 +115,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public async Task CheckFirmAlarm(AlarmCheckInput input)
         {
-            var fireAlarm = await _alarmToFireRep.GetAsync(input.FireAlarmId);
+            var fireAlarm = await _repAlarmToFire.GetAsync(input.FireAlarmId);
             Valid.Exception(fireAlarm == null, "未找到对应的火警联网数据");
 
             if (input.CheckState == FireAlarmCheckState.False || input.CheckState == FireAlarmCheckState.Test || input.CheckState == FireAlarmCheckState.True)
@@ -131,7 +136,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 fireAlarm.CheckTime = DateTime.Now;
                 fireAlarm.CheckUserId = input.CheckUserId;
 
-                await _alarmToFireRep.UpdateAsync(fireAlarm);
+                await _repAlarmToFire.UpdateAsync(fireAlarm);
             }
 
             // 大联动接口
@@ -150,7 +155,6 @@ namespace FireProtectionV1.FireWorking.Manager
             //    fireUnitId = ""
             //});
         }
-
         /// <summary>
         /// 获取数据大屏的火警联网实时达
         /// </summary>
@@ -159,7 +163,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public Task<List<FireAlarmForDataScreenOutput>> GetFireAlarmForDataScreen(int fireUnitId, int dataNum)
         {
-            var fireAlarms = _alarmToFireRep.GetAll().Where(d => fireUnitId.Equals(d.FireUnitId));
+            var fireAlarms = _repAlarmToFire.GetAll().Where(d => fireUnitId.Equals(d.FireUnitId));
             var detectors = _repFireAlarmDetector.GetAll().Where(d => fireUnitId.Equals(d.FireUnitId));
             var detectorTypes = _repDetectorType.GetAll();
 
@@ -185,7 +189,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public async Task<FireAlarmDetailOutput> GetFireAlarmById(int fireAlarmId)
         {
-            var fireAlarm = await _alarmToFireRep.GetAsync(fireAlarmId);
+            var fireAlarm = await _repAlarmToFire.GetAsync(fireAlarmId);
             var fireAlarmDevice = await _repFireAlarmDevice.FirstOrDefaultAsync(d => d.Id.Equals(fireAlarm.FireAlarmDeviceId));
             var fireUnitArchitecture = fireAlarmDevice != null ? await _repFireUnitArchitecture.FirstOrDefaultAsync(fireAlarmDevice.FireUnitArchitectureId) : null;
             var fireContractUser = fireUnitArchitecture != null ? await _repFireUnitUser.FirstOrDefaultAsync(fireUnitArchitecture.FireUnitUserId) : null;
@@ -230,7 +234,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 return Task.FromResult(new PagedResultDto<FireAlarmListOutput>(0, new List<FireAlarmListOutput>()));
             }
 
-            var fireAlarms = _alarmToFireRep.GetAll();
+            var fireAlarms = _repAlarmToFire.GetAll();
             var expr = ExprExtension.True<AlarmToFire>()
                 .IfAnd(input.FireUnitId != 0, item => item.FireUnitId == input.FireUnitId)
                 .IfAnd(!input.CheckStates.Contains("未核警"), item => item.CheckState != FireAlarmCheckState.UnCheck)
@@ -256,13 +260,131 @@ namespace FireProtectionV1.FireWorking.Manager
                             DetectorTypeName = c.Name,
                             CreationTime = a.CreationTime,
                             Location = b.FullLocation,
-                            CheckState = a.CheckState
+                            CheckState = a.CheckState,
+                            IsRead = a.IsRead
                         };
 
             var list = query.OrderByDescending(d => d.CreationTime).Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList();
             var tCount = query.Count();
 
+            // 如果是手机端调用接口，则将所有的警情记录标记为已读
+            if (input.VisitSource.Equals(VisitSource.Phone))
+            {
+                string sql = $"update alarmtofire set isread = 1 where fireunitid = {input.FireUnitId}";
+                _sqlRepository.Execute(sql);
+            }
+
             return Task.FromResult(new PagedResultDto<FireAlarmListOutput>(tCount, list));
+        }
+        /// <summary>
+        /// 获取电气火灾警情数据列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public Task<PagedResultDto<ElectricAlarmListOutput>> GetElectricAlarmList(GetElectricAlarmListInput input, PagedResultRequestDto dto)
+        {
+            var alarmToElectrics = _repAlarmToElectric.GetAll().Where(item => item.FireUnitId.Equals(input.FireUnitId));
+            if (input.State.Equals(FireElectricDeviceState.Danger) || input.State.Equals(FireElectricDeviceState.Transfinite))
+            {
+                alarmToElectrics = alarmToElectrics.Where(item => item.State.Equals(input.State));
+            }
+            var fireElectricDevices = _repFireElectricDevice.GetAll();
+            var fireUnitArchitectures = _repFireUnitArchitecture.GetAll();
+            var fireUnitArchitectureFloors = _repFireUnitArchitectureFloor.GetAll();
+
+            var query = from a in alarmToElectrics
+                        join b in fireElectricDevices on a.FireElectricDeviceId equals b.Id
+                        join c in fireUnitArchitectures on b.FireUnitArchitectureId equals c.Id into result1
+                        from b_c in result1.DefaultIfEmpty()
+                        join d in fireUnitArchitectureFloors on b.FireUnitArchitectureFloorId equals d.Id into result2
+                        from b_d in result2.DefaultIfEmpty()
+                        select new ElectricAlarmListOutput()
+                        {
+                            CreationTime = a.CreationTime,
+                            FireElectricDeviceId = a.FireElectricDeviceId,
+                            FireElectricDeviceSn = b.DeviceSn,
+                            FireUnitArchitectureName = b_c != null ? b_c.Name : "",
+                            FireUnitArchitectureFloorName = b_d != null ? b_d.Name : "",
+                            Location = b.Location,
+                            Sign = a.Sign,
+                            State = a.State,
+                            Analog = a.Analog,
+                            IsRead = a.IsRead
+                        };
+            var list = query.OrderByDescending(d => d.CreationTime).Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList();
+            var tCount = query.Count();
+
+            // 如果是手机端调用接口，则将所有的警情记录标记为已读
+            if (input.VisitSource.Equals(VisitSource.Phone))
+            {
+                string sql = $"update alarmtoelectric set isread = 1 where fireunitid = {input.FireUnitId}";
+                _sqlRepository.Execute(sql);
+            }
+
+            return Task.FromResult(new PagedResultDto<ElectricAlarmListOutput>(tCount, list));
+        }
+        /// <summary>
+        /// 获取消防管网警情数据列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public Task<PagedResultDto<WaterAlarmListOutput>> GetWaterAlarmList(GetWaterAlarmListInput input, PagedResultRequestDto dto)
+        {
+            var alarmToWaters = _repAlarmToWater.GetAll().Where(item => item.FireUnitId.Equals(input.FireUnitId));
+            var waterDevices = _repFireWaterDevice.GetAll();
+
+            var query = from a in alarmToWaters
+                        join b in waterDevices on a.FireWaterDeviceId equals b.Id
+                        select new WaterAlarmListOutput()
+                        {
+                            CreationTime = a.CreationTime,
+                            DeviceAddress = b.DeviceAddress,
+                            MonitorType = b.MonitorType,
+                            Location = b.Location,
+                            Value = a.Analog,
+                            IsRead = a.IsRead
+                        };
+            var list = query.OrderByDescending(d => d.CreationTime).Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList();
+            var tCount = query.Count();
+
+            // 如果是手机端调用接口，则将所有的警情记录标记为已读
+            if (input.VisitSource.Equals(VisitSource.Phone))
+            {
+                string sql = $"update alarmtowater set isread = 1 where fireunitid = {input.FireUnitId}";
+                _sqlRepository.Execute(sql);
+            }
+
+            return Task.FromResult(new PagedResultDto<WaterAlarmListOutput>(tCount, list));
+        }
+        /// <summary>
+        /// 获取防火单位未读警情类型及数量
+        /// </summary>
+        /// <param name="fireUnitId"></param>
+        /// <returns></returns>
+        public async Task<List<GetNoReadAlarmNumOutput>> GetNoReadAlarmNumList(int fireUnitId)
+        {
+            List<GetNoReadAlarmNumOutput> lstOutput = new List<GetNoReadAlarmNumOutput>();
+            int noReadAlarmToFireNum = await _repAlarmToFire.CountAsync(item => item.FireUnitId.Equals(fireUnitId) && !item.IsRead);
+            int noReadAlarmToElectricNum = await _repAlarmToElectric.CountAsync(item => item.FireUnitId.Equals(fireUnitId) && !item.IsRead);
+            int noReadAlarmToWaterNum = await _repAlarmToWater.CountAsync(item => item.FireUnitId.Equals(fireUnitId) && !item.IsRead);
+            lstOutput.Add(new GetNoReadAlarmNumOutput()
+            {
+                AlarmType = AlarmType.Fire,
+                NoReadAlarmNum = noReadAlarmToFireNum
+            });
+            lstOutput.Add(new GetNoReadAlarmNumOutput()
+            {
+                AlarmType = AlarmType.Electric,
+                NoReadAlarmNum = noReadAlarmToElectricNum
+            });
+            lstOutput.Add(new GetNoReadAlarmNumOutput()
+            {
+                AlarmType = AlarmType.Water,
+                NoReadAlarmNum = noReadAlarmToWaterNum
+            });
+            return lstOutput;
         }
     }
 }
