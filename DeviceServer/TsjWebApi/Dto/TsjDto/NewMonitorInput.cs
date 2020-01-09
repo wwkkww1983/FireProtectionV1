@@ -7,16 +7,16 @@ namespace FireProtectionV1.TsjDevice.Dto
     public class NewMonitorInput
     {
         /// <summary>
+        /// 电气火灾设施编号
+        /// </summary>
+        public string fireElectricDeviceSn { get; set; }
+        /// <summary>
         /// 探测器标识
         /// </summary>
-        public string Identify { get; set; }
-        /// <summary>
-        /// 时间
-        /// </summary>
-        public string Time { get; set; }
+        public string sign { get; set; }
         /// <summary>
         /// 模拟量值
         /// </summary>
-        public string Value { get; set; }
+        public string analog { get; set; }
     }
 }

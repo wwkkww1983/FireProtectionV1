@@ -17,6 +17,7 @@ namespace TsjDeviceServer.Msg
         public bool IsOverflow { get; private set; }
         public bool IsOffline { get; private set; }
         public bool IsHello { get; private set; }
+        public string DeviceSn { get; private set; }
 
         public TsjMsg(string topic,byte[] payload)
         {
@@ -31,6 +32,7 @@ namespace TsjDeviceServer.Msg
             Logger.Log.Info($"{topic}\r\n{strload}");
             try
             {
+                DeviceSn = _tsjTopic.Level(2);
                 if (_tsjTopic.Level(3).Equals("Alarm"))
                 {
                     TsjData = JsonConvert.DeserializeObject<DataAlarm>(strload);

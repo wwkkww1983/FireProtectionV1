@@ -2073,7 +2073,7 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckInput.CheckState">
             <summary>
-            核警状态(1:误报,2:测试,3:真实火警)
+            核警状态
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckInput.CheckContent">
@@ -2376,51 +2376,6 @@
             现场问题图片
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyForWebInput.FireUnitId">
-            <summary>
-            防火单位Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyForWebInput.Year">
-            <summary>
-            年份（初始传0）
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyForWebInput.Month">
-            <summary>
-            月份（初始传0）
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyForWebOutput.Year">
-            <summary>
-            年
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyForWebOutput.Month">
-            <summary>
-            月
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyForWebOutput.DataDutyForWebList">
-            <summary>
-            值班记录
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.DataDutyForWeb.DutyId">
-            <summary>
-            值班ID
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.DataDutyForWeb.CreationTime">
-            <summary>
-            创建日期（yyyy-MM-dd）
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.DataDutyForWeb.DutyStatus">
-            <summary>
-            记录状态
-            </summary>
-        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyInfoForWebInput.FireUnitId">
             <summary>
             防火单位Id
@@ -2531,19 +2486,29 @@
             防火单位Id
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyTotalOutput.DutyCount">
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataForCalendarInput.FireUnitId">
             <summary>
-            值班总计
+            防火单位Id
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyTotalOutput.ProplemCount">
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataForCalendarInput.CalendarDate">
             <summary>
-            问题总计
+            日历的年月（不传值则默认取当前月份）
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataDutyTotalOutput.LiveSolutionCount">
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataForCalendarOutput.Id">
             <summary>
-            现场解决总计
+            记录ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataForCalendarOutput.CreationTime">
+            <summary>
+            创建日期（yyyy-MM-dd）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataForCalendarOutput.Status">
+            <summary>
+            记录状态
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetDutyInfoForWebOutput.DutyId">
@@ -2574,6 +2539,21 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.GetDutyInfoForWebOutput.DutyPhtosPath">
             <summary>
             值班记录图片路径
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDutyStatusTotalOutput.NormalCount">
+            <summary>
+            正常数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDutyStatusTotalOutput.GreenFaultCount">
+            <summary>
+            绿色故障数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetDutyStatusTotalOutput.RedFaultCount">
+            <summary>
+            橙色故障数量
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.EndDeviceStateOutput.DetectorId">
@@ -4076,6 +4056,166 @@
             离线数量
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.AddPatrolDetailInput.PatrolId">
+            <summary>
+            巡查记录Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.AddPatrolDetailInput.UserId">
+            <summary>
+            巡查用户Id（如果PatrolId=0，则该值必须填写，否则不用填）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.AddPatrolDetailInput.PatrolType">
+            <summary>
+            巡查模式（如果PatrolId=0，则该值必须填写，否则不用填）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.AddPatrolDetailInput.FireUnitId">
+            <summary>
+            防火单位Id（如果PatrolId=0，则该值必须填写，否则不用填）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.AddPatrolDetailInput.UserBelongUnitId">
+            <summary>
+            巡查人员归属的单位Id。如果是本防火单位人员，则该值与FireUnitId一致，如果是维保人员，则该值存放维保单位的Id（如果PatrolId=0，则该值必须填写，否则不用填）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.AddPatrolDetailInput.DeviceSn">
+            <summary>
+            消防设施编号（扫码巡查时用到）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.AddPatrolDetailInput.PatrolAddress">
+            <summary>
+            巡查地点
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.AddPatrolDetailInput.ArchitectureId">
+            <summary>
+            巡查建筑Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.AddPatrolDetailInput.FloorId">
+            <summary>
+            巡查楼层Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.AddPatrolDetailInput.PatrolStatus">
+            <summary>
+            记录状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.AddPatrolDetailInput.LivePicture1">
+            <summary>
+            现场照片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.AddPatrolDetailInput.LivePicture2">
+            <summary>
+            现场照片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.AddPatrolDetailInput.LivePicture3">
+            <summary>
+            现场照片
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.AddPatrolDetailInput.ProblemRemark">
+            <summary>
+            问题文字描述
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.AddPatrolDetailInput.ProblemVoice">
+            <summary>
+            问题描述语音
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.AddPatrolDetailInput.VoiceLength">
+            <summary>
+            语音长度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.GetPatrolInfoOutput.PatrolType">
+            <summary>
+            巡查方式
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.GetPatrolInfoOutput.CreationTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.GetPatrolInfoOutput.UserName">
+            <summary>
+            巡查人员姓名
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.GetPatrolInfoOutput.UserPhone">
+            <summary>
+            巡查人员手机
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.GetPatrolInfoOutput.PatrolDetailList">
+            <summary>
+            巡查轨迹
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.PatrolDetail.CreationTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.PatrolDetail.PatrolAddress">
+            <summary>
+            巡查地点
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.PatrolDetail.DeviceSn">
+            <summary>
+            设备编号（扫码巡查才有值）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.PatrolDetail.DeviceName">
+            <summary>
+            设备名称（扫码巡查才有值）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.PatrolDetail.DeviceModel">
+            <summary>
+            设备型号（扫码巡查才有值）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.PatrolDetail.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.PatrolDetail.ProblemRemark">
+            <summary>
+            问题描述文字
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.PatrolDetail.ProblemVoiceUrl">
+            <summary>
+            问题描述语音url
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.PatrolDetail.VoiceLength">
+            <summary>
+            语音长度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.PatrolDetail.PatrolPhtosPath">
+            <summary>
+            巡查记录图片路径
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.Patrol.PatrolDetail.PatrolPhotosBase64">
+            <summary>
+            巡查记录图片缩略图
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AddPatrolInput.UserId">
             <summary>
             值班人员ID
@@ -4301,56 +4441,6 @@
             记录状态
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataPatrolOutput.PatrolId">
-            <summary>
-            值班ID
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataPatrolOutput.CreationTime">
-            <summary>
-            创建时间
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataPatrolOutput.PatrolUser">
-            <summary>
-            巡查人员
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataPatrolOutput.PatrolStatus">
-            <summary>
-            记录状态
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataPatrolPagingOutput.TotalCount">
-            <summary>
-            总数
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataPatrolPagingOutput.PatrolList">
-            <summary>
-            页面数据
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataPatrolTotalInput.FireUnitId">
-            <summary>
-            防火单位Id
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataPatrolTotalOutput.PatrolCount">
-            <summary>
-            值班总计
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataPatrolTotalOutput.ProplemCount">
-            <summary>
-            问题总计
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.GetDataPatrolTotalOutput.LiveSolutionCount">
-            <summary>
-            现场解决总计
-            </summary>
-        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolFireUnitSystemInput.FireUnitId">
             <summary>
             防火单位Id
@@ -4416,6 +4506,66 @@
             巡查轨迹
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolListOutput.PatrolId">
+            <summary>
+            记录ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolListOutput.CreationTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolListOutput.UserName">
+            <summary>
+            巡查人员姓名
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolListOutput.UserPhone">
+            <summary>
+            巡查人员手机
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolListOutput.PatrolStatus">
+            <summary>
+            记录状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolListOutput.UserId">
+            <summary>
+            巡查人员Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolListOutput.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolListOutput.UserBelongUnitId">
+            <summary>
+            巡查人员归属的单位Id。如果是本防火单位人员，则该值与FireUnitId一致，如果是维保人员，则该值存放维保单位的Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolStatusTotalInput.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolStatusTotalOutput.NormalCount">
+            <summary>
+            正常数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolStatusTotalOutput.GreenFaultCount">
+            <summary>
+            绿色故障数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolStatusTotalOutput.RedFaultCount">
+            <summary>
+            橙色故障数量
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTrackInput.PatrolId">
             <summary>
             巡查ID
@@ -4433,7 +4583,7 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTrackOutput.PatrolType">
             <summary>
-            巡查模式(1.一般巡查；2.扫码巡查)
+            巡查模式
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTrackOutput.CreationTime">
@@ -4483,7 +4633,12 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTrackOutput.PatrolPhotosPath">
             <summary>
-            巡查图片
+            巡查图片路径
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTrackOutput.PhotosBase64">
+            <summary>
+            巡查图片缩略图
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetPatrolTypeOutput.PatrolType">
@@ -4783,7 +4938,7 @@
             <summary>
             获取某个火警联网设施下的故障部件列表
             </summary>
-            <param name="deviceId"></param>
+            <param name="fireAlarmDeviceId"></param>
             <param name="dto"></param>
             <returns></returns>
         </member>
@@ -5033,23 +5188,16 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.DutyManager.GetDutylistForWeb(FireProtectionV1.FireWorking.Dto.GetDataDutyForWebInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.DutyManager.GetDutylistForCalendar(FireProtectionV1.FireWorking.Dto.GetDataForCalendarInput)">
             <summary>
-            Web获取值班记录列表
+            获取值班记录日历列表
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.DutyManager.GetDutyTotalForWeb(System.Int32)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.DutyManager.GetDutyStateTotal(System.Int32)">
             <summary>
-            Web获取值班记录统计
-            </summary>
-            <param name="fireUnitId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.DutyManager.GetDutyInfoForWeb(FireProtectionV1.FireWorking.Dto.GetDataDutyInfoForWebInput)">
-            <summary>
-            Web获取值班记录详情
+            获取值班记录状态统计
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -5348,7 +5496,7 @@
             <summary>
             获取某个火警联网设施下的故障部件列表
             </summary>
-            <param name="deviceId"></param>
+            <param name="fireAlarmDeviceId"></param>
             <param name="dto"></param>
             <returns></returns>
         </member>
@@ -5550,23 +5698,16 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IDutyManager.GetDutylistForWeb(FireProtectionV1.FireWorking.Dto.GetDataDutyForWebInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDutyManager.GetDutylistForCalendar(FireProtectionV1.FireWorking.Dto.GetDataForCalendarInput)">
             <summary>
-            Web获取值班记录列表
+            获取值班记录日历列表
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IDutyManager.GetDutyTotalForWeb(System.Int32)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDutyManager.GetDutyStateTotal(System.Int32)">
             <summary>
-            Web获取值班记录统计
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IDutyManager.GetDutyInfoForWeb(FireProtectionV1.FireWorking.Dto.GetDataDutyInfoForWebInput)">
-            <summary>
-            Web获取值班记录详情
+            获取值班记录状态统计
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -5669,163 +5810,111 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.GetPatrollist(FireProtectionV1.FireWorking.Dto.GetDataPatrolInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.SubmitPatrolDetail(FireProtectionV1.FireWorking.Dto.Patrol.AddPatrolDetailInput)">
+            <summary>
+            提交巡查轨迹点
+            </summary>
+            <param name="input"></param>
+            <returns>返回巡查主记录Id</returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.SubmitPatrol(System.Int32)">
+            <summary>
+            提交巡查主记录
+            </summary>
+            <param name="patrolId"></param>
+            <returns></returns>
+        </member>
+        <!-- 对于成员“M:FireProtectionV1.FireWorking.Manager.IPatrolManager.GetPatrolList(FireProtectionV1.FireWorking.Dto.GetDataPatrolInput,Abp.Application.Services.Dto.PagedResultRequestDto)”忽略有格式错误的 XML 注释 -->
+        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.GetPatrolStatusTotal(System.Int32)">
+            <summary>
+            获取巡查记录状态统计
+            </summary>
+            <param name="fireunitId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.GetPatrolType(System.Int32)">
+            <summary>
+            获取防火单位的巡查类别
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.GetAddPatrolAllow(System.Int32)">
+            <summary>
+            是否允许新增巡查记录（如果存在未提交的巡查记录，则不允许新增）
+            </summary>
+            <param name="fireUnitId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.GetPatrolInfo(System.Int32)">
+            <summary>
+            获取巡查记录详情
+            </summary>
+            <param name="patrolId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.GetPatrollistForCalendar(FireProtectionV1.FireWorking.Dto.GetDataForCalendarInput)">
+            <summary>
+            获取巡查记录日历列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.GetPatrolList(FireProtectionV1.FireWorking.Dto.GetDataPatrolInput,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
             获取巡查记录列表
             </summary>
             <param name="input"></param>
+            <param name="dto"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.GetPatrolTrackList(FireProtectionV1.FireWorking.Dto.GetPatrolTrackInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.GetPatrolStatusTotal(System.Int32)">
             <summary>
-            获取巡查记录轨迹
+            获取巡查记录状态统计
+            </summary>
+            <param name="fireunitId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.GetPatrolType(System.Int32)">
+            <summary>
+            获取防火单位的巡查类别
+            </summary>
+            <param name="fireUnitId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.GetAddPatrolAllow(System.Int32)">
+            <summary>
+            是否允许新增巡查记录（如果存在未提交的巡查记录，则不允许新增）
+            </summary>
+            <param name="fireUnitId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.SubmitPatrolDetail(FireProtectionV1.FireWorking.Dto.Patrol.AddPatrolDetailInput)">
+            <summary>
+            提交巡查轨迹点
             </summary>
             <param name="input"></param>
+            <returns>返回巡查主记录Id</returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.SubmitPatrol(System.Int32)">
+            <summary>
+            提交巡查主记录
+            </summary>
+            <param name="patrolId"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.GetFireUnitlSystem(FireProtectionV1.FireWorking.Dto.GetPatrolFireUnitSystemInput)">
+        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.GetPatrolInfo(System.Int32)">
             <summary>
-            获取防火单位消防系统
+            获取巡查记录详情
+            </summary>
+            <param name="patrolId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.GetPatrollistForCalendar(FireProtectionV1.FireWorking.Dto.GetDataForCalendarInput)">
+            <summary>
+            获取巡查记录日历列表
             </summary>
             <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.AddPatrolTrack(FireProtectionV1.FireWorking.Dto.AddPatrolInput)">
-            <summary>
-            添加巡查记录
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.AddPatrolTrackDetailAll(FireProtectionV1.FireWorking.Dto.AddPatrolTrackAllInput)">
-            <summary>
-            添加巡查记录轨迹
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.AddPatrolTrackDetail(FireProtectionV1.FireWorking.Dto.AddPatrolTrackInput)">
-            <summary>
-            添加巡查记录轨迹
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.GetPatrollistForWeb(FireProtectionV1.FireWorking.Dto.GetDataPatrolForWebInput)">
-            <summary>
-            Web获取巡查记录列表
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.GetPatrolTotal(FireProtectionV1.FireWorking.Dto.GetDataPatrolTotalInput)">
-            <summary>
-            Web获取巡查记录统计
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.GetPatrolInfoForWeb(FireProtectionV1.FireWorking.Dto.GetPatrolInfoForWebInput)">
-            <summary>
-            Web获取巡查记录详情
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.GetPatrolType(FireProtectionV1.FireWorking.Dto.GetPatrolFireUnitSystemInput)">
-            <summary>
-            新增时获取巡查记录类别
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.GetAddAllow(System.Int32)">
-            <summary>
-            新增时查询今日是否已添加
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.GetPatrollist(FireProtectionV1.FireWorking.Dto.GetDataPatrolInput)">
-            <summary>
-            获取巡查记录列表
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.GetPatrolTrackList(FireProtectionV1.FireWorking.Dto.GetPatrolTrackInput)">
-            <summary>
-            获取巡查记录轨迹
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.GetFireUnitlSystem(FireProtectionV1.FireWorking.Dto.GetPatrolFireUnitSystemInput)">
-            <summary>
-            获取防火单位消防系统
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.AddPatrolTrack(FireProtectionV1.FireWorking.Dto.AddPatrolInput)">
-            <summary>
-            添加巡查记录
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.AddPatrolTrackDetailAll(FireProtectionV1.FireWorking.Dto.AddPatrolTrackAllInput)">
-            <summary>
-            添加巡查记录轨迹(所有)
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.FaulAddPatrolTrack(System.Int32)">
-            <summary>
-            删除添加轨迹失败的执行
-            </summary>
-            <param name="detailId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.AddPatrolTrackDetail(FireProtectionV1.FireWorking.Dto.AddPatrolTrackInput)">
-            <summary>
-            添加巡查记录轨迹
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.GetPatrollistForWeb(FireProtectionV1.FireWorking.Dto.GetDataPatrolForWebInput)">
-            <summary>
-            Web获取巡查记录列表
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.GetPatrolTotal(FireProtectionV1.FireWorking.Dto.GetDataPatrolTotalInput)">
-            <summary>
-            Web获取巡查记录统计
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.GetPatrolInfoForWeb(FireProtectionV1.FireWorking.Dto.GetPatrolInfoForWebInput)">
-            <summary>
-            Web获取巡查记录详情
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.GetPatrolType(FireProtectionV1.FireWorking.Dto.GetPatrolFireUnitSystemInput)">
-            <summary>
-            新增时获取巡查记录类别
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FireProtectionV1.FireWorking.Manager.PatrolManager.GetAddAllow(System.Int32)">
-            <summary>
-            新增时查询今日是否已添加
-            </summary>
             <returns></returns>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.FireElectricDeviceId">
@@ -5998,14 +6087,24 @@
             防火单位Id
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.DataToPatrol.FireUnitUserId">
+        <member name="P:FireProtectionV1.FireWorking.Model.DataToPatrol.UserId">
             <summary>
-            防火单位巡查人员Id
+            巡查人员Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.DataToPatrol.UserBelongUnitId">
+            <summary>
+            巡查人员归属的单位Id。如果是本防火单位人员，则该值与FireUnitId一致，如果是维保人员，则该值存放维保单位的Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.DataToPatrol.PatrolType">
+            <summary>
+            巡查模式
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.DataToPatrol.PatrolStatus">
             <summary>
-            记录状态（1、正常；2：绿色故障；3：橙色故障）//根据detail实时变化
+            记录状态
             </summary>
         </member>
         <member name="T:FireProtectionV1.FireWorking.Model.DataToPatrolDetail">
@@ -6018,24 +6117,29 @@
             巡查记录Id
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.DataToPatrolDetail.DeviceSn">
+        <member name="P:FireProtectionV1.FireWorking.Model.DataToPatrolDetail.DeviceId">
             <summary>
-            消防设施编号
+            消防设施Id（扫码巡查时用到）
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.DataToPatrolDetail.PatrolStatus">
             <summary>
-            记录状态（1：正常；2：绿色故障；3：橙色故障）
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.DataToPatrolDetail.PatrolType">
-            <summary>
-            巡查模式(1.一般巡查；2.扫码巡查)
+            记录状态
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.DataToPatrolDetail.PatrolAddress">
             <summary>
-            巡查地点/编号（一般巡查为地点，扫码巡查为编号）
+            巡查地点
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.DataToPatrolDetail.ArchitectureId">
+            <summary>
+            巡查建筑Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.DataToPatrolDetail.FloorId">
+            <summary>
+            巡查楼层Id
             </summary>
         </member>
         <member name="T:FireProtectionV1.FireWorking.Model.DataToPatrolDetailProblem">
@@ -6428,7 +6532,7 @@
             设备名称
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.FireOrtherDevice.DeviceType">
+        <member name="P:FireProtectionV1.FireWorking.Model.FireOrtherDevice.DeviceModel">
             <summary>
             设备型号
             </summary>

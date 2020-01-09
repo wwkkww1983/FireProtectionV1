@@ -16,13 +16,6 @@ namespace TsjDeviceServer
     {
         public async Task HandleApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs e)
         {
-            //Console.WriteLine("### RECEIVED APPLICATION MESSAGE ###");
-            //Console.WriteLine($"+ Topic = {e.ApplicationMessage.Topic}");
-            //var str = e.ApplicationMessage.Payload == null ? "" : Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
-            //Console.WriteLine($"+ Payload = {str}");
-            //Console.WriteLine($"+ QoS = {e.ApplicationMessage.QualityOfServiceLevel}");
-            //Console.WriteLine($"+ Retain = {e.ApplicationMessage.Retain}");
-            //Console.WriteLine();
 
             //var topic = e.ApplicationMessage.Topic;
             //var payload= e.ApplicationMessage.Payload == null ? "" : Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
@@ -45,24 +38,14 @@ namespace TsjDeviceServer
                     Time = TsjConvert.ToLocalDateTime(msg.at).ToString("yyyy-MM-dd HH:mm:ss")
                 });
             }
-            else if (tsjMsg.IsMonitor)
+            else if (tsjMsg.IsMonitor || tsjMsg.IsOverflow)
             {
                 var msg = (DataMonitor)tsjMsg.TsjData;
-                FireApi.HttpPostTsj(Config.Url("/api/services/app/TsjDevice/NewMonitor"), new NewMonitorInput()
+                FireApi.HttpPostTsj(Config.Url("/api/services/app/FireDevice/AddElecRecord"), new NewMonitorInput()
                 {
-                    Identify = msg.id,
-                    Value=msg.value,
-                    Time = TsjConvert.ToLocalDateTime(msg.at).ToString("yyyy-MM-dd HH:mm:ss")
-                });
-            }
-            else if (tsjMsg.IsOverflow)
-            {
-                var msg = (DataOverflow)tsjMsg.TsjData;
-                FireApi.HttpPostTsj(Config.Url("/api/services/app/TsjDevice/NewOverflow"), new NewOverflowInput()
-                {
-                    Identify = msg.id,
-                    Value = msg.value,
-                    Time = TsjConvert.ToLocalDateTime(msg.at).ToString("yyyy-MM-dd HH:mm:ss")
+                    fireElectricDeviceSn= tsjMsg.DeviceSn,
+                    sign = msg.id,
+                    analog=msg.value
                 });
             }
             else if (tsjMsg.IsOffline)

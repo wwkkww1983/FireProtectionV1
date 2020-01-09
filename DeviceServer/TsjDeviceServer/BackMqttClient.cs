@@ -12,9 +12,10 @@ using System.Threading.Tasks;
 
 namespace TsjDeviceServer
 {
-    class BackMqttClient
+    public class BackMqttClient
     {
         static IMqttClient _client;
+        bool _bConnect = true;
 
         public async Task Run(IMqttApplicationMessageReceivedHandler recverHandler)
         {
@@ -54,6 +55,8 @@ namespace TsjDeviceServer
                 });
                 _client.DisconnectedHandler = new MqttClientDisconnectedHandlerDelegate(async e =>
                 {
+                    if (!_bConnect)
+                        return;
                     Console.WriteLine("### DISCONNECTED FROM SERVER ###");
                     await Task.Delay(TimeSpan.FromSeconds(5));
 
@@ -74,21 +77,23 @@ namespace TsjDeviceServer
                 {
                     Console.WriteLine("### CONNECTING FAILED ###" + Environment.NewLine + exception);
                 }
-
                 Console.WriteLine("### CONNECTING SUCCESS ###");
             }catch(Exception exc)
             {
                 Console.WriteLine(exc);
             }
-            while (!Console.ReadLine().Equals("exit")) ;
+            //while (!Console.ReadLine().Equals("exit")) ;
         }
-        //public async Task Send(MqttApplicationMessage msg)
-        //{
-        //}
-        static public async Task Send(MqttApplicationMessage msg)
+        public void Stop()
+        {
+            _bConnect = false;
+            _client.DisconnectAsync();
+        }
+        static public Task Send(MqttApplicationMessage msg)
         {
             if(_client!=null)
-                await _client.PublishAsync(msg);
+                return _client.PublishAsync(msg);
+            return Task.FromException(new Exception("backMqttClient is null"));
         }
     }
 }
