@@ -358,13 +358,14 @@
             获取值班记录列表
             </summary>
             <param name="input"></param>
+            <param name="dto"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetDutyInfo(System.Int32)">
             <summary>
             获取值班记录详情
             </summary>
-            <param name="input"></param>
+            <param name="dutyId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.AddDutyInfo(FireProtectionV1.FireWorking.Dto.AddDataDutyInfoInput)">
@@ -385,7 +386,7 @@
             <summary>
             获取值班记录状态统计
             </summary>
-            <param name="input"></param>
+            <param name="fireUnitId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetPatrolList(FireProtectionV1.FireWorking.Dto.GetDataPatrolInput,Abp.Application.Services.Dto.PagedResultRequestDto)">
@@ -438,9 +439,37 @@
             <param name="patrolId"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetPatrolDetailInfo(System.Int32)">
+            <summary>
+            获取单个轨迹点详情
+            </summary>
+            <param name="patrolDetailId"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.GetPatrollistForCalendar(FireProtectionV1.FireWorking.Dto.GetDataForCalendarInput)">
             <summary>
             获取巡查记录日历列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.DeletePatrolDetail(System.Int32)">
+            <summary>
+            删除巡查轨迹点
+            </summary>
+            <param name="patrolDetailId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.DeletePatrol(System.Int32)">
+            <summary>
+            删除巡查记录
+            </summary>
+            <param name="patrolDetailId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.DutyAndPatrolService.UpdatePatrolDetail(FireProtectionV1.FireWorking.Dto.Patrol.UpatePatrolDetailInput)">
+            <summary>
+            修改巡查轨迹点
             </summary>
             <param name="input"></param>
             <returns></returns>

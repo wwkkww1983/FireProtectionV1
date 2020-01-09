@@ -3,14 +3,16 @@ using System;
 using FireProtectionV1.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FireProtectionV1.Migrations
 {
     [DbContext(typeof(FireProtectionV1DbContext))]
-    partial class FireProtectionV1DbContextModelSnapshot : ModelSnapshot
+    [Migration("20191227014145_20191227")]
+    partial class _20191227
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -335,12 +337,8 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<bool>("IsRead");
-
                     b.Property<string>("Sign")
                         .IsRequired();
-
-                    b.Property<int>("State");
 
                     b.HasKey("Id");
 
@@ -376,8 +374,6 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<bool>("IsRead");
-
                     b.Property<bool>("NotifyMiniStation");
 
                     b.Property<bool>("NotifyWorker");
@@ -385,28 +381,6 @@ namespace FireProtectionV1.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AlarmToFire");
-                });
-
-            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.AlarmToWater", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<double>("Analog");
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<int>("FireUnitId");
-
-                    b.Property<int>("FireWaterDeviceId");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<bool>("IsRead");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AlarmToWater");
                 });
 
             modelBuilder.Entity("FireProtectionV1.FireWorking.Model.BreakDown", b =>
@@ -521,6 +495,47 @@ namespace FireProtectionV1.Migrations
                     b.ToTable("DataToPatrolDetail");
                 });
 
+            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.DataToPatrolDetailFireSystem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<int>("FireSystemID");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<int>("PatrolDetailId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DataToPatrolDetailFireSystem");
+                });
+
+            modelBuilder.Entity("FireProtectionV1.FireWorking.Model.DataToPatrolDetailProblem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<int>("PatrolDetailId");
+
+                    b.Property<string>("ProblemRemark")
+                        .HasMaxLength(500);
+
+                    b.Property<byte>("ProblemRemarkType");
+
+                    b.Property<int>("VoiceLength");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DataToPatrolDetailProblem");
+                });
+
             modelBuilder.Entity("FireProtectionV1.FireWorking.Model.DetectorType", b =>
                 {
                     b.Property<int>("Id")
@@ -549,6 +564,8 @@ namespace FireProtectionV1.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreationTime");
+
+                    b.Property<string>("FaultRemark");
 
                     b.Property<int>("FireAlarmDetectorId");
 

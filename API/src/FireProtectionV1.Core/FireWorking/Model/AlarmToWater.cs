@@ -1,32 +1,27 @@
 ﻿using FireProtectionV1.Common.DBContext;
-using FireProtectionV1.Common.Enum;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace FireProtectionV1.FireWorking.Model
 {
-    /// <summary>
-    /// 设备设施故障
-    /// </summary>
-    public class Fault : EntityBase
+    public class AlarmToWater : EntityBase
     {
         /// <summary>
-        /// 火警联网设施Id
+        /// 消防管网监测设备Id
         /// </summary>
-        public int FireAlarmDeviceId { get; set; }
+        public int FireWaterDeviceId { get; set; }
         /// <summary>
-        /// 探测器Id
+        /// 模拟量值
         /// </summary>
-        public int FireAlarmDetectorId { get; set; }
+        public double Analog { get; set; }
         /// <summary>
         /// 防火单位Id
         /// </summary>
         public int FireUnitId { get; set; }
         /// <summary>
-        /// 解决时间
+        /// 是否已读取（用于手机端显示未读的报警数据）
         /// </summary>
-        public DateTime SolutionTime { get; set; }
+        public bool IsRead { get; set; } = false;
     }
 }

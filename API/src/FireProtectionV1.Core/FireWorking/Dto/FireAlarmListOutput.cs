@@ -35,5 +35,9 @@ namespace FireProtectionV1.FireWorking.Dto
         /// 核警状态
         /// </summary>
         public FireAlarmCheckState CheckState { get; set; }
+        /// <summary>
+        /// 是否已读（手机端未读的警情需加粗显示）
+        /// </summary>
+        public bool IsRead { get; set; }
     }
 }

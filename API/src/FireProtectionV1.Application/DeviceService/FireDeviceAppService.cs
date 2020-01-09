@@ -293,6 +293,24 @@ namespace FireProtectionV1.DeviceService
             return await _deviceManager.GetFireElectricDeviceState(FireUnitId);
         }
         /// <summary>
+        /// 刷新某一电气火灾设备的当前数值
+        /// </summary>
+        /// <param name="electricDeviceId"></param>
+        /// <returns></returns>
+        public async Task<GetSingleElectricDeviceDataOutput> GetSingleElectricDeviceData(int electricDeviceId)
+        {
+            return await _deviceManager.GetSingleElectricDeviceData(electricDeviceId);
+        }
+        /// <summary>
+        /// 发送断电信号
+        /// </summary>
+        /// <param name="electricDeviceId"></param>
+        /// <returns></returns>
+        public async Task BreakoffPower(int electricDeviceId)
+        {
+            await _deviceManager.BreakoffPower(electricDeviceId);
+        }
+        /// <summary>
         /// 获取指定防火单位的电气火灾设施列表
         /// </summary>
         /// <param name="fireUnitId">防火单位ID</param>

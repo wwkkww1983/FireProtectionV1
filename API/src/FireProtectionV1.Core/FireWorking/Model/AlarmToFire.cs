@@ -58,5 +58,9 @@ namespace FireProtectionV1.FireWorking.Model
         /// 通知微型消防站
         /// </summary>
         public bool NotifyMiniStation { get; set; }
+        /// <summary>
+        /// 是否已读取（用于手机端显示未读的报警数据）
+        /// </summary>
+        public bool IsRead { get; set; } = false;
     }
 }

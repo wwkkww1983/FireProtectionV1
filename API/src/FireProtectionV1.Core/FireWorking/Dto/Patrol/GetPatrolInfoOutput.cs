@@ -8,6 +8,10 @@ namespace FireProtectionV1.FireWorking.Dto.Patrol
     public class GetPatrolInfoOutput
     {
         /// <summary>
+        /// 记录Id
+        /// </summary>
+        public int PatrolId { get; set; }
+        /// <summary>
         /// 巡查方式
         /// </summary>
         public PatrolType PatrolType { get; set; }
@@ -24,12 +28,32 @@ namespace FireProtectionV1.FireWorking.Dto.Patrol
         /// </summary>
         public string UserPhone { get; set; }
         /// <summary>
+        /// 记录状态
+        /// </summary>
+        public DutyOrPatrolStatus PatrolStatus { get; set; }
+        /// <summary>
+        /// 总的轨迹点数量
+        /// </summary>
+        public int TotalDetailNum { get; set; }
+        /// <summary>
+        /// 发现问题数量
+        /// </summary>
+        public int TotalProblemNum { get; set; }
+        /// <summary>
+        /// 现场解决问题数量
+        /// </summary>
+        public int GreenProblemNum { get; set; }
+        /// <summary>
         /// 巡查轨迹
         /// </summary>
         public List<PatrolDetail> PatrolDetailList { get; set; }
     }
     public class PatrolDetail
     {
+        /// <summary>
+        /// 轨迹点Id
+        /// </summary>
+        public int PatrolDetailId { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>
@@ -53,7 +77,7 @@ namespace FireProtectionV1.FireWorking.Dto.Patrol
         /// <summary>
         /// 状态
         /// </summary>
-        public DutyOrPatrolStatus Status { get; set; }
+        public DutyOrPatrolStatus PatrolStatus { get; set; }
         /// <summary>
         /// 问题描述文字
         /// </summary>
@@ -74,5 +98,24 @@ namespace FireProtectionV1.FireWorking.Dto.Patrol
         /// 巡查记录图片缩略图
         /// </summary>
         public List<string> PatrolPhotosBase64 { get; set; }
+    }
+    public class PatrolDetailOutput : PatrolDetail
+    {
+        /// <summary>
+        /// 巡查建筑Id
+        /// </summary>
+        public int ArchitectureId { get; set; }
+        /// <summary>
+        /// 巡查建筑名称
+        /// </summary>
+        public string ArchitectureName { get; set; }
+        /// <summary>
+        /// 巡查楼层Id
+        /// </summary>
+        public int FloorId { get; set; }
+        /// <summary>
+        /// 巡查楼层名称
+        /// </summary>
+        public string FloorName { get; set; }
     }
 }

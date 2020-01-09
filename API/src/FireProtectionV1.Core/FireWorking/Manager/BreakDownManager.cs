@@ -27,7 +27,6 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<FireUnitUser> _repFireUnitUser;
         IRepository<PhotosPathSave> _repPhotosPathSave;
         IRepository<SafeUnit> _repSafeUnit;
-        IRepository<DataToPatrolDetailProblem> _repDataToPatrolDetailProblem;
         IRepository<Fault> _repFault;
         IRepository<DataToDuty> _repDataToDuty;
         IRepository<DataToPatrol> _repDataToPatrol;
@@ -41,7 +40,6 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<PhotosPathSave> repPhotosPathSave,
             IRepository<FireUnitUser> repFireUnitUser,
             IRepository<SafeUnit> repSafeUnit,
-            IRepository<DataToPatrolDetailProblem> repDataToPatrolDetailProblem,
             IRepository<DataToDuty> repDataToDuty,
             IRepository<DataToPatrol> repDataToPatrol,
             IRepository<DataToPatrolDetail> repDataToPatrolDetail,
@@ -56,7 +54,6 @@ namespace FireProtectionV1.FireWorking.Manager
             _repPhotosPathSave = repPhotosPathSave;
             _repFireUnitUser = repFireUnitUser;
             _repSafeUnit = repSafeUnit;
-            _repDataToPatrolDetailProblem = repDataToPatrolDetailProblem;
             _repDataToDuty = repDataToDuty;
             _repDataToPatrol = repDataToPatrol;
             _repDataToPatrolDetail = repDataToPatrolDetail;
@@ -150,7 +147,8 @@ namespace FireProtectionV1.FireWorking.Manager
                 Source = breakDown.Source,
                 UserBelongUnitId = breakDown.UserBelongUnitId,
                 UserId = breakDown.UserId,
-                VoiceLength = breakDown.VoiceLength
+                VoiceLength = breakDown.VoiceLength,
+                PatrolPhotosBase64 = new List<string>()
             };
 
             if (output.UserId > 0 && output.UserBelongUnitId > 0)
@@ -169,10 +167,13 @@ namespace FireProtectionV1.FireWorking.Manager
                 }
             }
 
-            //巡查来源需显示图片
-            if (output.Source == FaultSource.Patrol)
+            //巡查或值班来源需显示图片
+            if (output.Source.Equals(FaultSource.Patrol) || output.Source.Equals(FaultSource.Duty))
             {
-                var photospath = _repPhotosPathSave.GetAll().Where(u => u.TableName.Equals("DataToPatrolDetail") && u.DataId == output.DataId).Select(u => u.PhotoPath).ToList();
+                string tableName = "DataToPatrolDetail";
+                if (output.Source.Equals(FaultSource.Duty)) tableName = "DataToDuty";
+
+                var photospath = _repPhotosPathSave.GetAll().Where(u => u.TableName.Equals(tableName) && u.DataId == output.DataId).Select(u => u.PhotoPath).ToList();
                 output.PatrolPhotosPath = photospath;
                 foreach (var f in output.PatrolPhotosPath)
                 {
@@ -184,7 +185,7 @@ namespace FireProtectionV1.FireWorking.Manager
         }
 
         /// <summary>
-        /// 更新设施故障详情
+        /// 更新设施故障详情（平台端或手机端进行设施故障处理，点击提交时）
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -225,7 +226,7 @@ namespace FireProtectionV1.FireWorking.Manager
         }
 
         /// <summary>
-        /// 获取设施故障处理情况
+        /// 获取设施故障统计情况（用于首页数据大屏）
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>

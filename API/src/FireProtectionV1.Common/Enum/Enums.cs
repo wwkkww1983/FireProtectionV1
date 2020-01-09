@@ -29,6 +29,45 @@ namespace FireProtectionV1.Common.Enum
         Offline = -1
     }
     /// <summary>
+    /// 警情类型
+    /// </summary>
+    [Export("警情类型")]
+    public enum AlarmType
+    {
+        /// <summary>
+        /// 火警联网
+        /// </summary>
+        [Description("火警联网")]
+        Fire = 1,
+        /// <summary>
+        /// 电气火灾
+        /// </summary>
+        [Description("电气火灾")]
+        Electric = 2,
+        /// <summary>
+        /// 消防管网
+        /// </summary>
+        [Description("消防管网")]
+        Water = 3
+    }
+    /// <summary>
+    /// 访问接口的来源
+    /// </summary>
+    [Export("访问接口的来源")]
+    public enum VisitSource
+    {
+        /// <summary>
+        /// PC端
+        /// </summary>
+        [Description("PC端")]
+        PC = 1,
+        /// <summary>
+        /// 手机端
+        /// </summary>
+        [Description("手机端")]
+        Phone = 2
+    }
+    /// <summary>
     /// 天树聚物联设备类型
     /// </summary>
     [Export("天树聚物联设施类型")]

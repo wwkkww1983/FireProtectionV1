@@ -21,6 +21,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FireProtectionV1.FireWorking.Manager
@@ -40,6 +41,7 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<Fault> _faultRep;
         IRepository<AlarmToFire> _alarmToFireRep;
         IRepository<AlarmToElectric> _repAlarmToElectric;
+        IRepository<AlarmToWater> _repAlarmToWater;
         IRepository<RecordOnline> _recordOnlineRep;
         IRepository<FireElectricRecord> _repFireElectricRecord;
         IRepository<FireWaterRecord> _repFireWaterRecord;
@@ -60,6 +62,7 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<Fault> faultRep,
             IRepository<AlarmToFire> alarmToFireRep,
             IRepository<AlarmToElectric> repAlarmToElectric,
+            IRepository<AlarmToWater> repAlarmToWater,
             IRepository<RecordOnline> recordOnlineRep,
             IRepository<FireElectricRecord> repFireElectricRecord,
             IRepository<FireWaterRecord> repFireWaterRecord,
@@ -80,6 +83,7 @@ namespace FireProtectionV1.FireWorking.Manager
             _faultRep = faultRep;
             _alarmToFireRep = alarmToFireRep;
             _repAlarmToElectric = repAlarmToElectric;
+            _repAlarmToWater = repAlarmToWater;
             _recordOnlineRep = recordOnlineRep;
             _repFireElectricRecord = repFireElectricRecord;
             _repFireWaterRecord = repFireWaterRecord;
@@ -482,6 +486,68 @@ namespace FireProtectionV1.FireWorking.Manager
             });
         }
         /// <summary>
+        /// 刷新某一电气火灾设备的当前数值
+        /// </summary>
+        /// <param name="electricDeviceId"></param>
+        /// <returns></returns>
+        public async Task<GetSingleElectricDeviceDataOutput> GetSingleElectricDeviceData(int electricDeviceId)
+        {
+            var device = await _repFireElectricDevice.GetAsync(electricDeviceId);
+            DateTime nowTime = DateTime.Now;
+            //
+            // 这里需调用通讯服务的接口向设备发送刷新数值的信号
+            //
+            var output = new GetSingleElectricDeviceDataOutput();
+            for (int i = 1; i <= 5; i++)
+            {
+                // 休眠一秒，去数据库查找比nowTime的时间还要新的数据，如果找到了就返回，最多循环5次，如果等了5秒还没有新数据就不继续等待
+                Thread.Sleep(1000);
+                var lstElectricRecord = _repFireElectricRecord.GetAll().Where(item => item.FireElectricDeviceId.Equals(electricDeviceId) && item.CreationTime >= nowTime)
+                    .OrderByDescending(item => item.CreationTime).ToList();
+                if (lstElectricRecord != null && lstElectricRecord.Count > 0)
+                {
+                    // 重新获取设备数据
+                    device = await _repFireElectricDevice.GetAsync(electricDeviceId);
+                    output.State = device.State;
+                    output.ExistAmpere = device.ExistAmpere;
+                    output.ExistTemperature = device.ExistTemperature;
+                    output.PhaseType = device.PhaseType;
+                    if (device.State.Equals(FireElectricDeviceState.Offline))
+                    {
+                        output.L = "未知℃";
+                        output.N = "未知℃";
+                        output.A = "未知mA";
+                        output.L1 = "未知℃";
+                        output.L2 = "未知℃";
+                        output.L3 = "未知℃";
+                    }
+                    else
+                    {
+                        output.L = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L")).Analog + "℃";
+                        output.N = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("N")).Analog + "℃";
+                        output.A = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("A")).Analog + "mA";
+                        output.L1 = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L1")).Analog + "℃";
+                        output.L2 = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L2")).Analog + "℃";
+                        output.L3 = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L3")).Analog + "℃";
+                    }
+                    break;
+                }
+            }
+            return output;
+        }
+        /// <summary>
+        /// 发送断电信号
+        /// </summary>
+        /// <param name="electricDeviceId"></param>
+        /// <returns></returns>
+        public async Task BreakoffPower(int electricDeviceId)
+        {
+            var device = await _repFireElectricDevice.GetAsync(electricDeviceId);
+            //
+            // 这里需调用通讯服务的接口向设备发送断电信号
+            //
+        }
+        /// <summary>
         /// 获取某个火警联网设施下的故障部件列表
         /// </summary>
         /// <param name="fireAlarmDeviceId"></param>
@@ -514,7 +580,7 @@ namespace FireProtectionV1.FireWorking.Manager
                             FireUnitArchitectureFloorId = a_c != null ? a_c.Id : 0,
                             FireUnitArchitectureFloorName = a_c != null ? a_c.Name : "",
                             State = "故障",
-                            FaultContent = a.LastFaultId > 0 ? fireAlarmDetectorFaults.FirstOrDefault(item => item.Id.Equals(a.LastFaultId)).FaultRemark : "",
+                            FaultContent = "",
                             FaultTime = a.LastFaultId > 0 ? fireAlarmDetectorFaults.FirstOrDefault(item => item.Id.Equals(a.LastFaultId)).CreationTime.ToString() : "",
                         };
 
@@ -633,10 +699,10 @@ namespace FireProtectionV1.FireWorking.Manager
             var groupGtFault = _repFireAlarmDetector.GetAll()
                 .Where(item => item.FireUnitId.Equals(fireUnitId) && item.State.Equals(FireAlarmDetectorState.Fault))
                 .GroupBy(p => p.FireAlarmDeviceId).Select(p => new
-            {
-                FireAlarmDeviceId = p.Key,
-                FaultNum = p.Count()
-            });
+                {
+                    FireAlarmDeviceId = p.Key,
+                    FaultNum = p.Count()
+                });
 
             var query = from a in fireAlarmDevices
                         join b in groupGtFault on a.Id equals b.FireAlarmDeviceId into result1
@@ -654,7 +720,7 @@ namespace FireProtectionV1.FireWorking.Manager
                             FireUnitArchitectureName = a_d != null ? a_d.Name : "",
                             NetDetectorNum = a.NetDetectorNum,
                             FaultDetectorNum = a_b != null ? a_b.FaultNum : 0,
-                            DetectorFaultRate = "0.00%",
+                            DetectorFaultRate = "0%",
                             AlarmNum30Day = a_c != null ? a_c.AlarmNum : 0,
                             HighAlarmDetectorNum = a_c != null ? a_c.HighDeviceNum : 0,
                             CreationTime = a.CreationTime
@@ -665,7 +731,7 @@ namespace FireProtectionV1.FireWorking.Manager
             {
                 if (item.NetDetectorNum > 0 && item.FaultDetectorNum > 0)
                 {
-                    item.DetectorFaultRate = ((double)item.FaultDetectorNum / item.NetDetectorNum).ToString("P");
+                    item.DetectorFaultRate = (Math.Round((double)item.FaultDetectorNum / item.NetDetectorNum, 4) * 100).ToString() + "%";
                 }
             }
             return Task.FromResult(new PagedResultDto<FireAlarmDeviceItemDto>()
@@ -1674,6 +1740,7 @@ namespace FireProtectionV1.FireWorking.Manager
                     FireElectricDeviceId = fireElectricDevice.Id,
                     Sign = input.Sign,
                     Analog = input.Analog,
+                    State = nowState,
                     FireUnitId = fireElectricDevice.FireUnitId
                 });
             }
@@ -1907,6 +1974,12 @@ namespace FireProtectionV1.FireWorking.Manager
             }
             else
             {
+                await _repAlarmToWater.InsertAsync(new AlarmToWater()
+                {
+                    FireUnitId = device.FireUnitId,
+                    FireWaterDeviceId = device.Id,
+                    Analog = input.Value
+                });
                 device.State = FireWaterDeviceState.Transfinite;
             }
 

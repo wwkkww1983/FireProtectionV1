@@ -51,5 +51,25 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="dto"></param>
         /// <returns></returns>
         Task<PagedResultDto<FireAlarmListOutput>> GetFireAlarmList(FireAlarmListInput input, PagedResultRequestDto dto);
+        /// <summary>
+        /// 获取电气火灾警情数据列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<ElectricAlarmListOutput>> GetElectricAlarmList(GetElectricAlarmListInput input, PagedResultRequestDto dto);
+        /// <summary>
+        /// 获取消防管网警情数据列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<WaterAlarmListOutput>> GetWaterAlarmList(GetWaterAlarmListInput input, PagedResultRequestDto dto);
+        /// <summary>
+        /// 获取防火单位未读警情类型及数量
+        /// </summary>
+        /// <param name="fireUnitId"></param>
+        /// <returns></returns>
+        Task<List<GetNoReadAlarmNumOutput>> GetNoReadAlarmNumList(int fireUnitId);
     }
 }
