@@ -23,6 +23,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TsjDeviceServer.DeviceCtrl;
 
 namespace FireProtectionV1.FireWorking.Manager
 {
@@ -496,6 +497,12 @@ namespace FireProtectionV1.FireWorking.Manager
             DateTime nowTime = DateTime.Now;
             //
             // 这里需调用通讯服务的接口向设备发送刷新数值的信号
+            var cmdData = new
+            {
+                cmd = "UpdateAnalog",
+                deviceSn = device.DeviceSn
+            };
+            await CmdClt.SendAsync(JsonConvert.SerializeObject(cmdData));
             //
             var output = new GetSingleElectricDeviceDataOutput();
             for (int i = 1; i <= 5; i++)
@@ -545,6 +552,12 @@ namespace FireProtectionV1.FireWorking.Manager
             var device = await _repFireElectricDevice.GetAsync(electricDeviceId);
             //
             // 这里需调用通讯服务的接口向设备发送断电信号
+            var cmdData = new
+            {
+                cmd = "Switch",
+                deviceSn = device.DeviceSn
+            };
+            await CmdClt.SendAsync(JsonConvert.SerializeObject(cmdData));
             //
         }
         /// <summary>
