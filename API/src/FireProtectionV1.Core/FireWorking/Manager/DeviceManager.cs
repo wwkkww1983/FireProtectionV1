@@ -1313,8 +1313,26 @@ namespace FireProtectionV1.FireWorking.Manager
             elec.MaxL2 = input.MaxL2;
             elec.MinL3 = input.MinL3;
             elec.MaxL3 = input.MaxL3;
-
             await _repFireElectricDevice.UpdateAsync(elec);
+            //设备通信
+            var cmdData = new
+            {
+                cmd = "ConfigPhase",
+                DeviceSn = input.DeviceSn,
+                PhaseType = input.PhaseType,
+                MinAmpere = input.MinAmpere,
+                MinL = input.MinL,
+                MaxL = input.MaxL,
+                MinN = input.MinN,
+                MaxN = input.MaxN,
+                MinL1 = input.MinL1,
+                MaxL1 = input.MaxL1,
+                MinL2 = input.MinL2,
+                MaxL2 = input.MaxL2,
+                MinL3 = input.MinL3,
+                MaxL3 = input.MaxL3
+            };
+            await CmdClt.SendAsync(JsonConvert.SerializeObject(cmdData));
         }
         /// <summary>
         /// 新增电气火灾设备
@@ -1355,6 +1373,25 @@ namespace FireProtectionV1.FireWorking.Manager
                 MinN = input.MinN,
                 MaxN = input.MaxN
             });
+            //设备通信
+            var cmdData = new
+            {
+                cmd= "ConfigPhase",
+                DeviceSn = input.DeviceSn,
+                PhaseType = input.PhaseType,
+                MinAmpere = input.MinAmpere,
+                MinL = input.MinL,
+                MaxL = input.MaxL,
+                MinN = input.MinN,
+                MaxN = input.MaxN,
+                MinL1 = input.MinL1,
+                MaxL1 = input.MaxL1,
+                MinL2 = input.MinL2,
+                MaxL2 = input.MaxL2,
+                MinL3 = input.MinL3,
+                MaxL3 = input.MaxL3
+            };
+            await CmdClt.SendAsync(JsonConvert.SerializeObject(cmdData));
         }
         /// <summary>
         /// 修改其它消防设施
