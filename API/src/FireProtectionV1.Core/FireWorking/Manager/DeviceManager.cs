@@ -1318,19 +1318,20 @@ namespace FireProtectionV1.FireWorking.Manager
             var cmdData = new
             {
                 cmd = "ConfigPhase",
-                DeviceSn = input.DeviceSn,
-                PhaseType = input.PhaseType,
-                MinAmpere = input.MinAmpere,
-                MinL = input.MinL,
-                MaxL = input.MaxL,
-                MinN = input.MinN,
-                MaxN = input.MaxN,
-                MinL1 = input.MinL1,
-                MaxL1 = input.MaxL1,
-                MinL2 = input.MinL2,
-                MaxL2 = input.MaxL2,
-                MinL3 = input.MinL3,
-                MaxL3 = input.MaxL3
+                deviceSn = input.DeviceSn,
+                phaseType = input.PhaseType,
+                minAmpere = input.MinAmpere,
+                maxAmpere = input.MaxAmpere,
+                minL = input.MinL,
+                maxL = input.MaxL,
+                minN = input.MinN,
+                maxN = input.MaxN,
+                minL1 = input.MinL1,
+                maxL1 = input.MaxL1,
+                minL2 = input.MinL2,
+                maxL2 = input.MaxL2,
+                minL3 = input.MinL3,
+                maxL3 = input.MaxL3
             };
             await CmdClt.SendAsync(JsonConvert.SerializeObject(cmdData));
         }

@@ -74,6 +74,80 @@ namespace TsjDeviceServer.DeviceCtrl
 
                             BackMqttClient.Send(applicationMessage);
                         }
+                        else if (cmd.Equals("ConfigPhase"))
+                        {
+                            var sn = jobj["deviceSn"].ToString();
+                            var phaseType = jobj["phaseType"].ToString();
+                            string jsonCmd = "";
+                            if (phaseType.Equals("单项"))
+                            {
+                                var cmdData = new[]
+                                {
+                                    new
+                                    {
+                                        id="A",
+                                        range_H=jobj["maxAmpere"].ToString(),
+                                        range_L = jobj["minAmpere"].ToString(),
+                                    },
+                                    new
+                                    {
+                                        id="N",
+                                        range_H=jobj["maxN"].ToString(),
+                                        range_L = jobj["minN"].ToString(),
+                                    },
+                                    new
+                                    {
+                                        id="L",
+                                        range_H=jobj["maxL"].ToString(),
+                                        range_L = jobj["minL"].ToString(),
+                                    }
+                                };
+                                jsonCmd = JsonConvert.SerializeObject(cmdData);
+                            }
+                            else
+                            {
+                                var cmdData = new[]
+                                {
+                                    new
+                                    {
+                                        id="A",
+                                        range_H=jobj["maxAmpere"].ToString(),
+                                        range_L = jobj["minAmpere"].ToString(),
+                                    },
+                                    new
+                                    {
+                                        id="N",
+                                        range_H=jobj["maxN"].ToString(),
+                                        range_L = jobj["minN"].ToString(),
+                                    },
+                                    new
+                                    {
+                                        id="L1",
+                                        range_H=jobj["maxL1"].ToString(),
+                                        range_L = jobj["minL1"].ToString(),
+                                    },
+                                    new
+                                    {
+                                        id="L2",
+                                        range_H=jobj["maxL2"].ToString(),
+                                        range_L = jobj["minL2"].ToString(),
+                                    },
+                                    new
+                                    {
+                                        id="L3",
+                                        range_H=jobj["maxL3"].ToString(),
+                                        range_L = jobj["minL3"].ToString(),
+                                    }
+                                };
+                                jsonCmd = JsonConvert.SerializeObject(cmdData);
+                            }
+                            var applicationMessage = new MqttApplicationMessageBuilder()
+                            .WithTopic($"Set/{sn}/Config")
+                            .WithPayload(jsonCmd)
+                            .WithAtLeastOnceQoS()
+                            .Build();
+                            BackMqttClient.Send(applicationMessage);
+                        }
                     }
                 }
                 catch (IOException e)
