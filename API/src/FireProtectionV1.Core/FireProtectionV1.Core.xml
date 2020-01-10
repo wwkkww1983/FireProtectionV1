@@ -2168,7 +2168,7 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetBreakDownInput.HandleStatus">
             <summary>
-            处理状态(1待处理,3已解决,4自行处理,5维保叫修处理中,6维保叫修已处理)
+            处理状态
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetBreakDownOutput.BreakDownId">
@@ -2288,7 +2288,7 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.UpdateBreakDownInfoInput.HandleStatus">
             <summary>
-            处理状态
+            需要将该条故障更改为的状态
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.UpdateBreakDownInfoInput.SolutionWay">
@@ -2551,6 +2551,56 @@
             橙色故障数量
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.ElectricAlarmListOutput.CreationTime">
+            <summary>
+            接收警情时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.ElectricAlarmListOutput.FireElectricDeviceId">
+            <summary>
+            电气火灾设施Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.ElectricAlarmListOutput.FireElectricDeviceSn">
+            <summary>
+            电气火灾设施编号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.ElectricAlarmListOutput.FireUnitArchitectureName">
+            <summary>
+            所在建筑
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.ElectricAlarmListOutput.FireUnitArchitectureFloorName">
+            <summary>
+            所在楼层
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.ElectricAlarmListOutput.Location">
+            <summary>
+            具体位置
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.ElectricAlarmListOutput.State">
+            <summary>
+            报警状态：隐患/超限
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.ElectricAlarmListOutput.Sign">
+            <summary>
+            记录的类型标记：A/L/N/L1/L2/L3，其中A代表剩余电流，其它代表电缆温度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.ElectricAlarmListOutput.Analog">
+            <summary>
+            模拟量值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.ElectricAlarmListOutput.IsRead">
+            <summary>
+            是否已读（手机端未读的警情需加粗显示）
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.EndDeviceStateOutput.DetectorId">
             <summary>
             探测器ID
@@ -2661,9 +2711,9 @@
             是否通知工作人员
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.FireAlarmDetailOutput.NotifyMiniStation">
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireAlarmDetailOutput.Notify119">
             <summary>
-            是否通知微型消防站
+            是否通知119
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.FireAlarmDetailOutput.NotifyList">
@@ -2706,6 +2756,11 @@
             防火单位Id
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireAlarmListInput.VisitSource">
+            <summary>
+            接口访问的来源，如果是手机端调用接口，我会将所有警情记录更新为已读的状态
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.FireAlarmListInput.CheckStates">
             <summary>
             核警状态查询条件，以英文逗号分隔，例如：未核警,误报,测试,真实火警,已过期
@@ -2744,6 +2799,11 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.FireAlarmListOutput.CheckState">
             <summary>
             核警状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireAlarmListOutput.IsRead">
+            <summary>
+            是否已读（手机端未读的警情需加粗显示）
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.AddFireWaterDeviceInput.FireUnitId">
@@ -3506,6 +3566,66 @@
             当前数值
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.GetSingleElectricDeviceDataOutput.Result">
+            <summary>
+            值为1表示刷新成功，可以去取DeviceData中的值去刷新表格对应行数据，否则提示“刷新数值超时，请稍后再试”
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.GetSingleElectricDeviceDataOutput.DeviceData">
+            <summary>
+            设备的当前数值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SingleElectricDeviceData.State">
+            <summary>
+            设备状态：离线/良好/隐患/超限
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SingleElectricDeviceData.ExistAmpere">
+            <summary>
+            剩余电流监测
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SingleElectricDeviceData.ExistTemperature">
+            <summary>
+            电缆温度监测
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SingleElectricDeviceData.PhaseType">
+            <summary>
+            "单项"/"三项"
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SingleElectricDeviceData.L">
+            <summary>
+            当前L数值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SingleElectricDeviceData.N">
+            <summary>
+            当前N数值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SingleElectricDeviceData.A">
+            <summary>
+            当前电流数值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SingleElectricDeviceData.L1">
+            <summary>
+            当前L1数值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SingleElectricDeviceData.L2">
+            <summary>
+            当前L2数值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SingleElectricDeviceData.L3">
+            <summary>
+            当前L3数值
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SerialPortParamDto.ComType">
             <summary>
             接口
@@ -3811,6 +3931,21 @@
             数值
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetElectricAlarmListInput.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetElectricAlarmListInput.VisitSource">
+            <summary>
+            接口访问的来源，如果是手机端调用接口，我会将所有警情记录更新为已读的状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetElectricAlarmListInput.State">
+            <summary>
+            报警状态：隐患/超限
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetFireElectricDeviceOutput.MonitorItemList">
             <summary>
             监测类型数组（剩余电流、电缆温度）
@@ -3986,6 +4121,16 @@
             更新版本url
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetNoReadAlarmNumOutput.AlarmType">
+            <summary>
+            警情类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetNoReadAlarmNumOutput.NoReadAlarmNum">
+            <summary>
+            未读的警情数量
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetPageByFireUnitIdInput.Id">
             <summary>
             防火单位Id
@@ -4029,6 +4174,16 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.GetRecordDetectorInput.FireUnitId">
             <summary>
             防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetWaterAlarmListInput.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetWaterAlarmListInput.VisitSource">
+            <summary>
+            接口访问的来源，如果是手机端调用接口，我会将所有警情记录更新为已读的状态
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.HighFreqAlarmDetector.Name">
@@ -4886,6 +5041,36 @@
             在线/离线
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.WaterAlarmListOutput.CreationTime">
+            <summary>
+            接收警情时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.WaterAlarmListOutput.DeviceAddress">
+            <summary>
+            设备地址
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.WaterAlarmListOutput.MonitorType">
+            <summary>
+            监控类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.WaterAlarmListOutput.Location">
+            <summary>
+            设备安装位置
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.WaterAlarmListOutput.Value">
+            <summary>
+            数值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.WaterAlarmListOutput.IsRead">
+            <summary>
+            是否已读（手机端未读的警情需加粗显示）
+            </summary>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.AlarmManager.AddAlarmFire(FireProtectionV1.FireWorking.Dto.AddAlarmFireInput)">
             <summary>
             新增火警联网数据
@@ -4923,6 +5108,29 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.AlarmManager.GetElectricAlarmList(FireProtectionV1.FireWorking.Dto.GetElectricAlarmListInput,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取电气火灾警情数据列表
+            </summary>
+            <param name="input"></param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.AlarmManager.GetWaterAlarmList(FireProtectionV1.FireWorking.Dto.GetWaterAlarmListInput,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取消防管网警情数据列表
+            </summary>
+            <param name="input"></param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.AlarmManager.GetNoReadAlarmNumList(System.Int32)">
+            <summary>
+            获取防火单位未读警情类型及数量
+            </summary>
+            <param name="fireUnitId"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.BreakDownManager.GetBreakDownlist(FireProtectionV1.FireWorking.Dto.GetBreakDownInput,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
             获取设施故障列表
@@ -4940,14 +5148,14 @@
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.BreakDownManager.UpdateBreakDownInfo(FireProtectionV1.FireWorking.Dto.UpdateBreakDownInfoInput)">
             <summary>
-            更新设施故障详情
+            更新设施故障详情（平台端或手机端进行设施故障处理，点击提交时）
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.BreakDownManager.GetBreakDownTotal(FireProtectionV1.FireWorking.Dto.GetBreakDownTotalInput)">
             <summary>
-            获取设施故障处理情况
+            获取设施故障统计情况（用于首页数据大屏）
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -5037,6 +5245,20 @@
             <param name="fireUnitId">防火单位ID</param>
             <param name="state">设备状态：null/""、在线、离线、良好、隐患、超限</param>
             <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.GetSingleElectricDeviceData(System.Int32)">
+            <summary>
+            刷新某一电气火灾设备的当前数值
+            </summary>
+            <param name="electricDeviceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.BreakoffPower(System.Int32)">
+            <summary>
+            发送断电信号
+            </summary>
+            <param name="electricDeviceId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.GetFireAlarmFaultDetectorList(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
@@ -5455,6 +5677,29 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IAlarmManager.GetElectricAlarmList(FireProtectionV1.FireWorking.Dto.GetElectricAlarmListInput,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取电气火灾警情数据列表
+            </summary>
+            <param name="input"></param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IAlarmManager.GetWaterAlarmList(FireProtectionV1.FireWorking.Dto.GetWaterAlarmListInput,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取消防管网警情数据列表
+            </summary>
+            <param name="input"></param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IAlarmManager.GetNoReadAlarmNumList(System.Int32)">
+            <summary>
+            获取防火单位未读警情类型及数量
+            </summary>
+            <param name="fireUnitId"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IBreakDownManager.GetBreakDownlist(FireProtectionV1.FireWorking.Dto.GetBreakDownInput,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
             获取设施故障列表
@@ -5512,6 +5757,20 @@
             添加电气火灾设施
             </summary>
             <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetSingleElectricDeviceData(System.Int32)">
+            <summary>
+            刷新某一电气火灾设备的当前数值
+            </summary>
+            <param name="electricDeviceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.BreakoffPower(System.Int32)">
+            <summary>
+            发送断电信号
+            </summary>
+            <param name="electricDeviceId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.UpdateDeviceState(FireProtectionV1.FireWorking.Dto.UpdateDeviceStateInput)">
@@ -6088,6 +6347,11 @@
             记录的类型标记：A/L/N/L1/L2/L3，其中A代表剩余电流，其它代表电缆温度
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.State">
+            <summary>
+            报警状态：隐患/超限
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.Analog">
             <summary>
             模拟量值
@@ -6096,6 +6360,11 @@
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.FireUnitId">
             <summary>
             防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.IsRead">
+            <summary>
+            是否已读取（用于手机端显示未读的报警数据）
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmToFire.FireAlarmDeviceId">
@@ -6148,9 +6417,34 @@
             通知工作人员
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToFire.NotifyMiniStation">
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToFire.Notify119">
             <summary>
-            通知微型消防站
+            通知119
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToFire.IsRead">
+            <summary>
+            是否已读取（用于手机端显示未读的报警数据）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToWater.FireWaterDeviceId">
+            <summary>
+            消防管网监测设备Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToWater.Analog">
+            <summary>
+            模拟量值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToWater.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToWater.IsRead">
+            <summary>
+            是否已读取（用于手机端显示未读的报警数据）
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.BreakDown.FireUnitId">

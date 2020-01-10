@@ -239,7 +239,7 @@ namespace FireProtectionV1.BigScreen.Manager
                 mt.value += $"<br/>{alarmElec.CreationTime.ToString("HH:mm")} {alarmElec.FireUnitName}";
                 if (alarmElec.CreationTime.AddMinutes(3) >= DateTime.Now)   // 3分钟之内的，显示“new”
                 {
-                    mt.value += " <img src=\"http://firea.go028.cn:8006/new.png\" />";
+                    mt.value += " <img src=\"http://vshare.sharegroup.com.cn/images/new.png\" />";
                 }
                 mt.value += $"<br/>{alarmElec.ContractName}({alarmElec.ContractPhone}) {alarmElec.Address}<br/>【{alarmElec.AlarmType}】{alarmElec.AlarmValue}<br/>";
             }

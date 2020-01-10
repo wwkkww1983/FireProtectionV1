@@ -495,16 +495,19 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             var device = await _repFireElectricDevice.GetAsync(electricDeviceId);
             DateTime nowTime = DateTime.Now;
-            //
-            // 这里需调用通讯服务的接口向设备发送刷新数值的信号
+
+            // 调用通讯服务的接口向设备发送刷新数值的信号
             var cmdData = new
             {
                 cmd = "UpdateAnalog",
                 deviceSn = device.DeviceSn
             };
             await CmdClt.SendAsync(JsonConvert.SerializeObject(cmdData));
-            //
-            var output = new GetSingleElectricDeviceDataOutput();
+
+            var output = new GetSingleElectricDeviceDataOutput()
+            {
+                Result = 0
+            };
             for (int i = 1; i <= 5; i++)
             {
                 // 休眠一秒，去数据库查找比nowTime的时间还要新的数据，如果找到了就返回，最多循环5次，如果等了5秒还没有新数据就不继续等待
@@ -513,30 +516,51 @@ namespace FireProtectionV1.FireWorking.Manager
                     .OrderByDescending(item => item.CreationTime).ToList();
                 if (lstElectricRecord != null && lstElectricRecord.Count > 0)
                 {
+                    // 因为数值刷新时，硬件会返回多条数据，以下判断是为了防止只获取到硬件返回的其中一部分数据
+                    if (device.ExistAmpere && !lstElectricRecord.Exists(item => item.Sign.Equals("A"))) break;
+                    if (device.ExistTemperature)
+                    {
+                        if (!lstElectricRecord.Exists(item => item.Sign.Equals("N"))) break;
+                        if (device.PhaseType.Equals(PhaseType.Single) && !(lstElectricRecord.Exists(item => item.Sign.Equals("L")))) break;
+                        if (device.PhaseType.Equals(PhaseType.Third) && !(lstElectricRecord.Exists(item => item.Sign.Equals("L1")) && lstElectricRecord.Exists(item => item.Sign.Equals("L2")) && lstElectricRecord.Exists(item => item.Sign.Equals("L3")))) break;
+                    }
                     // 重新获取设备数据
                     device = await _repFireElectricDevice.GetAsync(electricDeviceId);
-                    output.State = device.State;
-                    output.ExistAmpere = device.ExistAmpere;
-                    output.ExistTemperature = device.ExistTemperature;
-                    output.PhaseType = device.PhaseType;
+                    var deviceData = new FireElectricDeviceItemDto();
+                    deviceData.CreationTime = device.CreationTime;
+                    deviceData.DeviceId = device.Id;
+                    deviceData.DeviceSn = device.DeviceSn;
+                    deviceData.FireUnitArchitectureId = device.FireUnitArchitectureId;
+                    deviceData.FireUnitArchitectureFloorId = device.FireUnitArchitectureFloorId;
+                    deviceData.Location = device.Location;
+                    deviceData.State = device.State;
+                    deviceData.ExistAmpere = device.ExistAmpere;
+                    deviceData.ExistTemperature = device.ExistTemperature;
+                    deviceData.PhaseType = device.PhaseType;
+                    var architecture = await _repFireUnitArchitecture.GetAsync(device.FireUnitArchitectureId);
+                    var architectureFloor = await _repFireUnitArchitectureFloor.GetAsync(device.FireUnitArchitectureFloorId);
+                    deviceData.FireUnitArchitectureName = architecture != null ? architecture.Name : "";
+                    deviceData.FireUnitArchitectureFloorName = architectureFloor != null ? architectureFloor.Name : "";
                     if (device.State.Equals(FireElectricDeviceState.Offline))
                     {
-                        output.L = "未知℃";
-                        output.N = "未知℃";
-                        output.A = "未知mA";
-                        output.L1 = "未知℃";
-                        output.L2 = "未知℃";
-                        output.L3 = "未知℃";
+                        deviceData.L = "未知℃";
+                        deviceData.N = "未知℃";
+                        deviceData.A = "未知mA";
+                        deviceData.L1 = "未知℃";
+                        deviceData.L2 = "未知℃";
+                        deviceData.L3 = "未知℃";
                     }
                     else
                     {
-                        output.L = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L")).Analog + "℃";
-                        output.N = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("N")).Analog + "℃";
-                        output.A = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("A")).Analog + "mA";
-                        output.L1 = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L1")).Analog + "℃";
-                        output.L2 = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L2")).Analog + "℃";
-                        output.L3 = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L3")).Analog + "℃";
+                        deviceData.L = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L")).Analog + "℃";
+                        deviceData.N = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("N")).Analog + "℃";
+                        deviceData.A = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("A")).Analog + "mA";
+                        deviceData.L1 = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L1")).Analog + "℃";
+                        deviceData.L2 = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L2")).Analog + "℃";
+                        deviceData.L3 = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L3")).Analog + "℃";
                     }
+                    output.DeviceData = deviceData;
+                    output.Result = 1;
                     break;
                 }
             }
@@ -550,15 +574,14 @@ namespace FireProtectionV1.FireWorking.Manager
         public async Task BreakoffPower(int electricDeviceId)
         {
             var device = await _repFireElectricDevice.GetAsync(electricDeviceId);
-            //
-            // 这里需调用通讯服务的接口向设备发送断电信号
+
+            // 调用通讯服务的接口向设备发送断电信号
             var cmdData = new
             {
                 cmd = "Switch",
                 deviceSn = device.DeviceSn
             };
             await CmdClt.SendAsync(JsonConvert.SerializeObject(cmdData));
-            //
         }
         /// <summary>
         /// 获取某个火警联网设施下的故障部件列表
