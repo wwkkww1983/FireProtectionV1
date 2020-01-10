@@ -59,6 +59,21 @@ namespace TsjDeviceServer.DeviceCtrl
 
                             BackMqttClient.Send(applicationMessage);
                         }
+                        else if (cmd.Equals("UpdateAnalog"))
+                        {
+                            var sn = jobj["deviceSn"].ToString();
+                            var cmdData = new
+                            {
+                                at = TsjConvert.ToUnixTimestamp(DateTime.Now)
+                            };
+                            var applicationMessage = new MqttApplicationMessageBuilder()
+                            .WithTopic($"Set/{sn}/UpdateMonitor")
+                            .WithPayload(JsonConvert.SerializeObject(cmdData))
+                            .WithAtLeastOnceQoS()
+                            .Build();
+
+                            BackMqttClient.Send(applicationMessage);
+                        }
                     }
                 }
                 catch (IOException e)

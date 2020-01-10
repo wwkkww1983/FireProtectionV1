@@ -1,0 +1,30 @@
+{
+  "exclude": [
+    "**/bin",
+    "**/bower_components",
+    "**/jspm_packages",
+    "**/node_modules",
+    "**/obj",
+    "**/platforms"
+  ],
+  "TCP": {
+    "ServerPort": 26875
+  },
+  "FireApi": {
+    "UrlBase": "http://127.0.0.1:5081"
+  },
+  "Transfer": [
+    //{
+    //  "Address": "81.31.0.0.0.11",
+    //  "IP": "182.131.21.106",
+    //  "Port": 7015,
+    //  "LocalPort": 4001
+    //},
+    //{
+    //  "Address": "11.0.0.1.200.1",
+    //  "IP": "182.131.21.106",
+    //  "Port": 7025,
+    //  "LocalPort": 4002
+    //}
+  ]
+}
