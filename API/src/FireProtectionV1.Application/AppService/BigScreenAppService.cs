@@ -74,6 +74,15 @@ namespace FireProtectionV1.AppService
             return await _manager.GetTianXunTong();
         }
         /// <summary>
+        /// 首页：辖区内各防火单位的消防联网实时达
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public async Task<List<DataText>> GetAlarmTo119(int fireDeptId)
+        {
+            return await _manager.GetAlarmTo119(fireDeptId);
+        }
+        /// <summary>
         /// 首页：获取每个月防火单位总接入数量
         /// </summary>
         /// <param name="value"></param>

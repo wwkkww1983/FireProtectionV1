@@ -61,6 +61,12 @@ namespace FireProtectionV1.BigScreen.Manager
         /// <returns></returns>
         Task<List<DataText>> GetMapMultiText();
         /// <summary>
+        /// 首页：辖区内各防火单位的消防联网实时达
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        Task<List<DataText>> GetAlarmTo119(int fireDeptId);
+        /// <summary>
         /// 首页：电气警情天讯通
         /// </summary>
         /// <returns></returns>

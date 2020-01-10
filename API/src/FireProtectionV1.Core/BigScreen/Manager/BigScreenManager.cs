@@ -265,9 +265,16 @@ namespace FireProtectionV1.BigScreen.Manager
             {
                 int n = 3;
                 if (lst.Count < n) n = lst.Count;
-                for (int i = 1; i <= n; i++)
+                for (int i = 0; i < n; i++)
                 {
                     var item = lst[i];
+                    mt.value += $"<p>【核警时间】{item.FireCheckTime.ToString("yyyy-MM-dd HH:mm:ss")}";
+                    mt.value += $"<br />【火警时间】{item.FireAlarmTime.ToString("yyyy-MM-dd HH:mm:ss")}";
+                    mt.value += $"<br />【防火单位】{item.FireUnitName}";
+                    mt.value += $"<br />【单位地址】{item.FireUnitAddress}";
+                    mt.value += $"<br />【消防联系人】{item.ContractName}（{item.ContractPhone}）";
+                    mt.value += $"<br />【报警部件】{item.AlarmDetectorTypeName}（{item.AlarmDetectorAddress}）";
+                    mt.value += "</p><hr />";
                 }
             }
             lstDataText.Add(mt);

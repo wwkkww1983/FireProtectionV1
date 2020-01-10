@@ -240,6 +240,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetAlarmTo119(System.Int32)">
+            <summary>
+            首页：辖区内各防火单位的消防联网实时达
+            </summary>
+            <param name="fireDeptId"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetTianXunTong">
             <summary>
             首页：电气警情天讯通
@@ -2095,7 +2102,7 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckInput.NotifyList">
             <summary>
-            通知工作人员、微型消防站
+            通知工作人员、通知119
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AlarmCheckOutput.CheckId">

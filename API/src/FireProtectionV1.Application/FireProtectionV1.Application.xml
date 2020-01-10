@@ -57,6 +57,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.GetAlarmTo119List(System.Int32)">
+            <summary>
+            获取区域内各防火单位火警联网的真实火警报119数据
+            </summary>
+            <param name="fireDeptId"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.AlarmAppService.GetNoReadAlarmNumList(System.Int32)">
             <summary>
             获取防火单位未读警情类型及数量
@@ -215,6 +222,13 @@
             <summary>
             首页：电气警情天讯通
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetAlarmTo119(System.Int32)">
+            <summary>
+            首页：辖区内各防火单位的消防联网实时达
+            </summary>
+            <param name="fireDeptId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetTotalFireUnitNum(System.String)">
