@@ -153,6 +153,41 @@
             离线
             </summary>
         </member>
+        <member name="T:FireProtectionV1.Common.Enum.AlarmType">
+            <summary>
+            警情类型
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.AlarmType.Fire">
+            <summary>
+            火警联网
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.AlarmType.Electric">
+            <summary>
+            电气火灾
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.AlarmType.Water">
+            <summary>
+            消防管网
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.Common.Enum.VisitSource">
+            <summary>
+            访问接口的来源
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.VisitSource.PC">
+            <summary>
+            PC端
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.VisitSource.Phone">
+            <summary>
+            手机端
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.Common.Enum.TsjDeviceType">
             <summary>
             天树聚物联设备类型

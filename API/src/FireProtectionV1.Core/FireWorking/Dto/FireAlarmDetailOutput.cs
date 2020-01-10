@@ -64,9 +64,9 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public bool NotifyWorker { get; set; }
         /// <summary>
-        /// 是否通知微型消防站
+        /// 是否通知119
         /// </summary>
-        public bool NotifyMiniStation { get; set; }
+        public bool Notify119 { get; set; }
         /// <summary>
         /// 通知工作人员、微型消防站的数组，用于前端绑定
         /// </summary>

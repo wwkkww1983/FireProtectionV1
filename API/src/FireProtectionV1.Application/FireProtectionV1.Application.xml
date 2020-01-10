@@ -34,11 +34,34 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.GetElectricAlarmList(FireProtectionV1.FireWorking.Dto.GetElectricAlarmListInput,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取电气火灾警情数据列表
+            </summary>
+            <param name="input"></param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.GetWaterAlarmList(FireProtectionV1.FireWorking.Dto.GetWaterAlarmListInput,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取消防管网警情数据列表
+            </summary>
+            <param name="input"></param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.AlarmAppService.CheckFireAlarm(FireProtectionV1.FireWorking.Dto.AlarmCheckInput)">
             <summary>
             火警联网核警
             </summary>
             <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.GetNoReadAlarmNumList(System.Int32)">
+            <summary>
+            获取防火单位未读警情类型及数量
+            </summary>
+            <param name="fireUnitId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.AppGuideSet.GetFireUnitPeople(FireProtectionV1.User.Dto.GetUnitPeopleInput)">
@@ -307,14 +330,14 @@
         </member>
         <member name="M:FireProtectionV1.AppService.BreakDownService.UpdateBreakDownInfo(FireProtectionV1.FireWorking.Dto.UpdateBreakDownInfoInput)">
             <summary>
-            更新设施故障详情
+            更新设施故障详情（平台端或手机端进行设施故障处理，点击提交时）
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.BreakDownService.GetBreakDownTotal(FireProtectionV1.FireWorking.Dto.GetBreakDownTotalInput)">
             <summary>
-            获取设施故障处理情况
+            获取设施故障统计情况（用于首页数据大屏）
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -1746,6 +1769,20 @@
             获取电气火灾设备各状态数量
             </summary>
             <param name="FireUnitId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetSingleElectricDeviceData(System.Int32)">
+            <summary>
+            刷新某一电气火灾设备的当前数值
+            </summary>
+            <param name="electricDeviceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.BreakoffPower(System.Int32)">
+            <summary>
+            发送断电信号
+            </summary>
+            <param name="electricDeviceId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireElectricDeviceList(System.Int32,System.String,Abp.Application.Services.Dto.PagedResultRequestDto)">

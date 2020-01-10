@@ -120,10 +120,10 @@ namespace FireProtectionV1.FireWorking.Manager
 
             if (input.CheckState == FireAlarmCheckState.False || input.CheckState == FireAlarmCheckState.Test || input.CheckState == FireAlarmCheckState.True)
             {
-                if (input.NotifyList.Contains("通知工作人员")) fireAlarm.NotifyWorker = true;
+                if (input.NotifyList != null && input.NotifyList.Contains("通知工作人员")) fireAlarm.NotifyWorker = true;
                 else fireAlarm.NotifyWorker = false;
-                if (input.NotifyList.Contains("通知微型消防站")) fireAlarm.NotifyMiniStation = true;
-                else fireAlarm.NotifyMiniStation = false;
+                if (input.NotifyList != null && input.NotifyList.Contains("通知119")) fireAlarm.Notify119 = true;
+                else fireAlarm.Notify119 = false;
 
                 if (input.CheckVoice != null)
                 {
@@ -199,7 +199,7 @@ namespace FireProtectionV1.FireWorking.Manager
 
             List<string> lstNotify = new List<string>();
             if (fireAlarm.NotifyWorker) lstNotify.Add("通知工作人员");
-            if (fireAlarm.NotifyMiniStation) lstNotify.Add("通知微型消防站");
+            if (fireAlarm.Notify119) lstNotify.Add("通知119");
 
             return new FireAlarmDetailOutput()
             {
@@ -216,7 +216,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 VioceUrl = fireAlarm.CheckVoiceUrl,
                 VoiceLength = fireAlarm.CheckVoiceLength,
                 NotifyWorker = fireAlarm.NotifyWorker,
-                NotifyMiniStation = fireAlarm.NotifyMiniStation,
+                Notify119 = fireAlarm.Notify119,
                 FireCheckUser = fireCheckUser != null ? $"{fireCheckUser.Name}（{fireCheckUser.Account}）" : "",
                 NotifyList = lstNotify
             };

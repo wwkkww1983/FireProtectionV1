@@ -55,9 +55,9 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         public bool NotifyWorker { get; set; }
         /// <summary>
-        /// 通知微型消防站
+        /// 通知119
         /// </summary>
-        public bool NotifyMiniStation { get; set; }
+        public bool Notify119 { get; set; }
         /// <summary>
         /// 是否已读取（用于手机端显示未读的报警数据）
         /// </summary>
