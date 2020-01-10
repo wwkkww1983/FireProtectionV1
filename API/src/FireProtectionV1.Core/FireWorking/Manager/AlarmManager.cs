@@ -120,9 +120,9 @@ namespace FireProtectionV1.FireWorking.Manager
 
             if (input.CheckState == FireAlarmCheckState.False || input.CheckState == FireAlarmCheckState.Test || input.CheckState == FireAlarmCheckState.True)
             {
-                if (input.NotifyList != null && input.NotifyList.Contains("通知工作人员")) fireAlarm.NotifyWorker = true;
+                if (input.NotifyList != null && input.NotifyList.Count > 0 && input.NotifyList[0].Contains("通知工作人员")) fireAlarm.NotifyWorker = true;
                 else fireAlarm.NotifyWorker = false;
-                if (input.NotifyList != null && input.NotifyList.Contains("通知119")) fireAlarm.Notify119 = true;
+                if (input.NotifyList != null && input.NotifyList.Count > 0 && input.NotifyList[0].Contains("通知119")) fireAlarm.Notify119 = true;
                 else fireAlarm.Notify119 = false;
 
                 if (input.CheckVoice != null)
@@ -156,7 +156,7 @@ namespace FireProtectionV1.FireWorking.Manager
             //});
         }
         /// <summary>
-        /// 获取数据大屏的火警联网实时达
+        /// 获取防火单位数据大屏的火警联网实时达
         /// </summary>
         /// <param name="fireUnitId">防火单位Id</param>
         /// <param name="dataNum">需要的数据条数，不传的话默认为5条</param>
@@ -385,6 +385,36 @@ namespace FireProtectionV1.FireWorking.Manager
                 NoReadAlarmNum = noReadAlarmToWaterNum
             });
             return lstOutput;
+        }
+        /// <summary>
+        /// 获取区域内各防火单位火警联网的真实火警报119数据
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public Task<List<GetTrueFireAlarmListOutput>> GetAlarmTo119List(int fireDeptId)
+        {
+            var fireUnits = _repFireUnit.GetAll().Where(item => item.FireDeptId.Equals(fireDeptId));
+            var alarmToFires = _repAlarmToFire.GetAll().Where(item => item.CheckState.Equals(FireAlarmCheckState.True) && item.Notify119);
+            var detectors = _repFireAlarmDetector.GetAll();
+            var detectorTypes = _repDetectorType.GetAll();
+
+            var query = from a in alarmToFires
+                        join b in fireUnits on a.FireUnitId equals b.Id
+                        join c in detectors on a.FireAlarmDetectorId equals c.Id
+                        join d in detectorTypes on c.DetectorTypeId equals d.Id
+                        select new GetTrueFireAlarmListOutput()
+                        {
+                            FireAlarmTime = a.CreationTime,
+                            FireCheckTime = (DateTime)a.CheckTime,
+                            FireUnitId = a.FireUnitId,
+                            FireUnitName = b.Name,
+                            FireUnitAddress = b.Address,
+                            ContractName = b.ContractName,
+                            ContractPhone = b.ContractPhone,
+                            AlarmDetectorTypeName = d.Name,
+                            AlarmDetectorAddress = c.FullLocation
+                        };
+            return Task.FromResult(query.OrderByDescending(d => d.FireCheckTime).ToList());
         }
     }
 }

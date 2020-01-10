@@ -77,6 +77,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetAlarmTo119(System.Int32)">
+            <summary>
+            首页：辖区内各防火单位的消防联网实时达
+            </summary>
+            <param name="fireDeptId"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetTotalFireUnitNum(System.String)">
             <summary>
             首页：获取每个月防火单位总接入数量
@@ -3576,56 +3583,6 @@
             设备的当前数值
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SingleElectricDeviceData.State">
-            <summary>
-            设备状态：离线/良好/隐患/超限
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SingleElectricDeviceData.ExistAmpere">
-            <summary>
-            剩余电流监测
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SingleElectricDeviceData.ExistTemperature">
-            <summary>
-            电缆温度监测
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SingleElectricDeviceData.PhaseType">
-            <summary>
-            "单项"/"三项"
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SingleElectricDeviceData.L">
-            <summary>
-            当前L数值
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SingleElectricDeviceData.N">
-            <summary>
-            当前N数值
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SingleElectricDeviceData.A">
-            <summary>
-            当前电流数值
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SingleElectricDeviceData.L1">
-            <summary>
-            当前L1数值
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SingleElectricDeviceData.L2">
-            <summary>
-            当前L2数值
-            </summary>
-        </member>
-        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SingleElectricDeviceData.L3">
-            <summary>
-            当前L3数值
-            </summary>
-        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SerialPortParamDto.ComType">
             <summary>
             接口
@@ -4174,6 +4131,51 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.GetRecordDetectorInput.FireUnitId">
             <summary>
             防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetTrueFireAlarmListOutput.FireAlarmTime">
+            <summary>
+            报警时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetTrueFireAlarmListOutput.FireCheckTime">
+            <summary>
+            核警时间
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetTrueFireAlarmListOutput.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetTrueFireAlarmListOutput.FireUnitName">
+            <summary>
+            防火单位名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetTrueFireAlarmListOutput.FireUnitAddress">
+            <summary>
+            防火单位地址
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetTrueFireAlarmListOutput.ContractName">
+            <summary>
+            防火单位消防联系人
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetTrueFireAlarmListOutput.ContractPhone">
+            <summary>
+            防火单位消防联系人手机
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetTrueFireAlarmListOutput.AlarmDetectorTypeName">
+            <summary>
+            报警部件类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetTrueFireAlarmListOutput.AlarmDetectorAddress">
+            <summary>
+            报警部件位置
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetWaterAlarmListInput.FireUnitId">
@@ -5087,7 +5089,7 @@
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.AlarmManager.GetFireAlarmForDataScreen(System.Int32,System.Int32)">
             <summary>
-            获取数据大屏的火警联网实时达
+            获取防火单位数据大屏的火警联网实时达
             </summary>
             <param name="fireUnitId">防火单位Id</param>
             <param name="dataNum">需要的数据条数，不传的话默认为5条</param>
@@ -5129,6 +5131,13 @@
             获取防火单位未读警情类型及数量
             </summary>
             <param name="fireUnitId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.AlarmManager.GetAlarmTo119List(System.Int32)">
+            <summary>
+            获取区域内各防火单位火警联网的真实火警报119数据
+            </summary>
+            <param name="fireDeptId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.BreakDownManager.GetBreakDownlist(FireProtectionV1.FireWorking.Dto.GetBreakDownInput,Abp.Application.Services.Dto.PagedResultRequestDto)">
@@ -5698,6 +5707,13 @@
             获取防火单位未读警情类型及数量
             </summary>
             <param name="fireUnitId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IAlarmManager.GetAlarmTo119List(System.Int32)">
+            <summary>
+            获取区域内各防火单位火警联网的真实火警报119数据
+            </summary>
+            <param name="fireDeptId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IBreakDownManager.GetBreakDownlist(FireProtectionV1.FireWorking.Dto.GetBreakDownInput,Abp.Application.Services.Dto.PagedResultRequestDto)">

@@ -71,5 +71,11 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="fireUnitId"></param>
         /// <returns></returns>
         Task<List<GetNoReadAlarmNumOutput>> GetNoReadAlarmNumList(int fireUnitId);
+        /// <summary>
+        /// 获取区域内各防火单位火警联网的真实火警报119数据
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        Task<List<GetTrueFireAlarmListOutput>> GetAlarmTo119List(int fireDeptId);
     }
 }
