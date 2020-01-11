@@ -80,4 +80,12 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// </summary>
         public DateTime CreationTime { get; set; }
     }
+
+    public class FireElectricDevice_DeptDto : FireElectricDeviceItemDto
+    {
+        /// <summary>
+        /// 防火单位名称
+        /// </summary>
+        public string FireUnitName { get; set; }
+    }
 }

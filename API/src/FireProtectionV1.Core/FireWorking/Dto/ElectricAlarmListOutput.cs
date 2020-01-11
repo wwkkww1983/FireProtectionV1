@@ -42,7 +42,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 模拟量值
         /// </summary>
-        public double Analog { get; set; }
+        public string Analog { get; set; }
         /// <summary>
         /// 是否已读（手机端未读的警情需加粗显示）
         /// </summary>

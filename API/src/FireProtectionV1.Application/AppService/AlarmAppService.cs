@@ -90,6 +90,15 @@ namespace FireProtectionV1.AppService
             await _alarmManager.CheckFirmAlarm(input);
         }
         /// <summary>
+        /// 获取区域内各防火单位火警联网的真实火警报119数据
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public async Task<List<GetTrueFireAlarmListOutput>> GetAlarmTo119List(int fireDeptId)
+        {
+            return await _alarmManager.GetAlarmTo119List(fireDeptId);
+        }
+        /// <summary>
         /// 获取防火单位未读警情类型及数量
         /// </summary>
         /// <param name="fireUnitId"></param>

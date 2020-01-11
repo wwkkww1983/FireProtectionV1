@@ -26,7 +26,7 @@ namespace FireProtectionV1.FireWorking.Dto
         /// <summary>
         /// 数值
         /// </summary>
-        public double Value { get; set; }
+        public string Value { get; set; }
         /// <summary>
         /// 是否已读（手机端未读的警情需加粗显示）
         /// </summary>

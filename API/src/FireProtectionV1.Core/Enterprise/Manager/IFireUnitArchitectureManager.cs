@@ -57,6 +57,12 @@ namespace FireProtectionV1.Enterprise.Manager
         /// </summary>
         /// <param name="architectureId"></param>
         /// <returns></returns>
-        Task<List<FireUnitArchitectureFloor>> GetFloorsByArchitectureId(int architectureId);
+        Task<List<GetFloorListOutput>> GetFloorsByArchitectureId(int architectureId);
+        /// <summary>
+        /// 根据楼层Id获取楼层信息
+        /// </summary>
+        /// <param name="floorId"></param>
+        /// <returns></returns>
+        Task<FireUnitArchitectureFloor> GetFloorById(int floorId);
     }
 }

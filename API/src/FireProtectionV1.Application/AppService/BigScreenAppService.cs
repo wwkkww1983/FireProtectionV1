@@ -74,6 +74,87 @@ namespace FireProtectionV1.AppService
             return await _manager.GetTianXunTong();
         }
         /// <summary>
+        /// 首页：辖区内各防火单位的消防联网实时达
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public async Task<List<DataText>> GetAlarmTo119(int fireDeptId)
+        {
+            return await _manager.GetAlarmTo119(fireDeptId);
+        }
+        /// <summary>
+        /// 获取本月辖区内各防火单位真实火警报119的数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public async Task<List<NumberCard>> GetAlarmTo119Num(int fireDeptId)
+        {
+            return await _manager.GetAlarmTo119Num(fireDeptId);
+        }
+        /// <summary>
+        /// 获取辖区内防火单位的数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public async Task<List<NumberCard>> GetFireUnitNum(int fireDeptId)
+        {
+            return await _manager.GetFireUnitNum(fireDeptId);
+        }
+        /// <summary>
+        /// 获取辖区内防火单位的火警联网部件设施正常率
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public async Task<List<DataDouble>> GetFireAlarmDetectorNormalRate(int fireDeptId)
+        {
+            return await _manager.GetFireAlarmDetectorNormalRate(fireDeptId);
+        }
+        /// <summary>
+        /// 获取辖区内防火单位联网部件总数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public async Task<List<NumberCard>> GetNetDetectorNum(int fireDeptId)
+        {
+            return await _manager.GetNetDetectorNum(fireDeptId);
+        }
+        /// <summary>
+        /// 获取辖区内防火单位故障部件总数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public async Task<List<NumberCard>> GetFaultDetectorNum(int fireDeptId)
+        {
+            return await _manager.GetFaultDetectorNum(fireDeptId);
+        }
+        /// <summary>
+        /// 获取辖区内电气火灾设备状态统计数据
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public async Task<List<DataXY>> GetElectricDeviceStateStatis(int fireDeptId)
+        {
+            return await _manager.GetElectricDeviceStateStatis(fireDeptId);
+        }
+        /// <summary>
+        /// 获取辖区内当前状态为隐患的电气火灾设备的数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public async Task<List<NumberCard>> GetElectricDeviceDangerNum(int fireDeptId)
+        {
+            return await _manager.GetElectricDeviceDangerNum(fireDeptId);
+        }
+        /// <summary>
+        /// 获取辖区内当前状态为超限的电气火灾设备的数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public async Task<List<NumberCard>> GetElectricDeviceTransfiniteNum(int fireDeptId)
+        {
+            return await _manager.GetElectricDeviceTransfiniteNum(fireDeptId);
+        }
+        /// <summary>
         /// 首页：获取每个月防火单位总接入数量
         /// </summary>
         /// <param name="value"></param>

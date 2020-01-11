@@ -12,6 +12,6 @@ namespace FireProtectionV1.Enterprise.Dto
         /// <summary>
         /// 建筑下的楼层列表
         /// </summary>
-        public List<FireUnitArchitectureFloor> Floors { get; set; }
+        public List<GetFloorListOutput> Floors { get; set; }
     }
 }

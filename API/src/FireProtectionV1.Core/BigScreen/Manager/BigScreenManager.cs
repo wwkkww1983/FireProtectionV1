@@ -4,6 +4,7 @@ using Abp.Runtime.Caching;
 using DeviceServer.Tcp.Protocol;
 using FireProtectionV1.BigScreen.Dto;
 using FireProtectionV1.Common.DBContext;
+using FireProtectionV1.Common.Enum;
 using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.FireWorking.Manager;
 using FireProtectionV1.FireWorking.Model;
@@ -25,6 +26,9 @@ namespace FireProtectionV1.BigScreen.Manager
         IDeviceManager _deviceManager;
         IAlarmManager _alarmManager;
         IRepository<FireUnit> _fireUnitRep;
+        IRepository<FireAlarmDevice> _repFireAlarmDevice;
+        IRepository<FireElectricDevice> _repFireElectricDevice;
+        IRepository<FireAlarmDetector> _repFireAlarmDetector;
         IRepository<FireUnitType> _fireUnitTypeRep;
         IRepository<Hydrant> _hydrantRep;
         IRepository<DetectorType> _repDetectorType;
@@ -34,6 +38,9 @@ namespace FireProtectionV1.BigScreen.Manager
             IDeviceManager deviceManager,
             IAlarmManager alarmManager,
             IRepository<FireUnit> fireUnitRep,
+            IRepository<FireAlarmDevice> repFireAlarmDevice,
+            IRepository<FireElectricDevice> repFireElectricDevice,
+            IRepository<FireAlarmDetector> repFireAlarmDetector,
             IRepository<FireUnitType> fireUnitTypeRep,
             IRepository<Hydrant> hydrantRep,
             IRepository<DetectorType> repDetectorType,
@@ -43,6 +50,9 @@ namespace FireProtectionV1.BigScreen.Manager
             _deviceManager = deviceManager;
             _alarmManager = alarmManager;
             _fireUnitRep = fireUnitRep;
+            _repFireAlarmDevice = repFireAlarmDevice;
+            _repFireElectricDevice = repFireElectricDevice;
+            _repFireAlarmDetector = repFireAlarmDetector;
             _fireUnitTypeRep = fireUnitTypeRep;
             _repDetectorType = repDetectorType;
             _hydrantRep = hydrantRep;
@@ -250,6 +260,275 @@ namespace FireProtectionV1.BigScreen.Manager
             }
             lstDataText.Add(mt);
             return Task.FromResult(lstDataText);
+        }
+        /// <summary>
+        /// 首页：辖区内各防火单位的消防联网实时达
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public async Task<List<DataText>> GetAlarmTo119(int fireDeptId)
+        {
+            var lst = await _alarmManager.GetAlarmTo119List(fireDeptId);
+            List<DataText> lstDataText = new List<DataText>();
+            DataText mt = new DataText();
+            if (lst != null && lst.Count > 0)
+            {
+                int n = 3;
+                if (lst.Count < n) n = lst.Count;
+                for (int i = 0; i < n; i++)
+                {
+                    var item = lst[i];
+                    mt.value += $"<br /><font color='DarkOrange'>【核警时间】</font>{item.FireCheckTime.ToString("yyyy -MM-dd HH:mm:ss")}";
+                    if (item.FireCheckTime.AddMinutes(5) >= DateTime.Now)   // 5分钟之内的，显示“new”
+                    {
+                        mt.value += " &nbsp;&nbsp;<img src=\"http://vshare.sharegroup.com.cn/images/new.gif\" />";
+                    }
+                    mt.value += $"<br /><font color='DarkOrange'>【火警时间】</font>{item.FireAlarmTime.ToString("yyyy-MM-dd HH:mm:ss")}";
+                    mt.value += $"<br /><font color='DarkOrange'>【防火单位】</font>{item.FireUnitName}";
+                    mt.value += $"<br /><font color='DarkOrange'>【单位地址】</font>{item.FireUnitAddress}";
+                    mt.value += $"<br /><font color='DarkOrange'>【消防联系人】</font>{item.ContractName}（{item.ContractPhone}）";
+                    mt.value += $"<br /><font color='DarkOrange'>【报警部件】</font>{item.AlarmDetectorTypeName}（{item.AlarmDetectorAddress}）";
+                    mt.value += "<br />";
+                }
+            }
+            if (!string.IsNullOrEmpty(mt.value))
+            {
+                mt.value = mt.value.Substring(6);
+            }
+            lstDataText.Add(mt);
+            return lstDataText;
+        }
+        /// <summary>
+        /// 获取辖区内防火单位的火警联网部件设施正常率
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public Task<List<DataDouble>> GetFireAlarmDetectorNormalRate(int fireDeptId)
+        {
+            List<DataDouble> lstDataDouble = new List<DataDouble>();
+            DataDouble mt = new DataDouble();
+            var detectors = _repFireAlarmDetector.GetAll().Where(item=>item.State.Equals(FireAlarmDetectorState.Fault));
+            var fireUnits = _fireUnitRep.GetAll().Where(item => item.FireDeptId.Equals(fireDeptId));
+            var fireAlarmDevices = _repFireAlarmDevice.GetAll().Where(item=>item.NetDetectorNum > 0);
+
+            var query = from a in fireAlarmDevices
+                        join b in fireUnits on a.FireUnitId equals b.Id
+                        select new
+                        {
+                            NetDetectorNum = a.NetDetectorNum
+                        };
+            int sumNetDetectorNum = query.Sum(item => item.NetDetectorNum); // 所有联网部件的数量
+
+            var query1 = from a in detectors
+                    join b in fireUnits on a.FireUnitId equals b.Id
+                    join c in fireAlarmDevices on a.FireAlarmDeviceId equals c.Id
+                    select new
+                    {
+                        Id = a.Id
+                    };
+
+            int faultDetectorNum = query1.Count();  // 故障部件数量
+            if (sumNetDetectorNum > 0 && faultDetectorNum > 0) mt.value = Math.Round((double)((sumNetDetectorNum - faultDetectorNum)) / sumNetDetectorNum, 2);
+            else mt.value = 0;
+
+            lstDataDouble.Add(mt);
+            return Task.FromResult(lstDataDouble);
+        }
+        /// <summary>
+        /// 获取辖区内防火单位联网部件总数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public Task<List<NumberCard>> GetNetDetectorNum(int fireDeptId)
+        {
+            List<NumberCard> lstNumberCard = new List<NumberCard>();
+            NumberCard numberCard = new NumberCard()
+            {
+                name = "",
+                value = 0
+            };
+
+            var fireUnits = _fireUnitRep.GetAll().Where(item => item.FireDeptId.Equals(fireDeptId));
+            var fireAlarmDevices = _repFireAlarmDevice.GetAll().Where(item => item.NetDetectorNum > 0);
+
+            var query = from a in fireAlarmDevices
+                        join b in fireUnits on a.FireUnitId equals b.Id
+                        select new
+                        {
+                            NetDetectorNum = a.NetDetectorNum
+                        };
+            int sumNetDetectorNum = query.Sum(item => item.NetDetectorNum); // 所有联网部件的数量
+            numberCard.value = sumNetDetectorNum;
+
+            lstNumberCard.Add(numberCard);
+            return Task.FromResult(lstNumberCard);
+        }
+        /// <summary>
+        /// 获取辖区内防火单位故障部件总数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public Task<List<NumberCard>> GetFaultDetectorNum(int fireDeptId)
+        {
+            List<NumberCard> lstNumberCard = new List<NumberCard>();
+            NumberCard numberCard = new NumberCard()
+            {
+                name = "",
+                value = 0
+            };
+
+            var detectors = _repFireAlarmDetector.GetAll().Where(item => item.State.Equals(FireAlarmDetectorState.Fault));
+            var fireUnits = _fireUnitRep.GetAll().Where(item => item.FireDeptId.Equals(fireDeptId));
+            var fireAlarmDevices = _repFireAlarmDevice.GetAll().Where(item => item.NetDetectorNum > 0);
+
+            var query1 = from a in detectors
+                         join b in fireUnits on a.FireUnitId equals b.Id
+                         join c in fireAlarmDevices on a.FireAlarmDeviceId equals c.Id
+                         select new
+                         {
+                             Id = a.Id
+                         };
+
+            int faultDetectorNum = query1.Count();  // 故障部件数量
+            numberCard.value = faultDetectorNum;
+
+            lstNumberCard.Add(numberCard);
+            return Task.FromResult(lstNumberCard);
+        }
+        /// <summary>
+        /// 获取辖区内电气火灾设备状态统计数据
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public Task<List<DataXY>> GetElectricDeviceStateStatis(int fireDeptId)
+        {
+            var electricDevices = _repFireElectricDevice.GetAll().Where(item => !item.State.Equals(FireElectricDeviceState.Offline));
+            var fireUnits = _fireUnitRep.GetAll().Where(item => item.FireDeptId.Equals(fireDeptId));
+
+            var query = from a in electricDevices
+                        join b in fireUnits on a.FireUnitId equals b.Id
+                        select new
+                        {
+                            Id = a.Id,
+                            State = a.State
+                        };
+            int goodNum = query.Count(item => item.State.Equals(FireElectricDeviceState.Good));
+            int dangerNum = query.Count(item => item.State.Equals(FireElectricDeviceState.Danger));
+            int transfiniteNum = query.Count(item => item.State.Equals(FireElectricDeviceState.Transfinite));
+
+            var lst = new List<DataXY>();
+            lst.Add(new DataXY()
+            {
+                X = "良好",
+                Y = goodNum
+            });
+            lst.Add(new DataXY()
+            {
+                X = "隐患",
+                Y = dangerNum
+            });
+            lst.Add(new DataXY()
+            {
+                X = "超限",
+                Y = transfiniteNum
+            });
+
+            return Task.FromResult(lst);
+        }
+        /// <summary>
+        /// 获取辖区内当前状态为隐患的电气火灾设备的数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public Task<List<NumberCard>> GetElectricDeviceDangerNum(int fireDeptId)
+        {
+            List<NumberCard> lstNumberCard = new List<NumberCard>();
+            NumberCard numberCard = new NumberCard()
+            {
+                name = "",
+                value = 0
+            };
+
+            var electricDevices = _repFireElectricDevice.GetAll().Where(item => item.State.Equals(FireElectricDeviceState.Danger));
+            var fireUnits = _fireUnitRep.GetAll().Where(item => item.FireDeptId.Equals(fireDeptId));
+
+            var query = from a in electricDevices
+                        join b in fireUnits on a.FireUnitId equals b.Id
+                        select new
+                        {
+                            Id = a.Id
+                        };
+            numberCard.value = query.Count();
+
+            lstNumberCard.Add(numberCard);
+            return Task.FromResult(lstNumberCard);
+        }
+        /// <summary>
+        /// 获取辖区内当前状态为超限的电气火灾设备的数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public Task<List<NumberCard>> GetElectricDeviceTransfiniteNum(int fireDeptId)
+        {
+            List<NumberCard> lstNumberCard = new List<NumberCard>();
+            NumberCard numberCard = new NumberCard()
+            {
+                name = "",
+                value = 0
+            };
+
+            var electricDevices = _repFireElectricDevice.GetAll().Where(item => item.State.Equals(FireElectricDeviceState.Transfinite));
+            var fireUnits = _fireUnitRep.GetAll().Where(item => item.FireDeptId.Equals(fireDeptId));
+
+            var query = from a in electricDevices
+                        join b in fireUnits on a.FireUnitId equals b.Id
+                        select new
+                        {
+                            Id = a.Id
+                        };
+            numberCard.value = query.Count();
+
+            lstNumberCard.Add(numberCard);
+            return Task.FromResult(lstNumberCard);
+        }
+        /// <summary>
+        /// 获取本月辖区内各防火单位真实火警报119的数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public async Task<List<NumberCard>> GetAlarmTo119Num(int fireDeptId)
+        {
+            List<NumberCard> lstNumberCard = new List<NumberCard>();
+            NumberCard numberCard = new NumberCard()
+            {
+                name = "",
+                value = 0
+            };
+
+            var lst = await _alarmManager.GetAlarmTo119List(fireDeptId, DateTime.Now.Year, DateTime.Now.Month);
+            if (lst != null)
+            {
+                numberCard.value = lst.Count;
+            }
+            lstNumberCard.Add(numberCard);
+            return lstNumberCard;
+        }
+        /// <summary>
+        /// 获取辖区内防火单位的数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public async Task<List<NumberCard>> GetFireUnitNum(int fireDeptId)
+        {
+            List<NumberCard> lstNumberCard = new List<NumberCard>();
+            NumberCard totalWarning = new NumberCard()
+            {
+                name = "",
+                value = await _fireUnitRep.CountAsync(item => item.FireDeptId.Equals(fireDeptId))
+            };
+
+            lstNumberCard.Add(totalWarning);
+            return lstNumberCard;
         }
         /// <summary>
         /// 首页：获取每个月防火单位总接入数量

@@ -52,4 +52,12 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// </summary>
         public DateTime CreationTime { get; set; }
     }
+
+    public class FireAlarmDevice_DeptDto : FireAlarmDeviceItemDto
+    {
+        /// <summary>
+        /// 防火单位名称
+        /// </summary>
+        public string FireUnitName { get; set; }
+    }
 }

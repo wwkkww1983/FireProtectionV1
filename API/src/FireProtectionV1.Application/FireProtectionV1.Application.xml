@@ -57,6 +57,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.GetAlarmTo119List(System.Int32)">
+            <summary>
+            获取区域内各防火单位火警联网的真实火警报119数据
+            </summary>
+            <param name="fireDeptId"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.AlarmAppService.GetNoReadAlarmNumList(System.Int32)">
             <summary>
             获取防火单位未读警情类型及数量
@@ -215,6 +222,69 @@
             <summary>
             首页：电气警情天讯通
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetAlarmTo119(System.Int32)">
+            <summary>
+            首页：辖区内各防火单位的消防联网实时达
+            </summary>
+            <param name="fireDeptId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetAlarmTo119Num(System.Int32)">
+            <summary>
+            获取本月辖区内各防火单位真实火警报119的数量
+            </summary>
+            <param name="fireDeptId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetFireUnitNum(System.Int32)">
+            <summary>
+            获取辖区内防火单位的数量
+            </summary>
+            <param name="fireDeptId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetFireAlarmDetectorNormalRate(System.Int32)">
+            <summary>
+            获取辖区内防火单位的火警联网部件设施正常率
+            </summary>
+            <param name="fireDeptId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetNetDetectorNum(System.Int32)">
+            <summary>
+            获取辖区内防火单位联网部件总数量
+            </summary>
+            <param name="fireDeptId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetFaultDetectorNum(System.Int32)">
+            <summary>
+            获取辖区内防火单位故障部件总数量
+            </summary>
+            <param name="fireDeptId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetElectricDeviceStateStatis(System.Int32)">
+            <summary>
+            获取辖区内电气火灾设备状态统计数据
+            </summary>
+            <param name="fireDeptId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetElectricDeviceDangerNum(System.Int32)">
+            <summary>
+            获取辖区内当前状态为隐患的电气火灾设备的数量
+            </summary>
+            <param name="fireDeptId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetElectricDeviceTransfiniteNum(System.Int32)">
+            <summary>
+            获取辖区内当前状态为超限的电气火灾设备的数量
+            </summary>
+            <param name="fireDeptId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetTotalFireUnitNum(System.String)">
@@ -885,6 +955,13 @@
             根据建筑ID获取下属楼层（常用于建筑与楼层级联下拉框）
             </summary>
             <param name="architectureId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitArchitectureAppService.GetFloorById(System.Int32)">
+            <summary>
+            根据楼层Id获取楼层信息
+            </summary>
+            <param name="floorId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.GetVerifyCode">
@@ -1649,6 +1726,15 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireAlarmDeviceList_Dept(System.Int32,System.String,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取辖区内各防火单位的火警联网设施列表
+            </summary>
+            <param name="fireDeptId"></param>
+            <param name="fireUnitName"></param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireAlarmDevice(System.Int32)">
             <summary>
             获取火警联网设备详情
@@ -1794,6 +1880,16 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireElectricDeviceList_Dept(System.Int32,System.String,System.String,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取辖区内各防火单位的电气火灾设施列表
+            </summary>
+            <param name="fireDeptId"></param>
+            <param name="fireUnitName"></param>
+            <param name="state">设备状态：null/""、在线、离线、良好、隐患、超限</param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireElectricDevice(System.Int32)">
             <summary>
             获取电气火灾设备详情
@@ -1932,6 +2028,15 @@
             获取消防管网设备列表
             </summary>
             <param name="fireUnitId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireWaterDeviceList_Dept(System.Int32,System.String,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取辖区各防火单位的消防管网设施列表
+            </summary>
+            <param name="fireDeptId"></param>
+            <param name="fireUnitName"></param>
+            <param name="dto"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireWaterDeviceModels">
