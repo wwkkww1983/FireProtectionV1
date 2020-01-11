@@ -639,6 +639,16 @@
             <param name="path"></param>
             <returns>new filename</returns>
         </member>
+        <member name="P:FireProtectionV1.Common.Helper.ShortMessage.Phones">
+            <summary>
+            接收短信的手机号，以英文逗号分隔
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Common.Helper.ShortMessage.Contents">
+            <summary>
+            短信内容，300字以内，必须是通知类短信，且必须加签名
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.Common.Helper.Valid">
             <summary>
             异常过滤辅助类

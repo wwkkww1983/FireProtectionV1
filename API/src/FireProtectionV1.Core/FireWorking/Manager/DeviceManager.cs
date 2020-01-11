@@ -39,6 +39,7 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<FireWaterDevice> _repFireWaterDevice;
         IRepository<FireUnitSystem> _repFireUnitSystem;
         IRepository<FireUnit> _repFireUnit;
+        IRepository<ShortMessageLog> _repShortMessageLog;
         IRepository<FireSystem> _repFireSystem;
         IRepository<Fault> _repFault;
         IRepository<AlarmToFire> _repAlarmToFire;
@@ -62,6 +63,7 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<FireUnitSystem> repFireUnitSystem,
             IRepository<FireSystem> repFireSystem,
             IRepository<FireUnit> repFireUnit,
+            IRepository<ShortMessageLog> repShortMessageLog,
             IRepository<Fault> repFault,
             IRepository<AlarmToFire> repAlarmToFire,
             IRepository<AlarmToElectric> repAlarmToElectric,
@@ -85,6 +87,7 @@ namespace FireProtectionV1.FireWorking.Manager
             _repFireUnitSystem = repFireUnitSystem;
             _repFireSystem = repFireSystem;
             _repFireUnit = repFireUnit;
+            _repShortMessageLog = repShortMessageLog;
             _repFault = repFault;
             _repAlarmToFire = repAlarmToFire;
             _repAlarmToElectric = repAlarmToElectric;
@@ -1947,12 +1950,13 @@ namespace FireProtectionV1.FireWorking.Manager
             Valid.Exception(fireElectricDevice == null, $"未找到编号为{input.FireElectricDeviceSn}的电气火灾设备");
             Valid.Exception(input.Sign != "A" && input.Sign != "N" && input.Sign != "L" && input.Sign != "L1" && input.Sign != "L2" && input.Sign != "L3", "记录的类型标记错误");
 
+            double analog = Math.Round(input.Analog, 2);
             await _repFireElectricRecord.InsertAsync(new FireElectricRecord()
             {
                 FireUnitId = fireElectricDevice.FireUnitId,
                 FireElectricDeviceId = fireElectricDevice.Id,
                 Sign = input.Sign,
-                Analog = input.Analog
+                Analog = analog
             });
 
             int max = 0;
@@ -1979,25 +1983,61 @@ namespace FireProtectionV1.FireWorking.Manager
             }
 
             FireElectricDeviceState nowState = FireElectricDeviceState.Good;
-            if (max > 0 && input.Analog > 0)
+            if (max > 0 && analog > 0)
             {
-                if (input.Analog > max) nowState = FireElectricDeviceState.Transfinite;
-                else if (input.Analog >= max * 0.8) nowState = FireElectricDeviceState.Danger;
+                if (analog > max) nowState = FireElectricDeviceState.Transfinite;
+                else if (analog >= max * 0.8) nowState = FireElectricDeviceState.Danger;
             }
             // 如果状态发生了变化，则修改电气火灾设施的状态
             if (fireElectricDevice.State != nowState)
             {
+                if (nowState.Equals(FireElectricDeviceState.Transfinite))
+                {
+                    // 发送报警短信
+                    var fireUnit = await _repFireUnit.GetAsync(fireElectricDevice.FireUnitId);
+                    if (fireUnit != null && !string.IsNullOrEmpty(fireUnit.ContractPhone))
+                    {
+                        string contents = "电气火灾报警：";
+
+                        try
+                        {
+                            var architecture = await _repFireUnitArchitecture.GetAsync(fireElectricDevice.FireUnitArchitectureId);
+                            string architectureName = architecture != null ? architecture.Name : "";
+                            var floor = await _repFireUnitArchitectureFloor.GetAsync(fireElectricDevice.FireUnitArchitectureFloorId);
+                            string floorName = floor != null ? floor.Name : "";
+                            string unit = input.Sign.Equals("A") ? "mA" : "℃";
+                            contents += $"位于“{architectureName}{floorName}{fireElectricDevice.Location}”，编号为“{fireElectricDevice.DeviceSn}”的“电气火灾防护设施”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”，数值为{input.Sign}：{analog}{unit}";
+                            contents += "，请立即安排处置！【天树聚火警联网】";
+
+                            int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
+                            {
+                                Phones = fireUnit.ContractPhone,
+                                Contents = contents
+                            });
+
+                            await _repShortMessageLog.InsertAsync(new ShortMessageLog()
+                            {
+                                AlarmType = AlarmType.Electric,
+                                FireUnitId = fireElectricDevice.FireUnitId,
+                                Phones = fireUnit.ContractPhone,
+                                Contents = contents,
+                                Result = result
+                            });
+                        }
+                        catch { }
+                    }
+                }
                 fireElectricDevice.State = nowState;
                 await _repFireElectricDevice.UpdateAsync(fireElectricDevice);
             }
-            // 如果超限，则向AlarmToElectric表中插入一条数据
-            if (nowState.Equals(FireElectricDeviceState.Transfinite))
+            // 如果隐患或超限，则向AlarmToElectric表中插入一条数据
+            if (nowState.Equals(FireElectricDeviceState.Transfinite) || nowState.Equals(FireElectricDeviceState.Danger))
             {
                 await _repAlarmToElectric.InsertAsync(new AlarmToElectric()
                 {
                     FireElectricDeviceId = fireElectricDevice.Id,
                     Sign = input.Sign,
-                    Analog = input.Analog,
+                    Analog = analog,
                     State = nowState,
                     FireUnitId = fireElectricDevice.FireUnitId
                 });

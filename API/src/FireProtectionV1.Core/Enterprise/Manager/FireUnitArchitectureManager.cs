@@ -185,7 +185,7 @@ namespace FireProtectionV1.Enterprise.Manager
 
         public async Task UpdateFloor(UpdateFireUnitArchitectureFloorInput input)
         {
-            var old = _FireUnitArchitectureFloorRepository.GetAll().Where(u => u.Id == input.Id).FirstOrDefault();
+            var old = await _FireUnitArchitectureFloorRepository.GetAsync(input.Id);
             old.Floor_Picture = input.Floor_Picture;
             await _FireUnitArchitectureFloorRepository.UpdateAsync(old);
         }

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace FireProtectionV1.FireWorking.Model
 {
-    public class AlarmToElectric: EntityBase
+    public class AlarmToElectric : EntityBase
     {
         /// <summary>
         /// 电气火灾设施Id
