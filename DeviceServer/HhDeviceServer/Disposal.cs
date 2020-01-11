@@ -124,13 +124,12 @@ namespace DeviceServer
                             {
                                 //报警
                                 Console.WriteLine($"{DateTime.Now} 用户信息传输装置手动报警");
-                                var param = new AddAlarmFireInput
+                                var param = new
                                 {
-                                    DetectorGBType = (byte)UnitType.UITD,
-                                    Identify = pack.SrcAddressString,
-                                    GatewayIdentify = pack.SrcAddressString
+                                    detectorSn = pack.SrcAddressString,
+                                    fireAlarmDeviceSn = pack.SrcAddressString,
                                 };
-                                CheckDetectorExitToPost("/api/services/app/Data/AddAlarmFire", param);
+                                FireApi.HttpPostTsj(Config.Url("/api/services/app/Alarm/AddAlarmFire"), param);
                             }
                         }
                         break;
@@ -143,13 +142,12 @@ namespace DeviceServer
                             {
                                 //报警
                                 Console.WriteLine($"{DateTime.Now} 部件报警，部件地址：{data.UnitAddressString} 网关地址：{pack.SrcAddressString}");
-                                var param = new AddAlarmFireInput
+                                var param = new 
                                 {
-                                    DetectorGBType = data.UnitType,
-                                    Identify = data.UnitAddressString,
-                                    GatewayIdentify = pack.SrcAddressString,
+                                    detectorSn = data.UnitAddressString,
+                                    fireAlarmDeviceSn = pack.SrcAddressString,
                                 };
-                                CheckDetectorExitToPost("/api/services/app/Data/AddAlarmFire", param);
+                                FireApi.HttpPostTsj(Config.Url("/api/services/app/Alarm/AddAlarmFire"), param);
                             }
                         }
                         break;

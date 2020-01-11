@@ -17,7 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logger", "Logger\Logger.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceSession", "DeviceSession\DeviceSession.csproj", "{D8CE0D02-4A94-4E3E-BADA-89408BCF43D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HhDeviceServer", "HhDeviceServer\HhDeviceServer.csproj", "{7704656E-73E8-4EAE-A614-8539B0BB8F6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HhDeviceServer", "HhDeviceServer\HhDeviceServer.csproj", "{7704656E-73E8-4EAE-A614-8539B0BB8F6F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "testSrv", "testSrv\testSrv.csproj", "{4B74FFFD-8451-4496-A5AE-3902A71755DF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "testClt", "testClt\testClt.csproj", "{B10294B2-535F-48DB-ABD5-EF5C886382DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +61,14 @@ Global
 		{7704656E-73E8-4EAE-A614-8539B0BB8F6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7704656E-73E8-4EAE-A614-8539B0BB8F6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7704656E-73E8-4EAE-A614-8539B0BB8F6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B74FFFD-8451-4496-A5AE-3902A71755DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B74FFFD-8451-4496-A5AE-3902A71755DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B74FFFD-8451-4496-A5AE-3902A71755DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B74FFFD-8451-4496-A5AE-3902A71755DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B10294B2-535F-48DB-ABD5-EF5C886382DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B10294B2-535F-48DB-ABD5-EF5C886382DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B10294B2-535F-48DB-ABD5-EF5C886382DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B10294B2-535F-48DB-ABD5-EF5C886382DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,17 +8,25 @@ namespace testSrv
     {
         static void Main(string[] args)
         {
-            using (NamedPipeServerStream pipeServer =
-                 new NamedPipeServerStream("testpipe", PipeDirection.In))//创建连接
+            NamedPipeServerStream pipeServer =
+                 new NamedPipeServerStream("testpipe", PipeDirection.In);//创建连接
+            pipeServer.WaitForConnection();//等待连接，程序会阻塞在此处，直到有一个连接到达
+            while (true)
             {
-                pipeServer.WaitForConnection();//等待连接，程序会阻塞在此处，直到有一个连接到达
-
+                if (!pipeServer.IsConnected)
+                {
+                    pipeServer.Close();
+                    pipeServer = new NamedPipeServerStream("testpipe", PipeDirection.In);
+                    pipeServer.WaitForConnection();//等待连接，程序会阻塞在此处，直到有一个连接到达
+                }
                 try
                 {
                     // Read user input and send that to the client process.
                     using (StreamReader sr = new StreamReader(pipeServer))
                     {
-                        Console.WriteLine(sr.ReadLine());
+                        string rl = sr.ReadLine();
+                        if (!string.IsNullOrEmpty(rl))
+                            Console.WriteLine(rl);
                     }
                 }
                 // Catch the IOException that is raised if the pipe is broken
@@ -27,6 +35,7 @@ namespace testSrv
                 {
                     Console.WriteLine("ERROR: {0}", e.Message);
                 }
+
             }
             Console.ReadKey();
         }

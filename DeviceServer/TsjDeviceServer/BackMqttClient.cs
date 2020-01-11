@@ -26,11 +26,12 @@ namespace TsjDeviceServer
 #if DEBUG
                 var ip = "47.98.179.238";
 #else
-                var ip = Config.Configuration["MQTT: ServerIP"];
+                var ip = Config.Configuration["MQTT:ServerIP"];
 #endif
                 var port = int.Parse(Config.Configuration["MQTT:ServerPort"]);
                 var user = Config.Configuration["MQTT:Username"];
                 var pwd = Config.Configuration["MQTT:Password"];
+                Console.WriteLine($"ip{ip} port{port} user{user} pwd{pwd}");
                 var clientOptions = new MqttClientOptionsBuilder()
                     .WithClientId("back1"/*Guid.NewGuid().ToString().Substring(0, 5)*/)
                     .WithTcpServer(ip, port)
@@ -50,8 +51,8 @@ namespace TsjDeviceServer
                     }
 
                     Console.WriteLine("### SUBSCRIBED ###");
-                    CheckUpdateFirmware checkUpdateFirmware = new CheckUpdateFirmware();
-                    checkUpdateFirmware.Start();
+                    //CheckUpdateFirmware checkUpdateFirmware = new CheckUpdateFirmware();
+                    //checkUpdateFirmware.Start();
                 });
                 _client.DisconnectedHandler = new MqttClientDisconnectedHandlerDelegate(async e =>
                 {
