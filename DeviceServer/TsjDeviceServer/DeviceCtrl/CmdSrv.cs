@@ -101,7 +101,7 @@ namespace TsjDeviceServer.DeviceCtrl
                 var sn = jobj["deviceSn"].ToString();
                 var phaseType = jobj["phaseType"].ToString();
                 string jsonCmd = "";
-                if (phaseType.Equals("单相"))
+                if (phaseType.Equals("1"))
                 {
                     var cmdData = new[]
                     {
