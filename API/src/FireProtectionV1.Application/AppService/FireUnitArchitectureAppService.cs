@@ -89,9 +89,18 @@ namespace FireProtectionV1.AppService
         /// </summary>
         /// <param name="architectureId"></param>
         /// <returns></returns>
-        public async Task<List<FireUnitArchitectureFloor>> GetFloorsByArchitectureId(int architectureId)
+        public async Task<List<GetFloorListOutput>> GetFloorsByArchitectureId(int architectureId)
         {
             return await _fireUnitArchitectureManager.GetFloorsByArchitectureId(architectureId);
+        }
+        /// <summary>
+        /// 根据楼层Id获取楼层信息
+        /// </summary>
+        /// <param name="floorId"></param>
+        /// <returns></returns>
+        public async Task<FireUnitArchitectureFloor> GetFloorById(int floorId)
+        {
+            return await _fireUnitArchitectureManager.GetFloorById(floorId);
         }
     }
 }

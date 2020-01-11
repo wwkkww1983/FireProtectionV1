@@ -309,7 +309,7 @@ namespace FireProtectionV1.FireWorking.Manager
                             Location = b.Location,
                             Sign = a.Sign,
                             State = a.State,
-                            Analog = a.Analog,
+                            Analog = a.Analog + (a.Sign.Equals("A") ? "mA" : "℃"),
                             IsRead = a.IsRead
                         };
             var list = query.OrderByDescending(d => d.CreationTime).Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList();
@@ -343,7 +343,7 @@ namespace FireProtectionV1.FireWorking.Manager
                             DeviceAddress = b.DeviceAddress,
                             MonitorType = b.MonitorType,
                             Location = b.Location,
-                            Value = a.Analog,
+                            Value = a.Analog + (b.MonitorType.Equals(MonitorType.Height) ? "m" : "MPa"),
                             IsRead = a.IsRead
                         };
             var list = query.OrderByDescending(d => d.CreationTime).Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList();
@@ -387,14 +387,24 @@ namespace FireProtectionV1.FireWorking.Manager
             return lstOutput;
         }
         /// <summary>
-        /// 获取区域内各防火单位火警联网的真实火警报119数据
+        /// 获取区域内各防火单位火警联网在某个时间段内的真实火警报119数据，如果不传year、month，则取全部时间的数据
         /// </summary>
         /// <param name="fireDeptId"></param>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
         /// <returns></returns>
-        public Task<List<GetTrueFireAlarmListOutput>> GetAlarmTo119List(int fireDeptId)
+        public Task<List<GetTrueFireAlarmListOutput>> GetAlarmTo119List(int fireDeptId, int year, int month)
         {
-            var fireUnits = _repFireUnit.GetAll().Where(item => item.FireDeptId.Equals(fireDeptId));
             var alarmToFires = _repAlarmToFire.GetAll().Where(item => item.CheckState.Equals(FireAlarmCheckState.True) && item.Notify119);
+            if (year > 0)
+            {
+                alarmToFires = alarmToFires.Where(item => item.CheckTime.Value.Year.Equals(year));
+            }
+            if (month > 0)
+            {
+                alarmToFires = alarmToFires.Where(item => item.CheckTime.Value.Month.Equals(month));
+            }
+            var fireUnits = _repFireUnit.GetAll().Where(item => item.FireDeptId.Equals(fireDeptId));
             var detectors = _repFireAlarmDetector.GetAll();
             var detectorTypes = _repDetectorType.GetAll();
 

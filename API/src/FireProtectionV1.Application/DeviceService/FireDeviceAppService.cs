@@ -70,6 +70,17 @@ namespace FireProtectionV1.DeviceService
             return await _deviceManager.GetFireAlarmDeviceList(fireUnitId, dto);
         }
         /// <summary>
+        /// 获取辖区内各防火单位的火警联网设施列表
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <param name="fireUnitName"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<FireAlarmDevice_DeptDto>> GetFireAlarmDeviceList_Dept(int fireDeptId, string fireUnitName, PagedResultRequestDto dto)
+        {
+            return await _deviceManager.GetFireAlarmDeviceList_Dept(fireDeptId, fireUnitName, dto);
+        }
+        /// <summary>
         /// 获取火警联网设备详情
         /// </summary>
         /// <param name="DeviceId"></param>
@@ -322,6 +333,18 @@ namespace FireProtectionV1.DeviceService
             return await _deviceManager.GetFireElectricDeviceList(fireUnitId, state, dto);
         }
         /// <summary>
+        /// 获取辖区内各防火单位的电气火灾设施列表
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <param name="fireUnitName"></param>
+        /// <param name="state">设备状态：null/""、在线、离线、良好、隐患、超限</param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<FireElectricDevice_DeptDto>> GetFireElectricDeviceList_Dept(int fireDeptId, string fireUnitName, string state, PagedResultRequestDto dto)
+        {
+            return await _deviceManager.GetFireElectricDeviceList_Dept(fireDeptId, fireUnitName, state, dto);
+        }
+        /// <summary>
         /// 获取电气火灾设备详情
         /// </summary>
         /// <param name="DeviceId"></param>
@@ -500,6 +523,17 @@ namespace FireProtectionV1.DeviceService
         public async Task<PagedResultDto<GetFireWaterDeviceListOutput>> GetFireWaterDeviceList(int fireUnitId, PagedResultRequestDto dto)
         {
             return await _deviceManager.GetFireWaterDeviceList(fireUnitId, dto);
+        }
+        /// <summary>
+        /// 获取辖区各防火单位的消防管网设施列表
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <param name="fireUnitName"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<GetFireWaterDeviceList_DeptOutput>> GetFireWaterDeviceList_Dept(int fireDeptId, string fireUnitName, PagedResultRequestDto dto)
+        {
+            return await _deviceManager.GetFireWaterDeviceList_Dept(fireDeptId, fireUnitName, dto);
         }
         /// <summary>
         /// 获取消防管网联网网关设备型号列表

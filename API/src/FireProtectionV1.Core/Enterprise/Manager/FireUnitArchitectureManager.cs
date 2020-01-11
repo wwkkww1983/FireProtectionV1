@@ -204,20 +204,30 @@ namespace FireProtectionV1.Enterprise.Manager
                         {
                             Id = a.Id,
                             Name = a.Name,
-                            Floors = FireUnitArchitectureFloors.Where(item=>item.ArchitectureId.Equals(a.Id))
+                            Floors = FireUnitArchitectureFloors.Where(item => item.ArchitectureId.Equals(a.Id)).Select(item => new GetFloorListOutput()
+                            {
+                                Id = item.Id,
+                                Name = item.Name
+                            })
                             .OrderBy(p => double.Parse(System.Text.RegularExpressions.Regex.Replace(p.Name, @"[^-\d.\d]", ""))).ToList()
                         };
             return Task.FromResult(query.ToList());
         }
 
-        public Task<List<FireUnitArchitectureFloor>> GetFloorsByArchitectureId(int architectureId)
+        public Task<List<GetFloorListOutput>> GetFloorsByArchitectureId(int architectureId)
         {
-            var FireUnitArchitectureFloors = _FireUnitArchitectureFloorRepository.GetAll();
-
-            var expr = ExprExtension.True<FireUnitArchitectureFloor>().And(item => item.ArchitectureId.Equals(architectureId));
-
-            FireUnitArchitectureFloors = FireUnitArchitectureFloors.Where(expr).OrderBy(p => double.Parse(System.Text.RegularExpressions.Regex.Replace(p.Name, @"[^-\d.\d]", "")));
+            var FireUnitArchitectureFloors = _FireUnitArchitectureFloorRepository.GetAll().Where(item => item.ArchitectureId.Equals(architectureId))
+                .OrderBy(p => double.Parse(System.Text.RegularExpressions.Regex.Replace(p.Name, @"[^-\d.\d]", ""))).Select(item => new GetFloorListOutput()
+                {
+                    Id = item.Id,
+                    Name = item.Name
+                });
             return Task.FromResult(FireUnitArchitectureFloors.ToList());
+        }
+
+        public async Task<FireUnitArchitectureFloor> GetFloorById(int floorId)
+        {
+            return await _FireUnitArchitectureFloorRepository.GetAsync(floorId);
         }
     }
 }

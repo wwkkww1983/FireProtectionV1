@@ -61,11 +61,59 @@ namespace FireProtectionV1.BigScreen.Manager
         /// <returns></returns>
         Task<List<DataText>> GetMapMultiText();
         /// <summary>
+        /// 获取辖区内防火单位的火警联网部件设施正常率
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        Task<List<DataDouble>> GetFireAlarmDetectorNormalRate(int fireDeptId);
+        /// <summary>
         /// 首页：辖区内各防火单位的消防联网实时达
         /// </summary>
         /// <param name="fireDeptId"></param>
         /// <returns></returns>
         Task<List<DataText>> GetAlarmTo119(int fireDeptId);
+        /// <summary>
+        /// 获取本月辖区内各防火单位真实火警报119的数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        Task<List<NumberCard>> GetAlarmTo119Num(int fireDeptId);
+        /// <summary>
+        /// 获取辖区内防火单位联网部件总数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        Task<List<NumberCard>> GetNetDetectorNum(int fireDeptId);
+        /// <summary>
+        /// 获取辖区内电气火灾设备状态统计数据
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        Task<List<DataXY>> GetElectricDeviceStateStatis(int fireDeptId);
+        /// <summary>
+        /// 获取辖区内当前状态为隐患的电气火灾设备的数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        Task<List<NumberCard>> GetElectricDeviceDangerNum(int fireDeptId);
+        /// <summary>
+        /// 获取辖区内当前状态为超限的电气火灾设备的数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        Task<List<NumberCard>> GetElectricDeviceTransfiniteNum(int fireDeptId);
+        /// <summary>
+        /// 获取辖区内防火单位故障部件总数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        Task<List<NumberCard>> GetFaultDetectorNum(int fireDeptId);
+        /// <summary>
+        /// 获取辖区内防火单位的数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        Task<List<NumberCard>> GetFireUnitNum(int fireDeptId);
         /// <summary>
         /// 首页：电气警情天讯通
         /// </summary>

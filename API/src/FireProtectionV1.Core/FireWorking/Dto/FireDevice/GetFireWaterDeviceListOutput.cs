@@ -53,4 +53,12 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// </summary>
         public string CurrentValue { get; set; }
     }
+
+    public class GetFireWaterDeviceList_DeptOutput : GetFireWaterDeviceListOutput
+    {
+        /// <summary>
+        /// 防火单位名称
+        /// </summary>
+        public string FireUnitName { get; set; }
+    }
 }
