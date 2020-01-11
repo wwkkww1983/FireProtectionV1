@@ -1397,6 +1397,28 @@ namespace FireProtectionV1.FireWorking.Manager
 
                     fireElectricDevice.State = input.GatewayStatus.Equals(GatewayStatus.Offline) ? FireElectricDeviceState.Offline : FireElectricDeviceState.Good;
                     await _repFireElectricDevice.UpdateAsync(fireElectricDevice);
+                    //发送配置给设备，每次设备重新连线后
+                    //设备通信
+                    var cmdData = new
+                    {
+                        cmd = "ConfigPhase",
+                        deviceSn = fireElectricDevice.DeviceSn,
+                        phaseType = fireElectricDevice.PhaseType,
+                        minAmpere = fireElectricDevice.MinAmpere,
+                        maxAmpere = fireElectricDevice.MaxAmpere,
+                        minL = fireElectricDevice.MinL,
+                        maxL = fireElectricDevice.MaxL,
+                        minN = fireElectricDevice.MinN,
+                        maxN = fireElectricDevice.MaxN,
+                        minL1 = fireElectricDevice.MinL1,
+                        maxL1 = fireElectricDevice.MaxL1,
+                        minL2 = fireElectricDevice.MinL2,
+                        maxL2 = fireElectricDevice.MaxL2,
+                        minL3 = fireElectricDevice.MinL3,
+                        maxL3 = fireElectricDevice.MaxL3
+                    };
+                    await CmdClt.SendAsync(JsonConvert.SerializeObject(cmdData));
+                    
                     break;
                 case TsjDeviceType.FireWater:
                     var lstFireWaterDevice = _repFireWaterDevice.GetAll().Where(item => item.Gateway_Sn.Equals(input.GatewaySn)).ToList();

@@ -51,22 +51,24 @@ namespace TsjDeviceServer
             else if (tsjMsg.IsOffline)
             {
                 var msg = (DataOverflow)tsjMsg.TsjData;
-                //FireApi.HttpPostTsj(Config.Url("/api/services/app/TsjDevice/NewOverflow"), new NewOverflowInput()
-                //{
-                //    Identify = msg.id,
-                //    Value = msg.value,
-                //    Time = TsjConvert.ToLocalDateTime(msg.at).ToString("yyyy-MM-dd HH:mm:ss")
-                //});
+                var gatewayType = tsjMsg.DeviceSn.Contains("TSJ-DQ") ? 2 : 1;
+                FireApi.HttpPostTsj(Config.Url("/api/services/app/FireDevice/UpdateDeviceState"), new 
+                {
+                    gatewayType,
+                    gatewaySn = tsjMsg.DeviceSn,
+                    gatewayStatus = -1
+                });
             }
             else if (tsjMsg.IsHello)
             {
                 var msg = (DataOverflow)tsjMsg.TsjData;
-                //FireApi.HttpPostTsj(Config.Url("/api/services/app/TsjDevice/NewOverflow"), new NewOverflowInput()
-                //{
-                //    Identify = msg.id,
-                //    Value = msg.value,
-                //    Time = TsjConvert.ToLocalDateTime(msg.at).ToString("yyyy-MM-dd HH:mm:ss")
-                //});
+                var gatewayType = tsjMsg.DeviceSn.Contains("TSJ-DQ") ? 2 : 1;
+                FireApi.HttpPostTsj(Config.Url("/api/services/app/FireDevice/UpdateDeviceState"), new
+                {
+                    gatewayType,
+                    gatewaySn = tsjMsg.DeviceSn,
+                    gatewayStatus = 1
+                });
             }
         }
     }
