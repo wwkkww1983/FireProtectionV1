@@ -4,6 +4,7 @@ using Abp.Domain.Services;
 using FireProtectionV1.Common.DBContext;
 using FireProtectionV1.Common.Enum;
 using FireProtectionV1.Common.Helper;
+using FireProtectionV1.Configuration;
 using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
@@ -87,43 +88,47 @@ namespace FireProtectionV1.FireWorking.Manager
             FireAlarmDetector fireAlarmDetector = await _repFireAlarmDetector.FirstOrDefaultAsync(item => item.Identify.Equals(input.DetectorSn) && item.FireAlarmDeviceId.Equals(fireAlarmDevice.Id));
 
             // 发送报警短信
-            var fireUnit = await _repFireUnit.GetAsync(fireAlarmDevice.FireUnitId);
-            if (fireUnit != null && !string.IsNullOrEmpty(fireUnit.ContractPhone))
+            bool flag = bool.Parse(ConfigHelper.Configuration["FireDomain:SendShortMessage"]);   // 从配置文件中获取是否允许发送短信
+            if (flag)
             {
-                string contents = "火警联网报警：";
-
-                try
+                var fireUnit = await _repFireUnit.GetAsync(fireAlarmDevice.FireUnitId);
+                if (fireUnit != null && !string.IsNullOrEmpty(fireUnit.ContractPhone))
                 {
-                    if (fireAlarmDetector != null)
-                    {
-                        var detectorType = await _repDetectorType.GetAsync(fireAlarmDetector.DetectorTypeId);
-                        string typeName = detectorType != null ? detectorType.Name : "火警联网探测器";
-                        contents += $"位于“{fireAlarmDetector.FullLocation}”，编号为“{fireAlarmDetector.Identify}”的“{typeName}”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”";
-                    }
-                    else
-                    {
-                        var device = await _repFireAlarmDevice.FirstOrDefaultAsync(item => item.DeviceSn.Equals(input.FireAlarmDeviceSn));
-                        var ArchitectureName = _repFireUnitArchitecture.Get(device.FireUnitArchitectureId).Name;
-                        contents += $"位于“{ArchitectureName}”，编号为“{input.DetectorSn}”的“火警联网探测器”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”";
-                    }
-                    contents += "，请立即核警！【天树聚火警联网】";
+                    string contents = "火警联网报警：";
 
-                    int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
+                    try
                     {
-                        Phones = fireUnit.ContractPhone,
-                        Contents = contents
-                    });
+                        if (fireAlarmDetector != null)
+                        {
+                            var detectorType = await _repDetectorType.GetAsync(fireAlarmDetector.DetectorTypeId);
+                            string typeName = detectorType != null ? detectorType.Name : "火警联网探测器";
+                            contents += $"位于“{fireAlarmDetector.FullLocation}”，编号为“{fireAlarmDetector.Identify}”的“{typeName}”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”";
+                        }
+                        else
+                        {
+                            var device = await _repFireAlarmDevice.FirstOrDefaultAsync(item => item.DeviceSn.Equals(input.FireAlarmDeviceSn));
+                            var ArchitectureName = _repFireUnitArchitecture.Get(device.FireUnitArchitectureId).Name;
+                            contents += $"位于“{ArchitectureName}”，编号为“{input.DetectorSn}”的“火警联网探测器”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”";
+                        }
+                        contents += "，请立即核警！【天树聚火警联网】";
 
-                    await _repShortMessageLog.InsertAsync(new ShortMessageLog()
-                    {
-                        AlarmType = AlarmType.Fire,
-                        FireUnitId = fireAlarmDevice.FireUnitId,
-                        Phones = fireUnit.ContractPhone,
-                        Contents = contents,
-                        Result = result
-                    });
+                        int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
+                        {
+                            Phones = fireUnit.ContractPhone,
+                            Contents = contents
+                        });
+
+                        await _repShortMessageLog.InsertAsync(new ShortMessageLog()
+                        {
+                            AlarmType = AlarmType.Fire,
+                            FireUnitId = fireAlarmDevice.FireUnitId,
+                            Phones = fireUnit.ContractPhone,
+                            Contents = contents,
+                            Result = result
+                        });
+                    }
+                    catch { }
                 }
-                catch { }
             }
             //int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
             //{

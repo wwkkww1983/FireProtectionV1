@@ -574,21 +574,21 @@ namespace FireProtectionV1.FireWorking.Manager
         public async Task<GetSingleElectricDeviceDataOutput> GetSingleElectricDeviceData(int electricDeviceId)
         {
             var device = await _repFireElectricDevice.GetAsync(electricDeviceId);
-            DateTime nowTime = DateTime.Now.AddDays(-7);
+            DateTime nowTime = DateTime.Now;
 
             // 调用通讯服务的接口向设备发送刷新数值的信号
-            //var cmdData = new
-            //{
-            //    cmd = "UpdateAnalog",
-            //    deviceSn = device.DeviceSn
-            //};
-            //await CmdClt.SendAsync(JsonConvert.SerializeObject(cmdData));
+            var cmdData = new
+            {
+                cmd = "UpdateAnalog",
+                deviceSn = device.DeviceSn
+            };
+            await CmdClt.SendAsync(JsonConvert.SerializeObject(cmdData));
 
             var output = new GetSingleElectricDeviceDataOutput()
             {
                 Result = 0
             };
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= 8; i++)
             {
                 // 休眠一秒，去数据库查找比nowTime的时间还要新的数据，如果找到了就返回，最多循环5次，如果等了5秒还没有新数据就不继续等待
                 Thread.Sleep(1000);
@@ -669,8 +669,8 @@ namespace FireProtectionV1.FireWorking.Manager
             };
             await CmdClt.SendAsync(JsonConvert.SerializeObject(cmdData));
 
-            // 延时2秒钟再返回，否则一点击发送信号就返回，感觉不大好
-            Thread.Sleep(2000);
+            // 延时1秒钟再返回，否则一点击发送信号就返回，感觉不大好
+            Thread.Sleep(1000);
         }
         /// <summary>
         /// 获取某个火警联网设施下的故障部件列表
@@ -765,7 +765,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public Task<PagedResultDto<GetFireAlarmHighDto>> GetFireAlarmHighList(int fireAlarmDeviceId, PagedResultRequestDto dto)
         {
-            int highFreq = int.Parse(ConfigHelper.Configuration["FireDomain:HighFreqAlarm"]);
+            int highFreq = int.Parse(ConfigHelper.Configuration["FireDomain:HighFreqAlarm"]);   // 从配置文件中获取何谓高频
 
             var lstDetectorHigh = _repAlarmToFire.GetAll().Where(item => item.FireAlarmDeviceId == fireAlarmDeviceId && item.CreationTime >= DateTime.Now.AddDays(-30))
                 .GroupBy(item => item.FireAlarmDetectorId).Where(item => item.Count() >= highFreq).Select(item => new
@@ -1312,11 +1312,12 @@ namespace FireProtectionV1.FireWorking.Manager
                         return output;
                     }
                     // 火警联网部件类型
-                    List<string> lstDeteType = new List<string>()
-                    {
-                        "火灾报警控制器","感烟式火灾探测器","感温式火灾探测器",
-                        "感光式火灾探测器","可燃气体火灾探测器","复合式火灾探测器","手动火灾报警按钮","其它"
-                    };
+                    List<string> lstDeteType = _repDetectorType.GetAll().Where(item => item.ApplyForTSJ).Select(item => item.Name).ToList();
+                    //    new List<string>()
+                    //{
+                    //    "火灾报警控制器","感烟式火灾探测器","感温式火灾探测器",
+                    //    "感光式火灾探测器","可燃气体火灾探测器","复合式火灾探测器","手动火灾报警按钮","其它"
+                    //};
 
                     // 获得楼层数据
                     List<FireUnitArchitectureFloor> lstFireUnitArchitectureFloors = await _repFireUnitArchitectureFloor.GetAllListAsync(d => d.ArchitectureId.Equals(fireAlarmDevice.FireUnitArchitectureId));
@@ -2005,38 +2006,53 @@ namespace FireProtectionV1.FireWorking.Manager
             {
                 if (nowState.Equals(FireElectricDeviceState.Transfinite))
                 {
-                    // 发送报警短信
-                    var fireUnit = await _repFireUnit.GetAsync(fireElectricDevice.FireUnitId);
-                    if (fireUnit != null && !string.IsNullOrEmpty(fireUnit.ContractPhone))
+                    // 断电
+                    if (fireElectricDevice.EnableAlarmSwitch)
                     {
-                        string contents = "电气火灾报警：";
-
-                        try
+                        // 调用通讯服务的接口向设备发送断电信号
+                        var cmdData = new
                         {
-                            var architecture = await _repFireUnitArchitecture.GetAsync(fireElectricDevice.FireUnitArchitectureId);
-                            string architectureName = architecture != null ? architecture.Name : "";
-                            var floor = await _repFireUnitArchitectureFloor.GetAsync(fireElectricDevice.FireUnitArchitectureFloorId);
-                            string floorName = floor != null ? floor.Name : "";
-                            string unit = input.Sign.Equals("A") ? "mA" : "℃";
-                            contents += $"位于“{architectureName}{floorName}{fireElectricDevice.Location}”，编号为“{fireElectricDevice.DeviceSn}”的“电气火灾防护设施”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”，数值为{input.Sign}：{analog}{unit}";
-                            contents += "，请立即安排处置！【天树聚电气火灾防护】";
+                            cmd = "Switch",
+                            deviceSn = fireElectricDevice.DeviceSn
+                        };
+                        await CmdClt.SendAsync(JsonConvert.SerializeObject(cmdData));
+                    }
+                    // 发送报警短信
+                    bool flag = bool.Parse(ConfigHelper.Configuration["FireDomain:SendShortMessage"]);   // 从配置文件中获取是否允许发送短信
+                    if (flag)
+                    {
+                        var fireUnit = await _repFireUnit.GetAsync(fireElectricDevice.FireUnitId);
+                        if (fireUnit != null && !string.IsNullOrEmpty(fireUnit.ContractPhone))
+                        {
+                            string contents = "电气火灾报警：";
 
-                            int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
+                            try
                             {
-                                Phones = fireUnit.ContractPhone,
-                                Contents = contents
-                            });
+                                var architecture = await _repFireUnitArchitecture.GetAsync(fireElectricDevice.FireUnitArchitectureId);
+                                string architectureName = architecture != null ? architecture.Name : "";
+                                var floor = await _repFireUnitArchitectureFloor.GetAsync(fireElectricDevice.FireUnitArchitectureFloorId);
+                                string floorName = floor != null ? floor.Name : "";
+                                string unit = input.Sign.Equals("A") ? "mA" : "℃";
+                                contents += $"位于“{architectureName}{floorName}{fireElectricDevice.Location}”，编号为“{fireElectricDevice.DeviceSn}”的“电气火灾防护设施”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”，数值为{input.Sign}：{analog}{unit}";
+                                contents += "，请立即安排处置！【天树聚电气火灾防护】";
 
-                            await _repShortMessageLog.InsertAsync(new ShortMessageLog()
-                            {
-                                AlarmType = AlarmType.Electric,
-                                FireUnitId = fireElectricDevice.FireUnitId,
-                                Phones = fireUnit.ContractPhone,
-                                Contents = contents,
-                                Result = result
-                            });
+                                int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
+                                {
+                                    Phones = fireUnit.ContractPhone,
+                                    Contents = contents
+                                });
+
+                                await _repShortMessageLog.InsertAsync(new ShortMessageLog()
+                                {
+                                    AlarmType = AlarmType.Electric,
+                                    FireUnitId = fireElectricDevice.FireUnitId,
+                                    Phones = fireUnit.ContractPhone,
+                                    Contents = contents,
+                                    Result = result
+                                });
+                            }
+                            catch { }
                         }
-                        catch { }
                     }
                 }
                 fireElectricDevice.State = nowState;
