@@ -29,6 +29,7 @@ namespace FireProtectionV1.EntityFrameworkCore
         public DbSet<FireUnitPlan> FireUnitPlan { get; set; }
         public DbSet<FireElectricRecord> FireElectricRecord { get; set; }
         public DbSet<RecordOnline> RecordOnline { get; set; }
+        public DbSet<ShortMessageLog> ShortMessageLog { get; set; }
         public DbSet<FireUnitAttention> FireUnitAttention { get; set; }
         public DbSet<DataToPatrol> DataToPatrol { get; set; }
         public DbSet<DataToPatrolDetail> DataToPatrolDetail { get; set; }

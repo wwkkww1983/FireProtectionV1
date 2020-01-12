@@ -30,6 +30,7 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<AlarmToFire> _repAlarmToFire;
         IRepository<AlarmToElectric> _repAlarmToElectric;
         IRepository<AlarmToWater> _repAlarmToWater;
+        IRepository<ShortMessageLog> _repShortMessageLog;
         IRepository<FireUnit> _repFireUnit;
         IRepository<FireAlarmDevice> _repFireAlarmDevice;
         IRepository<FireUnitArchitecture> _repFireUnitArchitecture;
@@ -42,6 +43,7 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<FireElectricDevice> repFireElectricDevice,
             IRepository<FireWaterDevice> repFireWaterDevice,
             IRepository<DetectorType> repDetectorType,
+            IRepository<ShortMessageLog> repShortMessageLog,
             IRepository<FireUnit> repFireUnit,
             IRepository<AlarmToFire> repAlarmToFire,
             IRepository<AlarmToElectric> repAlarmToElectric,
@@ -58,6 +60,7 @@ namespace FireProtectionV1.FireWorking.Manager
             _repFireElectricDevice = repFireElectricDevice;
             _repFireWaterDevice = repFireWaterDevice;
             _repDetectorType = repDetectorType;
+            _repShortMessageLog = repShortMessageLog;
             _repFireUnit = repFireUnit;
             _repAlarmToElectric = repAlarmToElectric;
             _repAlarmToFire = repAlarmToFire;
@@ -82,6 +85,52 @@ namespace FireProtectionV1.FireWorking.Manager
             Valid.Exception(fireAlarmDevice == null, $"没有找到编号为{input.FireAlarmDeviceSn}的火警联网设施");
 
             FireAlarmDetector fireAlarmDetector = await _repFireAlarmDetector.FirstOrDefaultAsync(item => item.Identify.Equals(input.DetectorSn) && item.FireAlarmDeviceId.Equals(fireAlarmDevice.Id));
+
+            // 发送报警短信
+            var fireUnit = await _repFireUnit.GetAsync(fireAlarmDevice.FireUnitId);
+            if (fireUnit != null && !string.IsNullOrEmpty(fireUnit.ContractPhone))
+            {
+                string contents = "火警联网报警：";
+
+                try
+                {
+                    if (fireAlarmDetector != null)
+                    {
+                        var detectorType = await _repDetectorType.GetAsync(fireAlarmDetector.DetectorTypeId);
+                        string typeName = detectorType != null ? detectorType.Name : "火警联网探测器";
+                        contents += $"位于“{fireAlarmDetector.FullLocation}”，编号为“{fireAlarmDetector.Identify}”的“{typeName}”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”";
+                    }
+                    else
+                    {
+                        var device = await _repFireAlarmDevice.FirstOrDefaultAsync(item => item.DeviceSn.Equals(input.FireAlarmDeviceSn));
+                        var ArchitectureName = _repFireUnitArchitecture.Get(device.FireUnitArchitectureId).Name;
+                        contents += $"位于“{ArchitectureName}”，编号为“{input.DetectorSn}”的“火警联网探测器”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”";
+                    }
+                    contents += "，请立即核警！【天树聚火警联网】";
+
+                    int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
+                    {
+                        Phones = fireUnit.ContractPhone,
+                        Contents = contents
+                    });
+
+                    await _repShortMessageLog.InsertAsync(new ShortMessageLog()
+                    {
+                        AlarmType = AlarmType.Fire,
+                        FireUnitId = fireAlarmDevice.FireUnitId,
+                        Phones = fireUnit.ContractPhone,
+                        Contents = contents,
+                        Result = result
+                    });
+                }
+                catch { }
+            }
+            //int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
+            //{
+            //    Phones = "15881199975",
+            //    Contents = "火警联网报警：位于“兴源大厦3楼3003室”，编号为“0001区004号”的“感烟式火灾探测器”发出报警，时间为“2020-01-11 17:32:13”，请立即核警！【天树聚火警联网】"
+            //});
+
             int fireAlarmDetectorId = 0;
             if (fireAlarmDetector == null)  // 如果部件数据不存在，则插入一条部件数据
             {
