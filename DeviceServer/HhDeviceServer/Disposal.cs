@@ -96,19 +96,26 @@ namespace DeviceServer
                         {
                             DataUploadAnalog data = (DataUploadAnalog)dp.Datas[0];
                             //OnlineDetector(pack.SrcAddressString,data.UnitAddressString);
-                            var param = new AddDataElecInput
-                            {
-                                DetectorGBType = data.UnitType,
-                                Identify = data.UnitAddressString,
-                                GatewayIdentify = pack.SrcAddressString,
-                                Analog = data.Analog,
-                                Unit = data.AnalogUnit
-                            };
+                            //var param = new AddDataElecInput
+                            //{
+                            //    DetectorGBType = data.UnitType,
+                            //    Identify = data.UnitAddressString,
+                            //    GatewayIdentify = pack.SrcAddressString,
+                            //    Analog = data.Analog,
+                            //    Unit = data.AnalogUnit
+                            //};
                             Console.WriteLine($"{DateTime.Now} 收到模拟量 Analog：{data.Analog}{data.AnalogUnit} 部件地址：{data.UnitAddressString} 网关地址：{pack.SrcAddressString}");
-                            if (data.AnalogType == AnalogType.Temperature)
-                                CheckDetectorExitToPost("/api/services/app/Data/AddDataElecT", param);
-                            else if (data.AnalogType == AnalogType.ResidualAjs)
-                                CheckDetectorExitToPost("/api/services/app/Data/AddDataElecE", param);
+                            //if (data.AnalogType == AnalogType.Temperature)
+                            //    CheckDetectorExitToPost("/api/services/app/Data/AddDataElecT", param);
+                            //else if (data.AnalogType == AnalogType.ResidualAjs)
+                            //    CheckDetectorExitToPost("/api/services/app/Data/AddDataElecE", param);
+                            if(data.AnalogType == AnalogType.Temperature|| data.AnalogType == AnalogType.ResidualAjs)
+                            FireApi.HttpPostTsj(Config.Url("/api/services/app/FireDevice/AddElecRecord"), new 
+                            {
+                                fireElectricDeviceSn = pack.SrcAddressString,
+                                sign = data.UnitAddressString,
+                                analog = data.Analog
+                            });
                         }
                         break;
                     case DataType.AjsA1:
