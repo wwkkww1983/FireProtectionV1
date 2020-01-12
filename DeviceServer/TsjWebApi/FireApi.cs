@@ -100,13 +100,14 @@ namespace TsjWebApi
             }
             return "";
         }
-        static public string HttpPostTsj(string url, Object param = null)
+        static public string HttpPostTsj(string url, Object param = null,string method="post")
         {
             //return "";
             string postData = JsonConvert.SerializeObject(param);
+            Console.WriteLine(postData);
             //定义request并设置request的路径
             WebRequest request = WebRequest.Create(url);
-            request.Method = "post";
+            request.Method = method;
             //设置参数的编码格式，解决中文乱码
             byte[] byteArray = Encoding.UTF8.GetBytes(postData);
             //设置request的MIME类型及内容长度
@@ -136,6 +137,7 @@ namespace TsjWebApi
             }
             catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 Console.WriteLine(DateTime.Now + $"HttpPost请求失败 url:{url} postData:{postData}");
             }
             return "";

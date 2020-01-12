@@ -23,19 +23,19 @@ namespace TsjDeviceServer
             if (tsjMsg.IsAlarm)
             {
                 var msg = (DataAlarm)tsjMsg.TsjData;
-                FireApi.HttpPostTsj(Config.Url("/api/services/app/TsjDevice/NewAlarm"), new NewAlarmInput()
+                FireApi.HttpPostTsj(Config.Url("/api/services/app/Alarm/AddAlarmFire"), new 
                 {
-                    Identify = msg.id,
-                    Time = TsjConvert.ToLocalDateTime(msg.at).ToString("yyyy-MM-dd HH:mm:ss")
+                    detectorSn = msg.id,
+                    fireAlarmDeviceSn = tsjMsg.DeviceSn
                 });
             }
             else if (tsjMsg.IsFault)
             {
                 var msg = (DataFault)tsjMsg.TsjData;
-                FireApi.HttpPostTsj(Config.Url("/api/services/app/TsjDevice/NewFault"), new NewFaultInput()
+                FireApi.HttpPostTsj(Config.Url("/api/services/app/FireDevice/AddDetectorFault"), new 
                 {
-                    Identify = msg.id,
-                    Time = TsjConvert.ToLocalDateTime(msg.at).ToString("yyyy-MM-dd HH:mm:ss")
+                    fireAlarmDetectorSn = msg.id,
+                    fireAlarmDeviceSn = tsjMsg.DeviceSn
                 });
             }
             else if (tsjMsg.IsMonitor || tsjMsg.IsOverflow)
@@ -50,25 +50,24 @@ namespace TsjDeviceServer
             }
             else if (tsjMsg.IsOffline)
             {
-                var msg = (DataOverflow)tsjMsg.TsjData;
                 var gatewayType = tsjMsg.DeviceSn.Contains("TSJ-DQ") ? 2 : 1;
                 FireApi.HttpPostTsj(Config.Url("/api/services/app/FireDevice/UpdateDeviceState"), new 
                 {
                     gatewayType,
                     gatewaySn = tsjMsg.DeviceSn,
                     gatewayStatus = -1
-                });
+                },"put");
             }
             else if (tsjMsg.IsHello)
             {
-                var msg = (DataOverflow)tsjMsg.TsjData;
+                var msg = (DataHello)tsjMsg.TsjData;
                 var gatewayType = tsjMsg.DeviceSn.Contains("TSJ-DQ") ? 2 : 1;
                 FireApi.HttpPostTsj(Config.Url("/api/services/app/FireDevice/UpdateDeviceState"), new
                 {
                     gatewayType,
                     gatewaySn = tsjMsg.DeviceSn,
                     gatewayStatus = 1
-                });
+                }, "put");
             }
         }
     }
