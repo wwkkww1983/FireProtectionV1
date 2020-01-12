@@ -574,15 +574,15 @@ namespace FireProtectionV1.FireWorking.Manager
         public async Task<GetSingleElectricDeviceDataOutput> GetSingleElectricDeviceData(int electricDeviceId)
         {
             var device = await _repFireElectricDevice.GetAsync(electricDeviceId);
-            DateTime nowTime = DateTime.Now;
+            DateTime nowTime = DateTime.Now.AddDays(-7);
 
             // 调用通讯服务的接口向设备发送刷新数值的信号
-            var cmdData = new
-            {
-                cmd = "UpdateAnalog",
-                deviceSn = device.DeviceSn
-            };
-            await CmdClt.SendAsync(JsonConvert.SerializeObject(cmdData));
+            //var cmdData = new
+            //{
+            //    cmd = "UpdateAnalog",
+            //    deviceSn = device.DeviceSn
+            //};
+            //await CmdClt.SendAsync(JsonConvert.SerializeObject(cmdData));
 
             var output = new GetSingleElectricDeviceDataOutput()
             {
@@ -632,12 +632,18 @@ namespace FireProtectionV1.FireWorking.Manager
                     }
                     else
                     {
-                        deviceData.L = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L")).Analog + "℃";
-                        deviceData.N = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("N")).Analog + "℃";
                         deviceData.A = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("A")).Analog + "mA";
-                        deviceData.L1 = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L1")).Analog + "℃";
-                        deviceData.L2 = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L2")).Analog + "℃";
-                        deviceData.L3 = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L3")).Analog + "℃";
+                        deviceData.N = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("N")).Analog + "℃";
+                        if (device.PhaseType.Equals(PhaseType.Single))
+                        {
+                            deviceData.L = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L")).Analog + "℃";
+                        }
+                        else
+                        {
+                            deviceData.L1 = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L1")).Analog + "℃";
+                            deviceData.L2 = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L2")).Analog + "℃";
+                            deviceData.L3 = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L3")).Analog + "℃";
+                        }
                     }
                     output.DeviceData = deviceData;
                     output.Result = 1;
@@ -662,6 +668,9 @@ namespace FireProtectionV1.FireWorking.Manager
                 deviceSn = device.DeviceSn
             };
             await CmdClt.SendAsync(JsonConvert.SerializeObject(cmdData));
+
+            // 延时2秒钟再返回，否则一点击发送信号就返回，感觉不大好
+            Thread.Sleep(2000);
         }
         /// <summary>
         /// 获取某个火警联网设施下的故障部件列表
@@ -2010,7 +2019,7 @@ namespace FireProtectionV1.FireWorking.Manager
                             string floorName = floor != null ? floor.Name : "";
                             string unit = input.Sign.Equals("A") ? "mA" : "℃";
                             contents += $"位于“{architectureName}{floorName}{fireElectricDevice.Location}”，编号为“{fireElectricDevice.DeviceSn}”的“电气火灾防护设施”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”，数值为{input.Sign}：{analog}{unit}";
-                            contents += "，请立即安排处置！【天树聚火警联网】";
+                            contents += "，请立即安排处置！【天树聚电气火灾防护】";
 
                             int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
                             {
@@ -2032,18 +2041,19 @@ namespace FireProtectionV1.FireWorking.Manager
                 }
                 fireElectricDevice.State = nowState;
                 await _repFireElectricDevice.UpdateAsync(fireElectricDevice);
-            }
-            // 如果隐患或超限，则向AlarmToElectric表中插入一条数据
-            if (nowState.Equals(FireElectricDeviceState.Transfinite) || nowState.Equals(FireElectricDeviceState.Danger))
-            {
-                await _repAlarmToElectric.InsertAsync(new AlarmToElectric()
+
+                // 如果隐患或超限，则向AlarmToElectric表中插入一条数据
+                if (nowState.Equals(FireElectricDeviceState.Transfinite) || nowState.Equals(FireElectricDeviceState.Danger))
                 {
-                    FireElectricDeviceId = fireElectricDevice.Id,
-                    Sign = input.Sign,
-                    Analog = analog,
-                    State = nowState,
-                    FireUnitId = fireElectricDevice.FireUnitId
-                });
+                    await _repAlarmToElectric.InsertAsync(new AlarmToElectric()
+                    {
+                        FireElectricDeviceId = fireElectricDevice.Id,
+                        Sign = input.Sign,
+                        Analog = analog,
+                        State = nowState,
+                        FireUnitId = fireElectricDevice.FireUnitId
+                    });
+                }
             }
         }
         //public async Task<AddDataOutput> AddOnlineDetector(AddOnlineDetectorInput input)

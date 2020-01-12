@@ -26,10 +26,11 @@ namespace TsjDeviceServer.DeviceCtrl
             using (NamedPipeClientStream pipeClient =
             new NamedPipeClientStream(".", "TsjCmdSrv", PipeDirection.Out))
             {
-                pipeClient.Connect();
+                
 
                 try
                 {
+                    pipeClient.Connect();
                     // Read user input and send that to the client process.
                     using (StreamWriter sw = new StreamWriter(pipeClient))
                     {
