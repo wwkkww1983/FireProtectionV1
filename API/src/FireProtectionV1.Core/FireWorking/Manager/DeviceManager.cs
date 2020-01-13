@@ -267,7 +267,7 @@ namespace FireProtectionV1.FireWorking.Manager
             List<string> lstMonitorItem = new List<string>();
             if (device.EnableEndAlarm) lstEnableAlarm.Add("终端报警");
             if (device.EnableCloudAlarm) lstEnableAlarm.Add("云端报警");
-            if (device.EnableAlarmSwitch) lstEnableAlarm.Add("发送开关量信号");
+            if (device.EnableAlarmSwitch) lstEnableAlarm.Add("自动断电");
             if (device.ExistTemperature) lstMonitorItem.Add("电缆温度");
             if (device.ExistAmpere) lstMonitorItem.Add("剩余电流");
 
@@ -1490,7 +1490,7 @@ namespace FireProtectionV1.FireWorking.Manager
             elec.FireUnitArchitectureId = input.FireUnitArchitectureId;
             elec.EnableCloudAlarm = input.EnableAlarmList.Contains("云端报警");
             elec.EnableEndAlarm = input.EnableAlarmList.Contains("终端报警");
-            elec.EnableAlarmSwitch = input.EnableAlarmList.Contains("发送开关量信号");
+            elec.EnableAlarmSwitch = input.EnableAlarmList.Contains("自动断电");
             elec.ExistAmpere = input.MonitorItemList.Contains("剩余电流");
             elec.ExistTemperature = input.MonitorItemList.Contains("电缆温度");
             elec.FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId;
@@ -1548,7 +1548,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 FireUnitId = input.FireUnitId,
                 EnableCloudAlarm = input.EnableAlarmList.Contains("云端报警"),
                 EnableEndAlarm = input.EnableAlarmList.Contains("终端报警"),
-                EnableAlarmSwitch = input.EnableAlarmList.Contains("发送开关量信号"),
+                EnableAlarmSwitch = input.EnableAlarmList.Contains("自动断电"),
                 ExistAmpere = input.MonitorItemList.Contains("剩余电流"),
                 ExistTemperature = input.MonitorItemList.Contains("电缆温度"),
                 FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId,
