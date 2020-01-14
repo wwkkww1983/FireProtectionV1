@@ -729,7 +729,7 @@ namespace FireProtectionV1.FireWorking.Manager
             var fireUnitArchitectureFloors = _repFireUnitArchitectureFloor.GetAll();
 
             var query = from a in alarmToFires
-                        join b in fireAlarmDetectors on a.FireAlarmDeviceId equals b.Id
+                        join b in fireAlarmDetectors on a.FireAlarmDetectorId equals b.Id
                         join c in fireUnitArchitectureFloors on b.FireUnitArchitectureFloorId equals c.Id into result1
                         from b_c in result1.DefaultIfEmpty()
                         join d in detectorTypes on b.DetectorTypeId equals d.Id into result2
