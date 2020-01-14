@@ -102,13 +102,13 @@ namespace FireProtectionV1.FireWorking.Manager
                         {
                             var detectorType = await _repDetectorType.GetAsync(fireAlarmDetector.DetectorTypeId);
                             string typeName = detectorType != null ? detectorType.Name : "火警联网探测器";
-                            contents += $"位于“{fireAlarmDetector.FullLocation}”，编号为“{fireAlarmDetector.Identify}”的“{typeName}”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”";
+                            contents += $"位于“{fireUnit.Name}{fireAlarmDetector.FullLocation}”，编号为“{fireAlarmDetector.Identify}”的“{typeName}”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”";
                         }
                         else
                         {
                             var device = await _repFireAlarmDevice.FirstOrDefaultAsync(item => item.DeviceSn.Equals(input.FireAlarmDeviceSn));
                             var ArchitectureName = _repFireUnitArchitecture.Get(device.FireUnitArchitectureId).Name;
-                            contents += $"位于“{ArchitectureName}”，编号为“{input.DetectorSn}”的“火警联网探测器”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”";
+                            contents += $"位于“{fireUnit.Name}{ArchitectureName}”，编号为“{input.DetectorSn}”的“火警联网探测器”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”";
                         }
                         contents += "，请立即核警！【天树聚火警联网】";
 
