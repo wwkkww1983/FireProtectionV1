@@ -102,13 +102,13 @@ namespace FireProtectionV1.FireWorking.Manager
                         {
                             var detectorType = await _repDetectorType.GetAsync(fireAlarmDetector.DetectorTypeId);
                             string typeName = detectorType != null ? detectorType.Name : "火警联网探测器";
-                            contents += $"位于“{fireAlarmDetector.FullLocation}”，编号为“{fireAlarmDetector.Identify}”的“{typeName}”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”";
+                            contents += $"位于“{fireUnit.Name}{fireAlarmDetector.FullLocation}”，编号为“{fireAlarmDetector.Identify}”的“{typeName}”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”";
                         }
                         else
                         {
                             var device = await _repFireAlarmDevice.FirstOrDefaultAsync(item => item.DeviceSn.Equals(input.FireAlarmDeviceSn));
                             var ArchitectureName = _repFireUnitArchitecture.Get(device.FireUnitArchitectureId).Name;
-                            contents += $"位于“{ArchitectureName}”，编号为“{input.DetectorSn}”的“火警联网探测器”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”";
+                            contents += $"位于“{fireUnit.Name}{ArchitectureName}”，编号为“{input.DetectorSn}”的“火警联网探测器”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”";
                         }
                         contents += "，请立即核警！【天树聚火警联网】";
 
@@ -139,15 +139,26 @@ namespace FireProtectionV1.FireWorking.Manager
             int fireAlarmDetectorId = 0;
             if (fireAlarmDetector == null)  // 如果部件数据不存在，则插入一条部件数据
             {
-                fireAlarmDetectorId = await _repFireAlarmDetector.InsertAndGetIdAsync(new FireAlarmDetector()
+                var architecture = await _repFireUnitArchitecture.GetAsync(fireAlarmDevice.FireUnitArchitectureId);
+                string architectureName = architecture != null ? architecture.Name : "";
+                var detector = new FireAlarmDetector()
                 {
                     FireUnitId = fireAlarmDevice.FireUnitId,
                     Identify = input.DetectorSn,
                     CreationTime = DateTime.Now,
                     FireAlarmDeviceId = fireAlarmDevice.Id,
                     DetectorTypeId = 67,
+                    FullLocation = architectureName,
                     State = FireAlarmDetectorState.Normal
-                });
+                };
+                // 如果部件SN号与消防火警联网设施SN号一致，则说明是从消防火警联网设施上直接按的手动报警
+                if (input.FireAlarmDeviceSn.Equals(input.DetectorSn))
+                {
+                    detector.DetectorTypeId = 11;
+                    detector.Location = "消防控制室";
+                    detector.FullLocation = architectureName + "消防控制室";
+                }
+                fireAlarmDetectorId = await _repFireAlarmDetector.InsertAndGetIdAsync(detector);
             }
             else
             {

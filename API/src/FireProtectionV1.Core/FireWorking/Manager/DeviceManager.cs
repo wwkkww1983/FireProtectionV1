@@ -2033,7 +2033,7 @@ namespace FireProtectionV1.FireWorking.Manager
                                 var floor = await _repFireUnitArchitectureFloor.GetAsync(fireElectricDevice.FireUnitArchitectureFloorId);
                                 string floorName = floor != null ? floor.Name : "";
                                 string unit = input.Sign.Equals("A") ? "mA" : "℃";
-                                contents += $"位于“{architectureName}{floorName}{fireElectricDevice.Location}”，编号为“{fireElectricDevice.DeviceSn}”的“电气火灾防护设施”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”，数值为{input.Sign}：{analog}{unit}";
+                                contents += $"位于“{fireUnit.Name}{architectureName}{floorName}{fireElectricDevice.Location}”，编号为“{fireElectricDevice.DeviceSn}”的“电气火灾防护设施”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”，数值为{input.Sign}：{analog}{unit}";
                                 contents += "，请立即安排处置！【天树聚电气火灾防护】";
 
                                 int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
