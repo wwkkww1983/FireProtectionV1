@@ -76,16 +76,23 @@ namespace FireProtectionV1.Schedule.Manager
             //Random random = new Random();
             //try
             //{
-            //    // 自动给演示的防火单位增加一条火警联网数据
-            //    List<string> lst = new List<string>()
+            //    if (random.Next(0, 10) == 1)
             //    {
-            //        "981001","150116","150105","150106","160010","140033"
-            //    };
-            //    await _alarmManager.AddAlarmFire(new AddAlarmFireInput()
-            //    {
-            //        DetectorSn = lst[random.Next(0,6)],
-            //        FireAlarmDeviceSn = "GST5000CH"
-            //    });
+            //        // 自动给演示的防火单位增加一条火警联网数据
+            //        List<string> lstDevice = new List<string>()
+            //        {
+            //            "0118041000","GST9000CH","JB-QL-ADL88","TSJ-CS102001004","JB-TT-JBF11"
+            //        };
+            //        List<string> lstDetector = new List<string>()
+            //        {
+            //            "981001","150116","150105","150106","160010","140033"
+            //        };
+            //        await _alarmManager.AddAlarmFire(new AddAlarmFireInput()
+            //        {
+            //            DetectorSn = lstDetector[random.Next(0, 6)],
+            //            FireAlarmDeviceSn = lstDevice[random.Next(0, 5)]
+            //        });
+            //    }
             //}
             //catch { }
             //try

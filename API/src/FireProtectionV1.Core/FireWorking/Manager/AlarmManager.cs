@@ -145,6 +145,7 @@ namespace FireProtectionV1.FireWorking.Manager
                     Identify = input.DetectorSn,
                     CreationTime = DateTime.Now,
                     FireAlarmDeviceId = fireAlarmDevice.Id,
+                    DetectorTypeId = 67,
                     State = FireAlarmDetectorState.Normal
                 });
             }
