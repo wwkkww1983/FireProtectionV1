@@ -42,12 +42,12 @@ namespace DeviceServer
                     {
                         if (DateTime.Now - v.Value > new TimeSpan(0, 1, 0))
                         {
-                            FireApi.HttpPost(Config.Url("/api/services/app/Data/AddOnlineGateway"), new AddOnlineGatewayInput()
+                            FireApi.HttpPostTsj(Config.Url("/api/services/app/FireDevice/UpdateDeviceState"), new
                             {
-                                Identify = v.Key,
-                                Origin = "安吉斯",
-                                IsOnline = false
-                            });
+                                gatewayStatus = -1,
+                                gatewayType = 1,
+                                gatewaySn = v.Key
+                            },"put");
                             keys.Add(v.Key);
                             //var ss = v.Key.Split(',');
                             //if (ss.Length == 1)
@@ -80,8 +80,9 @@ namespace DeviceServer
         //}
         internal void OnData(Session session, Packet pack)
         {
-            Console.WriteLine($"OnData pack.Cmd{pack.Cmd}");
-            //OnlineGateway(pack.SrcAddressString);
+            //Console.WriteLine($"OnData pack.Cmd{pack.Cmd}");
+            Console.WriteLine($"sn{pack.SrcAddressString}");
+            OnlineGateway(pack.SrcAddressString);
             //转发
             //_transfer?.Send(pack.SrcAddressString, pack.Data.ToArray(), session);
             //解析
@@ -91,7 +92,7 @@ namespace DeviceServer
                 //if (!Enum.IsDefined(typeof(DataType), pack.DataUnit[0]))
                 //    return;
                 //DataType dataType = (DataType)pack.DataUnit[0];
-                Console.WriteLine($"dp.DataType{dp.DataType}");
+                //Console.WriteLine($"dp.DataType{dp.DataType}");
                 switch (dp.DataType)
                 {
                     case DataType.UploadUnitAnalog://上传模拟量值
@@ -201,12 +202,12 @@ namespace DeviceServer
             {
                 if (!_lastTimeIdentifys.ContainsKey(srcAddressString))
                 {
-                    CheckDetectorExitToPost("/api/services/app/Data/AddOnlineGateway", new AddOnlineGatewayInput()
+                    FireApi.HttpPostTsj(Config.Url("/api/services/app/FireDevice/UpdateDeviceState"), new 
                     {
-                        Identify = srcAddressString,
-                        IsOnline = true,
-                        Origin = "安吉斯"
-                    });
+                        gatewayStatus = 1,
+                        gatewayType = 1,
+                        gatewaySn = srcAddressString
+                    },"put");
                 }
                 _lastTimeIdentifys[srcAddressString] = DateTime.Now;
 

@@ -152,7 +152,7 @@ namespace DeviceServer.Tcp
                     Packet pack = _packRecv;
                     //确认
                     Confirm(pack);
-                    Console.WriteLine($"OnData {OnData!=null}");
+                    //Console.WriteLine($"OnData {OnData!=null}");
                     //处理
                     //try
                     //{
