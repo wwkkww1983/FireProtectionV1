@@ -305,14 +305,15 @@ namespace FireProtectionV1.FireWorking.Manager
 
             var query = from a in fireAlarms
                         join b in detectors on a.FireAlarmDetectorId equals b.Id
-                        join c in detectorTypes on b.DetectorTypeId equals c.Id
+                        join cc in detectorTypes on b.DetectorTypeId equals cc.Id into c0
+                        from c in c0.DefaultIfEmpty()
                         join d in fireAlarmDevices on a.FireAlarmDeviceId equals d.Id
                         select new FireAlarmListOutput()
                         {
                             FireAlarmId = a.Id,
                             GatewaySn = d.DeviceSn,
                             DetectorSn = b.Identify,
-                            DetectorTypeName = c.Name,
+                            DetectorTypeName = c==null?"":c.Name,
                             CreationTime = a.CreationTime,
                             Location = b.FullLocation,
                             CheckState = a.CheckState,
