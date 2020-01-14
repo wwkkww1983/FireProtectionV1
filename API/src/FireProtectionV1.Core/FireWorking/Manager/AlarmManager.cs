@@ -139,15 +139,26 @@ namespace FireProtectionV1.FireWorking.Manager
             int fireAlarmDetectorId = 0;
             if (fireAlarmDetector == null)  // 如果部件数据不存在，则插入一条部件数据
             {
-                fireAlarmDetectorId = await _repFireAlarmDetector.InsertAndGetIdAsync(new FireAlarmDetector()
+                var architecture = await _repFireUnitArchitecture.GetAsync(fireAlarmDevice.FireUnitArchitectureId);
+                string architectureName = architecture != null ? architecture.Name : "";
+                var detector = new FireAlarmDetector()
                 {
                     FireUnitId = fireAlarmDevice.FireUnitId,
                     Identify = input.DetectorSn,
                     CreationTime = DateTime.Now,
                     FireAlarmDeviceId = fireAlarmDevice.Id,
                     DetectorTypeId = 67,
+                    FullLocation = architectureName,
                     State = FireAlarmDetectorState.Normal
-                });
+                };
+                // 如果部件SN号与消防火警联网设施SN号一致，则说明是从消防火警联网设施上直接按的手动报警
+                if (input.FireAlarmDeviceSn.Equals(input.DetectorSn))
+                {
+                    detector.DetectorTypeId = 11;
+                    detector.Location = "消防控制室";
+                    detector.FullLocation = architectureName + "消防控制室";
+                }
+                fireAlarmDetectorId = await _repFireAlarmDetector.InsertAndGetIdAsync(detector);
             }
             else
             {
