@@ -18,5 +18,9 @@ namespace TsjDeviceServer.Data
         /// 配置业务信息CRC32校验
         /// </summary>
         public string CRC32_config { get; set; }
+        /// <summary>
+        /// 当前wifi连接信息
+        /// </summary>
+        public string wifi { get; set; }
     }
 }
