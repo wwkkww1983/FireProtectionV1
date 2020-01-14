@@ -73,6 +73,39 @@ namespace FireProtectionV1.Schedule.Manager
         /// <returns></returns>
         public Task EveryMinute()
         {
+            //Random random = new Random();
+            //try
+            //{
+            //    // 自动给演示的防火单位增加一条火警联网数据
+            //    List<string> lst = new List<string>()
+            //    {
+            //        "981001","150116","150105","150106","160010","140033"
+            //    };
+            //    await _alarmManager.AddAlarmFire(new AddAlarmFireInput()
+            //    {
+            //        DetectorSn = lst[random.Next(0,6)],
+            //        FireAlarmDeviceSn = "GST5000CH"
+            //    });
+            //}
+            //catch { }
+            //try
+            //{
+            //    // 自动给演示的防火单位增加一条电气火灾数据
+            //    string[] signs = new string[] { "A", "L", "N" };
+            //    string sign = signs[random.Next(0, 3)];
+            //    double value = 0;
+            //    if (sign.Equals("A")) value = random.Next(1, 350);
+            //    else value = random.Next(20, 70);
+
+            //    await _deviceManager.AddElecRecord(new AddDataElecInput()
+            //    {
+            //        FireElectricDeviceSn = "TSJ-DQ10-20010003",
+            //        Sign = sign,
+            //        Analog = value
+            //    });
+            //}
+            //catch { }
+
             // 将过期火警数据的核警状态改为已过期
             string sql = $"update alarmtofire set checkstate={(int)FireAlarmCheckState.Expire} where checkstate={(int)FireAlarmCheckState.UnCheck} and TIMESTAMPDIFF(MINUTE,CreationTime,NOW()) > 60";
             int result = _sqlRepository.Execute(sql);
