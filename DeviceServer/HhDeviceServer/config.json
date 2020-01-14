@@ -8,7 +8,7 @@
     "**/platforms"
   ],
   "TCP": {
-    "ServerPort": 26875
+    "ServerPort": 6875
   },
   "FireApi": {
     "UrlBase": "http://127.0.0.1:5081"

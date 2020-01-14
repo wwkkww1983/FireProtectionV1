@@ -21,21 +21,21 @@ namespace DeviceServer
             //    sum += bt;
             //}
             //string check = ((byte)sum).ToString("X2");
-            Transfer transfer = new Transfer();
-            int i = 0;
-            while (true)
-            {
-                var add = Config.Configuration[$"Transfer:{i}:Address"];
-                var ip = Config.Configuration[$"Transfer:{i}:IP"];
-                var port0 = Config.Configuration[$"Transfer:{i}:Port"];
-                var portlocal = Config.Configuration[$"Transfer:{i}:LocalPort"];
-                if (add == null || ip == null || port0 == null)
-                    break;
-                transfer.AddTransDis(add, ip, int.Parse(port0),int.Parse(portlocal));
-                i++;
-            }
+            //Transfer transfer = new Transfer();
+            //int i = 0;
+            //while (true)
+            //{
+            //    var add = Config.Configuration[$"Transfer:{i}:Address"];
+            //    var ip = Config.Configuration[$"Transfer:{i}:IP"];
+            //    var port0 = Config.Configuration[$"Transfer:{i}:Port"];
+            //    var portlocal = Config.Configuration[$"Transfer:{i}:LocalPort"];
+            //    if (add == null || ip == null || port0 == null)
+            //        break;
+            //    transfer.AddTransDis(add, ip, int.Parse(port0),int.Parse(portlocal));
+            //    i++;
+            //}
 
-            SessionManager manager = new SessionManager(new Disposal(transfer));
+            SessionManager manager = new SessionManager(new Disposal());
             TcpSrv srv = new TcpSrv(manager);
             //string ip = Config.Configuration["TCP:ServerIP"];
             int port = int.Parse(Config.Configuration["TCP:ServerPort"]);

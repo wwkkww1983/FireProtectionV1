@@ -123,9 +123,9 @@ namespace DeviceServer.Tcp
                 try
                 {
                     readlen = _client.Client.Receive(byteRead);
-                    string s = byteRead[0].ToString("X2") + " ";
-                    TestAjsDeviceServer.Log(byteRead[0]);
-                    Console.Write(s);
+                    //string s = byteRead[0].ToString("X2") + " ";
+                    ////TestAjsDeviceServer.Log(byteRead[0]);
+                    //Console.Write(s);
                 }catch(SocketException e)
                 {
                     if(e.SocketErrorCode== SocketError.TimedOut)
@@ -143,12 +143,24 @@ namespace DeviceServer.Tcp
                 }
                 if (readlen<1)
                     continue;
+                string s = byteRead[0].ToString("X2") + " ";
+                //TestAjsDeviceServer.Log(byteRead[0]);
+                Console.Write(s);
+
                 if (_packRecv.Recv(byteRead[0]))
                 {
                     Packet pack = _packRecv;
                     //确认
                     Confirm(pack);
+                    Console.WriteLine($"OnData {OnData!=null}");
                     //处理
+                    //try
+                    //{
+                    //    OnData?.Invoke(this, pack);
+                    //   }catch(Exception e)
+                    //{
+                    //    Console.WriteLine(e.Message);
+                    //}
                     Task.Run(() => OnData?.Invoke(this, pack));
                     _packRecv = new Packet();
                 }
@@ -160,8 +172,9 @@ namespace DeviceServer.Tcp
         /// <param name="recv"></param>
         private void Confirm(Packet recv)
         {
-            if (IsTransfer)
-                return;
+            //if (IsTransfer)
+            //    return;
+            Console.WriteLine("发送确认包");
             List<byte> send = new List<byte>();
             send.AddRange(recv.Head);
             send.AddRange(recv.Sn);

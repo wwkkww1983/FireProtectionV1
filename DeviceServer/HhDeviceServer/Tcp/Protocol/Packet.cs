@@ -29,9 +29,18 @@ namespace DeviceServer.Tcp.Protocol
         /// </summary>
         public List<byte> SrcAddress { get { return _lst.GetRange(12, 6); } }
         /// <summary>
-        /// 网关标识字符串（其实就是把网关标识的6位数字倒过来，以.分隔：00.00.B6.83.15.6A）
+        /// 网关标识字符串（其实就是把网关标识的6位数字倒过来，以.分隔：00.00.B6.83.15.6A,恒华是10位整数）
         /// </summary>
-        public string SrcAddressString { get { return $"{_lst[17]}.{_lst[16]}.{_lst[15]}.{_lst[14]}.{_lst[13]}.{_lst[12]}"; } }
+        public string SrcAddressString
+        {
+            get
+            {
+                byte[] bts = new byte[4] { _lst[17], _lst[16], _lst[15], _lst[14] };
+                int sn = byteArrayToInt(bts);
+                return sn.ToString("0000000000");
+            }
+        }
+        //public string SrcAddressString { get { return $"{_lst[17]}.{_lst[16]}.{_lst[15]}.{_lst[14]}.{_lst[13]}.{_lst[12]}"; } }
         /// <summary>
         /// 目的地址（51 1F 00 00 00 0B）
         /// </summary>
@@ -55,6 +64,17 @@ namespace DeviceServer.Tcp.Protocol
                     return Cmd.Unknown;
                 return (Cmd)_lst[26];
             }
+        }
+         int byteArrayToInt(byte[] bytes)
+        {
+            int value = 0;
+            // 由高位到低位  
+            for (int i = 0; i < 4; i++)
+            {
+                int shift = (4 - 1 - i) * 8;
+                value += (bytes[i] & 0x000000FF) << shift;// 往高位游  
+            }
+            return value;
         }
         /// <summary>
         /// 应用数据单元

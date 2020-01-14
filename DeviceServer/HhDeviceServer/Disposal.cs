@@ -17,7 +17,7 @@ namespace DeviceServer
     {
         object _lock = new object();
         Dictionary<string, DateTime> _lastTimeIdentifys = new Dictionary<string, DateTime>();
-        Transfer _transfer;
+        //Transfer _transfer;
         Thread _tCheckOnline;
         bool _bRun = true;
         public void StartOnlineCheck()
@@ -74,15 +74,16 @@ namespace DeviceServer
             }
         }
 
-        public Disposal(Transfer transfer = null)
-        {
-            _transfer = transfer;
-        }
+        //public Disposal(Transfer transfer = null)
+        //{
+        //    _transfer = transfer;
+        //}
         internal void OnData(Session session, Packet pack)
         {
-            OnlineGateway(pack.SrcAddressString);
+            Console.WriteLine($"OnData pack.Cmd{pack.Cmd}");
+            //OnlineGateway(pack.SrcAddressString);
             //转发
-            _transfer?.Send(pack.SrcAddressString, pack.Data.ToArray(), session);
+            //_transfer?.Send(pack.SrcAddressString, pack.Data.ToArray(), session);
             //解析
             if (pack.Cmd == Cmd.Send)
             {
@@ -90,6 +91,7 @@ namespace DeviceServer
                 //if (!Enum.IsDefined(typeof(DataType), pack.DataUnit[0]))
                 //    return;
                 //DataType dataType = (DataType)pack.DataUnit[0];
+                Console.WriteLine($"dp.DataType{dp.DataType}");
                 switch (dp.DataType)
                 {
                     case DataType.UploadUnitAnalog://上传模拟量值
@@ -122,6 +124,7 @@ namespace DeviceServer
                     case DataType.UploadUITDTime://上传用户信息装置时间
                         //DataUploadTime data = new DataUploadTime(pack.DataUnit.GetRange(2, 6));
                         //同步时间
+                        Console.WriteLine("收到上传用户信息装置时间");
                         session.SendPacket(pack, Cmd.Control, DataType.SyncUITDTime, new List<DataObject>() { new DataSyncTime() });
                         break;
                     case DataType.UploadUITDOperatInfo:
