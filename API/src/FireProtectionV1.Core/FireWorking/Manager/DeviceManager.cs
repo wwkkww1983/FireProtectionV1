@@ -2056,8 +2056,8 @@ namespace FireProtectionV1.FireWorking.Manager
                         await CmdClt.SendAsync(JsonConvert.SerializeObject(cmdData));
                     }
                     // 发送报警短信
-                    bool flag = bool.Parse(ConfigHelper.Configuration["FireDomain:FireElectricShortMessage"]);   // 从配置文件中获取是否允许发送短信
-                    if (flag)
+                    //bool flag = bool.Parse(ConfigHelper.Configuration["FireDomain:FireElectricShortMessage"]);   // 从配置文件中获取是否允许发送短信
+                    if (fireElectricDevice.EnableSMS)
                     {
                         var fireUnit = await _repFireUnit.GetAsync(fireElectricDevice.FireUnitId);
                         if (fireUnit != null && !string.IsNullOrEmpty(fireUnit.ContractPhone))
