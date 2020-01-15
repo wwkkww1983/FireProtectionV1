@@ -278,7 +278,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 FireContractUser = fireContractUser != null ? $"{fireContractUser.Name}（{fireContractUser.Account}）" : "",
                 CheckState = fireAlarm.CheckState,
                 CheckTime = fireAlarm.CheckTime,
-                Content = fireAlarm.CheckContent,
+                Content = fireAlarm.CheckContent != null ? fireAlarm.CheckContent : "无",
                 VioceUrl = fireAlarm.CheckVoiceUrl,
                 VoiceLength = fireAlarm.CheckVoiceLength,
                 NotifyWorker = fireAlarm.NotifyWorker,
