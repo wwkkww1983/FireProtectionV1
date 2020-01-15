@@ -127,5 +127,10 @@ namespace FireProtectionV1.FireWorking.Model
         /// 启用发送短信
         /// </summary>
         public bool EnableSMS { get;  set; }
+        /// <summary>
+        /// 短信接收号码数组“,”分割,临时最多100个号码
+        /// </summary>
+        [MaxLength(1200)]
+        public string SMSPhones { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using FireProtectionV1.Common.Enum;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace FireProtectionV1.FireWorking.Model
@@ -71,5 +72,10 @@ namespace FireProtectionV1.FireWorking.Model
         /// 启用故障发送短信
         /// </summary>
         public bool EnableFaultSMS { get;  set; }
+        /// <summary>
+        /// 短信接收号码数组“,”分割,临时最多100个号码
+        /// </summary>
+        [MaxLength(1200)]
+        public string SMSPhones { get; set; }
     }
 }

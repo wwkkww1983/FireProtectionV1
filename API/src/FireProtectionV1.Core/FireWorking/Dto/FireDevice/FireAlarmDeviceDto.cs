@@ -69,5 +69,9 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// 发现故障时的动作
         /// </summary>
         public List<string> EnableFault { get; set; }
+        /// <summary>
+        /// 短信接收号码数组“,”分割,临时最多100个号码
+        /// </summary>
+        public string SMSPhones { get; set; }
     }
 }

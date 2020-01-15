@@ -112,20 +112,53 @@ namespace FireProtectionV1.FireWorking.Manager
                         }
                         contents += "，请立即核警！【天树聚火警联网】";
 
-                        int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
+                        List<string> lstPhones = new List<string>();
+                        if (string.IsNullOrEmpty(fireAlarmDevice.SMSPhones))
                         {
-                            Phones = fireUnit.ContractPhone,
-                            Contents = contents
-                        });
+                            if (!string.IsNullOrEmpty(fireUnit.ContractPhone))
+                                lstPhones.Add(fireUnit.ContractPhone);
+                        }
+                        else
+                        {
+                            var phones = fireAlarmDevice.SMSPhones.Split(',');
+                            lstPhones.AddRange(phones);
+                        }
+                        foreach (var phone in lstPhones)
+                        {
+                            try
+                            {
+                                int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
+                                {
+                                    Phones = fireUnit.ContractPhone,
+                                    Contents = contents
+                                });
 
-                        await _repShortMessageLog.InsertAsync(new ShortMessageLog()
-                        {
-                            AlarmType = AlarmType.Fire,
-                            FireUnitId = fireAlarmDevice.FireUnitId,
-                            Phones = fireUnit.ContractPhone,
-                            Contents = contents,
-                            Result = result
-                        });
+                                await _repShortMessageLog.InsertAsync(new ShortMessageLog()
+                                {
+                                    AlarmType = AlarmType.Electric,
+                                    FireUnitId = fireAlarmDevice.FireUnitId,
+                                    Phones = phone,
+                                    Contents = contents,
+                                    Result = result
+                                });
+                            }
+                            catch (Exception) { }
+                        }
+
+                        //int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
+                        //{
+                        //    Phones = fireUnit.ContractPhone,
+                        //    Contents = contents
+                        //});
+
+                        //await _repShortMessageLog.InsertAsync(new ShortMessageLog()
+                        //{
+                        //    AlarmType = AlarmType.Fire,
+                        //    FireUnitId = fireAlarmDevice.FireUnitId,
+                        //    Phones = fireUnit.ContractPhone,
+                        //    Contents = contents,
+                        //    Result = result
+                        //});
                     }
                     catch { }
                 }

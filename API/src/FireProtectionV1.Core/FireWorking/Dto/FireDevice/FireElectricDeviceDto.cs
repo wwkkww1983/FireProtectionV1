@@ -102,5 +102,9 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// 三项L3温度最大值
         /// </summary>
         public int MaxL3 { get; set; }
+        /// <summary>
+        /// 短信号码,分割
+        /// </summary>
+        public string SMSPhones { get;  set; }
     }
 }

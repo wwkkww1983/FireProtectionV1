@@ -218,7 +218,8 @@ namespace FireProtectionV1.FireWorking.Manager
                 Protocol = device.Protocol,
                 NetComm = device.NetComm,
                 EnableAlarm = new List<string>(),
-                EnableFault = new List<string>()
+                EnableFault = new List<string>(),
+                SMSPhones=device.SMSPhones
             };
 
             if (device.EnableAlarmCloud)
@@ -258,6 +259,7 @@ namespace FireProtectionV1.FireWorking.Manager
             device.NetDetectorNum = input.NetDetectorNum;
             device.Protocol = input.Protocol;
             device.NetComm = input.NetComm;
+            device.SMSPhones = input.SMSPhones;
 
             await _repFireAlarmDevice.UpdateAsync(device);
         }
@@ -310,7 +312,8 @@ namespace FireProtectionV1.FireWorking.Manager
                 PhaseType = device.PhaseType,
                 State = device.State,
                 EnableAlarmList = lstEnableAlarm,
-                MonitorItemList = lstMonitorItem
+                MonitorItemList = lstMonitorItem,
+                SMSPhones=device.SMSPhones
             };
             return output;
         }
@@ -1507,7 +1510,8 @@ namespace FireProtectionV1.FireWorking.Manager
                 NetDetectorNum = input.NetDetectorNum,
                 Protocol = input.Protocol,
                 NetComm = input.NetComm,
-                State = GatewayStatus.Offline
+                State = GatewayStatus.Offline,
+                SMSPhones=input.SMSPhones
             });
 
         }
@@ -1545,6 +1549,7 @@ namespace FireProtectionV1.FireWorking.Manager
             elec.MaxL2 = input.MaxL2;
             elec.MinL3 = input.MinL3;
             elec.MaxL3 = input.MaxL3;
+            elec.SMSPhones = input.SMSPhones;
             await _repFireElectricDevice.UpdateAsync(elec);
             //设备通信
             var cmdData = new
@@ -1605,7 +1610,8 @@ namespace FireProtectionV1.FireWorking.Manager
                 MinL3 = input.MinL3,
                 MaxL3 = input.MaxL3,
                 MinN = input.MinN,
-                MaxN = input.MaxN
+                MaxN = input.MaxN,
+                SMSPhones=input.SMSPhones
             });
             //设备通信
             var cmdData = new
@@ -2074,20 +2080,38 @@ namespace FireProtectionV1.FireWorking.Manager
                                 contents += $"位于“{fireUnit.Name}{architectureName}{floorName}{fireElectricDevice.Location}”，编号为“{fireElectricDevice.DeviceSn}”的“电气火灾防护设施”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”，数值为{input.Sign}：{analog}{unit}";
                                 contents += "，请立即安排处置！【天树聚电气火灾防护】";
 
-                                int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
+                                List<string> lstPhones = new List<string>();
+                                if (string.IsNullOrEmpty(fireElectricDevice.SMSPhones))
                                 {
-                                    Phones = fireUnit.ContractPhone,
-                                    Contents = contents
-                                });
+                                    if(!string.IsNullOrEmpty(fireUnit.ContractPhone))
+                                        lstPhones.Add(fireUnit.ContractPhone);
+                                }
+                                else
+                                {
+                                    var phones = fireElectricDevice.SMSPhones.Split(',');
+                                    lstPhones.AddRange(phones);
+                                }
+                                foreach(var phone in lstPhones)
+                                {
+                                    try
+                                    {
+                                        int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
+                                        {
+                                            Phones = fireUnit.ContractPhone,
+                                            Contents = contents
+                                        });
 
-                                await _repShortMessageLog.InsertAsync(new ShortMessageLog()
-                                {
-                                    AlarmType = AlarmType.Electric,
-                                    FireUnitId = fireElectricDevice.FireUnitId,
-                                    Phones = fireUnit.ContractPhone,
-                                    Contents = contents,
-                                    Result = result
-                                });
+                                        await _repShortMessageLog.InsertAsync(new ShortMessageLog()
+                                        {
+                                            AlarmType = AlarmType.Electric,
+                                            FireUnitId = fireElectricDevice.FireUnitId,
+                                            Phones = phone,
+                                            Contents = contents,
+                                            Result = result
+                                        });
+                                    }
+                                    catch (Exception) { }
+                                }
                             }
                             catch { }
                         }

@@ -110,6 +110,9 @@ namespace FireProtectionV1.User.Manager
                 var fireunit = await _fireUnitRepository.FirstOrDefaultAsync(p => p.Id == v.FireUnitID);
                 if (fireunit != null)
                 {
+
+                    output.ContractName = fireunit.ContractName;
+                    output.ContractPhone = fireunit.ContractPhone;
                     output.FireUnitName = fireunit.Name;
                     output.FireUnitID = fireunit.Id;
                     var mini = await _repMiniFireStation.FirstOrDefaultAsync(p => p.FireUnitId == fireunit.Id);

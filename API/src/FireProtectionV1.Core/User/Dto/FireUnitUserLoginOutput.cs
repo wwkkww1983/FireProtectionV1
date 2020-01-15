@@ -24,6 +24,14 @@ namespace FireProtectionV1.User.Dto
         /// </summary>
         public string FireUnitName { get; set; }
         /// <summary>
+        /// 联系人（消防管理负责人）
+        /// </summary>
+        public string ContractName { get; set; }
+        /// <summary>
+        /// 联系人电话
+        /// </summary>
+        public string ContractPhone { get; set; }
+        /// <summary>
         /// 防火单位ID
         /// </summary>
         public int FireUnitID { get; set; }

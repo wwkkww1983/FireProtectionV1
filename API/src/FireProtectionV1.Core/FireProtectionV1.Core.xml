@@ -3239,6 +3239,11 @@
             发现故障时的动作
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireAlarmDeviceDto.SMSPhones">
+            <summary>
+            短信接收号码数组“,”分割,临时最多100个号码
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireAlarmDeviceItemDto.DeviceId">
             <summary>
             设备ID
@@ -3412,6 +3417,11 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDeviceDto.MaxL3">
             <summary>
             三项L3温度最大值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDeviceDto.SMSPhones">
+            <summary>
+            短信号码,分割
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDeviceItemDto.DeviceId">
@@ -7039,6 +7049,21 @@
             状态
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireAlarmDevice.EnableAlarmSMS">
+            <summary>
+            启用报警发送短信
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireAlarmDevice.EnableFaultSMS">
+            <summary>
+            启用故障发送短信
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireAlarmDevice.SMSPhones">
+            <summary>
+            短信接收号码数组“,”分割,临时最多100个号码
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.FireWorking.Model.FireAlarmDeviceProtocol">
             <summary>
             火警联网设施通讯协议
@@ -7187,6 +7212,16 @@
         <member name="P:FireProtectionV1.FireWorking.Model.FireElectricDevice.MaxL3">
             <summary>
             L3温度上限
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireElectricDevice.EnableSMS">
+            <summary>
+            启用发送短信
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireElectricDevice.SMSPhones">
+            <summary>
+            短信接收号码数组“,”分割,临时最多100个号码
             </summary>
         </member>
         <member name="T:FireProtectionV1.FireWorking.Model.FireElectricRecord">
@@ -9867,6 +9902,16 @@
         <member name="P:FireProtectionV1.User.Dto.FireUnitUserLoginOutput.FireUnitName">
             <summary>
             防火单位名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.FireUnitUserLoginOutput.ContractName">
+            <summary>
+            联系人（消防管理负责人）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.FireUnitUserLoginOutput.ContractPhone">
+            <summary>
+            联系人电话
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Dto.FireUnitUserLoginOutput.FireUnitID">
