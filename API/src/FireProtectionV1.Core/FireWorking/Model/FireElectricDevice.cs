@@ -123,5 +123,9 @@ namespace FireProtectionV1.FireWorking.Model
         /// L3温度上限
         /// </summary>
         public int MaxL3 { get; set; }
+        /// <summary>
+        /// 启用发送短信
+        /// </summary>
+        public bool EnableSMS { get;  set; }
     }
 }

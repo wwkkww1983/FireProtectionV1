@@ -223,10 +223,14 @@ namespace FireProtectionV1.FireWorking.Manager
 
             if (device.EnableAlarmCloud)
                 output.EnableAlarm.Add("云端报警");
+            if (device.EnableAlarmSMS)
+                output.EnableAlarm.Add("发送短信");
             if (device.EnableAlarmSwitch)
                 output.EnableAlarm.Add("发送开关量信号");
             if (device.EnableFaultCloud)
                 output.EnableFault.Add("云端报警");
+            if (device.EnableFaultSMS)
+                output.EnableFault.Add("发送短信");
             if (device.EnableFaultSwitch)
                 output.EnableFault.Add("发送开关量信号");
 
@@ -246,8 +250,10 @@ namespace FireProtectionV1.FireWorking.Manager
             device.DeviceModel = input.DeviceModel;
             device.EnableAlarmCloud = input.EnableAlarm.Contains("云端报警");
             device.EnableAlarmSwitch = input.EnableAlarm.Contains("发送开关量信号");
+            device.EnableAlarmSMS = input.EnableAlarm.Contains("发送短信");
             device.EnableFaultCloud = input.EnableFault.Contains("云端报警");
             device.EnableFaultSwitch = input.EnableFault.Contains("发送开关量信号");
+            device.EnableFaultSMS = input.EnableFault.Contains("发送短信");
             device.FireUnitArchitectureId = input.FireUnitArchitectureId;
             device.NetDetectorNum = input.NetDetectorNum;
             device.Protocol = input.Protocol;
@@ -267,6 +273,7 @@ namespace FireProtectionV1.FireWorking.Manager
             List<string> lstMonitorItem = new List<string>();
             if (device.EnableEndAlarm) lstEnableAlarm.Add("终端报警");
             if (device.EnableCloudAlarm) lstEnableAlarm.Add("云端报警");
+            if (device.EnableSMS) lstEnableAlarm.Add("发送短信");
             if (device.EnableAlarmSwitch) lstEnableAlarm.Add("自动断电");
             if (device.ExistTemperature) lstMonitorItem.Add("电缆温度");
             if (device.ExistAmpere) lstMonitorItem.Add("剩余电流");
@@ -590,65 +597,68 @@ namespace FireProtectionV1.FireWorking.Manager
             };
             for (int i = 1; i <= 8; i++)
             {
-                // 休眠一秒，去数据库查找比nowTime的时间还要新的数据，如果找到了就返回，最多循环5次，如果等了5秒还没有新数据就不继续等待
-                Thread.Sleep(1000);
-                var lstElectricRecord = _repFireElectricRecord.GetAll().Where(item => item.FireElectricDeviceId.Equals(electricDeviceId) && item.CreationTime >= nowTime)
-                    .OrderByDescending(item => item.CreationTime).ToList();
-                if (lstElectricRecord != null && lstElectricRecord.Count > 0)
+                    // 休眠一秒，去数据库查找比nowTime的时间还要新的数据，如果找到了就返回，最多循环5次，如果等了5秒还没有新数据就不继续等待
+                    Thread.Sleep(1000);
+                try
                 {
-                    // 因为数值刷新时，硬件会返回多条数据，以下判断是为了防止只获取到硬件返回的其中一部分数据
-                    if (device.ExistAmpere && !lstElectricRecord.Exists(item => item.Sign.Equals("A"))) break;
-                    if (device.ExistTemperature)
+                    var lstElectricRecord = _repFireElectricRecord.GetAll().Where(item => item.FireElectricDeviceId.Equals(electricDeviceId) && item.CreationTime >= nowTime)
+                        .OrderByDescending(item => item.CreationTime).ToList();
+                    if (lstElectricRecord != null && lstElectricRecord.Count > 0)
                     {
-                        if (!lstElectricRecord.Exists(item => item.Sign.Equals("N"))) break;
-                        if (device.PhaseType.Equals(PhaseType.Single) && !(lstElectricRecord.Exists(item => item.Sign.Equals("L")))) break;
-                        if (device.PhaseType.Equals(PhaseType.Third) && !(lstElectricRecord.Exists(item => item.Sign.Equals("L1")) && lstElectricRecord.Exists(item => item.Sign.Equals("L2")) && lstElectricRecord.Exists(item => item.Sign.Equals("L3")))) break;
-                    }
-                    // 重新获取设备数据
-                    device = await _repFireElectricDevice.GetAsync(electricDeviceId);
-                    var deviceData = new FireElectricDeviceItemDto();
-                    deviceData.CreationTime = device.CreationTime;
-                    deviceData.DeviceId = device.Id;
-                    deviceData.DeviceSn = device.DeviceSn;
-                    deviceData.FireUnitArchitectureId = device.FireUnitArchitectureId;
-                    deviceData.FireUnitArchitectureFloorId = device.FireUnitArchitectureFloorId;
-                    deviceData.Location = device.Location;
-                    deviceData.State = device.State;
-                    deviceData.ExistAmpere = device.ExistAmpere;
-                    deviceData.ExistTemperature = device.ExistTemperature;
-                    deviceData.PhaseType = device.PhaseType;
-                    var architecture = await _repFireUnitArchitecture.GetAsync(device.FireUnitArchitectureId);
-                    var architectureFloor = await _repFireUnitArchitectureFloor.GetAsync(device.FireUnitArchitectureFloorId);
-                    deviceData.FireUnitArchitectureName = architecture != null ? architecture.Name : "";
-                    deviceData.FireUnitArchitectureFloorName = architectureFloor != null ? architectureFloor.Name : "";
-                    if (device.State.Equals(FireElectricDeviceState.Offline))
-                    {
-                        deviceData.L = "未知℃";
-                        deviceData.N = "未知℃";
-                        deviceData.A = "未知mA";
-                        deviceData.L1 = "未知℃";
-                        deviceData.L2 = "未知℃";
-                        deviceData.L3 = "未知℃";
-                    }
-                    else
-                    {
-                        deviceData.A = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("A")).Analog + "mA";
-                        deviceData.N = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("N")).Analog + "℃";
-                        if (device.PhaseType.Equals(PhaseType.Single))
+                        // 因为数值刷新时，硬件会返回多条数据，以下判断是为了防止只获取到硬件返回的其中一部分数据
+                        if (device.ExistAmpere && !lstElectricRecord.Exists(item => item.Sign.Equals("A"))) continue;
+                        if (device.ExistTemperature)
                         {
-                            deviceData.L = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L")).Analog + "℃";
+                            if (!lstElectricRecord.Exists(item => item.Sign.Equals("N"))) continue;
+                            if (device.PhaseType.Equals(PhaseType.Single) && !(lstElectricRecord.Exists(item => item.Sign.Equals("L")))) continue;
+                            if (device.PhaseType.Equals(PhaseType.Third) && !(lstElectricRecord.Exists(item => item.Sign.Equals("L1")) && lstElectricRecord.Exists(item => item.Sign.Equals("L2")) && lstElectricRecord.Exists(item => item.Sign.Equals("L3")))) continue;
+                        }
+                        // 重新获取设备数据
+                        device = await _repFireElectricDevice.GetAsync(electricDeviceId);
+                        var deviceData = new FireElectricDeviceItemDto();
+                        deviceData.CreationTime = device.CreationTime;
+                        deviceData.DeviceId = device.Id;
+                        deviceData.DeviceSn = device.DeviceSn;
+                        deviceData.FireUnitArchitectureId = device.FireUnitArchitectureId;
+                        deviceData.FireUnitArchitectureFloorId = device.FireUnitArchitectureFloorId;
+                        deviceData.Location = device.Location;
+                        deviceData.State = device.State;
+                        deviceData.ExistAmpere = device.ExistAmpere;
+                        deviceData.ExistTemperature = device.ExistTemperature;
+                        deviceData.PhaseType = device.PhaseType;
+                        var architecture = await _repFireUnitArchitecture.GetAsync(device.FireUnitArchitectureId);
+                        var architectureFloor = await _repFireUnitArchitectureFloor.GetAsync(device.FireUnitArchitectureFloorId);
+                        deviceData.FireUnitArchitectureName = architecture != null ? architecture.Name : "";
+                        deviceData.FireUnitArchitectureFloorName = architectureFloor != null ? architectureFloor.Name : "";
+                        if (device.State.Equals(FireElectricDeviceState.Offline))
+                        {
+                            deviceData.L = "未知℃";
+                            deviceData.N = "未知℃";
+                            deviceData.A = "未知mA";
+                            deviceData.L1 = "未知℃";
+                            deviceData.L2 = "未知℃";
+                            deviceData.L3 = "未知℃";
                         }
                         else
                         {
-                            deviceData.L1 = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L1")).Analog + "℃";
-                            deviceData.L2 = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L2")).Analog + "℃";
-                            deviceData.L3 = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L3")).Analog + "℃";
+                            deviceData.A = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("A")).Analog + "mA";
+                            deviceData.N = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("N")).Analog + "℃";
+                            if (device.PhaseType.Equals(PhaseType.Single))
+                            {
+                                deviceData.L = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L")).Analog + "℃";
+                            }
+                            else
+                            {
+                                deviceData.L1 = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L1")).Analog + "℃";
+                                deviceData.L2 = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L2")).Analog + "℃";
+                                deviceData.L3 = lstElectricRecord.FirstOrDefault(item => item.Sign.Equals("L3")).Analog + "℃";
+                            }
                         }
+                        output.DeviceData = deviceData;
+                        output.Result = 1;
+                        break;
                     }
-                    output.DeviceData = deviceData;
-                    output.Result = 1;
-                    break;
-                }
+                }catch(Exception e) { }
             }
             return output;
         }
@@ -1488,8 +1498,10 @@ namespace FireProtectionV1.FireWorking.Manager
                 DeviceModel = input.DeviceModel,
                 EnableAlarmCloud = input.EnableAlarm.Contains("云端报警"),
                 EnableAlarmSwitch = input.EnableAlarm.Contains("发送开关量信号"),
+                EnableAlarmSMS = input.EnableAlarm.Contains("发送短信"),
                 EnableFaultCloud = input.EnableFault.Contains("云端报警"),
                 EnableFaultSwitch = input.EnableFault.Contains("发送开关量信号"),
+                EnableFaultSMS = input.EnableFault.Contains("发送短信"),
                 FireUnitArchitectureId = input.FireUnitArchitectureId,
                 FireUnitId = input.FireUnitId,
                 NetDetectorNum = input.NetDetectorNum,
@@ -1515,6 +1527,7 @@ namespace FireProtectionV1.FireWorking.Manager
             elec.EnableCloudAlarm = input.EnableAlarmList.Contains("云端报警");
             elec.EnableEndAlarm = input.EnableAlarmList.Contains("终端报警");
             elec.EnableAlarmSwitch = input.EnableAlarmList.Contains("自动断电");
+            elec.EnableSMS= input.EnableAlarmList.Contains("发送短信");
             elec.ExistAmpere = input.MonitorItemList.Contains("剩余电流");
             elec.ExistTemperature = input.MonitorItemList.Contains("电缆温度");
             elec.FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId;
@@ -1573,6 +1586,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 EnableCloudAlarm = input.EnableAlarmList.Contains("云端报警"),
                 EnableEndAlarm = input.EnableAlarmList.Contains("终端报警"),
                 EnableAlarmSwitch = input.EnableAlarmList.Contains("自动断电"),
+                EnableSMS = input.EnableAlarmList.Contains("发送短信"),
                 ExistAmpere = input.MonitorItemList.Contains("剩余电流"),
                 ExistTemperature = input.MonitorItemList.Contains("电缆温度"),
                 FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId,
