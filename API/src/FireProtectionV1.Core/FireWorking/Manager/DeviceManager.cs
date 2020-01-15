@@ -223,10 +223,14 @@ namespace FireProtectionV1.FireWorking.Manager
 
             if (device.EnableAlarmCloud)
                 output.EnableAlarm.Add("云端报警");
+            if (device.EnableAlarmSMS)
+                output.EnableAlarm.Add("发送短信");
             if (device.EnableAlarmSwitch)
                 output.EnableAlarm.Add("发送开关量信号");
             if (device.EnableFaultCloud)
                 output.EnableFault.Add("云端报警");
+            if (device.EnableFaultSMS)
+                output.EnableFault.Add("发送短信");
             if (device.EnableFaultSwitch)
                 output.EnableFault.Add("发送开关量信号");
 
@@ -246,8 +250,10 @@ namespace FireProtectionV1.FireWorking.Manager
             device.DeviceModel = input.DeviceModel;
             device.EnableAlarmCloud = input.EnableAlarm.Contains("云端报警");
             device.EnableAlarmSwitch = input.EnableAlarm.Contains("发送开关量信号");
+            device.EnableAlarmSMS = input.EnableAlarm.Contains("发送短信");
             device.EnableFaultCloud = input.EnableFault.Contains("云端报警");
             device.EnableFaultSwitch = input.EnableFault.Contains("发送开关量信号");
+            device.EnableFaultSMS = input.EnableFault.Contains("发送短信");
             device.FireUnitArchitectureId = input.FireUnitArchitectureId;
             device.NetDetectorNum = input.NetDetectorNum;
             device.Protocol = input.Protocol;
@@ -267,6 +273,7 @@ namespace FireProtectionV1.FireWorking.Manager
             List<string> lstMonitorItem = new List<string>();
             if (device.EnableEndAlarm) lstEnableAlarm.Add("终端报警");
             if (device.EnableCloudAlarm) lstEnableAlarm.Add("云端报警");
+            if (device.EnableSMS) lstEnableAlarm.Add("发送短信");
             if (device.EnableAlarmSwitch) lstEnableAlarm.Add("自动断电");
             if (device.ExistTemperature) lstMonitorItem.Add("电缆温度");
             if (device.ExistAmpere) lstMonitorItem.Add("剩余电流");
@@ -1467,8 +1474,10 @@ namespace FireProtectionV1.FireWorking.Manager
                 DeviceModel = input.DeviceModel,
                 EnableAlarmCloud = input.EnableAlarm.Contains("云端报警"),
                 EnableAlarmSwitch = input.EnableAlarm.Contains("发送开关量信号"),
+                EnableAlarmSMS = input.EnableAlarm.Contains("发送短信"),
                 EnableFaultCloud = input.EnableFault.Contains("云端报警"),
                 EnableFaultSwitch = input.EnableFault.Contains("发送开关量信号"),
+                EnableFaultSMS = input.EnableFault.Contains("发送短信"),
                 FireUnitArchitectureId = input.FireUnitArchitectureId,
                 FireUnitId = input.FireUnitId,
                 NetDetectorNum = input.NetDetectorNum,
@@ -1494,6 +1503,7 @@ namespace FireProtectionV1.FireWorking.Manager
             elec.EnableCloudAlarm = input.EnableAlarmList.Contains("云端报警");
             elec.EnableEndAlarm = input.EnableAlarmList.Contains("终端报警");
             elec.EnableAlarmSwitch = input.EnableAlarmList.Contains("自动断电");
+            elec.EnableSMS= input.EnableAlarmList.Contains("发送短信");
             elec.ExistAmpere = input.MonitorItemList.Contains("剩余电流");
             elec.ExistTemperature = input.MonitorItemList.Contains("电缆温度");
             elec.FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId;
@@ -1552,6 +1562,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 EnableCloudAlarm = input.EnableAlarmList.Contains("云端报警"),
                 EnableEndAlarm = input.EnableAlarmList.Contains("终端报警"),
                 EnableAlarmSwitch = input.EnableAlarmList.Contains("自动断电"),
+                EnableSMS = input.EnableAlarmList.Contains("发送短信"),
                 ExistAmpere = input.MonitorItemList.Contains("剩余电流"),
                 ExistTemperature = input.MonitorItemList.Contains("电缆温度"),
                 FireUnitArchitectureFloorId = input.FireUnitArchitectureFloorId,

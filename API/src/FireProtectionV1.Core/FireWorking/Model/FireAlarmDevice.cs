@@ -63,5 +63,13 @@ namespace FireProtectionV1.FireWorking.Model
         /// 状态
         /// </summary>
         public GatewayStatus State { get; set; }
+        /// <summary>
+        /// 启用报警发送短信
+        /// </summary>
+        public bool EnableAlarmSMS { get;  set; }
+        /// <summary>
+        /// 启用故障发送短信
+        /// </summary>
+        public bool EnableFaultSMS { get;  set; }
     }
 }
