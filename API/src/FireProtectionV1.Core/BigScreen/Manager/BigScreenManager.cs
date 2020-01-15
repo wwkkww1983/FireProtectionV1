@@ -69,7 +69,7 @@ namespace FireProtectionV1.BigScreen.Manager
         {
             List<BreathingBubble> lstBreathingBubble = new List<BreathingBubble>();
             int jsq = 0;
-            var lstFireUnit = _cacheManager.GetCache("BigScreen").Get("lstFireUnit", () => GetAllFireUnit());
+            var lstFireUnit = _cacheManager.GetCache("BigScreen").Get("lstFireUnit", () => GetAllFireUnit(33));
             foreach (var fireUnit in lstFireUnit)
             {
                 lstBreathingBubble.Add(new BreathingBubble()
@@ -765,7 +765,7 @@ namespace FireProtectionV1.BigScreen.Manager
         public Task<List<Histogram>> GetFireUnitTypeHistogram()
         {
             List<Histogram> lstHistogram = new List<Histogram>();
-            string sql = "SELECT TypeId, b.name, COUNT(1) cnt FROM fireunit a INNER JOIN fireunittype b ON a.`TypeId` = b.`Id` WHERE lng > 0 AND a.IsDeleted=0 GROUP BY TypeId ORDER BY cnt DESC LIMIT 10";
+            string sql = "SELECT TypeId, b.name, COUNT(1) cnt FROM fireunit a INNER JOIN fireunittype b ON a.`TypeId` = b.`Id` WHERE lng > 0 and a.firedeptid=33 AND a.IsDeleted=0 GROUP BY TypeId ORDER BY cnt DESC LIMIT 10";
             var dataTable = _sqlRepository.Query(sql);
             foreach (DataRow row in dataTable.Rows)
             {

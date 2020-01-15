@@ -88,8 +88,8 @@ namespace FireProtectionV1.FireWorking.Manager
             FireAlarmDetector fireAlarmDetector = await _repFireAlarmDetector.FirstOrDefaultAsync(item => item.Identify.Equals(input.DetectorSn) && item.FireAlarmDeviceId.Equals(fireAlarmDevice.Id));
 
             // 发送报警短信
-            bool flag = bool.Parse(ConfigHelper.Configuration["FireDomain:FireAlarmShortMessage"]);   // 从配置文件中获取是否允许发送短信
-            if (flag)
+            //bool flag = bool.Parse(ConfigHelper.Configuration["FireDomain:FireAlarmShortMessage"]);   // 从配置文件中获取是否允许发送短信
+            if (fireAlarmDevice.EnableAlarmSMS)
             {
                 var fireUnit = await _repFireUnit.GetAsync(fireAlarmDevice.FireUnitId);
                 if (fireUnit != null && !string.IsNullOrEmpty(fireUnit.ContractPhone))
@@ -147,7 +147,7 @@ namespace FireProtectionV1.FireWorking.Manager
                     Identify = input.DetectorSn,
                     CreationTime = DateTime.Now,
                     FireAlarmDeviceId = fireAlarmDevice.Id,
-                    DetectorTypeId = 67,
+                    DetectorTypeId = 13,
                     FullLocation = architectureName,
                     State = FireAlarmDetectorState.Normal
                 };
@@ -278,7 +278,7 @@ namespace FireProtectionV1.FireWorking.Manager
                 FireContractUser = fireContractUser != null ? $"{fireContractUser.Name}（{fireContractUser.Account}）" : "",
                 CheckState = fireAlarm.CheckState,
                 CheckTime = fireAlarm.CheckTime,
-                Content = fireAlarm.CheckContent,
+                Content = fireAlarm.CheckContent != null ? fireAlarm.CheckContent : "无",
                 VioceUrl = fireAlarm.CheckVoiceUrl,
                 VoiceLength = fireAlarm.CheckVoiceLength,
                 NotifyWorker = fireAlarm.NotifyWorker,
