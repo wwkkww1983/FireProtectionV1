@@ -680,7 +680,7 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public async Task<PagedResultDto<FaultDetectorOutput>> GetFireAlarmFaultDetectorList(int fireAlarmDeviceId, PagedResultRequestDto dto)
         {
-            var device = await _repFireAlarmDevice.FirstOrDefaultAsync(p => p.Id == fireAlarmDeviceId);
+            var device = await _repFireAlarmDevice.GetAsync(fireAlarmDeviceId);
             var fireUnitArchitecture = await _repFireUnitArchitecture.GetAsync(device.FireUnitArchitectureId);
 
             var fireAlarmFaultDetectors = _repFireAlarmDetector.GetAll().Where(item => item.FireAlarmDeviceId.Equals(fireAlarmDeviceId) && item.State.Equals(FireAlarmDetectorState.Fault));
@@ -767,26 +767,50 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             int highFreq = int.Parse(ConfigHelper.Configuration["FireDomain:HighFreqAlarm"]);   // 从配置文件中获取何谓高频
 
+            //var lstDetectorHigh = _repAlarmToFire.GetAll().Where(item => item.FireAlarmDeviceId == fireAlarmDeviceId && item.CreationTime >= DateTime.Now.AddDays(-30))
+            //    .GroupBy(item => item.FireAlarmDetectorId).Where(item => item.Count() >= highFreq).Select(item => new
+            //    {
+            //        FireAlarmDetectorId = item.Key,
+            //        AlarmNum = item.Count()
+            //    }).ToList();
+            //var fireAlarmDetectors = _repFireAlarmDetector.GetAll().Where(item => item.FireAlarmDeviceId == fireAlarmDeviceId);
+            //var detectorTypes = _repDetectorType.GetAll();
+            //var fireUnitArchitectureFloors = _repFireUnitArchitectureFloor.GetAll();
+
+            //var query = from a in lstDetectorHigh
+            //            join b in fireAlarmDetectors on a.FireAlarmDetectorId equals b.Id
+            //            join c in detectorTypes on b.DetectorTypeId equals c.Id into result1
+            //            from b_c in result1.DefaultIfEmpty()
+            //            join d in fireUnitArchitectureFloors on b.FireUnitArchitectureFloorId equals d.Id into result2
+            //            from b_d in result2.DefaultIfEmpty()
+            //            select new GetFireAlarmHighDto()
+            //            {
+            //                Identify = b.Identify,
+            //                DetectorTypeName = b_c != null ? b_c.Name : "",
+            //                FireUnitArchitectureFloorName = b_d != null ? b_d.Name : "",
+            //                Location = b.Location,
+            //                AlarmNum = a.AlarmNum
+            //            };
+
             var lstDetectorHigh = _repAlarmToFire.GetAll().Where(item => item.FireAlarmDeviceId == fireAlarmDeviceId && item.CreationTime >= DateTime.Now.AddDays(-30))
                 .GroupBy(item => item.FireAlarmDetectorId).Where(item => item.Count() >= highFreq).Select(item => new
                 {
                     FireAlarmDetectorId = item.Key,
                     AlarmNum = item.Count()
-                }).ToList();
+                });
             var fireAlarmDetectors = _repFireAlarmDetector.GetAll().Where(item => item.FireAlarmDeviceId == fireAlarmDeviceId);
             var detectorTypes = _repDetectorType.GetAll();
             var fireUnitArchitectureFloors = _repFireUnitArchitectureFloor.GetAll();
 
             var query = from a in lstDetectorHigh
                         join b in fireAlarmDetectors on a.FireAlarmDetectorId equals b.Id
-                        join c in detectorTypes on b.DetectorTypeId equals c.Id into result1
-                        from b_c in result1.DefaultIfEmpty()
+                        join c in detectorTypes on b.DetectorTypeId equals c.Id
                         join d in fireUnitArchitectureFloors on b.FireUnitArchitectureFloorId equals d.Id into result2
                         from b_d in result2.DefaultIfEmpty()
                         select new GetFireAlarmHighDto()
                         {
                             Identify = b.Identify,
-                            DetectorTypeName = b_c != null ? b_c.Name : "",
+                            DetectorTypeName = c.Name,
                             FireUnitArchitectureFloorName = b_d != null ? b_d.Name : "",
                             Location = b.Location,
                             AlarmNum = a.AlarmNum
