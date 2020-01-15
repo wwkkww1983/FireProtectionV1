@@ -180,9 +180,11 @@ namespace FireProtectionV1.Enterprise.Manager
                         };
             return Task.FromResult<List<GetFireUnitExcelOutput>>(query.ToList());
         }
-        public Task<PagedResultDto<GetFireUnitListOutput>> GetFireUnitList(GetPagedFireUnitListInput input)
+        public async Task<PagedResultDto<GetFireUnitListOutput>> GetFireUnitList(GetPagedFireUnitListInput input)
         {
-            var fireUnits = _fireUnitRep.GetAll();
+            var dept = await _fireUnitUserRep.GetAsync(input.UserId);
+            var deptId = dept != null ? dept.Id : 0;
+            var fireUnits = _fireUnitRep.GetAll().Where(item => item.FireDeptId.Equals(deptId));
             var expr = ExprExtension.True<FireUnit>()
                 .IfAnd(!string.IsNullOrEmpty(input.Name), item => item.Name.Contains(input.Name));
             fireUnits = fireUnits.Where(expr);
@@ -208,7 +210,7 @@ namespace FireProtectionV1.Enterprise.Manager
                 .ToList();
             var tCount = fireUnits.Count();
 
-            return Task.FromResult(new PagedResultDto<GetFireUnitListOutput>(tCount, list));
+            return new PagedResultDto<GetFireUnitListOutput>(tCount, list);
         }
 
         public Task<PagedResultDto<GetFireUnitListForMobileOutput>> GetFireUnitListForMobile(GetPagedFireUnitListInput input)

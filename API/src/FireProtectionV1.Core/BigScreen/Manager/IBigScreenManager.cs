@@ -58,8 +58,9 @@ namespace FireProtectionV1.BigScreen.Manager
         /// <summary>
         /// 首页：地图多行文本
         /// </summary>
+        /// <param name="deptId"></param>
         /// <returns></returns>
-        Task<List<DataText>> GetMapMultiText();
+        Task<List<DataText>> GetMapMultiText(int deptId);
         /// <summary>
         /// 获取辖区内防火单位的火警联网部件设施正常率
         /// </summary>
@@ -96,6 +97,18 @@ namespace FireProtectionV1.BigScreen.Manager
         /// <param name="fireDeptId"></param>
         /// <returns></returns>
         Task<List<NumberCard>> GetElectricDeviceDangerNum(int fireDeptId);
+        /// <summary>
+        /// 获取辖区内当前状态为良好的电气火灾设备的数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        Task<List<NumberCard>> GetElectricDeviceGoodNum(int fireDeptId);
+        /// <summary>
+        /// 获取辖区内当前状态为离线的电气火灾设备的数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        Task<List<NumberCard>> GetElectricDeviceOfflineNum(int fireDeptId);
         /// <summary>
         /// 获取辖区内当前状态为超限的电气火灾设备的数量
         /// </summary>

@@ -152,12 +152,13 @@ namespace FireProtectionV1.BigScreen.Manager
         /// <summary>
         /// 首页：地图多行文本
         /// </summary>
+        /// <param name="deptId"></param>
         /// <returns></returns>
-        public Task<List<DataText>> GetMapMultiText()
+        public Task<List<DataText>> GetMapMultiText(int deptId)
         {
             List<DataText> lstDataText = new List<DataText>();
             DataText mt = new DataText();
-            var lstFireUnit = _cacheManager.GetCache("BigScreen").Get("lstFireUnit", () => GetAllFireUnit());
+            var lstFireUnit = _cacheManager.GetCache("BigScreen").Get("lstFireUnit", () => GetAllFireUnit(deptId));
             int cntFireUnit = lstFireUnit.Count();
 
             int num = 10;
@@ -307,9 +308,9 @@ namespace FireProtectionV1.BigScreen.Manager
         {
             List<DataDouble> lstDataDouble = new List<DataDouble>();
             DataDouble mt = new DataDouble();
-            var detectors = _repFireAlarmDetector.GetAll().Where(item=>item.State.Equals(FireAlarmDetectorState.Fault));
+            var detectors = _repFireAlarmDetector.GetAll().Where(item => item.State.Equals(FireAlarmDetectorState.Fault));
             var fireUnits = _fireUnitRep.GetAll().Where(item => item.FireDeptId.Equals(fireDeptId));
-            var fireAlarmDevices = _repFireAlarmDevice.GetAll().Where(item=>item.NetDetectorNum > 0);
+            var fireAlarmDevices = _repFireAlarmDevice.GetAll().Where(item => item.NetDetectorNum > 0);
 
             var query = from a in fireAlarmDevices
                         join b in fireUnits on a.FireUnitId equals b.Id
@@ -320,12 +321,12 @@ namespace FireProtectionV1.BigScreen.Manager
             int sumNetDetectorNum = query.Sum(item => item.NetDetectorNum); // 所有联网部件的数量
 
             var query1 = from a in detectors
-                    join b in fireUnits on a.FireUnitId equals b.Id
-                    join c in fireAlarmDevices on a.FireAlarmDeviceId equals c.Id
-                    select new
-                    {
-                        Id = a.Id
-                    };
+                         join b in fireUnits on a.FireUnitId equals b.Id
+                         join c in fireAlarmDevices on a.FireAlarmDeviceId equals c.Id
+                         select new
+                         {
+                             Id = a.Id
+                         };
 
             int faultDetectorNum = query1.Count();  // 故障部件数量
             if (sumNetDetectorNum > 0 && faultDetectorNum > 0) mt.value = Math.Round((double)((sumNetDetectorNum - faultDetectorNum)) / sumNetDetectorNum, 2);
@@ -402,7 +403,7 @@ namespace FireProtectionV1.BigScreen.Manager
         /// <returns></returns>
         public Task<List<DataXY>> GetElectricDeviceStateStatis(int fireDeptId)
         {
-            var electricDevices = _repFireElectricDevice.GetAll().Where(item => !item.State.Equals(FireElectricDeviceState.Offline));
+            var electricDevices = _repFireElectricDevice.GetAll();
             var fireUnits = _fireUnitRep.GetAll().Where(item => item.FireDeptId.Equals(fireDeptId));
 
             var query = from a in electricDevices
@@ -412,11 +413,17 @@ namespace FireProtectionV1.BigScreen.Manager
                             Id = a.Id,
                             State = a.State
                         };
+            int offLineNum = query.Count(item => item.State.Equals(FireElectricDeviceState.Offline));
             int goodNum = query.Count(item => item.State.Equals(FireElectricDeviceState.Good));
             int dangerNum = query.Count(item => item.State.Equals(FireElectricDeviceState.Danger));
             int transfiniteNum = query.Count(item => item.State.Equals(FireElectricDeviceState.Transfinite));
 
             var lst = new List<DataXY>();
+            lst.Add(new DataXY()
+            {
+                X = "离线",
+                Y = offLineNum
+            });
             lst.Add(new DataXY()
             {
                 X = "良好",
@@ -450,6 +457,62 @@ namespace FireProtectionV1.BigScreen.Manager
             };
 
             var electricDevices = _repFireElectricDevice.GetAll().Where(item => item.State.Equals(FireElectricDeviceState.Danger));
+            var fireUnits = _fireUnitRep.GetAll().Where(item => item.FireDeptId.Equals(fireDeptId));
+
+            var query = from a in electricDevices
+                        join b in fireUnits on a.FireUnitId equals b.Id
+                        select new
+                        {
+                            Id = a.Id
+                        };
+            numberCard.value = query.Count();
+
+            lstNumberCard.Add(numberCard);
+            return Task.FromResult(lstNumberCard);
+        }
+        /// <summary>
+        /// 获取辖区内当前状态为离线的电气火灾设备的数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public Task<List<NumberCard>> GetElectricDeviceOfflineNum(int fireDeptId)
+        {
+            List<NumberCard> lstNumberCard = new List<NumberCard>();
+            NumberCard numberCard = new NumberCard()
+            {
+                name = "",
+                value = 0
+            };
+
+            var electricDevices = _repFireElectricDevice.GetAll().Where(item => item.State.Equals(FireElectricDeviceState.Offline));
+            var fireUnits = _fireUnitRep.GetAll().Where(item => item.FireDeptId.Equals(fireDeptId));
+
+            var query = from a in electricDevices
+                        join b in fireUnits on a.FireUnitId equals b.Id
+                        select new
+                        {
+                            Id = a.Id
+                        };
+            numberCard.value = query.Count();
+
+            lstNumberCard.Add(numberCard);
+            return Task.FromResult(lstNumberCard);
+        }
+        /// <summary>
+        /// 获取辖区内当前状态为良好的电气火灾设备的数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public Task<List<NumberCard>> GetElectricDeviceGoodNum(int fireDeptId)
+        {
+            List<NumberCard> lstNumberCard = new List<NumberCard>();
+            NumberCard numberCard = new NumberCard()
+            {
+                name = "",
+                value = 0
+            };
+
+            var electricDevices = _repFireElectricDevice.GetAll().Where(item => item.State.Equals(FireElectricDeviceState.Good));
             var fireUnits = _fireUnitRep.GetAll().Where(item => item.FireDeptId.Equals(fireDeptId));
 
             var query = from a in electricDevices
@@ -850,9 +913,9 @@ namespace FireProtectionV1.BigScreen.Manager
             return Task.FromResult(lstHistogram);
         }
 
-        private List<FireUnit> GetAllFireUnit()
+        private List<FireUnit> GetAllFireUnit(int deptId = 1)
         {
-            return _fireUnitRep.GetAll().Where(item => item.Lng > 0).OrderBy(item => item.CreationTime).ToList();
+            return _fireUnitRep.GetAll().Where(item => item.Lng > 0 && item.FireDeptId.Equals(deptId)).OrderBy(item => item.CreationTime).ToList();
         }
 
         private List<AlarmElec> InitAlarmElecList()

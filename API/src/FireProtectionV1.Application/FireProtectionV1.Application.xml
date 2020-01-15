@@ -212,10 +212,11 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetMapMultiText">
+        <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetMapMultiText(System.Int32)">
             <summary>
             首页：地图多行文本
             </summary>
+            <param name="fireDeptId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.BigScreenAppService.GetTianXunTong">

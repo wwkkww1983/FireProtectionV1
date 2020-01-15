@@ -60,10 +60,11 @@ namespace FireProtectionV1.AppService
         /// <summary>
         /// 首页：地图多行文本
         /// </summary>
+        /// <param name="fireDeptId"></param>
         /// <returns></returns>
-        public async Task<List<DataText>> GetMapMultiText()
+        public async Task<List<DataText>> GetMapMultiText(int fireDeptId)
         {
-            return await _manager.GetMapMultiText();
+            return await _manager.GetMapMultiText(fireDeptId);
         }
         /// <summary>
         /// 首页：电气警情天讯通
@@ -135,6 +136,24 @@ namespace FireProtectionV1.AppService
         public async Task<List<DataXY>> GetElectricDeviceStateStatis(int fireDeptId)
         {
             return await _manager.GetElectricDeviceStateStatis(fireDeptId);
+        }
+        /// <summary>
+        /// 获取辖区内当前状态为离线的电气火灾设备的数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public async Task<List<NumberCard>> GetElectricDeviceOfflineNum(int fireDeptId)
+        {
+            return await _manager.GetElectricDeviceOfflineNum(fireDeptId);
+        }
+        /// <summary>
+        /// 获取辖区内当前状态为良好的电气火灾设备的数量
+        /// </summary>
+        /// <param name="fireDeptId"></param>
+        /// <returns></returns>
+        public async Task<List<NumberCard>> GetElectricDeviceGoodNum(int fireDeptId)
+        {
+            return await _manager.GetElectricDeviceGoodNum(fireDeptId);
         }
         /// <summary>
         /// 获取辖区内当前状态为隐患的电气火灾设备的数量
