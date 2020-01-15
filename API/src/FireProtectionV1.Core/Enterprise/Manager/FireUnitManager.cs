@@ -30,6 +30,7 @@ namespace FireProtectionV1.Enterprise.Manager
         IRepository<Area> _areaRep;
         IRepository<FireUnitType> _fireUnitTypeRep;
         IRepository<FireDept> _repFireDept;
+        IRepository<FireDeptUser> _repFireDeptUser;
         IRepository<FireUnit> _fireUnitRep;
         IRepository<FireUnitUser> _fireUnitUserRep;
         IRepository<FireSystem> _fireSystemRep;
@@ -38,6 +39,7 @@ namespace FireProtectionV1.Enterprise.Manager
         ICacheManager _cacheManager;
         public FireUnitManager(
             IRepository<FireDept> repFireDept,
+            IRepository<FireDeptUser> repFireDeptUser,
             IRepository<FireUnitPlan> repFireUnitPlan,
             IRepository<FireUnitAttention> fireUnitAttentionRep,
             IRepository<SafeUnit> safeUnitR,
@@ -53,6 +55,7 @@ namespace FireProtectionV1.Enterprise.Manager
             )
         {
             _repFireDept = repFireDept;
+            _repFireDeptUser = repFireDeptUser;
             _repFireUnitPlan = repFireUnitPlan;
             _fireUnitAttentionRep = fireUnitAttentionRep;
             _safeUnitRep = safeUnitR;
@@ -180,9 +183,11 @@ namespace FireProtectionV1.Enterprise.Manager
                         };
             return Task.FromResult<List<GetFireUnitExcelOutput>>(query.ToList());
         }
-        public Task<PagedResultDto<GetFireUnitListOutput>> GetFireUnitList(GetPagedFireUnitListInput input)
+        public async Task<PagedResultDto<GetFireUnitListOutput>> GetFireUnitList(GetPagedFireUnitListInput input)
         {
-            var fireUnits = _fireUnitRep.GetAll();
+            var user = await _repFireDeptUser.GetAsync(input.UserId);
+            var deptId = user != null ? user.FireDeptId : 0;
+            var fireUnits = _fireUnitRep.GetAll().Where(item => item.FireDeptId.Equals(deptId));
             var expr = ExprExtension.True<FireUnit>()
                 .IfAnd(!string.IsNullOrEmpty(input.Name), item => item.Name.Contains(input.Name));
             fireUnits = fireUnits.Where(expr);
@@ -208,7 +213,7 @@ namespace FireProtectionV1.Enterprise.Manager
                 .ToList();
             var tCount = fireUnits.Count();
 
-            return Task.FromResult(new PagedResultDto<GetFireUnitListOutput>(tCount, list));
+            return new PagedResultDto<GetFireUnitListOutput>(tCount, list);
         }
 
         public Task<PagedResultDto<GetFireUnitListForMobileOutput>> GetFireUnitListForMobile(GetPagedFireUnitListInput input)

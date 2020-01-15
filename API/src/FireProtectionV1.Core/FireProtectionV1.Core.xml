@@ -75,10 +75,11 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetMapMultiText">
+        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetMapMultiText(System.Int32)">
             <summary>
             首页：地图多行文本
             </summary>
+            <param name="deptId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetTianXunTong">
@@ -125,6 +126,20 @@
         <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetElectricDeviceDangerNum(System.Int32)">
             <summary>
             获取辖区内当前状态为隐患的电气火灾设备的数量
+            </summary>
+            <param name="fireDeptId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetElectricDeviceOfflineNum(System.Int32)">
+            <summary>
+            获取辖区内当前状态为离线的电气火灾设备的数量
+            </summary>
+            <param name="fireDeptId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.BigScreen.Manager.BigScreenManager.GetElectricDeviceGoodNum(System.Int32)">
+            <summary>
+            获取辖区内当前状态为良好的电气火灾设备的数量
             </summary>
             <param name="fireDeptId"></param>
             <returns></returns>
@@ -300,10 +315,11 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetMapMultiText">
+        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetMapMultiText(System.Int32)">
             <summary>
             首页：地图多行文本
             </summary>
+            <param name="deptId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetFireAlarmDetectorNormalRate(System.Int32)">
@@ -344,6 +360,20 @@
         <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetElectricDeviceDangerNum(System.Int32)">
             <summary>
             获取辖区内当前状态为隐患的电气火灾设备的数量
+            </summary>
+            <param name="fireDeptId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetElectricDeviceGoodNum(System.Int32)">
+            <summary>
+            获取辖区内当前状态为良好的电气火灾设备的数量
+            </summary>
+            <param name="fireDeptId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetElectricDeviceOfflineNum(System.Int32)">
+            <summary>
+            获取辖区内当前状态为离线的电气火灾设备的数量
             </summary>
             <param name="fireDeptId"></param>
             <returns></returns>
