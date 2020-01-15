@@ -38,7 +38,7 @@ namespace TsjDeviceServer
                     fireAlarmDeviceSn = tsjMsg.DeviceSn
                 });
             }
-            else if (tsjMsg.IsMonitor || tsjMsg.IsOverflow)
+            else if (tsjMsg.IsMonitor)
             {
                 var msg = (DataMonitor)tsjMsg.TsjData;
                 FireApi.HttpPostTsj(Config.Url("/api/services/app/FireDevice/AddElecRecord"), new NewMonitorInput()
@@ -46,6 +46,16 @@ namespace TsjDeviceServer
                     fireElectricDeviceSn= tsjMsg.DeviceSn,
                     sign = msg.id,
                     analog=msg.value
+                });
+            }
+            else if (tsjMsg.IsOverflow)
+            {
+                var msg = (DataOverflow)tsjMsg.TsjData;
+                FireApi.HttpPostTsj(Config.Url("/api/services/app/FireDevice/AddElecRecord"), new NewMonitorInput()
+                {
+                    fireElectricDeviceSn = tsjMsg.DeviceSn,
+                    sign = msg.id,
+                    analog = msg.value
                 });
             }
             else if (tsjMsg.IsOffline)
