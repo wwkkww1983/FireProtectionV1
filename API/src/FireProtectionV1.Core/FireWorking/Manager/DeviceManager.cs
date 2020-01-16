@@ -2066,7 +2066,7 @@ namespace FireProtectionV1.FireWorking.Manager
                     if (fireElectricDevice.EnableSMS)
                     {
                         var fireUnit = await _repFireUnit.GetAsync(fireElectricDevice.FireUnitId);
-                        if (fireUnit != null && !string.IsNullOrEmpty(fireUnit.ContractPhone))
+                        if (fireUnit != null && !string.IsNullOrEmpty(fireElectricDevice.SMSPhones))
                         {
                             string contents = "电气火灾报警：";
 
@@ -2080,38 +2080,52 @@ namespace FireProtectionV1.FireWorking.Manager
                                 contents += $"位于“{fireUnit.Name}{architectureName}{floorName}{fireElectricDevice.Location}”，编号为“{fireElectricDevice.DeviceSn}”的“电气火灾防护设施”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”，数值为{input.Sign}：{analog}{unit}";
                                 contents += "，请立即安排处置！【天树聚电气火灾防护】";
 
-                                List<string> lstPhones = new List<string>();
-                                if (string.IsNullOrEmpty(fireElectricDevice.SMSPhones))
+                                int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
                                 {
-                                    if(!string.IsNullOrEmpty(fireUnit.ContractPhone))
-                                        lstPhones.Add(fireUnit.ContractPhone);
-                                }
-                                else
-                                {
-                                    var phones = fireElectricDevice.SMSPhones.Split(',');
-                                    lstPhones.AddRange(phones);
-                                }
-                                foreach(var phone in lstPhones)
-                                {
-                                    try
-                                    {
-                                        int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
-                                        {
-                                            Phones = fireUnit.ContractPhone,
-                                            Contents = contents
-                                        });
+                                    Phones = fireElectricDevice.SMSPhones,
+                                    Contents = contents
+                                });
 
-                                        await _repShortMessageLog.InsertAsync(new ShortMessageLog()
-                                        {
-                                            AlarmType = AlarmType.Electric,
-                                            FireUnitId = fireElectricDevice.FireUnitId,
-                                            Phones = phone,
-                                            Contents = contents,
-                                            Result = result
-                                        });
-                                    }
-                                    catch (Exception) { }
-                                }
+                                await _repShortMessageLog.InsertAsync(new ShortMessageLog()
+                                {
+                                    AlarmType = AlarmType.Electric,
+                                    FireUnitId = fireElectricDevice.FireUnitId,
+                                    Phones = fireElectricDevice.SMSPhones,
+                                    Contents = contents,
+                                    Result = result
+                                });
+                                //List<string> lstPhones = new List<string>();
+                                //if (string.IsNullOrEmpty(fireElectricDevice.SMSPhones))
+                                //{
+                                //    if(!string.IsNullOrEmpty(fireUnit.ContractPhone))
+                                //        lstPhones.Add(fireUnit.ContractPhone);
+                                //}
+                                //else
+                                //{
+                                //    var phones = fireElectricDevice.SMSPhones.Split(',');
+                                //    lstPhones.AddRange(phones);
+                                //}
+                                //foreach(var phone in lstPhones)
+                                //{
+                                //    try
+                                //    {
+                                //        int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
+                                //        {
+                                //            Phones = fireUnit.ContractPhone,
+                                //            Contents = contents
+                                //        });
+
+                                //        await _repShortMessageLog.InsertAsync(new ShortMessageLog()
+                                //        {
+                                //            AlarmType = AlarmType.Electric,
+                                //            FireUnitId = fireElectricDevice.FireUnitId,
+                                //            Phones = phone,
+                                //            Contents = contents,
+                                //            Result = result
+                                //        });
+                                //    }
+                                //    catch (Exception) { }
+                                //}
                             }
                             catch { }
                         }

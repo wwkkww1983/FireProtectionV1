@@ -92,7 +92,7 @@ namespace FireProtectionV1.FireWorking.Manager
             if (fireAlarmDevice.EnableAlarmSMS)
             {
                 var fireUnit = await _repFireUnit.GetAsync(fireAlarmDevice.FireUnitId);
-                if (fireUnit != null && !string.IsNullOrEmpty(fireUnit.ContractPhone))
+                if (fireUnit != null && !string.IsNullOrEmpty(fireAlarmDevice.SMSPhones))
                 {
                     string contents = "火警联网报警：";
 
@@ -111,39 +111,52 @@ namespace FireProtectionV1.FireWorking.Manager
                             contents += $"位于“{fireUnit.Name}{ArchitectureName}”，编号为“{input.DetectorSn}”的“火警联网探测器”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”";
                         }
                         contents += "，请立即核警！【天树聚火警联网】";
+                        int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
+                        {
+                            Phones = fireAlarmDevice.SMSPhones,
+                            Contents = contents
+                        });
 
-                        List<string> lstPhones = new List<string>();
-                        if (string.IsNullOrEmpty(fireAlarmDevice.SMSPhones))
+                        await _repShortMessageLog.InsertAsync(new ShortMessageLog()
                         {
-                            if (!string.IsNullOrEmpty(fireUnit.ContractPhone))
-                                lstPhones.Add(fireUnit.ContractPhone);
-                        }
-                        else
-                        {
-                            var phones = fireAlarmDevice.SMSPhones.Split(',');
-                            lstPhones.AddRange(phones);
-                        }
-                        foreach (var phone in lstPhones)
-                        {
-                            try
-                            {
-                                int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
-                                {
-                                    Phones = fireUnit.ContractPhone,
-                                    Contents = contents
-                                });
+                            AlarmType = AlarmType.Fire,
+                            FireUnitId = fireAlarmDevice.FireUnitId,
+                            Phones = fireAlarmDevice.SMSPhones,
+                            Contents = contents,
+                            Result = result
+                        });
+                        //List<string> lstPhones = new List<string>();
+                        //if (string.IsNullOrEmpty(fireAlarmDevice.SMSPhones))
+                        //{
+                        //    if (!string.IsNullOrEmpty(fireUnit.ContractPhone))
+                        //        lstPhones.Add(fireUnit.ContractPhone);
+                        //}
+                        //else
+                        //{
+                        //    var phones = fireAlarmDevice.SMSPhones.Split(',');
+                        //    lstPhones.AddRange(phones);
+                        //}
+                        //foreach (var phone in lstPhones)
+                        //{
+                        //    try
+                        //    {
+                        //        int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
+                        //        {
+                        //            Phones = fireUnit.ContractPhone,
+                        //            Contents = contents
+                        //        });
 
-                                await _repShortMessageLog.InsertAsync(new ShortMessageLog()
-                                {
-                                    AlarmType = AlarmType.Electric,
-                                    FireUnitId = fireAlarmDevice.FireUnitId,
-                                    Phones = phone,
-                                    Contents = contents,
-                                    Result = result
-                                });
-                            }
-                            catch (Exception) { }
-                        }
+                        //        await _repShortMessageLog.InsertAsync(new ShortMessageLog()
+                        //        {
+                        //            AlarmType = AlarmType.Electric,
+                        //            FireUnitId = fireAlarmDevice.FireUnitId,
+                        //            Phones = phone,
+                        //            Contents = contents,
+                        //            Result = result
+                        //        });
+                        //    }
+                        //    catch (Exception) { }
+                        //}
 
                         //int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
                         //{
@@ -219,7 +232,48 @@ namespace FireProtectionV1.FireWorking.Manager
 
             if (input.CheckState == FireAlarmCheckState.False || input.CheckState == FireAlarmCheckState.Test || input.CheckState == FireAlarmCheckState.True)
             {
-                if (input.NotifyList != null && input.NotifyList.Count > 0 && input.NotifyList[0].Contains("通知工作人员")) fireAlarm.NotifyWorker = true;
+                if (input.NotifyList != null && input.NotifyList.Count > 0 && input.NotifyList[0].Contains("通知工作人员"))
+                {
+                    fireAlarm.NotifyWorker = true;
+                    var fireUnit = await _repFireUnit.GetAsync(fireAlarm.FireUnitId);
+                    if (fireUnit != null && !string.IsNullOrEmpty(fireUnit.ContractPhone))
+                    {
+                        string contents = "真实火警联网报警：";
+                        var fireAlarmDetector = await _repFireAlarmDetector.GetAsync(fireAlarm.FireAlarmDetectorId);
+                        try
+                        {
+                            if (fireAlarmDetector != null)
+                            {
+                                var detectorType = await _repDetectorType.GetAsync(fireAlarmDetector.DetectorTypeId);
+                                string typeName = detectorType != null ? detectorType.Name : "火警联网探测器";
+                                contents += $"位于“{fireUnit.Name}{fireAlarmDetector.FullLocation}”，编号为“{fireAlarmDetector.Identify}”的“{typeName}”发出报警，报警时间为{fireAlarm.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")}，核警时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”";
+                            }
+                            else
+                            {
+                                var device = await _repFireAlarmDevice.GetAsync(fireAlarm.FireAlarmDeviceId);
+                                var ArchitectureName = _repFireUnitArchitecture.Get(device.FireUnitArchitectureId).Name;
+                                contents += $"位于“{fireUnit.Name}{ArchitectureName}的“火警联网探测器”发出报警，报警时间为{fireAlarm.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")}，核警时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”";
+                            }
+                            var otherContent = !string.IsNullOrEmpty(input.CheckContent) ? input.CheckContent : "请立即处置！";
+                            contents += $"，{otherContent}【天树聚火警联网】";
+                            int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
+                            {
+                                Phones = fireUnit.ContractPhone,
+                                Contents = contents
+                            });
+
+                            await _repShortMessageLog.InsertAsync(new ShortMessageLog()
+                            {
+                                AlarmType = AlarmType.Fire,
+                                FireUnitId = fireAlarm.FireUnitId,
+                                Phones = fireUnit.ContractPhone,
+                                Contents = contents,
+                                Result = result
+                            });
+                        }
+                        catch { }
+                    }
+                }
                 else fireAlarm.NotifyWorker = false;
                 if (input.NotifyList != null && input.NotifyList.Count > 0 && input.NotifyList[0].Contains("通知119")) fireAlarm.Notify119 = true;
                 else fireAlarm.Notify119 = false;
