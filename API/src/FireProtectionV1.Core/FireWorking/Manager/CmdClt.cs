@@ -30,7 +30,7 @@ namespace TsjDeviceServer.DeviceCtrl
 
                 try
                 {
-                    pipeClient.Connect();
+                    pipeClient.Connect(2 * 1000);
                     // Read user input and send that to the client process.
                     using (StreamWriter sw = new StreamWriter(pipeClient))
                     {

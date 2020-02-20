@@ -10,7 +10,7 @@ namespace FireProtectionV1.FireWorking.Model
     public class FireAlarmDetector : EntityBase
     {
         /// <summary>
-        /// 设备标识
+        /// 部件编号
         /// </summary>
         [MaxLength(50)]
         public string Identify { get; set; }
@@ -42,6 +42,14 @@ namespace FireProtectionV1.FireWorking.Model
         /// 所在楼层Id
         /// </summary>
         public int FireUnitArchitectureFloorId { get; set; }
+        /// <summary>
+        /// 火警点位图X坐标
+        /// </summary>
+        public double CoordinateX { get; set; }
+        /// <summary>
+        /// 火警点位图Y坐标
+        /// </summary>
+        public double CoordinateY { get; set; }
         /// <summary>
         /// 故障数量
         /// </summary>

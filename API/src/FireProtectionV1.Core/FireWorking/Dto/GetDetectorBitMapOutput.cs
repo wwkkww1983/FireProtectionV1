@@ -1,24 +1,15 @@
-﻿using FireProtectionV1.Common.Enum;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto
 {
-    public class FireAlarmForDataScreenOutput
+    public class GetDetectorBitMapOutput
     {
-        /// <summary>
-        /// 火警数据Id
-        /// </summary>
-        public int FireAlarmId { get; set; }
         /// <summary>
         /// 接收火警时间
         /// </summary>
         public DateTime CreationTime { get; set; }
-        /// <summary>
-        /// 部件Id
-        /// </summary>
-        public int DetectorId { get; set; }
         /// <summary>
         /// 部件地址
         /// </summary>
@@ -32,12 +23,16 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public string Location { get; set; }
         /// <summary>
-        /// 存在点位图坐标
+        /// 楼层平面图
         /// </summary>
-        public bool ExistBitMap { get; set; }
+        public string FloorPicture { get; set; }
         /// <summary>
-        /// 核警状态(0:未核警，1:误报，2:测试，3:真实火警，4:已过期)
+        /// 火警点位图X坐标
         /// </summary>
-        public FireAlarmCheckState CheckState { get; set; }
+        public double CoordinateX { get; set; }
+        /// <summary>
+        /// 火警点位图Y坐标
+        /// </summary>
+        public double CoordinateY { get; set; }
     }
 }

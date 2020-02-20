@@ -121,7 +121,7 @@ namespace FireProtectionV1.AppService
         /// <summary>
         /// 查询防火单位名称(模糊查询)
         /// </summary>
-        /// <param name="MatchName">匹配名</param>
+        /// <param name="input"></param>
         /// <returns></returns>
         public async Task<List<FireUnitNameOutput>> QueryFireUnitLikeName(QueryFireUnitLikeNameInput input)
         {

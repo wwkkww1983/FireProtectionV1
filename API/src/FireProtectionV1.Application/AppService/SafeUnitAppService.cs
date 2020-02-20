@@ -89,7 +89,7 @@ namespace FireProtectionV1.AppService
             return await _safeUnitManager.GetSelectSafeUnits(input);
         }
         /// <summary>
-        /// 查询维保单位下的所以防火单位名称和Id
+        /// 查询维保单位下的所有防火单位名称和Id
         /// </summary>
         /// <param name="SafeUnitId">维保单位id</param>
         /// <param name="page"></param>

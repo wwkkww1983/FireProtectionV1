@@ -2,8 +2,10 @@
 using Abp.Domain.Repositories;
 using Abp.Domain.Services;
 using FireProtectionV1.Common.DBContext;
+using FireProtectionV1.Common.Enum;
 using FireProtectionV1.Common.Helper;
 using FireProtectionV1.Enterprise.Model;
+using FireProtectionV1.FireWorking.Model;
 using FireProtectionV1.MiniFireStationCore.Model;
 using FireProtectionV1.User.Dto;
 using FireProtectionV1.User.Model;
@@ -17,36 +19,39 @@ namespace FireProtectionV1.User.Manager
     public class FireUnitUserManager : DomainService, IFireUnitUserManager
     {
         IRepository<MiniFireStation> _repMiniFireStation;
-        IRepository<FireUnitUser> _fireUnitAccountRepository;
+        IRepository<FireUnitUser> _repFireUnitUser;
         IRepository<FireUnitUserRole> _fireUnitAccountRoleRepository;
         IRepository<FireUnit> _fireUnitRepository;
+        IRepository<ShortMessageLog> _repShortMessageLog;
         ISqlRepository _SqlRepository;
         IRepository<FireUnitSystem> _fireUnitSystemRep;
 
         public FireUnitUserManager(
             IRepository<MiniFireStation> repMiniFireStation,
             IRepository<FireUnitSystem> fireUnitSystemRep,
-            IRepository<FireUnitUser> fireUnitAccountRepository,
+            IRepository<FireUnitUser> repFireUnitUser,
             IRepository<FireUnitUserRole> fireUnitAccountRoleRepository,
             IRepository<FireUnit> fireUnitRepository,
+            IRepository<ShortMessageLog> repShortMessageLog,
             ISqlRepository sqlRepository
             )
         {
             _repMiniFireStation = repMiniFireStation;
             _fireUnitSystemRep = fireUnitSystemRep;
-            _fireUnitAccountRepository = fireUnitAccountRepository;
+            _repFireUnitUser = repFireUnitUser;
             _fireUnitAccountRoleRepository = fireUnitAccountRoleRepository;
             _fireUnitRepository = fireUnitRepository;
+            _repShortMessageLog = repShortMessageLog;
             _SqlRepository = sqlRepository;
         }
         public async Task<SuccessOutput> UserRegist(UserRegistInput input)
         {
             var fireunit =await _fireUnitRepository.SingleAsync(p => p.Name.Equals(input.FireUnitName) && p.InvitationCode.Equals(input.InvitatCode));
-            var user=_fireUnitAccountRepository.GetAll().Where(p => p.Account.Equals(input.Phone)).FirstOrDefault();
+            var user=_repFireUnitUser.GetAll().Where(p => p.Account.Equals(input.Phone)).FirstOrDefault();
             if (user != null)
                 return new SuccessOutput() { Success = false, FailCause = "手机号已被注册" };
             string md5 = MD5Encrypt.Encrypt(input.Password + input.Phone, 16);
-            int id=await _fireUnitAccountRepository.InsertAndGetIdAsync(new FireUnitUser()
+            int id=await _repFireUnitUser.InsertAndGetIdAsync(new FireUnitUser()
             {
                 Account = input.Phone,
                 Name = input.UserName,
@@ -69,9 +74,9 @@ namespace FireProtectionV1.User.Manager
         /// <returns></returns>
         public async Task<int> Add(FireUnitUserInput input)
         {
-            Valid.Exception(_fireUnitAccountRepository.Count(m => m.Account.Equals(input.Account)) > 0, "手机号已被注册");
+            Valid.Exception(_repFireUnitUser.Count(m => m.Account.Equals(input.Account)) > 0, "手机号已被注册");
             var account = input.MapTo<FireUnitUser>();
-            int accountID = await _fireUnitAccountRepository.InsertAndGetIdAsync(account);
+            int accountID = await _repFireUnitUser.InsertAndGetIdAsync(account);
 
             var accountRole = new FireUnitUserRole()
             {
@@ -90,7 +95,7 @@ namespace FireProtectionV1.User.Manager
         {
             string md5 = MD5Encrypt.Encrypt(input.Password + input.Account, 16);
             FireUnitUserLoginOutput output = new FireUnitUserLoginOutput() { Success = true };
-            var v = await _fireUnitAccountRepository.FirstOrDefaultAsync(p => p.Account.Equals(input.Account) && p.Password.Equals(md5));
+            var v = await _repFireUnitUser.FirstOrDefaultAsync(p => p.Account.Equals(input.Account) && p.Password.Equals(md5));
             if (v == null)
             {
                 output.Success = false;
@@ -141,8 +146,8 @@ namespace FireProtectionV1.User.Manager
         /// <returns></returns>
         public async Task<List<GetUnitPeopleOutput>> GetFireUnitPeople(GetUnitPeopleInput input)
         {
-            var loginman = await _fireUnitAccountRepository.SingleAsync(u=>u.Id==input.AccountID);
-            var unitpeoplelist = _fireUnitAccountRepository.GetAll();
+            var loginman = await _repFireUnitUser.SingleAsync(u=>u.Id==input.AccountID);
+            var unitpeoplelist = _repFireUnitUser.GetAll();
             var rolllist = _fireUnitAccountRoleRepository.GetAll();
 
             var unitpeople = from a in unitpeoplelist
@@ -170,7 +175,7 @@ namespace FireProtectionV1.User.Manager
         /// <returns></returns>
         public async Task<GetUnitPeopleOutput> GetUserInfo(GetUnitPeopleInput input)
         {
-            var loginman = await _fireUnitAccountRepository.SingleAsync(u => u.Id == input.AccountID);
+            var loginman = await _repFireUnitUser.SingleAsync(u => u.Id == input.AccountID);
             var rolllist = _fireUnitAccountRoleRepository.GetAll().Where(u => u.AccountID == input.AccountID).Select(u => u.Role).ToList();
             GetUnitPeopleOutput userInfo = new GetUnitPeopleOutput()
             {
@@ -195,14 +200,14 @@ namespace FireProtectionV1.User.Manager
         public async Task<SuccessOutput> UpdateUserInfo(GetUnitPeopleOutput input)
         {
             SuccessOutput output = new SuccessOutput() { Success = true };
-            var userInfo= await _fireUnitAccountRepository.SingleAsync(u => u.Id == input.ID);
+            var userInfo= await _repFireUnitUser.SingleAsync(u => u.Id == input.ID);
             userInfo.Account = input.Account;
             userInfo.Name = input.Name;
             userInfo.Photo = input.Photo;
             userInfo.Qualification = input.Qualification;
             userInfo.QualificationNumber = input.QualificationNumber;
             userInfo.QualificationValidity = DateTime.Parse( input.QualificationValidity);
-            _fireUnitAccountRepository.Update(userInfo);
+            _repFireUnitUser.Update(userInfo);
 
             string sql = $@"DELETE FROM fireunituserrole WHERE AccountID={input.ID}";
             var dataTable = _SqlRepository.Query(sql);
@@ -229,7 +234,7 @@ namespace FireProtectionV1.User.Manager
         public async Task<SuccessOutput> AddUser(AddUserInput input)
         {
             SuccessOutput output = new SuccessOutput() { Success = true };
-            Valid.Exception(_fireUnitAccountRepository.Count(m => m.Account.Equals(input.Account)) > 0, "手机号已被注册");
+            Valid.Exception(_repFireUnitUser.Count(m => m.Account.Equals(input.Account)) > 0, "手机号已被注册");
             FireUnitUser user = new FireUnitUser()
             {
                 Name = input.Name,
@@ -241,7 +246,7 @@ namespace FireProtectionV1.User.Manager
                 QualificationValidity = DateTime.Parse( input.QualificationValidity),
                 Password = MD5Encrypt.Encrypt("666666" + input.Account, 16),
             };
-            var userid = _fireUnitAccountRepository.InsertAndGetId(user);
+            var userid = _repFireUnitUser.InsertAndGetId(user);
             if (input.Rolelist != null)
             {
                 foreach (var roleid in input.Rolelist)
@@ -267,7 +272,7 @@ namespace FireProtectionV1.User.Manager
             SuccessOutput output = new SuccessOutput() { Success = true };
             try {
                 
-                await _fireUnitAccountRepository.DeleteAsync(u => u.Id == input.UserId);
+                await _repFireUnitUser.DeleteAsync(u => u.Id == input.UserId);
             }
             catch(Exception e)
             {
@@ -277,12 +282,16 @@ namespace FireProtectionV1.User.Manager
             
             return output;
         }
-
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<SuccessOutput> ChangePassword(ChangeUserPassword input)
         {
             string md5 = MD5Encrypt.Encrypt(input.OldPassword + input.Account, 16);
             SuccessOutput output = new SuccessOutput() { Success = true };
-            var v = await _fireUnitAccountRepository.FirstOrDefaultAsync(p => p.Account.Equals(input.Account) && p.Password.Equals(md5));
+            var v = await _repFireUnitUser.FirstOrDefaultAsync(p => p.Account.Equals(input.Account) && p.Password.Equals(md5));
             if (v == null)
             {
                 output.Success = false;
@@ -292,10 +301,60 @@ namespace FireProtectionV1.User.Manager
             {
                 string newMd5 = MD5Encrypt.Encrypt(input.NewPassword + input.Account, 16);
                 v.Password = newMd5;
-                var x = await _fireUnitAccountRepository.UpdateAsync(v);
+                var x = await _repFireUnitUser.UpdateAsync(v);
                 output.Success = true;
             }
             return output;
+        }
+        /// <summary>
+        /// 发送短信验证码
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <returns></returns>
+        public async Task<string> SendSMSCode(string phone)
+        {
+            var user = await _repFireUnitUser.FirstOrDefaultAsync(item => item.Account.Equals(phone));
+            Valid.Exception(user == null, $"不存在手机号为{phone}的用户");
+
+            Random rd = new Random();
+            string verificationCode = rd.Next(3246, 9820).ToString();
+            string content = $"尊敬的用户，您的验证码为：{verificationCode}。【天树聚智慧消防】";
+            int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
+            {
+                Phones = phone,
+                Contents = content
+            });
+
+            await _repShortMessageLog.InsertAsync(new ShortMessageLog()
+            {
+                AlarmType = AlarmType.SMSCode,
+                FireUnitId = user.FireUnitID,
+                Phones = phone,
+                Contents = content,
+                Result = result
+            });
+
+            if (result.Equals(1))
+            {
+                return verificationCode;
+            }
+            else
+            {
+                return "";
+            }
+        }
+        /// <summary>
+        /// 重置密码（忘记密码）
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task ReSetPassword(ReSetPasswordInput input)
+        {
+            var user = await _repFireUnitUser.FirstOrDefaultAsync(item => item.Account.Equals(input.phone));
+            Valid.Exception(user == null, $"不存在手机号为{input.phone}的用户");
+
+            user.Password = MD5Encrypt.Encrypt(input.NewPassword + input.phone, 16);
+            await _repFireUnitUser.UpdateAsync(user);
         }
     }
 }

@@ -780,6 +780,36 @@
             防火单位名称
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.FireUnitNameOutput.AreaId">
+            <summary>
+            区域Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.FireUnitNameOutput.AreaName">
+            <summary>
+            区域名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.FireUnitNameOutput.Lng">
+            <summary>
+            经度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.FireUnitNameOutput.Lat">
+            <summary>
+            纬度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.FireUnitNameOutput.ContractName">
+            <summary>
+            联系人姓名
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.FireUnitNameOutput.ContractPhone">
+            <summary>
+            联系人手机
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.GetEquipmentNoInfoInput.EquiNo">
             <summary>
             设施编码
@@ -1055,6 +1085,16 @@
             维保单位名称
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetTop10FireUnitOutput.Id">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.GetTop10FireUnitOutput.Name">
+            <summary>
+            防火单位名称
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.InvitatVerifyDto.UnitName">
             <summary>
             单位名称
@@ -1083,6 +1123,11 @@
         <member name="P:FireProtectionV1.Enterprise.Dto.QueryFireUnitLikeNameInput.MatchName">
             <summary>
             防火单位名称(模糊查询)
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Enterprise.Dto.QueryFireUnitLikeNameInput.AreaId">
+            <summary>
+            在指定区域中查询，如果areaId=0则在全部区域中查询
             </summary>
         </member>
         <member name="P:FireProtectionV1.Enterprise.Dto.SafeUserFireUnitDto.SafeUserId">
@@ -1421,6 +1466,13 @@
         <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.GetFireUnitInfo(FireProtectionV1.Enterprise.Dto.GetFireUnitInfoInput)">
             <summary>
             防火单位信息
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.Enterprise.Manager.IFireUnitManager.QueryFireUnitLikeName(FireProtectionV1.Enterprise.Dto.QueryFireUnitLikeNameInput)">
+            <summary>
+            根据名称模糊查询防火单位
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -2036,6 +2088,51 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.AddDetectorInput.Location">
             <summary>
             部件地点
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddEngineerRecordInput.EngineerUserId">
+            <summary>
+            施工人员Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddEngineerRecordInput.FireUnitId">
+            <summary>
+            防火单位Id，如果是要新增防火单位，则FireUnitId=0；如果是已存在的防火单位，则传入该单位的FireUnitId
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddEngineerRecordInput.FireUnitName">
+            <summary>
+            防火单位名称，如果FireUnitId=0，则需传入该参数，否则不需传入该参数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddEngineerRecordInput.AreaId">
+            <summary>
+            防火单位区域，如果FireUnitId=0，则需传入该参数，否则不需传入该参数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddEngineerRecordInput.Lng">
+            <summary>
+            经度，如果FireUnitId=0，则需传入该参数，否则不需传入该参数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddEngineerRecordInput.Lat">
+            <summary>
+            纬度，如果FireUnitId=0，则需传入该参数，否则不需传入该参数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddEngineerRecordInput.ContractName">
+            <summary>
+            防火单位联系人姓名，如果FireUnitId=0，则需传入该参数，否则不需传入该参数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddEngineerRecordInput.ContractPhone">
+            <summary>
+            防火单位联系人手机，如果FireUnitId=0，则需传入该参数，否则不需传入该参数
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.AddEngineerRecordInput.DeviceSn">
+            <summary>
+            电气火灾设施Sn
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.AddFireWaterRecordInput.FireWaterGatewaySn">
@@ -2757,6 +2854,11 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.ElectricAlarmListOutput.FireElectricDeviceSn">
             <summary>
             电气火灾设施编号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.ElectricAlarmListOutput.FireUnitName">
+            <summary>
+            防火单位名称
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.ElectricAlarmListOutput.FireUnitArchitectureName">
@@ -3519,6 +3621,101 @@
             防火单位名称
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDevice_EngineerDto.DeviceId">
+            <summary>
+            设备ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDevice_EngineerDto.DeviceSn">
+            <summary>
+            设备SN
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDevice_EngineerDto.FireUnitName">
+            <summary>
+            防火单位名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDevice_EngineerDto.AreaName">
+            <summary>
+            防火单位区域
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDevice_EngineerDto.ContractName">
+            <summary>
+            防火单位联系人姓名
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDevice_EngineerDto.ContractPhone">
+            <summary>
+            防火单位联系人手机
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDevice_EngineerDto.EngineerName">
+            <summary>
+            施工人员姓名
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDevice_EngineerDto.EngineerPhone">
+            <summary>
+            施工人员手机
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDevice_EngineerDto.State">
+            <summary>
+            设备状态：离线/良好/隐患/超限
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDevice_EngineerDto.ExistAmpere">
+            <summary>
+            剩余电流监测
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDevice_EngineerDto.ExistTemperature">
+            <summary>
+            电缆温度监测
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDevice_EngineerDto.PhaseType">
+            <summary>
+            "单项"/"三项"
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDevice_EngineerDto.L">
+            <summary>
+            当前L数值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDevice_EngineerDto.N">
+            <summary>
+            当前N数值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDevice_EngineerDto.A">
+            <summary>
+            当前电流数值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDevice_EngineerDto.L1">
+            <summary>
+            当前L1数值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDevice_EngineerDto.L2">
+            <summary>
+            当前L2数值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDevice_EngineerDto.L3">
+            <summary>
+            当前L3数值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDevice_EngineerDto.CreationTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireOrtherDeviceItemDto.DeviceId">
             <summary>
             设备ID
@@ -3792,6 +3989,61 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.GetSingleElectricDeviceDataOutput.DeviceData">
             <summary>
             设备的当前数值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDeviceDataDto.DeviceId">
+            <summary>
+            设备ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDeviceDataDto.State">
+            <summary>
+            设备状态：离线/良好/隐患/超限
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDeviceDataDto.ExistAmpere">
+            <summary>
+            剩余电流监测
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDeviceDataDto.ExistTemperature">
+            <summary>
+            电缆温度监测
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDeviceDataDto.PhaseType">
+            <summary>
+            "单项"/"三项"
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDeviceDataDto.L">
+            <summary>
+            当前L数值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDeviceDataDto.N">
+            <summary>
+            当前N数值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDeviceDataDto.A">
+            <summary>
+            当前电流数值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDeviceDataDto.L1">
+            <summary>
+            当前L1数值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDeviceDataDto.L2">
+            <summary>
+            当前L2数值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDeviceDataDto.L3">
+            <summary>
+            当前L3数值
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SerialPortParamDto.ComType">
@@ -4079,6 +4331,56 @@
             最近30天报警次数Top10
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetBitMapSetOutput.ArchitectureName">
+            <summary>
+            建筑名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetBitMapSetOutput.FloorName">
+            <summary>
+            楼层名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetBitMapSetOutput.Floor_Picture">
+            <summary>
+            楼层平面图
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetBitMapSetOutput.BitMapSetDetectorList">
+            <summary>
+            部件列表
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.BitMapSetDetector.Id">
+            <summary>
+            部件Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.BitMapSetDetector.Identify">
+            <summary>
+            部件地址
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.BitMapSetDetector.TypeName">
+            <summary>
+            部件类型
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.BitMapSetDetector.Location">
+            <summary>
+            安装位置
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.BitMapSetDetector.CoordinateX">
+            <summary>
+            火警点位图X坐标
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.BitMapSetDetector.CoordinateY">
+            <summary>
+            火警点位图Y坐标
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetDeviceStatusForDataScreenOutput.DeviceType">
             <summary>
             设施类型
@@ -4114,6 +4416,21 @@
             报警状态：隐患/超限
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetElectricAlarmListForEngineerInput.EngineerId">
+            <summary>
+            工程人员Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetElectricAlarmListForEngineerInput.VisitSource">
+            <summary>
+            接口访问的来源，如果是手机端调用接口，我会将所有警情记录更新为已读的状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetElectricAlarmListForEngineerInput.State">
+            <summary>
+            报警状态：隐患/超限
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetFireElectricDeviceOutput.MonitorItemList">
             <summary>
             监测类型数组（剩余电流、电缆温度）
@@ -4121,7 +4438,117 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetFireElectricDeviceOutput.EnableAlarmList">
             <summary>
-            超限动作数组（终端报警、云端报警、发送开关量信号）
+            超限动作数组（终端报警、云端报警、发送开关量信号等）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireElectricDeviceParaOutput.DeviceId">
+            <summary>
+            设施Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireElectricDeviceParaOutput.DeviceSn">
+            <summary>
+            设施编号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireElectricDeviceParaOutput.FireUnitName">
+            <summary>
+            防火单位名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireElectricDeviceParaOutput.ContractName">
+            <summary>
+            联系人姓名
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireElectricDeviceParaOutput.ContractPhone">
+            <summary>
+            联系人手机
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.GetFireElectricDeviceParaOutput.EnableAlarmList">
+            <summary>
+            超限动作数组（终端报警、云端报警、发送开关量信号等）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.UpdateFireElectricDeviceParaInput.DeviceId">
+            <summary>
+            设施Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.UpdateFireElectricDeviceParaInput.ContractName">
+            <summary>
+            联系人姓名
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.UpdateFireElectricDeviceParaInput.ContractPhone">
+            <summary>
+            联系人手机
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.UpdateFireElectricDeviceParaInput.EnableAlarmList">
+            <summary>
+            超限动作数组（终端报警、云端报警、发送开关量信号等）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireElectricDeviceParaDto.EnableEndAlarm">
+            <summary>
+            启用终端报警
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireElectricDeviceParaDto.EnableCloudAlarm">
+            <summary>
+            启用云端报警
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireElectricDeviceParaDto.EnableAlarmSwitch">
+            <summary>
+            发送开关量信号(自动断电)
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireElectricDeviceParaDto.MaxAmpere">
+            <summary>
+            剩余电流上限
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireElectricDeviceParaDto.PhaseType">
+            <summary>
+            电缆温度监测：单相/三相
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireElectricDeviceParaDto.MaxL">
+            <summary>
+            L温度上限
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireElectricDeviceParaDto.MaxN">
+            <summary>
+            N温度上限
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireElectricDeviceParaDto.MaxL1">
+            <summary>
+            L1温度上限
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireElectricDeviceParaDto.MaxL2">
+            <summary>
+            L2温度上限
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireElectricDeviceParaDto.MaxL3">
+            <summary>
+            L3温度上限
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireElectricDeviceParaDto.EnableSMS">
+            <summary>
+            启用发送短信
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireElectricDeviceParaDto.SMSPhones">
+            <summary>
+            短信接收号码，多个号码以英文“,”分割
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.GetFireUnitAlarmOutput.FireUnitName">
@@ -5239,6 +5666,21 @@
             故障次数
             </summary>
         </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.UpdateDetectorCoordinateInput.DetectorId">
+            <summary>
+            部件Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.UpdateDetectorCoordinateInput.CoordinateX">
+            <summary>
+            火警点位图X坐标
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.UpdateDetectorCoordinateInput.CoordinateY">
+            <summary>
+            火警点位图Y坐标
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.UpdateDeviceStateInput.GatewayType">
             <summary>
             设备网关类型
@@ -5323,7 +5765,15 @@
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.AlarmManager.GetElectricAlarmList(FireProtectionV1.FireWorking.Dto.GetElectricAlarmListInput,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
-            获取电气火灾警情数据列表
+            获取防火单位电气火灾警情数据列表
+            </summary>
+            <param name="input"></param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.AlarmManager.GetElectricAlarmListForEngineer(FireProtectionV1.FireWorking.Dto.GetElectricAlarmListForEngineerInput,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取工程端电气火灾警情数据列表
             </summary>
             <param name="input"></param>
             <param name="dto"></param>
@@ -5342,6 +5792,13 @@
             获取防火单位未读警情类型及数量
             </summary>
             <param name="fireUnitId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.AlarmManager.GetNoReadAlarmNumListForEngineer(System.Int32)">
+            <summary>
+            获取工程端未读警情类型及数量
+            </summary>
+            <param name="engineerId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.AlarmManager.GetAlarmTo119List(System.Int32,System.Int32,System.Int32)">
@@ -5432,6 +5889,20 @@
             <param name="deviceId"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.GetBitMapSet(System.Int32)">
+            <summary>
+            获取楼层的火警点位图设置
+            </summary>
+            <param name="floorId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.UpdateDetectorCoordinate(FireProtectionV1.FireWorking.Dto.UpdateDetectorCoordinateInput)">
+            <summary>
+            修改部件在点位图上的坐标
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.UpdateFireAlarmDevice(FireProtectionV1.FireWorking.Dto.FireDevice.UpdateFireAlarmDeviceDto)">
             <summary>
             修改火警联网设施
@@ -5446,11 +5917,25 @@
             <param name="deviceId"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.GetFireElectricDevicePara(System.Int32)">
+            <summary>
+            根据Id获取电气火灾设施参数详情
+            </summary>
+            <param name="deviceId"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.GetFireElectricDeviceState(System.Int32)">
             <summary>
-            获取电气火灾设备各种状态的数量
+            获取某个防火单位的电气火灾设备各种状态的数量
             </summary>
             <param name="fireUnitId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.GetEngineerElectricDeviceState(System.Int32)">
+            <summary>
+            根据区域Id获取工程手机端的电气火灾设备各种状态的数量
+            </summary>
+            <param name="areaId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.GetDeviceStatusForDataScreen(System.Int32)">
@@ -5475,6 +5960,26 @@
             </summary>
             <param name="fireDeptId"></param>
             <param name="fireUnitName"></param>
+            <param name="state"></param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.GetFireElectricDeviceList_Engineer(System.Int32,System.String,System.String,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取工程人员端各防火单位的电气火灾设施列表
+            </summary>
+            <param name="areaId"></param>
+            <param name="deviceSn"></param>
+            <param name="state"></param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.GetFireElectricDeviceList_Resident(System.Int32,System.String,System.String,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取C端电气火灾设施列表
+            </summary>
+            <param name="fireUnitId"></param>
+            <param name="deviceSn"></param>
             <param name="state"></param>
             <param name="dto"></param>
             <returns></returns>
@@ -5579,6 +6084,13 @@
         <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.UpdateFireElectricDevice(FireProtectionV1.FireWorking.Dto.FireDevice.UpdateFireElectricDeviceDto)">
             <summary>
             修改电气火灾设施
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.DeviceManager.UpdateFireElectricDevicePara(FireProtectionV1.FireWorking.Dto.UpdateFireElectricDeviceParaInput)">
+            <summary>
+            修改电气火灾设施参数
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -5779,6 +6291,13 @@
             <param name="fireUnitId"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.EngineerRecordManager.AddEngineerRecord(FireProtectionV1.FireWorking.Dto.AddEngineerRecordInput)">
+            <summary>
+            添加施工记录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.FaultManager.AddDetectorFault(FireProtectionV1.FireWorking.Dto.AddNewDetectorFaultInput)">
             <summary>
             添加火警联网部件故障数据
@@ -5929,7 +6448,15 @@
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IAlarmManager.GetElectricAlarmList(FireProtectionV1.FireWorking.Dto.GetElectricAlarmListInput,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
-            获取电气火灾警情数据列表
+            获取防火单位电气火灾警情数据列表
+            </summary>
+            <param name="input"></param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IAlarmManager.GetElectricAlarmListForEngineer(FireProtectionV1.FireWorking.Dto.GetElectricAlarmListForEngineerInput,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取工程端电气火灾警情数据列表
             </summary>
             <param name="input"></param>
             <param name="dto"></param>
@@ -5948,6 +6475,13 @@
             获取防火单位未读警情类型及数量
             </summary>
             <param name="fireUnitId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IAlarmManager.GetNoReadAlarmNumListForEngineer(System.Int32)">
+            <summary>
+            获取工程端未读警情类型及数量
+            </summary>
+            <param name="engineerId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IAlarmManager.GetAlarmTo119List(System.Int32,System.Int32,System.Int32)">
@@ -6013,12 +6547,46 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetFireElectricDeviceList_Engineer(System.Int32,System.String,System.String,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取工程人员端各防火单位的电气火灾设施列表
+            </summary>
+            <param name="areaId"></param>
+            <param name="deviceSn"></param>
+            <param name="state"></param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetFireElectricDeviceList_Resident(System.Int32,System.String,System.String,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取C端电气火灾设施列表
+            </summary>
+            <param name="fireUnitId"></param>
+            <param name="deviceSn"></param>
+            <param name="state"></param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetFireAlarmDeviceList(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
             获取指定防火单位ID的火警联网设施列表
             </summary>
             <param name="fireUnitId">防火单位ID</param>
             <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetBitMapSet(System.Int32)">
+            <summary>
+            获取楼层的火警点位图设置
+            </summary>
+            <param name="floorId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.UpdateDetectorCoordinate(FireProtectionV1.FireWorking.Dto.UpdateDetectorCoordinateInput)">
+            <summary>
+            修改部件在点位图上的坐标
+            </summary>
+            <param name="input"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetFireAlarmDeviceList_Dept(System.Int32,System.String,Abp.Application.Services.Dto.PagedResultRequestDto)">
@@ -6095,6 +6663,13 @@
         <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.UpdateFireElectricDevice(FireProtectionV1.FireWorking.Dto.FireDevice.UpdateFireElectricDeviceDto)">
             <summary>
             修改电气火灾设施
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.UpdateFireElectricDevicePara(FireProtectionV1.FireWorking.Dto.UpdateFireElectricDeviceParaInput)">
+            <summary>
+            修改电气火灾设施参数
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -6229,11 +6804,32 @@
             <param name="deviceId"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetFireElectricDevicePara(System.Int32)">
+            <summary>
+            根据Id获取电气火灾设施参数详情
+            </summary>
+            <param name="deviceId"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetFireOrtherDevice(System.Int32)">
             <summary>
             通过Id获取其它消防设施
             </summary>
             <param name="deviceid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetFireElectricDeviceState(System.Int32)">
+            <summary>
+            获取某个防火单位的电气火灾设备各种状态的数量
+            </summary>
+            <param name="fireUnitId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetEngineerElectricDeviceState(System.Int32)">
+            <summary>
+            根据区域Id获取工程手机端的电气火灾设备各种状态的数量
+            </summary>
+            <param name="areaId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IDeviceManager.GetFireOrtherDeviceExpire(System.Int32)">
@@ -6359,6 +6955,13 @@
         <member name="M:FireProtectionV1.FireWorking.Manager.IDutyManager.GetDutyStateTotal(System.Int32)">
             <summary>
             获取值班记录状态统计
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IEngineerRecordManager.AddEngineerRecord(FireProtectionV1.FireWorking.Dto.AddEngineerRecordInput)">
+            <summary>
+            添加施工记录
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -6649,9 +7252,14 @@
             防火单位Id
             </summary>
         </member>
-        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.IsRead">
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.IsFireUnitRead">
             <summary>
-            是否已读取（用于手机端显示未读的报警数据）
+            防火单位是否已读取（用于手机端显示未读的报警数据）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToElectric.IsEngineerRead">
+            <summary>
+            工程人员是否已读取（用于手机端显示未读的报警数据）
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmToFire.FireAlarmDeviceId">
@@ -6904,6 +7512,26 @@
             是否应用于天树聚系统，在火警联网设施->联网部件，选择部件类型时使用
             </summary>
         </member>
+        <member name="T:FireProtectionV1.FireWorking.Model.EngineerRecord">
+            <summary>
+            施工记录表
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.EngineerRecord.EngineerUserId">
+            <summary>
+            工程人员Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.EngineerRecord.FireElectricDeviceId">
+            <summary>
+            电气火灾设施Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.EngineerRecord.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.FireWorking.Model.Fault">
             <summary>
             设备设施故障
@@ -6931,7 +7559,7 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.FireAlarmDetector.Identify">
             <summary>
-            设备标识
+            部件编号
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.FireAlarmDetector.DetectorTypeId">
@@ -6962,6 +7590,16 @@
         <member name="P:FireProtectionV1.FireWorking.Model.FireAlarmDetector.FireUnitArchitectureFloorId">
             <summary>
             所在楼层Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireAlarmDetector.CoordinateX">
+            <summary>
+            火警点位图X坐标
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.FireAlarmDetector.CoordinateY">
+            <summary>
+            火警点位图Y坐标
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.FireAlarmDetector.FaultNum">
@@ -8321,12 +8959,12 @@
         </member>
         <member name="P:FireProtectionV1.Infrastructure.Dto.GetAreaOutput.AreaId">
             <summary>
-            防火单位类型Id
+            区域Id
             </summary>
         </member>
         <member name="P:FireProtectionV1.Infrastructure.Dto.GetAreaOutput.AreaName">
             <summary>
-            防火单位类型
+            区域名称
             </summary>
         </member>
         <member name="M:FireProtectionV1.Infrastructure.Manager.AreaManager.GetAreas(FireProtectionV1.Infrastructure.Dto.GetAreaInput)">
@@ -9806,7 +10444,7 @@
         </member>
         <member name="P:FireProtectionV1.User.Dto.ChangeUserPassword.OldPassword">
             <summary>
-            原始密码
+            原密码
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Dto.ChangeUserPassword.NewPassword">
@@ -9842,6 +10480,26 @@
         <member name="P:FireProtectionV1.User.Dto.DeptUserLoginOutput.IsMiniFireUser">
             <summary>
             是否微型消防站人员ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.EngineerUserLoginOutput.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.EngineerUserLoginOutput.Account">
+            <summary>
+            账号（手机号）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.EngineerUserLoginOutput.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.EngineerUserLoginOutput.AreaId">
+            <summary>
+            负责区域
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Dto.FireUnitUserInput.Account">
@@ -10094,6 +10752,21 @@
             验证码
             </summary>
         </member>
+        <member name="P:FireProtectionV1.User.Dto.ReSetPasswordInput.phone">
+            <summary>
+            手机号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.ReSetPasswordInput.VerificationCode">
+            <summary>
+            验证码
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.ReSetPasswordInput.NewPassword">
+            <summary>
+            新密码
+            </summary>
+        </member>
         <member name="P:FireProtectionV1.User.Dto.SafeUnitUserRegistInput.SafeUnitName">
             <summary>
             维保单位名称
@@ -10164,6 +10837,20 @@
             邀请码
             </summary>
         </member>
+        <member name="M:FireProtectionV1.User.Manager.EngineerUserManager.LoginForMobile(FireProtectionV1.User.Dto.LoginInput)">
+            <summary>
+            工程人员手机端登录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.EngineerUserManager.ChangePassword(FireProtectionV1.User.Dto.ChangeUserPassword)">
+            <summary>
+            修改密码
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.User.Manager.FireUnitUserManager.Add(FireProtectionV1.User.Dto.FireUnitUserInput)">
             <summary>
             添加防火单位账号
@@ -10213,6 +10900,27 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.User.Manager.FireUnitUserManager.ChangePassword(FireProtectionV1.User.Dto.ChangeUserPassword)">
+            <summary>
+            修改密码
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.FireUnitUserManager.SendSMSCode(System.String)">
+            <summary>
+            发送短信验证码
+            </summary>
+            <param name="phone"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.FireUnitUserManager.ReSetPassword(FireProtectionV1.User.Dto.ReSetPasswordInput)">
+            <summary>
+            重置密码（忘记密码）
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.User.Manager.HydrantUserManager.UserRegist(FireProtectionV1.User.Dto.GetHydrantUserRegistInput)">
             <summary>
             用户注册
@@ -10258,6 +10966,20 @@
         <member name="M:FireProtectionV1.User.Manager.HydrantUserManager.PutUserArea(FireProtectionV1.User.Dto.PutUserAreaInput)">
             <summary>
             修改用户管辖区
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.IEngineerUserManager.LoginForMobile(FireProtectionV1.User.Dto.LoginInput)">
+            <summary>
+            工程人员手机端登录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.IEngineerUserManager.ChangePassword(FireProtectionV1.User.Dto.ChangeUserPassword)">
+            <summary>
+            修改密码
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -10325,6 +11047,20 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.User.Manager.IFireUnitUserManager.SendSMSCode(System.String)">
+            <summary>
+            发送短信验证码
+            </summary>
+            <param name="phone"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.User.Manager.IFireUnitUserManager.ReSetPassword(FireProtectionV1.User.Dto.ReSetPasswordInput)">
+            <summary>
+            重置密码（忘记密码）
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.User.Manager.IHydrantUserManager.UserRegist(FireProtectionV1.User.Dto.GetHydrantUserRegistInput)">
             <summary>
             添加消火栓管理账号
@@ -10373,6 +11109,31 @@
             </summary>
             <param name="input"></param>
             <returns></returns>
+        </member>
+        <member name="P:FireProtectionV1.User.Model.EngineerUser.Account">
+            <summary>
+            账号（手机号）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Model.EngineerUser.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Model.EngineerUser.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Model.EngineerUser.AreaId">
+            <summary>
+            负责区域（用于新增施工记录时，显示默认的区域）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Model.EngineerUser.FireDeptId">
+            <summary>
+            消防监管部门Id（用于新增施工记录时，设置防火单位的FireDeptId）
+            </summary>
         </member>
         <member name="T:FireProtectionV1.User.Model.FireDeptUser">
             <summary>

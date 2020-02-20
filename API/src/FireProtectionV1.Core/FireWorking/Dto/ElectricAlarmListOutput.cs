@@ -20,6 +20,10 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public string FireElectricDeviceSn { get; set; }
         /// <summary>
+        /// 防火单位名称
+        /// </summary>
+        public string FireUnitName { get; set; }
+        /// <summary>
         /// 所在建筑
         /// </summary>
         public string FireUnitArchitectureName { get; set; }

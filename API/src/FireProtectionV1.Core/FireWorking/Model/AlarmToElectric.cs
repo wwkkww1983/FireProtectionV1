@@ -34,8 +34,12 @@ namespace FireProtectionV1.FireWorking.Model
         [Required]
         public int FireUnitId { get; set; }
         /// <summary>
-        /// 是否已读取（用于手机端显示未读的报警数据）
+        /// 防火单位是否已读取（用于手机端显示未读的报警数据）
         /// </summary>
-        public bool IsRead { get; set; } = false;
+        public bool IsFireUnitRead { get; set; } = false;
+        /// <summary>
+        /// 工程人员是否已读取（用于手机端显示未读的报警数据）
+        /// </summary>
+        public bool IsEngineerRead { get; set; } = false;
     }
 }

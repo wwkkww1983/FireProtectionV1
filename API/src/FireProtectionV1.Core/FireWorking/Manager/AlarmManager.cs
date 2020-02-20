@@ -8,6 +8,7 @@ using FireProtectionV1.Configuration;
 using FireProtectionV1.Enterprise.Model;
 using FireProtectionV1.FireWorking.Dto;
 using FireProtectionV1.FireWorking.Model;
+using FireProtectionV1.Infrastructure.Model;
 using FireProtectionV1.User.Manager;
 using FireProtectionV1.User.Model;
 using GovFire;
@@ -26,6 +27,8 @@ namespace FireProtectionV1.FireWorking.Manager
         ISqlRepository _sqlRepository;
         IRepository<FireAlarmDetector> _repFireAlarmDetector;
         IRepository<FireElectricDevice> _repFireElectricDevice;
+        IRepository<EngineerUser> _repEngineerUser;
+        IRepository<Area> _repArea;
         IRepository<FireWaterDevice> _repFireWaterDevice;
         IRepository<DetectorType> _repDetectorType;
         IRepository<AlarmToFire> _repAlarmToFire;
@@ -40,10 +43,12 @@ namespace FireProtectionV1.FireWorking.Manager
         public AlarmManager(
             IHostingEnvironment hostingEnvironment,
             ISqlRepository sqlRepository,
+            IRepository<Area> repArea,
             IRepository<FireAlarmDetector> repFireAlarmDetector,
             IRepository<FireElectricDevice> repFireElectricDevice,
             IRepository<FireWaterDevice> repFireWaterDevice,
             IRepository<DetectorType> repDetectorType,
+            IRepository<EngineerUser> repEngineerUser,
             IRepository<ShortMessageLog> repShortMessageLog,
             IRepository<FireUnit> repFireUnit,
             IRepository<AlarmToFire> repAlarmToFire,
@@ -57,10 +62,12 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             _hostingEnvironment = hostingEnvironment;
             _sqlRepository = sqlRepository;
+            _repArea = repArea;
             _repFireAlarmDetector = repFireAlarmDetector;
             _repFireElectricDevice = repFireElectricDevice;
             _repFireWaterDevice = repFireWaterDevice;
             _repDetectorType = repDetectorType;
+            _repEngineerUser = repEngineerUser;
             _repShortMessageLog = repShortMessageLog;
             _repFireUnit = repFireUnit;
             _repAlarmToElectric = repAlarmToElectric;
@@ -92,7 +99,7 @@ namespace FireProtectionV1.FireWorking.Manager
             if (fireAlarmDevice.EnableAlarmSMS)
             {
                 var fireUnit = await _repFireUnit.GetAsync(fireAlarmDevice.FireUnitId);
-                if (fireUnit != null && !string.IsNullOrEmpty(fireUnit.ContractPhone))
+                if (fireUnit != null && !string.IsNullOrEmpty(fireAlarmDevice.SMSPhones))
                 {
                     string contents = "火警联网报警：";
 
@@ -111,39 +118,52 @@ namespace FireProtectionV1.FireWorking.Manager
                             contents += $"位于“{fireUnit.Name}{ArchitectureName}”，编号为“{input.DetectorSn}”的“火警联网探测器”发出报警，时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”";
                         }
                         contents += "，请立即核警！【天树聚火警联网】";
+                        int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
+                        {
+                            Phones = fireAlarmDevice.SMSPhones,
+                            Contents = contents
+                        });
 
-                        List<string> lstPhones = new List<string>();
-                        if (string.IsNullOrEmpty(fireAlarmDevice.SMSPhones))
+                        await _repShortMessageLog.InsertAsync(new ShortMessageLog()
                         {
-                            if (!string.IsNullOrEmpty(fireUnit.ContractPhone))
-                                lstPhones.Add(fireUnit.ContractPhone);
-                        }
-                        else
-                        {
-                            var phones = fireAlarmDevice.SMSPhones.Split(',');
-                            lstPhones.AddRange(phones);
-                        }
-                        foreach (var phone in lstPhones)
-                        {
-                            try
-                            {
-                                int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
-                                {
-                                    Phones = fireUnit.ContractPhone,
-                                    Contents = contents
-                                });
+                            AlarmType = AlarmType.Fire,
+                            FireUnitId = fireAlarmDevice.FireUnitId,
+                            Phones = fireAlarmDevice.SMSPhones,
+                            Contents = contents,
+                            Result = result
+                        });
+                        //List<string> lstPhones = new List<string>();
+                        //if (string.IsNullOrEmpty(fireAlarmDevice.SMSPhones))
+                        //{
+                        //    if (!string.IsNullOrEmpty(fireUnit.ContractPhone))
+                        //        lstPhones.Add(fireUnit.ContractPhone);
+                        //}
+                        //else
+                        //{
+                        //    var phones = fireAlarmDevice.SMSPhones.Split(',');
+                        //    lstPhones.AddRange(phones);
+                        //}
+                        //foreach (var phone in lstPhones)
+                        //{
+                        //    try
+                        //    {
+                        //        int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
+                        //        {
+                        //            Phones = fireUnit.ContractPhone,
+                        //            Contents = contents
+                        //        });
 
-                                await _repShortMessageLog.InsertAsync(new ShortMessageLog()
-                                {
-                                    AlarmType = AlarmType.Electric,
-                                    FireUnitId = fireAlarmDevice.FireUnitId,
-                                    Phones = phone,
-                                    Contents = contents,
-                                    Result = result
-                                });
-                            }
-                            catch (Exception) { }
-                        }
+                        //        await _repShortMessageLog.InsertAsync(new ShortMessageLog()
+                        //        {
+                        //            AlarmType = AlarmType.Electric,
+                        //            FireUnitId = fireAlarmDevice.FireUnitId,
+                        //            Phones = phone,
+                        //            Contents = contents,
+                        //            Result = result
+                        //        });
+                        //    }
+                        //    catch (Exception) { }
+                        //}
 
                         //int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
                         //{
@@ -219,7 +239,48 @@ namespace FireProtectionV1.FireWorking.Manager
 
             if (input.CheckState == FireAlarmCheckState.False || input.CheckState == FireAlarmCheckState.Test || input.CheckState == FireAlarmCheckState.True)
             {
-                if (input.NotifyList != null && input.NotifyList.Count > 0 && input.NotifyList[0].Contains("通知工作人员")) fireAlarm.NotifyWorker = true;
+                if (input.NotifyList != null && input.NotifyList.Count > 0 && input.NotifyList[0].Contains("通知工作人员"))
+                {
+                    fireAlarm.NotifyWorker = true;
+                    var fireUnit = await _repFireUnit.GetAsync(fireAlarm.FireUnitId);
+                    if (fireUnit != null && !string.IsNullOrEmpty(fireUnit.ContractPhone))
+                    {
+                        string contents = "真实火警联网报警：";
+                        var fireAlarmDetector = await _repFireAlarmDetector.GetAsync(fireAlarm.FireAlarmDetectorId);
+                        try
+                        {
+                            if (fireAlarmDetector != null)
+                            {
+                                var detectorType = await _repDetectorType.GetAsync(fireAlarmDetector.DetectorTypeId);
+                                string typeName = detectorType != null ? detectorType.Name : "火警联网探测器";
+                                contents += $"位于“{fireUnit.Name}{fireAlarmDetector.FullLocation}”，编号为“{fireAlarmDetector.Identify}”的“{typeName}”发出报警，报警时间为{fireAlarm.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")}，核警时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”";
+                            }
+                            else
+                            {
+                                var device = await _repFireAlarmDevice.GetAsync(fireAlarm.FireAlarmDeviceId);
+                                var ArchitectureName = _repFireUnitArchitecture.Get(device.FireUnitArchitectureId).Name;
+                                contents += $"位于“{fireUnit.Name}{ArchitectureName}的“火警联网探测器”发出报警，报警时间为{fireAlarm.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")}，核警时间为“{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}”";
+                            }
+                            var otherContent = !string.IsNullOrEmpty(input.CheckContent) ? input.CheckContent : "请立即处置！";
+                            contents += $"，{otherContent}【天树聚火警联网】";
+                            int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
+                            {
+                                Phones = fireUnit.ContractPhone,
+                                Contents = contents
+                            });
+
+                            await _repShortMessageLog.InsertAsync(new ShortMessageLog()
+                            {
+                                AlarmType = AlarmType.Fire,
+                                FireUnitId = fireAlarm.FireUnitId,
+                                Phones = fireUnit.ContractPhone,
+                                Contents = contents,
+                                Result = result
+                            });
+                        }
+                        catch { }
+                    }
+                }
                 else fireAlarm.NotifyWorker = false;
                 if (input.NotifyList != null && input.NotifyList.Count > 0 && input.NotifyList[0].Contains("通知119")) fireAlarm.Notify119 = true;
                 else fireAlarm.Notify119 = false;
@@ -276,6 +337,7 @@ namespace FireProtectionV1.FireWorking.Manager
                             DetectorSn = b.Identify,
                             DetectorTypeName = c.Name,
                             Location = b.FullLocation,
+                            ExistBitMap = b.CoordinateX > 0 ? true : false,
                             CheckState = a.CheckState
                         };
 
@@ -377,7 +439,7 @@ namespace FireProtectionV1.FireWorking.Manager
             return Task.FromResult(new PagedResultDto<FireAlarmListOutput>(tCount, list));
         }
         /// <summary>
-        /// 获取电气火灾警情数据列表
+        /// 获取防火单位电气火灾警情数据列表
         /// </summary>
         /// <param name="input"></param>
         /// <param name="dto"></param>
@@ -410,7 +472,7 @@ namespace FireProtectionV1.FireWorking.Manager
                             Sign = a.Sign,
                             State = a.State,
                             Analog = a.Analog + (a.Sign.Equals("A") ? "mA" : "℃"),
-                            IsRead = a.IsRead
+                            IsRead = a.IsFireUnitRead
                         };
             var list = query.OrderByDescending(d => d.CreationTime).Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList();
             var tCount = query.Count();
@@ -418,11 +480,58 @@ namespace FireProtectionV1.FireWorking.Manager
             // 如果是手机端调用接口，则将所有的警情记录标记为已读
             if (input.VisitSource.Equals(VisitSource.Phone))
             {
-                string sql = $"update alarmtoelectric set isread = 1 where fireunitid = {input.FireUnitId}";
+                string sql = $"update alarmtoelectric set IsFireUnitRead = 1 where fireunitid = {input.FireUnitId}";
                 _sqlRepository.Execute(sql);
             }
 
             return Task.FromResult(new PagedResultDto<ElectricAlarmListOutput>(tCount, list));
+        }
+        /// <summary>
+        /// 获取工程端电气火灾警情数据列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<ElectricAlarmListOutput>> GetElectricAlarmListForEngineer(GetElectricAlarmListForEngineerInput input, PagedResultRequestDto dto)
+        {
+            var alarmToElectrics = _repAlarmToElectric.GetAll();
+            if (input.State.Equals(FireElectricDeviceState.Danger) || input.State.Equals(FireElectricDeviceState.Transfinite))
+            {
+                alarmToElectrics = alarmToElectrics.Where(item => item.State.Equals(input.State));
+            }
+            var engineer = await _repEngineerUser.GetAsync(input.EngineerId);
+            var area = await _repArea.GetAsync(engineer.AreaId);
+            var areas = _repArea.GetAll().Where(item => item.AreaPath.StartsWith(area.AreaPath));
+            var fireunits = _repFireUnit.GetAll();
+            var fireElectricDevices = _repFireElectricDevice.GetAll();
+
+            var query = from a in alarmToElectrics
+                        join b in fireElectricDevices on a.FireElectricDeviceId equals b.Id
+                        join c in fireunits on a.FireUnitId equals c.Id
+                        join d in areas on c.AreaId equals d.Id
+                        select new ElectricAlarmListOutput()
+                        {
+                            CreationTime = a.CreationTime,
+                            FireElectricDeviceId = a.FireElectricDeviceId,
+                            FireElectricDeviceSn = b.DeviceSn,
+                            Location = b.Location,
+                            FireUnitName = c.Name,
+                            Sign = a.Sign,
+                            State = a.State,
+                            Analog = a.Analog + (a.Sign.Equals("A") ? "mA" : "℃"),
+                            IsRead = a.IsFireUnitRead
+                        };
+            var list = query.OrderByDescending(d => d.CreationTime).Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList();
+            var tCount = query.Count();
+
+            // 如果是手机端调用接口，则将所有的警情记录标记为已读
+            if (input.VisitSource.Equals(VisitSource.Phone))
+            {
+                string sql = $"UPDATE alarmtoelectric SET IsEngineerRead = 1 WHERE fireunitid IN(SELECT id FROM fireunit WHERE areaid IN(SELECT id FROM AREA WHERE areapath LIKE '{area.AreaPath}%'))";
+                _sqlRepository.Execute(sql);
+            }
+
+            return new PagedResultDto<ElectricAlarmListOutput>(tCount, list);
         }
         /// <summary>
         /// 获取消防管网警情数据列表
@@ -467,7 +576,7 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             List<GetNoReadAlarmNumOutput> lstOutput = new List<GetNoReadAlarmNumOutput>();
             int noReadAlarmToFireNum = await _repAlarmToFire.CountAsync(item => item.FireUnitId.Equals(fireUnitId) && !item.IsRead);
-            int noReadAlarmToElectricNum = await _repAlarmToElectric.CountAsync(item => item.FireUnitId.Equals(fireUnitId) && !item.IsRead);
+            int noReadAlarmToElectricNum = await _repAlarmToElectric.CountAsync(item => item.FireUnitId.Equals(fireUnitId) && !item.IsFireUnitRead);
             int noReadAlarmToWaterNum = await _repAlarmToWater.CountAsync(item => item.FireUnitId.Equals(fireUnitId) && !item.IsRead);
             lstOutput.Add(new GetNoReadAlarmNumOutput()
             {
@@ -483,6 +592,36 @@ namespace FireProtectionV1.FireWorking.Manager
             {
                 AlarmType = AlarmType.Water,
                 NoReadAlarmNum = noReadAlarmToWaterNum
+            });
+            return lstOutput;
+        }
+        /// <summary>
+        /// 获取工程端未读警情类型及数量
+        /// </summary>
+        /// <param name="engineerId"></param>
+        /// <returns></returns>
+        public async Task<List<GetNoReadAlarmNumOutput>> GetNoReadAlarmNumListForEngineer(int engineerId)
+        {
+            List<GetNoReadAlarmNumOutput> lstOutput = new List<GetNoReadAlarmNumOutput>();
+
+            var engineer = await _repEngineerUser.GetAsync(engineerId);
+            var area = await _repArea.GetAsync(engineer.AreaId);
+            var areas = _repArea.GetAll().Where(item => item.AreaPath.StartsWith(area.AreaPath));
+            var fireunits = _repFireUnit.GetAll();
+            var alarmToElectrics = _repAlarmToElectric.GetAll().Where(item=>!item.IsEngineerRead);
+
+            var query = from a in alarmToElectrics
+                        join b in fireunits on a.FireUnitId equals b.Id
+                        join c in areas on b.AreaId equals c.Id
+                        select new
+                        {
+                            Id = a.Id
+                        };
+
+            lstOutput.Add(new GetNoReadAlarmNumOutput()
+            {
+                AlarmType = AlarmType.Electric,
+                NoReadAlarmNum = query.Count()
             });
             return lstOutput;
         }

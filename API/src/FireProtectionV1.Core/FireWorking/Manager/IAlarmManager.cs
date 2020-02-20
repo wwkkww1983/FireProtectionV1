@@ -52,12 +52,19 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         Task<PagedResultDto<FireAlarmListOutput>> GetFireAlarmList(FireAlarmListInput input, PagedResultRequestDto dto);
         /// <summary>
-        /// 获取电气火灾警情数据列表
+        /// 获取防火单位电气火灾警情数据列表
         /// </summary>
         /// <param name="input"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
         Task<PagedResultDto<ElectricAlarmListOutput>> GetElectricAlarmList(GetElectricAlarmListInput input, PagedResultRequestDto dto);
+        /// <summary>
+        /// 获取工程端电气火灾警情数据列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<ElectricAlarmListOutput>> GetElectricAlarmListForEngineer(GetElectricAlarmListForEngineerInput input, PagedResultRequestDto dto);
         /// <summary>
         /// 获取消防管网警情数据列表
         /// </summary>
@@ -71,6 +78,12 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="fireUnitId"></param>
         /// <returns></returns>
         Task<List<GetNoReadAlarmNumOutput>> GetNoReadAlarmNumList(int fireUnitId);
+        /// <summary>
+        /// 获取工程端未读警情类型及数量
+        /// </summary>
+        /// <param name="engineerId"></param>
+        /// <returns></returns>
+        Task<List<GetNoReadAlarmNumOutput>> GetNoReadAlarmNumListForEngineer(int engineerId);
         /// <summary>
         /// 获取区域内各防火单位火警联网在某个时间段内的真实火警报119数据，如果不传year、month，则取全部时间的数据
         /// </summary>
