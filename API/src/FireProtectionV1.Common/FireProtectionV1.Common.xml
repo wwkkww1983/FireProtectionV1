@@ -173,6 +173,11 @@
             消防管网
             </summary>
         </member>
+        <member name="F:FireProtectionV1.Common.Enum.AlarmType.SMSCode">
+            <summary>
+            短信验证码
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.Common.Enum.VisitSource">
             <summary>
             访问接口的来源

@@ -67,5 +67,17 @@ namespace FireProtectionV1.User.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task<SuccessOutput> ChangePassword(ChangeUserPassword input);
+        /// <summary>
+        /// 发送短信验证码
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <returns></returns>
+        Task<string> SendSMSCode(string phone);
+        /// <summary>
+        /// 重置密码（忘记密码）
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task ReSetPassword(ReSetPasswordInput input);
     }
 }

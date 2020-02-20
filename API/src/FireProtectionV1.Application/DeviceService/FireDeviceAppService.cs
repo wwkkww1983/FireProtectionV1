@@ -117,6 +117,33 @@ namespace FireProtectionV1.DeviceService
             await _deviceManager.UpdateFireAlarmDevice(input);
         }
         /// <summary>
+        /// 获取楼层的火警点位图设置
+        /// </summary>
+        /// <param name="floorId"></param>
+        /// <returns></returns>
+        public async Task<GetBitMapSetOutput> GetBitMapSet(int floorId)
+        {
+            return await _deviceManager.GetBitMapSet(floorId);
+        }
+        /// <summary>
+        /// 修改部件在点位图上的坐标
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task UpdateDetectorCoordinate(UpdateDetectorCoordinateInput input)
+        {
+            await _deviceManager.UpdateDetectorCoordinate(input);
+        }
+        /// <summary>
+        /// 获取某条火警对应的部件的点位图数据
+        /// </summary>
+        /// <param name="fireAlarmId"></param>
+        /// <returns></returns>
+        public async Task<GetDetectorBitMapOutput> GetDetectorBitMap(int fireAlarmId)
+        {
+            return await _deviceManager.GetDetectorBitMap(fireAlarmId);
+        }
+        /// <summary>
         /// 获取电气火灾监测单个项目的模拟量趋势
         /// </summary>
         /// <param name="input"></param>
@@ -304,6 +331,15 @@ namespace FireProtectionV1.DeviceService
             return await _deviceManager.GetFireElectricDeviceState(FireUnitId);
         }
         /// <summary>
+        /// 根据区域Id获取工程手机端的电气火灾设备各种状态的数量
+        /// </summary>
+        /// <param name="areaId"></param>
+        /// <returns></returns>
+        public async Task<GetFireElectricDeviceStateOutput> GetEngineerElectricDeviceState(int areaId)
+        {
+            return await _deviceManager.GetEngineerElectricDeviceState(areaId);
+        }
+        /// <summary>
         /// 刷新某一电气火灾设备的当前数值
         /// </summary>
         /// <param name="electricDeviceId"></param>
@@ -379,6 +415,48 @@ namespace FireProtectionV1.DeviceService
         public async Task UpdateFireElectricDevice(UpdateFireElectricDeviceDto input)
         {
             await _deviceManager.UpdateFireElectricDevice(input);
+        }
+        /// <summary>
+        /// 获取工程人员端各防火单位的电气火灾设施列表
+        /// </summary>
+        /// <param name="areaId"></param>
+        /// <param name="deviceSn"></param>
+        /// <param name="state"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<FireElectricDevice_EngineerDto>> GetFireElectricDeviceList_Engineer(int areaId, string deviceSn, string state, PagedResultRequestDto dto)
+        {
+            return await _deviceManager.GetFireElectricDeviceList_Engineer(areaId, deviceSn, state, dto);
+        }
+        /// <summary>
+        /// 获取C端电气火灾设施列表
+        /// </summary>
+        /// <param name="fireUnitId"></param>
+        /// <param name="deviceSn"></param>
+        /// <param name="state"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<FireElectricDevice_EngineerDto>> GetFireElectricDeviceList_Resident(int fireUnitId, string deviceSn, string state, PagedResultRequestDto dto)
+        {
+            return await _deviceManager.GetFireElectricDeviceList_Resident(fireUnitId, deviceSn, state, dto);
+        }
+        /// <summary>
+        /// 根据Id获取电气火灾设施参数详情
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <returns></returns>
+        public async Task<GetFireElectricDeviceParaOutput> GetFireElectricDevicePara(int deviceId)
+        {
+            return await _deviceManager.GetFireElectricDevicePara(deviceId);
+        }
+        /// <summary>
+        /// 修改电气火灾设施参数
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task UpdateFireElectricDevicePara(UpdateFireElectricDeviceParaInput input)
+        {
+            await _deviceManager.UpdateFireElectricDevicePara(input);
         }
         /// <summary>
         /// 获取指定其他消防设备ID的详情

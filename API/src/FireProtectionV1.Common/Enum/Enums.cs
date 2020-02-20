@@ -48,7 +48,12 @@ namespace FireProtectionV1.Common.Enum
         /// 消防管网
         /// </summary>
         [Description("消防管网")]
-        Water = 3
+        Water = 3,
+        /// <summary>
+        /// 短信验证码
+        /// </summary>
+        [Description("短信验证码")]
+        SMSCode = 4
     }
     /// <summary>
     /// 访问接口的来源

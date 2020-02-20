@@ -49,6 +49,24 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="dto"></param>
         /// <returns></returns>
         Task<PagedResultDto<FireElectricDevice_DeptDto>> GetFireElectricDeviceList_Dept(int fireDeptId, string fireUnitName, string state, PagedResultRequestDto dto);
+        /// <summary>
+        /// 获取工程人员端各防火单位的电气火灾设施列表
+        /// </summary>
+        /// <param name="areaId"></param>
+        /// <param name="deviceSn"></param>
+        /// <param name="state"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<FireElectricDevice_EngineerDto>> GetFireElectricDeviceList_Engineer(int areaId, string deviceSn, string state, PagedResultRequestDto dto);
+        /// <summary>
+        /// 获取C端电气火灾设施列表
+        /// </summary>
+        /// <param name="fireUnitId"></param>
+        /// <param name="deviceSn"></param>
+        /// <param name="state"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<FireElectricDevice_EngineerDto>> GetFireElectricDeviceList_Resident(int fireUnitId, string deviceSn, string state, PagedResultRequestDto dto);
         //Detector GetDetector(string identify,string origin);
         //Gateway GetGateway(string identify, string origin);
         /// <summary>
@@ -58,6 +76,24 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="dto"></param>
         /// <returns></returns>
         Task<PagedResultDto<FireAlarmDeviceItemDto>> GetFireAlarmDeviceList(int fireUnitId, PagedResultRequestDto dto);
+        /// <summary>
+        /// 获取楼层的火警点位图设置
+        /// </summary>
+        /// <param name="floorId"></param>
+        /// <returns></returns>
+        Task<GetBitMapSetOutput> GetBitMapSet(int floorId);
+        /// <summary>
+        /// 修改部件在点位图上的坐标
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task UpdateDetectorCoordinate(UpdateDetectorCoordinateInput input);
+        /// <summary>
+        /// 获取某条火警对应的部件的点位图数据
+        /// </summary>
+        /// <param name="fireAlarmId"></param>
+        /// <returns></returns>
+        Task<GetDetectorBitMapOutput> GetDetectorBitMap(int fireAlarmId);
         /// <summary>
         /// 获取辖区内各防火单位的火警联网设施列表
         /// </summary>
@@ -142,6 +178,12 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="input"></param>
         /// <returns></returns>
         Task UpdateFireElectricDevice(UpdateFireElectricDeviceDto input);
+        /// <summary>
+        /// 修改电气火灾设施参数
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task UpdateFireElectricDevicePara(UpdateFireElectricDeviceParaInput input);
         /// <summary>
         /// 删除火警联网部件
         /// </summary>
@@ -265,12 +307,29 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         Task<GetFireElectricDeviceOutput> GetFireElectricDevice(int deviceId);
         /// <summary>
+        /// 根据Id获取电气火灾设施参数详情
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <returns></returns>
+        Task<GetFireElectricDeviceParaOutput> GetFireElectricDevicePara(int deviceId);
+        /// <summary>
         /// 通过Id获取其它消防设施
         /// </summary>
         /// <param name="deviceid"></param>
         /// <returns></returns>
         Task<GetFireOrtherDeviceOutput> GetFireOrtherDevice(int deviceid);
+        /// <summary>
+        /// 获取某个防火单位的电气火灾设备各种状态的数量
+        /// </summary>
+        /// <param name="fireUnitId"></param>
+        /// <returns></returns>
         Task<GetFireElectricDeviceStateOutput> GetFireElectricDeviceState(int fireUnitId);
+        /// <summary>
+        /// 根据区域Id获取工程手机端的电气火灾设备各种状态的数量
+        /// </summary>
+        /// <param name="areaId"></param>
+        /// <returns></returns>
+        Task<GetFireElectricDeviceStateOutput> GetEngineerElectricDeviceState(int areaId);
         /// <summary>
         /// 获取防火单位的其它消防设施的即将过期数量和已过期数量
         /// </summary>

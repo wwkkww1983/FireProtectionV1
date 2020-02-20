@@ -36,7 +36,15 @@
         </member>
         <member name="M:FireProtectionV1.AppService.AlarmAppService.GetElectricAlarmList(FireProtectionV1.FireWorking.Dto.GetElectricAlarmListInput,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
-            获取电气火灾警情数据列表
+            获取防火单位电气火灾警情数据列表
+            </summary>
+            <param name="input"></param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.GetElectricAlarmListForEngineer(FireProtectionV1.FireWorking.Dto.GetElectricAlarmListForEngineerInput,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取工程端电气火灾警情数据列表
             </summary>
             <param name="input"></param>
             <param name="dto"></param>
@@ -69,6 +77,13 @@
             获取防火单位未读警情类型及数量
             </summary>
             <param name="fireUnitId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.GetNoReadAlarmNumListForEngineer(System.Int32)">
+            <summary>
+            获取工程端未读警情类型及数量
+            </summary>
+            <param name="engineerId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.AppGuideSet.GetFireUnitPeople(FireProtectionV1.User.Dto.GetUnitPeopleInput)">
@@ -582,6 +597,33 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.EngineerRecordAppService.AddEngineerRecord(FireProtectionV1.FireWorking.Dto.AddEngineerRecordInput)">
+            <summary>
+            添加施工记录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.EngineerUserAppService.UserLogout">
+            <summary>
+            登录注销
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.EngineerUserAppService.LoginForMobile(FireProtectionV1.User.Dto.LoginInput)">
+            <summary>
+            工程人员手机端登录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.EngineerUserAppService.ChangePassword(FireProtectionV1.User.Dto.ChangeUserPassword)">
+            <summary>
+            修改密码
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="T:FireProtectionV1.AppService.FireDeptUserAppService">
             <summary>
             消防部门用户接口
@@ -679,7 +721,7 @@
             <summary>
             查询防火单位名称(模糊查询)
             </summary>
-            <param name="MatchName">匹配名</param>
+            <param name="input"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.AppService.FireUnitAppService.InvitatVerify(FireProtectionV1.Enterprise.Dto.InvitatVerifyInput)">
@@ -1015,6 +1057,20 @@
         <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.ChangePassword(FireProtectionV1.User.Dto.ChangeUserPassword)">
             <summary>
             修改密码
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.SendSMSCode(System.String)">
+            <summary>
+            发送短信验证码
+            </summary>
+            <param name="phone"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FireUnitUserAppService.ReSetPassword(FireProtectionV1.User.Dto.ReSetPasswordInput)">
+            <summary>
+            重置密码（忘记密码）
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -1505,7 +1561,7 @@
         </member>
         <member name="M:FireProtectionV1.AppService.SafeUnitAppService.GetAllFireUnitOfSafe(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
-            查询维保单位下的所以防火单位名称和Id
+            查询维保单位下的所有防火单位名称和Id
             </summary>
             <param name="SafeUnitId">维保单位id</param>
             <param name="page"></param>
@@ -1778,6 +1834,20 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetBitMapSet(System.Int32)">
+            <summary>
+            获取楼层的火警点位图设置
+            </summary>
+            <param name="floorId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.UpdateDetectorCoordinate(FireProtectionV1.FireWorking.Dto.UpdateDetectorCoordinateInput)">
+            <summary>
+            修改部件在点位图上的坐标
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetRecordElectric(FireProtectionV1.FireWorking.Dto.GetRecordElectricInput)">
             <summary>
             获取电气火灾监测单个项目的模拟量趋势
@@ -1872,6 +1942,13 @@
             <param name="FireUnitId"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetEngineerElectricDeviceState(System.Int32)">
+            <summary>
+            根据区域Id获取工程手机端的电气火灾设备各种状态的数量
+            </summary>
+            <param name="areaId"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetSingleElectricDeviceData(System.Int32)">
             <summary>
             刷新某一电气火灾设备的当前数值
@@ -1929,6 +2006,40 @@
         <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.UpdateFireElectricDevice(FireProtectionV1.FireWorking.Dto.FireDevice.UpdateFireElectricDeviceDto)">
             <summary>
             修改电气火灾设备
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireElectricDeviceList_Engineer(System.Int32,System.String,System.String,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取工程人员端各防火单位的电气火灾设施列表
+            </summary>
+            <param name="areaId"></param>
+            <param name="deviceSn"></param>
+            <param name="state"></param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireElectricDeviceList_Resident(System.Int32,System.String,System.String,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取C端电气火灾设施列表
+            </summary>
+            <param name="fireUnitId"></param>
+            <param name="deviceSn"></param>
+            <param name="state"></param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetFireElectricDevicePara(System.Int32)">
+            <summary>
+            根据Id获取电气火灾设施参数详情
+            </summary>
+            <param name="deviceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.UpdateFireElectricDevicePara(FireProtectionV1.FireWorking.Dto.UpdateFireElectricDeviceParaInput)">
+            <summary>
+            修改电气火灾设施参数
             </summary>
             <param name="input"></param>
             <returns></returns>

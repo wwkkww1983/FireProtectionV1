@@ -7,11 +7,11 @@ namespace FireProtectionV1.Infrastructure.Dto
     public class GetAreaOutput
     {
         /// <summary>
-        /// 防火单位类型Id
+        /// 区域Id
         /// </summary>
         public int AreaId { get; set; }
         /// <summary>
-        /// 防火单位类型
+        /// 区域名称
         /// </summary>
         public string AreaName { get; set; }
     }

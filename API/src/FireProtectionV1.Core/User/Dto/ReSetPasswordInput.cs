@@ -5,18 +5,17 @@ using System.Text;
 
 namespace FireProtectionV1.User.Dto
 {
-    public class ChangeUserPassword
+    public class ReSetPasswordInput
     {
         /// <summary>
-        /// 账号
+        /// 手机号
         /// </summary>
         [Required]
-        public string Account { get; set; }
+        public string phone { get; set; }
         /// <summary>
-        /// 原密码
+        /// 验证码
         /// </summary>
-        [Required]
-        public string OldPassword { get; set; }
+        public string VerificationCode { get; set; }
         /// <summary>
         /// 新密码
         /// </summary>

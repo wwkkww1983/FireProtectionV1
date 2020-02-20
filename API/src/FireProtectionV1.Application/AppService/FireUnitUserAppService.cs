@@ -1,9 +1,11 @@
-﻿using FireProtectionV1.User.Dto;
+﻿using FireProtectionV1.Common.Helper;
+using FireProtectionV1.User.Dto;
 using FireProtectionV1.User.Manager;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -109,7 +111,6 @@ namespace FireProtectionV1.AppService
         {
             return await Logout();
         }
-
         /// <summary>
         /// 修改密码
         /// </summary>
@@ -118,6 +119,35 @@ namespace FireProtectionV1.AppService
         public async Task<SuccessOutput> ChangePassword(ChangeUserPassword input)
         {
             return await _fireUnitAccountManager.ChangePassword(input);
+        }
+        /// <summary>
+        /// 发送短信验证码
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <returns></returns>
+        public async Task<string> SendSMSCode([FromForm]string phone)
+        {
+            string verificationCode = await _fireUnitAccountManager.SendSMSCode(phone);
+            if (!string.IsNullOrEmpty(verificationCode))
+            {
+                _httpContext.HttpContext.Session.SetString("SMSCode", verificationCode);
+            }
+            return verificationCode;
+        }
+        /// <summary>
+        /// 重置密码（忘记密码）
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task ReSetPassword(ReSetPasswordInput input)
+        {
+            if (!string.IsNullOrEmpty(input.VerificationCode))
+            {
+                string verificationCode = _httpContext.HttpContext.Session.GetString("SMSCode");
+                Valid.Exception(string.IsNullOrEmpty(verificationCode) || !verificationCode.Equals(input.VerificationCode), "验证码错误");
+            }
+
+            await _fireUnitAccountManager.ReSetPassword(input);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace FireProtectionV1.Enterprise.Manager
         IRepository<FireUnitPlan> _repFireUnitPlan;
         IRepository<FireUnitAttention> _fireUnitAttentionRep;
         IRepository<SafeUnit> _safeUnitRep;
-        IRepository<Area> _areaRep;
+        IRepository<Area> _repArea;
         IRepository<FireUnitType> _fireUnitTypeRep;
         IRepository<FireDept> _repFireDept;
         IRepository<FireDeptUser> _repFireDeptUser;
@@ -59,7 +59,7 @@ namespace FireProtectionV1.Enterprise.Manager
             _repFireUnitPlan = repFireUnitPlan;
             _fireUnitAttentionRep = fireUnitAttentionRep;
             _safeUnitRep = safeUnitR;
-            _areaRep = areaR;
+            _repArea = areaR;
             _fireUnitTypeRep = fireUnitTypeR;
             _fireUnitRep = fireUnitInfoRepository;
             _fireUnitUserRep = fireUnitAccountRepository;
@@ -110,15 +110,31 @@ namespace FireProtectionV1.Enterprise.Manager
         /// <returns></returns>
         public async Task<List<FireUnitNameOutput>> QueryFireUnitLikeName(QueryFireUnitLikeNameInput input)
         {
-            List<FireUnitNameOutput> output = await Task.Run(() =>
+            var fireunits = _fireUnitRep.GetAll().Where(p => p.Name.Contains(input.MatchName));
+            var areas = _repArea.GetAll();
+            // 在指定区域中筛选防火单位
+            if (input.AreaId > 0)
             {
-                return _fireUnitRep.GetAll().Where(p => p.Name.Contains(input.MatchName)).Take(10).Select(p => new FireUnitNameOutput()
+                var area = await _repArea.GetAsync(input.AreaId);
+                if (area != null)
                 {
-                    FireUnitId = p.Id,
-                    FireUnitName = p.Name
-                }).ToList();
-            });
-            return output;
+                    areas = areas.Where(item => item.AreaPath.StartsWith(area.AreaPath));
+                }
+            }
+            var query = from a in fireunits
+                        join b in areas on a.AreaId equals b.Id
+                        select new FireUnitNameOutput()
+                        {
+                            FireUnitId = a.Id,
+                            FireUnitName = a.Name,
+                            AreaId = a.AreaId,
+                            AreaName = b.Name,
+                            Lng = a.Lng,
+                            Lat = a.Lat,
+                            ContractName = a.ContractName,
+                            ContractPhone = a.ContractPhone
+                        };
+            return query.Take(10).ToList();
         }
         /// <summary>
         /// 邀请码验证 
@@ -167,7 +183,7 @@ namespace FireProtectionV1.Enterprise.Manager
                         on a.TypeId equals b.Id into g
                         from b2 in g.DefaultIfEmpty()
                         orderby a.CreationTime descending
-                        join c in _areaRep.GetAll()
+                        join c in _repArea.GetAll()
                         on a.AreaId equals c.Id
                         join d in _safeUnitRep.GetAll()
                         on a.SafeUnitId equals d.Id
@@ -358,14 +374,14 @@ namespace FireProtectionV1.Enterprise.Manager
                 output.Patrol = f.Patrol;
                 output.Lat = f.Lat;
                 output.Lng = f.Lng;
-                var a =await _areaRep.SingleAsync(p => p.Id.Equals(f.AreaId));
+                var a =await _repArea.SingleAsync(p => p.Id.Equals(f.AreaId));
                 if(a!=null)
                 {
                     var codes = a.AreaPath.Split('-');
                     output.Area = "";
                     foreach(var code in codes)
                     {
-                        var area = await _areaRep.SingleAsync(p => p.AreaCode.Equals(code));
+                        var area = await _repArea.SingleAsync(p => p.AreaCode.Equals(code));
                         output.Area += area.Name;
                     }
 

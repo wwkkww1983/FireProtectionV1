@@ -61,7 +61,7 @@ namespace FireProtectionV1.AppService
             return await _alarmManager.GetFireAlarmList(input, dto);
         }
         /// <summary>
-        /// 获取电气火灾警情数据列表
+        /// 获取防火单位电气火灾警情数据列表
         /// </summary>
         /// <param name="input"></param>
         /// <param name="dto"></param>
@@ -69,6 +69,16 @@ namespace FireProtectionV1.AppService
         public async Task<PagedResultDto<ElectricAlarmListOutput>> GetElectricAlarmList(GetElectricAlarmListInput input, PagedResultRequestDto dto)
         {
             return await _alarmManager.GetElectricAlarmList(input, dto);
+        }
+        /// <summary>
+        /// 获取工程端电气火灾警情数据列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<ElectricAlarmListOutput>> GetElectricAlarmListForEngineer(GetElectricAlarmListForEngineerInput input, PagedResultRequestDto dto)
+        {
+            return await _alarmManager.GetElectricAlarmListForEngineer(input, dto);
         }
         /// <summary>
         /// 获取消防管网警情数据列表
@@ -106,6 +116,15 @@ namespace FireProtectionV1.AppService
         public async Task<List<GetNoReadAlarmNumOutput>> GetNoReadAlarmNumList(int fireUnitId)
         {
             return await _alarmManager.GetNoReadAlarmNumList(fireUnitId);
+        }
+        /// <summary>
+        /// 获取工程端未读警情类型及数量
+        /// </summary>
+        /// <param name="engineerId"></param>
+        /// <returns></returns>
+        public async Task<List<GetNoReadAlarmNumOutput>> GetNoReadAlarmNumListForEngineer(int engineerId)
+        {
+            return await _alarmManager.GetNoReadAlarmNumListForEngineer(engineerId);
         }
     }
 }
