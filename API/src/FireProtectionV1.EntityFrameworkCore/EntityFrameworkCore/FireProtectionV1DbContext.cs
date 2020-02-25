@@ -37,6 +37,9 @@ namespace FireProtectionV1.EntityFrameworkCore
         public DbSet<DataToPatrolDetail> DataToPatrolDetail { get; set; }
         public DbSet<DataToDuty> DataToDuty { get; set; }
         public DbSet<Fault> Fault { get; set; }
+        public DbSet<VisionDevice> VisionDevice { get; set; }
+        public DbSet<VisionDetector> VisionDetector { get; set; }
+        public DbSet<AlarmToVision> AlarmToVision { get; set; }
         public DbSet<DetectorType> DetectorType { get; set; }
         public DbSet<FireAlarmDetector> FireAlarmDetector { get; set; }
         public DbSet<AlarmToFire> AlarmToFire { get; set; }

@@ -45,6 +45,12 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         Task<FireAlarmDetailOutput> GetFireAlarmById(int fireAlarmId);
         /// <summary>
+        /// 添加消防分析仪报警数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task AddAlarmVision(AddAlarmVisionInput input);
+        /// <summary>
         /// 获取火警联网数据列表
         /// </summary>
         /// <param name="input"></param>

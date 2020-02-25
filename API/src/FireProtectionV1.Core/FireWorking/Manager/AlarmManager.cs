@@ -95,7 +95,6 @@ namespace FireProtectionV1.FireWorking.Manager
             FireAlarmDetector fireAlarmDetector = await _repFireAlarmDetector.FirstOrDefaultAsync(item => item.Identify.Equals(input.DetectorSn) && item.FireAlarmDeviceId.Equals(fireAlarmDevice.Id));
 
             // 发送报警短信
-            //bool flag = bool.Parse(ConfigHelper.Configuration["FireDomain:FireAlarmShortMessage"]);   // 从配置文件中获取是否允许发送短信
             if (fireAlarmDevice.EnableAlarmSMS)
             {
                 var fireUnit = await _repFireUnit.GetAsync(fireAlarmDevice.FireUnitId);
@@ -132,62 +131,10 @@ namespace FireProtectionV1.FireWorking.Manager
                             Contents = contents,
                             Result = result
                         });
-                        //List<string> lstPhones = new List<string>();
-                        //if (string.IsNullOrEmpty(fireAlarmDevice.SMSPhones))
-                        //{
-                        //    if (!string.IsNullOrEmpty(fireUnit.ContractPhone))
-                        //        lstPhones.Add(fireUnit.ContractPhone);
-                        //}
-                        //else
-                        //{
-                        //    var phones = fireAlarmDevice.SMSPhones.Split(',');
-                        //    lstPhones.AddRange(phones);
-                        //}
-                        //foreach (var phone in lstPhones)
-                        //{
-                        //    try
-                        //    {
-                        //        int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
-                        //        {
-                        //            Phones = fireUnit.ContractPhone,
-                        //            Contents = contents
-                        //        });
-
-                        //        await _repShortMessageLog.InsertAsync(new ShortMessageLog()
-                        //        {
-                        //            AlarmType = AlarmType.Electric,
-                        //            FireUnitId = fireAlarmDevice.FireUnitId,
-                        //            Phones = phone,
-                        //            Contents = contents,
-                        //            Result = result
-                        //        });
-                        //    }
-                        //    catch (Exception) { }
-                        //}
-
-                        //int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
-                        //{
-                        //    Phones = fireUnit.ContractPhone,
-                        //    Contents = contents
-                        //});
-
-                        //await _repShortMessageLog.InsertAsync(new ShortMessageLog()
-                        //{
-                        //    AlarmType = AlarmType.Fire,
-                        //    FireUnitId = fireAlarmDevice.FireUnitId,
-                        //    Phones = fireUnit.ContractPhone,
-                        //    Contents = contents,
-                        //    Result = result
-                        //});
                     }
                     catch { }
                 }
             }
-            //int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
-            //{
-            //    Phones = "15881199975",
-            //    Contents = "火警联网报警：位于“兴源大厦3楼3003室”，编号为“0001区004号”的“感烟式火灾探测器”发出报警，时间为“2020-01-11 17:32:13”，请立即核警！【天树聚火警联网】"
-            //});
 
             int fireAlarmDetectorId = 0;
             if (fireAlarmDetector == null)  // 如果部件数据不存在，则插入一条部件数据
@@ -422,6 +369,7 @@ namespace FireProtectionV1.FireWorking.Manager
                             DetectorTypeName = c==null?"":c.Name,
                             CreationTime = a.CreationTime,
                             Location = b.FullLocation,
+                            ExistBitMap = b.CoordinateX > 0 ? true : false,
                             CheckState = a.CheckState,
                             IsRead = a.IsRead
                         };
@@ -437,6 +385,10 @@ namespace FireProtectionV1.FireWorking.Manager
             }
 
             return Task.FromResult(new PagedResultDto<FireAlarmListOutput>(tCount, list));
+        }
+        public async Task AddAlarmVision(AddAlarmVisionInput input)
+        {
+
         }
         /// <summary>
         /// 获取防火单位电气火灾警情数据列表
