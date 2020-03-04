@@ -32,6 +32,10 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public string Location { get; set; }
         /// <summary>
+        /// 存在点位图坐标
+        /// </summary>
+        public bool ExistBitMap { get; set; }
+        /// <summary>
         /// 核警状态
         /// </summary>
         public FireAlarmCheckState CheckState { get; set; }

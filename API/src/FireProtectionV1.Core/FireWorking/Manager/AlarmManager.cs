@@ -34,9 +34,12 @@ namespace FireProtectionV1.FireWorking.Manager
         IRepository<AlarmToFire> _repAlarmToFire;
         IRepository<AlarmToElectric> _repAlarmToElectric;
         IRepository<AlarmToWater> _repAlarmToWater;
+        IRepository<AlarmToVision> _repAlarmToVision;
         IRepository<ShortMessageLog> _repShortMessageLog;
         IRepository<FireUnit> _repFireUnit;
         IRepository<FireAlarmDevice> _repFireAlarmDevice;
+        IRepository<VisionDevice> _repVisionDevice;
+        IRepository<VisionDetector> _repVisionDetector;
         IRepository<FireUnitArchitecture> _repFireUnitArchitecture;
         IRepository<FireUnitArchitectureFloor> _repFireUnitArchitectureFloor;
         IRepository<FireUnitUser> _repFireUnitUser;
@@ -54,6 +57,9 @@ namespace FireProtectionV1.FireWorking.Manager
             IRepository<AlarmToFire> repAlarmToFire,
             IRepository<AlarmToElectric> repAlarmToElectric,
             IRepository<AlarmToWater> repAlarmToWater,
+            IRepository<AlarmToVision> repAlarmToVision,
+            IRepository<VisionDevice> repVisionDevice,
+            IRepository<VisionDetector> repVisionDetector,
             IRepository<FireAlarmDevice> repFireAlarmDevice,
             IRepository<FireUnitArchitecture> repFireUnitArchitecture,
             IRepository<FireUnitArchitectureFloor> repFireUnitArchitectureFloor,
@@ -73,6 +79,9 @@ namespace FireProtectionV1.FireWorking.Manager
             _repAlarmToElectric = repAlarmToElectric;
             _repAlarmToFire = repAlarmToFire;
             _repAlarmToWater = repAlarmToWater;
+            _repAlarmToVision = repAlarmToVision;
+            _repVisionDevice = repVisionDevice;
+            _repVisionDetector = repVisionDetector;
             _repFireAlarmDevice = repFireAlarmDevice;
             _repFireUnitArchitecture = repFireUnitArchitecture;
             _repFireUnitArchitectureFloor = repFireUnitArchitectureFloor;
@@ -95,7 +104,6 @@ namespace FireProtectionV1.FireWorking.Manager
             FireAlarmDetector fireAlarmDetector = await _repFireAlarmDetector.FirstOrDefaultAsync(item => item.Identify.Equals(input.DetectorSn) && item.FireAlarmDeviceId.Equals(fireAlarmDevice.Id));
 
             // 发送报警短信
-            //bool flag = bool.Parse(ConfigHelper.Configuration["FireDomain:FireAlarmShortMessage"]);   // 从配置文件中获取是否允许发送短信
             if (fireAlarmDevice.EnableAlarmSMS)
             {
                 var fireUnit = await _repFireUnit.GetAsync(fireAlarmDevice.FireUnitId);
@@ -132,62 +140,10 @@ namespace FireProtectionV1.FireWorking.Manager
                             Contents = contents,
                             Result = result
                         });
-                        //List<string> lstPhones = new List<string>();
-                        //if (string.IsNullOrEmpty(fireAlarmDevice.SMSPhones))
-                        //{
-                        //    if (!string.IsNullOrEmpty(fireUnit.ContractPhone))
-                        //        lstPhones.Add(fireUnit.ContractPhone);
-                        //}
-                        //else
-                        //{
-                        //    var phones = fireAlarmDevice.SMSPhones.Split(',');
-                        //    lstPhones.AddRange(phones);
-                        //}
-                        //foreach (var phone in lstPhones)
-                        //{
-                        //    try
-                        //    {
-                        //        int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
-                        //        {
-                        //            Phones = fireUnit.ContractPhone,
-                        //            Contents = contents
-                        //        });
-
-                        //        await _repShortMessageLog.InsertAsync(new ShortMessageLog()
-                        //        {
-                        //            AlarmType = AlarmType.Electric,
-                        //            FireUnitId = fireAlarmDevice.FireUnitId,
-                        //            Phones = phone,
-                        //            Contents = contents,
-                        //            Result = result
-                        //        });
-                        //    }
-                        //    catch (Exception) { }
-                        //}
-
-                        //int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
-                        //{
-                        //    Phones = fireUnit.ContractPhone,
-                        //    Contents = contents
-                        //});
-
-                        //await _repShortMessageLog.InsertAsync(new ShortMessageLog()
-                        //{
-                        //    AlarmType = AlarmType.Fire,
-                        //    FireUnitId = fireAlarmDevice.FireUnitId,
-                        //    Phones = fireUnit.ContractPhone,
-                        //    Contents = contents,
-                        //    Result = result
-                        //});
                     }
                     catch { }
                 }
             }
-            //int result = await ShotMessageHelper.SendMessage(new Common.Helper.ShortMessage()
-            //{
-            //    Phones = "15881199975",
-            //    Contents = "火警联网报警：位于“兴源大厦3楼3003室”，编号为“0001区004号”的“感烟式火灾探测器”发出报警，时间为“2020-01-11 17:32:13”，请立即核警！【天树聚火警联网】"
-            //});
 
             int fireAlarmDetectorId = 0;
             if (fireAlarmDetector == null)  // 如果部件数据不存在，则插入一条部件数据
@@ -337,7 +293,7 @@ namespace FireProtectionV1.FireWorking.Manager
                             DetectorSn = b.Identify,
                             DetectorTypeName = c.Name,
                             Location = b.FullLocation,
-                            ExistBitMap = b.CoordinateX > 0 ? true : false,
+                            ExistBitMap = b.CoordinateX != 0 ? true : false,
                             CheckState = a.CheckState
                         };
 
@@ -419,9 +375,10 @@ namespace FireProtectionV1.FireWorking.Manager
                             FireAlarmId = a.Id,
                             GatewaySn = d.DeviceSn,
                             DetectorSn = b.Identify,
-                            DetectorTypeName = c==null?"":c.Name,
+                            DetectorTypeName = c == null ? "" : c.Name,
                             CreationTime = a.CreationTime,
                             Location = b.FullLocation,
+                            ExistBitMap = b.CoordinateX != 0 ? true : false,
                             CheckState = a.CheckState,
                             IsRead = a.IsRead
                         };
@@ -437,6 +394,83 @@ namespace FireProtectionV1.FireWorking.Manager
             }
 
             return Task.FromResult(new PagedResultDto<FireAlarmListOutput>(tCount, list));
+        }
+        /// <summary>
+        /// 添加消防分析仪报警数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task AddAlarmVision(AddAlarmVisionInput input)
+        {
+            var device = await _repVisionDevice.FirstOrDefaultAsync(item => item.Sn.Equals(input.VisionDeviceSn));
+            Valid.Exception(device == null, $"没有找到编号为{input.VisionDeviceSn}的消防分析仪设备");
+
+            var detector = await _repVisionDetector.FirstOrDefaultAsync(item => item.VisionDeviceId.Equals(device.Id) && item.Sn.Equals(input.VisionDetectorSn));
+            Valid.Exception(detector == null, $"没有找到编号为{input.VisionDetectorSn}的监控通道");
+
+            string photopath = "";
+            // 保存现场照片
+            if (input.AlarmPicture != null)
+            {
+                string path = _hostingEnvironment.ContentRootPath + $@"/App_Data/Files/Photos/DataToVision/";
+
+                string picture_name = await SaveFileHelper.SaveFile(input.AlarmPicture, path);
+                photopath = "/Src/Photos/DataToVision/" + picture_name;
+            }
+
+            _repAlarmToVision.InsertAsync(new AlarmToVision()
+            {
+                VisionDeviceId = device.Id,
+                VisionDetectorId = detector.Id,
+                VisionAlarmType = input.VisionAlarmType,
+                PhotoPath = photopath,
+                FireUnitId = device.FireUnitId
+            });
+        }
+        /// <summary>
+        /// 获取防火单位消防分析仪报警列表数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public Task<PagedResultDto<AlarmVisionListOutput>> GetVisionAlarmList(AlarmVisionListInput input, PagedResultRequestDto dto)
+        {
+            var visionAlarms = _repAlarmToVision.GetAll().Where(item => item.FireUnitId.Equals(input.FireUnitId));
+            if (input.VisionAlarmType != null && (input.VisionAlarmType.Equals(VisionAlarmType.Fire) || input.VisionAlarmType.Equals(VisionAlarmType.Passageway)))
+            {
+                visionAlarms = visionAlarms.Where(item => item.VisionAlarmType.Equals(input.VisionAlarmType));
+            }
+            var visionDevice = _repVisionDevice.GetAll();
+            var visionDetector = _repVisionDetector.GetAll();
+
+            var query = from a in visionAlarms
+                        join b in visionDevice on a.VisionDeviceId equals b.Id into result1
+                        from a_b in result1.DefaultIfEmpty()
+                        join c in visionDetector on a.VisionDetectorId equals c.Id into result2
+                        from a_c in result2.DefaultIfEmpty()
+                        select new AlarmVisionListOutput()
+                        {
+                            VisionAlarmId = a.Id,
+                            CreationTime = a.CreationTime,
+                            VisionAlarmType = a.VisionAlarmType,
+                            VisionDevice = a_b == null ? "" : (a_b.Sn + a_c == null ? "" : ("-" + a_c.Sn)),
+                            Location = a_c == null ? "" : a_c.Location,
+                        };
+
+            var list = query.OrderByDescending(d => d.CreationTime).Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList();
+            var tCount = query.Count();
+
+            return Task.FromResult(new PagedResultDto<AlarmVisionListOutput>(tCount, list));
+        }
+        /// <summary>
+        /// 获取某条消防分析仪报警数据的照片
+        /// </summary>
+        /// <param name="visionAlarmId"></param>
+        /// <returns></returns>
+        public async Task<string> GetVisionAlarmPhotoPath(int visionAlarmId)
+        {
+            var visionAlarm = await _repAlarmToVision.GetAsync(visionAlarmId);
+            return visionAlarm.PhotoPath;
         }
         /// <summary>
         /// 获取防火单位电气火灾警情数据列表
@@ -608,7 +642,7 @@ namespace FireProtectionV1.FireWorking.Manager
             var area = await _repArea.GetAsync(engineer.AreaId);
             var areas = _repArea.GetAll().Where(item => item.AreaPath.StartsWith(area.AreaPath));
             var fireunits = _repFireUnit.GetAll();
-            var alarmToElectrics = _repAlarmToElectric.GetAll().Where(item=>!item.IsEngineerRead);
+            var alarmToElectrics = _repAlarmToElectric.GetAll().Where(item => !item.IsEngineerRead);
 
             var query = from a in alarmToElectrics
                         join b in fireunits on a.FireUnitId equals b.Id

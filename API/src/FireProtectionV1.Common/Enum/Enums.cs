@@ -56,6 +56,23 @@ namespace FireProtectionV1.Common.Enum
         SMSCode = 4
     }
     /// <summary>
+    /// 视觉报警类型
+    /// </summary>
+    [Export("视觉报警类型")]
+    public enum VisionAlarmType
+    {
+        /// <summary>
+        /// 烟雾火焰
+        /// </summary>
+        [Description("烟雾火焰")]
+        Fire = 1,
+        /// <summary>
+        /// 通道堵塞
+        /// </summary>
+        [Description("通道堵塞")]
+        Passageway = 2
+    }
+    /// <summary>
     /// 访问接口的来源
     /// </summary>
     [Export("访问接口的来源")]

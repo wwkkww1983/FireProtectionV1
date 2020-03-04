@@ -71,6 +71,34 @@ namespace FireProtectionV1.AppService
             return await _alarmManager.GetElectricAlarmList(input, dto);
         }
         /// <summary>
+        /// 添加消防分析仪报警数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task AddAlarmVision([FromForm]AddAlarmVisionInput input)
+        {
+            await _alarmManager.AddAlarmVision(input);
+        }
+        /// <summary>
+        /// 获取防火单位消防分析仪报警列表数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<AlarmVisionListOutput>> GetVisionAlarmList(AlarmVisionListInput input, PagedResultRequestDto dto)
+        {
+            return await _alarmManager.GetVisionAlarmList(input, dto);
+        }
+        /// <summary>
+        /// 获取某条消防分析仪报警数据的照片
+        /// </summary>
+        /// <param name="visionAlarmId"></param>
+        /// <returns></returns>
+        public async Task<string> GetVisionAlarmPhotoPath(int visionAlarmId)
+        {
+            return await _alarmManager.GetVisionAlarmPhotoPath(visionAlarmId);
+        }
+        /// <summary>
         /// 获取工程端电气火灾警情数据列表
         /// </summary>
         /// <param name="input"></param>

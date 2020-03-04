@@ -42,6 +42,28 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.AddAlarmVision(FireProtectionV1.FireWorking.Dto.AddAlarmVisionInput)">
+            <summary>
+            添加消防分析仪报警数据
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.GetVisionAlarmList(FireProtectionV1.FireWorking.Dto.AlarmVisionListInput,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取防火单位消防分析仪报警列表数据
+            </summary>
+            <param name="input"></param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.GetVisionAlarmPhotoPath(System.Int32)">
+            <summary>
+            获取某条消防分析仪报警数据的照片
+            </summary>
+            <param name="visionAlarmId"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.AlarmAppService.GetElectricAlarmListForEngineer(FireProtectionV1.FireWorking.Dto.GetElectricAlarmListForEngineerInput,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
             获取工程端电气火灾警情数据列表
@@ -1844,6 +1866,56 @@
         <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.UpdateDetectorCoordinate(FireProtectionV1.FireWorking.Dto.UpdateDetectorCoordinateInput)">
             <summary>
             修改部件在点位图上的坐标
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetDetectorBitMap(System.Int32)">
+            <summary>
+            获取某条火警对应的部件的点位图数据
+            </summary>
+            <param name="fireAlarmId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.AddVisionDevice(FireProtectionV1.FireWorking.Dto.AddVisionDeviceInput)">
+            <summary>
+            添加消防分析仪设备
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.UpdateVisionDevice(FireProtectionV1.FireWorking.Dto.UpdateVisionDeviceInput)">
+            <summary>
+            修改消防分析仪设备
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.DeleteVisionDevice(System.Int32)">
+            <summary>
+            删除消防分析仪设备
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetVisionDeviceList(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取消防分析仪设备列表
+            </summary>
+            <param name="fireUnitId"></param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetVisionDetectorList(System.Int32)">
+            <summary>
+            列表中点击“监控路数”时，获取监控路数列表数据
+            </summary>
+            <param name="visionDeviceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.UpdateVisionDetectorList(System.Collections.Generic.List{FireProtectionV1.FireWorking.Dto.VisionDetectorItemDto})">
+            <summary>
+            监控路数页面点击提交保存时调用的接口
             </summary>
             <param name="input"></param>
             <returns></returns>

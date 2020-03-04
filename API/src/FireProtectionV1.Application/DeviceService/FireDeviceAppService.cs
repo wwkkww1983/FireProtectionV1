@@ -18,10 +18,12 @@ namespace FireProtectionV1.DeviceService
     {
         IDeviceManager _deviceManager;
         IFaultManager _faultManager;
-        public FireDeviceAppService(IDeviceManager detectorManager, IFaultManager faultManager)
+        IVisionDeviceManager _visionDeviceManager;
+        public FireDeviceAppService(IDeviceManager detectorManager, IFaultManager faultManager, IVisionDeviceManager visionDeviceManager)
         {
             _deviceManager = detectorManager;
             _faultManager = faultManager;
+            _visionDeviceManager = visionDeviceManager;
         }
         /// <summary>
         /// 添加火警联网部件故障数据
@@ -142,6 +144,61 @@ namespace FireProtectionV1.DeviceService
         public async Task<GetDetectorBitMapOutput> GetDetectorBitMap(int fireAlarmId)
         {
             return await _deviceManager.GetDetectorBitMap(fireAlarmId);
+        }
+        /// <summary>
+        /// 添加消防分析仪设备
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task AddVisionDevice(AddVisionDeviceInput input)
+        {
+            await _visionDeviceManager.AddVisionDevice(input);
+        }
+        /// <summary>
+        /// 修改消防分析仪设备
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task UpdateVisionDevice(UpdateVisionDeviceInput input)
+        {
+            await _visionDeviceManager.UpdateVisionDevice(input);
+        }
+        /// <summary>
+        /// 删除消防分析仪设备
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task DeleteVisionDevice(int id)
+        {
+            await _visionDeviceManager.DeleteVisionDevice(id);
+        }
+        /// <summary>
+        /// 获取消防分析仪设备列表
+        /// </summary>
+        /// <param name="fireUnitId"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<VisionDeviceItemDto>> GetVisionDeviceList(int fireUnitId, PagedResultRequestDto dto)
+        {
+            return await _visionDeviceManager.GetVisionDeviceList(fireUnitId, dto);
+        }
+        /// <summary>
+        /// 列表中点击“监控路数”时，获取监控路数列表数据
+        /// </summary>
+        /// <param name="visionDeviceId"></param>
+        /// <returns></returns>
+        public async Task<List<VisionDetectorItemDto>> GetVisionDetectorList(int visionDeviceId)
+        {
+            return await _visionDeviceManager.GetVisionDetectorList(visionDeviceId);
+        }
+        /// <summary>
+        /// 监控路数页面点击提交保存时调用的接口
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task UpdateVisionDetectorList(List<VisionDetectorItemDto> input)
+        {
+            await _visionDeviceManager.UpdateVisionDetectorList(input);
         }
         /// <summary>
         /// 获取电气火灾监测单个项目的模拟量趋势

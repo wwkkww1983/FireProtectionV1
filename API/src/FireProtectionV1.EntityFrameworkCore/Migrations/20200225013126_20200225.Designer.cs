@@ -3,14 +3,16 @@ using System;
 using FireProtectionV1.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FireProtectionV1.Migrations
 {
     [DbContext(typeof(FireProtectionV1DbContext))]
-    partial class FireProtectionV1DbContextModelSnapshot : ModelSnapshot
+    [Migration("20200225013126_20200225")]
+    partial class _20200225
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -399,8 +401,6 @@ namespace FireProtectionV1.Migrations
                     b.Property<int>("FireUnitId");
 
                     b.Property<bool>("IsDeleted");
-
-                    b.Property<string>("PhotoPath");
 
                     b.Property<int>("VisionAlarmType");
 
@@ -1002,7 +1002,7 @@ namespace FireProtectionV1.Migrations
 
                     b.Property<string>("Location");
 
-                    b.Property<int>("Sn");
+                    b.Property<string>("Sn");
 
                     b.Property<int>("VisionDeviceId");
 
@@ -1021,8 +1021,6 @@ namespace FireProtectionV1.Migrations
                     b.Property<int>("FireUnitId");
 
                     b.Property<bool>("IsDeleted");
-
-                    b.Property<int>("MonitorNum");
 
                     b.Property<string>("Sn");
 
