@@ -1,28 +1,31 @@
 ﻿using FireProtectionV1.Common.Enum;
-using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace FireProtectionV1.FireWorking.Dto
 {
-    public class AddAlarmVisionInput
+    public class AlarmVisionListOutput
     {
         /// <summary>
-        /// 消防分析仪设备Sn号
+        /// 报警数据Id
         /// </summary>
-        public string VisionDeviceSn { get; set; }
+        public int VisionAlarmId { get; set; }
         /// <summary>
-        /// 通道Sn号
+        /// 报警时间
         /// </summary>
-        public int VisionDetectorSn { get; set; }
+        public DateTime CreationTime { get; set; }
         /// <summary>
         /// 报警类型
         /// </summary>
         public VisionAlarmType VisionAlarmType { get; set; }
         /// <summary>
-        /// 现场图片
+        /// 视觉设备（编号+通道号）
         /// </summary>
-        public IFormFile AlarmPicture { get; set; }
+        public string VisionDevice { get; set; }
+        /// <summary>
+        /// 监控地点
+        /// </summary>
+        public string Location { get; set; }
     }
 }

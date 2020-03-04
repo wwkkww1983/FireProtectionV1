@@ -14,7 +14,7 @@ namespace FireProtectionV1.FireWorking.Model
         /// <summary>
         /// 摄像头对应的通道编号
         /// </summary>
-        public string Sn { get; set; }
+        public int Sn { get; set; }
         /// <summary>
         /// 摄像头监控的现实地址
         /// </summary>

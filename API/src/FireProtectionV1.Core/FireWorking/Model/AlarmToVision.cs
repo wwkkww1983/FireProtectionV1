@@ -21,6 +21,10 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         public VisionAlarmType VisionAlarmType { get; set; }
         /// <summary>
+        /// 现场照片
+        /// </summary>
+        public string PhotoPath { get; set; }
+        /// <summary>
         /// 防火单位Id
         /// </summary>
         public int FireUnitId { get; set; }
