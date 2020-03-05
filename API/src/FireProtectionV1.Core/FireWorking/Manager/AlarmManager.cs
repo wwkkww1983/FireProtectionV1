@@ -453,7 +453,7 @@ namespace FireProtectionV1.FireWorking.Manager
                             VisionAlarmId = a.Id,
                             CreationTime = a.CreationTime,
                             VisionAlarmType = a.VisionAlarmType,
-                            VisionDevice = a_b == null ? "" : (a_b.Sn + a_c == null ? "" : ("-" + a_c.Sn)),
+                            VisionDevice = a_b == null ? "" : (a_b.Sn + (a_c == null ? "" : ("-" + a_c.Sn))),
                             Location = a_c == null ? "" : a_c.Location,
                         };
 
