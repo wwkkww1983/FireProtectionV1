@@ -155,6 +155,15 @@ namespace FireProtectionV1.DeviceService
             await _visionDeviceManager.AddVisionDevice(input);
         }
         /// <summary>
+        /// 获得单个消防分析仪设备详细信息
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <returns></returns>
+        public async Task<UpdateVisionDeviceInput> GetVisionDevice(int deviceId)
+        {
+            return await _visionDeviceManager.GetVisionDevice(deviceId);
+        }
+        /// <summary>
         /// 修改消防分析仪设备
         /// </summary>
         /// <param name="input"></param>

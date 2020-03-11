@@ -298,5 +298,6 @@ namespace FireProtectionV1.AppService
         {
             return await _manager.GetHydrantAreaHistogram();
         }
+        
     }
 }

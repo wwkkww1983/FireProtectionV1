@@ -90,6 +90,16 @@ namespace FireProtectionV1.AppService
             return await _alarmManager.GetVisionAlarmList(input, dto);
         }
         /// <summary>
+        /// 监管部门获取消防分析仪报警列表数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<AlarmVisionList_DeptOutput>> GetVisionAlarmList_Dept(AlarmVisionList_DeptInput input, PagedResultRequestDto dto)
+        {
+            return await _alarmManager.GetVisionAlarmList_Dept(input, dto);
+        }
+        /// <summary>
         /// 获取某条消防分析仪报警数据的照片
         /// </summary>
         /// <param name="visionAlarmId"></param>

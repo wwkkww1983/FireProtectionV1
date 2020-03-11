@@ -43,7 +43,7 @@ namespace FireProtectionV1.User.Model
         /// <summary>
         /// 职业资格证书有效期
         /// </summary>
-        public DateTime QualificationValidity { get; set; }
+        public DateTime? QualificationValidity { get; set; }
         /// <summary>
         /// 防火单位ID
         /// </summary>

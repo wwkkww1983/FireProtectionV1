@@ -463,6 +463,48 @@ namespace FireProtectionV1.FireWorking.Manager
             return Task.FromResult(new PagedResultDto<AlarmVisionListOutput>(tCount, list));
         }
         /// <summary>
+        /// 监管部门获取消防分析仪报警列表数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public Task<PagedResultDto<AlarmVisionList_DeptOutput>> GetVisionAlarmList_Dept(AlarmVisionList_DeptInput input, PagedResultRequestDto dto)
+        {
+            var visionAlarms = _repAlarmToVision.GetAll();
+            if (input.VisionAlarmType != null && (input.VisionAlarmType.Equals(VisionAlarmType.Fire) || input.VisionAlarmType.Equals(VisionAlarmType.Passageway)))
+            {
+                visionAlarms = visionAlarms.Where(item => item.VisionAlarmType.Equals(input.VisionAlarmType));
+            }
+            var fireUnits = _repFireUnit.GetAll().Where(item => item.FireDeptId.Equals(input.FireDeptId));
+            if (!string.IsNullOrEmpty(input.FireUnitName))
+            {
+                fireUnits = fireUnits.Where(item => item.Name.Contains(input.FireUnitName));
+            }
+            var visionDevice = _repVisionDevice.GetAll();
+            var visionDetector = _repVisionDetector.GetAll();
+
+            var query = from a in visionAlarms
+                        join f in fireUnits on a.FireUnitId equals f.Id
+                        join b in visionDevice on a.VisionDeviceId equals b.Id into result1
+                        from a_b in result1.DefaultIfEmpty()
+                        join c in visionDetector on a.VisionDetectorId equals c.Id into result2
+                        from a_c in result2.DefaultIfEmpty()
+                        select new AlarmVisionList_DeptOutput()
+                        {
+                            VisionAlarmId = a.Id,
+                            FireUnitName = f.Name,
+                            CreationTime = a.CreationTime,
+                            VisionAlarmType = a.VisionAlarmType,
+                            VisionDevice = a_b == null ? "" : (a_b.Sn + (a_c == null ? "" : ("-" + a_c.Sn))),
+                            Location = a_c == null ? "" : a_c.Location,
+                        };
+
+            var list = query.OrderByDescending(d => d.CreationTime).Skip(dto.SkipCount).Take(dto.MaxResultCount).ToList();
+            var tCount = query.Count();
+
+            return Task.FromResult(new PagedResultDto<AlarmVisionList_DeptOutput>(tCount, list));
+        }
+        /// <summary>
         /// 获取某条消防分析仪报警数据的照片
         /// </summary>
         /// <param name="visionAlarmId"></param>

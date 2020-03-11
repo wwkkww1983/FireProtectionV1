@@ -15,6 +15,10 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public int MonitorNum { get; set; }
         /// <summary>
+        /// 短信接收号码
+        /// </summary>
+        public string SMSPhones { get; set; }
+        /// <summary>
         /// 防火单位Id
         /// </summary>
         public int FireUnitId { get; set; }
@@ -30,6 +34,10 @@ namespace FireProtectionV1.FireWorking.Dto
         /// 最大监控路数
         /// </summary>
         public int MonitorNum { get; set; }
+        /// <summary>
+        /// 短信接收号码
+        /// </summary>
+        public string SMSPhones { get; set; }
     }
     public class VisionDeviceItemDto
     {

@@ -29,6 +29,12 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         Task DeleteVisionDevice(int id);
         /// <summary>
+        /// 获得单个消防分析仪设备详细信息
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <returns></returns>
+        Task<UpdateVisionDeviceInput> GetVisionDevice(int deviceId);
+        /// <summary>
         /// 获取消防分析仪设备列表
         /// </summary>
         /// <param name="fireUnitId"></param>

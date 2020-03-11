@@ -11,7 +11,9 @@ using FireProtectionV1.User.Dto;
 using FireProtectionV1.User.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FireProtectionV1.User.Manager
@@ -163,7 +165,7 @@ namespace FireProtectionV1.User.Manager
                                  Photo=a.Photo,
                                  Qualification=a.Qualification,
                                  QualificationNumber=a.QualificationNumber,
-                                 QualificationValidity=a.QualificationValidity.ToString("yyyy-MM-dd")
+                                 QualificationValidity=a.QualificationValidity != null ? ((DateTime)a.QualificationValidity).ToString("yyyy-MM-dd") : ""
                              };
             return unitpeople.ToList();
                 
@@ -186,7 +188,7 @@ namespace FireProtectionV1.User.Manager
                 Photo = loginman.Photo,
                 Qualification = loginman.Qualification,
                 QualificationNumber = loginman.QualificationNumber,
-                QualificationValidity = loginman.QualificationValidity.ToString("yyyy-MM-dd")
+                QualificationValidity = loginman.QualificationValidity != null ? ((DateTime)loginman.QualificationValidity).ToString("yyyy-MM-dd") : ""
             };
             return userInfo;
 
@@ -243,20 +245,45 @@ namespace FireProtectionV1.User.Manager
                 Photo = input.Photo,
                 Qualification = input.Qualification,
                 QualificationNumber = input.QualificationNumber,
-                QualificationValidity = DateTime.Parse( input.QualificationValidity),
+                Status = NormalStatus.Enabled,
                 Password = MD5Encrypt.Encrypt("666666" + input.Account, 16),
             };
+            if (!string.IsNullOrEmpty(input.QualificationValidity))
+            {
+                DateTime dt = DateTime.MinValue;
+                DateTime.TryParse(input.QualificationValidity, out dt);
+                user.QualificationValidity = dt;
+            }
             var userid = _repFireUnitUser.InsertAndGetId(user);
             if (input.Rolelist != null)
             {
+                string roles = "";
                 foreach (var roleid in input.Rolelist)
                 {
-                    FireUnitUserRole role = new FireUnitUserRole()
+                    if (!string.IsNullOrEmpty(roleid))
                     {
-                        AccountID = userid,
-                        Role = FireUnitRoleFunc.GetRoleEnum(roleid)
-                    };
-                    await _fireUnitAccountRoleRepository.InsertAsync(role);
+                        roles += "," + roleid;
+                        FireUnitUserRole role = new FireUnitUserRole()
+                        {
+                            AccountID = userid,
+                            Role = FireUnitRoleFunc.GetRoleEnum(roleid)
+                        };
+                        await _fireUnitAccountRoleRepository.InsertAsync(role);
+                    }
+                }
+                if (!string.IsNullOrEmpty(roles))
+                {
+                    using (StreamWriter sw = new StreamWriter(@"log.txt", true))
+                    {
+                        sw.WriteLine(DateTime.Now.ToString("HH:mm:ss ffff") + $"，{roles.Substring(1)}");
+                        sw.WriteLine();
+                    }
+
+                    //using (FileStream fs = new FileStream("log.txt", FileMode.OpenOrCreate))
+                    //{
+                    //    byte[] info = new UTF8Encoding(true).GetBytes(roles.Substring(1));
+                    //    fs.Write(info, 0, info.Length);
+                    //}
                 }
             }
             return output;

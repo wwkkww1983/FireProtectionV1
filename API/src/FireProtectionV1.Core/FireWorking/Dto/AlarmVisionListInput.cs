@@ -16,4 +16,19 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public VisionAlarmType VisionAlarmType { get; set; }
     }
+    public class AlarmVisionList_DeptInput
+    {
+        /// <summary>
+        /// 监管部门Id
+        /// </summary>
+        public int FireDeptId { get; set; }
+        /// <summary>
+        /// 防火单位名称
+        /// </summary>
+        public string FireUnitName { get; set; }
+        /// <summary>
+        /// 报警类型
+        /// </summary>
+        public VisionAlarmType VisionAlarmType { get; set; }
+    }
 }
