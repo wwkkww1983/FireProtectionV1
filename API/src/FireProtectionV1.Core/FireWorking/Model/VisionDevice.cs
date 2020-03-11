@@ -17,6 +17,10 @@ namespace FireProtectionV1.FireWorking.Model
         /// </summary>
         public int MonitorNum { get; set; }
         /// <summary>
+        /// 短信接收号码
+        /// </summary>
+        public string SMSPhones { get; set; }
+        /// <summary>
         /// 防火单位Id
         /// </summary>
         public int FireUnitId { get; set; }

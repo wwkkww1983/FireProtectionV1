@@ -28,4 +28,31 @@ namespace FireProtectionV1.FireWorking.Dto
         /// </summary>
         public string Location { get; set; }
     }
+    public class AlarmVisionList_DeptOutput
+    {
+        /// <summary>
+        /// 报警数据Id
+        /// </summary>
+        public int VisionAlarmId { get; set; }
+        /// <summary>
+        /// 防火单位名称
+        /// </summary>
+        public string FireUnitName { get; set; }
+        /// <summary>
+        /// 报警时间
+        /// </summary>
+        public DateTime CreationTime { get; set; }
+        /// <summary>
+        /// 报警类型
+        /// </summary>
+        public VisionAlarmType VisionAlarmType { get; set; }
+        /// <summary>
+        /// 视觉设备（编号+通道号）
+        /// </summary>
+        public string VisionDevice { get; set; }
+        /// <summary>
+        /// 监控地点
+        /// </summary>
+        public string Location { get; set; }
+    }
 }

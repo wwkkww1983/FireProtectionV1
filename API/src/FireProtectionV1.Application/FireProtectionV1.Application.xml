@@ -57,6 +57,14 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.GetVisionAlarmList_Dept(FireProtectionV1.FireWorking.Dto.AlarmVisionList_DeptInput,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            监管部门获取消防分析仪报警列表数据
+            </summary>
+            <param name="input"></param>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.AlarmAppService.GetVisionAlarmPhotoPath(System.Int32)">
             <summary>
             获取某条消防分析仪报警数据的照片
@@ -644,6 +652,34 @@
             修改密码
             </summary>
             <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FDBigScreenAppService.GetFireunitLatForMap(System.Int32)">
+            <summary>
+            监管部门数据大屏：获取防火单位地图点位列表
+            </summary>
+            <param name="deptId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FDBigScreenAppService.GetTrueFireAlarmList(System.Int32)">
+            <summary>
+            监管部门数据大屏：获取真实火警联网实时达
+            </summary>
+            <param name="deptId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FDBigScreenAppService.GetFireDetectorStatusNum(System.Int32)">
+            <summary>
+            监管部门数据大屏：获取火警联网部件正常率
+            </summary>
+            <param name="deptId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.AppService.FDBigScreenAppService.GetElectricDeviceStatusNum(System.Int32)">
+            <summary>
+            监管部门数据大屏：获取电气火灾防护指标各状态数量
+            </summary>
+            <param name="deptId"></param>
             <returns></returns>
         </member>
         <member name="T:FireProtectionV1.AppService.FireDeptUserAppService">
@@ -1882,6 +1918,13 @@
             添加消防分析仪设备
             </summary>
             <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.GetVisionDevice(System.Int32)">
+            <summary>
+            获得单个消防分析仪设备详细信息
+            </summary>
+            <param name="deviceId"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.UpdateVisionDevice(FireProtectionV1.FireWorking.Dto.UpdateVisionDeviceInput)">

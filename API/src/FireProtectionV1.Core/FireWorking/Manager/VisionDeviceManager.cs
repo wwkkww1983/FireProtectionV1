@@ -37,6 +37,7 @@ namespace FireProtectionV1.FireWorking.Manager
             {
                 Sn = input.Sn,
                 MonitorNum = input.MonitorNum,
+                SMSPhones = input.SMSPhones,
                 FireUnitId = input.FireUnitId
             });
             // 根据最大监控路数，在VisionDetector表中插入数据
@@ -58,6 +59,22 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             await _repVisionDetector.DeleteAsync(item => item.VisionDeviceId.Equals(id));
             await _repVisionDevice.DeleteAsync(id);
+        }
+        /// <summary>
+        /// 获得单个消防分析仪设备详细信息
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <returns></returns>
+        public async Task<UpdateVisionDeviceInput> GetVisionDevice(int deviceId)
+        {
+            var device = await _repVisionDevice.GetAsync(deviceId);
+            return new UpdateVisionDeviceInput()
+            {
+                Id = device.Id,
+                MonitorNum = device.MonitorNum,
+                SMSPhones = device.SMSPhones,
+                Sn = device.Sn
+            };
         }
         /// <summary>
         /// 获取消防分析仪设备列表
@@ -123,6 +140,7 @@ namespace FireProtectionV1.FireWorking.Manager
             var device = await _repVisionDevice.GetAsync(input.Id);
             device.Sn = input.Sn;
             device.MonitorNum = input.MonitorNum;
+            device.SMSPhones = input.SMSPhones;
             _repVisionDevice.UpdateAsync(device);
 
             int oldNum = _repVisionDetector.GetAll().Where(item => item.VisionDeviceId.Equals(input.Id)).Max(item => item.Sn);

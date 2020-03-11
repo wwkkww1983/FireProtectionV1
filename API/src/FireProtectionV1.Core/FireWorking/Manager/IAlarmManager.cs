@@ -58,6 +58,13 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         Task<PagedResultDto<AlarmVisionListOutput>> GetVisionAlarmList(AlarmVisionListInput input, PagedResultRequestDto dto);
         /// <summary>
+        /// 监管部门获取消防分析仪报警列表数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<AlarmVisionList_DeptOutput>> GetVisionAlarmList_Dept(AlarmVisionList_DeptInput input, PagedResultRequestDto dto);
+        /// <summary>
         /// 获取某条消防分析仪报警数据的照片
         /// </summary>
         /// <param name="visionAlarmId"></param>
