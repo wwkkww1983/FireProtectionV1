@@ -107,28 +107,61 @@ namespace FireProtectionV1.BigScreen.Manager
         /// <returns></returns>
         public Task<List<GetFireunitLatForMapOutput>> GetFireunitLatForMap(int deptId)
         {
-            return Task.FromResult(_repFireUnit.GetAll().Where(item => item.FireDeptId.Equals(deptId)).Select(item => new GetFireunitLatForMapOutput()
+            //var lst = _repFireUnit.GetAll().Where(item => item.FireDeptId.Equals(deptId)).Select(item => new GetFireunitLatForMapOutput()
+            //{
+            //    FireunitId = item.Id,
+            //    Lat = item.Lat,
+            //    Lng = item.Lng,
+            //    ExistTrueFireAlarm = false
+            //}).ToList();
+
+            //var fireAlarms = _repAlarmToFire.GetAll().Where(item => item.CheckState.Equals(FireAlarmCheckState.True)).ToList();
+            //foreach(var item in fireAlarms)
+            //{
+            //    var fireunit = lst.FirstOrDefault(f => f.FireunitId.Equals(item.FireUnitId));
+            //    if (fireunit != null) lst[]
+            //}
+            var dt = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-01"));
+            var fireUnits = _repFireUnit.GetAll().Where(item => item.FireDeptId.Equals(deptId));
+            var fireAlarms = _repAlarmToFire.GetAll().Where(item => item.CheckState.Equals(FireAlarmCheckState.True) && item.CreationTime >= dt);
+
+            var lstFireunit = fireUnits.Select(item => new GetFireunitLatForMapOutput()
             {
                 FireunitId = item.Id,
                 Lat = item.Lat,
-                Lng = item.Lng
-            }).ToList());
+                Lng = item.Lng,
+                ExistTrueFireAlarm = false
+            }).ToList();
+            var query = from a in fireAlarms
+                           join b in fireUnits on a.FireUnitId equals b.Id
+                           select new
+                           {
+                               FireunitId = a.FireUnitId,
+                           };
+            var lstAlarm = query.ToList();
+            foreach(var item in lstAlarm)
+            {
+                lstFireunit.FirstOrDefault(f => f.FireunitId.Equals(item.FireunitId)).ExistTrueFireAlarm = true;
+            }
+
+            return Task.FromResult(lstFireunit);
         }
         /// <summary>
         /// 监管部门数据大屏：获取真实火警联网实时达
         /// </summary>
         /// <param name="deptId"></param>
+        /// <param name="num"></param>
         /// <returns></returns>
-        public Task<List<GetTrueFireAlarmListOutput>> GetTrueFireAlarmList(int deptId)
+        public Task<List<GetTrueFireAlarmList_Output>> GetTrueFireAlarmList(int deptId, int num)
         {
-            var alarms = _repAlarmToFire.GetAll().Where(item=>item.CheckState.Equals(FireAlarmCheckState.True));
+            var alarms = _repAlarmToFire.GetAll().Where(item => item.CheckState.Equals(FireAlarmCheckState.True));
             var fireUnits = _repFireUnit.GetAll().Where(item => item.FireDeptId.Equals(deptId));
             var detectors = _repFireAlarmDetector.GetAll();
 
             var query = from a in alarms
                         join b in fireUnits on a.FireUnitId equals b.Id
                         join c in detectors on a.FireAlarmDetectorId equals c.Id
-                        select new GetTrueFireAlarmListOutput()
+                        select new GetTrueFireAlarmList_Output()
                         {
                             CheckTime = (DateTime)a.CheckTime,
                             CreationTime = a.CreationTime,
@@ -139,7 +172,28 @@ namespace FireProtectionV1.BigScreen.Manager
                             FireDetectorLocation = c.FullLocation,
                             ExistBitMap = c.CoordinateX != 0 || c.CoordinateY != 0
                         };
-            return Task.FromResult(query.OrderByDescending(item => item.CheckTime).Skip(0).Take(5).ToList());
+            return Task.FromResult(query.OrderByDescending(item => item.CheckTime).Take(num).ToList());
+        }
+        public Task<GetOtherNumOutput> GetOtherNum(int deptId)
+        {
+            DateTime dt = DateTime.Parse(DateTime.Now.ToString("yyyy-MM") + "-01");
+            var alarms = _repAlarmToFire.GetAll().Where(item => item.CheckState.Equals(FireAlarmCheckState.True) && item.CheckTime >= dt);
+            var fireUnits = _repFireUnit.GetAll().Where(item => item.FireDeptId.Equals(deptId));
+
+            var query = from a in alarms
+                        join b in fireUnits on a.FireUnitId equals b.Id
+                        select new
+                        {
+                            Id = a.Id
+                        };
+            int fireAlarmNum = query.Count();
+            int fireUnitNum = fireUnits.Count();
+
+            return Task.FromResult(new GetOtherNumOutput()
+            {
+                FireAlarmNum = fireAlarmNum,
+                FireunitNum = fireUnitNum
+            });
         }
     }
 }

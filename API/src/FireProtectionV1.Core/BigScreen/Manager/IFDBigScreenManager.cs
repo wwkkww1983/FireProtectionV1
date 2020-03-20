@@ -19,8 +19,9 @@ namespace FireProtectionV1.BigScreen.Manager
         /// 监管部门数据大屏：获取真实火警联网实时达
         /// </summary>
         /// <param name="deptId"></param>
+        /// <param name="num"></param>
         /// <returns></returns>
-        Task<List<GetTrueFireAlarmListOutput>> GetTrueFireAlarmList(int deptId);
+        Task<List<GetTrueFireAlarmList_Output>> GetTrueFireAlarmList(int deptId, int num);
         /// <summary>
         /// 监管部门数据大屏：获取火警联网部件正常率
         /// </summary>
@@ -33,5 +34,11 @@ namespace FireProtectionV1.BigScreen.Manager
         /// <param name="deptId"></param>
         /// <returns></returns>
         Task<GetElectricDeviceStatusNumDto> GetElectricDeviceStatusNum(int deptId);
+        /// <summary>
+        /// 监管部门数据大屏：获取数据大屏所需显示的其它数量
+        /// </summary>
+        /// <param name="deptId"></param>
+        /// <returns></returns>
+        Task<GetOtherNumOutput> GetOtherNum(int deptId);
     }
 }

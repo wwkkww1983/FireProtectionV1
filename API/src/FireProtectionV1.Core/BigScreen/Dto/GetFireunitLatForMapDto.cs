@@ -18,5 +18,9 @@ namespace FireProtectionV1.BigScreen.Dto
         /// 纬度
         /// </summary>
         public decimal Lat { get; set; }
+        /// <summary>
+        /// 本月是否存在真实火警
+        /// </summary>
+        public bool ExistTrueFireAlarm { get; set; }
     }
 }

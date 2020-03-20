@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using FireProtectionV1.Common.Helper;
 using FireProtectionV1.Enterprise.Model;
+using FireProtectionV1.Infrastructure.Model;
 using FireProtectionV1.MiniFireStationCore.Model;
 using FireProtectionV1.User.Dto;
 using FireProtectionV1.User.Model;
@@ -18,10 +19,12 @@ namespace FireProtectionV1.User.Manager
         IRepository<MiniFireStationJobUser> _repMiniFireStationJobUser;
         IRepository<FireDept> _fireDeptRep;
         IRepository<FireDeptUser> _fireDeptUserRep;
+        IRepository<Area> _repArea;
         public FireDeptUserManager(
             IRepository<FireUnit> repFireUnit,
             IRepository<MiniFireStation> repMiniFireStation,
             IRepository<MiniFireStationJobUser> repMiniFireStationJobUser,
+            IRepository<Area> repArea,
             IRepository<FireDeptUser> fireDeptUserRep, IRepository<FireDept> fireDeptRep)
         {
             _repFireUnit = repFireUnit;
@@ -29,6 +32,7 @@ namespace FireProtectionV1.User.Manager
             _repMiniFireStationJobUser = repMiniFireStationJobUser;
             _fireDeptUserRep = fireDeptUserRep;
             _fireDeptRep = fireDeptRep;
+            _repArea = repArea;
         }
         public async Task<DeptUserLoginOutput> UserLogin(LoginInput input)
         {
@@ -59,7 +63,17 @@ namespace FireProtectionV1.User.Manager
                 output.DeptId = v.FireDeptId;
                 var dept = await _fireDeptRep.SingleAsync(p => p.Id == v.FireDeptId);
                 if (dept != null)
+                {
                     output.DeptName = dept.Name;
+                    var area = await _repArea.GetAsync(dept.AreaId);
+                    if (area != null)
+                    {
+                        output.AreaName = area.Name;
+                        output.Grade = area.Grade;
+                        output.Lat = area.Lat;
+                        output.Lng = area.Lng;
+                    }
+                }
             }
             return output;
         }

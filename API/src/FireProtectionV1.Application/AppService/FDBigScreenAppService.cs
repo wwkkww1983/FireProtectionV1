@@ -27,10 +27,11 @@ namespace FireProtectionV1.AppService
         /// 监管部门数据大屏：获取真实火警联网实时达
         /// </summary>
         /// <param name="deptId"></param>
+        /// <param name="num">希望获取的条数</param>
         /// <returns></returns>
-        public async Task<List<GetTrueFireAlarmListOutput>> GetTrueFireAlarmList(int deptId)
+        public async Task<List<GetTrueFireAlarmList_Output>> GetTrueFireAlarmList(int deptId, int num)
         {
-            return await _fdManager.GetTrueFireAlarmList(deptId);
+            return await _fdManager.GetTrueFireAlarmList(deptId, num);
         }
         /// <summary>
         /// 监管部门数据大屏：获取火警联网部件正常率
@@ -49,6 +50,15 @@ namespace FireProtectionV1.AppService
         public async Task<GetElectricDeviceStatusNumDto> GetElectricDeviceStatusNum(int deptId)
         {
             return await _fdManager.GetElectricDeviceStatusNum(deptId);
+        }
+        /// <summary>
+        /// 监管部门数据大屏：获取数据大屏所需显示的其它数量
+        /// </summary>
+        /// <param name="deptId"></param>
+        /// <returns></returns>
+        public async Task<GetOtherNumOutput> GetOtherNum(int deptId)
+        {
+            return await _fdManager.GetOtherNum(deptId);
         }
     }
 }

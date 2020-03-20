@@ -39,6 +39,13 @@ namespace FireProtectionV1.Infrastructure.Model
         /// </summary>
         [Required]
         public byte Grade { get; set; }
-
+        /// <summary>
+        /// 中心位置经度
+        /// </summary>
+        public decimal Lng { get; set; }
+        /// <summary>
+        /// 中心位置纬度
+        /// </summary>
+        public decimal Lat { get; set; }
     }
 }
