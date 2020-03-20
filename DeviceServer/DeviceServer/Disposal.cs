@@ -42,11 +42,11 @@ namespace DeviceServer
                     {
                         if (DateTime.Now - v.Value > new TimeSpan(0, 1, 0))
                         {
-                            FireApi.HttpPost(Config.Url("/api/services/app/Data/AddOnlineGateway"), new AddOnlineGatewayInput()
+                            FireApi.HttpPostTsj(Config.Url("/api/services/app/FireDevice/UpdateDeviceState"), new
                             {
-                                Identify = v.Key,
-                                Origin = "安吉斯",
-                                IsOnline = false
+                                gatewayType= 1,
+                                gatewaySn= v.Key,
+                                gatewayStatus= 1
                             });
                             keys.Add(v.Key);
                             //var ss = v.Key.Split(',');
@@ -106,7 +106,13 @@ namespace DeviceServer
                             };
                             Console.WriteLine($"{DateTime.Now} 收到模拟量 Analog：{data.Analog}{data.AnalogUnit} 部件地址：{data.UnitAddressString} 网关地址：{pack.SrcAddressString}");
                             if (data.AnalogType == AnalogType.Temperature)
-                                CheckDetectorExitToPost("/api/services/app/Data/AddDataElecT", param);
+                                FireApi.HttpPostTsj(Config.Url("/api/services/app/FireDevice/AddElecRecord"), new
+                                {
+                                    fireElectricDeviceSn= pack.SrcAddressString,
+                                    sign: "L",
+                                    "analog": 0
+                                });
+                            CheckDetectorExitToPost("/api/services/app/Data/AddDataElecT", param);
                             else if (data.AnalogType == AnalogType.ResidualAjs)
                                 CheckDetectorExitToPost("/api/services/app/Data/AddDataElecE", param);
                         }
@@ -207,7 +213,7 @@ namespace DeviceServer
 
         private void CheckDetectorExitToPost(string urlapi, DeviceBaseInput param)
         {
-            string res = FireApi.HttpPost(Config.Url(urlapi), param);
+            string res = FireApi.HttpPostTsj(Config.Url(urlapi), param);
             string postData = JsonConvert.SerializeObject(param);
             if (string.IsNullOrEmpty(res))
                 return;
