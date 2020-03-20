@@ -107,7 +107,7 @@ namespace DeviceServer.Tcp
         static public Session Create(TcpClient client)
         {
             Session ss = new Session() { _client = client };
-            client.GetStream().ReadTimeout = 500;
+            client.GetStream().ReadTimeout = 3000;
             ss._tRead = new Thread(ss.Read);
             ss._isRun = true;
             ss._tRead.Start();
