@@ -74,42 +74,57 @@
             纬度
             </summary>
         </member>
-        <member name="P:FireProtectionV1.BigScreen.Dto.GetTrueFireAlarmListOutput.FireAlarmId">
+        <member name="P:FireProtectionV1.BigScreen.Dto.GetFireunitLatForMapOutput.ExistTrueFireAlarm">
+            <summary>
+            本月是否存在真实火警
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.BigScreen.Dto.GetOtherNumOutput.FireAlarmNum">
+            <summary>
+            本月火警数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.BigScreen.Dto.GetOtherNumOutput.FireunitNum">
+            <summary>
+            联网单位数量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.BigScreen.Dto.GetTrueFireAlarmList_Output.FireAlarmId">
             <summary>
             火警数据Id
             </summary>
         </member>
-        <member name="P:FireProtectionV1.BigScreen.Dto.GetTrueFireAlarmListOutput.CheckTime">
+        <member name="P:FireProtectionV1.BigScreen.Dto.GetTrueFireAlarmList_Output.CheckTime">
             <summary>
             核警时间
             </summary>
         </member>
-        <member name="P:FireProtectionV1.BigScreen.Dto.GetTrueFireAlarmListOutput.CreationTime">
+        <member name="P:FireProtectionV1.BigScreen.Dto.GetTrueFireAlarmList_Output.CreationTime">
             <summary>
             火警发生时间
             </summary>
         </member>
-        <member name="P:FireProtectionV1.BigScreen.Dto.GetTrueFireAlarmListOutput.FireunitName">
+        <member name="P:FireProtectionV1.BigScreen.Dto.GetTrueFireAlarmList_Output.FireunitName">
             <summary>
             防火单位名称
             </summary>
         </member>
-        <member name="P:FireProtectionV1.BigScreen.Dto.GetTrueFireAlarmListOutput.FireunitAddress">
+        <member name="P:FireProtectionV1.BigScreen.Dto.GetTrueFireAlarmList_Output.FireunitAddress">
             <summary>
             防火单位地址
             </summary>
         </member>
-        <member name="P:FireProtectionV1.BigScreen.Dto.GetTrueFireAlarmListOutput.FireunitContractUser">
+        <member name="P:FireProtectionV1.BigScreen.Dto.GetTrueFireAlarmList_Output.FireunitContractUser">
             <summary>
             防火单位联系人
             </summary>
         </member>
-        <member name="P:FireProtectionV1.BigScreen.Dto.GetTrueFireAlarmListOutput.FireDetectorLocation">
+        <member name="P:FireProtectionV1.BigScreen.Dto.GetTrueFireAlarmList_Output.FireDetectorLocation">
             <summary>
             报警部件地址
             </summary>
         </member>
-        <member name="P:FireProtectionV1.BigScreen.Dto.GetTrueFireAlarmListOutput.ExistBitMap">
+        <member name="P:FireProtectionV1.BigScreen.Dto.GetTrueFireAlarmList_Output.ExistBitMap">
             <summary>
             是否存在点位图坐标
             </summary>
@@ -372,11 +387,12 @@
             <param name="deptId"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.BigScreen.Manager.FDBigScreenManager.GetTrueFireAlarmList(System.Int32)">
+        <member name="M:FireProtectionV1.BigScreen.Manager.FDBigScreenManager.GetTrueFireAlarmList(System.Int32,System.Int32)">
             <summary>
             监管部门数据大屏：获取真实火警联网实时达
             </summary>
             <param name="deptId"></param>
+            <param name="num"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.BigScreen.Manager.IBigScreenManager.GetTotalWarningNum(System.String)">
@@ -598,11 +614,12 @@
             <param name="deptId"></param>
             <returns></returns>
         </member>
-        <member name="M:FireProtectionV1.BigScreen.Manager.IFDBigScreenManager.GetTrueFireAlarmList(System.Int32)">
+        <member name="M:FireProtectionV1.BigScreen.Manager.IFDBigScreenManager.GetTrueFireAlarmList(System.Int32,System.Int32)">
             <summary>
             监管部门数据大屏：获取真实火警联网实时达
             </summary>
             <param name="deptId"></param>
+            <param name="num"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.BigScreen.Manager.IFDBigScreenManager.GetFireDetectorStatusNum(System.Int32)">
@@ -615,6 +632,13 @@
         <member name="M:FireProtectionV1.BigScreen.Manager.IFDBigScreenManager.GetElectricDeviceStatusNum(System.Int32)">
             <summary>
             监管部门数据大屏：获取电气火灾防护指标各状态数量
+            </summary>
+            <param name="deptId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.BigScreen.Manager.IFDBigScreenManager.GetOtherNum(System.Int32)">
+            <summary>
+            监管部门数据大屏：获取数据大屏所需显示的其它数量
             </summary>
             <param name="deptId"></param>
             <returns></returns>
@@ -9658,6 +9682,16 @@
             区域级别
             </summary>
         </member>
+        <member name="P:FireProtectionV1.Infrastructure.Model.Area.Lng">
+            <summary>
+            中心位置经度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.Infrastructure.Model.Area.Lat">
+            <summary>
+            中心位置纬度
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.Infrastructure.Model.FireUnitType">
             <summary>
             防火单位类型
@@ -11075,6 +11109,26 @@
         <member name="P:FireProtectionV1.User.Dto.DeptUserLoginOutput.IsMiniFireUser">
             <summary>
             是否微型消防站人员ID
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.DeptUserLoginOutput.AreaName">
+            <summary>
+            辖区名称
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.DeptUserLoginOutput.Grade">
+            <summary>
+            辖区等级（1:市 2:区县）
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.DeptUserLoginOutput.Lng">
+            <summary>
+            辖区中心位置经度
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.User.Dto.DeptUserLoginOutput.Lat">
+            <summary>
+            辖区中心位置纬度
             </summary>
         </member>
         <member name="P:FireProtectionV1.User.Dto.EngineerUserLoginOutput.UserId">

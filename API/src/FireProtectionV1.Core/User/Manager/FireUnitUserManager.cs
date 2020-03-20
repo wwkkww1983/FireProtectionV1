@@ -257,12 +257,12 @@ namespace FireProtectionV1.User.Manager
             var userid = _repFireUnitUser.InsertAndGetId(user);
             if (input.Rolelist != null)
             {
-                string roles = "";
+                // string roles = "";
                 foreach (var roleid in input.Rolelist)
                 {
                     if (!string.IsNullOrEmpty(roleid))
                     {
-                        roles += "," + roleid;
+                        // roles += "," + roleid;
                         FireUnitUserRole role = new FireUnitUserRole()
                         {
                             AccountID = userid,
@@ -271,20 +271,14 @@ namespace FireProtectionV1.User.Manager
                         await _fireUnitAccountRoleRepository.InsertAsync(role);
                     }
                 }
-                if (!string.IsNullOrEmpty(roles))
-                {
-                    using (StreamWriter sw = new StreamWriter(@"log.txt", true))
-                    {
-                        sw.WriteLine(DateTime.Now.ToString("HH:mm:ss ffff") + $"，{roles.Substring(1)}");
-                        sw.WriteLine();
-                    }
-
-                    //using (FileStream fs = new FileStream("log.txt", FileMode.OpenOrCreate))
-                    //{
-                    //    byte[] info = new UTF8Encoding(true).GetBytes(roles.Substring(1));
-                    //    fs.Write(info, 0, info.Length);
-                    //}
-                }
+                //if (!string.IsNullOrEmpty(roles))
+                //{
+                //    using (StreamWriter sw = new StreamWriter("log.txt", true))
+                //    {
+                //        sw.WriteLine(DateTime.Now.ToString("HH:mm:ss ffff") + $"，{roles.Substring(1)}");
+                //        sw.WriteLine();
+                //    }
+                //}
             }
             return output;
         }

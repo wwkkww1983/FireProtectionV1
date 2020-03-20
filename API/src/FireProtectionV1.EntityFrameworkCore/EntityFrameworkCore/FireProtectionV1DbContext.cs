@@ -96,6 +96,8 @@ namespace FireProtectionV1.EntityFrameworkCore
             modelBuilder.Entity<MiniFireStation>().Property(item => item.Lat).HasColumnType("decimal(9,6)");
             modelBuilder.Entity<Hydrant>().Property(item => item.Lng).HasColumnType("decimal(9,6)");
             modelBuilder.Entity<Hydrant>().Property(item => item.Lat).HasColumnType("decimal(9,6)");
+            modelBuilder.Entity<Area>().Property(item => item.Lng).HasColumnType("decimal(9,6)");
+            modelBuilder.Entity<Area>().Property(item => item.Lat).HasColumnType("decimal(9,6)");
 
             base.OnModelCreating(modelBuilder);
         }

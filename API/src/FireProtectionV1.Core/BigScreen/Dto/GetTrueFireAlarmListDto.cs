@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FireProtectionV1.BigScreen.Dto
 {
-    public class GetTrueFireAlarmListOutput
+    public class GetTrueFireAlarmList_Output
     {
         /// <summary>
         /// 火警数据Id
