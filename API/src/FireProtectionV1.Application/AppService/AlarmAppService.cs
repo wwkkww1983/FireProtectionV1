@@ -71,6 +71,132 @@ namespace FireProtectionV1.AppService
             return await _alarmManager.GetElectricAlarmList(input, dto);
         }
         /// <summary>
+        /// 添加消防分析仪海康平台报警数据
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        public void AddAlarmVisionHikapi([FromBody]object body)
+        {
+            string s = body.ToString();
+            Console.WriteLine(s);
+
+            /* 数据如下，定义参考https://open.hikvision.com/docs/582054b384304433aad532055dfbb570
+            {
+                "method": "OnEventNotify",
+  "params": {
+                    "ability": "",
+    "events": [
+      {
+        "eventDetails": [
+          {
+            "ability": "event_fpms",
+            "data": {
+              "extendKey": "simulate",
+              "lanId": "zh_CN"
+            },
+            "eventOriginalId": "1RF2EC7DHIM201YJR5NYMUD461X1RWTE",
+            "eventType": 254104,
+            "locationIndexCode": "",
+            "locationName": "",
+            "regionIndexCode": "root000000",
+            "regionName": "根节点",
+            "srcIndex": "4938b8b5566d4ee283a9ccbd5c607ac2",
+            "srcName": "视频2@NP-FA108(D46705649)",
+            "srcType": "camera"
+          }
+        ],
+        "eventId": "F97F5A0BA985465CB2138C7291527562",
+        "eventLvl": 3,
+        "eventName": "火点",
+        "eventOldId": "1RF2EC7DHIM201YJR5NYMUD461X1RWTE",
+        "eventType": 0,
+        "happenTime": "2020-03-24T10:33:21.137+08:00",
+        "linkageAcion": [
+          {
+            "content": "{\"bPopupEventPicture\":true}\n",
+            "linkageType": "popUpPictureOnClient"
+          },
+          {
+            "content": "{\"bAudioAlarm\":true}\n",
+            "linkageType": "alertBySound"
+          },
+          {
+            "content": "{\"soundText\":\"根节点，视频2@NP-FA108(D46705649)发生火点报警事件\"}\n",
+            "linkageType": "alertByEventInfo"
+          }
+        ],
+        "remark": "",
+        "ruleDescription": "",
+        "srcIndex": "dd668537a8c04531b23a216a3719aa3b",
+        "srcName": "火点",
+        "srcType": "eventRule",
+        "status": 0,
+        "stopTime": "2020-03-24T10:33:21.137+08:00",
+        "timeout": 30
+      }
+    ],
+    "sendTime": "2020-03-24T10:33:21.137+08:00"
+  }
+}
+{
+  "method": "OnEventNotify",
+  "params": {
+    "ability": "",
+    "events": [
+      {
+        "eventDetails": [
+          {
+            "ability": "event_fpms",
+            "data": {
+              "extendKey": "simulate",
+              "lanId": "zh_CN"
+            },
+            "eventOriginalId": "H6RFWL3OTPNCJN9E8354K8GS5EE1L2MB",
+            "eventType": 254103,
+            "locationIndexCode": "",
+            "locationName": "",
+            "regionIndexCode": "root000000",
+            "regionName": "根节点",
+            "srcIndex": "4938b8b5566d4ee283a9ccbd5c607ac2",
+            "srcName": "视频2@NP-FA108(D46705649)",
+            "srcType": "camera"
+          }
+        ],
+        "eventId": "12C5A0B64FE54557BB47CBA5CBCB2A7D",
+        "eventLvl": 3,
+        "eventName": "消防通道占用视屏2",
+        "eventOldId": "H6RFWL3OTPNCJN9E8354K8GS5EE1L2MB",
+        "eventType": 0,
+        "happenTime": "2020-03-23T17:02:31.55+08:00",
+        "linkageAcion": [
+          {
+            "content": "{\"bPopupEventPicture\":true}\n",
+            "linkageType": "popUpPictureOnClient"
+          },
+          {
+            "content": "{\"bAudioAlarm\":true}\n",
+            "linkageType": "alertBySound"
+          },
+          {
+            "content": "{\"soundText\":\"根节点，视频2@NP-FA108(D46705649)发生通道占用报警事件\"}\n",
+            "linkageType": "alertByEventInfo"
+          }
+        ],
+        "remark": "",
+        "ruleDescription": "",
+        "srcIndex": "4e4eca9681ab4f76ab0c191c00c45043",
+        "srcName": "消防通道占用视屏2",
+        "srcType": "eventRule",
+        "status": 0,
+        "stopTime": "2020-03-23T17:02:31.55+08:00",
+        "timeout": 30
+      }
+    ],
+    "sendTime": "2020-03-23T17:02:31.55+08:00"
+  }
+}*/
+        }
+        /// <summary>
         /// 添加消防分析仪报警数据
         /// </summary>
         /// <param name="input"></param>
