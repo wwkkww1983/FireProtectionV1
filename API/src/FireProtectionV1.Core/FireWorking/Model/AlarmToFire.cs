@@ -12,18 +12,20 @@ namespace FireProtectionV1.FireWorking.Model
         /// <summary>
         /// 火警联网设施Id
         /// </summary>
-        [Required]
         public int FireAlarmDeviceId { get; set; }
         /// <summary>
         /// 探测器Id
         /// </summary>
-        [Required]
         public int FireAlarmDetectorId { get; set; }
         /// <summary>
         /// 防火单位Id
         /// </summary>
         [Required]
         public int FireUnitId { get; set; }
+        /// <summary>
+        /// 火警数据来源
+        /// </summary>
+        public FireAlarmSource FireAlarmSource { get; set; } = FireAlarmSource.NetDevice;
         /// <summary>
         /// 核警状态
         /// </summary>

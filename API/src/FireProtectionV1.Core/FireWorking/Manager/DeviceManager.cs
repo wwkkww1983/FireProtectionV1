@@ -1874,6 +1874,12 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         public async Task UpdateFireElectricDevicePara(UpdateFireElectricDeviceParaInput input)
         {
+            using (StreamWriter sw = new StreamWriter("log.txt", true))
+            {
+                sw.WriteLine(DateTime.Now.ToString("HH:mm:ss ffff") + $"，DeviceId:{input.DeviceId}，ContractName：{input.ContractName}，ContractPhone:{input.ContractPhone},EnableAlarmList:{input.EnableAlarmList}");
+                sw.WriteLine();
+                Thread.Sleep(500);
+            }
             var elec = await _repFireElectricDevice.GetAsync(input.DeviceId);
             var fireUnit = await _repFireUnit.GetAsync(elec.FireUnitId);
             // 修改联系人
@@ -1893,6 +1899,12 @@ namespace FireProtectionV1.FireWorking.Manager
                 fireUnit.ContractPhone = input.ContractPhone;
                 _repFireUnit.UpdateAsync(fireUnit);
             }
+            using (StreamWriter sw = new StreamWriter("log.txt", true))
+            {
+                sw.WriteLine("到了步骤1");
+                sw.WriteLine();
+                Thread.Sleep(500);
+            }
             elec.EnableCloudAlarm = input.EnableAlarmList.Contains("云端报警");
             elec.EnableEndAlarm = input.EnableAlarmList.Contains("终端报警");
             elec.EnableAlarmSwitch = input.EnableAlarmList.Contains("自动断电");
@@ -1906,6 +1918,12 @@ namespace FireProtectionV1.FireWorking.Manager
             elec.MaxL3 = input.MaxL3;
             elec.SMSPhones = input.SMSPhones;
             _repFireElectricDevice.UpdateAsync(elec);
+            using (StreamWriter sw = new StreamWriter("log.txt", true))
+            {
+                sw.WriteLine("到了步骤2");
+                sw.WriteLine();
+                Thread.Sleep(500);
+            }
             //设备通信
             var cmdData = new
             {
@@ -1926,6 +1944,12 @@ namespace FireProtectionV1.FireWorking.Manager
                 maxL3 = input.MaxL3
             };
             CmdClt.SendAsync(JsonConvert.SerializeObject(cmdData));
+            using (StreamWriter sw = new StreamWriter("log.txt", true))
+            {
+                sw.WriteLine("到了步骤3");
+                sw.WriteLine();
+                Thread.Sleep(500);
+            }
         }
         /// <summary>
         /// 新增电气火灾设备
@@ -2792,5 +2816,6 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             return Task.FromResult(new List<GetFirmwareUpdateListOutput>());
         }
+
     }
 }

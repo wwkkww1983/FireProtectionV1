@@ -10,7 +10,7 @@ namespace FireProtectionV1.FireWorking.Model
     /// <summary>
     /// 火警联网设施
     /// </summary>
-    public class FireAlarmDevice: EntityBase
+    public class FireAlarmDevice : EntityBase
     {
         /// <summary>
         /// 防火单位ID
@@ -67,13 +67,13 @@ namespace FireProtectionV1.FireWorking.Model
         /// <summary>
         /// 启用报警发送短信
         /// </summary>
-        public bool EnableAlarmSMS { get;  set; }
+        public bool EnableAlarmSMS { get; set; }
         /// <summary>
         /// 启用故障发送短信
         /// </summary>
-        public bool EnableFaultSMS { get;  set; }
+        public bool EnableFaultSMS { get; set; }
         /// <summary>
-        /// 短信接收号码数组“,”分割,临时最多100个号码
+        /// 短信接收号码，多个以英文逗号分隔
         /// </summary>
         [MaxLength(1200)]
         public string SMSPhones { get; set; }

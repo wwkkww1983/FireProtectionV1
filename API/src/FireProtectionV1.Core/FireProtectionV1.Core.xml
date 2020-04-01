@@ -3693,7 +3693,7 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireAlarmDeviceDto.SMSPhones">
             <summary>
-            短信接收号码数组“,”分割,临时最多100个号码
+            短信接收号码
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireAlarmDeviceItemDto.DeviceId">
@@ -4394,6 +4394,81 @@
         <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.FireElectricDeviceDataDto.L3">
             <summary>
             当前L3数值
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.AddIndependentDetectorInput.DetectorSn">
+            <summary>
+            sn号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.AddIndependentDetectorInput.Brand">
+            <summary>
+            品牌
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.AddIndependentDetectorInput.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.AddIndependentDetectorInput.Location">
+            <summary>
+            具体安装位置
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.AddIndependentDetectorInput.EnableAlarmSMS">
+            <summary>
+            启用报警发送短信
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.AddIndependentDetectorInput.EnableFaultSMS">
+            <summary>
+            启用故障发送短信
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.AddIndependentDetectorInput.SMSPhones">
+            <summary>
+            短信接收号码，多个以英文逗号分隔
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.RenewIndependentDetectorInput.DetectorSn">
+            <summary>
+            sn号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.RenewIndependentDetectorInput.PowerNum">
+            <summary>
+            当前电量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.RenewIndependentDetectorInput.State">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.GetIndependentDetectorListOutput.DetectorSn">
+            <summary>
+            sn号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.GetIndependentDetectorListOutput.Brand">
+            <summary>
+            品牌
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.GetIndependentDetectorListOutput.Location">
+            <summary>
+            具体安装位置
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.GetIndependentDetectorListOutput.PowerNum">
+            <summary>
+            当前电量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.GetIndependentDetectorListOutput.State">
+            <summary>
+            状态
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Dto.FireDevice.SerialPortParamDto.ComType">
@@ -6225,6 +6300,13 @@
             <param name="month"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.AlarmManager.AddAlarmIndependentFire(System.String)">
+            <summary>
+            添加独立式火警设备提交的火警数据
+            </summary>
+            <param name="detectorSn"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.BreakDownManager.GetBreakDownlist(FireProtectionV1.FireWorking.Dto.GetBreakDownInput,Abp.Application.Services.Dto.PagedResultRequestDto)">
             <summary>
             获取设施故障列表
@@ -6727,6 +6809,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.FaultManager.AddIndependentDetectorFault(System.String)">
+            <summary>
+            添加独立式火警设备故障数据
+            </summary>
+            <param name="detectorSn"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.FaultManager.GetFaultDataMonth(System.Int32,System.Int32)">
             <summary>
             查找某个月份的火警联网部件故障数据
@@ -6943,6 +7032,13 @@
             <param name="fireDeptId"></param>
             <param name="year"></param>
             <param name="month"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IAlarmManager.AddAlarmIndependentFire(System.String)">
+            <summary>
+            添加独立式火警设备火警数据
+            </summary>
+            <param name="detectorSn"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IBreakDownManager.GetBreakDownlist(FireProtectionV1.FireWorking.Dto.GetBreakDownInput,Abp.Application.Services.Dto.PagedResultRequestDto)">
@@ -7432,6 +7528,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IFaultManager.AddIndependentDetectorFault(System.String)">
+            <summary>
+            添加独立式火警设备故障数据
+            </summary>
+            <param name="detectorSn"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IFaultManager.GetFaultDataMonth(System.Int32,System.Int32)">
             <summary>
             查找某个月份的火警联网部件故障数据
@@ -7521,6 +7624,49 @@
             <summary>
             （所有防火单位）安全用电监控列表（剩余电流）
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IIndependentDetectorManager.AddIndependentDetector(FireProtectionV1.FireWorking.Dto.FireDevice.AddIndependentDetectorInput)">
+            <summary>
+            新增独立式火警设备
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IIndependentDetectorManager.UpdateIndependentDetector(FireProtectionV1.FireWorking.Dto.FireDevice.UpdateIndependentDetectorInput)">
+            <summary>
+            修改独立式火警设备信息
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IIndependentDetectorManager.RenewIndependentDetector(FireProtectionV1.FireWorking.Dto.FireDevice.RenewIndependentDetectorInput)">
+            <summary>
+            刷新独立式火警设备当前电量及状态
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IIndependentDetectorManager.DeleteIndependentDetector(System.Int32)">
+            <summary>
+            删除独立式火警设备
+            </summary>
+            <param name="deviceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IIndependentDetectorManager.GetIndependentDetector(System.Int32)">
+            <summary>
+            获取单个独立式火警设备信息
+            </summary>
+            <param name="detectorId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.FireWorking.Manager.IIndependentDetectorManager.GetIndependentDetectorList(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取独立式火警设备列表
+            </summary>
+            <param name="fireunitId"></param>
+            <param name="dto"></param>
             <returns></returns>
         </member>
         <member name="M:FireProtectionV1.FireWorking.Manager.IPatrolManager.SubmitPatrolDetail(FireProtectionV1.FireWorking.Dto.Patrol.AddPatrolDetailInput)">
@@ -7834,6 +7980,11 @@
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmToFire.FireUnitId">
             <summary>
             防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.AlarmToFire.FireAlarmSource">
+            <summary>
+            火警数据来源
             </summary>
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.AlarmToFire.CheckState">
@@ -8283,7 +8434,7 @@
         </member>
         <member name="P:FireProtectionV1.FireWorking.Model.FireAlarmDevice.SMSPhones">
             <summary>
-            短信接收号码数组“,”分割,临时最多100个号码
+            短信接收号码，多个以英文逗号分隔
             </summary>
         </member>
         <member name="T:FireProtectionV1.FireWorking.Model.FireAlarmDeviceProtocol">
@@ -8619,6 +8770,61 @@
         <member name="P:FireProtectionV1.FireWorking.Model.FireWaterRecord.Value">
             <summary>
             数值
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.FireWorking.Model.IndependentDetector">
+            <summary>
+            独立式报警设备
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.IndependentDetector.DetectorSn">
+            <summary>
+            sn号
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.IndependentDetector.Brand">
+            <summary>
+            品牌
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.IndependentDetector.FireUnitId">
+            <summary>
+            防火单位Id
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.IndependentDetector.Location">
+            <summary>
+            具体安装位置
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.IndependentDetector.PowerNum">
+            <summary>
+            当前电量
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.IndependentDetector.State">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.IndependentDetector.EnableAlarmSMS">
+            <summary>
+            启用报警发送短信
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.IndependentDetector.EnableFaultSMS">
+            <summary>
+            启用故障发送短信
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.IndependentDetector.SMSPhones">
+            <summary>
+            短信接收号码，多个以英文逗号分隔
+            </summary>
+        </member>
+        <member name="P:FireProtectionV1.FireWorking.Model.IndependentDetector.LastFaultId">
+            <summary>
+            最后一次故障ID
             </summary>
         </member>
         <member name="T:FireProtectionV1.FireWorking.Model.RecordOnline">

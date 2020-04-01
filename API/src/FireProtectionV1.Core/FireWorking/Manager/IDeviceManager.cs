@@ -222,7 +222,6 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="dto"></param>
         /// <returns></returns>
         Task<PagedResultDto<FaultDetectorOutput>> GetFireAlarmFaultDetectorList(int fireAlarmDeviceId, PagedResultRequestDto dto);
-
         /// <summary>
         /// 获得防火单位终端历史记录
         /// </summary>

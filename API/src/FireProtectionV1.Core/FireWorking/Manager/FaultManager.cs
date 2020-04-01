@@ -17,12 +17,14 @@ namespace FireProtectionV1.FireWorking.Manager
     {
         IRepository<FireAlarmDevice> _repFireAlarmDevice;
         IRepository<FireAlarmDetector> _repFireAlarmDetector;
+        IRepository<IndependentDetector> _repIndependentDetector;
         IRepository<BreakDown> _repBreakDown;
         IRepository<Fault> _repFault;
         IRepository<DetectorType> _repDetectorType;
         public FaultManager(
             IRepository<FireAlarmDevice> repFireAlarmDevice,
             IRepository<FireAlarmDetector> repFireAlarmDetector,
+            IRepository<IndependentDetector> repIndependentDetector,
             IRepository<BreakDown> repBreakDown,
             IRepository<Fault> repFault,
             IRepository<DetectorType> repDetectorType
@@ -30,6 +32,7 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             _repFireAlarmDevice = repFireAlarmDevice;
             _repFireAlarmDetector = repFireAlarmDetector;
+            _repIndependentDetector = repIndependentDetector;
             _repBreakDown = repBreakDown;
             _repFault = repFault;
             _repDetectorType = repDetectorType;
@@ -87,6 +90,43 @@ namespace FireProtectionV1.FireWorking.Manager
                 {
                     DataId = faultId,
                     FireUnitId = fireAlarmDevice.FireUnitId,
+                    HandleStatus = HandleStatus.UnResolve,
+                    ProblemRemark = problemRemark,
+                    Source = FaultSource.Terminal
+                });
+            }
+        }
+        /// <summary>
+        /// 添加独立式火警设备故障数据
+        /// </summary>
+        /// <param name="detectorSn"></param>
+        /// <returns></returns>
+        public async Task AddIndependentDetectorFault(string detectorSn)
+        {
+            var detector = await _repIndependentDetector.FirstOrDefaultAsync(item => item.DetectorSn.Equals(detectorSn));
+            Valid.Exception(detector == null, $"没有找到编号{detectorSn}的独立式火警设备");
+
+            if (!detector.State.Equals(IndependentDetectorState.Fault)) // 如果部件状态为正常，则添加故障数据，否则忽略故障数据
+            {
+                int faultId = await _repFault.InsertAndGetIdAsync(new Fault()
+                {
+                    FireUnitId = detector.FireUnitId,
+                    FireAlarmDetectorId = detector.Id
+                });
+
+                detector.LastFaultId = faultId;
+                detector.State = IndependentDetectorState.Fault;
+                await _repIndependentDetector.UpdateAsync(detector);
+
+                // 部件故障详情：【联网设施】TSJ-CS101912001【部件编号】0001机001回路【部件类型】感烟式火灾探测器【部件位置】行政楼3楼3002室
+                string detectorTypeName = "独立式火警设备";
+                string detectorAddress = detector.Location;
+                string problemRemark = $"部件故障详情：【部件编号】{detectorSn}【部件类型】{detectorTypeName}【部件位置】{detectorAddress}";
+
+                await _repBreakDown.InsertAsync(new BreakDown()
+                {
+                    DataId = faultId,
+                    FireUnitId = detector.FireUnitId,
                     HandleStatus = HandleStatus.UnResolve,
                     ProblemRemark = problemRemark,
                     Source = FaultSource.Terminal

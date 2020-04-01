@@ -21,6 +21,7 @@ namespace FireProtectionV1.FireWorking.Manager
     {
         IHostingEnvironment _hostingEnv;
         IRepository<FireAlarmDetector> _repFireAlarmDetector;
+        IRepository<IndependentDetector> _repIndependentDetector;
         IRepository<SafeUnitUser> _repSafeUnitUser;
         IRepository<FireUnit> _repFireUnit;
         IRepository<BreakDown> _repBreakDown;
@@ -34,6 +35,7 @@ namespace FireProtectionV1.FireWorking.Manager
         public BreakDownManager(
             IHostingEnvironment hostingEnv,
             IRepository<FireAlarmDetector> repFireAlarmDetector,
+            IRepository<IndependentDetector> repIndependentDetector,
             IRepository<SafeUnitUser> repSafeUnitUser,
             IRepository<FireUnit> repFireUnit,
             IRepository<BreakDown> repBreakDown,
@@ -48,6 +50,7 @@ namespace FireProtectionV1.FireWorking.Manager
         {
             _hostingEnv = hostingEnv;
             _repFireAlarmDetector = repFireAlarmDetector;
+            _repIndependentDetector = repIndependentDetector;
             _repSafeUnitUser = repSafeUnitUser;
             _repFireUnit = repFireUnit;
             _repBreakDown = repBreakDown;
@@ -215,11 +218,23 @@ namespace FireProtectionV1.FireWorking.Manager
                     fault.SolutionTime = DateTime.Now;
                     await _repFault.UpdateAsync(fault);
 
-                    var detector = await _repFireAlarmDetector.GetAsync(fault.FireAlarmDetectorId);
-                    if (detector != null)
+                    if (fault.FireAlarmDeviceId > 0)    // 火警联网部件故障
                     {
-                        detector.State = FireAlarmDetectorState.Normal;
-                        await _repFireAlarmDetector.UpdateAsync(detector);
+                        var detector = await _repFireAlarmDetector.GetAsync(fault.FireAlarmDetectorId);
+                        if (detector != null)
+                        {
+                            detector.State = FireAlarmDetectorState.Normal;
+                            await _repFireAlarmDetector.UpdateAsync(detector);
+                        }
+                    }
+                    else  // 独立式火警设备故障
+                    {
+                        var detector = await _repIndependentDetector.GetAsync(fault.FireAlarmDetectorId);
+                        if (detector != null)
+                        {
+                            detector.State = IndependentDetectorState.Normal;
+                            await _repIndependentDetector.UpdateAsync(detector);
+                        }
                     }
                 }
             }

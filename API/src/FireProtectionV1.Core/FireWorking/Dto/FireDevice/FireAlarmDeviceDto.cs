@@ -70,7 +70,7 @@ namespace FireProtectionV1.FireWorking.Dto.FireDevice
         /// </summary>
         public List<string> EnableFault { get; set; }
         /// <summary>
-        /// 短信接收号码数组“,”分割,临时最多100个号码
+        /// 短信接收号码
         /// </summary>
         public string SMSPhones { get; set; }
     }

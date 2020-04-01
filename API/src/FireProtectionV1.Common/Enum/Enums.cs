@@ -129,6 +129,28 @@ namespace FireProtectionV1.Common.Enum
         Fault = 2
     }
     /// <summary>
+    /// 独立式设备状态
+    /// </summary>
+    [Export("独立式设备状态")]
+    public enum IndependentDetectorState
+    {
+        /// <summary>
+        /// 正常
+        /// </summary>
+        [Description("正常")]
+        Normal = 1,
+        /// <summary>
+        /// 故障
+        /// </summary>
+        [Description("故障")]
+        Fault = 2,
+        /// <summary>
+        /// 离线
+        /// </summary>
+        [Description("离线")]
+        Offline = -1
+    }
+    /// <summary>
     /// 电缆温度监测相数
     /// </summary>
     [Export("电缆温度监测相数")]
@@ -220,6 +242,23 @@ namespace FireProtectionV1.Common.Enum
         /// </summary>
         [Description("已过期")]
         Expire = 5
+    }
+    /// <summary>
+    /// 火警数据来源
+    /// </summary>
+    [Export("火警数据来源")]
+    public enum FireAlarmSource
+    {
+        /// <summary>
+        /// 火警联网设备，即火灾自动报警控制系统的消防主机设备
+        /// </summary>
+        [Description("火警联网设备，即火灾自动报警控制系统的消防主机设备")]
+        NetDevice = 1,
+        /// <summary>
+        /// 独立式火警设备
+        /// </summary>
+        [Description("独立式火警设备")]
+        IndependentDetector = 2
     }
     /// <summary>
     /// 描述类型

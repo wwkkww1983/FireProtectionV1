@@ -18,6 +18,12 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <returns></returns>
         Task AddDetectorFault(AddNewDetectorFaultInput input);
         /// <summary>
+        /// 添加独立式火警设备故障数据
+        /// </summary>
+        /// <param name="detectorSn"></param>
+        /// <returns></returns>
+        Task AddIndependentDetectorFault(string detectorSn);
+        /// <summary>
         /// 查找某个月份的火警联网部件故障数据
         /// </summary>
         /// <param name="year"></param>

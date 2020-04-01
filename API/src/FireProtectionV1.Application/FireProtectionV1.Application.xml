@@ -116,6 +116,13 @@
             <param name="engineerId"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.AppService.AlarmAppService.AddAlarmIndependentFire(System.String)">
+            <summary>
+            添加独立式火警设备提交的火警数据
+            </summary>
+            <param name="detectorSn"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.AppService.AppGuideSet.GetFireUnitPeople(FireProtectionV1.User.Dto.GetUnitPeopleInput)">
             <summary>
             获取防火单位工作人员
@@ -1834,6 +1841,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.AddIndependentDetectorFault(System.String)">
+            <summary>
+            添加独立式火警设备故障数据
+            </summary>
+            <param name="detectorSn"></param>
+            <returns></returns>
+        </member>
         <member name="M:FireProtectionV1.DeviceService.FireDeviceAppService.AddElecRecord(FireProtectionV1.FireWorking.Dto.AddDataElecInput)">
             <summary>
             添加电气火灾监测数据
@@ -2298,6 +2312,49 @@
             <summary>
             获取固件更新列表
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.IndependentDetectorAppService.AddIndependentDetector(FireProtectionV1.FireWorking.Dto.FireDevice.AddIndependentDetectorInput)">
+            <summary>
+            新增独立式火警设备
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.IndependentDetectorAppService.UpdateIndependentDetector(FireProtectionV1.FireWorking.Dto.FireDevice.UpdateIndependentDetectorInput)">
+            <summary>
+            修改独立式火警设备信息
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.IndependentDetectorAppService.RenewIndependentDetector(FireProtectionV1.FireWorking.Dto.FireDevice.RenewIndependentDetectorInput)">
+            <summary>
+            刷新独立式火警设备当前电量及状态
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.IndependentDetectorAppService.DeleteIndependentDetector(System.Int32)">
+            <summary>
+            删除独立式火警设备
+            </summary>
+            <param name="detectorId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.IndependentDetectorAppService.GetIndependentDetector(System.Int32)">
+            <summary>
+            获取单个独立式火警设备信息
+            </summary>
+            <param name="detectorId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FireProtectionV1.DeviceService.IndependentDetectorAppService.GetIndependentDetectorList(System.Int32,Abp.Application.Services.Dto.PagedResultRequestDto)">
+            <summary>
+            获取独立式火警设备列表
+            </summary>
+            <param name="fireunitId"></param>
+            <param name="dto"></param>
             <returns></returns>
         </member>
         <member name="P:FireProtectionV1.Dto.EndDeviceOptionDto.Value">

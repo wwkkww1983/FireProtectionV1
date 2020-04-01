@@ -164,5 +164,14 @@ namespace FireProtectionV1.AppService
         {
             return await _alarmManager.GetNoReadAlarmNumListForEngineer(engineerId);
         }
+        /// <summary>
+        /// 添加独立式火警设备提交的火警数据
+        /// </summary>
+        /// <param name="detectorSn"></param>
+        /// <returns></returns>
+        public async Task AddAlarmIndependentFire(string detectorSn)
+        {
+            _alarmManager.AddAlarmIndependentFire(detectorSn);
+        }
     }
 }

@@ -9,7 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FireProtectionV1.DeviceService
@@ -33,6 +35,15 @@ namespace FireProtectionV1.DeviceService
         public async Task AddDetectorFault(AddNewDetectorFaultInput input)
         {
             await _faultManager.AddDetectorFault(input);
+        }
+        /// <summary>
+        /// 添加独立式火警设备故障数据
+        /// </summary>
+        /// <param name="detectorSn"></param>
+        /// <returns></returns>
+        public async Task AddIndependentDetectorFault(string detectorSn)
+        {
+            await _faultManager.AddIndependentDetectorFault(detectorSn);
         }
         /// <summary>
         /// 添加电气火灾监测数据
@@ -522,6 +533,12 @@ namespace FireProtectionV1.DeviceService
         /// <returns></returns>
         public async Task UpdateFireElectricDevicePara(UpdateFireElectricDeviceParaInput input)
         {
+            using (StreamWriter sw = new StreamWriter("log.txt", true))
+            {
+                sw.WriteLine("进入了UpdateFireElectricDevicePara接口");
+                sw.WriteLine();
+                Thread.Sleep(500);
+            }
             await _deviceManager.UpdateFireElectricDevicePara(input);
         }
         /// <summary>

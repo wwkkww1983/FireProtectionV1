@@ -243,6 +243,26 @@
             故障
             </summary>
         </member>
+        <member name="T:FireProtectionV1.Common.Enum.IndependentDetectorState">
+            <summary>
+            独立式设备状态
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.IndependentDetectorState.Normal">
+            <summary>
+            正常
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.IndependentDetectorState.Fault">
+            <summary>
+            故障
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.IndependentDetectorState.Offline">
+            <summary>
+            离线
+            </summary>
+        </member>
         <member name="T:FireProtectionV1.Common.Enum.PhaseType">
             <summary>
             电缆温度监测相数
@@ -326,6 +346,21 @@
         <member name="F:FireProtectionV1.Common.Enum.FireAlarmCheckState.Expire">
             <summary>
             已过期
+            </summary>
+        </member>
+        <member name="T:FireProtectionV1.Common.Enum.FireAlarmSource">
+            <summary>
+            火警数据来源
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.FireAlarmSource.NetDevice">
+            <summary>
+            火警联网设备，即火灾自动报警控制系统的消防主机设备
+            </summary>
+        </member>
+        <member name="F:FireProtectionV1.Common.Enum.FireAlarmSource.IndependentDetector">
+            <summary>
+            独立式火警设备
             </summary>
         </member>
         <member name="T:FireProtectionV1.Common.Enum.RemakeType">

@@ -19,11 +19,13 @@ namespace FireProtectionV1.BigScreen.Manager
         IRepository<FireAlarmDevice> _repFireAlarmDevice;
         IRepository<FireAlarmDetector> _repFireAlarmDetector;
         IRepository<FireElectricDevice> _repFireElectricDevice;
+        IRepository<IndependentDetector> _repIndependentDetector;
         public FDBigScreenManager(
             IRepository<FireUnit> repFireUnit,
             IRepository<AlarmToFire> repAlarmToFire,
             IRepository<FireAlarmDevice> repFireAlarmDevice,
             IRepository<FireAlarmDetector> repFireAlarmDetector,
+            IRepository<IndependentDetector> repIndependentDetector,
             IRepository<FireElectricDevice> repFireElectricDevice)
         {
             _repFireUnit = repFireUnit;
@@ -31,6 +33,7 @@ namespace FireProtectionV1.BigScreen.Manager
             _repFireAlarmDevice = repFireAlarmDevice;
             _repFireAlarmDetector = repFireAlarmDetector;
             _repFireElectricDevice = repFireElectricDevice;
+            _repIndependentDetector = repIndependentDetector;
         }
         /// <summary>
         /// 监管部门数据大屏：获取电气火灾防护指标各状态数量
@@ -157,10 +160,14 @@ namespace FireProtectionV1.BigScreen.Manager
             var alarms = _repAlarmToFire.GetAll().Where(item => item.CheckState.Equals(FireAlarmCheckState.True));
             var fireUnits = _repFireUnit.GetAll().Where(item => item.FireDeptId.Equals(deptId));
             var detectors = _repFireAlarmDetector.GetAll();
+            var independentDetector = _repIndependentDetector.GetAll();
 
             var query = from a in alarms
                         join b in fireUnits on a.FireUnitId equals b.Id
-                        join c in detectors on a.FireAlarmDetectorId equals c.Id
+                        join c in detectors on a.FireAlarmDetectorId equals c.Id into result1
+                        from a_c in result1.DefaultIfEmpty()
+                        join d in independentDetector on a.FireAlarmDetectorId equals d.Id into result2
+                        from a_d in result2.DefaultIfEmpty()
                         select new GetTrueFireAlarmList_Output()
                         {
                             CheckTime = (DateTime)a.CheckTime,
@@ -169,8 +176,8 @@ namespace FireProtectionV1.BigScreen.Manager
                             FireunitName = b.Name,
                             FireunitAddress = b.Address,
                             FireunitContractUser = b.ContractName + " " + b.ContractPhone,
-                            FireDetectorLocation = c.FullLocation,
-                            ExistBitMap = c.CoordinateX != 0 || c.CoordinateY != 0
+                            FireDetectorLocation = a.FireAlarmSource.Equals(FireAlarmSource.NetDevice) ? a_c.FullLocation : a_d.Location,
+                            ExistBitMap = a.FireAlarmSource.Equals(FireAlarmSource.NetDevice) ? (a_c.CoordinateX != 0 || a_c.CoordinateY != 0) : false
                         };
             return Task.FromResult(query.OrderByDescending(item => item.CheckTime).Take(num).ToList());
         }

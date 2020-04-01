@@ -118,5 +118,11 @@ namespace FireProtectionV1.FireWorking.Manager
         /// <param name="month"></param>
         /// <returns></returns>
         Task<List<GetTrueFireAlarmListOutput>> GetAlarmTo119List(int fireDeptId, int year = 0, int month = 0);
+        /// <summary>
+        /// 添加独立式火警设备火警数据
+        /// </summary>
+        /// <param name="detectorSn"></param>
+        /// <returns></returns>
+        Task AddAlarmIndependentFire(string detectorSn);
     }
 }
